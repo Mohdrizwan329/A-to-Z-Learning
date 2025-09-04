@@ -1,143 +1,182 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:get/get.dart';
+import 'package:learning_a_to_z/res/thems/const_colors.dart';
+import 'package:learning_a_to_z/res/thems/const_style.dart';
+import 'package:learning_a_to_z/res/utils/size_config.dart';
+import 'package:learning_a_to_z/view%20model/poem_detail_controller.dart';
+import 'package:learning_a_to_z/view/home/Home_Page.dart';
+import 'package:learning_a_to_z/widgets/Custom_AppBar_Page.dart';
+import 'package:learning_a_to_z/widgets/Custom_GridView_Builder_Page.dart';
 
-class Poem {
-  final String title;
-  final String imageUrl;
-  final String audioAsset;
-  final String lyrics;
-
-  Poem({
-    required this.title,
-    required this.imageUrl,
-    required this.audioAsset,
-    required this.lyrics,
-  });
-}
-
-class PoemListPage extends StatelessWidget {
+class PoemListPage extends StatefulWidget {
   PoemListPage({super.key});
 
+  @override
+  State<PoemListPage> createState() => _PoemListPageState();
+}
+
+class _PoemListPageState extends State<PoemListPage> {
   final List<Poem> poems = [
     Poem(
       title: 'Twinkle Twinkle',
-      imageUrl:
-          'https://img.freepik.com/free-vector/cute-star-cartoon-character_1308-131499.jpg',
-      audioAsset: 'assets/audio/twinkle.mp3',
-      lyrics: '''
-Twinkle, twinkle, little star,
-How I wonder what you are!
-Up above the world so high,
-Like a diamond in the sky.
-''',
+      content:
+          '''Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.''',
+      audioPath: 'assets/audio/twinkle.mp3',
     ),
     Poem(
       title: 'Baa Baa Black Sheep',
-      imageUrl:
-          'https://img.freepik.com/premium-vector/sheep-cartoon-illustration_29190-1195.jpg',
-      audioAsset: 'assets/audio/baa.mp3',
-      lyrics: '''
-Baa, baa, black sheep,
-Have you any wool?
-Yes sir, yes sir,
-Three bags full.
-''',
+      content:
+          '''Baa, baa, black sheep,\nHave you any wool?\nYes sir, yes sir,\nThree bags full.''',
+      audioPath: 'assets/audio/baa.mp3',
     ),
     Poem(
-      title: 'Baa Baa Black Sheep',
-      imageUrl:
-          'https://img.freepik.com/premium-vector/sheep-cartoon-illustration_29190-1195.jpg',
-      audioAsset: 'assets/audio/baa.mp3',
-      lyrics: '''
-Baa, baa, black sheep,
-Have you any wool?
-Yes sir, yes sir,
-Three bags full.
-''',
+      title: 'Humpty Dumpty',
+      content:
+          '''Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall.\nAll the king's horses and all the king's men\nCouldn't put Humpty together again.''',
+      audioPath: 'assets/audio/humpty.mp3',
     ),
     Poem(
-      title: 'Baa Baa Black Sheep',
-      imageUrl:
-          'https://img.freepik.com/premium-vector/sheep-cartoon-illustration_29190-1195.jpg',
-      audioAsset: 'assets/audio/baa.mp3',
-      lyrics: '''
-Baa, baa, black sheep,
-Have you any wool?
-Yes sir, yes sir,
-Three bags full.
-''',
+      title: 'Mary Had a Little Lamb',
+      content:
+          '''Mary had a little lamb,\nIts fleece was white as snow;\nAnd everywhere that Mary went,\nThe lamb was sure to go.''',
+      audioPath: 'assets/audio/mary.mp3',
     ),
     Poem(
-      title: 'Baa Baa Black Sheep',
-      imageUrl:
-          'https://img.freepik.com/premium-vector/sheep-cartoon-illustration_29190-1195.jpg',
-      audioAsset: 'assets/audio/baa.mp3',
-      lyrics: '''
-Baa, baa, black sheep,
-Have you any wool?
-Yes sir, yes sir,
-Three bags full.
-''',
+      title: 'Jack and Jill',
+      content:
+          '''Jack and Jill went up the hill\nTo fetch a pail of water.\nJack fell down and broke his crown,\nAnd Jill came tumbling after.''',
+      audioPath: 'assets/audio/jackjill.mp3',
+    ),
+    Poem(
+      title: 'Old MacDonald',
+      content:
+          '''Old MacDonald had a farm,\nE-I-E-I-O.\nAnd on his farm he had a cow,\nE-I-E-I-O.''',
+      audioPath: 'assets/audio/oldmacdonald.mp3',
+    ),
+    Poem(
+      title: 'Itsy Bitsy Spider',
+      content:
+          '''The itsy bitsy spider climbed up the waterspout.\nDown came the rain and washed the spider out.\nOut came the sun and dried up all the rain,\nAnd the itsy bitsy spider climbed up the spout again.''',
+      audioPath: 'assets/audio/itsybitsy.mp3',
+    ),
+    Poem(
+      title: 'Hickory Dickory Dock',
+      content:
+          '''Hickory dickory dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down,\nHickory dickory dock.''',
+      audioPath: 'assets/audio/hickory.mp3',
+    ),
+    Poem(
+      title: 'Row Row Row Your Boat',
+      content:
+          '''Row, row, row your boat,\nGently down the stream.\nMerrily, merrily, merrily, merrily,\nLife is but a dream.''',
+      audioPath: 'assets/audio/rowrow.mp3',
+    ),
+    Poem(
+      title: 'Wheels on the Bus',
+      content:
+          '''The wheels on the bus go round and round,\nRound and round, round and round.\nThe wheels on the bus go round and round,\nAll through the town.''',
+      audioPath: 'assets/audio/wheels.mp3',
     ),
   ];
 
+  final Map<String, IconData> poemIcons = {
+    'Twinkle Twinkle': Icons.star,
+    'Baa Baa Black Sheep': Icons.pets,
+    'Humpty Dumpty': Icons.egg,
+    'Mary Had a Little Lamb': Icons.emoji_nature,
+    'Jack and Jill': Icons.water,
+    'Old MacDonald': Icons.agriculture,
+    'Itsy Bitsy Spider': Icons.bug_report,
+    'Hickory Dickory Dock': Icons.access_time,
+    'Row Row Row Your Boat': Icons.directions_boat,
+    'Wheels on the Bus': Icons.directions_bus,
+  };
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Nursery to Class 2 Poems'),
-        backgroundColor: const Color.fromARGB(255, 144, 249, 31),
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: poems.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 1,
+      backgroundColor: ConstColors.backgroundColorWhite,
+      appBar: CustomAppBar(
+        title: "Learning For Kids",
+        titleStyle: ConstStyle.heading2.copyWith(
+          fontSize: SizeConfig.getProportionateScreenWidth(18),
         ),
-        itemBuilder: (context, index) {
-          final poem = poems[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => PoemDetailPage(poem: poem)),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    blurRadius: 6,
-                    offset: const Offset(2, 2),
+        showBackButton: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: ConstColors.textColorWhit,
+            size: SizeConfig.getProportionateScreenWidth(20),
+          ),
+          onPressed: () {
+            Get.to(() => HomeScreen());
+          },
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(SizeConfig.getProportionateScreenWidth(12)),
+        child: CustomGridViewBuilder(
+          crossAxisCount: 2,
+          crossAxisSpacing: SizeConfig.getProportionateScreenWidth(12),
+          mainAxisSpacing: SizeConfig.getProportionateScreenHeight(12),
+          childAspectRatio: 1,
+          items: poems,
+          itemBuilder: (context, index, item) {
+            final poem = poems[index];
+            final icon = poemIcons[poem.title] ?? Icons.music_note;
+
+            return GestureDetector(
+              onTap: () {
+                Get.put(PoemController(poem), tag: poem.title);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => PoemDetailPage(poem: poem)),
+                );
+              },
+              child: Card(
+                color: ConstColors.textColorWhit,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    SizeConfig.getProportionateScreenWidth(12),
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.network(poem.imageUrl, width: 60, height: 60),
-                  const SizedBox(height: 10),
-                  Text(
-                    poem.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  side: BorderSide(
+                    color: ConstColors.dividerColor,
+                    width: SizeConfig.getProportionateScreenWidth(1),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: SizeConfig.getProportionateScreenWidth(40),
+                      backgroundColor: ConstColors.primaryGreen.withOpacity(
+                        0.1,
+                      ),
+                      child: Icon(
+                        icon,
+                        size: SizeConfig.getProportionateScreenWidth(36),
+                        color: ConstColors.primaryGreen,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                    SizedBox(
+                      height: SizeConfig.getProportionateScreenHeight(8),
+                    ),
+                    Text(
+                      poem.title,
+                      style: TextStyle(
+                        fontSize: SizeConfig.getProportionateScreenWidth(16),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -152,86 +191,96 @@ class PoemDetailPage extends StatefulWidget {
   State<PoemDetailPage> createState() => _PoemDetailPageState();
 }
 
-class _PoemDetailPageState extends State<PoemDetailPage>
-    with SingleTickerProviderStateMixin {
-  late final AudioPlayer _audioPlayer;
-  late final FlutterTts _flutterTts;
-  late final List<String> _poemLines;
-  int _highlightedLine = -1;
-  double _animationValue = 1.0;
+class _PoemDetailPageState extends State<PoemDetailPage> {
+  late PoemController controller;
+  int highlightedLineIndex = 0;
+  int highlightedWordIndex = -1;
 
   @override
   void initState() {
     super.initState();
-    _poemLines = widget.poem.lyrics.trim().split('\n');
-    _audioPlayer = AudioPlayer();
-    _flutterTts = FlutterTts();
-    _initTts();
-    _startPoem();
-  }
+    controller = Get.find(tag: widget.poem.title);
 
-  Future<void> _initTts() async {
-    await _flutterTts.setLanguage("hi-IN");
-    await _flutterTts.setSpeechRate(0.15); // 👈 slower
-    await _flutterTts.setPitch(1.2);
-    await _flutterTts.awaitSpeakCompletion(true);
-  }
-
-  Future<void> _startPoem() async {
-    _highlightedLine = -1;
-    setState(() {
-      _animationValue = 1.0;
-    });
-
-    await _audioPlayer.stop(); // optional
-    await _flutterTts.stop(); // stop previous TTS
-    // await _audioPlayer.play(AssetSource(widget.poem.audioAsset)); // optional
-
-    _startHighlightAndSpeak();
-  }
-
-  void _startHighlightAndSpeak() async {
-    for (int i = 0; i < _poemLines.length; i++) {
-      if (!mounted) return;
-      setState(() {
-        _highlightedLine = i;
-      });
-      await _flutterTts.speak(_poemLines[i]);
-      // Awaiting speak completion is already set in initTts()
-    }
+    controller.startSpeakingLines(
+      onLineChanged: (lineIndex) {
+        setState(() {
+          highlightedLineIndex = lineIndex;
+          highlightedWordIndex = -1;
+        });
+      },
+      onWordChanged: (wordIndex) {
+        setState(() {
+          highlightedWordIndex = wordIndex;
+        });
+      },
+    );
   }
 
   @override
   void dispose() {
-    _audioPlayer.stop();
-    _audioPlayer.dispose();
-    _flutterTts.stop();
+    controller.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.poem.title),
-        backgroundColor: const Color.fromARGB(255, 144, 249, 31),
+    SizeConfig.init(context);
 
+    return Scaffold(
+      backgroundColor: ConstColors.backgroundColorWhite,
+      appBar: CustomAppBar(
+        titleStyle: ConstStyle.heading2.copyWith(
+          fontSize: SizeConfig.getProportionateScreenWidth(18),
+        ),
+        title: widget.poem.title,
+        showBackButton: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: ConstColors.textColorWhit,
+            size: SizeConfig.getProportionateScreenWidth(20),
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         actions: [
-          IconButton(icon: const Icon(Icons.refresh), onPressed: _startPoem),
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: ConstColors.textColorWhit,
+              size: SizeConfig.getProportionateScreenWidth(22),
+            ),
+            onPressed: () {
+              setState(() {
+                controller.startSpeakingLines(
+                  onLineChanged: (lineIndex) {
+                    setState(() {
+                      highlightedLineIndex = lineIndex;
+                      highlightedWordIndex = -1;
+                    });
+                  },
+                  onWordChanged: (wordIndex) {
+                    setState(() {
+                      highlightedWordIndex = wordIndex;
+                    });
+                  },
+                );
+              });
+            },
+          ),
         ],
       ),
       body: Stack(
         children: [
-          // Animated Background Image
           TweenAnimationBuilder<double>(
-            tween: Tween(begin: _animationValue, end: 1.1),
+            tween: Tween(begin: 1.0, end: 1.1),
             duration: const Duration(seconds: 8),
             curve: Curves.easeInOut,
             builder: (context, value, child) {
               return Transform.scale(
                 scale: value,
                 child: Image.network(
-                  'https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-souvenirpixels-414612.jpg&fm=jpg',
+                  'https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg',
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
@@ -239,37 +288,75 @@ class _PoemDetailPageState extends State<PoemDetailPage>
               );
             },
           ),
-
-          // Dark Overlay
           Container(color: Colors.black.withOpacity(0.4)),
-
-          // Centered Poem Text
           Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 400),
+              constraints: BoxConstraints(
+                maxHeight: SizeConfig.getProportionateScreenHeight(400),
+              ),
               child: ListView.builder(
                 shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: _poemLines.length,
+                padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.getProportionateScreenWidth(16),
+                ),
+                itemCount: controller.lines.length,
                 itemBuilder: (context, index) {
-                  final line = _poemLines[index];
-                  final isHighlighted = _highlightedLine == index;
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        line,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: isHighlighted
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          color: isHighlighted ? Colors.yellow : Colors.white,
+                  final line = controller.lines[index];
+                  final isHighlighted = highlightedLineIndex == index;
+
+                  if (!isHighlighted) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.getProportionateScreenHeight(8),
                         ),
-                        textAlign: TextAlign.center,
+                        child: Text(
+                          line,
+                          style: TextStyle(
+                            fontSize: SizeConfig.getProportionateScreenWidth(
+                              20,
+                            ),
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    final words = line.split(" ");
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.getProportionateScreenHeight(8),
+                        ),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: List.generate(words.length, (wIndex) {
+                              final word = words[wIndex];
+                              final isWordHighlighted =
+                                  wIndex == highlightedWordIndex;
+                              return TextSpan(
+                                text: "$word ",
+                                style: TextStyle(
+                                  fontSize:
+                                      SizeConfig.getProportionateScreenWidth(
+                                        20,
+                                      ),
+                                  fontWeight: isWordHighlighted
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: isWordHighlighted
+                                      ? Colors.yellow
+                                      : Colors.white,
+                                ),
+                              );
+                            }),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
             ),

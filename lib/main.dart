@@ -1,21 +1,24 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:learning_a_to_z/Route/App_Routes.dart';
-import 'package:learning_a_to_z/view/Home_Page.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // ✅ Important!
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+
   await MobileAds.instance.initialize();
+
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
     if (kReleaseMode) {
       exit(1);
     }
-  }; // ✅ Init ads safely
+  };
+
   runApp(MyApp());
 }
 
@@ -25,7 +28,6 @@ const int maxFailedLoadAttempts = 3;
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
