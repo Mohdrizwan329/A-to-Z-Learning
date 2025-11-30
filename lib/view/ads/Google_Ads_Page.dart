@@ -60,7 +60,7 @@ class _AdsScreenState extends State<AdsScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 80,
       width: double.infinity,
       alignment: Alignment.center,
       color: Colors.grey[200],

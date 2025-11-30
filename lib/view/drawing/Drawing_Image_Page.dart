@@ -241,12 +241,7 @@ class DrowingScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final image = images[index];
           return GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => ImageDrowingScreen(imagePath: image["path"]!),
-              ),
-            ),
+            onTap: () => Get.to(ImageDrowingScreen(imagePath: image["path"]!)),
             child: Card(
               color: ConstColors.textColorWhit,
               elevation: 4,

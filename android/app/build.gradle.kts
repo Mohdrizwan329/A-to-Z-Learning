@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -52,7 +53,8 @@ flutter {
 dependencies {
     // Core OCR
     implementation("com.google.mlkit:text-recognition:16.0.0-beta5")
-
+    implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
+    implementation("com.google.firebase:firebase-analytics")
     // Extra languages (optional, add only if needed)
     implementation("com.google.mlkit:text-recognition-chinese:16.0.0-beta5")
     implementation("com.google.mlkit:text-recognition-devanagari:16.0.0-beta5")

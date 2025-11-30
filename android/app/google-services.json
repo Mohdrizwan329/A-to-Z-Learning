@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "171467246855",
+    "project_id": "kids-learning-d2b6e",
+    "storage_bucket": "kids-learning-d2b6e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171467246855:android:d63a03b029efbdfbbfc9a2",
+        "android_client_info": {
+          "package_name": "com.example.learning_a_to_z"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCURCVQqsM_6SPt-hv3qgA7nm8DUYTX9fA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

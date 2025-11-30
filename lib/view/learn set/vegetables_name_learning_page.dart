@@ -6,7 +6,6 @@ import 'package:learning_a_to_z/res/utils/size_config.dart';
 import 'package:learning_a_to_z/view%20model/learn%20set%20controller/vegetables_learning_controller.dart';
 import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
 import 'package:learning_a_to_z/widgets/Custom_AppBar_Page.dart';
-import 'package:learning_a_to_z/widgets/Custom_GridView_Builder_Page.dart';
 
 class VegetablesLearningPage extends StatefulWidget {
   const VegetablesLearningPage({super.key});
@@ -15,132 +14,225 @@ class VegetablesLearningPage extends StatefulWidget {
   State<VegetablesLearningPage> createState() => _VegetablesLearningPageState();
 }
 
-class _VegetablesLearningPageState extends State<VegetablesLearningPage> {
+class _VegetablesLearningPageState extends State<VegetablesLearningPage>
+    with SingleTickerProviderStateMixin {
   final VegetablesLearningController controller = Get.put(
     VegetablesLearningController(),
   );
+
+  late AnimationController _animationController;
+  late Animation<double> _floatAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
     return Scaffold(
-      backgroundColor: ConstColors.backgroundColorWhite,
-      appBar: CustomAppBar(
-        titleStyle: ConstStyle.heading2.copyWith(
-          fontSize: SizeConfig.getProportionateScreenWidth(18),
-        ),
-        title: "Vegetables Name",
-        showBackButton: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: ConstColors.textColorWhit,
-            size: SizeConfig.getProportionateScreenWidth(20),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFF1A6), Color(0xFFFFC1E3), Color(0xFFA6E4FF)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          onPressed: () {
-            Get.back();
-          },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: ConstColors.textColorWhit,
-              size: SizeConfig.getProportionateScreenWidth(22),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.getProportionateScreenWidth(16),
+              vertical: SizeConfig.getProportionateScreenHeight(12),
             ),
-            onPressed: () {
-              setState(() {
-                controller.resetSelection();
-              });
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(SizeConfig.getProportionateScreenWidth(12)),
-        child: CustomGridViewBuilder(
-          crossAxisCount: 2,
-          mainAxisSpacing: SizeConfig.getProportionateScreenHeight(12),
-          crossAxisSpacing: SizeConfig.getProportionateScreenWidth(12),
-          childAspectRatio: 1.1,
-          items: VegetablesLearningController.vegetables,
-          itemBuilder: (context, index, item) {
-            final isSelected = controller.selectedIndex.value == index;
-
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  controller.selectedIndex(index);
-                });
-              },
-              child: Card(
-                color: isSelected
-                    ? ConstColors.primaryYellow
-                    : ConstColors.textColorWhit,
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    SizeConfig.getProportionateScreenWidth(12),
+            child: Column(
+              children: [
+                CustomAppBar(
+                  titleStyle: ConstStyle.heading2.copyWith(
+                    color: Colors.white,
+                    fontSize: SizeConfig.getProportionateScreenWidth(18),
                   ),
-                  side: BorderSide(
-                    color: ConstColors.dividerColor,
-                    width: SizeConfig.getProportionateScreenWidth(1),
+                  title: "Vegetables Name",
+                  showBackButton: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                      size: SizeConfig.getProportionateScreenWidth(20),
+                    ),
+                    onPressed: () => Get.back(),
                   ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                        size: SizeConfig.getProportionateScreenWidth(22),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          controller.resetSelection();
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: SizeConfig.getProportionateScreenHeight(16),
-                    horizontal: SizeConfig.getProportionateScreenWidth(8),
+                SizedBox(height: SizeConfig.getProportionateScreenHeight(12)),
+
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: VegetablesLearningController.vegetables.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: SizeConfig.getProportionateScreenHeight(
+                      12,
+                    ),
+                    crossAxisSpacing: SizeConfig.getProportionateScreenWidth(
+                      12,
+                    ),
+                    childAspectRatio: 1.0,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: SizeConfig.getProportionateScreenWidth(30),
-                        child: Center(
-                          child: Text(
-                            item['emoji']!,
-                            style: TextStyle(
-                              fontSize: SizeConfig.getProportionateScreenWidth(
-                                28,
-                              ),
+                  itemBuilder: (context, index) {
+                    final item = VegetablesLearningController.vegetables[index];
+                    final isSelected = controller.selectedIndex.value == index;
+
+                    return AnimatedBuilder(
+                      animation: _floatAnimation,
+                      builder: (_, child) {
+                        return Transform.translate(
+                          offset: Offset(0, _floatAnimation.value),
+                          child: child,
+                        );
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            controller.selectedIndex(index);
+                          });
+                        },
+                        child: Card(
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              SizeConfig.getProportionateScreenWidth(12),
                             ),
-                            textAlign: TextAlign.center,
+                            side: BorderSide(
+                              color: ConstColors.dividerColor,
+                              width: SizeConfig.getProportionateScreenWidth(1),
+                            ),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: isSelected
+                                  ? const LinearGradient(
+                                      colors: [
+                                        Color(0xFFFFD2A6),
+                                        Color(0xFFB6FFC1),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    )
+                                  : const LinearGradient(
+                                      colors: [
+                                        Color(0xFF81D4FA),
+                                        Color(0xFFFFC1E3),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                              borderRadius: BorderRadius.circular(
+                                SizeConfig.getProportionateScreenWidth(12),
+                              ),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 4,
+                                  offset: Offset(2, 3),
+                                ),
+                              ],
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.getProportionateScreenHeight(
+                                16,
+                              ),
+                              horizontal:
+                                  SizeConfig.getProportionateScreenWidth(8),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius:
+                                      SizeConfig.getProportionateScreenWidth(
+                                        30,
+                                      ),
+                                  child: Center(
+                                    child: Text(
+                                      item['emoji']!,
+                                      style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.getProportionateScreenWidth(
+                                              28,
+                                            ),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      SizeConfig.getProportionateScreenHeight(
+                                        10,
+                                      ),
+                                ),
+                                Text(
+                                  item['name']!,
+                                  textAlign: TextAlign.center,
+                                  style: ConstStyle.heading3.copyWith(
+                                    fontSize:
+                                        SizeConfig.getProportionateScreenWidth(
+                                          16,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: SizeConfig.getProportionateScreenHeight(10),
-                      ),
-                      Text(
-                        item['name']!,
-                        textAlign: TextAlign.center,
-                        style: ConstStyle.heading3.copyWith(
-                          fontSize: SizeConfig.getProportionateScreenWidth(16),
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-              ),
-            );
-          },
+
+                SizedBox(height: SizeConfig.getProportionateScreenHeight(20)),
+
+                SizedBox(
+                  height: SizeConfig.getProportionateScreenHeight(80),
+                  width: double.infinity,
+                  child: AdsScreen(),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(
-            height: SizeConfig.getProportionateScreenHeight(1),
-            thickness: SizeConfig.getProportionateScreenHeight(1),
-            color: Colors.grey.shade400,
-          ),
-          Container(
-            height: SizeConfig.getProportionateScreenHeight(60),
-            color: ConstColors.appBarBackgroundcolor,
-            child: const Center(child: AdsScreen()),
-          ),
-        ],
       ),
     );
   }

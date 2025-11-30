@@ -21,7 +21,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       ),
       child: Icon(
         icon,
-        color: isSelected ? ConstColors.backgroundColorBlack : Colors.white,
+        color: isSelected ? ConstColors.textColor : Colors.white,
         size: 24,
       ),
     );
@@ -53,11 +53,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
           icon: buildIcon(0, Icons.house_sharp),
           label: "Home",
         ),
+
         BottomNavigationBarItem(
           icon: buildIcon(1, Icons.book),
           label: "Booking",
         ),
-
         BottomNavigationBarItem(
           icon: buildIcon(3, Icons.person),
           label: "Profile",

@@ -1,0 +1,69 @@
+{
+    "data": {
+        "listData": [
+            {
+                "imageUrl": "https://static.toiimg.com/thumb/msid-104730629,imgsize-14900,width-400,resizemode-4/104730629.jpg",
+                "title": "Numbers",
+                "subTitle": "1-100"
+            },
+            {
+                "imageUrl": "https://5.imimg.com/data5/SELLER/Default/2024/4/410751681/OU/OM/HK/146738205/capital-abcd-with-wooden-type-2-1000x1000.jpg",
+                "title": "Capital AlphaBet",
+                "subTitle": "A-Z"
+            },
+            {
+                "imageUrl": "https://worksheetdigital.com/wp-content/uploads/2021/11/Flashcards-Alphabet-Small-Letters-3.jpg",
+                "title": "Small AlphaBet",
+                "subTitle": "a-z"
+            },
+            {
+                "imageUrl": "https://preply.com/wp-content/uploads/2025/01/Hindi-alphabet.png",
+                "title": "Hindi World Mala",
+                "subTitle": "अ-ज्ञ"
+            },
+            {
+                "imageUrl": "https://mycoaching.in/wp-content/uploads/A-to-Z-Common-English-Words.webp",
+                "title": "English World Meaning",
+                "subTitle": "A-Z"
+            },
+            {
+                "imageUrl": "https://cdn.vectorstock.com/i/2000v/17/14/number-frame-template-vector-19801714.avif",
+                "title": "Math Problem",
+                "subTitle": "Math Solution"
+            },
+            {
+                "imageUrl": "https://www.math-exercises-for-kids.com/wp-content/uploads/2025/02/Multiplication-Tables-from-1-to-20.jpg",
+                "title": "Tables",
+                "subTitle": "2-30"
+            },
+            {
+                "imageUrl": "https://artprojectsforkids.org/wp-content/uploads/2024/03/How-to-Draw-the-Easter-Bunny-web.jpg",
+                "title": "Drawing",
+                "subTitle": "Kids Drawing"
+            },
+            {
+                "imageUrl": "https://www.kidsartncraft.com/wp-content/uploads/2022/03/simple-girl-drawing-ideas-for-kids.png",
+                "title": "Kids Art Craft",
+                "subTitle": "Kids Image Drawing"
+            },
+            {
+                "imageUrl": "https://worksheets.clipart-library.com/images2/math-questions-worksheet/math-questions-worksheet-38.jpg",
+                "title": "Math Problems",
+                "subTitle": "Math Test Problem"
+            },
+            {
+                "imageUrl": "https://www.learningresources.com/media/wp-content/uploads/2017/08/Gears-Flat-Lay-800x571.jpg",
+                "title": "Learning Sets",
+                "subTitle": "All Learning Sets"
+            },
+            {
+                "imageUrl": "https://sharonschool.in/wp-content/uploads/2019/07/Poetry-Teaching-and-Learning-at-Sharon-School.jpg",
+                "title": "Poetry",
+                "subTitle": "Poem"
+            }
+        ]
+    },
+    "status": "success",
+    "message": "Welcome To Kids Learning Successfully",
+    "statusCode": 200
+}

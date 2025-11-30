@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:learning_a_to_z/res/thems/const_colors.dart';
-import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
+
+/// Controller to manually control the loading button
+class CustomLoadingButtonController {
+  VoidCallback? _startLoading;
+  VoidCallback? _stopLoading;
+
+  void _bind(VoidCallback start, VoidCallback stop) {
+    _startLoading = start;
+    _stopLoading = stop;
+  }
+
+  /// Call this to show loader
+  void startLoading() {
+    _startLoading?.call();
+  }
+
+  /// Call this to hide loader
+  void stopLoading() {
+    _stopLoading?.call();
+  }
+}
 
 class CustomLoadingButton extends StatefulWidget {
   final VoidCallback onPressed;
@@ -11,8 +31,7 @@ class CustomLoadingButton extends StatefulWidget {
   final TextStyle? textStyle;
   final BorderRadiusGeometry borderRadius;
   final Future<void> Function()? asyncTask;
-
-  final RoundedLoadingButtonController? controller;
+  final CustomLoadingButtonController? controller;
 
   const CustomLoadingButton({
     Key? key,
@@ -34,6 +53,17 @@ class CustomLoadingButton extends StatefulWidget {
 class _CustomLoadingButtonState extends State<CustomLoadingButton> {
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+
+    /// Bind controller if provided
+    widget.controller?._bind(
+      () => setState(() => _isLoading = true),
+      () => setState(() => _isLoading = false),
+    );
+  }
+
   Future<void> _handleTap() async {
     if (_isLoading) return;
 
@@ -48,8 +78,6 @@ class _CustomLoadingButtonState extends State<CustomLoadingButton> {
     setState(() => _isLoading = false);
 
     widget.onPressed();
-
-    widget.controller?.reset();
   }
 
   @override

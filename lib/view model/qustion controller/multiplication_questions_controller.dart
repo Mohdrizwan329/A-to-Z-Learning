@@ -152,7 +152,7 @@ class MultiplicationController extends GetxController {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Get.back();
               moveToNextBatch();
             },
             child: const Text("Next 10 Questions"),

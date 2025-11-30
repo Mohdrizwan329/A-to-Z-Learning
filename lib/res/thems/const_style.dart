@@ -81,47 +81,4 @@ class ConstStyle {
 
     color: ConstColors.textFieldBorderColor,
   );
-
-  // Link or clickable text
-  static const TextStyle linkText = TextStyle(
-    fontSize: 14,
-    color: ConstColors.primaryBlue,
-    fontWeight: FontWeight.w600,
-  );
-
-  // Buttons
-
-  // home page
-
-  static const TextStyle cardTextStyle = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
-    color: ConstColors.textColor,
-  );
-  static const TextStyle homeHeading1 = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    color: ConstColors.textFieldBorderColor,
-  );
-  static const TextStyle homeHeading2 = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
-    color: ConstColors.textColor,
-  );
-  // card screen
-  static const TextStyle cardPageText = TextStyle(
-    fontSize: 30,
-    fontWeight: FontWeight.w500,
-    color: ConstColors.textColor,
-  );
-  static const TextStyle cardPageText1 = TextStyle(
-    fontSize: 15,
-    fontWeight: FontWeight.w500,
-    color: ConstColors.textColor,
-  );
-  // Error
-  static const TextStyle errorText = TextStyle(
-    fontSize: 13,
-    color: ConstColors.errorColor,
-  );
 }
