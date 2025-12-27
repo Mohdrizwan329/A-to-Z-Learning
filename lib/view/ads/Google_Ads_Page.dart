@@ -59,14 +59,24 @@ class _AdsScreenState extends State<AdsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: double.infinity,
-      alignment: Alignment.center,
-      color: Colors.grey[200],
-      child: _isBannerAdLoaded && _bannerAd != null
-          ? AdWidget(ad: _bannerAd!)
-          : const Text("Loading Ad..."),
+    if (_isBannerAdLoaded && _bannerAd != null) {
+      return SizedBox(
+        width: _bannerAd!.size.width.toDouble(),
+        height: _bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: _bannerAd!),
+      );
+    }
+
+    // Show minimal loading indicator when ad is loading
+    return const SizedBox(
+      height: 50,
+      child: Center(
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      ),
     );
   }
 }

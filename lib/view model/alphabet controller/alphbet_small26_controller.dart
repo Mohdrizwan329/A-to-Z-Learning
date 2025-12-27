@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +10,7 @@ class LowercaseAlphabetController extends GetxController {
 
   final _cacheKey = 'selectedLowerAlphabets';
   var selectedIndexes = <int>{}.obs;
+  var isTtsReady = false.obs;
 
   final List<String> alphabets = List.generate(
     26,
@@ -22,24 +24,62 @@ class LowercaseAlphabetController extends GetxController {
   }
 
   @override
+  void onReady() {
+    super.onReady();
+    _initTts();
+  }
+
+  @override
   void onClose() {
     flutterTts.stop();
     super.onClose();
+  }
+
+  Future<void> _initTts() async {
+    try {
+      if (Platform.isIOS) {
+        await flutterTts.setSharedInstance(true);
+        await flutterTts.setIosAudioCategory(
+          IosTextToSpeechAudioCategory.playback,
+          [
+            IosTextToSpeechAudioCategoryOptions.allowBluetooth,
+            IosTextToSpeechAudioCategoryOptions.allowBluetoothA2DP,
+            IosTextToSpeechAudioCategoryOptions.defaultToSpeaker,
+          ],
+          IosTextToSpeechAudioMode.voicePrompt,
+        );
+      } else if (Platform.isAndroid) {
+        var engines = await flutterTts.getEngines;
+        if (engines != null && engines.isNotEmpty) {
+          await flutterTts.setEngine(engines.first.toString());
+        }
+      }
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setSpeechRate(0.5);
+      await flutterTts.setVolume(1.0);
+      await flutterTts.setPitch(1.0);
+      await flutterTts.awaitSpeakCompletion(true);
+      isTtsReady.value = true;
+      debugPrint("Small Alphabet TTS initialized");
+    } catch (e) {
+      debugPrint("TTS Init Error: $e");
+    }
   }
 
   void _loadFromCache() {
     final saved = box.read<List<dynamic>>(_cacheKey);
     if (saved != null && saved.isNotEmpty) {
       try {
-        selectedIndexes.value = saved.cast<int>().toSet();
-        print("Loaded selectedIndexes from cache: $selectedIndexes");
+        selectedIndexes.clear();
+        selectedIndexes.addAll(saved.cast<int>().toSet());
+        debugPrint("Loaded selectedIndexes from cache: $selectedIndexes");
       } catch (e) {
-        print("Error loading cache: $e, clearing cache");
+        debugPrint("Error loading cache: $e, clearing cache");
         clearCache();
         selectedIndexes.clear();
       }
     } else {
-      print("No cache found or cache empty");
+      debugPrint("No cache found or cache empty");
     }
   }
 
@@ -50,15 +90,13 @@ class LowercaseAlphabetController extends GetxController {
   }
 
   Future<void> speak(String text) async {
+    debugPrint("Speaking: $text, TTS Ready: ${isTtsReady.value}");
     try {
-      if (Platform.isAndroid || Platform.isIOS) {
-        await flutterTts.stop();
-        await flutterTts.setLanguage("en-IN");
-        await flutterTts.setPitch(1.0);
-        await flutterTts.speak(text);
-      }
+      await flutterTts.stop();
+      var result = await flutterTts.speak(text);
+      debugPrint("Speak result: $result");
     } catch (e) {
-      print("TTS Error: $e");
+      debugPrint("TTS Speak Error: $e");
     }
   }
 

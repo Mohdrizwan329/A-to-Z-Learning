@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
 import 'package:learning_a_to_z/view/poem/poem_page.dart';
 import 'package:learning_a_to_z/view/world%20meaning%20Alphabet%20/Alphabet_meaning.dart';
 import 'package:learning_a_to_z/view/Alphabets/Capital_Alphbet_Page.dart';
@@ -17,12 +16,12 @@ import 'package:learning_a_to_z/view/math%20qustion/math_qust_grid_page.dart';
 class ClassItem {
   final String title;
   final String subtitle;
-  final Widget? page;
+  final Widget Function()? pageBuilder;
 
   const ClassItem({
     required this.title,
     required this.subtitle,
-    required this.page,
+    required this.pageBuilder,
   });
 }
 
@@ -63,52 +62,50 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     classItems.assignAll([
-      ClassItem(title: '1 to 100', subtitle: 'Numbers', page: NumbersScreen()),
+      ClassItem(title: '1 to 100', subtitle: 'Numbers', pageBuilder: () => NumbersScreen()),
       ClassItem(
         title: 'Capital Letters',
         subtitle: 'Alphabets',
-        page: CapitalAlphbet26(),
+        pageBuilder: () => CapitalAlphbet26(),
       ),
       ClassItem(
         title: 'Small Letters',
         subtitle: 'Alphabets',
-        page: SmallAlphbet26(),
+        pageBuilder: () => SmallAlphbet26(),
       ),
       ClassItem(
         title: 'Hindi Letters',
         subtitle: 'Alphabets',
-        page: HindiLettersPage(),
+        pageBuilder: () => HindiLettersPage(),
       ),
-      ClassItem(title: 'Alphabet', subtitle: 'Name', page: AlphabetMening()),
+      ClassItem(title: 'Alphabet', subtitle: 'Name', pageBuilder: () => AlphabetMening()),
       ClassItem(
         title: 'Math Problem',
         subtitle: 'Solution',
-        page: MathGridScreen(),
+        pageBuilder: () => MathGridScreen(),
       ),
-      ClassItem(title: '2 to 40', subtitle: 'Tables', page: TableScreen()),
+      ClassItem(title: '2 to 40', subtitle: 'Tables', pageBuilder: () => TableScreen()),
       ClassItem(
         title: 'Drawing',
         subtitle: 'Creativity',
-        page: KidsDrowingScreen(),
+        pageBuilder: () => KidsDrowingScreen(),
       ),
       ClassItem(
         title: 'Drawing Image',
         subtitle: 'Creativity',
-        page: DrowingScreen(),
+        pageBuilder: () => DrowingScreen(),
       ),
       ClassItem(
         title: 'Math Questions',
         subtitle: 'Test',
-        page: MathQustionGridScreen(),
+        pageBuilder: () => MathQustionGridScreen(),
       ),
       ClassItem(
         title: 'Learning Sets',
         subtitle: '20 Name',
-        page: LearningSetsGridScreen(),
+        pageBuilder: () => LearningSetsGridScreen(),
       ),
-      ClassItem(title: 'Poetry', subtitle: 'Test', page: PoemListPage()),
-      // for (int i = 0; i < 4; i++)
-      //   ClassItem(title: 'Coming Soon', subtitle: '', page: null),
+      ClassItem(title: 'Poetry', subtitle: 'Test', pageBuilder: () => PoemListPage()),
     ]);
   }
 
