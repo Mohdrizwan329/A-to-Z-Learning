@@ -53,13 +53,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
           icon: buildIcon(0, Icons.house_sharp),
           label: "Home",
         ),
-
         BottomNavigationBarItem(
-          icon: buildIcon(1, Icons.book),
-          label: "Booking",
+          icon: buildIcon(1, Icons.camera_alt),
+          label: "Scanner",
         ),
         BottomNavigationBarItem(
-          icon: buildIcon(3, Icons.person),
+          icon: buildIcon(2, Icons.person),
           label: "Profile",
         ),
       ],

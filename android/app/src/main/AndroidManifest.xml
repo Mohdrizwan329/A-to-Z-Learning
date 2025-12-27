@@ -4,7 +4,7 @@
 
 
     <application
-        android:label="learning_a_to_z"
+        android:label="Jiyan Learning"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">

@@ -51,27 +51,26 @@ dependencies:
   # firebase_auth: ^6.0.2
   # firebase_storage: ^13.0.1
   razorpay_flutter: ^1.4.0
+  flutter_svg: ^2.0.10+1
 
-  
-  
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   rename: ^3.0.2
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.3
+
 flutter_launcher_name:
   name: "learning_a_to_z"
-  flutter_launcher_icons: ^0.13.1
-flutter_icons:
+
+flutter_launcher_icons:
   android: true
   ios: true
   image_path: 'assets/Splash Screen.png'
-  
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  adaptive_icon_foreground: 'assets/Splash Screen.png'
+  adaptive_icon_background: '#FFFFFF'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -86,10 +85,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/elephant.png
-    - assets/ 
-    - assets/images/  
-    - .env 
+    - assets/
+    - assets/images/
+    - assets/coloring/
+    - .env
     - assets/home_page_json.json
   
 
