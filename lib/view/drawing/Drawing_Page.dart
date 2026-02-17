@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:painter/painter.dart';
 
 class KidsDrowingScreen extends StatefulWidget {
@@ -118,57 +118,22 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return GradientScaffold(
+      title: 'Kids Drawing',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
+          onPressed: _refreshCanvas,
         ),
-        elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("🎨", style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              "Kids Drawing",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🖌️", style: TextStyle(fontSize: 24)),
-          ],
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
+      ],
+      body: SafeArea(
           child: Stack(
             children: [
               Container(
@@ -205,7 +170,6 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
             ],
           ),
         ),
-      ),
     );
   }
 
@@ -370,7 +334,7 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isColorMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53)]
+                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
                             : [selectedColor, selectedColor.withOpacity(0.7)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -393,34 +357,6 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                     ),
                   ),
                 ),
-                // Refresh button (center)
-                GestureDetector(
-                  onTap: _refreshCanvas,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF4ECDC4), Color(0xFF44B09E)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF4ECDC4).withOpacity(0.4),
-                          blurRadius: 8,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                ),
                 // Tool button
                 GestureDetector(
                   onTap: _toggleToolMenu,
@@ -431,7 +367,7 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isToolMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53)]
+                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
                             : [Color(0xFF667EEA), Color(0xFF764BA2)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,

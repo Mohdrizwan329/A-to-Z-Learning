@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -36,7 +37,7 @@ class TableDetailController extends GetxController {
         await flutterTts.setSpeechRate(0.5);
       }
     } catch (e) {
-      print("TTS init error: $e");
+      debugPrint("TTS init error: $e");
     }
   }
 
@@ -72,7 +73,7 @@ class TableDetailController extends GetxController {
     try {
       box.write('$_storageKeyPrefix$number', currentStep.value);
     } catch (e) {
-      print("Failed to write step to storage: $e");
+      debugPrint("Failed to write step to storage: $e");
     }
   }
 
@@ -88,7 +89,7 @@ class TableDetailController extends GetxController {
         await flutterTts.speak(part2);
       }
     } catch (e) {
-      print("TTS Error: $e");
+      debugPrint("TTS Error: $e");
     }
   }
 

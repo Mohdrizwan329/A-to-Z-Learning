@@ -1,7 +1,12 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
-import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/app/theme/app_theme.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/view/profiles/account/edit_profile_page.dart';
+import 'package:jiyan_learning/view/profiles/account/change_password_page.dart';
+import 'package:jiyan_learning/view/profiles/notification/notification_settings_page.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({Key? key}) : super(key: key);
@@ -10,191 +15,333 @@ class AccountSettingsScreen extends StatefulWidget {
   State<AccountSettingsScreen> createState() => _AccountSettingsScreenState();
 }
 
-class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
-  bool _contactRequest = true;
+class _AccountSettingsScreenState extends State<AccountSettingsScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _floatController;
+  late AnimationController _bubbleController;
+  late Animation<double> _floatAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    _bubbleController.dispose();
+    super.dispose();
+  }
+
+  // Floating bubbles for playful effect - same as home page
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(15, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
 
   final List<Map<String, dynamic>> _settingsItems = [
-    {'title': 'Change Password', 'icon': Icons.lock_outline, 'color': Color(0xFF667EEA)},
-    {'title': 'Logout', 'icon': Icons.logout, 'color': Color(0xFFFF6B6B)},
-    {'title': 'Delete Account', 'icon': Icons.delete_outline, 'color': Color(0xFFE17055)},
+    {
+      'title': 'Edit Profile',
+      'subtitle': 'Change your avatar & name',
+      'icon': Icons.person_outline_rounded,
+      'gradient': [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+    },
+    {
+      'title': 'Change Password',
+      'subtitle': 'Keep your account safe',
+      'icon': Icons.lock_outline_rounded,
+      'gradient': [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+    },
+    {
+      'title': 'Notification',
+      'subtitle': 'Manage your notifications',
+      'icon': Icons.notifications_outlined,
+      'gradient': [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _buildAppBar(),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
+          // Same gradient as Home screen
           gradient: LinearGradient(
             colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
+              Color(0xFF667EEA), // Soft Purple
+              Color(0xFF764BA2), // Deep Purple
+              Color(0xFFF093FB), // Pink
+              Color(0xFFF5576C), // Coral
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 0.3, 0.7, 1.0],
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Animated floating bubbles background
+            ..._buildFloatingBubbles(),
+
+            // Main content
+            SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacingM,
+                  vertical: AppTheme.spacingS,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Settings Items
+                    ..._settingsItems.asMap().entries.map((entry) {
+                      return TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0, end: 1),
+                        duration: Duration(milliseconds: 400 + (entry.key * 100)),
+                        curve: Curves.easeOut,
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(0, 30 * (1 - value)),
+                            child: Opacity(
+                              opacity: value.clamp(0.0, 1.0),
+                              child: _buildSettingTile(entry.value, entry.key),
+                            ),
+                          );
+                        },
+                      );
+                    }),
+
+                    SizedBox(height: AppTheme.spacingM),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      elevation: 8,
+      shadowColor: const Color(0xFFFF6B6B).withValues(alpha: 0.3),
+      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+        onPressed: () => Get.back(),
+      ),
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          // Same gradient as Home AppBar
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFF6B6B), // Coral Red
+              Color(0xFFFF8E53), // Orange
+              Color(0xFFFFAA5A), // Light Orange
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 16),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(32),
-                      topRight: Radius.circular(32),
-                    ),
-                  ),
-                  child: ListView(
-                    padding: const EdgeInsets.all(20),
-                    children: [
-                      ..._settingsItems.map((item) => _buildSettingTile(
-                        item['title'],
-                        item['icon'],
-                        item['color'],
-                      )),
-                      const SizedBox(height: 8),
-                      _buildSwitchTile(
-                        'Contact Request',
-                        Icons.contact_mail_outlined,
-                        const Color(0xFF4ECDC4),
-                        _contactRequest,
-                        (val) => setState(() => _contactRequest = val),
-                      ),
-                      const SizedBox(height: 20),
-                      const AdsScreen(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x40FF6B6B),
+              blurRadius: 15,
+              offset: Offset(0, 5),
+            ),
+          ],
         ),
       ),
+      title: Text(
+        'My Account',
+        style: GoogleFonts.baloo2(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          shadows: [
+            Shadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 4,
+              offset: const Offset(1, 2),
+            ),
+          ],
+        ),
+      ),
+      centerTitle: true,
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
-            ),
+  Widget _buildSettingTile(Map<String, dynamic> item, int index) {
+    return AnimatedBuilder(
+      animation: _floatAnimation,
+      builder: (context, child) {
+        final offset = (index % 2 == 0)
+            ? _floatAnimation.value * 0.5
+            : -_floatAnimation.value * 0.5;
+        return Transform.translate(
+          offset: Offset(0, offset),
+          child: child,
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: AppTheme.spacingS),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: item['gradient'],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("⚙️", style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 8),
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: [Colors.white, Color(0xFFFFE66D)],
-                  ).createShader(bounds),
-                  child: const Text(
-                    "Account",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: (item['gradient'] as List<Color>)[0].withValues(alpha: 0.4),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(20),
+            onTap: () => _handleTileTap(item['title']),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppTheme.spacingM,
+                vertical: AppTheme.spacingL,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Icon(
+                      item['icon'],
                       color: Colors.white,
-                      letterSpacing: 1,
+                      size: 28,
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                const Text("👤", style: TextStyle(fontSize: 28)),
-              ],
+                  SizedBox(width: AppTheme.spacingM),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['title'],
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          item['subtitle'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 14,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(width: 44),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildSettingTile(String title, IconData icon, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: color, size: 24),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF333333),
-          ),
-        ),
-        trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey.shade400),
-        onTap: () {},
-      ),
-    );
-  }
-
-  Widget _buildSwitchTile(
-    String title,
-    IconData icon,
-    Color color,
-    bool value,
-    ValueChanged<bool> onChanged,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: SwitchListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        secondary: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: color, size: 24),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF333333),
-          ),
-        ),
-        activeColor: color,
-        value: value,
-        onChanged: onChanged,
-      ),
-    );
+  void _handleTileTap(String title) {
+    switch (title) {
+      case 'Edit Profile':
+        Get.to(() => const EditProfileScreen());
+        break;
+      case 'Change Password':
+        Get.to(() => const ChangePasswordScreen());
+        break;
+      case 'Notification':
+        Get.to(() => NotificationSettingsScreen());
+        break;
+    }
   }
 }

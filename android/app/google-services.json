@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "171467246855",
-    "project_id": "kids-learning-d2b6e",
-    "storage_bucket": "kids-learning-d2b6e.firebasestorage.app"
+    "project_number": "754376614622",
+    "project_id": "jiyan-learning-d461b",
+    "storage_bucket": "jiyan-learning-d461b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:171467246855:android:d63a03b029efbdfbbfc9a2",
+        "mobilesdk_app_id": "1:754376614622:android:06c6929d48b6f0bf1e584f",
         "android_client_info": {
-          "package_name": "com.example.learning_a_to_z"
+          "package_name": "com.jiyanlearning.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCURCVQqsM_6SPt-hv3qgA7nm8DUYTX9fA"
+          "current_key": "AIzaSyBrDdPBYeI8aTW-G3f35g44luVXbCxvaEo"
         }
       ],
       "services": {

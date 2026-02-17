@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -40,10 +41,16 @@ class TableController extends GetxController {
   }
 
   Future<void> _initTts() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      await flutterTts.setLanguage("hi-IN");
-      await flutterTts.setPitch(1.0);
-      await flutterTts.setSpeechRate(0.5);
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        await flutterTts.setLanguage("hi-IN");
+        await flutterTts.setPitch(1.0);
+        await flutterTts.setSpeechRate(0.5);
+        await flutterTts.setVolume(1.0);
+        await flutterTts.awaitSpeakCompletion(false);
+      }
+    } catch (e) {
+      // TTS configuration error - continue without TTS
     }
   }
 
@@ -71,7 +78,7 @@ class TableController extends GetxController {
     try {
       await flutterTts.speak(pahada);
     } catch (e) {
-      print("TTS Error: $e");
+      debugPrint("TTS Error: $e");
     }
   }
 

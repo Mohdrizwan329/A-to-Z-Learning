@@ -4,10 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
 
 class NumbersController extends GetxController {
   final FlutterTts flutterTts = FlutterTts();
   final box = GetStorage();
+  final ProgressService _progressService = Get.find<ProgressService>();
 
   static const _cacheKey = 'selectedIndex';
   static const _cacheExpiryKey = 'selectedIndex_expiry';
@@ -20,12 +22,7 @@ class NumbersController extends GetxController {
   void onInit() {
     super.onInit();
     _loadFromCache();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    _initTts();
+    _initTts(); // Initialize TTS early in onInit instead of onReady
   }
 
   @override
@@ -78,7 +75,7 @@ class NumbersController extends GetxController {
       await flutterTts.setSpeechRate(0.5);
       await flutterTts.setVolume(1.0);
       await flutterTts.setPitch(1.0);
-      await flutterTts.awaitSpeakCompletion(true);
+      await flutterTts.awaitSpeakCompletion(false); // Don't block - allow immediate response
 
       // Check if engine is available
       var engines = await flutterTts.getEngines;
@@ -134,12 +131,25 @@ class NumbersController extends GetxController {
     } else {
       selectedIndex.value = index;
       speak((index + 1).toString());
+      // Mark this number as learned/completed
+      _progressService.markItemCompleted(ProgressService.kNumbers, index);
     }
     _saveToCache();
   }
 
+  // Get progress percentage
+  double get progressPercentage => _progressService.getProgressPercentage(ProgressService.kNumbers);
+
+  // Get progress string
+  String get progressString => _progressService.getProgressString(ProgressService.kNumbers);
+
+  // Check if a number is completed
+  bool isNumberCompleted(int index) => _progressService.isItemCompleted(ProgressService.kNumbers, index);
+
   void resetSelection() {
     selectedIndex.value = -1;
     _saveToCache();
+    // Reset progress as well
+    _progressService.resetProgress(ProgressService.kNumbers);
   }
 }

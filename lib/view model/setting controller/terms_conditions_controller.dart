@@ -1,111 +1,91 @@
 import 'package:get/get.dart';
 
 class TermsConditionsController extends GetxController {
-  final title = 'Terms & condition'.obs;
+  final title = 'Terms & Conditions'.obs;
   final subTitle =
-      'Welcome to Sheegravivaham Matrimony. By accessing or using our platform, you agree to comply with and be bound by the following terms and conditions. Please read them carefully before using our services.'
+      'Welcome to Learning For Kids! By using our educational app, you agree to these terms. Parents/guardians must read and accept these terms on behalf of their children.'
           .obs;
 
   final sections = <Map<String, dynamic>>[
     {
-      'title': '1. Eligibility',
+      'title': '1. Age Requirements',
       'bullets': [
-        'You must be at least 18 years old (for women) and 21 years old (for men) to register.',
-        'You must provide accurate and truthful personal details.',
-        'You must not have a prior criminal record or history of fraudulent activities.',
+        'This app is designed for children ages 3-12 years.',
+        'Children must use the app under parental supervision.',
+        'Parents/guardians are responsible for their child\'s use of the app.',
       ],
     },
     {
-      'title': '2. Account Registration & Security',
+      'title': '2. Educational Content',
       'bullets': [
-        'You are responsible for maintaining the confidentiality of your account credentials.',
-        'Any unauthorized use of your account should be reported immediately.',
-        'Sheegravivaham Matrimony reserves the right to verify the authenticity of profiles and remove any suspicious accounts.',
+        'All content is designed for educational purposes only.',
+        'We strive to provide accurate and age-appropriate learning materials.',
+        'Content includes: Numbers, Alphabets, Hindi Letters, Math, Drawing, and more.',
       ],
     },
     {
-      'title': '3. User Responsibilities',
+      'title': '3. User Account',
       'bullets': [
-        'You agree to use this platform only for lawful matrimonial purposes.',
-        'You must not post false, misleading, offensive, or illegal content.',
-        'Harassment, abusive behavior, or sharing of explicit content is strictly prohibited.',
+        'Parents can create accounts for their children.',
+        'Keep login credentials secure and private.',
+        'One account per child is recommended for personalized learning.',
       ],
     },
     {
-      'title': '4. Profile Verification & Approval',
+      'title': '4. Subscription & Payments',
       'bullets': [
-        'All profiles undergo a verification process to ensure authenticity.',
-        'We reserve the right to accept or reject any profile at our discretion.',
-        'Any misrepresentation in your profile may lead to suspension or termination.',
+        'Basic features are available for free.',
+        'Premium features require subscription.',
+        'Parents must authorize all purchases.',
+        'Refund requests are handled as per our refund policy.',
       ],
     },
     {
-      'title': '5. Membership & Payments',
+      'title': '5. Child Safety',
       'bullets': [
-        'Some features of the platform may require paid membership.',
-        'Payments once made are non-refundable, except in cases where the service is not provided as promised.',
-        'Membership benefits and pricing may change at any time with prior notification.',
+        'We do not allow direct communication between users.',
+        'No personal information sharing features are available.',
+        'All content is reviewed for child safety compliance.',
       ],
     },
     {
-      'title': '6. Privacy & Data Protection',
+      'title': '6. Acceptable Use',
       'bullets': [
-        'Your personal data is protected under our Privacy Policy.',
-        'We do not share your information with third parties without your consent.',
-        'However. Sheegravivaham Matrimony is not responsible for any misuse of data by third parties.',
+        'Use the app only for learning and educational purposes.',
+        'Do not attempt to modify or hack the app.',
+        'Report any bugs or issues through the Help section.',
       ],
     },
     {
-      'title': '7. Communication & Matchmaking',
+      'title': '7. Intellectual Property',
       'bullets': [
-        'Sheegravivaham Matrimony only acts as a platform to connect individuals.',
-        'We do not guarantee marriage or relationship success.',
-        'Users are advised to exercise caution while interacting with other members.',
+        'All content, designs, and materials are owned by Learning For Kids.',
+        'Users may not copy, distribute, or modify app content.',
+        'Educational materials are for personal use only.',
       ],
     },
     {
-      'title': '8. Prohibited Activities',
+      'title': '8. Updates & Changes',
       'bullets': [
-        'Users are strictly prohibited from:',
-        'Creating fake profiles or impersonating someone else.',
-        'Asking for or engaging in financial transactions.',
-        'Sharing obscene, abusive, or offensive content.',
-        'Using the platform for commercial, promotional, or business purposes.',
+        'We regularly update content to improve learning experience.',
+        'App features may change with updates.',
+        'We will notify users of significant changes.',
       ],
     },
     {
-      'title': '9. Termination of Account',
+      'title': '9. Limitation of Liability',
       'bullets': [
-        'We reserve the right to terminate or suspend accounts that violate these terms.',
-        'A user can voluntarily delete their account at any time.',
-        'Termination due to policy violajin does not warrant any refund.',
+        'The app is provided "as is" for educational purposes.',
+        'We are not liable for learning outcomes or results.',
+        'Technical issues will be resolved as quickly as possible.',
       ],
     },
     {
-      'title': '10. Limitation of Liability',
+      'title': '10. Contact Us',
       'bullets': [
-        'Sheegravivaham Matrimony is not liable for any financial, emotional, or legal consequences arising from matches made on the platform.',
-        'We do not verify every users background and recommend due diligence before proceeding with marriage discussions.',
-      ],
-    },
-    {
-      'title': '11. Changes to Terms & Conditions',
-      'bullets': [
-        'We may update these terms from time to time, and continued use of the platform implies acceptance of any modifications.',
-      ],
-    },
-    {
-      'title': '12. Governing Law & Dispute Resolution',
-      'bullets': [
-        'These terms are governed by the laws of India.',
-        'Any disputes will be resolved through arbitration or courts located in [City/State].',
-      ],
-    },
-    {
-      'title': '13. Contact Information',
-      'bullets': [
-        'For any questions or concerns regarding these Terms & Conditions, you can contact us at:',
-        'Email: [support@sheegravivaham.com]',
+        'For questions about these terms, contact us through the app.',
+        'Email: support@learningforkids.com',
+        'We respond to all queries within 48 hours.',
       ],
     },
   ].obs;

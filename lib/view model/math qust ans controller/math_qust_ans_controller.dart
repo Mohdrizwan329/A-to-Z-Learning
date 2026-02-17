@@ -25,9 +25,16 @@ class MathGridController extends GetxController {
     _loadSavedData();
   }
 
-  void _initTts() async {
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setPitch(1.0);
+  Future<void> _initTts() async {
+    try {
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setPitch(1.0);
+      await flutterTts.setSpeechRate(0.5);
+      await flutterTts.setVolume(1.0);
+      await flutterTts.awaitSpeakCompletion(false);
+    } catch (e) {
+      // TTS configuration error - continue without TTS
+    }
   }
 
   void _loadSavedData() {

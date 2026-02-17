@@ -2,8 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
-import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 //////////////////////////////////////////////////////////
 //                MAIN MATH GRID SCREEN
@@ -25,6 +26,7 @@ class _MathGridScreenState extends State<MathGridScreen>
       'emoji': '➕',
       'gradient': [Color(0xFFFF6B6B), Color(0xFFFF8E8E)],
       'page': () => AdditionPage(),
+      'progressKey': ProgressService.kMathAddition,
     },
     {
       'label': 'Subtraction',
@@ -32,6 +34,7 @@ class _MathGridScreenState extends State<MathGridScreen>
       'emoji': '➖',
       'gradient': [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
       'page': () => SubtractionPage(),
+      'progressKey': ProgressService.kMathSubtraction,
     },
     {
       'label': 'Multiplication',
@@ -39,6 +42,7 @@ class _MathGridScreenState extends State<MathGridScreen>
       'emoji': '✖️',
       'gradient': [Color(0xFF56D97F), Color(0xFF81E89E)],
       'page': () => MultiplicationPage(),
+      'progressKey': ProgressService.kMathMultiplication,
     },
     {
       'label': 'Division',
@@ -46,6 +50,7 @@ class _MathGridScreenState extends State<MathGridScreen>
       'emoji': '➗',
       'gradient': [Color(0xFF45B7D1), Color(0xFF74C9DB)],
       'page': () => DivisionPage(),
+      'progressKey': ProgressService.kMathDivision,
     },
   ];
 
@@ -81,7 +86,7 @@ class _MathGridScreenState extends State<MathGridScreen>
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -95,22 +100,13 @@ class _MathGridScreenState extends State<MathGridScreen>
           ),
         ),
         elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("🔢", style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              "Math Problems",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🧮", style: TextStyle(fontSize: 24)),
-          ],
+        title: const Text(
+          "Math Problems",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
@@ -121,9 +117,11 @@ class _MathGridScreenState extends State<MathGridScreen>
               Color(0xFF667EEA),
               Color(0xFF764BA2),
               Color(0xFFF093FB),
+              Color(0xFFF5576C),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
+            stops: [0.0, 0.3, 0.7, 1.0],
           ),
         ),
         child: GridView.builder(
@@ -160,6 +158,8 @@ class _MathGridScreenState extends State<MathGridScreen>
   }
 
   Widget _buildMathCard(Map<String, dynamic> item, List<Color> gradient) {
+    final String? progressKey = item['progressKey'];
+
     return GestureDetector(
       onTap: () => Get.to(item['page']),
       child: Container(
@@ -248,6 +248,41 @@ class _MathGridScreenState extends State<MathGridScreen>
                 ),
               ),
             ),
+            // Progress indicator
+            if (progressKey != null)
+              Positioned(
+                bottom: 8,
+                left: 8,
+                right: 8,
+                child: Obx(() {
+                  final progress = ProgressService.to.getProgressPercentage(progressKey);
+                  final progressStr = ProgressService.to.getProgressString(progressKey);
+                  return Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: progress / 100,
+                          backgroundColor: Colors.white.withOpacity(0.3),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            progress == 100 ? Colors.green : Colors.white,
+                          ),
+                          minHeight: 6,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        progressStr,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
           ],
         ),
       ),
@@ -393,7 +428,7 @@ class _MathGridTemplateState extends State<MathGridTemplate>
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -407,27 +442,25 @@ class _MathGridTemplateState extends State<MathGridTemplate>
           ),
         ),
         elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(widget.emoji, style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🌟", style: TextStyle(fontSize: 24)),
-          ],
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            ),
             onPressed: () {
               setState(() {
                 generateProblems();
@@ -444,9 +477,11 @@ class _MathGridTemplateState extends State<MathGridTemplate>
               Color(0xFF667EEA),
               Color(0xFF764BA2),
               Color(0xFFF093FB),
+              Color(0xFFF5576C),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
+            stops: [0.0, 0.3, 0.7, 1.0],
           ),
         ),
         child: GridView.builder(

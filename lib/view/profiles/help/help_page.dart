@@ -1,8 +1,11 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
-import 'package:learning_a_to_z/view%20model/setting%20controller/help_controller.dart';
-import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/app/theme/app_theme.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/view%20model/setting%20controller/help_controller.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -11,284 +14,557 @@ class HelpScreen extends StatefulWidget {
   State<HelpScreen> createState() => _HelpScreenState();
 }
 
-class _HelpScreenState extends State<HelpScreen> {
+class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   final HelpController controller = Get.put(HelpController());
   final _formKey = GlobalKey<FormState>();
 
-  InputDecoration _fieldDecoration(String label, IconData icon) => InputDecoration(
-    labelText: label,
-    labelStyle: const TextStyle(color: Colors.white70),
-    prefixIcon: Icon(icon, color: Colors.white70),
-    filled: true,
-    fillColor: Colors.white.withOpacity(0.15),
-    focusedBorder: OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.white, width: 2),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    errorBorder: OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.redAccent),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    focusedErrorBorder: OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.redAccent, width: 2),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    isDense: true,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-  );
+  late AnimationController _bubbleController;
+  late AnimationController _floatController;
+  late Animation<double> _floatAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    _bubbleController.dispose();
+    super.dispose();
+  }
+
+  // Floating bubbles for playful effect - same as home page
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(15, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _buildAppBar(),
+      bottomNavigationBar: const AdsScreen(),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color(0xFF667EEA),
               Color(0xFF764BA2),
               Color(0xFFF093FB),
+              Color(0xFFF5576C),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
+            stops: [0.0, 0.3, 0.7, 1.0],
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Text("💬", style: TextStyle(fontSize: 28)),
-                            ),
-                            const SizedBox(width: 12),
-                            const Expanded(
-                              child: Text(
-                                'Your Feedback matters! We are listening.',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 25),
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              decoration: _fieldDecoration('Name', Icons.person),
-                              style: const TextStyle(color: Colors.white),
-                              initialValue: controller.name.value,
-                              onSaved: (v) => controller.name.value = v ?? '',
-                              validator: (v) {
-                                if (v == null || v.trim().isEmpty) {
-                                  return 'Please enter name';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              decoration: _fieldDecoration('Contact Number', Icons.phone),
-                              style: const TextStyle(color: Colors.white),
-                              keyboardType: TextInputType.phone,
-                              initialValue: controller.phone.value,
-                              onSaved: (v) => controller.phone.value = v ?? '',
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              decoration: _fieldDecoration('Email ID', Icons.email),
-                              style: const TextStyle(color: Colors.white),
-                              keyboardType: TextInputType.emailAddress,
-                              initialValue: controller.email.value,
-                              onSaved: (v) => controller.email.value = v ?? '',
-                              validator: (v) {
-                                if (v != null && v.isNotEmpty) {
-                                  final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
-                                  if (!emailRegex.hasMatch(v)) {
-                                    return 'Invalid email';
-                                  }
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Row(
-                                children: [
-                                  const Text("📝", style: TextStyle(fontSize: 20)),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Tell us how we can Help You',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.9),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white.withOpacity(0.15),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 16,
-                                ),
-                              ),
-                              style: const TextStyle(color: Colors.white),
-                              initialValue: controller.message.value,
-                              onSaved: (v) => controller.message.value = v ?? '',
-                              maxLines: 5,
-                            ),
-                            const SizedBox(height: 30),
-                            Container(
-                              width: double.infinity,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [Color(0xFF56D97F), Color(0xFF81E89E)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFF56D97F).withOpacity(0.4),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 6),
-                                  ),
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(16),
-                                  onTap: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState!.save();
-                                      // Submit logic
-                                    }
-                                  },
-                                  child: const Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.send, color: Colors.white, size: 22),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Submit',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+        child: Stack(
+          children: [
+            // Animated floating bubbles background
+            ..._buildFloatingBubbles(),
+
+            // Main content
+            SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacingM,
+                  vertical: AppTheme.spacingS,
+                ),
+                child: Column(
+                  children: [
+                    // Header Card
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0, end: 1),
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: Opacity(
+                            opacity: value.clamp(0.0, 1.0),
+                            child: _buildHeaderCard(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: AppTheme.spacingM),
+
+                    // Form Card
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0, end: 1),
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeOut,
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: Opacity(
+                            opacity: value.clamp(0.0, 1.0),
+                            child: _buildFormCard(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: AppTheme.spacingM),
+                  ],
                 ),
               ),
-              const AdsScreen(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
-            ),
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      elevation: 8,
+      shadowColor: const Color(0xFFFF6B6B).withValues(alpha: 0.3),
+      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("❓", style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 8),
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: [Colors.white, Color(0xFFFFE66D)],
-                  ).createShader(bounds),
-                  child: const Text(
-                    "Help",
-                    style: TextStyle(
-                      fontSize: 24,
+          child: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+        onPressed: () => Get.back(),
+      ),
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFF6B6B),
+              Color(0xFFFF8E53),
+              Color(0xFFFFAA5A),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x40FF6B6B),
+              blurRadius: 15,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+      ),
+      title: Text(
+        'Help & Support',
+        style: GoogleFonts.baloo2(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          shadows: [
+            Shadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 4,
+              offset: const Offset(1, 2),
+            ),
+          ],
+        ),
+      ),
+      centerTitle: true,
+    );
+  }
+
+  Widget _buildHeaderCard() {
+    return AnimatedBuilder(
+      animation: _floatAnimation,
+      builder: (context, child) {
+        final offset = _floatAnimation.value * 0.5;
+        return Transform.translate(
+          offset: Offset(0, offset),
+          child: child,
+        );
+      },
+      child: Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(AppTheme.spacingL),
+        child: Row(
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.support_agent_rounded,
+                  color: Colors.white,
+                  size: 32,
+                ),
+              ),
+            ),
+            SizedBox(width: AppTheme.spacingM),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'We\'re Here to Help!',
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      letterSpacing: 1,
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                const Text("💡", style: TextStyle(fontSize: 28)),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    'Parents, share your feedback to help us make learning better for your child.',
+                    style: GoogleFonts.nunito(
+                      fontSize: 14,
+                      color: Colors.white.withValues(alpha: 0.9),
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ],
+        ),
+      ),
+      ),
+    );
+  }
+
+  Widget _buildFormCard() {
+    return AnimatedBuilder(
+      animation: _floatAnimation,
+      builder: (context, child) {
+        final offset = -_floatAnimation.value * 0.5;
+        return Transform.translate(
+          offset: Offset(0, offset),
+          child: child,
+        );
+      },
+      child: Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
           ),
-          const SizedBox(width: 44),
         ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(AppTheme.spacingL),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.message_rounded,
+                      color: Colors.white,
+                      size: 22,
+                    ),
+                  ),
+                  SizedBox(width: AppTheme.spacingS),
+                  Text(
+                    'Send us a Message',
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: AppTheme.spacingM),
+
+              // Name Field
+              _buildFieldLabel('Your Name', Icons.person_outline_rounded),
+              SizedBox(height: AppTheme.spacingS),
+              _buildTextField(
+                hint: 'Enter your name',
+                initialValue: controller.name.value,
+                onSaved: (v) => controller.name.value = v ?? '',
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: AppTheme.spacingM),
+
+              // Phone Field
+              _buildFieldLabel('Phone Number', Icons.phone_outlined),
+              SizedBox(height: AppTheme.spacingS),
+              _buildTextField(
+                hint: 'Enter phone number',
+                keyboardType: TextInputType.phone,
+                initialValue: controller.phone.value,
+                onSaved: (v) => controller.phone.value = v ?? '',
+              ),
+              SizedBox(height: AppTheme.spacingM),
+
+              // Email Field
+              _buildFieldLabel('Email Address', Icons.email_outlined),
+              SizedBox(height: AppTheme.spacingS),
+              _buildTextField(
+                hint: 'Enter email address',
+                keyboardType: TextInputType.emailAddress,
+                initialValue: controller.email.value,
+                onSaved: (v) => controller.email.value = v ?? '',
+                validator: (v) {
+                  if (v != null && v.isNotEmpty) {
+                    final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
+                    if (!emailRegex.hasMatch(v)) {
+                      return 'Please enter a valid email';
+                    }
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: AppTheme.spacingM),
+
+              // Message Field
+              _buildFieldLabel('Your Message', Icons.edit_note_rounded),
+              SizedBox(height: AppTheme.spacingS),
+              _buildTextField(
+                hint: 'Type your message here...',
+                maxLines: 4,
+                initialValue: controller.message.value,
+                onSaved: (v) => controller.message.value = v ?? '',
+              ),
+              SizedBox(height: AppTheme.spacingL),
+
+              // Submit Button
+              _buildSubmitButton(),
+            ],
+          ),
+        ),
+      ),
+      ),
+    );
+  }
+
+  Widget _buildFieldLabel(String label, IconData icon) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: Colors.white, size: 18),
+        ),
+        SizedBox(width: AppTheme.spacingS),
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField({
+    required String hint,
+    TextInputType? keyboardType,
+    String? initialValue,
+    int maxLines = 1,
+    FormFieldSetter<String>? onSaved,
+    FormFieldValidator<String>? validator,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingM,
+        vertical: AppTheme.spacingS,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.3),
+          width: 1,
+        ),
+      ),
+      child: TextFormField(
+        initialValue: initialValue,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
+        onSaved: onSaved,
+        validator: validator,
+        cursorColor: Colors.white,
+        cursorWidth: 2.5,
+        cursorHeight: 20,
+        style: GoogleFonts.nunito(
+          fontSize: 16,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: GoogleFonts.nunito(
+            fontSize: 16,
+            color: Colors.white.withValues(alpha: 0.5),
+          ),
+          errorStyle: GoogleFonts.nunito(
+            fontSize: 12,
+            color: const Color(0xFFFFCB80),
+          ),
+          border: InputBorder.none,
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 8),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return GestureDetector(
+      onTap: () {
+        if (_formKey.currentState!.validate()) {
+          _formKey.currentState!.save();
+          Get.snackbar(
+            'Success',
+            'Your message has been sent!',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: const Color(0xFF4ECDC4),
+            colorText: Colors.white,
+            borderRadius: 16,
+            margin: const EdgeInsets.all(16),
+          );
+        }
+      },
+      child: Container(
+        width: double.infinity,
+        height: AppTheme.buttonHeight,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF56D97F), Color(0xFF7BE495)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF56D97F).withValues(alpha: 0.4),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.send_rounded, color: Colors.white, size: 22),
+              SizedBox(width: AppTheme.spacingS),
+              Text(
+                'Send Message',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
-import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
-import 'package:learning_a_to_z/view/math%20qustion/add_qust_page.dart';
-import 'package:learning_a_to_z/view/math%20qustion/div_qust_page.dart';
-import 'package:learning_a_to_z/view/math%20qustion/mul_qust_page.dart';
-import 'package:learning_a_to_z/view/math%20qustion/sub_qust_page.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+// Generic Math Questions Page - replaces 4 individual pages
+import 'package:jiyan_learning/view/math%20qustion/generic_math_questions_page.dart';
+import 'package:jiyan_learning/view%20model/qustion%20controller/generic_math_questions_controller.dart';
 
 class MathQustionGridScreen extends StatefulWidget {
   @override
@@ -22,25 +23,29 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
       'label': 'Addition',
       'emoji': '➕',
       'gradient': [Color(0xFF56D97F), Color(0xFF81E89E)],
-      'pageBuilder': () => AdditionQuestionsScreen(),
+      'pageBuilder': () => GenericMathQuestionsPage(operationType: MathOperationType.addition),
+      'progressKey': ProgressService.kMathAddition,
     },
     {
       'label': 'Subtraction',
       'emoji': '➖',
       'gradient': [Color(0xFFFF6B6B), Color(0xFFFF8E8E)],
-      'pageBuilder': () => SubtractionQuestionsScreen(),
+      'pageBuilder': () => GenericMathQuestionsPage(operationType: MathOperationType.subtraction),
+      'progressKey': ProgressService.kMathSubtraction,
     },
     {
       'label': 'Multiplication',
       'emoji': '✖️',
       'gradient': [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
-      'pageBuilder': () => MultiplicationQuestionsScreen(),
+      'pageBuilder': () => GenericMathQuestionsPage(operationType: MathOperationType.multiplication),
+      'progressKey': ProgressService.kMathMultiplication,
     },
     {
       'label': 'Division',
       'emoji': '➗',
       'gradient': [Color(0xFF45B7D1), Color(0xFF74C9DB)],
-      'pageBuilder': () => DivisionQuestionsScreen(),
+      'pageBuilder': () => GenericMathQuestionsPage(operationType: MathOperationType.division),
+      'progressKey': ProgressService.kMathDivision,
     },
   ];
 
@@ -68,61 +73,11 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-        ),
-        elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("🧮", style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              "Math Practice",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🌟", style: TextStyle(fontSize: 24)),
-          ],
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: GridView.builder(
+    return GradientScaffold(
+      title: 'Math Practice',
+      emoji: '🧮',
+      bottomNavigationBar: const AdsScreen(),
+      body: GridView.builder(
           padding: EdgeInsets.all(16),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -149,13 +104,12 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
             );
           },
         ),
-      ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 
   Widget _buildMathCard(Map<String, dynamic> item, int index) {
     final List<Color> gradient = item['gradient'];
+    final String? progressKey = item['progressKey'];
 
     return GestureDetector(
       onTap: () => Get.to(item['pageBuilder']),
@@ -256,6 +210,41 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
                 ],
               ),
             ),
+            // Progress indicator
+            if (progressKey != null)
+              Positioned(
+                bottom: 8,
+                left: 8,
+                right: 8,
+                child: Obx(() {
+                  final progress = ProgressService.to.getProgressPercentage(progressKey);
+                  final progressStr = ProgressService.to.getProgressString(progressKey);
+                  return Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: progress / 100,
+                          backgroundColor: Colors.white.withOpacity(0.3),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            progress == 100 ? Colors.green : Colors.white,
+                          ),
+                          minHeight: 6,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        progressStr,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
           ],
         ),
       ),

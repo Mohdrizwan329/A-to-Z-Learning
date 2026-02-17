@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
-import 'package:learning_a_to_z/view%20model/alphabet%20controller/world_meaning_alphabet_controller.dart';
-import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/view%20model/alphabet%20controller/world_meaning_alphabet_controller.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
-class AlphabetMening extends StatefulWidget {
-  const AlphabetMening({super.key});
+class AlphabetMeaning extends StatefulWidget {
+  final List<Color>? gradient;
+
+  const AlphabetMeaning({super.key, this.gradient});
 
   @override
-  State<AlphabetMening> createState() => _AlphabetMeningState();
+  State<AlphabetMeaning> createState() => _AlphabetMeaningState();
 }
 
-class _AlphabetMeningState extends State<AlphabetMening>
+class _AlphabetMeaningState extends State<AlphabetMeaning>
     with TickerProviderStateMixin {
   final WorldMeaningAlphabetController controller = Get.put(
     WorldMeaningAlphabetController(),
@@ -76,67 +79,24 @@ class _AlphabetMeningState extends State<AlphabetMening>
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return GradientScaffold(
+      title: 'A to Z Words',
+      emoji: '📖',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
+          onPressed: () => controller.clearCache(),
         ),
-        elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("🔤", style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              "A to Z Words",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🌟", style: TextStyle(fontSize: 24)),
-          ],
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: () => controller.clearCache(),
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: GridView.builder(
+      ],
+      bottomNavigationBar: const AdsScreen(),
+      body: GridView.builder(
           padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -168,8 +128,6 @@ class _AlphabetMeningState extends State<AlphabetMening>
             });
           },
         ),
-      ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

@@ -1,10 +1,11 @@
-import 'dart:io';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:learning_a_to_z/res/utils/size_config.dart';
-import 'package:learning_a_to_z/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 class ImageDrowingScreen extends StatefulWidget {
   final String imagePath;
@@ -17,7 +18,6 @@ class ImageDrowingScreen extends StatefulWidget {
 
 class _ImageDrowingScreenState extends State<ImageDrowingScreen>
     with TickerProviderStateMixin {
-  File? pickedImage;
   Color selectedColor = Colors.red;
   double brushSize = 20.0;
   bool isToolMenuOpen = false;
@@ -115,72 +115,25 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
     });
   }
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      setState(() {
-        pickedImage = File(image.path);
-        drawingPoints.clear();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return GradientScaffold(
+      title: 'Kids Coloring',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
+          onPressed: _refreshCanvas,
         ),
-        elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("🎨", style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              "Kids Coloring",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🖌️", style: TextStyle(fontSize: 24)),
-          ],
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
+      ],
+      body: SafeArea(
           child: Stack(
             children: [
               Container(
@@ -217,7 +170,6 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
             ],
           ),
         ),
-      ),
     );
   }
 
@@ -260,7 +212,7 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
               // White background
               Container(color: Colors.white),
               // Drawing with mask - only visible inside shape
-              if (pickedImage == null && widget.imagePath.endsWith('.svg'))
+              if (widget.imagePath.endsWith('.svg'))
                 RepaintBoundary(
                   child: CustomPaint(
                     foregroundPainter: MaskPainter(
@@ -280,14 +232,12 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                 ),
               // SVG outline on top
               IgnorePointer(
-                child: pickedImage != null
-                    ? Image.file(pickedImage!, fit: BoxFit.contain)
-                    : widget.imagePath.endsWith('.svg')
-                        ? SvgPicture.asset(
-                            widget.imagePath,
-                            fit: BoxFit.contain,
-                          )
-                        : Image.asset(widget.imagePath, fit: BoxFit.contain),
+                child: widget.imagePath.endsWith('.svg')
+                    ? SvgPicture.asset(
+                        widget.imagePath,
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(widget.imagePath, fit: BoxFit.contain),
               ),
             ],
           ),
@@ -453,7 +403,7 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isColorMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53)]
+                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
                             : [selectedColor, selectedColor.withOpacity(0.7)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -476,62 +426,6 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                     ),
                   ),
                 ),
-                // Gallery button
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFFA78BFA).withOpacity(0.4),
-                          blurRadius: 6,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.photo_library,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                ),
-                // Refresh button
-                GestureDetector(
-                  onTap: _refreshCanvas,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF4ECDC4), Color(0xFF44B09E)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF4ECDC4).withOpacity(0.4),
-                          blurRadius: 6,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                ),
                 // Tool button
                 GestureDetector(
                   onTap: _toggleToolMenu,
@@ -542,7 +436,7 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isToolMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53)]
+                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
                             : [Color(0xFF667EEA), Color(0xFF764BA2)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -1187,8 +1081,74 @@ class MaskPainter extends CustomPainter {
   }
 }
 
-class DrowingScreen extends StatelessWidget {
+class DrowingScreen extends StatefulWidget {
   const DrowingScreen({super.key});
+
+  @override
+  State<DrowingScreen> createState() => _DrowingScreenState();
+}
+
+class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateMixin {
+  // Home screen style animations
+  late AnimationController _floatController;
+  late AnimationController _bubbleController;
+  late Animation<double> _floatAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    _bubbleController.dispose();
+    super.dispose();
+  }
+
+  List<Widget> _buildFloatingBubbles() {
+    return List.generate(6, (index) {
+      final random = math.Random(index);
+      final size = 30.0 + random.nextDouble() * 50;
+      final left = random.nextDouble() * MediaQuery.of(context).size.width;
+      final startTop = random.nextDouble() * MediaQuery.of(context).size.height;
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + index * 0.15) % 1.0;
+          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final opacity = (1 - progress).clamp(0.0, 0.15);
+
+          return Positioned(
+            left: left,
+            top: top,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: opacity),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
 
   // 40+ Coloring pages list - SVG outline images for coloring
   final List<Map<String, dynamic>> images = const [
@@ -1254,166 +1214,186 @@ class DrowingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-        ),
-        elevation: 8,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("🖼️", style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text(
-              "Choose Picture",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("🎨", style: TextStyle(fontSize: 24)),
-          ],
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: GridView.builder(
-          padding: EdgeInsets.all(10),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: SizeConfig.getProportionateScreenWidth(10),
-            mainAxisSpacing: SizeConfig.getProportionateScreenHeight(10),
-            childAspectRatio: 0.85,
-          ),
-          itemCount: images.length,
-          itemBuilder: (context, index) {
-            final image = images[index];
-            final gradient = cardGradients[index % cardGradients.length];
-            return GestureDetector(
-              onTap: () => Get.to(() => ImageDrowingScreen(imagePath: image["path"]!)),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: gradient,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+    return GradientScaffold(
+      title: 'Choose Picture',
+      bottomNavigationBar: const AdsScreen(),
+      body: Stack(
+        children: [
+          // Floating bubbles background
+          ..._buildFloatingBubbles(),
+          // Main content
+          Column(
+            children: [
+              // Progress bar
+              Obx(() {
+                final progress =
+                    ProgressService.to.getProgressPercentage(
+                      ProgressService.kColoring,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
+                  ProgressService.kColoring,
+                );
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '$progressString completed',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 10,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: gradient[0].withOpacity(0.4),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: -10,
-                      right: -10,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.15),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -15,
-                      left: -15,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.1),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.3),
-                                shape: BoxShape.circle,
+                );
+              }),
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.all(10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: SizeConfig.getProportionateScreenWidth(10),
+                    mainAxisSpacing: SizeConfig.getProportionateScreenHeight(10),
+                    childAspectRatio: 0.85,
+                  ),
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    final image = images[index];
+                    final gradient = cardGradients[index % cardGradients.length];
+                    return AnimatedBuilder(
+                      animation: _floatAnimation,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                          child: child,
+                        );
+                      },
+                      child: GestureDetector(
+                        onTap: () => Get.to(() => ImageDrowingScreen(imagePath: image["path"]!)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: gradient,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: gradient[0].withValues(alpha: 0.4),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
                               ),
-                              child: Center(
-                                child: Text(
-                                  image['emoji'] ?? "🎨",
-                                  style: const TextStyle(fontSize: 28),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: -10,
+                                right: -10,
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withValues(alpha: 0.15),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              image["name"]!,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                height: 1.1,
-                                shadows: [
-                                  Shadow(color: Colors.black26, offset: Offset(1, 1), blurRadius: 2),
-                                ],
+                              Positioned(
+                                bottom: -15,
+                                left: -15,
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withValues(alpha: 0.1),
+                                  ),
+                                ),
                               ),
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withValues(alpha: 0.3),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            image['emoji'] ?? "🎨",
+                                            style: const TextStyle(fontSize: 28),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        image["name"]!,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          height: 1.1,
+                                          shadows: [
+                                            Shadow(color: Colors.black26, offset: Offset(1, 1), blurRadius: 2),
+                                          ],
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
-            );
-          },
-        ),
+            ],
+          ),
+        ],
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }
