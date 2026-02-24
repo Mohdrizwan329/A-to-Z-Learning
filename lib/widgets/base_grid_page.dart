@@ -225,7 +225,11 @@ class _SimpleGridPageState extends State<SimpleGridPage>
                     color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+                  child: const Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
                 onPressed: widget.onRefresh,
               ),

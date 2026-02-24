@@ -7,11 +7,7 @@ class AdWrapper extends StatelessWidget {
   final Widget child;
   final bool showAd;
 
-  const AdWrapper({
-    super.key,
-    required this.child,
-    this.showAd = true,
-  });
+  const AdWrapper({super.key, required this.child, this.showAd = true});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +25,6 @@ class AdWrapper extends StatelessWidget {
 /// Extension method to easily wrap any widget with ads
 extension AdWrapperExtension on Widget {
   Widget withBottomAd({bool showAd = true}) {
-    return AdWrapper(
-      showAd: showAd,
-      child: this,
-    );
+    return AdWrapper(showAd: showAd, child: this);
   }
 }

@@ -108,7 +108,7 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
     if (!isBreathingActive) return;
 
     for (int i = 0; i < 3; i++) {
-      if (!isBreathingActive) return;
+      if (!isBreathingActive || !mounted) return;
 
       // Breathe in
       setState(() => breathPhase = 'Breathe In');
@@ -116,14 +116,14 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
       _breathController.forward();
       await Future.delayed(const Duration(seconds: 4));
 
-      if (!isBreathingActive) return;
+      if (!isBreathingActive || !mounted) return;
 
       // Hold
       setState(() => breathPhase = 'Hold');
       _speakText('Hold');
       await Future.delayed(const Duration(seconds: 2));
 
-      if (!isBreathingActive) return;
+      if (!isBreathingActive || !mounted) return;
 
       // Breathe out
       setState(() => breathPhase = 'Breathe Out');
@@ -131,13 +131,15 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
       _breathController.reverse();
       await Future.delayed(const Duration(seconds: 4));
 
+      if (!mounted) return;
       setState(() => breathCycles = i + 1);
     }
 
-    if (isBreathingActive) {
+    if (isBreathingActive && mounted) {
       setState(() => breathPhase = 'Great job!');
       _speakText('Great job! You did 3 breaths!');
       await Future.delayed(const Duration(seconds: 2));
+      if (!mounted) return;
       setState(() => isBreathingActive = false);
     }
   }

@@ -110,12 +110,14 @@ class _StrokeOrderPageState extends State<StrokeOrderPage> with TickerProviderSt
     });
 
     for (int i = 0; i < strokes.length; i++) {
+      if (!mounted) return;
       setState(() => currentStroke = i);
       _animationController.reset();
       await _animationController.forward();
       await Future.delayed(const Duration(milliseconds: 300));
     }
 
+    if (!mounted) return;
     setState(() {
       isAnimating = false;
       showAllStrokes = true;

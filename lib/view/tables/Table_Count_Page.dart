@@ -54,9 +54,55 @@ class _TableDetailScreenState extends State<TableDetailScreen>
       ],
       body: Column(
         children: [
+          // Progress bar with percentage
+          Obx(() {
+            final completed = controller.completedCount;
+            final total = 10;
+            final progress = completed / total;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Progress',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '$completed/$total completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12,
@@ -71,6 +117,7 @@ class _TableDetailScreenState extends State<TableDetailScreen>
 
                 return Obx(() {
                   final isSelected = controller.selectedIndex.value == index;
+                  final isCompleted = controller.isEntryCompleted(index);
 
                   return buildAnimatedGridItem(
                     index: index,
@@ -81,11 +128,33 @@ class _TableDetailScreenState extends State<TableDetailScreen>
                       borderRadius: 20,
                       onTap: () => controller.onBoxTap(index),
                       pulseAnimation: pulseAnimation,
-                      child: Center(
-                        child: GradientCardText(
-                          text: '${widget.number} × $multiplier = $product',
-                          fontSize: 18,
-                        ),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: GradientCardText(
+                              text: '${widget.number} × $multiplier = $product',
+                              fontSize: 18,
+                            ),
+                          ),
+                          // Show checkmark if completed
+                          if (isCompleted)
+                            Positioned(
+                              bottom: 4,
+                              right: 4,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 12,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   );

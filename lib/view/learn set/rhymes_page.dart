@@ -206,18 +206,18 @@ class _RhymesPageState extends State<RhymesPage> with TickerProviderStateMixin {
                             // Completed badge
                             if (isCompleted)
                               Positioned(
-                                top: 8,
-                                right: 8,
+                                bottom: 6,
+                                right: 6,
                                 child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.green,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.check,
-                                    color: color,
-                                    size: 16,
+                                    color: Colors.white,
+                                    size: 14,
                                   ),
                                 ),
                               ),
@@ -236,6 +236,9 @@ class _RhymesPageState extends State<RhymesPage> with TickerProviderStateMixin {
   }
 
   void _openRhymeDetail(int index) {
+    // Mark as completed when card is tapped
+    controller.markRhymeCompleted(index);
+
     Get.to(() => RhymeDetailPage(
           initialIndex: index,
           controller: controller,
@@ -260,20 +263,34 @@ class RhymeDetailPage extends StatefulWidget {
   State<RhymeDetailPage> createState() => _RhymeDetailPageState();
 }
 
-class _RhymeDetailPageState extends State<RhymeDetailPage> {
+class _RhymeDetailPageState extends State<RhymeDetailPage>
+    with TickerProviderStateMixin {
   late int currentIndex;
   int highlightedLineIndex = -1;
   int highlightedWordIndex = -1;
+
+  late AnimationController _floatController;
+  late Animation<double> _floatAnimation;
 
   @override
   void initState() {
     super.initState();
     currentIndex = widget.initialIndex;
+
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
   }
 
   void _startSinging() {
     if (widget.controller.isSinging.value) {
       widget.controller.stopSinging();
+      if (!mounted) return;
       setState(() {
         highlightedLineIndex = -1;
         highlightedWordIndex = -1;
@@ -284,12 +301,14 @@ class _RhymeDetailPageState extends State<RhymeDetailPage> {
     widget.controller.startSpeakingWithHighlight(
       currentIndex,
       onLineChanged: (lineIndex) {
+        if (!mounted) return;
         setState(() {
           highlightedLineIndex = lineIndex;
           highlightedWordIndex = -1;
         });
       },
       onWordChanged: (wordIndex) {
+        if (!mounted) return;
         setState(() {
           highlightedWordIndex = wordIndex;
         });
@@ -321,6 +340,7 @@ class _RhymeDetailPageState extends State<RhymeDetailPage> {
 
   @override
   void dispose() {
+    _floatController.dispose();
     widget.controller.stopSinging();
     super.dispose();
   }
@@ -375,47 +395,64 @@ class _RhymeDetailPageState extends State<RhymeDetailPage> {
             }),
             Column(
               children: [
-                // Emoji header
-                Container(
-                  margin: EdgeInsets.all(16),
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        offset: Offset(0, 8),
+                // Emoji header with float animation
+                AnimatedBuilder(
+                  animation: _floatController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, _floatAnimation.value * 0.5),
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Obx(() {
-                        final isSinging = widget.controller.isSinging.value;
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (isSinging)
-                              Text("🎵 ", style: TextStyle(fontSize: 24)),
-                            Text(rhyme['emoji']!, style: TextStyle(fontSize: 60)),
-                            if (isSinging)
-                              Text(" 🎶", style: TextStyle(fontSize: 24)),
-                          ],
-                        );
-                      }),
-                    ],
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
+                          blurRadius: 15,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Obx(() {
+                          final isSinging = widget.controller.isSinging.value;
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (isSinging)
+                                Text("🎵 ", style: TextStyle(fontSize: 24)),
+                              Text(rhyme['emoji']!, style: TextStyle(fontSize: 60)),
+                              if (isSinging)
+                                Text(" 🎶", style: TextStyle(fontSize: 24)),
+                            ],
+                          );
+                        }),
+                      ],
+                    ),
                   ),
                 ),
 
-                // Play/Stop button
-                Obx(() => ElevatedButton.icon(
+                // Play/Stop button with float animation
+                AnimatedBuilder(
+                  animation: _floatController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, -_floatAnimation.value * 0.3),
+                      child: child,
+                    );
+                  },
+                  child: Obx(() => ElevatedButton.icon(
                       onPressed: _startSinging,
                       icon: Icon(
                         widget.controller.isSinging.value
@@ -438,12 +475,21 @@ class _RhymeDetailPageState extends State<RhymeDetailPage> {
                         ),
                       ),
                     )),
+                ),
 
                 SizedBox(height: 16),
 
-                // Lyrics with highlighting
+                // Lyrics with highlighting and float animation
                 Expanded(
-                  child: Container(
+                  child: AnimatedBuilder(
+                    animation: _floatController,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(0, _floatAnimation.value * 0.4),
+                        child: child,
+                      );
+                    },
+                    child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -539,6 +585,7 @@ class _RhymeDetailPageState extends State<RhymeDetailPage> {
                           );
                         }
                       },
+                      ),
                     ),
                   ),
                 ),

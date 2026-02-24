@@ -150,73 +150,75 @@ class _StoriesPageState extends State<StoriesPage>
                       ),
                     ],
                   ),
-                  child: Row(
+                  child: Stack(
                     children: [
-                      Container(
-                        width: 75,
-                        height: 75,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            story['emoji']!,
-                            style: TextStyle(fontSize: 42),
+                      Row(
+                        children: [
+                          Container(
+                            width: 75,
+                            height: 75,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.3),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                story['emoji']!,
+                                style: TextStyle(fontSize: 42),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    story['title']!,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                Text(
+                                  story['title']!,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                if (isCompleted)
-                                  Container(
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.check,
-                                      color: color,
-                                      size: 16,
-                                    ),
+                                SizedBox(height: 4),
+                                Text(
+                                  story['moral']!,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    fontStyle: FontStyle.italic,
                                   ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              story['moral']!,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white.withValues(alpha: 0.9),
-                                fontStyle: FontStyle.italic,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                      if (isCompleted)
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
+                              color: Colors.green,
+                              shape: BoxShape.circle,
                             ),
-                          ],
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                          ),
                         ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 20,
-                      ),
                     ],
                   ),
                 ),
@@ -232,10 +234,16 @@ class _StoriesPageState extends State<StoriesPage>
   }
 
   void _openStoryDetail(int index) {
+    // Mark as completed when card is tapped
+    controller.markStoryCompleted(index);
+
     Get.to(() => StoryDetailPage(
           initialIndex: index,
           controller: controller,
-        ));
+        ))?.then((_) {
+      // Refresh completed stories when coming back
+      controller.refreshCompletedStories();
+    });
   }
 }
 
@@ -253,15 +261,34 @@ class StoryDetailPage extends StatefulWidget {
   State<StoryDetailPage> createState() => _StoryDetailPageState();
 }
 
-class _StoryDetailPageState extends State<StoryDetailPage> {
+class _StoryDetailPageState extends State<StoryDetailPage>
+    with TickerProviderStateMixin {
   late int currentIndex;
   int highlightedLineIndex = -1;
   int highlightedWordIndex = -1;
+
+  late AnimationController _floatController;
+  late Animation<double> _floatAnimation;
 
   @override
   void initState() {
     super.initState();
     currentIndex = widget.initialIndex;
+
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    super.dispose();
   }
 
   void _goToPrevious() {
@@ -289,6 +316,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
   void _startReadingWithHighlight() {
     if (widget.controller.isReading.value) {
       widget.controller.stopReading();
+      if (!mounted) return;
       setState(() {
         highlightedLineIndex = -1;
         highlightedWordIndex = -1;
@@ -297,12 +325,14 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
       widget.controller.startSpeakingWithHighlight(
         currentIndex,
         onLineChanged: (lineIndex) {
+          if (!mounted) return;
           setState(() {
             highlightedLineIndex = lineIndex;
             highlightedWordIndex = -1;
           });
         },
         onWordChanged: (wordIndex) {
+          if (!mounted) return;
           setState(() {
             highlightedWordIndex = wordIndex;
           });
@@ -335,6 +365,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
               highlightedLineIndex = -1;
               highlightedWordIndex = -1;
             });
+            _startReadingWithHighlight();
           },
         ),
       ],
@@ -352,47 +383,64 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
             }),
             Column(
               children: [
-                // Emoji header
-                Container(
-                  margin: EdgeInsets.all(16),
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        offset: Offset(0, 8),
+                // Emoji header with float animation
+                AnimatedBuilder(
+                  animation: _floatController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, _floatAnimation.value * 0.5),
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Obx(() {
-                        final isReading = widget.controller.isReading.value;
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (isReading)
-                              Text("📖 ", style: TextStyle(fontSize: 24)),
-                            Text(story['emoji']!, style: TextStyle(fontSize: 60)),
-                            if (isReading)
-                              Text(" 📚", style: TextStyle(fontSize: 24)),
-                          ],
-                        );
-                      }),
-                    ],
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
+                          blurRadius: 15,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Obx(() {
+                          final isReading = widget.controller.isReading.value;
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (isReading)
+                                Text("📖 ", style: TextStyle(fontSize: 24)),
+                              Text(story['emoji']!, style: TextStyle(fontSize: 60)),
+                              if (isReading)
+                                Text(" 📚", style: TextStyle(fontSize: 24)),
+                            ],
+                          );
+                        }),
+                      ],
+                    ),
                   ),
                 ),
 
-                // Play/Stop button
-                Obx(() => GestureDetector(
+                // Play/Stop button with float animation
+                AnimatedBuilder(
+                  animation: _floatController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, -_floatAnimation.value * 0.3),
+                      child: child,
+                    );
+                  },
+                  child: Obx(() => GestureDetector(
                       onTap: _startReadingWithHighlight,
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 16),
@@ -443,30 +491,39 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
                         ),
                       ),
                     )),
+                ),
 
                 SizedBox(height: 16),
 
-                // Story content with highlighting
+                // Story content with highlighting and float animation
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                          blurRadius: 15,
-                          offset: Offset(0, 8),
+                  child: AnimatedBuilder(
+                    animation: _floatController,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(0, _floatAnimation.value * 0.4),
+                        child: child,
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                      ],
-                    ),
-                    child: ListView.builder(
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
+                            blurRadius: 15,
+                            offset: Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: lines.length,
                       itemBuilder: (context, index) {
@@ -552,6 +609,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
                           );
                         }
                       },
+                      ),
                     ),
                   ),
                 ),

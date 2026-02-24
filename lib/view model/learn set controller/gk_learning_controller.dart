@@ -1,24 +1,19 @@
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jiyan_learning/services/progress_service.dart';
 
 class GKLearningController extends GetxController {
   final FlutterTts flutterTts = FlutterTts();
   final GetStorage box = GetStorage();
-
-  ProgressService get _progressService {
-    if (!Get.isRegistered<ProgressService>()) {
-      Get.put(ProgressService(), permanent: true);
-    }
-    return Get.find<ProgressService>();
-  }
 
   final RxInt currentIndex = 0.obs;
   final RxBool showAnswer = false.obs;
   final RxString selectedCategory = 'Space'.obs;
 
   static const String _cacheKey = 'gk_progress_index';
+
+  // Per-category completed items tracking
+  final RxMap<String, List<int>> _categoryCompleted = <String, List<int>>{}.obs;
 
   // All available categories
   final List<String> categories = [
@@ -632,7 +627,25 @@ class GKLearningController extends GetxController {
   void onInit() {
     super.onInit();
     _loadProgress();
+    _loadAllCategoryProgress();
     _configureTTS();
+  }
+
+  void _loadAllCategoryProgress() {
+    for (var category in categories) {
+      final saved = box.read<List>('gk_completed_$category');
+      _categoryCompleted[category] = saved?.cast<int>() ?? [];
+    }
+  }
+
+  void _markCategoryItemCompleted(int localIndex) {
+    final cat = selectedCategory.value;
+    final list = List<int>.from(_categoryCompleted[cat] ?? []);
+    if (!list.contains(localIndex)) {
+      list.add(localIndex);
+      _categoryCompleted[cat] = list;
+      box.write('gk_completed_$cat', list);
+    }
   }
 
   Future<void> _configureTTS() async {
@@ -666,7 +679,7 @@ class GKLearningController extends GetxController {
 
   void nextQuestion() {
     if (currentIndex.value < filteredQuestions.length - 1) {
-      _progressService.markItemCompleted(ProgressService.kGK, currentIndex.value);
+      _markCategoryItemCompleted(currentIndex.value);
       currentIndex.value++;
       showAnswer.value = false;
       box.write(_cacheKey, currentIndex.value);
@@ -683,7 +696,7 @@ class GKLearningController extends GetxController {
   void revealAnswer() {
     showAnswer.value = true;
     speakAnswer();
-    _progressService.markItemCompleted(ProgressService.kGK, currentIndex.value);
+    _markCategoryItemCompleted(currentIndex.value);
   }
 
   void goToQuestion(int index) {
@@ -693,14 +706,25 @@ class GKLearningController extends GetxController {
     }
   }
 
-  double get progressPercentage =>
-      _progressService.getProgressPercentage(ProgressService.kGK);
+  double get progressPercentage {
+    final cat = selectedCategory.value;
+    final completed = _categoryCompleted[cat]?.length ?? 0;
+    final total = filteredQuestions.length;
+    if (total == 0) return 0;
+    return (completed / total) * 100;
+  }
 
-  String get progressString =>
-      _progressService.getProgressString(ProgressService.kGK);
+  String get progressString {
+    final cat = selectedCategory.value;
+    final completed = _categoryCompleted[cat]?.length ?? 0;
+    final total = filteredQuestions.length;
+    return '$completed/$total';
+  }
 
-  bool isItemCompleted(int index) =>
-      _progressService.isItemCompleted(ProgressService.kGK, index);
+  bool isItemCompleted(int index) {
+    final cat = selectedCategory.value;
+    return (_categoryCompleted[cat] ?? []).contains(index);
+  }
 
   void _loadProgress() {
     final savedIndex = box.read<int>(_cacheKey);
@@ -710,10 +734,13 @@ class GKLearningController extends GetxController {
   }
 
   void resetProgress() {
+    final cat = selectedCategory.value;
     currentIndex.value = 0;
     showAnswer.value = false;
     box.remove(_cacheKey);
-    _progressService.resetProgress(ProgressService.kGK);
+    // Reset only current category
+    _categoryCompleted[cat] = [];
+    box.remove('gk_completed_$cat');
   }
 
   @override

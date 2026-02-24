@@ -76,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     'Montessori': '🎓',
     'Activity-based': '🎯',
     'Experiential': '🎪',
-    'Countries & Flags': '🏳️',
     'World Map': '🗺️',
     'Global Cultures': '🌍',
     'Famous Places': '🏛️',

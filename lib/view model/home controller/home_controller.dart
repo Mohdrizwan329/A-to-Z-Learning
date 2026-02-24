@@ -16,10 +16,7 @@ import 'package:jiyan_learning/view/hindi%20world%20meaning/hindi_letters_page.d
 import 'package:jiyan_learning/view/learn%20set/learning_set_grid_page.dart';
 import 'package:jiyan_learning/view/math%20problem%20&%20solution/Problems_Pages.dart';
 import 'package:jiyan_learning/view/math%20qustion/math_qust_grid_page.dart';
-import 'package:jiyan_learning/view/math%20scanner/math_scanner_page.dart';
 import 'package:jiyan_learning/view/quiz/quiz_page.dart';
-import 'package:jiyan_learning/view/premium/advanced_math_games_page.dart';
-import 'package:jiyan_learning/view/premium/worksheets_page.dart';
 import 'package:jiyan_learning/view/premium/fun_games_page.dart';
 import 'package:jiyan_learning/view/premium/quiz_battle_page.dart';
 // Early Learning
@@ -47,7 +44,6 @@ import 'package:jiyan_learning/view/math/money_concepts_page.dart';
 import 'package:jiyan_learning/view/knowledge/environmental_studies_page.dart';
 import 'package:jiyan_learning/view/knowledge/science_basics_page.dart';
 // Global Awareness
-import 'package:jiyan_learning/view/global_awareness/countries_flags_page.dart';
 import 'package:jiyan_learning/view/global_awareness/world_map_page.dart';
 import 'package:jiyan_learning/view/global_awareness/global_cultures_page.dart';
 import 'package:jiyan_learning/view/global_awareness/famous_places_page.dart';
@@ -127,7 +123,6 @@ import 'package:jiyan_learning/view/social_studies/citizenship_basics_page.dart'
 import 'package:jiyan_learning/view/social_studies/rights_duties_page.dart';
 import 'package:jiyan_learning/view/social_studies/family_relationships_page.dart';
 // Premium (Class 5-6)
-import 'package:jiyan_learning/view/premium/certificates_page.dart';
 // Age Content Service
 import 'package:jiyan_learning/services/age_content_service.dart'
     hide AlphabetType;
@@ -720,26 +715,6 @@ class HomeController extends GetxController {
           AgeGroupFilter.class5To6,
         ],
       ),
-      // Question Scanner/Math Scanner: Class 3-4 and above ONLY (blocked for LKG/UKG per spec)
-      ClassItem(
-        title: 'Question Scanner',
-        subtitle: 'Math Solver',
-        pageBuilder: () => MathScannerPage(),
-        category: 'Math & Logic',
-        emoji: '📷',
-        gradient: [Color(0xFF45B7D1), Color(0xFF74C9DB)],
-        ageGroups: [AgeGroupFilter.class3To4, AgeGroupFilter.class5To6],
-      ),
-      // Advanced Math: Class 3-4 and above
-      ClassItem(
-        title: 'Advanced Math',
-        subtitle: 'Challenge Brain',
-        pageBuilder: () => AdvancedMathGamesPage(),
-        category: 'Math & Logic',
-        emoji: '🧠',
-        gradient: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
-        ageGroups: [AgeGroupFilter.class3To4, AgeGroupFilter.class5To6],
-      ),
       // Money Concepts: LKG/UKG (coins only) and above
       ClassItem(
         title: 'Money Concepts',
@@ -937,16 +912,6 @@ class HomeController extends GetxController {
         category: 'Knowledge',
         emoji: '🗺️',
         gradient: [Color(0xFF45B7D1), Color(0xFF74C9DB)],
-        ageGroups: [AgeGroupFilter.class5To6],
-      ),
-      // Countries & Flags: Class 5-6 ONLY (per spec - Global Awareness)
-      ClassItem(
-        title: 'Countries',
-        subtitle: 'World Nations',
-        pageBuilder: () => CountriesFlagsPage(),
-        category: 'Knowledge',
-        emoji: '🏳️',
-        gradient: [Color(0xFFFF6B6B), Color(0xFFFF8E8E)],
         ageGroups: [AgeGroupFilter.class5To6],
       ),
       // Famous Places: Class 5-6 ONLY (per spec - Global Awareness)
@@ -1166,30 +1131,6 @@ class HomeController extends GetxController {
         ageGroups: [AgeGroupFilter.class5To6],
       ),
 
-      // === SPECIAL FEATURES ===
-      // Class 5-6 ONLY: Certificates, Worksheets, Quiz Battle (already in Games)
-      // Progress Reports and Reports removed from home screen
-
-      // Worksheets: Class 5-6 ONLY (per spec)
-      ClassItem(
-        title: 'Worksheets',
-        subtitle: 'Practice Sheets',
-        pageBuilder: () => WorksheetsPage(),
-        category: 'Special Features',
-        emoji: '📄',
-        gradient: [Color(0xFF74B9FF), Color(0xFF0984E3)],
-        ageGroups: [AgeGroupFilter.class5To6],
-      ),
-      // Certificates: Class 5-6 ONLY (per spec)
-      ClassItem(
-        title: 'Certificates',
-        subtitle: 'Your Achievements',
-        pageBuilder: () => CertificatesPage(),
-        category: 'Special Features',
-        emoji: '🏅',
-        gradient: [Color(0xFFEAB308), Color(0xFFFDE047)],
-        ageGroups: [AgeGroupFilter.class5To6],
-      ),
       // Avatar Shop, Flashcards, PDF Downloads, Custom Themes, Infographics, Learning Path: NOT in spec - removed
 
       // === EXECUTIVE FUNCTION === (Class 3-4 ONLY per spec)

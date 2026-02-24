@@ -130,12 +130,12 @@ class WorldMeaningAlphabetController extends GetxController {
   Future<void> clearCache() async {
     selectedIndexes.clear();
     await box.remove('alphabet_selected');
+    await _progressService.resetProgress(ProgressService.kAlphabetWords);
     debugPrint("Cache cleared");
   }
 
   @override
   void onClose() {
-    clearCache();
     _saveDebounce?.cancel();
     stopTTS();
     super.onClose();

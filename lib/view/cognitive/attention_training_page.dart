@@ -154,10 +154,12 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     for (int i = 0; i < ballPath.length; i++) {
       await Future.delayed(Duration(milliseconds: 600 - (level * 50).clamp(0, 300)));
       if (!isPlaying) return;
+      if (!mounted) return;
       setState(() => currentBallPosition = ballPath[i]);
     }
 
     await Future.delayed(const Duration(milliseconds: 300));
+    if (!mounted) return;
     setState(() {
       showingPath = false;
       waitingForAnswer = true;
@@ -234,6 +236,7 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
 
     quickTapTimer?.cancel();
     quickTapTimer = Timer(Duration(milliseconds: 2000 - (level * 200).clamp(0, 1000)), () {
+      if (!mounted) return;
       if (isPlaying) {
         setState(() {
           quickTapRounds++;
@@ -273,12 +276,15 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
 
     for (int i = 0; i < colorSequence.length; i++) {
       if (!isPlaying) return;
+      if (!mounted) return;
       setState(() => showingIndex = i);
       await Future.delayed(Duration(milliseconds: 800 - (level * 50).clamp(0, 400)));
+      if (!mounted) return;
       setState(() => showingIndex = -1);
       await Future.delayed(const Duration(milliseconds: 200));
     }
 
+    if (!mounted) return;
     setState(() {
       showingSequence = false;
       inputPhase = true;
@@ -321,6 +327,7 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     _speakText('Tap when you see the star!');
 
     streamTimer = Timer.periodic(Duration(milliseconds: 1200 - (level * 100).clamp(0, 600)), (timer) {
+      if (!mounted) { timer.cancel(); return; }
       if (!isPlaying || currentStreamIndex >= streamItems.length) {
         timer.cancel();
         if (isPlaying) {

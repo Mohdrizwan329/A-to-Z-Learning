@@ -145,12 +145,13 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
     });
 
     for (int i = 0; i < lines.length; i++) {
-      if (!isPlaying) break;
+      if (!isPlaying || !mounted) break;
       setState(() => currentLineIndex = i);
       await flutterTts.speak(lines[i]['text']);
       await Future.delayed(const Duration(seconds: 3));
     }
 
+    if (!mounted) return;
     setState(() => isPlaying = false);
   }
 

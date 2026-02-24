@@ -87,6 +87,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage>
     _resendTimer = 30;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
       if (_resendTimer > 0) {
         setState(() => _resendTimer--);
       } else {
@@ -135,6 +139,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage>
 
     setState(() => _isLoading = true);
     await Future.delayed(const Duration(seconds: 1));
+    if (!mounted) return;
     setState(() => _isLoading = false);
 
     if (enteredOtp == _demoOtp) {

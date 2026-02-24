@@ -79,7 +79,12 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
         },
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
-          _isLoaded = false;
+          if (mounted) {
+            setState(() {
+              _isLoaded = false;
+              _bannerAd = null;
+            });
+          }
         },
       ),
     );
@@ -152,59 +157,67 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
 
     // Full width simple ad when no gradient border
     if (!widget.showGradientBorder) {
-      return SizedBox(
-        key: _adKey,
-        width: double.infinity,
-        height: _bannerAd!.size.height.toDouble(),
-        child: AdWidget(ad: _bannerAd!),
-      );
+      try {
+        return SizedBox(
+          key: _adKey,
+          width: double.infinity,
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        );
+      } catch (e) {
+        return const SizedBox.shrink();
+      }
     }
 
-    return Container(
-      key: _adKey,
-      margin: widget.margin ?? EdgeInsets.zero,
-      height: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF667EEA).withValues(alpha: 0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(2),
+    try {
+      return Container(
+        key: _adKey,
+        margin: widget.margin ?? EdgeInsets.zero,
+        height: 60,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
+          gradient: const LinearGradient(
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF667EEA).withValues(alpha: 0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: OverflowBox(
-            alignment: Alignment.topCenter,
-            maxHeight: 100,
-            child: SizedBox(
-              height: 56,
-              child: FittedBox(
-                fit: BoxFit.cover,
-                clipBehavior: Clip.hardEdge,
-                child: SizedBox(
-                  width: _bannerAd!.size.width.toDouble(),
-                  height: _bannerAd!.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
+        child: Container(
+          margin: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: OverflowBox(
+              alignment: Alignment.topCenter,
+              maxHeight: 100,
+              child: SizedBox(
+                height: 56,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  child: SizedBox(
+                    width: _bannerAd!.size.width.toDouble(),
+                    height: _bannerAd!.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd!),
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      return const SizedBox.shrink();
+    }
   }
 }

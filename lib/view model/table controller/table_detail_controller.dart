@@ -15,9 +15,13 @@ class TableDetailController extends GetxController {
 
   var selectedIndex = (-1).obs;
 
+  // Track completed entries
+  final completedEntries = <int>{}.obs;
+
   static final Map<int, int> _stepCache = {};
 
   final String _storageKeyPrefix = 'table_step_';
+  final String _completedKeyPrefix = 'table_completed_';
 
   @override
   void onInit() {
@@ -27,6 +31,7 @@ class TableDetailController extends GetxController {
     _clearSavedStep();
 
     _loadSavedStep();
+    _loadCompletedEntries();
   }
 
   Future<void> _initTts() async {
@@ -93,11 +98,31 @@ class TableDetailController extends GetxController {
     }
   }
 
+  void _loadCompletedEntries() {
+    final saved = box.read<List>('$_completedKeyPrefix$number');
+    if (saved != null && saved.isNotEmpty) {
+      completedEntries.addAll(saved.cast<int>());
+    }
+  }
+
+  void _saveCompletedEntries() {
+    box.write('$_completedKeyPrefix$number', completedEntries.toList());
+  }
+
+  bool isEntryCompleted(int index) => completedEntries.contains(index);
+
+  int get completedCount => completedEntries.length;
+
   void onBoxTap(int index) {
     selectedIndex.value = index;
 
     final multiplier = index + 1;
     _speakRhythmic(number, multiplier);
+
+    if (!completedEntries.contains(index)) {
+      completedEntries.add(index);
+      _saveCompletedEntries();
+    }
 
     if (currentStep.value < index + 1) {
       currentStep.value = index + 1;
@@ -108,6 +133,8 @@ class TableDetailController extends GetxController {
   void resetStep() {
     currentStep.value = 0;
     selectedIndex.value = -1;
+    completedEntries.clear();
     _saveStep();
+    box.remove('$_completedKeyPrefix$number');
   }
 }

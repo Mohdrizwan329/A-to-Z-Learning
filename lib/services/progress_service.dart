@@ -39,6 +39,27 @@ class ProgressService extends GetxService {
   static const String kMusicInstruments = 'progress_music_instruments';
   static const String kMusicFacts = 'progress_music_facts';
   static const String kRhythm = 'progress_rhythm';
+  static const String kWorldMap = 'progress_world_map';
+  static const String kCountriesFlags = 'progress_countries_flags';
+  static const String kFamousPlaces = 'progress_famous_places';
+  static const String kEngineeringKids = 'progress_engineering_kids';
+  static const String kStemChallenges = 'progress_stem_challenges';
+  static const String kSteamLearning = 'progress_steam_learning';
+  static const String kClimateAwareness = 'progress_climate_awareness';
+  static const String kRecyclingKids = 'progress_recycling_kids';
+  static const String kSustainableHabits = 'progress_sustainable_habits';
+  static const String kCitizenshipBasics = 'progress_citizenship_basics';
+  static const String kRights = 'progress_rights';
+  static const String kDuties = 'progress_duties';
+  static const String kThinkAboutThinking = 'progress_think_about_thinking';
+  static const String kSelfReflection = 'progress_self_reflection';
+  static const String kLearningStrategy = 'progress_learning_strategy';
+  static const String kNutritionLearning = 'progress_nutrition_learning';
+  static const String kExerciseFitness = 'progress_exercise_fitness';
+  static const String kMentalHealth = 'progress_mental_health';
+  static const String kBodySafety = 'progress_body_safety';
+  static const String kFamilyRelationships = 'progress_family_relationships';
+  static const String kGlobalCultures = 'progress_global_cultures';
 
   // Animated Videos progress keys
   static const String kAnimatedABC = 'progress_animated_abc';
@@ -70,10 +91,10 @@ class ProgressService extends GetxService {
     kHindiLetters: 48,
     kAlphabetWords: 26,
     kTables: 39, // 2 to 40
-    kMathAddition: 50,
-    kMathSubtraction: 50,
-    kMathMultiplication: 50,
-    kMathDivision: 50,
+    kMathAddition: 90,
+    kMathSubtraction: 90,
+    kMathMultiplication: 90,
+    kMathDivision: 90,
     kAnimals: 30,
     kBirds: 30,
     kFruits: 30,
@@ -95,6 +116,27 @@ class ProgressService extends GetxService {
     kMusicInstruments: 8,
     kMusicFacts: 10,
     kRhythm: 5,
+    kWorldMap: 8,
+    kCountriesFlags: 8,
+    kFamousPlaces: 8,
+    kEngineeringKids: 7,
+    kStemChallenges: 8,
+    kSteamLearning: 7,
+    kClimateAwareness: 8,
+    kRecyclingKids: 7,
+    kSustainableHabits: 7,
+    kCitizenshipBasics: 6,
+    kRights: 8,
+    kDuties: 8,
+    kThinkAboutThinking: 6,
+    kSelfReflection: 6,
+    kLearningStrategy: 8,
+    kNutritionLearning: 7,
+    kExerciseFitness: 8,
+    kMentalHealth: 9,
+    kBodySafety: 8,
+    kFamilyRelationships: 6,
+    kGlobalCultures: 9,
     // Animated Videos categories
     kAnimatedABC: 8,
     kAnimatedNumbers: 10,
@@ -155,6 +197,16 @@ class ProgressService extends GetxService {
     }
   }
 
+  // Mark an item as uncompleted
+  Future<void> markItemUncompleted(String category, int itemIndex) async {
+    List<int> completed = getCompletedItemsList(category);
+    if (completed.contains(itemIndex)) {
+      completed.remove(itemIndex);
+      await _storage.write('${category}_completed', completed);
+      completedItems[category] = completed.length;
+    }
+  }
+
   // Mark multiple items as completed
   Future<void> markItemsCompleted(String category, List<int> itemIndexes) async {
     List<int> completed = getCompletedItemsList(category);
@@ -179,13 +231,15 @@ class ProgressService extends GetxService {
 
   // Check if item is completed
   bool isItemCompleted(String category, int itemIndex) {
+    // Access observable to register with GetX reactivity
+    completedItems[category];
     return getCompletedItemsList(category).contains(itemIndex);
   }
 
   // Get progress percentage for a category
   double getProgressPercentage(String category) {
     final completed = completedItems[category] ?? 0;
-    final total = totalItems[category] ?? 1;
+    final total = totalItems[category] ?? categoryTotals[category] ?? 1;
     if (total == 0) return 0;
     return (completed / total) * 100;
   }
@@ -193,7 +247,7 @@ class ProgressService extends GetxService {
   // Get progress fraction string (e.g., "5/26")
   String getProgressString(String category) {
     final completed = completedItems[category] ?? 0;
-    final total = totalItems[category] ?? 0;
+    final total = totalItems[category] ?? categoryTotals[category] ?? 0;
     return '$completed/$total';
   }
 

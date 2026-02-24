@@ -1,336 +1,234 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:jiyan_learning/view%20model/family_relationships_controller/family_relationships_controller.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/view/social_studies/family_relationships_detail_page.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 class FamilyRelationshipsPage extends StatefulWidget {
   const FamilyRelationshipsPage({super.key});
 
   @override
-  State<FamilyRelationshipsPage> createState() => _FamilyRelationshipsPageState();
+  State<FamilyRelationshipsPage> createState() =>
+      _FamilyRelationshipsPageState();
 }
 
-class _FamilyRelationshipsPageState extends State<FamilyRelationshipsPage> {
-  final FlutterTts flutterTts = FlutterTts();
-  int currentSection = 0;
-
-  final List<Map<String, dynamic>> sections = [
-    {
-      'title': 'My Family',
-      'emoji': '👨‍👩‍👧‍👦',
-      'color': Color(0xFFFF6B6B),
-      'members': [
-        {'name': 'Mother', 'emoji': '👩', 'hindi': 'माँ (Maa)', 'role': 'Takes care of us with love'},
-        {'name': 'Father', 'emoji': '👨', 'hindi': 'पिता (Pita)', 'role': 'Protects and provides for family'},
-        {'name': 'Sister', 'emoji': '👧', 'hindi': 'बहन (Behen)', 'role': 'A friend to play and share with'},
-        {'name': 'Brother', 'emoji': '👦', 'hindi': 'भाई (Bhai)', 'role': 'A friend to learn and grow with'},
-      ],
-    },
-    {
-      'title': 'Grandparents',
-      'emoji': '👴👵',
-      'color': Color(0xFF4ECDC4),
-      'members': [
-        {'name': 'Grandfather', 'emoji': '👴', 'hindi': 'दादा/नाना', 'role': 'Tells stories and gives wisdom'},
-        {'name': 'Grandmother', 'emoji': '👵', 'hindi': 'दादी/नानी', 'role': 'Cooks yummy food and gives hugs'},
-      ],
-    },
-    {
-      'title': 'Extended Family',
-      'emoji': '👥',
-      'color': Color(0xFF45B7D1),
-      'members': [
-        {'name': 'Uncle', 'emoji': '👨', 'hindi': 'चाचा/मामा', 'role': 'Father\'s or Mother\'s brother'},
-        {'name': 'Aunt', 'emoji': '👩', 'hindi': 'चाची/मामी', 'role': 'Father\'s or Mother\'s sister'},
-        {'name': 'Cousin', 'emoji': '🧒', 'hindi': 'चचेरा भाई/बहन', 'role': 'Uncle or Aunt\'s children'},
-      ],
-    },
-    {
-      'title': 'Family Values',
-      'emoji': '❤️',
-      'color': Color(0xFF9B59B6),
-      'values': [
-        {'name': 'Love', 'emoji': '💕', 'meaning': 'Care for each other always'},
-        {'name': 'Respect', 'emoji': '🙏', 'meaning': 'Listen and be polite to elders'},
-        {'name': 'Sharing', 'emoji': '🤝', 'meaning': 'Share toys, food, and happiness'},
-        {'name': 'Helping', 'emoji': '🤲', 'meaning': 'Help with chores and tasks'},
-        {'name': 'Honesty', 'emoji': '✨', 'meaning': 'Always tell the truth'},
-      ],
-    },
-    {
-      'title': 'Types of Families',
-      'emoji': '🏠',
-      'color': Color(0xFFF39C12),
-      'types': [
-        {'name': 'Nuclear Family', 'emoji': '👨‍👩‍👧', 'desc': 'Parents and children living together'},
-        {'name': 'Joint Family', 'emoji': '👨‍👩‍👧‍👦👴👵', 'desc': 'Grandparents, parents, and children together'},
-        {'name': 'Single Parent', 'emoji': '👩‍👧', 'desc': 'One parent taking care of children'},
-        {'name': 'Extended Family', 'emoji': '👥', 'desc': 'Relatives living together or nearby'},
-      ],
-    },
-    {
-      'title': 'Being a Good Family Member',
-      'emoji': '🌟',
-      'color': Color(0xFF1ABC9C),
-      'tips': [
-        {'emoji': '👂', 'tip': 'Listen to your parents and elders'},
-        {'emoji': '🤗', 'tip': 'Give hugs and say "I love you"'},
-        {'emoji': '🧹', 'tip': 'Help with household chores'},
-        {'emoji': '📚', 'tip': 'Do your homework on time'},
-        {'emoji': '😊', 'tip': 'Be kind to your siblings'},
-        {'emoji': '🙏', 'tip': 'Say please and thank you'},
-      ],
-    },
-  ];
+class _FamilyRelationshipsPageState extends State<FamilyRelationshipsPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  final FamilyRelationshipsController controller =
+      Get.put(FamilyRelationshipsController());
 
   @override
   void initState() {
     super.initState();
-    _initTts();
-  }
-
-  Future<void> _initTts() async {
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setSpeechRate(0.4);
-  }
-
-  Future<void> _speak(String text) async {
-    await flutterTts.speak(text);
+    initGridAnimations(this, floatRange: 3.0);
   }
 
   @override
   void dispose() {
-    flutterTts.stop();
+    disposeGridAnimations();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final section = sections[currentSection];
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Family & Relationships',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildProgressDots(),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: _buildSectionContent(section),
-                ),
-              ),
-              _buildNavButtons(section),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  Widget _buildProgressDots() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(sections.length, (index) {
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: index == currentSection ? 24 : 10,
-            height: 10,
+    return GradientScaffold(
+      title: 'Family & Relationships',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: index == currentSection ? Colors.white : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(5),
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
-          );
-        }),
-      ),
-    );
-  }
-
-  Widget _buildSectionContent(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () => _speak(section['title']),
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, offset: const Offset(0, 10))],
-            ),
-            child: Column(
-              children: [
-                Text(section['emoji'], style: const TextStyle(fontSize: 60)),
-                const SizedBox(height: 12),
-                Text(section['title'], style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold, color: section['color'])),
-              ],
-            ),
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
+          onPressed: () => controller.resetExpanded(),
         ),
-        const SizedBox(height: 20),
-        if (section.containsKey('members')) ..._buildMemberCards(section),
-        if (section.containsKey('values')) ..._buildValueCards(section),
-        if (section.containsKey('types')) ..._buildTypeCards(section),
-        if (section.containsKey('tips')) ..._buildTipCards(section),
       ],
-    );
-  }
-
-  List<Widget> _buildMemberCards(Map<String, dynamic> section) {
-    return (section['members'] as List).map<Widget>((member) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
-        child: Row(
-          children: [
-            Text(member['emoji'], style: const TextStyle(fontSize: 40)),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(member['name'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: section['color'], fontSize: 18)),
-                  Text(member['hindi'], style: GoogleFonts.nunito(color: Colors.grey.shade600, fontSize: 14)),
-                  Text(member['role'], style: GoogleFonts.nunito(color: Colors.grey.shade700, fontSize: 12)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> _buildValueCards(Map<String, dynamic> section) {
-    return (section['values'] as List).map<Widget>((value) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
-        child: Row(
-          children: [
-            Text(value['emoji'], style: const TextStyle(fontSize: 32)),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(value['name'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: section['color'])),
-                  Text(value['meaning'], style: GoogleFonts.nunito(color: Colors.grey.shade700)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> _buildTypeCards(Map<String, dynamic> section) {
-    return (section['types'] as List).map<Widget>((type) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
-        child: Row(
-          children: [
-            Text(type['emoji'], style: const TextStyle(fontSize: 28)),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(type['name'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: section['color'])),
-                  Text(type['desc'], style: GoogleFonts.nunito(color: Colors.grey.shade700, fontSize: 12)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> _buildTipCards(Map<String, dynamic> section) {
-    return (section['tips'] as List).map<Widget>((tip) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(14)),
-        child: Row(
-          children: [
-            Text(tip['emoji'], style: const TextStyle(fontSize: 28)),
-            const SizedBox(width: 14),
-            Expanded(child: Text(tip['tip'], style: GoogleFonts.nunito(color: Colors.grey.shade700, fontWeight: FontWeight.w600))),
-          ],
-        ),
-      );
-    }).toList();
-  }
-
-  Widget _buildNavButtons(Map<String, dynamic> section) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
         children: [
-          if (currentSection > 0)
-            ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection--),
-              icon: const Icon(Icons.arrow_back),
-              label: const Text('Back'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: section['color'], shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-            )
-          else const SizedBox(width: 100),
-          if (currentSection < sections.length - 1)
-            ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection++),
-              icon: const Icon(Icons.arrow_forward),
-              label: const Text('Next'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: section['color'], shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-            )
-          else
-            ElevatedButton.icon(
-              onPressed: () => Get.back(),
-              icon: const Icon(Icons.check),
-              label: const Text('Done!'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+          Obx(() {
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kFamilyRelationships,
+                ) /
+                100;
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kFamilyRelationships,
+            );
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Progress',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '$progressString completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.1,
+              ),
+              itemCount: controller.sections.length,
+              itemBuilder: (context, index) {
+                final section = controller.sections[index];
+                final gradient = AppColors.getGradientForIndex(index);
+
+                return Obx(() {
+                  final isCompleted = controller.isSectionCompleted(index);
+
+                  return buildFloatingItem(
+                    index: index,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.toggleExpanded(index);
+                        Get.to(
+                          () => FamilyRelationshipsDetailPage(
+                            sectionIndex: index,
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: gradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: gradient[0].withValues(alpha: 0.4),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: -15,
+                              right: -15,
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 75,
+                                      height: 75,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.3,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          section['emoji'],
+                                          style: const TextStyle(fontSize: 35),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      section['title'],
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        height: 1.1,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            if (isCompleted)
+                              Positioned(
+                                bottom: 4,
+                                right: 4,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 12,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                });
+              },
             ),
+          ),
         ],
       ),
+      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

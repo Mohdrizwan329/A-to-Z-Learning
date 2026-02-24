@@ -191,22 +191,6 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.25),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Text(
-                      "Practice",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

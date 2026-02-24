@@ -56,6 +56,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
 
     setState(() => _isLoading = true);
     await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
     setState(() => _isLoading = false);
 
     Get.snackbar(

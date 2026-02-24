@@ -125,14 +125,14 @@ class _HindiLettersPageState extends State<HindiLettersPage>
                       pulseAnimation: pulseAnimation,
                       child: Stack(
                         children: [
-                          _buildCardContent(item),
+                          Center(child: _buildCardContent(item)),
                           // Show checkmark if completed
                           if (isCompleted)
                             Positioned(
-                              top: 4,
-                              right: 4,
+                              bottom: 6,
+                              right: 6,
                               child: Container(
-                                padding: const EdgeInsets.all(2),
+                                padding: const EdgeInsets.all(3),
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
@@ -140,7 +140,7 @@ class _HindiLettersPageState extends State<HindiLettersPage>
                                 child: const Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 12,
+                                  size: 14,
                                 ),
                               ),
                             ),

@@ -47,6 +47,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
 
     setState(() => _isLoading = true);
     await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
     setState(() => _isLoading = false);
 
     // Full phone number with country code

@@ -408,6 +408,14 @@ Happy birthday to you!''',
 
   bool isRhymeCompleted(int index) => completedRhymes.contains(index);
 
+  /// Mark a rhyme as completed (called when card is tapped)
+  void markRhymeCompleted(int index) {
+    _progressService.markItemCompleted(ProgressService.kRhymes, index);
+    if (!completedRhymes.contains(index)) {
+      completedRhymes.add(index);
+    }
+  }
+
   void refreshCompletedRhymes() {
     completedRhymes.clear();
     for (int i = 0; i < rhymes.length; i++) {

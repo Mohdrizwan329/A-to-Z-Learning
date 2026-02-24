@@ -41,9 +41,7 @@ class GradientCard extends StatelessWidget {
           isSelected ? AppColors.selectedGradient[0] : gradient[0],
           isSelected: isSelected,
         ),
-        border: isSelected
-            ? Border.all(color: Colors.white, width: 3)
-            : null,
+        border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
       ),
       child: Stack(
         children: [
@@ -104,10 +102,7 @@ class GradientCard extends StatelessWidget {
       );
     }
 
-    return GestureDetector(
-      onTap: onTap,
-      child: card,
-    );
+    return GestureDetector(onTap: onTap, child: card);
   }
 }
 
@@ -136,7 +131,8 @@ class GradientCardText extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         color: color,
-        shadows: shadows ??
+        shadows:
+            shadows ??
             [
               Shadow(
                 color: Colors.black.withValues(alpha: 0.3),
@@ -226,10 +222,7 @@ class GradientCardEmoji extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          emoji,
-          style: TextStyle(fontSize: emojiSize),
-        ),
+        Text(emoji, style: TextStyle(fontSize: emojiSize)),
         if (label != null) ...[
           const SizedBox(height: 4),
           Text(

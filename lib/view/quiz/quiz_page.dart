@@ -1224,12 +1224,12 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
     if (isCorrect) {
       _correctAnswers++;
       _score += 10;
-      _feedbackController.forward(from: 0);
     }
+    _feedbackController.forward(from: 0);
   }
 
   void _goToNextQuestion() {
-    if (!_answered || !_isCorrect) return;
+    if (!_answered) return;
 
     if (_currentQuestionIndex < _questions.length - 1) {
       setState(() {
@@ -1660,208 +1660,229 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
 
                   const SizedBox(height: 24),
 
-                  // Options
+                  // Options as 2x2 animated grid cards
                   Expanded(
-                    child: SingleChildScrollView(
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          ...options.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final option = entry.value;
-                            final isSelected = _selectedAnswer == option;
-                            final isCorrect = option == question['answer'];
-                            final showResult = _answered;
+                          Expanded(
+                            child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 14,
+                                crossAxisSpacing: 14,
+                                childAspectRatio: 1.3,
+                              ),
+                              itemCount: options.length,
+                              itemBuilder: (context, index) {
+                                final option = options[index];
+                                final isSelected = _selectedAnswer == option;
+                                final isCorrectOption =
+                                    option == question['answer'];
+                                final showResult = _answered;
+                                final optionLabels = ['A', 'B', 'C', 'D'];
 
-                            Color bgColor = Colors.white;
-                            Color textColor = Colors.black87;
-                            IconData? icon;
-                            List<Color> gradientColors = [
-                              Colors.white,
-                              Colors.white,
-                            ];
-
-                            if (showResult) {
-                              if (isCorrect) {
-                                gradientColors = [
-                                  const Color(0xFF56D97F),
-                                  const Color(0xFF11998E),
-                                ];
-                                textColor = Colors.white;
-                                icon = Icons.check_circle;
-                              } else if (isSelected) {
-                                gradientColors = [
-                                  const Color(0xFFFF6B6B),
-                                  const Color(0xFFFF8E53),
-                                ];
-                                textColor = Colors.white;
-                                icon = Icons.cancel;
-                              }
-                            }
-
-                            final optionLabels = ['A', 'B', 'C', 'D'];
-
-                            return GestureDetector(
-                              onTap: () => _selectAnswer(option),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                margin: const EdgeInsets.only(bottom: 12),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  gradient:
-                                      showResult && (isCorrect || isSelected)
-                                      ? LinearGradient(colors: gradientColors)
-                                      : null,
-                                  color: showResult && (isCorrect || isSelected)
-                                      ? null
-                                      : bgColor,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: isSelected && !showResult
-                                      ? Border.all(
-                                          color: const Color(0xFF56D97F),
-                                          width: 3,
-                                        )
-                                      : Border.all(
-                                          color: Colors.grey.shade200,
-                                          width: 1,
-                                        ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.1,
-                                      ),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 4),
-                                    ),
+                                // Card gradient colors
+                                final List<List<Color>> cardGradients = [
+                                  [
+                                    const Color(0xFFFF6B6B),
+                                    const Color(0xFFFF8E53),
                                   ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 36,
-                                      height: 36,
+                                  [
+                                    const Color(0xFF4ECDC4),
+                                    const Color(0xFF44A08D),
+                                  ],
+                                  [
+                                    const Color(0xFFa18cd1),
+                                    const Color(0xFFfbc2eb),
+                                  ],
+                                  [
+                                    const Color(0xFFFFD700),
+                                    const Color(0xFFFFA500),
+                                  ],
+                                ];
+
+                                List<Color> gradientColors =
+                                    cardGradients[index];
+
+                                if (showResult) {
+                                  if (isCorrectOption) {
+                                    gradientColors = [
+                                      const Color(0xFF56D97F),
+                                      const Color(0xFF11998E),
+                                    ];
+                                  } else if (isSelected) {
+                                    gradientColors = [
+                                      const Color(0xFFFF4444),
+                                      const Color(0xFFCC0000),
+                                    ];
+                                  }
+                                }
+
+                                return AnimatedBuilder(
+                                  animation: _floatController,
+                                  builder: (context, child) {
+                                    final floatOffset = (index % 2 == 0)
+                                        ? _floatAnimation.value * 0.5
+                                        : -_floatAnimation.value * 0.5;
+                                    return Transform.translate(
+                                      offset: Offset(0, floatOffset),
+                                      child: child,
+                                    );
+                                  },
+                                  child: GestureDetector(
+                                    onTap: () => _selectAnswer(option),
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       decoration: BoxDecoration(
-                                        color:
-                                            showResult &&
-                                                (isCorrect || isSelected)
-                                            ? Colors.white.withValues(
-                                                alpha: 0.3,
-                                              )
-                                            : const Color(
-                                                0xFF667EEA,
-                                              ).withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          optionLabels[index],
-                                          style: GoogleFonts.nunito(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color:
-                                                showResult &&
-                                                    (isCorrect || isSelected)
-                                                ? Colors.white
-                                                : const Color(0xFF667EEA),
+                                        gradient: LinearGradient(
+                                          colors: gradientColors,
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: gradientColors[0]
+                                                .withValues(alpha: 0.4),
+                                            blurRadius: 8,
+                                            offset: const Offset(0, 4),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Text(
-                                        option,
-                                        style: GoogleFonts.nunito(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: textColor,
-                                        ),
-                                      ),
-                                    ),
-                                    if (icon != null)
-                                      Icon(icon, color: Colors.white, size: 28),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-
-                          // Feedback message and Clear button in a Row (when wrong)
-                          if (_answered && !_isCorrect)
-                            Container(
-                              margin: const EdgeInsets.only(top: 8),
-                              child: Row(
-                                children: [
-                                  // Wrong message
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 12,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Text(
-                                        '✗ Wrong! Try again!',
-                                        style: GoogleFonts.nunito(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                        textAlign: TextAlign.center,
+                                      child: Stack(
+                                        children: [
+                                          // Decorative circle
+                                          Positioned(
+                                            top: -15,
+                                            right: -15,
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.15),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: -10,
+                                            left: -10,
+                                            child: Container(
+                                              width: 35,
+                                              height: 35,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.1),
+                                              ),
+                                            ),
+                                          ),
+                                          // Content
+                                          Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  // Option label circle
+                                                  Container(
+                                                    width: 36,
+                                                    height: 36,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha: 0.3),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Center(
+                                                      child: showResult &&
+                                                              (isCorrectOption ||
+                                                                  isSelected)
+                                                          ? Icon(
+                                                              isCorrectOption
+                                                                  ? Icons
+                                                                      .check_circle
+                                                                  : Icons
+                                                                      .cancel,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 24,
+                                                            )
+                                                          : Text(
+                                                              optionLabels[
+                                                                  index],
+                                                              style: GoogleFonts
+                                                                  .baloo2(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  // Option text
+                                                  Text(
+                                                    option,
+                                                    style: GoogleFonts.nunito(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
-                                  // Clear button
-                                  ElevatedButton.icon(
-                                    onPressed: _clearAndTryAgain,
-                                    icon: const Icon(Icons.refresh, size: 20),
-                                    label: Text(
-                                      'Clear',
-                                      style: GoogleFonts.nunito(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.orange,
-                                      foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 12,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
+                          ),
 
-                          // Correct message
-                          if (_answered && _isCorrect)
+                          // Feedback message
+                          if (_answered)
                             AnimatedBuilder(
                               animation: _feedbackAnimation,
                               builder: (context, child) {
                                 return Transform.scale(
                                   scale: _feedbackAnimation.value,
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 8),
+                                    margin: const EdgeInsets.only(bottom: 12),
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 24,
-                                      vertical: 12,
+                                      vertical: 10,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: _isCorrect
+                                          ? Colors.green
+                                          : Colors.red,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      '✓ Correct! Great job!',
+                                      _isCorrect
+                                          ? '✓ Correct! Great job!'
+                                          : '✗ Wrong!',
                                       style: GoogleFonts.nunito(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
                                       ),
@@ -1871,15 +1892,14 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                               },
                             ),
 
-                          const SizedBox(height: 16),
                         ],
                       ),
                     ),
                   ),
 
-                  // Navigation buttons
+                  // Navigation buttons - Previous, Refresh, Next
                   Container(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
                     child: Row(
                       children: [
                         // Previous button
@@ -1888,62 +1908,75 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                             onPressed: _currentQuestionIndex > 0
                                 ? _goToPreviousQuestion
                                 : null,
-                            icon: const Icon(Icons.arrow_back_ios, size: 18),
+                            icon: const Icon(Icons.arrow_back_ios, size: 16),
                             label: Text(
                               'Previous',
                               style: GoogleFonts.nunito(
                                 fontWeight: FontWeight.bold,
+                                fontSize: 13,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white.withValues(
-                                alpha: 0.9,
-                              ),
+                              backgroundColor:
+                                  Colors.white.withValues(alpha: 0.9),
                               foregroundColor: const Color(0xFF667EEA),
-                              disabledBackgroundColor: Colors.white.withValues(
-                                alpha: 0.3,
-                              ),
-                              disabledForegroundColor: Colors.white.withValues(
-                                alpha: 0.5,
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              disabledBackgroundColor:
+                                  Colors.white.withValues(alpha: 0.3),
+                              disabledForegroundColor:
+                                  Colors.white.withValues(alpha: 0.5),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(14),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 8),
+                        // Refresh button
+                        ElevatedButton(
+                          onPressed: _answered ? _clearAndTryAgain : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            foregroundColor: Colors.white,
+                            disabledBackgroundColor:
+                                Colors.white.withValues(alpha: 0.3),
+                            disabledForegroundColor:
+                                Colors.white.withValues(alpha: 0.5),
+                            padding: const EdgeInsets.all(12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            minimumSize: const Size(48, 48),
+                          ),
+                          child:
+                              const Icon(Icons.refresh_rounded, size: 22),
+                        ),
+                        const SizedBox(width: 8),
                         // Next button
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: (_answered && _isCorrect)
-                                ? _goToNextQuestion
-                                : null,
+                            onPressed: _answered ? _goToNextQuestion : null,
                             icon: Text(
                               _currentQuestionIndex == _questions.length - 1
                                   ? 'Finish'
                                   : 'Next',
                               style: GoogleFonts.nunito(
                                 fontWeight: FontWeight.bold,
+                                fontSize: 13,
                               ),
                             ),
                             label: const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 18,
-                            ),
+                                Icons.arrow_forward_ios, size: 16),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF56D97F),
                               foregroundColor: Colors.white,
-                              disabledBackgroundColor: Colors.grey.withValues(
-                                alpha: 0.5,
-                              ),
-                              disabledForegroundColor: Colors.white.withValues(
-                                alpha: 0.5,
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              disabledBackgroundColor:
+                                  Colors.grey.withValues(alpha: 0.5),
+                              disabledForegroundColor:
+                                  Colors.white.withValues(alpha: 0.5),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(14),
                               ),
                             ),
                           ),

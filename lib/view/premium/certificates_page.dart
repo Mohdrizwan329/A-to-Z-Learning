@@ -1584,6 +1584,7 @@ class _CertificatesPageState extends State<CertificatesPage>
   void _toggleVoiceSearch() async {
     if (speechService.isListening.value) {
       await speechService.stopListening();
+      if (!mounted) return;
       // Apply the recognized text to search
       final text = speechService.recognizedText.value;
       if (text.isNotEmpty) {
@@ -1615,6 +1616,7 @@ class _CertificatesPageState extends State<CertificatesPage>
         await speechService.startListening(
           locale: 'en_IN',
           onResultCallback: (recognizedText) {
+            if (!mounted) return;
             setState(() {
               _searchController.text = recognizedText;
               _searchQuery = recognizedText;

@@ -17,6 +17,8 @@ class _GKLearningPageState extends State<GKLearningPage>
 
   late AnimationController _flipController;
   late Animation<double> _flipAnimation;
+  late AnimationController _floatController;
+  late Animation<double> _floatAnimation;
   late TabController _tabController;
 
   @override
@@ -43,12 +45,22 @@ class _GKLearningPageState extends State<GKLearningPage>
     _flipAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _flipController, curve: Curves.easeInOut),
     );
+
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     _flipController.dispose();
+    _floatController.dispose();
     super.dispose();
   }
 
@@ -160,40 +172,49 @@ class _GKLearningPageState extends State<GKLearningPage>
 
               const SizedBox(height: 20),
 
-              // Question Card
-              SizedBox(
-                height: 370,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 4,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (!controller.showAnswer.value) {
-                          controller.revealAnswer();
-                          _flipController.forward();
-                        } else {
-                          controller.showAnswer.value = false;
-                          _flipController.reverse();
-                        }
-                      },
-                      child: AnimatedBuilder(
-                        animation: _flipAnimation,
-                        builder: (context, child) {
-                          return Transform(
-                            transform: Matrix4.identity()
-                              ..setEntry(3, 2, 0.001)
-                              ..rotateY(_flipAnimation.value * 3.14159),
-                            alignment: Alignment.center,
-                            child:
-                                controller.showAnswer.value &&
-                                    _flipAnimation.value >= 0.5
-                                ? _buildAnswerCard(question)
-                                : _buildQuestionCard(question),
-                          );
+              // Question Card with float animation
+              AnimatedBuilder(
+                animation: _floatController,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, _floatAnimation.value * 0.5),
+                    child: child,
+                  );
+                },
+                child: SizedBox(
+                  height: 370,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (!controller.showAnswer.value) {
+                            controller.revealAnswer();
+                            _flipController.forward();
+                          } else {
+                            controller.showAnswer.value = false;
+                            _flipController.reverse();
+                          }
                         },
+                        child: AnimatedBuilder(
+                          animation: _flipAnimation,
+                          builder: (context, child) {
+                            return Transform(
+                              transform: Matrix4.identity()
+                                ..setEntry(3, 2, 0.001)
+                                ..rotateY(_flipAnimation.value * 3.14159),
+                              alignment: Alignment.center,
+                              child:
+                                  controller.showAnswer.value &&
+                                      _flipAnimation.value >= 0.5
+                                  ? _buildAnswerCard(question)
+                                  : _buildQuestionCard(question),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

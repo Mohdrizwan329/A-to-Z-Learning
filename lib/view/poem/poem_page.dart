@@ -294,12 +294,14 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
 
     controller.startSpeakingLines(
       onLineChanged: (lineIndex) {
+        if (!mounted) return;
         setState(() {
           highlightedLineIndex = lineIndex;
           highlightedWordIndex = -1;
         });
       },
       onWordChanged: (wordIndex) {
+        if (!mounted) return;
         setState(() {
           highlightedWordIndex = wordIndex;
         });
@@ -331,12 +333,14 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
           onPressed: () {
             controller.startSpeakingLines(
               onLineChanged: (lineIndex) {
+                if (!mounted) return;
                 setState(() {
                   highlightedLineIndex = lineIndex;
                   highlightedWordIndex = -1;
                 });
               },
               onWordChanged: (wordIndex) {
+                if (!mounted) return;
                 setState(() {
                   highlightedWordIndex = wordIndex;
                 });

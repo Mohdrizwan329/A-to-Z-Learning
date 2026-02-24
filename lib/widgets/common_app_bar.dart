@@ -29,7 +29,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = gradientColors ?? [const Color(0xFFFF6B6B), const Color(0xFFFF8E53), const Color(0xFFFFAA5A)];
+    final colors =
+        gradientColors ??
+        [
+          const Color(0xFFFF6B6B),
+          const Color(0xFFFF8E53),
+          const Color(0xFFFFAA5A),
+        ];
 
     return AppBar(
       leading: showBackButton
@@ -71,10 +77,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (subtitle != null)
             Text(
               subtitle!,
-              style: GoogleFonts.nunito(
-                fontSize: 12,
-                color: Colors.white70,
-              ),
+              style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70),
             ),
         ],
       ),

@@ -353,6 +353,23 @@ The prince realized these were all animals he had helped before. His kindness ha
 
   bool isStoryCompleted(int index) => completedStories.contains(index);
 
+  /// Mark a story as completed (called when card is tapped)
+  void markStoryCompleted(int index) {
+    _progressService.markItemCompleted(ProgressService.kStories, index);
+    if (!completedStories.contains(index)) {
+      completedStories.add(index);
+    }
+  }
+
+  void refreshCompletedStories() {
+    completedStories.clear();
+    for (int i = 0; i < stories.length; i++) {
+      if (_progressService.isItemCompleted(ProgressService.kStories, i)) {
+        completedStories.add(i);
+      }
+    }
+  }
+
   void resetProgress() {
     completedStories.clear();
     currentStoryIndex.value = 0;

@@ -36,7 +36,7 @@ class AppColors {
   static const List<List<Color>> cardGradients = [
     [Color(0xFFFF6B6B), Color(0xFFFF8E8E)], // Red
     [Color(0xFFFFAA5A), Color(0xFFFFCB80)], // Orange
-    [Color(0xFFFFE66D), Color(0xFFFFF59D)], // Yellow
+    [Color(0xFF42A5F5), Color(0xFF64B5F6)], // Sky Blue
     [Color(0xFF4ECDC4), Color(0xFF7EDDD6)], // Teal
     [Color(0xFF45B7D1), Color(0xFF74C9DB)], // Blue
     [Color(0xFFA78BFA), Color(0xFFC4B5FD)], // Purple

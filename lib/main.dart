@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import 'package:jiyan_learning/services/app_settings_service.dart';
 import 'package:jiyan_learning/services/rewards_service.dart';
 import 'package:jiyan_learning/services/daily_goals_service.dart';
 import 'package:jiyan_learning/services/screen_time_service.dart';
-// New services
+//  New services
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 import 'package:jiyan_learning/services/smart_learning_service.dart';
 import 'package:jiyan_learning/services/avatar_coins_service.dart';
@@ -95,9 +94,6 @@ Future<void> main() async {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
-    if (kReleaseMode) {
-      exit(1);
-    }
   };
 
   runApp(const MyApp());

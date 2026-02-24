@@ -1543,6 +1543,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
   void _toggleVoiceSearch() async {
     if (speechService.isListening.value) {
       await speechService.stopListening();
+      if (!mounted) return;
       final text = speechService.recognizedText.value;
       if (text.isNotEmpty) {
         setState(() {
@@ -1561,6 +1562,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
         await speechService.startListening(
           locale: 'en_IN',
           onResultCallback: (recognizedText) {
+            if (!mounted) return;
             setState(() {
               _searchController.text = recognizedText;
               _searchQuery = recognizedText;

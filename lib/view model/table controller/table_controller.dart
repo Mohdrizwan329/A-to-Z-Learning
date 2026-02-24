@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
 
 class TableController extends GetxController {
   final FlutterTts flutterTts = FlutterTts();
   final box = GetStorage();
+  final ProgressService _progressService = Get.find<ProgressService>();
 
   static const List<String> hindiMultipliers = [
     "1",
@@ -85,17 +87,22 @@ class TableController extends GetxController {
   void toggleExpanded(int index, int number) {
     if (expandedIndexes.contains(index)) {
       expandedIndexes.remove(index);
+      _progressService.markItemUncompleted(ProgressService.kTables, index);
     } else {
       expandedIndexes.add(index);
       speakTable(number);
+      _progressService.markItemCompleted(ProgressService.kTables, index);
     }
     _saveToCache();
   }
 
+  // Check if a table is completed (visited)
+  bool isTableCompleted(int index) =>
+      _progressService.isItemCompleted(ProgressService.kTables, index);
+
   void resetExpanded() {
-    if (expandedIndexes.isNotEmpty) {
-      expandedIndexes.clear();
-      _saveToCache();
-    }
+    expandedIndexes.clear();
+    _saveToCache();
+    _progressService.resetProgress(ProgressService.kTables);
   }
 }

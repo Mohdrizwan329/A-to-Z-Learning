@@ -128,6 +128,7 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
   void _runTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) { timer.cancel(); return; }
       if (remainingSeconds > 0) {
         setState(() => remainingSeconds--);
       } else {

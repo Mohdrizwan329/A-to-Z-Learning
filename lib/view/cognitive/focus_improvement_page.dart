@@ -166,16 +166,19 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
   void _runBreathingCycle() async {
     if (!isBreathing) return;
 
+    if (!mounted) return;
     setState(() => breathPhase = 'Breathe In');
     _speakText('Breathe in');
     await Future.delayed(const Duration(seconds: 4));
 
     if (!isBreathing) return;
+    if (!mounted) return;
     setState(() => breathPhase = 'Hold');
     _speakText('Hold');
     await Future.delayed(const Duration(seconds: 2));
 
     if (!isBreathing) return;
+    if (!mounted) return;
     setState(() => breathPhase = 'Breathe Out');
     _speakText('Breathe out');
     await Future.delayed(const Duration(seconds: 4));
