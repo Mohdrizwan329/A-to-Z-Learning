@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:math';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AttentionTrainingPage extends StatefulWidget {
   const AttentionTrainingPage({super.key});
@@ -15,7 +18,6 @@ class AttentionTrainingPage extends StatefulWidget {
 class _AttentionTrainingPageState extends State<AttentionTrainingPage> with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _bounceController;
-  late Animation<double> _bounceAnimation;
 
   int currentExercise = -1;
   int score = 0;
@@ -90,6 +92,12 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
   bool streamRunning = false;
   Timer? streamTimer;
 
+  late AnimationController _cardAnimController;
+  late List<Animation<double>> _cardAnimations;
+  late AnimationController _floatController;
+  late AnimationController _bubbleController;
+  late Animation<double> _floatAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -98,9 +106,31 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
       vsync: this,
       duration: const Duration(milliseconds: 500),
     )..repeat(reverse: true);
-    _bounceAnimation = Tween<double>(begin: 0, end: 10).animate(
-      CurvedAnimation(parent: _bounceController, curve: Curves.easeInOut),
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
     );
+    _cardAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+    _cardAnimations = List.generate(
+      exercises.length,
+      (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _cardAnimController,
+          curve: Interval(index * 0.12, (index * 0.12 + 0.4).clamp(0.0, 1.0), curve: Curves.easeOutBack),
+        ),
+      ),
+    );
+    _cardAnimController.forward();
   }
 
   Future<void> _initTts() async {
@@ -359,33 +389,94 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('🎉 Great Job!', textAlign: TextAlign.center),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: 12),
-            Text('Total Score: $score', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            Text('Level: $level', style: TextStyle(color: Colors.grey.shade600)),
-          ],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        backgroundColor: Colors.transparent,
+        contentPadding: EdgeInsets.zero,
+        content: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF667EEA).withValues(alpha: 0.4),
+                blurRadius: 15,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(child: Text('🎉', style: TextStyle(fontSize: 36))),
+              ),
+              const SizedBox(height: 12),
+              const Text('Great Job!', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Text(message, textAlign: TextAlign.center, style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 15)),
+              const SizedBox(height: 8),
+              Text('Score: $score', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _stopExercise();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Text('Back', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _startExercise(currentExercise);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: const Text('Play Again', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _stopExercise();
-            },
-            child: const Text('Back'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _startExercise(currentExercise);
-            },
-            child: const Text('Play Again'),
-          ),
-        ],
       ),
     );
   }
@@ -403,11 +494,16 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
       inputPhase = false;
       streamRunning = false;
     });
+    _cardAnimController.reset();
+    _cardAnimController.forward();
   }
 
   @override
   void dispose() {
     _bounceController.dispose();
+    _cardAnimController.dispose();
+    _floatController.dispose();
+    _bubbleController.dispose();
     quickTapTimer?.cancel();
     streamTimer?.cancel();
     flutterTts.stop();
@@ -418,15 +514,24 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () {
-            if (isPlaying) {
-              _stopExercise();
-            } else {
-              Get.back();
-            }
-          },
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              if (isPlaying) {
+                _stopExercise();
+              } else {
+                Get.back();
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+            ),
+          ),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -447,23 +552,18 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
         title: const Text("Attention Training", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
         centerTitle: true,
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(15),
+          IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
             ),
-            child: Text("Lvl $level", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            onPressed: () {
+              ProgressService.to.resetProgress(ProgressService.kAttentionTraining);
+            },
           ),
         ],
       ),
@@ -476,112 +576,283 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             end: Alignment.bottomRight,
           ),
         ),
-        child: currentExercise == -1 ? _buildExerciseList() : _buildExerciseScreen(),
+        child: Stack(
+          children: [
+            ..._buildFloatingBubbles(),
+            Positioned.fill(
+              child: currentExercise == -1 ? _buildExerciseList() : _buildExerciseScreen(),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: const AdsScreen(),
     );
   }
+
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+
+  final List<List<Color>> _exerciseGradients = const [
+    [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+    [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+    [Color(0xFF667EEA), Color(0xFF764BA2)],
+    [Color(0xFFA78BFA), Color(0xFF7C3AED)],
+    [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
+  ];
 
   Widget _buildExerciseList() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          AnimatedBuilder(
-            animation: _bounceController,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(0, _bounceAnimation.value),
-                child: const Text("🧠", style: TextStyle(fontSize: 60)),
-              );
-            },
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "Train Your Attention!",
-            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            "Build stronger focus and concentration",
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14),
-          ),
-          const SizedBox(height: 24),
-
-          // Exercise cards
-          ...exercises.asMap().entries.map((entry) {
-            final index = entry.key;
-            final exercise = entry.value;
-
-            return GestureDetector(
-              onTap: () => _startExercise(index),
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [exercise['color'], exercise['color'].withValues(alpha: 0.7)],
+          // Progress bar
+          Obx(() {
+            final progress = ProgressService.to
+                    .getProgressPercentage(ProgressService.kAttentionTraining) /
+                100;
+            final progressString = ProgressService.to
+                .getProgressString(ProgressService.kAttentionTraining);
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Progress',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '$progressString completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: exercise['color'].withValues(alpha: 0.4),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(child: Text(exercise['emoji'], style: const TextStyle(fontSize: 35))),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            exercise['name'],
-                            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            exercise['description'],
-                            style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 13),
-                          ),
-                        ],
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
                       ),
                     ),
-                    const Icon(Icons.play_circle_fill, color: Colors.white, size: 40),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }),
 
+          const SizedBox(height: 8),
+
+          // Exercise cards with animation - 2 column grid
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 0.85,
+            ),
+            itemCount: exercises.length,
+            itemBuilder: (context, index) {
+              final exercise = exercises[index];
+              final animIndex = index.clamp(0, _cardAnimations.length - 1);
+              final gradient = _exerciseGradients[index % _exerciseGradients.length];
+
+              return AnimatedBuilder(
+                animation: _cardAnimations[animIndex],
+                builder: (context, child) {
+                  final value = _cardAnimations[animIndex].value;
+                  return Transform.translate(
+                    offset: Offset(0, 30 * (1 - value)),
+                    child: Opacity(
+                      opacity: value.clamp(0.0, 1.0),
+                      child: child,
+                    ),
+                  );
+                },
+                child: AnimatedBuilder(
+                  animation: _floatController,
+                  builder: (context, child) {
+                    final offset = (index % 2 == 0)
+                        ? _floatAnimation.value * 0.5
+                        : -_floatAnimation.value * 0.5;
+                    return Transform.translate(offset: Offset(0, offset), child: child);
+                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      TtsService.to.speak(exercises[index]['name']);
+                      _startExercise(index);
+                      ProgressService.to.markItemCompleted(
+                        ProgressService.kAttentionTraining,
+                        index,
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: gradient,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: gradient[0].withValues(alpha: 0.4),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: -15,
+                            right: -15,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withValues(alpha: 0.1),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: -10,
+                            left: -10,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withValues(alpha: 0.08),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.3),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(child: Text(exercise['emoji'], style: const TextStyle(fontSize: 30))),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  exercise['name'],
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  exercise['description'],
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 11),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+
           const SizedBox(height: 16),
 
           // Progress info
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStatItem("Level", "$level", "🎯"),
-                _buildStatItem("Score", "$score", "⭐"),
-                _buildStatItem("Exercises", "${exercises.length}", "📝"),
-              ],
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.0, end: 1.0),
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeOut,
+            builder: (context, value, child) {
+              return Opacity(
+                opacity: value.clamp(0.0, 1.0),
+                child: Transform.translate(
+                  offset: Offset(0, 20 * (1 - value)),
+                  child: child,
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildStatItem("Level", "$level", "🎯"),
+                  _buildStatItem("Score", "$score", "⭐"),
+                  _buildStatItem("Exercises", "${exercises.length}", "📝"),
+                ],
+              ),
             ),
           ),
         ],
@@ -617,242 +888,376 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     }
   }
 
-  Widget _buildFollowTheBall() {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Text(
-          showingPath ? "Watch the ball! 👀" : waitingForAnswer ? "Where did it stop? 🤔" : "Get ready...",
-          style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 30),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
+  final List<List<Color>> _gameCardGradients = const [
+    [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+    [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+    [Color(0xFF667EEA), Color(0xFF764BA2)],
+    [Color(0xFFA78BFA), Color(0xFF7C3AED)],
+    [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
+    [Color(0xFF56D97F), Color(0xFF11998E)],
+    [Color(0xFFEC4899), Color(0xFFF472B6)],
+    [Color(0xFF3B82F6), Color(0xFF60A5FA)],
+    [Color(0xFFF59E0B), Color(0xFFEF4444)],
+  ];
+
+  Widget _buildGameCard({required Widget child, required List<Color> gradient, VoidCallback? onTap, int index = 0}) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: Duration(milliseconds: 400 + (index * 80)),
+      curve: Curves.easeOutBack,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 30 * (1 - value)),
+          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
+        );
+      },
+      child: AnimatedBuilder(
+        animation: _floatController,
+        builder: (context, child) {
+          final offset = (index % 2 == 0) ? _floatAnimation.value * 0.5 : -_floatAnimation.value * 0.5;
+          return Transform.translate(offset: Offset(0, offset), child: child);
+        },
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: gradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4)),
+              ],
             ),
-            itemCount: 9,
-            itemBuilder: (context, index) {
-              bool hasBall = showingPath && currentBallPosition == index;
-              return GestureDetector(
-                onTap: waitingForAnswer ? () => _checkBallAnswer(index) : null,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: hasBall ? Color(0xFFFF6B6B) : Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 8),
-                    ],
-                  ),
-                  child: Center(
-                    child: hasBall ? const Text("🔴", style: TextStyle(fontSize: 40)) : null,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: -10,
+                  right: -10,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.1)),
                   ),
                 ),
-              );
-            },
+                Positioned(
+                  bottom: -8,
+                  left: -8,
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.08)),
+                  ),
+                ),
+                Center(child: child),
+              ],
+            ),
           ),
         ),
-        const Spacer(),
-        _buildBackButton(),
-        const SizedBox(height: 20),
-      ],
+      ),
+    );
+  }
+
+  Widget _buildGameTitleCard({required String title, String? subtitle}) {
+    return AnimatedBuilder(
+      animation: _floatController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _floatAnimation.value * 0.3),
+          child: child,
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Text(title, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+            if (subtitle != null) ...[
+              const SizedBox(height: 4),
+              Text(subtitle, style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 14)),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFollowTheBall() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          _buildGameTitleCard(
+            title: showingPath ? "Watch the ball! 👀" : waitingForAnswer ? "Where did it stop? 🤔" : "Get ready...",
+          ),
+          const SizedBox(height: 24),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+              ),
+              itemCount: 9,
+              itemBuilder: (context, index) {
+                bool hasBall = showingPath && currentBallPosition == index;
+                final gradient = hasBall
+                    ? const [Color(0xFFFF6B6B), Color(0xFFFF8E53)]
+                    : _gameCardGradients[index % _gameCardGradients.length];
+                return _buildGameCard(
+                  index: index,
+                  gradient: gradient,
+                  onTap: waitingForAnswer ? () => _checkBallAnswer(index) : null,
+                  child: hasBall ? const Text("🔴", style: TextStyle(fontSize: 40)) : const SizedBox(),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 30),
+        ],
+      ),
     );
   }
 
   Widget _buildListenAndCount() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("👂", style: TextStyle(fontSize: 80)),
-        const SizedBox(height: 20),
-        const Text("How many beeps?", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 30),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          alignment: WrapAlignment.center,
-          children: List.generate(8, (i) {
-            return GestureDetector(
-              onTap: () => _checkSoundCount(i + 1),
-              child: Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Center(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 30),
+          AnimatedBuilder(
+            animation: _floatController,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(0, _floatAnimation.value * 0.5),
+                child: child,
+              );
+            },
+            child: const Text("👂", style: TextStyle(fontSize: 80)),
+          ),
+          const SizedBox(height: 16),
+          _buildGameTitleCard(title: "How many beeps?"),
+          const SizedBox(height: 24),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            alignment: WrapAlignment.center,
+            children: List.generate(8, (i) {
+              final gradient = _gameCardGradients[i % _gameCardGradients.length];
+              return SizedBox(
+                width: 65,
+                height: 65,
+                child: _buildGameCard(
+                  index: i,
+                  gradient: gradient,
+                  onTap: () => _checkSoundCount(i + 1),
                   child: Text(
                     '${i + 1}',
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF667EEA)),
+                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
-              ),
-            );
-          }),
-        ),
-        const SizedBox(height: 40),
-        _buildBackButton(),
-      ],
+              );
+            }),
+          ),
+          const SizedBox(height: 40),
+        ],
+      ),
     );
   }
 
   Widget _buildQuickTap() {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Text("Quick Tap! Round ${quickTapRounds + 1}/10", style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 12),
-        Text("Score: $quickTapScore", style: const TextStyle(color: Colors.white70, fontSize: 16)),
-        const SizedBox(height: 30),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-            ),
-            itemCount: 9,
-            itemBuilder: (context, index) {
-              bool isTarget = targetPosition == index;
-              return GestureDetector(
-                onTap: isTarget ? () => _tapTarget(index) : null,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  decoration: BoxDecoration(
-                    gradient: isTarget
-                        ? const LinearGradient(colors: [Color(0xFF56D97F), Color(0xFF11998E)])
-                        : null,
-                    color: isTarget ? null : Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: isTarget ? const Text("👆", style: TextStyle(fontSize: 40)) : null,
-                  ),
-                ),
-              );
-            },
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          _buildGameTitleCard(
+            title: "Quick Tap! Round ${quickTapRounds + 1}/10",
+            subtitle: "Score: $quickTapScore",
           ),
-        ),
-        const Spacer(),
-        _buildBackButton(),
-        const SizedBox(height: 20),
-      ],
+          const SizedBox(height: 24),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+              ),
+              itemCount: 9,
+              itemBuilder: (context, index) {
+                bool isTarget = targetPosition == index;
+                final gradient = isTarget
+                    ? const [Color(0xFF56D97F), Color(0xFF11998E)]
+                    : _gameCardGradients[index % _gameCardGradients.length];
+                return _buildGameCard(
+                  index: index,
+                  gradient: gradient,
+                  onTap: isTarget ? () => _tapTarget(index) : null,
+                  child: isTarget ? const Text("👆", style: TextStyle(fontSize: 40)) : const SizedBox(),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 30),
+        ],
+      ),
     );
   }
 
   Widget _buildRememberOrder() {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Text(
-          showingSequence ? "Watch the colors! 👀" : inputPhase ? "Tap in order! (${userSequence.length}/${colorSequence.length})" : "Get ready...",
-          style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 30),
-        if (showingSequence && showingIndex >= 0)
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              color: colorSequence[showingIndex],
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(color: colorSequence[showingIndex].withValues(alpha: 0.5), blurRadius: 20, spreadRadius: 5),
-              ],
-            ),
-          ),
-        if (inputPhase) ...[
+    return SingleChildScrollView(
+      child: Column(
+        children: [
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: userSequence.map((color) {
-              return Container(
-                width: 30,
-                height: 30,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              );
-            }).toList(),
+          _buildGameTitleCard(
+            title: showingSequence ? "Watch the colors! 👀" : inputPhase ? "Tap in order! (${userSequence.length}/${colorSequence.length})" : "Get ready...",
           ),
-          const SizedBox(height: 30),
-          Wrap(
-            spacing: 16,
-            children: availableColors.map((color) {
-              return GestureDetector(
-                onTap: () => _tapColor(color),
-                child: Container(
-                  width: 70,
-                  height: 70,
+          const SizedBox(height: 24),
+          if (showingSequence && showingIndex >= 0)
+            AnimatedBuilder(
+              animation: _floatController,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0, _floatAnimation.value * 0.4),
+                  child: child,
+                );
+              },
+              child: Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: colorSequence[showingIndex],
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(color: colorSequence[showingIndex].withValues(alpha: 0.5), blurRadius: 20, spreadRadius: 5),
+                  ],
+                ),
+              ),
+            ),
+          if (inputPhase) ...[
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: userSequence.map((color) {
+                return Container(
+                  width: 35,
+                  height: 35,
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: color,
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 3),
+                    border: Border.all(color: Colors.white, width: 2),
+                    boxShadow: [
+                      BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 6, offset: const Offset(0, 2)),
+                    ],
                   ),
-                ),
-              );
-            }).toList(),
-          ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 30),
+            Wrap(
+              spacing: 16,
+              children: availableColors.map((color) {
+                return GestureDetector(
+                  onTap: () => _tapColor(color),
+                  child: Container(
+                    width: 75,
+                    height: 75,
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 3),
+                      boxShadow: [
+                        BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+          const SizedBox(height: 30),
         ],
-        const Spacer(),
-        _buildBackButton(),
-        const SizedBox(height: 20),
-      ],
+      ),
     );
   }
 
   Widget _buildSustainedFocus() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Stars caught: $starCount", style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 8),
-        Text("${currentStreamIndex}/${streamItems.length}", style: const TextStyle(color: Colors.white70)),
-        const SizedBox(height: 40),
-        GestureDetector(
-          onTap: _tapStream,
-          child: Container(
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 15),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                currentStreamIndex < streamItems.length ? streamItems[currentStreamIndex] : "✅",
-                style: const TextStyle(fontSize: 60),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 30),
+          _buildGameTitleCard(
+            title: "Stars caught: $starCount ⭐",
+            subtitle: "${currentStreamIndex}/${streamItems.length}",
+          ),
+          const SizedBox(height: 40),
+          AnimatedBuilder(
+            animation: _floatController,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(0, _floatAnimation.value * 0.5),
+                child: child,
+              );
+            },
+            child: GestureDetector(
+              onTap: _tapStream,
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(color: const Color(0xFFFFAA5A).withValues(alpha: 0.4), blurRadius: 15, spreadRadius: 3),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    currentStreamIndex < streamItems.length ? streamItems[currentStreamIndex] : "✅",
+                    style: const TextStyle(fontSize: 60),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 20),
-        const Text("Tap when you see ⭐", style: TextStyle(color: Colors.white70, fontSize: 16)),
-        const SizedBox(height: 40),
-        _buildBackButton(),
-      ],
-    );
-  }
-
-  Widget _buildBackButton() {
-    return ElevatedButton.icon(
-      onPressed: _stopExercise,
-      icon: const Icon(Icons.arrow_back),
-      label: const Text("Back to Exercises"),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white.withValues(alpha: 0.2),
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Text("Tap when you see ⭐", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500)),
+          ),
+          const SizedBox(height: 40),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/avatar_coins_service.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AvatarShopPage extends StatefulWidget {
   const AvatarShopPage({super.key});
@@ -84,6 +85,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: '👤 Avatars'),
             Tab(text: '👕 Outfits'),
@@ -258,7 +260,10 @@ class _AvatarShopPageState extends State<AvatarShopPage>
       final canAfford = _avatarService.totalCoins.value >= item.price;
 
       return GestureDetector(
-        onTap: () => _handleItemTap(item, isOwned, canAfford),
+        onTap: () {
+          TtsService.to.speak(item.name);
+          _handleItemTap(item, isOwned, canAfford);
+        },
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,

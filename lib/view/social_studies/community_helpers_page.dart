@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class CommunityHelpersPage extends StatefulWidget {
   const CommunityHelpersPage({super.key});
@@ -267,6 +268,7 @@ class _CommunityHelpersPageState extends State<CommunityHelpersPage> {
   Widget _buildHelperCard(Map<String, dynamic> helper) {
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(helper['name']);
         _speak(helper['name']);
         setState(() => selectedHelper = helper['name']);
       },

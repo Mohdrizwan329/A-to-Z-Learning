@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class LogicGamePage extends StatefulWidget {
   const LogicGamePage({super.key});
@@ -350,7 +351,10 @@ class _LogicGamePageState extends State<LogicGamePage> {
                     }
 
                     return GestureDetector(
-                      onTap: () => _selectAnswer(option),
+                      onTap: () {
+                      TtsService.to.speak(option);
+                      _selectAnswer(option);
+                    },
                       child: Container(
                         width: 70,
                         height: 70,

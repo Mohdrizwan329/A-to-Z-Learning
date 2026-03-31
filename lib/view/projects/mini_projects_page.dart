@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MiniProjectsPage extends StatefulWidget {
   const MiniProjectsPage({super.key});
@@ -9,14 +15,15 @@ class MiniProjectsPage extends StatefulWidget {
   State<MiniProjectsPage> createState() => _MiniProjectsPageState();
 }
 
-class _MiniProjectsPageState extends State<MiniProjectsPage> {
+class _MiniProjectsPageState extends State<MiniProjectsPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
   String? selectedProject;
+  int selectedIndex = -1;
 
   final List<Map<String, dynamic>> projects = [
     {
       'name': 'Rainbow in a Jar',
       'emoji': '🌈',
-      'color': Color(0xFFFF6B6B),
       'difficulty': 'Easy',
       'time': '15 mins',
       'category': 'Science',
@@ -34,12 +41,16 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Paper Airplane Contest',
       'emoji': '✈️',
-      'color': Color(0xFF4ECDC4),
       'difficulty': 'Easy',
       'time': '20 mins',
       'category': 'Engineering',
       'description': 'Design and test different paper airplane designs!',
-      'materials': ['Paper sheets', 'Ruler', 'Tape (optional)', 'Measuring tape'],
+      'materials': [
+        'Paper sheets',
+        'Ruler',
+        'Tape (optional)',
+        'Measuring tape'
+      ],
       'steps': [
         'Fold 3 different airplane designs',
         'Name each airplane',
@@ -52,12 +63,17 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Mini Garden',
       'emoji': '🌱',
-      'color': Color(0xFF10B981),
       'difficulty': 'Medium',
       'time': '30 mins + waiting',
       'category': 'Nature',
       'description': 'Grow your own plants from seeds in small containers!',
-      'materials': ['Small pots or cups', 'Soil', 'Seeds', 'Water', 'Sunny spot'],
+      'materials': [
+        'Small pots or cups',
+        'Soil',
+        'Seeds',
+        'Water',
+        'Sunny spot'
+      ],
       'steps': [
         'Fill containers with soil',
         'Make small holes for seeds',
@@ -70,12 +86,17 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Homemade Volcano',
       'emoji': '🌋',
-      'color': Color(0xFFF59E0B),
       'difficulty': 'Easy',
       'time': '20 mins',
       'category': 'Science',
       'description': 'Make an erupting volcano with kitchen ingredients!',
-      'materials': ['Baking soda', 'Vinegar', 'Food coloring', 'Container', 'Tray'],
+      'materials': [
+        'Baking soda',
+        'Vinegar',
+        'Food coloring',
+        'Container',
+        'Tray'
+      ],
       'steps': [
         'Place container on tray',
         'Add 2 tablespoons baking soda',
@@ -88,7 +109,6 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Weather Station',
       'emoji': '☁️',
-      'color': Color(0xFF45B7D1),
       'difficulty': 'Medium',
       'time': '1 week project',
       'category': 'Science',
@@ -106,12 +126,17 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Recycled Robot',
       'emoji': '🤖',
-      'color': Color(0xFF8B5CF6),
       'difficulty': 'Medium',
       'time': '45 mins',
       'category': 'Art & Recycling',
       'description': 'Build a robot friend from items you would throw away!',
-      'materials': ['Cardboard boxes', 'Bottle caps', 'Toilet paper rolls', 'Glue', 'Paint'],
+      'materials': [
+        'Cardboard boxes',
+        'Bottle caps',
+        'Toilet paper rolls',
+        'Glue',
+        'Paint'
+      ],
       'steps': [
         'Collect recyclable items',
         'Plan your robot design',
@@ -124,12 +149,17 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Shadow Puppets',
       'emoji': '🎭',
-      'color': Color(0xFFEC4899),
       'difficulty': 'Easy',
       'time': '30 mins',
       'category': 'Art',
       'description': 'Create puppet characters and put on a shadow show!',
-      'materials': ['Cardboard', 'Sticks', 'Scissors', 'Flashlight', 'White sheet'],
+      'materials': [
+        'Cardboard',
+        'Sticks',
+        'Scissors',
+        'Flashlight',
+        'White sheet'
+      ],
       'steps': [
         'Draw character shapes on cardboard',
         'Cut out the shapes carefully',
@@ -142,7 +172,6 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     {
       'name': 'Counting Books',
       'emoji': '📖',
-      'color': Color(0xFF06B6D4),
       'difficulty': 'Easy',
       'time': '40 mins',
       'category': 'Math & Art',
@@ -160,54 +189,100 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+  }
+
+  @override
+  void dispose() {
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Mini Projects',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return GradientScaffold(
+      title: 'Mini Projects',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
+          onPressed: () {
+            ProgressService.to.resetProgress(ProgressService.kMiniProjects);
+            setState(() {});
+          },
         ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: selectedProject == null
-                    ? _buildProjectsList()
-                    : _buildProjectDetail(),
+      ],
+      body: Column(
+        children: [
+          // Progress bar with percentage
+          Obx(() {
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                      ProgressService.kMiniProjects,
+                    ) /
+                    100;
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kMiniProjects,
+            );
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Progress',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '$progressString completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            );
+          }),
+          Expanded(
+            child: selectedProject == null
+                ? _buildProjectsList()
+                : _buildProjectDetail(),
           ),
-        ),
+        ],
       ),
     );
   }
+
   Widget _buildProjectsList() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -250,90 +325,95 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
             ),
           ),
           const SizedBox(height: 20),
-          // Projects List
-          ...projects.map((project) => _buildProjectCard(project)),
-        ],
-      ),
-    );
-  }
+          // Projects Grid
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 0.85,
+            ),
+            itemCount: projects.length,
+            itemBuilder: (context, index) {
+              final project = projects[index];
+              final gradient = AppColors.getGradientForIndex(index);
 
-  Widget _buildProjectCard(Map<String, dynamic> project) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedProject = project['name'];
-        });
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              project['color'],
-              project['color'].withValues(alpha: 0.7),
-            ],
+              return Obx(() {
+                final isSelected = selectedIndex == index;
+                final isCompleted = ProgressService.to.isItemCompleted(
+                  ProgressService.kMiniProjects,
+                  index,
+                );
+
+                return buildAnimatedGridItem(
+                  index: index,
+                  isSelected: isSelected,
+                  child: GradientCard(
+                    gradient: gradient,
+                    isSelected: isSelected,
+                    showDecorations: true,
+                    onTap: () {
+                      TtsService.to.speak(project['name']);
+                      setState(() {
+                        selectedIndex = index;
+                        selectedProject = project['name'];
+                      });
+                    },
+                    pulseAnimation: pulseAnimation,
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              project['emoji'],
+                              style: const TextStyle(fontSize: 36),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              project['name'],
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            _buildTag(
+                                project['difficulty'], Colors.white),
+                          ],
+                        ),
+                        // Show checkmark if completed
+                        if (isCompleted)
+                          Positioned(
+                            bottom: 4,
+                            right: 4,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: const BoxDecoration(
+                                color: Colors.green,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 12,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              });
+            },
           ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: project['color'].withValues(alpha: 0.4),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Text(
-                  project['emoji'],
-                  style: const TextStyle(fontSize: 40),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    project['name'],
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      _buildTag(project['difficulty'], Colors.white),
-                      const SizedBox(width: 8),
-                      _buildTag(project['time'], Colors.white.withValues(alpha: 0.8)),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    project['category'],
-                    style: GoogleFonts.nunito(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -357,12 +437,51 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
   }
 
   Widget _buildProjectDetail() {
-    final project = projects.firstWhere((p) => p['name'] == selectedProject);
+    final projectIndex =
+        projects.indexWhere((p) => p['name'] == selectedProject);
+    final project = projects[projectIndex];
+    final gradient = AppColors.getGradientForIndex(projectIndex);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          // Back to list button
+          Align(
+            alignment: Alignment.centerLeft,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedProject = null;
+                  selectedIndex = -1;
+                });
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.arrow_back_ios,
+                        color: Colors.white, size: 16),
+                    const SizedBox(width: 4),
+                    Text(
+                      'All Projects',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
           // Header Card
           Container(
             padding: const EdgeInsets.all(24),
@@ -371,7 +490,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: project['color'].withValues(alpha: 0.4),
+                  color: gradient[0].withValues(alpha: 0.4),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -379,14 +498,15 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
             ),
             child: Column(
               children: [
-                Text(project['emoji'], style: const TextStyle(fontSize: 70)),
+                Text(project['emoji'],
+                    style: const TextStyle(fontSize: 70)),
                 const SizedBox(height: 12),
                 Text(
                   project['name'],
                   style: GoogleFonts.poppins(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: project['color'],
+                    color: gradient[0],
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -401,9 +521,11 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildDetailTag('⏱️ ${project['time']}', project['color']),
+                    _buildDetailTag(
+                        '⏱️ ${project['time']}', gradient[0]),
                     const SizedBox(width: 8),
-                    _buildDetailTag('📊 ${project['difficulty']}', project['color']),
+                    _buildDetailTag(
+                        '📊 ${project['difficulty']}', gradient[0]),
                   ],
                 ),
               ],
@@ -415,11 +537,11 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
             '🛠️',
             'What You Need',
             project['materials'],
-            project['color'],
+            gradient[0],
             isList: true,
           ),
           // Steps
-          _buildStepsSection(project),
+          _buildStepsSection(project, gradient[0]),
           // Learning
           Container(
             padding: const EdgeInsets.all(16),
@@ -461,11 +583,16 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () {
+                // Mark project as completed
+                ProgressService.to.markItemCompleted(
+                  ProgressService.kMiniProjects,
+                  projectIndex,
+                );
                 Get.snackbar(
                   '🎉 Let\'s Go!',
                   'Gather your materials and start your ${project['name']}!',
                   snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: project['color'],
+                  backgroundColor: gradient[0],
                   colorText: Colors.white,
                   margin: const EdgeInsets.all(16),
                   borderRadius: 12,
@@ -480,7 +607,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: project['color'],
+                backgroundColor: gradient[0],
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
@@ -511,7 +638,9 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     );
   }
 
-  Widget _buildSection(String emoji, String title, List<dynamic> items, Color color, {bool isList = false}) {
+  Widget _buildSection(String emoji, String title, List<dynamic> items,
+      Color color,
+      {bool isList = false}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -542,7 +671,8 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
             runSpacing: 8,
             children: items.map<Widget>((item) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -563,7 +693,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
     );
   }
 
-  Widget _buildStepsSection(Map<String, dynamic> project) {
+  Widget _buildStepsSection(Map<String, dynamic> project, Color color) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -582,7 +712,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
                 'Steps',
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
-                  color: project['color'],
+                  color: color,
                   fontSize: 16,
                 ),
               ),
@@ -599,7 +729,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage> {
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: project['color'],
+                      color: color,
                       shape: BoxShape.circle,
                     ),
                     child: Center(

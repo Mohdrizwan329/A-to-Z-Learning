@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class StoryCreationPage extends StatefulWidget {
   const StoryCreationPage({super.key});
@@ -622,6 +623,7 @@ class _StoryCreationPageState extends State<StoryCreationPage>
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
+            labelPadding: EdgeInsets.symmetric(horizontal: 20),
             tabs: [
               Tab(text: "Stories"),
               Tab(text: "Prompts"),
@@ -671,6 +673,7 @@ class _StoryCreationPageState extends State<StoryCreationPage>
                   },
                   child: GestureDetector(
                     onTap: () {
+                      TtsService.to.speak(story['title']);
                       setState(() {
                         _viewedStories.add(selectedStoryIndex);
                         _currentStoryTapped = true;
@@ -846,6 +849,7 @@ class _StoryCreationPageState extends State<StoryCreationPage>
 
                     return GestureDetector(
                       onTap: () {
+                        TtsService.to.speak(prompt['prompt']);
                         _viewPrompt(index);
                         _speakText(prompt['prompt']);
                       },

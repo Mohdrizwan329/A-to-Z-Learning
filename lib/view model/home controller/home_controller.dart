@@ -47,8 +47,6 @@ import 'package:jiyan_learning/view/knowledge/science_basics_page.dart';
 import 'package:jiyan_learning/view/global_awareness/world_map_page.dart';
 import 'package:jiyan_learning/view/global_awareness/global_cultures_page.dart';
 import 'package:jiyan_learning/view/global_awareness/famous_places_page.dart';
-// Projects
-import 'package:jiyan_learning/view/projects/mini_projects_page.dart';
 // Creativity
 import 'package:jiyan_learning/view/creativity/story_creation_page.dart';
 // SEL
@@ -56,12 +54,10 @@ import 'package:jiyan_learning/view/sel/good_habits_page.dart';
 import 'package:jiyan_learning/view/sel/confidence_building_page.dart';
 import 'package:jiyan_learning/view/sel/mindfulness_page.dart';
 // Rewards
-import 'package:jiyan_learning/view/rewards/surprise_rewards_page.dart';
 // Games
 import 'package:jiyan_learning/view/games/drag_drop_game_page.dart';
 import 'package:jiyan_learning/view/games/tracing_game_page.dart';
 import 'package:jiyan_learning/view/games/matching_game_page.dart';
-import 'package:jiyan_learning/view/games/logic_game_page.dart';
 import 'package:jiyan_learning/view/games/puzzle_game_page.dart';
 // Assessment
 import 'package:jiyan_learning/view/assessment/adaptive_quiz_page.dart';
@@ -69,12 +65,9 @@ import 'package:jiyan_learning/view/assessment/adaptive_quiz_page.dart';
 import 'package:jiyan_learning/view/sel/empathy_learning_page.dart';
 import 'package:jiyan_learning/view/sel/emotional_regulation_page.dart';
 import 'package:jiyan_learning/view/sel/self_awareness_page.dart';
-// Writing additional
-import 'package:jiyan_learning/view/writing/writing_accuracy_page.dart';
 // Knowledge additional
 import 'package:jiyan_learning/view/knowledge/social_awareness_page.dart';
 // Rewards additional
-import 'package:jiyan_learning/view/rewards/daily_goals_page.dart';
 // Executive Function
 import 'package:jiyan_learning/view/executive_function/planning_skills_page.dart';
 import 'package:jiyan_learning/view/executive_function/goal_setting_page.dart';
@@ -82,7 +75,6 @@ import 'package:jiyan_learning/view/executive_function/task_sequencing_page.dart
 import 'package:jiyan_learning/view/executive_function/working_memory_page.dart';
 // STEM
 import 'package:jiyan_learning/view/stem/stem_hub_page.dart';
-import 'package:jiyan_learning/view/stem/simple_experiments_page.dart';
 import 'package:jiyan_learning/view/stem/design_thinking_page.dart';
 // Digital Literacy
 import 'package:jiyan_learning/view/digital_literacy/computer_awareness_page.dart';
@@ -100,7 +92,6 @@ import 'package:jiyan_learning/view/life_skills/time_management_page.dart';
 import 'package:jiyan_learning/view/life_skills/safety_skills_page.dart';
 // Cognitive
 import 'package:jiyan_learning/view/cognitive/focus_improvement_page.dart';
-import 'package:jiyan_learning/view/cognitive/attention_training_page.dart';
 // Health
 import 'package:jiyan_learning/view/health/nutrition_learning_page.dart';
 import 'package:jiyan_learning/view/health/exercise_fitness_page.dart';
@@ -609,16 +600,6 @@ class HomeController extends GetxController {
         gradient: [Color(0xFFFDCB6E), Color(0xFFE17055)],
         ageGroups: [AgeGroupFilter.toddler, AgeGroupFilter.lkgUkg],
       ),
-      // Logic Games: Class 1-2 and Class 3-4 only
-      ClassItem(
-        title: 'Logic Games',
-        subtitle: 'Think & Solve',
-        pageBuilder: () => LogicGamePage(),
-        category: 'Games & Quiz',
-        emoji: '🧠',
-        gradient: [Color(0xFF8B5CF6), Color(0xFFA78BFA)],
-        ageGroups: [AgeGroupFilter.class1To2, AgeGroupFilter.class3To4],
-      ),
       // Puzzle Game: Toddler, LKG/UKG, Class 1-2
       ClassItem(
         title: 'Puzzle Game',
@@ -639,14 +620,14 @@ class HomeController extends GetxController {
         gradient: [Color(0xFF10B981), Color(0xFF34D399)],
         ageGroups: [AgeGroupFilter.lkgUkg],
       ),
-      // Fun Games: LKG/UKG, Class 1-2 (NOT Toddler)
+      // Memory Match: LKG/UKG, Class 1-2
       ClassItem(
-        title: 'Fun Games',
-        subtitle: 'Play & Learning',
-        pageBuilder: () => FunGamesPage(),
+        title: 'Memory Match',
+        subtitle: 'Match the Pairs!',
+        pageBuilder: () => const MemoryMatchGame(),
         category: 'Games & Quiz',
-        emoji: '🎯',
-        gradient: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
+        emoji: '🧠',
+        gradient: [Color(0xFF4ECDC4), Color(0xFF56D97F)],
         ageGroups: [AgeGroupFilter.lkgUkg, AgeGroupFilter.class1To2],
       ),
       // Quiz Battle: Class 5-6 ONLY (per spec)
@@ -659,27 +640,6 @@ class HomeController extends GetxController {
         gradient: [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
         ageGroups: [AgeGroupFilter.class5To6],
       ),
-      // Surprise Rewards: Class 1-2 ONLY (per spec - Rewards section)
-      ClassItem(
-        title: 'Surprise Rewards',
-        subtitle: 'Spin & Win',
-        pageBuilder: () => SurpriseRewardsPage(),
-        category: 'Games & Quiz',
-        emoji: '🎁',
-        gradient: [Color(0xFFEC4899), Color(0xFFF472B6)],
-        ageGroups: [AgeGroupFilter.class1To2],
-      ),
-      // Daily Goals: Class 1-2 ONLY (per spec - Rewards section)
-      ClassItem(
-        title: 'Daily Goals',
-        subtitle: 'Track Progress',
-        pageBuilder: () => DailyGoalsPage(),
-        category: 'Games & Quiz',
-        emoji: '🎯',
-        gradient: [Color(0xFF14B8A6), Color(0xFF2DD4BF)],
-        ageGroups: [AgeGroupFilter.class1To2],
-      ),
-
       // === MATH & LOGIC ===
       // Math NOT for Toddler (blocked per spec)
       // LKG/UKG: Numbers (1-100), Tables (2-10), Generic Math Questions, Money Concepts (coins)
@@ -688,7 +648,7 @@ class HomeController extends GetxController {
 
       // Math Problem & Solution: Class 1-2 and above (NOT Toddler, NOT LKG/UKG)
       ClassItem(
-        title: 'Math Problems',
+        title: 'Math Problem Solve Practice',
         subtitle: 'Solutions',
         pageBuilder: () => MathGridScreen(),
         category: 'Math & Logic',
@@ -836,17 +796,6 @@ class HomeController extends GetxController {
         gradient: [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
         ageGroups: [AgeGroupFilter.class1To2],
       ),
-      // Handwriting: NOT in spec - removing or keeping for LKG/UKG only
-      // Writing Accuracy: Class 1-2 ONLY (per spec)
-      ClassItem(
-        title: 'Writing Accuracy',
-        subtitle: 'Perfect Writing',
-        pageBuilder: () => WritingAccuracyPage(),
-        category: 'Writing',
-        emoji: '✅',
-        gradient: [Color(0xFF10B981), Color(0xFF34D399)],
-        ageGroups: [AgeGroupFilter.class1To2],
-      ),
 
       // === CREATIVITY ===
       // Toddler: Drawing Page, Drawing Image Page
@@ -923,16 +872,6 @@ class HomeController extends GetxController {
         emoji: '🏛️',
         gradient: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
         ageGroups: [AgeGroupFilter.class5To6],
-      ),
-      // Mini Projects: Class 3-4 ONLY (per spec - Projects section)
-      ClassItem(
-        title: 'Mini Projects',
-        subtitle: 'Hands-on Learning',
-        pageBuilder: () => MiniProjectsPage(),
-        category: 'Knowledge',
-        emoji: '🔬',
-        gradient: [Color(0xFFEC4899), Color(0xFFF472B6)],
-        ageGroups: [AgeGroupFilter.class3To4],
       ),
       // Experiments/Home Experiments: NOT in spec for Knowledge - removed
 
@@ -1107,16 +1046,6 @@ class HomeController extends GetxController {
         gradient: [Color(0xFF8B5CF6), Color(0xFFA78BFA)],
         ageGroups: [AgeGroupFilter.class1To2],
       ),
-      // Attention Training: Class 1-2 ONLY (per spec)
-      ClassItem(
-        title: 'Attention Training',
-        subtitle: 'Stay Focused',
-        pageBuilder: () => AttentionTrainingPage(),
-        category: 'Health',
-        emoji: '👁️',
-        gradient: [Color(0xFF06B6D4), Color(0xFF22D3EE)],
-        ageGroups: [AgeGroupFilter.class1To2],
-      ),
 
       // === CULTURE ===
       // Culture is NOT in spec for any age group - removing all culture items
@@ -1181,15 +1110,6 @@ class HomeController extends GetxController {
         category: 'Knowledge',
         emoji: '🔬',
         gradient: [Color(0xFF3B82F6), Color(0xFF60A5FA)],
-        ageGroups: [AgeGroupFilter.class3To4],
-      ),
-      ClassItem(
-        title: 'Simple Experiments',
-        subtitle: 'Learn by Doing',
-        pageBuilder: () => SimpleExperimentsPage(),
-        category: 'Knowledge',
-        emoji: '🧪',
-        gradient: [Color(0xFF8B5CF6), Color(0xFFA78BFA)],
         ageGroups: [AgeGroupFilter.class3To4],
       ),
       ClassItem(

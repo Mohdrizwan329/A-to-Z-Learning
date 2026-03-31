@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'dart:async';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class QuizBattlePage extends StatefulWidget {
   const QuizBattlePage({Key? key}) : super(key: key);
@@ -1191,7 +1192,10 @@ class _QuizBattlePageState extends State<QuizBattlePage>
                           );
                         },
                         child: GestureDetector(
-                          onTap: () => _selectAnswer(option),
+                          onTap: () {
+                            TtsService.to.speak(option);
+                            _selectAnswer(option);
+                          },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             decoration: BoxDecoration(

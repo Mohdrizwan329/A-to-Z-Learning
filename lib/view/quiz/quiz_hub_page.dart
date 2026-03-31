@@ -6,6 +6,7 @@ import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/quiz/quiz_page.dart';
 import 'package:jiyan_learning/view/rewards/rewards_page.dart';
 import 'package:jiyan_learning/view/rewards/daily_goals_page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class QuizHubPage extends StatefulWidget {
   const QuizHubPage({super.key});
@@ -89,7 +90,7 @@ class _QuizHubPageState extends State<QuizHubPage>
     if (!_isInitialized) return [];
 
     final random = math.Random(42);
-    return List.generate(15, (index) {
+    return List.generate(8, (index) {
       final size = 20.0 + random.nextDouble() * 60;
       final left = random.nextDouble() * 400;
       final top = random.nextDouble() * 800;
@@ -234,7 +235,10 @@ class _QuizHubPageState extends State<QuizHubPage>
                             );
                           },
                           child: GestureDetector(
-                            onTap: () => Get.to(item['page']),
+                            onTap: () {
+                              TtsService.to.speak(item['title']);
+                              Get.to(item['page']);
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(

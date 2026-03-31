@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ScienceBasicsPage extends StatefulWidget {
   const ScienceBasicsPage({super.key});
@@ -10,10 +17,10 @@ class ScienceBasicsPage extends StatefulWidget {
   State<ScienceBasicsPage> createState() => _ScienceBasicsPageState();
 }
 
-class _ScienceBasicsPageState extends State<ScienceBasicsPage> with TickerProviderStateMixin {
+class _ScienceBasicsPageState extends State<ScienceBasicsPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
-  int selectedCategory = 0;
 
   final List<Map<String, dynamic>> categories = [
     {
@@ -122,6 +129,7 @@ class _ScienceBasicsPageState extends State<ScienceBasicsPage> with TickerProvid
     super.initState();
     _initTts();
     _tabController = TabController(length: 3, vsync: this);
+    initGridAnimations(this);
   }
 
   Future<void> _initTts() async {
@@ -136,178 +144,150 @@ class _ScienceBasicsPageState extends State<ScienceBasicsPage> with TickerProvid
   @override
   void dispose() {
     _tabController.dispose();
+    disposeGridAnimations();
     flutterTts.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
+    return GradientScaffold(
+      title: 'Science Basics',
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: () async {
+              await ProgressService.to.resetProgress(ProgressService.kScienceTopics);
+              setState(() {});
+            },
+            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
         ),
-        elevation: 8,
-        title: const Text("Science Basics", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          indicatorWeight: 3,
-          tabs: const [
-            Tab(text: "Topics", icon: Icon(Icons.science, size: 20)),
-            Tab(text: "Facts", icon: Icon(Icons.lightbulb, size: 20)),
-            Tab(text: "Experiments", icon: Icon(Icons.biotech, size: 20)),
-          ],
-        ),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-            _buildTopicsTab(),
-            _buildFactsTab(),
-            _buildExperimentsTab(),
-          ],
-        ),
+      ],
+      bottom: TabBar(
+        controller: _tabController,
+        indicatorColor: Colors.white,
+        indicatorWeight: 3,
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white70,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 24),
+        tabs: const [
+          Tab(text: "Topics"),
+          Tab(text: "Facts"),
+          Tab(text: "Experiments"),
+        ],
       ),
       bottomNavigationBar: const AdsScreen(),
+      body: Column(
+        children: [
+          // Progress bar
+          Obx(() {
+            final progress = ProgressService.to.getProgressPercentage(ProgressService.kScienceTopics) / 100;
+            final progressString = ProgressService.to.getProgressString(ProgressService.kScienceTopics);
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Progress',
+                        style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        '$progressString completed',
+                        style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildTopicsTab(),
+                _buildFactsTab(),
+                _buildExperimentsTab(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildTopicsTab() {
-    return Column(
-      children: [
-        // Category selector
-        SizedBox(
-          height: 100,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.all(12),
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              final cat = categories[index];
-              final isSelected = selectedCategory == index;
-              return GestureDetector(
-                onTap: () => setState(() => selectedCategory = index),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.only(right: 12),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: isSelected ? [cat['color'], cat['color'].withValues(alpha: 0.7)] : [Colors.white, Colors.white],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(cat['emoji'], style: const TextStyle(fontSize: 28)),
-                      const SizedBox(height: 4),
-                      Text(
-                        cat['name'],
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: isSelected ? Colors.white : cat['color'],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        // Items grid
-        Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.all(12),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: categories[selectedCategory]['items'].length > 5 ? 1.0 : 0.85,
-            ),
-            itemCount: (categories[selectedCategory]['items'] as List).length,
-            itemBuilder: (context, index) {
-              final item = categories[selectedCategory]['items'][index];
-              final color = categories[selectedCategory]['color'] as Color;
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 1.0,
+      ),
+      itemCount: categories.length,
+      itemBuilder: (context, index) {
+        final cat = categories[index];
+        final gradient = AppColors.getGradientForIndex(index);
 
-              return GestureDetector(
-                onTap: () => _speakText("${item['name']}. ${item['description'] ?? item['fact'] ?? item['example'] ?? ''}"),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [color, color.withValues(alpha: 0.7)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: color.withValues(alpha: 0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(item['emoji'], style: const TextStyle(fontSize: 36)),
-                        const SizedBox(height: 8),
-                        Text(
-                          item['name'],
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          item['description'] ?? item['fact'] ?? item['example'] ?? '',
-                          style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.9)),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+        return buildFloatingItem(
+          index: index,
+          child: GradientCard(
+            gradient: gradient,
+            isSelected: false,
+            onTap: () {
+              TtsService.to.speak(cat['name']);
+              ProgressService.to.markItemCompleted(ProgressService.kScienceTopics, index);
+              Get.to(() => ScienceTopicDetailPage(
+                title: cat['name'],
+                items: List<Map<String, dynamic>>.from(cat['items']),
+                color: cat['color'],
+                speakText: _speakText,
+              ));
             },
+            pulseAnimation: pulseAnimation,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 75,
+                    height: 75,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(cat['emoji'], style: const TextStyle(fontSize: 42)),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  GradientCardText(text: cat['name'], fontSize: 13),
+                ],
+              ),
+            ),
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -478,6 +458,87 @@ class _ScienceBasicsPageState extends State<ScienceBasicsPage> with TickerProvid
           ),
         );
       },
+    );
+  }
+}
+
+// Detail page for a science topic
+class ScienceTopicDetailPage extends StatelessWidget {
+  final String title;
+  final List<Map<String, dynamic>> items;
+  final Color color;
+  final void Function(String) speakText;
+
+  const ScienceTopicDetailPage({
+    super.key,
+    required this.title,
+    required this.items,
+    required this.color,
+    required this.speakText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientScaffold(
+      title: title,
+      bottomNavigationBar: const AdsScreen(),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(12),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+          childAspectRatio: items.length > 5 ? 1.0 : 0.85,
+        ),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+
+          return GestureDetector(
+            onTap: () => speakText("${item['name']}. ${item['description'] ?? item['fact'] ?? item['example'] ?? item['source'] ?? item['traits'] ?? ''}"),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [color, color.withValues(alpha: 0.7)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(item['emoji'], style: const TextStyle(fontSize: 36)),
+                    const SizedBox(height: 8),
+                    Text(
+                      item['name'],
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      item['description'] ?? item['fact'] ?? item['example'] ?? item['source'] ?? item['traits'] ?? '',
+                      style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.9)),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

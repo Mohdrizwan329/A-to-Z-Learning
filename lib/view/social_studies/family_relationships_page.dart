@@ -8,6 +8,7 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class FamilyRelationshipsPage extends StatefulWidget {
   const FamilyRelationshipsPage({super.key});
@@ -124,6 +125,7 @@ class _FamilyRelationshipsPageState extends State<FamilyRelationshipsPage>
                     index: index,
                     child: GestureDetector(
                       onTap: () {
+                        TtsService.to.speak(section['title']);
                         controller.toggleExpanded(index);
                         Get.to(
                           () => FamilyRelationshipsDetailPage(

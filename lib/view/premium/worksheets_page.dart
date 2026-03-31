@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class WorksheetsPage extends StatefulWidget {
   const WorksheetsPage({Key? key}) : super(key: key);
@@ -257,6 +258,7 @@ class _WorksheetsPageState extends State<WorksheetsPage>
           fontWeight: FontWeight.w500,
           fontSize: 14,
         ),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
         tabs: _categories.map((category) {
           return Tab(text: category['name']!);
         }).toList(),
@@ -331,7 +333,10 @@ class _WorksheetsPageState extends State<WorksheetsPage>
         return Transform.translate(
           offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
           child: GestureDetector(
-            onTap: () => _openWorksheet(worksheet),
+            onTap: () {
+              TtsService.to.speak(worksheet['title']);
+              _openWorksheet(worksheet);
+            },
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

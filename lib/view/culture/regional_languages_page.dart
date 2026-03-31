@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class RegionalLanguagesPage extends StatefulWidget {
   const RegionalLanguagesPage({super.key});
@@ -10,112 +17,23 @@ class RegionalLanguagesPage extends StatefulWidget {
   State<RegionalLanguagesPage> createState() => _RegionalLanguagesPageState();
 }
 
-class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with TickerProviderStateMixin {
+class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
   int selectedLanguageIndex = 0;
 
   final List<Map<String, dynamic>> indianLanguages = [
-    {
-      'name': 'Hindi',
-      'script': 'Devanagari',
-      'emoji': '🇮🇳',
-      'color': Color(0xFFFF6B6B),
-      'hello': 'नमस्ते',
-      'pronunciation': 'Namaste',
-      'region': 'North India',
-      'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'],
-    },
-    {
-      'name': 'Tamil',
-      'script': 'Tamil',
-      'emoji': '🏛️',
-      'color': Color(0xFF667EEA),
-      'hello': 'வணக்கம்',
-      'pronunciation': 'Vanakkam',
-      'region': 'Tamil Nadu',
-      'letters': ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ'],
-    },
-    {
-      'name': 'Telugu',
-      'script': 'Telugu',
-      'emoji': '🎬',
-      'color': Color(0xFF56D97F),
-      'hello': 'నమస్కారం',
-      'pronunciation': 'Namaskaram',
-      'region': 'Andhra Pradesh & Telangana',
-      'letters': ['అ', 'ఆ', 'ఇ', 'ఈ', 'ఉ', 'ఊ', 'ఎ', 'ఏ', 'ఐ', 'ఒ'],
-    },
-    {
-      'name': 'Kannada',
-      'script': 'Kannada',
-      'emoji': '🌴',
-      'color': Color(0xFFFFAA5A),
-      'hello': 'ನಮಸ್ಕಾರ',
-      'pronunciation': 'Namaskara',
-      'region': 'Karnataka',
-      'letters': ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಎ', 'ಏ', 'ಐ', 'ಒ'],
-    },
-    {
-      'name': 'Malayalam',
-      'script': 'Malayalam',
-      'emoji': '🥥',
-      'color': Color(0xFFA78BFA),
-      'hello': 'നമസ്കാരം',
-      'pronunciation': 'Namaskaram',
-      'region': 'Kerala',
-      'letters': ['അ', 'ആ', 'ഇ', 'ഈ', 'ഉ', 'ഊ', 'എ', 'ഏ', 'ഐ', 'ഒ'],
-    },
-    {
-      'name': 'Bengali',
-      'script': 'Bengali',
-      'emoji': '🐅',
-      'color': Color(0xFF4ECDC4),
-      'hello': 'নমস্কার',
-      'pronunciation': 'Nomoshkar',
-      'region': 'West Bengal',
-      'letters': ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'এ', 'ঐ', 'ও', 'ঔ'],
-    },
-    {
-      'name': 'Gujarati',
-      'script': 'Gujarati',
-      'emoji': '🦁',
-      'color': Color(0xFFFFD93D),
-      'hello': 'નમસ્તે',
-      'pronunciation': 'Namaste',
-      'region': 'Gujarat',
-      'letters': ['અ', 'આ', 'ઇ', 'ઈ', 'ઉ', 'ઊ', 'એ', 'ઐ', 'ઓ', 'ઔ'],
-    },
-    {
-      'name': 'Marathi',
-      'script': 'Devanagari',
-      'emoji': '🏰',
-      'color': Color(0xFFFF8E53),
-      'hello': 'नमस्कार',
-      'pronunciation': 'Namaskar',
-      'region': 'Maharashtra',
-      'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'],
-    },
-    {
-      'name': 'Punjabi',
-      'script': 'Gurmukhi',
-      'emoji': '🌾',
-      'color': Color(0xFF00CED1),
-      'hello': 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ',
-      'pronunciation': 'Sat Sri Akal',
-      'region': 'Punjab',
-      'letters': ['ੳ', 'ਅ', 'ੲ', 'ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ'],
-    },
-    {
-      'name': 'Odia',
-      'script': 'Odia',
-      'emoji': '🛕',
-      'color': Color(0xFF9B59B6),
-      'hello': 'ନମସ୍କାର',
-      'pronunciation': 'Namaskar',
-      'region': 'Odisha',
-      'letters': ['ଅ', 'ଆ', 'ଇ', 'ଈ', 'ଉ', 'ଊ', 'ଏ', 'ଐ', 'ଓ', 'ଔ'],
-    },
+    {'name': 'Hindi', 'script': 'Devanagari', 'emoji': '🇮🇳', 'hello': 'नमस्ते', 'pronunciation': 'Namaste', 'region': 'North India', 'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ']},
+    {'name': 'Tamil', 'script': 'Tamil', 'emoji': '🏛️', 'hello': 'வணக்கம்', 'pronunciation': 'Vanakkam', 'region': 'Tamil Nadu', 'letters': ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ']},
+    {'name': 'Telugu', 'script': 'Telugu', 'emoji': '🎬', 'hello': 'నమస్కారం', 'pronunciation': 'Namaskaram', 'region': 'Andhra Pradesh', 'letters': ['అ', 'ఆ', 'ఇ', 'ఈ', 'ఉ', 'ఊ', 'ఎ', 'ఏ', 'ఐ', 'ఒ']},
+    {'name': 'Kannada', 'script': 'Kannada', 'emoji': '🌴', 'hello': 'ನಮಸ್ಕಾರ', 'pronunciation': 'Namaskara', 'region': 'Karnataka', 'letters': ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಎ', 'ಏ', 'ಐ', 'ಒ']},
+    {'name': 'Malayalam', 'script': 'Malayalam', 'emoji': '🥥', 'hello': 'നമസ്കാരം', 'pronunciation': 'Namaskaram', 'region': 'Kerala', 'letters': ['അ', 'ആ', 'ഇ', 'ഈ', 'ഉ', 'ഊ', 'എ', 'ഏ', 'ഐ', 'ഒ']},
+    {'name': 'Bengali', 'script': 'Bengali', 'emoji': '🐅', 'hello': 'নমস্কার', 'pronunciation': 'Nomoshkar', 'region': 'West Bengal', 'letters': ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'এ', 'ঐ', 'ও', 'ঔ']},
+    {'name': 'Gujarati', 'script': 'Gujarati', 'emoji': '🦁', 'hello': 'નમસ્તે', 'pronunciation': 'Namaste', 'region': 'Gujarat', 'letters': ['અ', 'આ', 'ઇ', 'ઈ', 'ઉ', 'ઊ', 'એ', 'ઐ', 'ઓ', 'ઔ']},
+    {'name': 'Marathi', 'script': 'Devanagari', 'emoji': '🏰', 'hello': 'नमस्कार', 'pronunciation': 'Namaskar', 'region': 'Maharashtra', 'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ']},
+    {'name': 'Punjabi', 'script': 'Gurmukhi', 'emoji': '🌾', 'hello': 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'pronunciation': 'Sat Sri Akal', 'region': 'Punjab', 'letters': ['ੳ', 'ਅ', 'ੲ', 'ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ']},
+    {'name': 'Odia', 'script': 'Odia', 'emoji': '🛕', 'hello': 'ନମସ୍କାର', 'pronunciation': 'Namaskar', 'region': 'Odisha', 'letters': ['ଅ', 'ଆ', 'ଇ', 'ଈ', 'ଉ', 'ଊ', 'ଏ', 'ଐ', 'ଓ', 'ଔ']},
   ];
 
   final List<Map<String, dynamic>> commonWords = [
@@ -173,10 +91,17 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with Tick
     super.initState();
     _initTts();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        ProgressService.to.markItemCompleted(ProgressService.kRegionalLanguages, _tabController.index);
+      }
+    });
+    ProgressService.to.markItemCompleted(ProgressService.kRegionalLanguages, 0);
+    initGridAnimations(this);
   }
 
   Future<void> _initTts() async {
-    await flutterTts.setLanguage("en-IN");
+    await flutterTts.setLanguage("en-US");
     await flutterTts.setSpeechRate(0.4);
   }
 
@@ -187,147 +112,122 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with Tick
   @override
   void dispose() {
     _tabController.dispose();
+    disposeGridAnimations();
     flutterTts.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              ),
+    return GradientScaffold(
+      title: 'Indian Languages',
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: () async {
+              await ProgressService.to.resetProgress(ProgressService.kRegionalLanguages);
+              setState(() {});
+            },
+            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
         ),
-        title: const Text("Indian Languages", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          indicatorWeight: 3,
-          tabs: const [
-            Tab(text: "Languages", icon: Icon(Icons.language, size: 20)),
-            Tab(text: "Words", icon: Icon(Icons.text_fields, size: 20)),
-            Tab(text: "Numbers", icon: Icon(Icons.numbers, size: 20)),
-          ],
-        ),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-            _buildLanguagesTab(),
-            _buildWordsTab(),
-            _buildNumbersTab(),
-          ],
-        ),
+      ],
+      bottom: TabBar(
+        controller: _tabController,
+        indicatorColor: Colors.white,
+        indicatorWeight: 3,
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white70,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 24),
+        tabs: const [
+          Tab(text: "Languages"),
+          Tab(text: "Words"),
+          Tab(text: "Numbers"),
+        ],
       ),
       bottomNavigationBar: const AdsScreen(),
+      body: Column(
+        children: [
+          Obx(() {
+            final progress = ProgressService.to.getProgressPercentage(ProgressService.kRegionalLanguages) / 100;
+            final progressString = ProgressService.to.getProgressString(ProgressService.kRegionalLanguages);
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Progress', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+                      Text('$progressString completed', style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress, minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildLanguagesTab(),
+                _buildWordsTab(),
+                _buildNumbersTab(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildLanguagesTab() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: indianLanguages.length + 1,
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 0.85,
+      ),
+      itemCount: indianLanguages.length,
       itemBuilder: (context, index) {
-        if (index == 0) {
-          return Column(
-            children: [
-              const Text("📚", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Languages of India", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Learn to say Hello in 10 languages!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
-            ],
-          );
-        }
-
-        final lang = indianLanguages[index - 1];
-        return GestureDetector(
-          onTap: () {
-            setState(() => selectedLanguageIndex = index - 1);
-            _speakText(lang['pronunciation']);
-          },
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(color: lang['color'].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
-              ],
-            ),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [lang['color'], lang['color'].withValues(alpha: 0.7)]),
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(lang['emoji'], style: const TextStyle(fontSize: 30)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(lang['name'], style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                            Text("${lang['script']} Script • ${lang['region']}", style: const TextStyle(color: Colors.white70, fontSize: 12)),
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.volume_up, color: Colors.white),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(lang['hello'], style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: lang['color'])),
-                      const SizedBox(height: 4),
-                      Text("(${lang['pronunciation']})", style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        alignment: WrapAlignment.center,
-                        children: (lang['letters'] as List<String>).map((letter) {
-                          return Container(
-                            width: 36,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color: lang['color'].withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(child: Text(letter, style: TextStyle(fontSize: 18, color: lang['color']))),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+        final lang = indianLanguages[index];
+        final gradient = AppColors.getGradientForIndex(index);
+        return buildFloatingItem(
+          index: index,
+          child: GradientCard(
+            gradient: gradient,
+            isSelected: false,
+            onTap: () {
+              TtsService.to.speak(lang['name']);
+              setState(() => selectedLanguageIndex = index);
+              _speakText(lang['pronunciation']);
+            },
+            pulseAnimation: pulseAnimation,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(lang['emoji'], style: const TextStyle(fontSize: 36)),
+                  const SizedBox(height: 4),
+                  GradientCardText(text: lang['name'], fontSize: 13),
+                  const SizedBox(height: 4),
+                  Text(lang['hello'], style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text('(${lang['pronunciation']})', style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.8))),
+                ],
+              ),
             ),
           ),
         );
@@ -340,27 +240,22 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with Tick
     final langName = selectedLang['name'] as String;
     final wordList = translations[langName] ?? [];
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          const Text("💬", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          const Text("Common Words", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 16),
-
-          // Language Selector
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: DropdownButton<int>(
               value: selectedLanguageIndex,
-              dropdownColor: Color(0xFF764BA2),
-              style: const TextStyle(color: Colors.white, fontSize: 16),
+              dropdownColor: const Color(0xFF764BA2),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
               underline: const SizedBox(),
+              isExpanded: true,
               icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
               items: indianLanguages.asMap().entries.map((entry) {
                 return DropdownMenuItem<int>(
@@ -368,53 +263,46 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with Tick
                   child: Text("${entry.value['emoji']} ${entry.value['name']}"),
                 );
               }).toList(),
-              onChanged: (value) {
-                setState(() => selectedLanguageIndex = value ?? 0);
-              },
+              onChanged: (value) => setState(() => selectedLanguageIndex = value ?? 0),
             ),
           ),
-          const SizedBox(height: 20),
-
-          // Words Grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+        ),
+        Expanded(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(12),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.1,
+              crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.0,
             ),
             itemCount: commonWords.length,
             itemBuilder: (context, index) {
               final word = commonWords[index];
               final translation = index < wordList.length ? wordList[index] : '';
-
-              return GestureDetector(
-                onTap: () => _speakText(translation),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(word['emoji'], style: const TextStyle(fontSize: 35)),
-                      const SizedBox(height: 8),
-                      Text(word['english'], style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
-                      const SizedBox(height: 4),
-                      Text(translation, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: selectedLang['color'])),
-                      const SizedBox(height: 4),
-                      Icon(Icons.volume_up, size: 18, color: selectedLang['color']),
-                    ],
+              final gradient = AppColors.getGradientForIndex(index);
+              return buildFloatingItem(
+                index: index,
+                child: GradientCard(
+                  gradient: gradient,
+                  isSelected: false,
+                  onTap: () => _speakText(translation),
+                  pulseAnimation: pulseAnimation,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(word['emoji'], style: const TextStyle(fontSize: 30)),
+                        const SizedBox(height: 4),
+                        Text(word['english'], style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.8))),
+                        const SizedBox(height: 4),
+                        GradientCardText(text: translation, fontSize: 14),
+                      ],
+                    ),
                   ),
                 ),
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -423,27 +311,22 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with Tick
     final langName = selectedLang['name'] as String;
     final numList = numberTranslations[langName] ?? [];
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          const Text("🔢", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          const Text("Numbers 1-10", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 16),
-
-          // Language Selector
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: DropdownButton<int>(
               value: selectedLanguageIndex,
-              dropdownColor: Color(0xFF764BA2),
-              style: const TextStyle(color: Colors.white, fontSize: 16),
+              dropdownColor: const Color(0xFF764BA2),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
               underline: const SizedBox(),
+              isExpanded: true,
               icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
               items: indianLanguages.asMap().entries.map((entry) {
                 return DropdownMenuItem<int>(
@@ -451,60 +334,46 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage> with Tick
                   child: Text("${entry.value['emoji']} ${entry.value['name']}"),
                 );
               }).toList(),
-              onChanged: (value) {
-                setState(() => selectedLanguageIndex = value ?? 0);
-              },
+              onChanged: (value) => setState(() => selectedLanguageIndex = value ?? 0),
             ),
           ),
-          const SizedBox(height: 20),
-
-          // Numbers Grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+        ),
+        Expanded(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(12),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.3,
+              crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.0,
             ),
             itemCount: numbers.length,
             itemBuilder: (context, index) {
               final num = numbers[index];
               final translation = index < numList.length ? numList[index] : '';
-              final colors = [
-                Color(0xFF4ECDC4), Color(0xFFFF6B6B), Color(0xFF667EEA),
-                Color(0xFFFFAA5A), Color(0xFF56D97F), Color(0xFFA78BFA),
-                Color(0xFFFFD93D), Color(0xFFFF8E53), Color(0xFF00CED1),
-                Color(0xFF9B59B6),
-              ];
-
-              return GestureDetector(
-                onTap: () => _speakText(translation),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [colors[index], colors[index].withValues(alpha: 0.7)]),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(color: colors[index].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(num['number'], style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
-                      const SizedBox(height: 4),
-                      Text(translation, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
-                      const SizedBox(height: 2),
-                      Text(num['english'], style: const TextStyle(fontSize: 12, color: Colors.white70)),
-                    ],
+              final gradient = AppColors.getGradientForIndex(index);
+              return buildFloatingItem(
+                index: index,
+                child: GradientCard(
+                  gradient: gradient,
+                  isSelected: false,
+                  onTap: () => _speakText(translation),
+                  pulseAnimation: pulseAnimation,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(num['number'], style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
+                        const SizedBox(height: 4),
+                        Text(translation, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                        const SizedBox(height: 2),
+                        Text(num['english'], style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.8))),
+                      ],
+                    ),
                   ),
                 ),
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/learn%20set%20controller/seasons_learning_controller.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class SeasonsLearningPage extends StatefulWidget {
   const SeasonsLearningPage({super.key});
@@ -147,6 +148,7 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
 
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(item['name']!);
         setState(() {
           controller.selectSeason(index);
         });

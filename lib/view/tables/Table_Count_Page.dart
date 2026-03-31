@@ -6,6 +6,7 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class TableDetailScreen extends StatefulWidget {
   final int number;
@@ -126,7 +127,10 @@ class _TableDetailScreenState extends State<TableDetailScreen>
                       gradient: gradient,
                       isSelected: isSelected,
                       borderRadius: 20,
-                      onTap: () => controller.onBoxTap(index),
+                      onTap: () {
+                        TtsService.to.speak('${widget.number} times $multiplier equals $product');
+                        controller.onBoxTap(index);
+                      },
                       pulseAnimation: pulseAnimation,
                       child: Stack(
                         children: [

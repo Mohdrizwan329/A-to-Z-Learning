@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:async';
+import 'dart:math' as math;
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class EmotionalRegulationPage extends StatefulWidget {
   const EmotionalRegulationPage({super.key});
@@ -15,6 +17,9 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _breathController;
   late Animation<double> _breathAnimation;
+  late AnimationController _floatController;
+  late AnimationController _bubbleController;
+  late Animation<double> _floatAnimation;
   bool isBreathingActive = false;
   String breathPhase = 'Ready';
   int breathCycles = 0;
@@ -72,6 +77,8 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
   ];
 
   int selectedStrategy = -1;
+  late AnimationController _cardAnimController;
+  late List<Animation<double>> _cardAnimations;
 
   @override
   void initState() {
@@ -84,6 +91,31 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
     _breathAnimation = Tween<double>(begin: 0.5, end: 1.5).animate(
       CurvedAnimation(parent: _breathController, curve: Curves.easeInOut),
     );
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+    _cardAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+    _cardAnimations = List.generate(
+      calmingStrategies.length,
+      (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _cardAnimController,
+          curve: Interval(index * 0.12, (index * 0.12 + 0.4).clamp(0.0, 1.0), curve: Curves.easeOutBack),
+        ),
+      ),
+    );
+    _cardAnimController.forward();
   }
 
   Future<void> _initTts() async {
@@ -155,6 +187,9 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
   @override
   void dispose() {
     _breathController.dispose();
+    _cardAnimController.dispose();
+    _floatController.dispose();
+    _bubbleController.dispose();
     flutterTts.stop();
     super.dispose();
   }
@@ -165,14 +200,23 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () {
-              if (isBreathingActive) {
-                _stopBreathing();
-              }
-              Get.back();
-            },
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {
+                if (isBreathingActive) {
+                  _stopBreathing();
+                }
+                Get.back();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+              ),
+            ),
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -196,10 +240,18 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
           bottom: const TabBar(
             indicatorColor: Colors.white,
             indicatorWeight: 3,
+            isScrollable: true,
+            tabAlignment: TabAlignment.center,
+            labelPadding: EdgeInsets.symmetric(horizontal: 44),
+            dividerColor: Colors.transparent,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white70,
+            labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            unselectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             tabs: [
-              Tab(text: "Breathe", icon: Icon(Icons.air, size: 20)),
-              Tab(text: "Strategies", icon: Icon(Icons.lightbulb, size: 20)),
-              Tab(text: "Tools", icon: Icon(Icons.construction, size: 20)),
+              Tab(text: "Breathe"),
+              Tab(text: "Strategies"),
+              Tab(text: "Tools"),
             ],
           ),
         ),
@@ -212,11 +264,17 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
               end: Alignment.bottomRight,
             ),
           ),
-          child: TabBarView(
+          child: Stack(
             children: [
-              _buildBreathingTab(),
-              _buildStrategiesTab(),
-              _buildToolsTab(),
+              // Floating bubbles background (home screen style)
+              ..._buildFloatingBubbles(),
+              TabBarView(
+                children: [
+                  _buildBreathingTab(),
+                  _buildStrategiesTab(),
+                  _buildToolsTab(),
+                ],
+              ),
             ],
           ),
         ),
@@ -314,6 +372,53 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
     );
   }
 
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+
+  // Gradient pairs for strategy cards (like home screen)
+  final List<List<Color>> _strategyGradients = const [
+    [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+    [Color(0xFF667EEA), Color(0xFF764BA2)],
+    [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+    [Color(0xFFA78BFA), Color(0xFF7C3AED)],
+    [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
+    [Color(0xFF56D97F), Color(0xFF2ECC71)],
+  ];
+
   Widget _buildStrategiesTab() {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -334,84 +439,179 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
 
         final strategy = calmingStrategies[index - 1];
         final isExpanded = selectedStrategy == index - 1;
+        final animIndex = (index - 1).clamp(0, _cardAnimations.length - 1);
+        final gradient = _strategyGradients[(index - 1) % _strategyGradients.length];
 
-        return GestureDetector(
-          onTap: () {
-            setState(() => selectedStrategy = isExpanded ? -1 : index - 1);
-            if (!isExpanded) {
-              _speakText(strategy['description']);
-            }
+        return AnimatedBuilder(
+          animation: _cardAnimations[animIndex],
+          builder: (context, child) {
+            final value = _cardAnimations[animIndex].value;
+            return Transform.translate(
+              offset: Offset(0, 30 * (1 - value)),
+              child: Opacity(
+                opacity: value.clamp(0.0, 1.0),
+                child: child,
+              ),
+            );
           },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 55,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          color: strategy['color'].withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Center(child: Text(strategy['emoji'], style: const TextStyle(fontSize: 30))),
-                      ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(strategy['name'], style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: strategy['color'])),
-                            Text(strategy['description'], style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
-                          ],
-                        ),
-                      ),
-                      Icon(isExpanded ? Icons.expand_less : Icons.expand_more, color: strategy['color']),
-                    ],
+          child: AnimatedBuilder(
+            animation: _floatController,
+            builder: (context, child) {
+              final offset = ((index - 1) % 2 == 0)
+                  ? _floatAnimation.value * 0.5
+                  : -_floatAnimation.value * 0.5;
+              return Transform.translate(offset: Offset(0, offset), child: child);
+            },
+            child: GestureDetector(
+              onTap: () {
+                TtsService.to.speak(strategy['name']);
+                setState(() => selectedStrategy = isExpanded ? -1 : index - 1);
+                if (!isExpanded) {
+                  _speakText(strategy['description']);
+                }
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: gradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                ),
-                if (isExpanded)
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: strategy['color'].withValues(alpha: 0.1),
-                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: gradient[0].withValues(alpha: 0.4),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    // Decorative circle (home screen style)
+                    Positioned(
+                      top: -15,
+                      right: -15,
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -10,
+                      left: -10,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.08),
+                        ),
+                      ),
+                    ),
+                    // Card content
+                    Column(
                       children: [
-                        Text("Steps:", style: TextStyle(fontWeight: FontWeight.bold, color: strategy['color'])),
-                        const SizedBox(height: 8),
-                        ...(strategy['steps'] as List<String>).asMap().entries.map((entry) => Padding(
-                          padding: const EdgeInsets.only(bottom: 6),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Circular emoji container (home screen style)
                               Container(
-                                width: 22,
-                                height: 22,
-                                decoration: BoxDecoration(color: strategy['color'], shape: BoxShape.circle),
-                                child: Center(
-                                  child: Text("${entry.key + 1}", style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.3),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(child: Text(strategy['emoji'], style: const TextStyle(fontSize: 30))),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      strategy['name'],
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      strategy['description'],
+                                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.85)),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(width: 10),
-                              Expanded(child: Text(entry.value, style: TextStyle(color: Colors.grey.shade700))),
+                              AnimatedRotation(
+                                turns: isExpanded ? 0.5 : 0.0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.2),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.expand_more, color: Colors.white),
+                                ),
+                              ),
                             ],
                           ),
-                        )),
+                        ),
+                        AnimatedCrossFade(
+                          firstChild: const SizedBox.shrink(),
+                          secondChild: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Steps:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15)),
+                                const SizedBox(height: 8),
+                                ...(strategy['steps'] as List<String>).asMap().entries.map((entry) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 6),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 22,
+                                        height: 22,
+                                        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
+                                        child: Center(
+                                          child: Text("${entry.key + 1}", style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(child: Text(entry.value, style: TextStyle(color: Colors.white.withValues(alpha: 0.9)))),
+                                    ],
+                                  ),
+                                )),
+                              ],
+                            ),
+                          ),
+                          crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                          duration: const Duration(milliseconds: 300),
+                        ),
                       ],
                     ),
-                  ),
-              ],
+                  ],
+                ),
+              ),
             ),
           ),
         );
@@ -438,55 +638,88 @@ class _EmotionalRegulationPageState extends State<EmotionalRegulationPage> with 
         }
 
         final tool = emotionTools[index - 1];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [tool['color'], tool['color'].withValues(alpha: 0.7)]),
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                ),
-                child: Row(
-                  children: [
-                    Text(tool['emoji'], style: const TextStyle(fontSize: 35)),
-                    const SizedBox(width: 14),
-                    Text("When I feel ${tool['emotion']}...", style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold)),
-                  ],
-                ),
+        return TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: Duration(milliseconds: 500 + (index * 150)),
+          curve: Curves.easeOutBack,
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: 0.8 + (0.2 * value),
+              child: Opacity(
+                opacity: value.clamp(0.0, 1.0),
+                child: child,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: (tool['tools'] as List<String>).map((t) {
-                    return GestureDetector(
-                      onTap: () => _speakText(t),
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: tool['color'].withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.check_circle, color: tool['color'], size: 20),
-                            const SizedBox(width: 12),
-                            Expanded(child: Text(t, style: TextStyle(color: Colors.grey.shade700))),
-                            Icon(Icons.volume_up, color: tool['color'].withValues(alpha: 0.6), size: 20),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: (tool['color'] as Color).withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
                 ),
-              ),
-            ],
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [tool['color'], (tool['color'] as Color).withValues(alpha: 0.7)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(tool['emoji'], style: const TextStyle(fontSize: 35)),
+                      const SizedBox(width: 14),
+                      Text("When I feel ${tool['emotion']}...", style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: (tool['tools'] as List<String>).asMap().entries.map((entry) {
+                      return GestureDetector(
+                        onTap: () => _speakText(entry.value),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                (tool['color'] as Color).withValues(alpha: 0.08),
+                                (tool['color'] as Color).withValues(alpha: 0.18),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: (tool['color'] as Color).withValues(alpha: 0.15)),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.check_circle, color: tool['color'], size: 20),
+                              const SizedBox(width: 12),
+                              Expanded(child: Text(entry.value, style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w500))),
+                              Icon(Icons.volume_up, color: (tool['color'] as Color).withValues(alpha: 0.6), size: 20),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

@@ -331,6 +331,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           fontWeight: FontWeight.w500,
           fontSize: 15,
         ),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
         tabs: const [
           Tab(text: 'Global'),
           Tab(text: 'Weekly'),

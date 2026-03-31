@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class WorldMapPage extends StatefulWidget {
   const WorldMapPage({super.key});
@@ -10,81 +17,19 @@ class WorldMapPage extends StatefulWidget {
   State<WorldMapPage> createState() => _WorldMapPageState();
 }
 
-class _WorldMapPageState extends State<WorldMapPage> {
+class _WorldMapPageState extends State<WorldMapPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
   final FlutterTts flutterTts = FlutterTts();
-  String? selectedContinent;
+  late TabController _tabController;
 
   final List<Map<String, dynamic>> continents = [
-    {
-      'name': 'Asia',
-      'emoji': '🌏',
-      'color': Color(0xFFFF6B6B),
-      'countries': 48,
-      'population': '4.7 Billion',
-      'largestCountry': 'Russia/China',
-      'funFact': 'Asia is the largest continent and home to Mount Everest!',
-      'famousFor': ['Great Wall of China', 'Taj Mahal', 'Mount Fuji'],
-    },
-    {
-      'name': 'Africa',
-      'emoji': '🌍',
-      'color': Color(0xFF4ECDC4),
-      'countries': 54,
-      'population': '1.4 Billion',
-      'largestCountry': 'Algeria',
-      'funFact': 'Africa has the longest river - the Nile!',
-      'famousFor': ['Pyramids of Giza', 'Safari', 'Victoria Falls'],
-    },
-    {
-      'name': 'North America',
-      'emoji': '🌎',
-      'color': Color(0xFF45B7D1),
-      'countries': 23,
-      'population': '580 Million',
-      'largestCountry': 'Canada',
-      'funFact': 'North America has the Grand Canyon!',
-      'famousFor': ['Statue of Liberty', 'Niagara Falls', 'Hollywood'],
-    },
-    {
-      'name': 'South America',
-      'emoji': '🌎',
-      'color': Color(0xFF96CEB4),
-      'countries': 12,
-      'population': '430 Million',
-      'largestCountry': 'Brazil',
-      'funFact': 'South America has the Amazon Rainforest!',
-      'famousFor': ['Amazon River', 'Machu Picchu', 'Christ the Redeemer'],
-    },
-    {
-      'name': 'Europe',
-      'emoji': '🌍',
-      'color': Color(0xFFDDA0DD),
-      'countries': 44,
-      'population': '750 Million',
-      'largestCountry': 'Ukraine',
-      'funFact': 'Europe has the most countries in a small area!',
-      'famousFor': ['Eiffel Tower', 'Colosseum', 'Big Ben'],
-    },
-    {
-      'name': 'Australia',
-      'emoji': '🌏',
-      'color': Color(0xFFFFB347),
-      'countries': 1,
-      'population': '25 Million',
-      'largestCountry': 'Australia',
-      'funFact': 'Australia is both a country and a continent!',
-      'famousFor': ['Sydney Opera House', 'Great Barrier Reef', 'Kangaroos'],
-    },
-    {
-      'name': 'Antarctica',
-      'emoji': '🧊',
-      'color': Color(0xFF87CEEB),
-      'countries': 0,
-      'population': '~5,000 researchers',
-      'largestCountry': 'No countries',
-      'funFact': 'Antarctica is the coldest place on Earth!',
-      'famousFor': ['Penguins', 'Icebergs', 'Research Stations'],
-    },
+    {'name': 'Asia', 'emoji': '🌏', 'countries': 48, 'population': '4.7 Billion', 'largestCountry': 'Russia/China', 'funFact': 'Asia is the largest continent and home to Mount Everest!', 'famousFor': ['Great Wall of China', 'Taj Mahal', 'Mount Fuji']},
+    {'name': 'Africa', 'emoji': '🌍', 'countries': 54, 'population': '1.4 Billion', 'largestCountry': 'Algeria', 'funFact': 'Africa has the longest river - the Nile!', 'famousFor': ['Pyramids of Giza', 'Safari', 'Victoria Falls']},
+    {'name': 'North America', 'emoji': '🌎', 'countries': 23, 'population': '580 Million', 'largestCountry': 'Canada', 'funFact': 'North America has the Grand Canyon!', 'famousFor': ['Statue of Liberty', 'Niagara Falls', 'Hollywood']},
+    {'name': 'South America', 'emoji': '🌎', 'countries': 12, 'population': '430 Million', 'largestCountry': 'Brazil', 'funFact': 'South America has the Amazon Rainforest!', 'famousFor': ['Amazon River', 'Machu Picchu', 'Christ the Redeemer']},
+    {'name': 'Europe', 'emoji': '🌍', 'countries': 44, 'population': '750 Million', 'largestCountry': 'Ukraine', 'funFact': 'Europe has the most countries in a small area!', 'famousFor': ['Eiffel Tower', 'Colosseum', 'Big Ben']},
+    {'name': 'Australia', 'emoji': '🌏', 'countries': 1, 'population': '25 Million', 'largestCountry': 'Australia', 'funFact': 'Australia is both a country and a continent!', 'famousFor': ['Sydney Opera House', 'Great Barrier Reef', 'Kangaroos']},
+    {'name': 'Antarctica', 'emoji': '🧊', 'countries': 0, 'population': '~5,000 researchers', 'largestCountry': 'No countries', 'funFact': 'Antarctica is the coldest place on Earth!', 'famousFor': ['Penguins', 'Icebergs', 'Research Stations']},
   ];
 
   final List<Map<String, dynamic>> oceans = [
@@ -99,440 +44,260 @@ class _WorldMapPageState extends State<WorldMapPage> {
   void initState() {
     super.initState();
     _initTts();
+    _tabController = TabController(length: 2, vsync: this);
+    initGridAnimations(this);
   }
 
   Future<void> _initTts() async {
     await flutterTts.setLanguage("en-US");
     await flutterTts.setSpeechRate(0.4);
-    await flutterTts.setVolume(1.0);
   }
 
-  Future<void> _speak(String text) async {
-    await flutterTts.speak(text);
+  void _speakText(String text) {
+    flutterTts.speak(text);
   }
 
   @override
   void dispose() {
+    _tabController.dispose();
+    disposeGridAnimations();
     flutterTts.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'World Map for Kids',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+    return GradientScaffold(
+      title: 'World Map',
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: () async {
+              await ProgressService.to.resetProgress(ProgressService.kWorldMap);
+              setState(() {});
+            },
+            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
         ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: selectedContinent == null
-                    ? _buildMainView()
-                    : _buildContinentDetail(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  Widget _buildMainView() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Earth Animation
-          Center(
-            child: TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0, end: 1),
-              duration: const Duration(seconds: 2),
-              builder: (context, value, child) {
-                return Transform.rotate(
-                  angle: value * 0.1,
-                  child: child,
-                );
-              },
-              child: const Text('🌍', style: TextStyle(fontSize: 80)),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Center(
-            child: Text(
-              'Tap a continent to explore!',
-              style: GoogleFonts.nunito(
-                color: Colors.white70,
-                fontSize: 16,
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          // Continents Section
-          Text(
-            '🌍 7 Continents',
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ...continents.map((continent) => _buildContinentTile(continent)),
-          const SizedBox(height: 24),
-          // Oceans Section
-          Text(
-            '🌊 5 Oceans',
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: oceans.map((ocean) => _buildOceanChip(ocean)).toList(),
-          ),
-          const SizedBox(height: 24),
-          // Fun Facts Box
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.amber.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.amber, width: 2),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text('💡', style: TextStyle(fontSize: 24)),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Did You Know?',
-                      style: GoogleFonts.poppins(
-                        color: Colors.amber,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '• Earth is called the "Blue Planet" because 71% is water!\n'
-                  '• There are 195 countries in the world\n'
-                  '• The equator divides Earth into North and South',
-                  style: GoogleFonts.nunito(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
+      ],
+      bottom: TabBar(
+        controller: _tabController,
+        indicatorColor: Colors.white,
+        indicatorWeight: 3,
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white70,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 30),
+        tabs: const [
+          Tab(text: "Continents"),
+          Tab(text: "Oceans"),
         ],
       ),
-    );
-  }
-
-  Widget _buildContinentTile(Map<String, dynamic> continent) {
-    return GestureDetector(
-      onTap: () {
-        _speak(continent['name']);
-        setState(() {
-          selectedContinent = continent['name'];
-        });
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              continent['color'].withValues(alpha: 0.8),
-              continent['color'].withValues(alpha: 0.6),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: continent['color'].withValues(alpha: 0.4),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Text(continent['emoji'], style: const TextStyle(fontSize: 40)),
-            const SizedBox(width: 16),
-            Expanded(
+      bottomNavigationBar: const AdsScreen(),
+      body: Column(
+        children: [
+          Obx(() {
+            final progress = ProgressService.to.getProgressPercentage(ProgressService.kWorldMap) / 100;
+            final progressString = ProgressService.to.getProgressString(ProgressService.kWorldMap);
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    continent['name'],
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Progress', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+                      Text('$progressString completed', style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500)),
+                    ],
                   ),
-                  Text(
-                    '${continent['countries']} countries • ${continent['population']}',
-                    style: GoogleFonts.nunito(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 13,
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress, minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
                     ),
                   ),
                 ],
               ),
-            ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOceanChip(Map<String, dynamic> ocean) {
-    return GestureDetector(
-      onTap: () => _speak(ocean['name']),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.blue.shade700,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.blue.shade300),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(ocean['emoji'], style: const TextStyle(fontSize: 20)),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            );
+          }),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
               children: [
-                Text(
-                  ocean['name'],
-                  style: GoogleFonts.nunito(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                Text(
-                  ocean['size'],
-                  style: GoogleFonts.nunito(
-                    color: Colors.white70,
-                    fontSize: 10,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildContinentDetail() {
-    final continent = continents.firstWhere((c) => c['name'] == selectedContinent);
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Header Card
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: continent['color'].withValues(alpha: 0.4),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(continent['emoji'], style: const TextStyle(fontSize: 80)),
-                const SizedBox(height: 16),
-                Text(
-                  continent['name'],
-                  style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: continent['color'],
-                  ),
-                ),
+                _buildContinentsGrid(),
+                _buildOceansGrid(),
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          // Info Cards
-          _buildDetailCard('🏳️', 'Countries', '${continent['countries']}', continent['color']),
-          _buildDetailCard('👥', 'Population', continent['population'], continent['color']),
-          _buildDetailCard('📏', 'Largest', continent['largestCountry'], continent['color']),
-          // Famous Places
-          Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.9),
-              borderRadius: BorderRadius.circular(16),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContinentsGrid() {
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, mainAxisSpacing: 16, crossAxisSpacing: 16, childAspectRatio: 1.0,
+      ),
+      itemCount: continents.length,
+      itemBuilder: (context, index) {
+        final continent = continents[index];
+        final gradient = AppColors.getGradientForIndex(index);
+        return buildFloatingItem(
+          index: index,
+          child: GradientCard(
+            gradient: gradient,
+            isSelected: false,
+            onTap: () {
+              TtsService.to.speak(continent['name']);
+              ProgressService.to.markItemCompleted(ProgressService.kWorldMap, index);
+              Get.to(() => ContinentDetailPage(continent: continent, speakText: _speakText));
+            },
+            pulseAnimation: pulseAnimation,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 65, height: 65,
+                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
+                    child: Center(child: Text(continent['emoji'], style: const TextStyle(fontSize: 36))),
+                  ),
+                  const SizedBox(height: 8),
+                  GradientCardText(text: continent['name'], fontSize: 13),
+                  Text('${continent['countries']} countries', style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.8))),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildOceansGrid() {
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, mainAxisSpacing: 16, crossAxisSpacing: 16, childAspectRatio: 1.0,
+      ),
+      itemCount: oceans.length,
+      itemBuilder: (context, index) {
+        final ocean = oceans[index];
+        final gradient = AppColors.getGradientForIndex(index);
+        return buildFloatingItem(
+          index: index,
+          child: GradientCard(
+            gradient: gradient,
+            isSelected: false,
+            onTap: () => _speakText("${ocean['name']}. ${ocean['size']}"),
+            pulseAnimation: pulseAnimation,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 65, height: 65,
+                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
+                    child: Center(child: Text(ocean['emoji'], style: const TextStyle(fontSize: 36))),
+                  ),
+                  const SizedBox(height: 8),
+                  GradientCardText(text: ocean['name'], fontSize: 13),
+                  Text(ocean['size'], style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.8))),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ContinentDetailPage extends StatefulWidget {
+  final Map<String, dynamic> continent;
+  final void Function(String) speakText;
+
+  const ContinentDetailPage({super.key, required this.continent, required this.speakText});
+
+  @override
+  State<ContinentDetailPage> createState() => _ContinentDetailPageState();
+}
+
+class _ContinentDetailPageState extends State<ContinentDetailPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+  }
+
+  @override
+  void dispose() {
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final c = widget.continent;
+    final items = [
+      {'emoji': '🏳️', 'label': 'Countries', 'value': '${c['countries']}'},
+      {'emoji': '👥', 'label': 'Population', 'value': c['population']},
+      {'emoji': '📏', 'label': 'Largest', 'value': c['largestCountry']},
+      {'emoji': '💡', 'label': 'Fun Fact', 'value': c['funFact']},
+      ...List.generate((c['famousFor'] as List).length, (i) => {
+        'emoji': '🏛️', 'label': 'Famous', 'value': c['famousFor'][i],
+      }),
+    ];
+
+    return GradientScaffold(
+      title: c['name'],
+      bottomNavigationBar: const AdsScreen(),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(12),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12,
+          childAspectRatio: items.length > 6 ? 1.0 : 0.95,
+        ),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          final gradient = AppColors.getGradientForIndex(index);
+          return buildFloatingItem(
+            index: index,
+            child: GradientCard(
+              gradient: gradient,
+              isSelected: false,
+              onTap: () => widget.speakText("${item['label']}. ${item['value']}"),
+              pulseAnimation: pulseAnimation,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('🏛️', style: TextStyle(fontSize: 24)),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Famous For:',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        color: continent['color'],
-                      ),
+                    Container(
+                      width: 50, height: 50,
+                      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
+                      child: Center(child: Text(item['emoji']!, style: const TextStyle(fontSize: 24))),
                     ),
+                    const SizedBox(height: 6),
+                    Text(item['label']!, style: const TextStyle(fontSize: 11, color: Colors.white70, fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 4),
+                    GradientCardText(text: item['value']!, fontSize: 12),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: (continent['famousFor'] as List).map((place) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: continent['color'].withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        place,
-                        style: GoogleFonts.nunito(
-                          color: continent['color'],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
+              ),
             ),
-          ),
-          // Fun Fact
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.amber.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.amber, width: 2),
-            ),
-            child: Row(
-              children: [
-                const Text('💡', style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Fun Fact!',
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.amber,
-                        ),
-                      ),
-                      Text(
-                        continent['funFact'],
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDetailCard(String emoji, String label, String value, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Text(emoji, style: const TextStyle(fontSize: 28)),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: GoogleFonts.nunito(
-                    color: Colors.grey.shade600,
-                    fontSize: 14,
-                  ),
-                ),
-                Text(
-                  value,
-                  style: GoogleFonts.poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

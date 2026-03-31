@@ -8,6 +8,7 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class CitizenshipBasicsPage extends StatefulWidget {
   const CitizenshipBasicsPage({super.key});
@@ -126,6 +127,7 @@ class _CitizenshipBasicsPageState extends State<CitizenshipBasicsPage>
                     index: index,
                     child: GestureDetector(
                       onTap: () {
+                        TtsService.to.speak(section['title']);
                         controller.toggleExpanded(index);
                         Get.to(
                           () => CitizenshipBasicsDetailPage(

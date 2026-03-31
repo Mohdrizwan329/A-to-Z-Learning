@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class StrokeOrderPage extends StatefulWidget {
   const StrokeOrderPage({super.key});
@@ -134,6 +135,7 @@ class _StrokeOrderPageState extends State<StrokeOrderPage> with TickerProviderSt
       currentStroke = 0;
       showAllStrokes = false;
     });
+    TtsService.to.speak(characters[currentIndex]['char']);
   }
 
   void _previousCharacter() {
@@ -146,6 +148,7 @@ class _StrokeOrderPageState extends State<StrokeOrderPage> with TickerProviderSt
       currentStroke = 0;
       showAllStrokes = false;
     });
+    TtsService.to.speak(characters[currentIndex]['char']);
   }
 
   @override

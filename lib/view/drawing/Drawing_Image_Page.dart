@@ -1216,6 +1216,22 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
     SizeConfig.init(context);
     return GradientScaffold(
       title: 'Choose Picture',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+          ),
+          onPressed: () async {
+            await ProgressService.to.resetProgress(ProgressService.kColoring);
+            setState(() {});
+          },
+        ),
+      ],
       bottomNavigationBar: const AdsScreen(),
       body: Stack(
         children: [

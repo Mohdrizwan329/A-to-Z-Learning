@@ -1,6 +1,14 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class DesignThinkingPage extends StatefulWidget {
   const DesignThinkingPage({super.key});
@@ -9,13 +17,16 @@ class DesignThinkingPage extends StatefulWidget {
   State<DesignThinkingPage> createState() => _DesignThinkingPageState();
 }
 
-class _DesignThinkingPageState extends State<DesignThinkingPage> {
-  int currentSection = 0;
+class _DesignThinkingPageState extends State<DesignThinkingPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  int selectedIndex = -1;
+  late AnimationController _bubbleController;
 
   final List<Map<String, dynamic>> sections = [
     {
       'title': 'What is Design Thinking?',
       'emoji': '💡',
+      'subtitle': 'Introduction',
       'color': Color(0xFF9C27B0),
       'description':
           'Design Thinking is a special way to solve problems by thinking like a designer! It helps us create amazing things that people really need and love.',
@@ -29,6 +40,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'Step 1: Empathize',
       'emoji': '❤️',
+      'subtitle': 'Understand Feelings',
       'color': Color(0xFFE91E63),
       'description':
           'Empathize means to understand how others feel. We ask questions and listen to learn what people need!',
@@ -60,6 +72,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'Step 2: Define',
       'emoji': '🎯',
+      'subtitle': 'Define Problem',
       'color': Color(0xFFFF5722),
       'description':
           'Define the problem clearly! After listening, we decide exactly what problem we want to solve.',
@@ -88,6 +101,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'Step 3: Ideate',
       'emoji': '💭',
+      'subtitle': 'Think of Ideas',
       'color': Color(0xFF4CAF50),
       'description':
           'Ideate means to think of LOTS of ideas! No idea is too silly or too wild. The more ideas, the better!',
@@ -127,6 +141,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'Step 4: Prototype',
       'emoji': '🔨',
+      'subtitle': 'Build & Create',
       'color': Color(0xFF2196F3),
       'description':
           'A prototype is a simple version of your idea that you can touch and try! It doesn\'t have to be perfect.',
@@ -148,6 +163,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'Step 5: Test',
       'emoji': '🧪',
+      'subtitle': 'Try & Improve',
       'color': Color(0xFF00BCD4),
       'description':
           'Testing means trying your prototype with real people! Watch what works and what doesn\'t.',
@@ -182,6 +198,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'The Design Cycle',
       'emoji': '🔄',
+      'subtitle': 'Repeat & Improve',
       'color': Color(0xFF673AB7),
       'description':
           'Design Thinking is a cycle! After testing, we go back and make things better. Repeat until it\'s great!',
@@ -197,6 +214,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     {
       'title': 'Design Challenge!',
       'emoji': '🏆',
+      'subtitle': 'Try It Out!',
       'color': Color(0xFFFF9800),
       'challenges': [
         {
@@ -228,129 +246,385 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final section = sections[currentSection];
+  void initState() {
+    super.initState();
+    initGridAnimations(this, floatRange: 2.0, pulseMax: 1.0);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Design Thinking',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientScaffold(
+      title: 'Design Thinking',
+      bottomNavigationBar: const AdsScreen(),
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
+          onPressed: () {
+            ProgressService.to.resetProgress(ProgressService.kDesignThinking);
+            setState(() {});
+          },
         ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-              Color(0xFFF5576C),
-            ],
-            stops: [0.0, 0.3, 0.7, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
+      ],
+      body: Stack(
+        children: [
+          // Animated floating bubbles background
+          ..._buildFloatingBubbles(),
+          // Main content
+          Column(
             children: [
-              _buildProgressDots(),
+              // Progress bar
+              Obx(() {
+                final progress =
+                    ProgressService.to.getProgressPercentage(
+                          ProgressService.kDesignThinking,
+                        ) /
+                        100;
+                final progressString = ProgressService.to.getProgressString(
+                  ProgressService.kDesignThinking,
+                );
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '$progressString completed',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 10,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              // Grid
               Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
-                  child: _buildSectionContent(section),
+                child: GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 1.0,
+                  ),
+                  itemCount: sections.length,
+                  itemBuilder: (context, index) {
+                    final section = sections[index];
+                    final gradient = AppColors.getGradientForIndex(index);
+
+                    return Obx(() {
+                      final isSelected = selectedIndex == index;
+                      final isCompleted = ProgressService.to.isItemCompleted(
+                        ProgressService.kDesignThinking,
+                        index,
+                      );
+
+                      return buildFloatingItem(
+                        index: index,
+                        child: GradientCard(
+                          gradient: gradient,
+                          isSelected: isSelected,
+                          showDecorations: true,
+                          onTap: () {
+                            TtsService.to.speak(sections[index]['title']);
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                            // Mark as completed
+                            ProgressService.to.markItemCompleted(
+                              ProgressService.kDesignThinking,
+                              index,
+                            );
+                            // Navigate to detail page
+                            Get.to(() => _DesignThinkingDetailPage(
+                                  section: section,
+                                  sectionIndex: index,
+                                ));
+                          },
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 65,
+                                      height: 65,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(alpha: 0.25),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          section['emoji'],
+                                          style: const TextStyle(fontSize: 32),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      section['title'],
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      section['subtitle'],
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 11,
+                                        color: Colors.white.withValues(alpha: 0.9),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Checkmark if completed
+                              if (isCompleted)
+                                Positioned(
+                                  bottom: 4,
+                                  right: 4,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 12,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+                  },
                 ),
               ),
-              _buildNavigationButtons(section),
             ],
           ),
-        ),
-      ),
-    );
-  }
-  Widget _buildProgressDots() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(sections.length, (index) {
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 4),
-            width: currentSection == index ? 24 : 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: currentSection == index
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(4),
-            ),
-          );
-        }),
+        ],
       ),
     );
   }
 
-  Widget _buildSectionContent(Map<String, dynamic> section) {
-    switch (currentSection) {
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+}
+
+/// Detail page for each Design Thinking section
+class _DesignThinkingDetailPage extends StatefulWidget {
+  final Map<String, dynamic> section;
+  final int sectionIndex;
+
+  const _DesignThinkingDetailPage({
+    required this.section,
+    required this.sectionIndex,
+  });
+
+  @override
+  State<_DesignThinkingDetailPage> createState() =>
+      _DesignThinkingDetailPageState();
+}
+
+class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  Map<String, dynamic> get section => widget.section;
+  int get sectionIndex => widget.sectionIndex;
+  late AnimationController _bubbleController;
+
+  @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientScaffold(
+      title: section['title'],
+      bottomNavigationBar: const AdsScreen(),
+      body: Stack(
+        children: [
+          // Animated floating bubbles background
+          ..._buildFloatingBubbles(),
+          // Main content
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: _buildContent(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+
+  Widget _buildContent() {
+    switch (sectionIndex) {
       case 0:
-        return _buildIntroSection(section);
+        return _buildIntroSection();
       case 1:
-        return _buildEmpathizeSection(section);
+        return _buildEmpathizeSection();
       case 2:
-        return _buildDefineSection(section);
+        return _buildDefineSection();
       case 3:
-        return _buildIdeateSection(section);
+        return _buildIdeateSection();
       case 4:
-        return _buildPrototypeSection(section);
+        return _buildPrototypeSection();
       case 5:
-        return _buildTestSection(section);
+        return _buildTestSection();
       case 6:
-        return _buildCycleSection(section);
+        return _buildCycleSection();
       case 7:
-        return _buildChallengeSection(section);
+        return _buildChallengeSection();
       default:
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
   }
 
-  Widget _buildIntroSection(Map<String, dynamic> section) {
+  Widget _buildIntroSection() {
     return Column(
       children: [
-        Text(
-          section['emoji'],
-          style: TextStyle(fontSize: 80),
-        ),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -365,52 +639,60 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         ...List.generate(section['keyPoints'].length, (index) {
           final point = section['keyPoints'][index];
-          return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: Offset(0, 4),
+          final gradient = AppColors.getGradientForIndex(index);
+          return buildFloatingItem(
+            index: index,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Text(point['icon'], style: TextStyle(fontSize: 32)),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    point['text'],
-                    style: GoogleFonts.nunito(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: section['color'],
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Text(point['icon'], style: const TextStyle(fontSize: 32)),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      point['text'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: section['color'].withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '${index + 1}',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      color: section['color'],
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.25),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      '${index + 1}',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }),
@@ -418,23 +700,13 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildEmpathizeSection(Map<String, dynamic> section) {
+  Widget _buildEmpathizeSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -448,64 +720,79 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         ...List.generate(section['activities'].length, (index) {
           final activity = section['activities'][index];
-          return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: section['color'].withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(activity['emoji'], style: TextStyle(fontSize: 28)),
+          final gradient = AppColors.getGradientForIndex(index);
+          return buildFloatingItem(
+            index: index,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        activity['title'],
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: section['color'],
-                        ),
-                      ),
-                      Text(
-                        activity['example'],
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.25),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(activity['emoji'], style: const TextStyle(fontSize: 28)),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          activity['title'],
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          activity['example'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.amber,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
-              Text('🌟', style: TextStyle(fontSize: 32)),
-              SizedBox(width: 12),
+              const Text('🌟', style: TextStyle(fontSize: 32)),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,23 +818,13 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildDefineSection(Map<String, dynamic> section) {
+  Widget _buildDefineSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -561,9 +838,9 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -578,7 +855,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Text(
           'Examples:',
           style: GoogleFonts.poppins(
@@ -587,46 +864,61 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         ...List.generate(section['problemStatements'].length, (index) {
           final statement = section['problemStatements'][index];
-          return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                Text(statement['who'], style: TextStyle(fontSize: 40)),
-                SizedBox(height: 8),
-                RichText(
+          final gradient = AppColors.getGradientForIndex(index);
+          return buildFloatingItem(
+            index: index,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Text(statement['who'], style: const TextStyle(fontSize: 40)),
+                  const SizedBox(height: 8),
+                  RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: GoogleFonts.nunito(
                       fontSize: 16,
-                      color: Colors.black87,
+                      color: Colors.white,
                     ),
                     children: [
                       TextSpan(
                         text: statement['needs'],
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      TextSpan(text: ' '),
+                      const TextSpan(text: ' '),
                       TextSpan(
                         text: statement['problem'],
                         style: TextStyle(
-                          color: section['color'],
+                          color: Colors.yellow[200],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextSpan(text: ' '),
+                      const TextSpan(text: ' '),
                       TextSpan(text: statement['because']),
                     ],
                   ),
                 ),
               ],
+            ),
             ),
           );
         }),
@@ -634,23 +926,13 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildIdeateSection(Map<String, dynamic> section) {
+  Widget _buildIdeateSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -664,7 +946,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Text(
           'Rules for Ideation:',
           style: GoogleFonts.poppins(
@@ -673,39 +955,51 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         GridView.count(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
           mainAxisSpacing: 12,
           crossAxisSpacing: 12,
           childAspectRatio: 1.2,
           children: List.generate(section['rules'].length, (index) {
             final rule = section['rules'][index];
+            final gradient = AppColors.getGradientForIndex(index);
             return Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(rule['icon'], style: TextStyle(fontSize: 32)),
-                  SizedBox(height: 8),
+                  Text(rule['icon'], style: const TextStyle(fontSize: 32)),
+                  const SizedBox(height: 8),
                   Text(
                     rule['rule'],
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
-                      color: section['color'],
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     rule['tip'],
                     style: GoogleFonts.nunito(
                       fontSize: 12,
-                      color: Colors.grey[600],
+                      color: Colors.white70,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -714,7 +1008,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             );
           }),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Text(
           'Techniques:',
           style: GoogleFonts.poppins(
@@ -723,42 +1017,57 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         ...List.generate(section['techniques'].length, (index) {
           final technique = section['techniques'][index];
-          return Container(
-            margin: EdgeInsets.only(bottom: 8),
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Text(technique['emoji'], style: TextStyle(fontSize: 28)),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        technique['name'],
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          color: section['color'],
-                        ),
-                      ),
-                      Text(
-                        technique['desc'],
-                        style: GoogleFonts.nunito(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
+          final gradient = AppColors.getGradientForIndex(index + 4);
+          return buildFloatingItem(
+            index: index,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-              ],
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Text(technique['emoji'], style: const TextStyle(fontSize: 28)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          technique['name'],
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          technique['desc'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 12,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }),
@@ -766,23 +1075,13 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildPrototypeSection(Map<String, dynamic> section) {
+  Widget _buildPrototypeSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -796,7 +1095,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Text(
           'Materials You Can Use:',
           style: GoogleFonts.poppins(
@@ -805,33 +1104,45 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         GridView.count(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 3,
           mainAxisSpacing: 12,
           crossAxisSpacing: 12,
           children: List.generate(section['materials'].length, (index) {
             final material = section['materials'][index];
+            final gradient = AppColors.getGradientForIndex(index);
             return Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(material['emoji'], style: TextStyle(fontSize: 32)),
-                  SizedBox(height: 4),
+                  Text(material['emoji'], style: const TextStyle(fontSize: 32)),
+                  const SizedBox(height: 4),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text(
                       material['item'],
                       style: GoogleFonts.nunito(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: section['color'],
+                        color: Colors.white,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -841,9 +1152,9 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             );
           }),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -859,14 +1170,14 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
                   color: section['color'],
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               ...List.generate(section['tips'].length, (index) {
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Row(
                     children: [
                       Icon(Icons.check_circle, color: section['color'], size: 20),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           section['tips'][index],
@@ -884,23 +1195,13 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildTestSection(Map<String, dynamic> section) {
+  Widget _buildTestSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -914,74 +1215,89 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         ...List.generate(section['testingSteps'].length, (index) {
           final step = section['testingSteps'][index];
-          return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: section['color'],
-                    shape: BoxShape.circle,
+          final gradient = AppColors.getGradientForIndex(index);
+          return buildFloatingItem(
+            index: index,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
-                  child: Center(
-                    child: Text(
-                      step['step'],
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.25),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        step['step'],
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        step['title'],
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          color: section['color'],
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          step['title'],
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Text(
-                        step['desc'],
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.grey[600],
+                        Text(
+                          step['desc'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Text(step['emoji'], style: TextStyle(fontSize: 28)),
-              ],
+                  Text(step['emoji'], style: const TextStyle(fontSize: 28)),
+                ],
+              ),
             ),
           );
         }),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.amber,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
-              Text('💡', style: TextStyle(fontSize: 32)),
-              SizedBox(width: 12),
+              const Text('💡', style: TextStyle(fontSize: 32)),
+              const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   section['remember'],
@@ -998,23 +1314,13 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildCycleSection(Map<String, dynamic> section) {
+  Widget _buildCycleSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 16),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
@@ -1028,9 +1334,9 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Container(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
@@ -1042,7 +1348,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
                 return Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       decoration: BoxDecoration(
                         color: step['color'],
                         borderRadius: BorderRadius.circular(30),
@@ -1050,8 +1356,8 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(step['emoji'], style: TextStyle(fontSize: 24)),
-                          SizedBox(width: 8),
+                          Text(step['emoji'], style: const TextStyle(fontSize: 24)),
+                          const SizedBox(width: 8),
                           Text(
                             step['step'],
                             style: GoogleFonts.poppins(
@@ -1065,7 +1371,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
                     ),
                     if (index < section['cycleSteps'].length - 1)
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Icon(
                           Icons.arrow_downward,
                           color: Colors.grey[400],
@@ -1075,7 +1381,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
                   ],
                 );
               }),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Icon(
                 Icons.refresh,
                 color: section['color'],
@@ -1091,9 +1397,9 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             ],
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.amber,
             borderRadius: BorderRadius.circular(16),
@@ -1111,21 +1417,11 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
     );
   }
 
-  Widget _buildChallengeSection(Map<String, dynamic> section) {
+  Widget _buildChallengeSection() {
     return Column(
       children: [
-        Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
-        Text(
-          section['title'],
-          style: GoogleFonts.poppins(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 8),
+        Text(section['emoji'], style: const TextStyle(fontSize: 80)),
+        const SizedBox(height: 16),
         Text(
           'Try these design challenges!',
           style: GoogleFonts.nunito(
@@ -1133,151 +1429,101 @@ class _DesignThinkingPageState extends State<DesignThinkingPage> {
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         ...List.generate(section['challenges'].length, (index) {
           final challenge = section['challenges'][index];
-          final colors = [
-            Color(0xFFE91E63),
-            Color(0xFF4CAF50),
-            Color(0xFF2196F3),
-            Color(0xFF9C27B0),
-          ];
-          return Container(
-            margin: EdgeInsets.only(bottom: 16),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colors[index], width: 2),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(challenge['emoji'], style: TextStyle(fontSize: 40)),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            challenge['title'],
-                            style: GoogleFonts.poppins(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: colors[index],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: colors[index].withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              challenge['difficulty'],
-                              style: GoogleFonts.nunito(
-                                fontSize: 12,
+          final gradient = AppColors.getGradientForIndex(index);
+          return buildFloatingItem(
+            index: index,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(challenge['emoji'], style: const TextStyle(fontSize: 40)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              challenge['title'],
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: colors[index],
+                                color: Colors.white,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.lightbulb_outline, color: colors[index]),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          challenge['problem'],
-                          style: GoogleFonts.nunito(fontSize: 14),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.25),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                challenge['difficulty'],
+                                style: GoogleFonts.nunito(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.lightbulb_outline, color: Colors.white),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            challenge['problem'],
+                            style: GoogleFonts.nunito(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }),
       ],
-    );
-  }
-
-  Widget _buildNavigationButtons(Map<String, dynamic> section) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: Row(
-        children: [
-          if (currentSection > 0)
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  setState(() {
-                    currentSection--;
-                  });
-                },
-                icon: Icon(Icons.arrow_back),
-                label: Text('Back'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white.withValues(alpha: 0.3),
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-              ),
-            ),
-          if (currentSection > 0) SizedBox(width: 12),
-          Expanded(
-            flex: currentSection == 0 ? 1 : 1,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                if (currentSection < sections.length - 1) {
-                  setState(() {
-                    currentSection++;
-                  });
-                } else {
-                  Get.back();
-                }
-              },
-              icon: Icon(
-                currentSection < sections.length - 1
-                    ? Icons.arrow_forward
-                    : Icons.check_circle,
-              ),
-              label: Text(
-                currentSection < sections.length - 1 ? 'Next' : 'Done',
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: section['color'] as Color,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

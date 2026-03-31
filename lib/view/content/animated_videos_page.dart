@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AnimatedVideosPage extends StatefulWidget {
   const AnimatedVideosPage({super.key});
@@ -388,6 +389,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "ABC"),
             Tab(text: "123"),
@@ -487,6 +489,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 );
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(video['word']);
                     _showAlphabetAnimation(video);
                     ProgressService.to.markItemCompleted(
                       ProgressService.kAnimatedABC,
@@ -635,6 +638,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 );
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(video['word']);
                     _showNumberAnimation(video);
                     ProgressService.to.markItemCompleted(
                       ProgressService.kAnimatedNumbers,
@@ -783,6 +787,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 );
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(rhyme['title']);
                     _showRhymeAnimation(rhyme);
                     ProgressService.to.markItemCompleted(
                       ProgressService.kAnimatedRhymes,
@@ -945,6 +950,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 );
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(story['title']);
                     _showStoryAnimation(story);
                     ProgressService.to.markItemCompleted(
                       ProgressService.kAnimatedStories,

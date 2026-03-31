@@ -4,6 +4,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MusicLearningPage extends StatefulWidget {
   const MusicLearningPage({super.key});
@@ -143,6 +144,7 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Notes"),
             Tab(text: "Instruments"),
@@ -227,6 +229,7 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
 
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(note['note']);
                     _playNote(note['note']);
                     ProgressService.to.markItemCompleted(ProgressService.kMusicNotes, index);
                   },
@@ -305,6 +308,7 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
 
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(instrument['name']);
                     _speakText("${instrument['name']}. ${instrument['sound']}");
                     ProgressService.to.markItemCompleted(ProgressService.kMusicInstruments, index);
                   },
@@ -391,6 +395,7 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
 
                 return GestureDetector(
                   onTap: () {
+                    TtsService.to.speak(fact['fact']);
                     _speakText(fact['fact']);
                     ProgressService.to.markItemCompleted(ProgressService.kMusicFacts, index);
                   },

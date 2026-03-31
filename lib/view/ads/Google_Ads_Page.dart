@@ -17,22 +17,18 @@ class AdsScreen extends StatefulWidget {
   State<AdsScreen> createState() => _AdsScreenState();
 }
 
-class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMixin {
+class _AdsScreenState extends State<AdsScreen> {
   AdService? _adService;
-  late AnimationController _shimmerController;
   BannerAd? _bannerAd;
   bool _isLoaded = false;
   UniqueKey _adKey = UniqueKey();
   bool _adLoadStarted = false;
+  bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
     _adService = AdService.instance;
-    _shimmerController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat();
   }
 
   @override
@@ -45,7 +41,7 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
   }
 
   void _loadAd() async {
-    if (_adService == null || !mounted) return;
+    if (_adService == null || !mounted || _isDisposed) return;
 
     // Dispose old ad if exists
     _bannerAd?.dispose();
@@ -62,7 +58,7 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
       adSize = adaptiveSize;
     }
 
-    if (!mounted) return;
+    if (!mounted || _isDisposed) return;
 
     _bannerAd = BannerAd(
       adUnitId: _adService!.bannerAdUnitId,
@@ -70,7 +66,7 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
-          if (mounted) {
+          if (mounted && !_isDisposed) {
             setState(() {
               _isLoaded = true;
               _adKey = UniqueKey();
@@ -79,7 +75,7 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
         },
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
-          if (mounted) {
+          if (mounted && !_isDisposed) {
             setState(() {
               _isLoaded = false;
               _bannerAd = null;
@@ -93,7 +89,7 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
-    _shimmerController.dispose();
+    _isDisposed = true;
     _bannerAd?.dispose();
     _bannerAd = null;
     super.dispose();
@@ -122,47 +118,19 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
             ],
           ),
         ),
-        child: AnimatedBuilder(
-          animation: _shimmerController,
-          builder: (context, child) {
-            return ShaderMask(
-              shaderCallback: (bounds) {
-                return LinearGradient(
-                  colors: [
-                    Colors.white.withValues(alpha: 0.0),
-                    Colors.white.withValues(alpha: 0.3),
-                    Colors.white.withValues(alpha: 0.0),
-                  ],
-                  stops: [
-                    _shimmerController.value - 0.3,
-                    _shimmerController.value,
-                    _shimmerController.value + 0.3,
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.srcATop,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(loadingRadius),
-                  color: Colors.white.withValues(alpha: 0.5),
-                ),
-              ),
-            );
-          },
-        ),
       );
     }
+
+    // Build the AdWidget once and reuse it
+    final adWidget = AdWidget(key: _adKey, ad: _bannerAd!);
 
     // Full width simple ad when no gradient border
     if (!widget.showGradientBorder) {
       try {
         return SizedBox(
-          key: _adKey,
           width: double.infinity,
           height: _bannerAd!.size.height.toDouble(),
-          child: AdWidget(ad: _bannerAd!),
+          child: adWidget,
         );
       } catch (e) {
         return const SizedBox.shrink();
@@ -171,7 +139,6 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
 
     try {
       return Container(
-        key: _adKey,
         margin: widget.margin ?? EdgeInsets.zero,
         height: 60,
         decoration: BoxDecoration(
@@ -208,7 +175,7 @@ class _AdsScreenState extends State<AdsScreen> with SingleTickerProviderStateMix
                   child: SizedBox(
                     width: _bannerAd!.size.width.toDouble(),
                     height: _bannerAd!.size.height.toDouble(),
-                    child: AdWidget(ad: _bannerAd!),
+                    child: adWidget,
                   ),
                 ),
               ),

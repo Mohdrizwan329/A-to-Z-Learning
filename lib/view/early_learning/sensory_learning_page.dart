@@ -5,6 +5,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class SensoryLearningPage extends StatefulWidget {
   const SensoryLearningPage({super.key});
@@ -250,6 +251,7 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
   }
 
   void _onItemTap(SensoryItem item, int itemIndex) {
+    TtsService.to.speak(item.name);
     HapticFeedback.mediumImpact();
     _speak('${item.name}. ${item.description}');
     _markItemVisited(_currentCategory, itemIndex);
@@ -439,6 +441,7 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: _categories.map((cat) {
             return Tab(
               child: Text(cat.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

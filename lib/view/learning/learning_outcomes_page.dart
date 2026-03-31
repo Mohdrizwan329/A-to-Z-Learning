@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/learning_outcomes_service.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class LearningOutcomesPage extends StatefulWidget {
   const LearningOutcomesPage({super.key});
@@ -179,6 +180,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
         unselectedLabelColor: Colors.white70,
         labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
         padding: const EdgeInsets.all(4),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
         tabs: _categories.map((cat) {
           return Tab(
             child: Padding(
@@ -272,7 +274,10 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => _showOutcomeDetails(outcome),
+          onTap: () {
+            TtsService.to.speak(outcome.title);
+            _showOutcomeDetails(outcome);
+          },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.all(16),

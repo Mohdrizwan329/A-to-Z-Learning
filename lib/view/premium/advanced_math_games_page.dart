@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AdvancedMathGamesPage extends StatefulWidget {
   const AdvancedMathGamesPage({super.key});
@@ -376,7 +377,10 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
                       }
 
                       return GestureDetector(
-                        onTap: () => _checkAnswer(option),
+                        onTap: () {
+                          TtsService.to.speak('$option');
+                          _checkAnswer(option);
+                        },
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           decoration: BoxDecoration(

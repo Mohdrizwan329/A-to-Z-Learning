@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class GoodHabitsPage extends StatefulWidget {
   const GoodHabitsPage({super.key});
@@ -251,6 +252,7 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Morning"),
             Tab(text: "Daily"),
@@ -393,7 +395,10 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                   );
                 },
                 child: GestureDetector(
-                  onTap: () => _toggleHabit(habit['habit']),
+                  onTap: () {
+                    TtsService.to.speak(habit['habit']);
+                    _toggleHabit(habit['habit']);
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(16),

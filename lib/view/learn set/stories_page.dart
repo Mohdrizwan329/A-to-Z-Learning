@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/learn%20set%20controller/stories_controller.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class StoriesPage extends StatefulWidget {
   const StoriesPage({super.key});
@@ -131,7 +132,7 @@ class _StoriesPageState extends State<StoriesPage>
                   );
                 },
                 child: GestureDetector(
-                onTap: () => _openStoryDetail(index),
+                onTap: () { TtsService.to.speak(story['title']!); _openStoryDetail(index); },
                 child: Container(
                   margin: EdgeInsets.only(bottom: 16),
                   padding: EdgeInsets.all(16),

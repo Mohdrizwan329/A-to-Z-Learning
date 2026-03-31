@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/learning_outcomes_service.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class LearningPathPage extends StatefulWidget {
   const LearningPathPage({super.key});
@@ -260,7 +261,7 @@ class _LearningPathPageState extends State<LearningPathPage>
                   ),
                   const SizedBox(width: 16),
                   ElevatedButton(
-                    onPressed: () => _navigateToModule(next.moduleId),
+                    onPressed: () { TtsService.to.speak(next.title); _navigateToModule(next.moduleId); },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF11998E),
                       padding: const EdgeInsets.symmetric(

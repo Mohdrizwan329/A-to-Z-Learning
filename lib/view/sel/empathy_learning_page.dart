@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class EmpathyLearningPage extends StatefulWidget {
   const EmpathyLearningPage({super.key});
@@ -1098,6 +1099,7 @@ class _EmpathyLearningPageState extends State<EmpathyLearningPage>
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
             labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            labelPadding: EdgeInsets.symmetric(horizontal: 20),
             tabs: [
               Tab(text: "Understand"),
               Tab(text: "Kindness"),
@@ -1151,6 +1153,7 @@ class _EmpathyLearningPageState extends State<EmpathyLearningPage>
                   },
                   child: GestureDetector(
                     onTap: () {
+                      TtsService.to.speak(empathyScenarios[selectedScenario]['title']);
                       setState(() {
                         _viewedScenarios.add(selectedScenario);
                         _currentScenarioTapped = true;

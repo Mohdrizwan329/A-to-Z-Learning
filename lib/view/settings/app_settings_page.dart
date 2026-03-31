@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/app_settings_service.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AppSettingsPage extends StatelessWidget {
   const AppSettingsPage({super.key});
@@ -79,6 +80,7 @@ class AppSettingsPage extends StatelessWidget {
                           isSelected: !settingsService.isDarkMode.value &&
                               !settingsService.isEyeFriendlyMode.value,
                           onTap: () {
+                            TtsService.to.speak('Light Mode');
                             settingsService.setDarkMode(false);
                             settingsService.setEyeFriendlyMode(false);
                           },
@@ -90,7 +92,7 @@ class AppSettingsPage extends StatelessWidget {
                           title: "Dark Mode",
                           subtitle: "Easy on the eyes at night",
                           isSelected: settingsService.isDarkMode.value,
-                          onTap: () => settingsService.setDarkMode(true),
+                          onTap: () { TtsService.to.speak('Dark Mode'); settingsService.setDarkMode(true); },
                           settingsService: settingsService,
                         ),
                         Divider(height: 1, color: Colors.grey.shade200),
@@ -99,7 +101,7 @@ class AppSettingsPage extends StatelessWidget {
                           title: "Eye-Friendly Mode",
                           subtitle: "Warm colors, reduced strain",
                           isSelected: settingsService.isEyeFriendlyMode.value,
-                          onTap: () => settingsService.setEyeFriendlyMode(true),
+                          onTap: () { TtsService.to.speak('Eye-Friendly Mode'); settingsService.setEyeFriendlyMode(true); },
                           settingsService: settingsService,
                         ),
                       ],

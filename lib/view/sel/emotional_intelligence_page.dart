@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class EmotionalIntelligencePage extends StatefulWidget {
   const EmotionalIntelligencePage({super.key});
@@ -846,6 +847,7 @@ class _EmotionalIntelligencePageState extends State<EmotionalIntelligencePage>
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
+            labelPadding: EdgeInsets.symmetric(horizontal: 20),
             tabs: [
               Tab(text: "Learn"),
               Tab(text: "Quiz"),
@@ -893,6 +895,7 @@ class _EmotionalIntelligencePageState extends State<EmotionalIntelligencePage>
                   },
                   child: GestureDetector(
                     onTap: () {
+                      TtsService.to.speak(emotions[selectedEmotion]['name']);
                       setState(() {
                         _viewedEmotions.add(selectedEmotion);
                         _currentEmotionTapped = true;

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AutismFriendlyPage extends StatefulWidget {
   const AutismFriendlyPage({super.key});
@@ -172,6 +173,7 @@ class _AutismFriendlyPageState extends State<AutismFriendlyPage> with TickerProv
           indicatorColor: Colors.white,
           indicatorWeight: 3,
           isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Settings", icon: Icon(Icons.settings, size: 18)),
             Tab(text: "Schedule", icon: Icon(Icons.schedule, size: 18)),
@@ -503,6 +505,7 @@ class _AutismFriendlyPageState extends State<AutismFriendlyPage> with TickerProv
             final activity = calmingActivities[index];
             return GestureDetector(
               onTap: () {
+                TtsService.to.speak(activity['name']);
                 _speakText("${activity['name']}. ${activity['description']}");
                 _showCalmingActivity(activity);
               },
@@ -559,6 +562,7 @@ class _AutismFriendlyPageState extends State<AutismFriendlyPage> with TickerProv
         final story = socialStories[index - 1];
         return GestureDetector(
           onTap: () {
+            TtsService.to.speak(story['title']);
             _speakText(story['story']);
             _showStoryDetail(story);
           },

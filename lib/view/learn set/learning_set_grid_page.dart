@@ -9,6 +9,7 @@ import 'package:jiyan_learning/view/learn%20set/generic_learning_page.dart';
 import 'package:jiyan_learning/view/learn%20set/shapes_learning_page.dart';
 import 'package:jiyan_learning/view/learn%20set/vehicles_learning_page.dart';
 import 'package:jiyan_learning/view/learn%20set/seasons_learning_page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class LearningSetsGridScreen extends StatefulWidget {
   final List<Color>? gradient;
@@ -263,7 +264,7 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
     final bool hasProgress = _hasProgress(progressKey);
 
     return GestureDetector(
-      onTap: () => Get.to(item['pageBuilder']),
+      onTap: () { TtsService.to.speak(item['label']); Get.to(item['pageBuilder']); },
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

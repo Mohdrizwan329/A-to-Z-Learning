@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MontessoriLearningPage extends StatefulWidget {
   const MontessoriLearningPage({super.key});
@@ -243,6 +244,7 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
   }
 
   void _onItemTap(MontessoriMaterial material, int itemIndex) {
+    TtsService.to.speak(material.name);
     HapticFeedback.mediumImpact();
     _speak('${material.name}. ${material.description}');
     _markItemVisited(_currentArea, itemIndex);
@@ -466,6 +468,7 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: _areas.map((a) {
             return Tab(
               child: Text(a.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

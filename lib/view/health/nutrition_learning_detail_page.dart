@@ -4,6 +4,7 @@ import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class NutritionLearningDetailPage extends StatefulWidget {
   final int sectionIndex;
@@ -126,6 +127,7 @@ class _NutritionLearningDetailPageState
   void initState() {
     super.initState();
     initGridAnimations(this, floatRange: 3.0);
+    TtsService.to.speak(sections[widget.sectionIndex]['title']);
   }
 
   @override

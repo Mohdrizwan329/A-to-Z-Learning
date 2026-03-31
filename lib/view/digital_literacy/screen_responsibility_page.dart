@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ScreenResponsibilityPage extends StatefulWidget {
   const ScreenResponsibilityPage({super.key});
@@ -1095,6 +1096,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                   setState(() {
                     currentSection--;
                   });
+                  TtsService.to.speak(sections[currentSection]['title']);
                 },
                 icon: Icon(Icons.arrow_back),
                 label: Text('Back'),
@@ -1116,6 +1118,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                   setState(() {
                     currentSection++;
                   });
+                  TtsService.to.speak(sections[currentSection]['title']);
                 } else {
                   Get.back();
                 }

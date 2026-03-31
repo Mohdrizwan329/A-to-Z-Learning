@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class SimpleExperimentsPage extends StatefulWidget {
   const SimpleExperimentsPage({super.key});
@@ -9,17 +15,23 @@ class SimpleExperimentsPage extends StatefulWidget {
   State<SimpleExperimentsPage> createState() => _SimpleExperimentsPageState();
 }
 
-class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
+class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
   int selectedExperiment = -1;
 
   final List<Map<String, dynamic>> experiments = [
     {
       'name': 'Volcano Eruption',
       'emoji': '🌋',
-      'color': Color(0xFFFF5722),
       'difficulty': 'Easy',
       'time': '10 min',
-      'materials': ['Baking soda', 'Vinegar', 'Dish soap', 'Food coloring', 'Bottle'],
+      'materials': [
+        'Baking soda',
+        'Vinegar',
+        'Dish soap',
+        'Food coloring',
+        'Bottle'
+      ],
       'steps': [
         'Put the bottle in a tray',
         'Add 2 spoons of baking soda',
@@ -27,15 +39,21 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Add a drop of dish soap',
         'Slowly pour vinegar and watch!',
       ],
-      'science': 'Vinegar (acid) reacts with baking soda (base) to make carbon dioxide gas!',
+      'science':
+          'Vinegar (acid) reacts with baking soda (base) to make carbon dioxide gas!',
     },
     {
       'name': 'Rainbow Milk',
-      'emoji': '🌈🥛',
-      'color': Color(0xFFE91E63),
+      'emoji': '🌈',
       'difficulty': 'Easy',
       'time': '5 min',
-      'materials': ['Milk', 'Food coloring', 'Dish soap', 'Plate', 'Cotton swab'],
+      'materials': [
+        'Milk',
+        'Food coloring',
+        'Dish soap',
+        'Plate',
+        'Cotton swab'
+      ],
       'steps': [
         'Pour milk into the plate',
         'Add drops of different colors',
@@ -43,12 +61,12 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Touch the milk with the swab',
         'Watch colors dance and swirl!',
       ],
-      'science': 'Soap breaks the surface tension of milk, making colors move!',
+      'science':
+          'Soap breaks the surface tension of milk, making colors move!',
     },
     {
       'name': 'Floating Egg',
       'emoji': '🥚',
-      'color': Color(0xFF4CAF50),
       'difficulty': 'Easy',
       'time': '5 min',
       'materials': ['2 glasses', 'Water', 'Salt', '2 eggs'],
@@ -58,15 +76,20 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Put an egg in plain water - it sinks!',
         'Put an egg in salty water - it floats!',
       ],
-      'science': 'Salt water is denser than plain water, so objects float more easily!',
+      'science':
+          'Salt water is denser than plain water, so objects float more easily!',
     },
     {
       'name': 'Walking Water',
       'emoji': '💧',
-      'color': Color(0xFF2196F3),
       'difficulty': 'Medium',
       'time': '1 hour',
-      'materials': ['3 glasses', 'Paper towels', 'Food coloring', 'Water'],
+      'materials': [
+        '3 glasses',
+        'Paper towels',
+        'Food coloring',
+        'Water'
+      ],
       'steps': [
         'Place 3 glasses in a row',
         'Fill glass 1 with red water, glass 3 with blue',
@@ -74,12 +97,12 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Fold paper towels and connect glasses',
         'Wait and watch water walk!',
       ],
-      'science': 'Water travels up the paper towel through capillary action!',
+      'science':
+          'Water travels up the paper towel through capillary action!',
     },
     {
       'name': 'Dancing Raisins',
       'emoji': '🍇',
-      'color': Color(0xFF9C27B0),
       'difficulty': 'Easy',
       'time': '5 min',
       'materials': ['Clear soda', 'Glass', 'Raisins'],
@@ -89,15 +112,20 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Watch them sink... then rise!',
         'They dance up and down!',
       ],
-      'science': 'Gas bubbles stick to raisins and lift them up. At the top, bubbles pop and raisins sink again!',
+      'science':
+          'Gas bubbles stick to raisins and lift them up. At the top, bubbles pop and raisins sink again!',
     },
     {
       'name': 'Invisible Ink',
       'emoji': '📝',
-      'color': Color(0xFFFF9800),
       'difficulty': 'Medium',
       'time': '15 min',
-      'materials': ['Lemon juice', 'White paper', 'Cotton swab', 'Lamp or iron'],
+      'materials': [
+        'Lemon juice',
+        'White paper',
+        'Cotton swab',
+        'Lamp or iron'
+      ],
       'steps': [
         'Dip cotton swab in lemon juice',
         'Write a secret message',
@@ -105,12 +133,12 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Hold paper near a warm lamp',
         'Watch your message appear!',
       ],
-      'science': 'Heat oxidizes the lemon juice, turning it brown and revealing the message!',
+      'science':
+          'Heat oxidizes the lemon juice, turning it brown and revealing the message!',
     },
     {
       'name': 'Balloon Rocket',
-      'emoji': '🎈🚀',
-      'color': Color(0xFF00BCD4),
+      'emoji': '🎈',
       'difficulty': 'Easy',
       'time': '10 min',
       'materials': ['Balloon', 'String', 'Straw', 'Tape'],
@@ -121,15 +149,21 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Tape balloon to straw',
         'Let go and watch it zoom!',
       ],
-      'science': 'Air rushing out pushes the balloon forward - this is Newton\'s Third Law!',
+      'science':
+          'Air rushing out pushes the balloon forward - this is Newton\'s Third Law!',
     },
     {
       'name': 'Crystal Garden',
       'emoji': '💎',
-      'color': Color(0xFF673AB7),
       'difficulty': 'Hard',
       'time': '1-3 days',
-      'materials': ['Salt', 'Hot water', 'String', 'Pencil', 'Glass jar'],
+      'materials': [
+        'Salt',
+        'Hot water',
+        'String',
+        'Pencil',
+        'Glass jar'
+      ],
       'steps': [
         'Dissolve lots of salt in hot water',
         'Tie string to pencil',
@@ -137,309 +171,480 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage> {
         'Wait 1-3 days',
         'Watch crystals grow on the string!',
       ],
-      'science': 'As water evaporates, salt molecules arrange into beautiful crystal shapes!',
+      'science':
+          'As water evaporates, salt molecules arrange into beautiful crystal shapes!',
     },
   ];
 
   @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+  }
+
+  @override
+  void dispose() {
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Science Experiments',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: selectedExperiment == -1
-                    ? _buildExperimentList()
-                    : _buildExperimentDetail(experiments[selectedExperiment]),
+    return PopScope(
+      canPop: selectedExperiment == -1,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) {
+          setState(() => selectedExperiment = -1);
+        }
+      },
+      child: GradientScaffold(
+      title: selectedExperiment == -1
+          ? 'Science Experiments'
+          : experiments[selectedExperiment]['name'],
+      onBackPressed: () {
+        if (selectedExperiment != -1) {
+          setState(() => selectedExperiment = -1);
+        } else {
+          Get.back();
+        }
+      },
+      actions: selectedExperiment == -1
+          ? [
+              IconButton(
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child:
+                      const Icon(Icons.refresh, color: Colors.white, size: 20),
+                ),
+                onPressed: () {
+                  ProgressService.to
+                      .resetProgress(ProgressService.kScienceExperiments);
+                  setState(() {});
+                },
               ),
-            ],
+            ]
+          : null,
+      body: Column(
+        children: [
+          // Progress bar - only on grid screen
+          if (selectedExperiment == -1)
+            Obx(() {
+              final progress =
+                  ProgressService.to.getProgressPercentage(
+                        ProgressService.kScienceExperiments,
+                      ) /
+                      100;
+              final progressString = ProgressService.to.getProgressString(
+                ProgressService.kScienceExperiments,
+              );
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 10,
+                        backgroundColor: Colors.white.withValues(alpha: 0.2),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xFF4CAF50),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          Expanded(
+            child: selectedExperiment == -1
+                ? _buildExperimentGrid()
+                : _buildExperimentDetail(experiments[selectedExperiment]),
           ),
-        ),
+        ],
       ),
+    ),
     );
   }
-  Widget _buildExperimentList() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
+
+  Widget _buildExperimentGrid() {
+    return GridView.builder(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 0.85,
+      ),
       itemCount: experiments.length,
       itemBuilder: (context, index) {
         final exp = experiments[index];
-        return GestureDetector(
-          onTap: () => setState(() => selectedExperiment = index),
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: exp['color'].withValues(alpha: 0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
+        final gradient = AppColors.getGradientForIndex(index);
+
+        return Obx(() {
+          final isSelected = selectedExperiment == index;
+          final isCompleted = ProgressService.to.isItemCompleted(
+            ProgressService.kScienceExperiments,
+            index,
+          );
+
+          return buildAnimatedGridItem(
+            index: index,
+            isSelected: isSelected,
+            child: GradientCard(
+              gradient: gradient,
+              isSelected: isSelected,
+              showDecorations: true,
+              onTap: () {
+                TtsService.to.speak(exp['name']);
+                setState(() => selectedExperiment = index);
+                ProgressService.to.markItemCompleted(
+                  ProgressService.kScienceExperiments,
+                  index,
+                );
+              },
+              pulseAnimation: pulseAnimation,
+              child: Stack(
                 children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: exp['color'].withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Text(exp['emoji'], style: const TextStyle(fontSize: 32)),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
+                  Center(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text(
+                          exp['emoji'],
+                          style: const TextStyle(fontSize: 36),
+                        ),
+                        const SizedBox(height: 8),
                         Text(
                           exp['name'],
                           style: GoogleFonts.poppins(
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: exp['color'],
+                            color: Colors.white,
                           ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
+                        const SizedBox(height: 4),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: exp['color'].withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                exp['difficulty'],
-                                style: GoogleFonts.nunito(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: exp['color'],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              '⏱️ ${exp['time']}',
-                              style: GoogleFonts.nunito(
-                                fontSize: 12,
-                                color: Colors.grey.shade600,
-                              ),
-                            ),
+                            _buildTag(exp['difficulty']),
+                            const SizedBox(width: 6),
+                            _buildTag(exp['time']),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  Icon(Icons.arrow_forward_ios, color: exp['color'], size: 18),
+                  if (isCompleted)
+                    Positioned(
+                      bottom: 4,
+                      right: 4,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: const BoxDecoration(
+                          color: Colors.green,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 12,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
   }
 
-  Widget _buildExperimentDetail(Map<String, dynamic> exp) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Header card
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Column(
-              children: [
-                Text(exp['emoji'], style: const TextStyle(fontSize: 60)),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildBadge(exp['difficulty'], exp['color']),
-                    const SizedBox(width: 12),
-                    _buildBadge('⏱️ ${exp['time']}', Colors.grey),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Materials
-          _buildSection(
-            'Materials You Need',
-            '🧪',
-            exp['color'],
-            Column(
-              children: (exp['materials'] as List).map<Widget>((m) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Icon(Icons.check_circle, color: exp['color'], size: 20),
-                      const SizedBox(width: 10),
-                      Text(m, style: GoogleFonts.nunito(fontSize: 14)),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Steps
-          _buildSection(
-            'How to Do It',
-            '📋',
-            exp['color'],
-            Column(
-              children: (exp['steps'] as List).asMap().entries.map<Widget>((entry) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: exp['color'],
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            '${entry.key + 1}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          entry.value,
-                          style: GoogleFonts.nunito(fontSize: 14),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Science explanation
-          _buildSection(
-            'The Science Behind It',
-            '🧠',
-            exp['color'],
-            Text(
-              exp['science'],
-              style: GoogleFonts.nunito(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBadge(String text, Color color) {
+  Widget _buildTag(String text) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        color: Colors.black.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
         text,
-        style: GoogleFonts.poppins(
-          fontSize: 12,
+        style: GoogleFonts.nunito(
+          color: Colors.white,
+          fontSize: 10,
           fontWeight: FontWeight.bold,
-          color: color,
         ),
       ),
     );
   }
 
-  Widget _buildSection(String title, String emoji, Color color, Widget content) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+  Widget _buildGradientItem({required int index, required Widget child}) {
+    final gradient = AppColors.getGradientForIndex(index);
+    return buildFloatingItem(
+      index: index,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradient,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: gradient[0].withValues(alpha: 0.4),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: -10,
+              right: -10,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.15),
+                ),
+              ),
+            ),
+            child,
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildExperimentDetail(Map<String, dynamic> exp) {
+    final materials = exp['materials'] as List? ?? [];
+    final steps = exp['steps'] as List? ?? [];
+    int itemIndex = 0;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header emoji + tags
+          Text(exp['emoji'], style: const TextStyle(fontSize: 80)),
+          const SizedBox(height: 16),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 20)),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                  fontSize: 16,
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  exp['difficulty'],
+                  style: GoogleFonts.nunito(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '⏱️ ${exp['time']}',
+                  style: GoogleFonts.nunito(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          content,
+          const SizedBox(height: 20),
+
+          // Materials card
+          _buildGradientItem(
+            index: itemIndex++,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: Text('🧪', style: TextStyle(fontSize: 24)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Materials You Need',
+                      style: GoogleFonts.nunito(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: materials.map<Widget>((m) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        m,
+                        style: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+
+          // Steps - each as a gradient card
+          ...List.generate(steps.length, (index) {
+            return _buildGradientItem(
+              index: itemIndex++,
+              child: Row(
+                children: [
+                  Container(
+                    width: 35,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      steps[index],
+                      style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+
+          // Science card
+          _buildGradientItem(
+            index: itemIndex,
+            child: Row(
+              children: [
+                Container(
+                  width: 55,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Center(
+                    child: Text('🧠', style: TextStyle(fontSize: 28)),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'The Science',
+                        style: GoogleFonts.nunito(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        exp['science'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );

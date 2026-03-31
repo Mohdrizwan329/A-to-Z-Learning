@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class WordBuildingPage extends StatefulWidget {
   const WordBuildingPage({super.key});
@@ -51,6 +52,7 @@ class _WordBuildingPageState extends State<WordBuildingPage> {
 
   void _selectLetter(String letter) {
     if (showResult) return;
+    TtsService.to.speak(letter);
     setState(() {
       selectedLetters.add(letter);
       if (selectedLetters.length == words[currentWordIndex]['word'].length) {

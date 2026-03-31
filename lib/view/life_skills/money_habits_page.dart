@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MoneyHabitsPage extends StatefulWidget {
   const MoneyHabitsPage({super.key});
@@ -9,1044 +16,1098 @@ class MoneyHabitsPage extends StatefulWidget {
   State<MoneyHabitsPage> createState() => _MoneyHabitsPageState();
 }
 
-class _MoneyHabitsPageState extends State<MoneyHabitsPage> {
-  int currentSection = 0;
+class _MoneyHabitsPageState extends State<MoneyHabitsPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  final ProgressService _progress = ProgressService.to;
 
   final List<Map<String, dynamic>> sections = [
     {
       'title': 'What is Money?',
-      'emoji': '💰',
-      'color': Color(0xFF4CAF50),
-      'intro': 'Money is what we use to buy things we need and want!',
-      'types': [
-        {'type': 'Coins', 'emoji': '🪙', 'examples': '1₹, 2₹, 5₹, 10₹'},
-        {'type': 'Notes', 'emoji': '💵', 'examples': '10₹, 20₹, 50₹, 100₹, 500₹'},
-        {'type': 'Digital Money', 'emoji': '📱', 'examples': 'UPI, Cards'},
-      ],
-      'funFact': 'Long ago, people traded things like shells, beads, and animals instead of money!',
+      'icon': Icons.payments,
+      'desc': 'Coins, notes & digital money',
     },
     {
       'title': 'Needs vs Wants',
-      'emoji': '🤔',
-      'color': Color(0xFF2196F3),
-      'intro': 'Understanding the difference helps you spend wisely!',
-      'needs': [
-        {'item': 'Food', 'emoji': '🍎', 'why': 'We need food to stay alive and healthy'},
-        {'item': 'Clothes', 'emoji': '👕', 'why': 'We need clothes to stay warm'},
-        {'item': 'Home', 'emoji': '🏠', 'why': 'We need shelter to be safe'},
-        {'item': 'School', 'emoji': '📚', 'why': 'We need education to learn'},
-        {'item': 'Medicine', 'emoji': '💊', 'why': 'We need medicine when sick'},
-      ],
-      'wants': [
-        {'item': 'Toys', 'emoji': '🧸', 'why': 'Nice to have, but not essential'},
-        {'item': 'Video Games', 'emoji': '🎮', 'why': 'Fun, but we can live without'},
-        {'item': 'Candy', 'emoji': '🍬', 'why': 'Tasty, but not necessary'},
-        {'item': 'Latest Phone', 'emoji': '📱', 'why': 'Older phone works too'},
-      ],
-      'tip': 'Always make sure needs are met before buying wants!',
+      'icon': Icons.compare_arrows,
+      'desc': 'Must-haves vs nice-to-haves',
     },
     {
       'title': 'Saving Money',
-      'emoji': '🐷',
-      'color': Color(0xFFE91E63),
-      'intro': 'Saving helps you buy bigger things later!',
-      'whySave': [
-        {'reason': 'For something special you want', 'emoji': '⭐'},
-        {'reason': 'For emergencies', 'emoji': '🚨'},
-        {'reason': 'To help others', 'emoji': '🤝'},
-        {'reason': 'For your future', 'emoji': '🔮'},
-      ],
-      'howToSave': [
-        {'tip': 'Use a piggy bank', 'emoji': '🐷'},
-        {'tip': 'Save a little from pocket money', 'emoji': '💵'},
-        {'tip': 'Set a savings goal', 'emoji': '🎯'},
-        {'tip': 'Don\'t buy things you don\'t need', 'emoji': '🛑'},
-        {'tip': 'Count your savings weekly', 'emoji': '🔢'},
-      ],
-      'savingsGoal': {
-        'example': 'Want a ₹500 toy? Save ₹50 per week = 10 weeks!',
-        'emoji': '📅',
-      },
+      'icon': Icons.savings,
+      'desc': 'Why & how to save',
     },
     {
       'title': 'Earning Money',
-      'emoji': '💪',
-      'color': Color(0xFFFF9800),
-      'intro': 'Money doesn\'t grow on trees! Here\'s how it\'s earned:',
-      'howParentsEarn': [
-        {'job': 'Go to work', 'emoji': '💼'},
-        {'job': 'Run a business', 'emoji': '🏪'},
-        {'job': 'Provide services', 'emoji': '🔧'},
-        {'job': 'Sell things', 'emoji': '🛍️'},
-      ],
-      'howKidsCanEarn': [
-        {'task': 'Do extra chores', 'emoji': '🧹'},
-        {'task': 'Help with garden work', 'emoji': '🌱'},
-        {'task': 'Wash the car', 'emoji': '🚗'},
-        {'task': 'Walk neighbor\'s dog', 'emoji': '🐕'},
-        {'task': 'Sell lemonade', 'emoji': '🍋'},
-        {'task': 'Help with small tasks', 'emoji': '✋'},
-      ],
-      'important': 'Working hard and being responsible earns money!',
+      'icon': Icons.work,
+      'desc': 'How money is earned',
     },
     {
       'title': 'Spending Wisely',
-      'emoji': '🛒',
-      'color': Color(0xFF9C27B0),
-      'intro': 'Think before you buy!',
-      'questions': [
-        {'q': 'Do I really need this?', 'emoji': '🤔'},
-        {'q': 'Can I afford it?', 'emoji': '💰'},
-        {'q': 'Is it worth the price?', 'emoji': '⚖️'},
-        {'q': 'Will I use it often?', 'emoji': '📊'},
-        {'q': 'Can I wait and save?', 'emoji': '⏰'},
-      ],
-      'smartShopping': [
-        {'tip': 'Compare prices', 'emoji': '🔍'},
-        {'tip': 'Look for sales', 'emoji': '🏷️'},
-        {'tip': 'Don\'t buy just because friends have it', 'emoji': '👫'},
-        {'tip': 'Make a shopping list', 'emoji': '📝'},
-        {'tip': 'Stick to your budget', 'emoji': '💪'},
-      ],
+      'icon': Icons.shopping_cart,
+      'desc': 'Think before you buy',
     },
     {
       'title': 'Making a Budget',
-      'emoji': '📊',
-      'color': Color(0xFF00BCD4),
-      'intro': 'A budget is a plan for your money!',
-      'parts': [
-        {'part': 'Money In', 'emoji': '📥', 'desc': 'How much money you get'},
-        {'part': 'Money Out', 'emoji': '📤', 'desc': 'How much you spend'},
-        {'part': 'Savings', 'emoji': '🐷', 'desc': 'What\'s left to save'},
-      ],
-      'example': {
-        'title': 'Example: Weekly Pocket Money Budget',
-        'income': '₹100 pocket money',
-        'spend': [
-          {'item': 'Snacks', 'amount': '₹30'},
-          {'item': 'School supplies', 'amount': '₹20'},
-          {'item': 'Fun', 'amount': '₹20'},
-        ],
-        'save': '₹30 in piggy bank',
-      },
-      'rule': 'The 50-30-20 Rule: 50% needs, 30% wants, 20% savings!',
+      'icon': Icons.pie_chart,
+      'desc': 'Plan for your money',
     },
     {
       'title': 'Sharing & Giving',
-      'emoji': '🤝',
-      'color': Color(0xFF795548),
-      'intro': 'Using money to help others is wonderful!',
-      'ways': [
-        {'way': 'Donate to charity', 'emoji': '🎁', 'example': 'Help people in need'},
-        {'way': 'Buy gifts for family', 'emoji': '🎂', 'example': 'Birthday presents'},
-        {'way': 'Help a friend', 'emoji': '👫', 'example': 'Share school supplies'},
-        {'way': 'Support a cause', 'emoji': '🌍', 'example': 'Plant trees, save animals'},
-      ],
-      'benefits': [
-        'Makes you feel happy',
-        'Helps people who need it',
-        'Creates kindness',
-        'Teaches gratitude',
-      ],
+      'icon': Icons.volunteer_activism,
+      'desc': 'Help others with money',
     },
     {
       'title': 'Money Safety',
-      'emoji': '🔒',
-      'color': Color(0xFF673AB7),
-      'intro': 'Keep your money safe!',
-      'rules': [
-        {'rule': 'Keep money in a safe place', 'emoji': '🏦'},
-        {'rule': 'Don\'t show money in public', 'emoji': '🙈'},
-        {'rule': 'Count your change', 'emoji': '🔢'},
-        {'rule': 'Tell parents if you find money', 'emoji': '👨‍👩‍👧'},
-        {'rule': 'Never share bank passwords', 'emoji': '🔐'},
-        {'rule': 'Beware of scams', 'emoji': '⚠️'},
-      ],
-      'scamWarnings': [
-        'Nobody gives free money',
-        'Don\'t share personal info online',
-        'If it sounds too good, it probably is',
-      ],
+      'icon': Icons.lock,
+      'desc': 'Keep your money safe',
     },
   ];
 
+  late AnimationController _bubbleController;
+
+  @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    disposeGridAnimations();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final section = sections[currentSection];
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Money Habits',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildProgressDots(),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: _buildSectionContent(section),
-                ),
-              ),
-              _buildNavButtons(section),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  Widget _buildProgressDots() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(sections.length, (index) {
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
-            width: index == currentSection ? 20 : 8,
-            height: 8,
+    return GradientScaffold(
+      title: 'Money Habits',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: index == currentSection
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(4),
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
-          );
-        }),
-      ),
-    );
-  }
-
-  Widget _buildSectionContent(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
-          child: Column(
-            children: [
-              Text(section['emoji'], style: const TextStyle(fontSize: 50)),
-              const SizedBox(height: 12),
-              Text(
-                section['title'],
-                style: GoogleFonts.poppins(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: section['color'],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                section['intro'],
-                style: GoogleFonts.nunito(fontSize: 14, color: Colors.grey.shade700),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+          onPressed: () {
+            _progress.resetProgress(ProgressService.kMoneyHabits);
+            setState(() {});
+          },
         ),
-        const SizedBox(height: 20),
-        _buildDynamicContent(section),
       ],
+      body: Stack(
+        children: [
+          ...List.generate(8, (i) {
+            final top = (i * 67.0) % MediaQuery.of(context).size.height;
+            final left = (i * 83.0) % MediaQuery.of(context).size.width;
+            return AnimatedBuilder(
+              animation: _bubbleController,
+              builder: (context, child) {
+                final value = _bubbleController.value;
+                final offset = 20.0 *
+                    ((value * 2 * 3.14159).clamp(0, 6.28) != 0
+                        ? (value * 2 * 3.14159).abs() % 1
+                        : 0);
+                return Positioned(
+                  top: top + offset,
+                  left: left,
+                  child: Container(
+                    width: 20 + (i % 3) * 15.0,
+                    height: 20 + (i % 3) * 15.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          Colors.white.withValues(alpha: 0.15),
+                          Colors.white.withValues(alpha: 0.05),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+          Column(
+            children: [
+              Obx(() {
+                final progress =
+                    _progress.getProgressPercentage(ProgressService.kMoneyHabits) / 100;
+                final progressString =
+                    _progress.getProgressString(ProgressService.kMoneyHabits);
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Progress',
+                            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '$progressString completed',
+                            style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 10,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.95,
+                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 14,
+                  ),
+                  itemCount: sections.length,
+                  itemBuilder: (context, index) {
+                    final section = sections[index];
+                    final gradientColors = AppColors.getGradientForIndex(index);
+                    return buildFloatingItem(
+                      index: index,
+                      child: Obx(() {
+                        final isCompleted = _progress.isItemCompleted(
+                            ProgressService.kMoneyHabits, index);
+                        return GradientCard(
+                          gradient: gradientColors,
+                          onTap: () async {
+                            TtsService.to.speak(section['title']);
+                            await Get.to(() => _MoneyHabitsDetailPage(
+                                  sectionIndex: index,
+                                  title: section['title'],
+                                ));
+                            if (!_progress.isItemCompleted(
+                                ProgressService.kMoneyHabits, index)) {
+                              await _progress.markItemCompleted(
+                                  ProgressService.kMoneyHabits, index);
+                            }
+                            setState(() {});
+                          },
+                          child: Stack(
+                            children: [
+                              if (isCompleted)
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(Icons.check,
+                                        color: Colors.white, size: 16),
+                                  ),
+                                ),
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(section['icon'],
+                                        size: 48, color: Colors.white),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      section['title'],
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      child: Text(
+                                        section['desc'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(alpha: 0.9),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: const AdsScreen(),
+    );
+  }
+}
+
+// ─── Detail Page ───────────────────────────────────────────────────────────────
+
+class _MoneyHabitsDetailPage extends StatefulWidget {
+  final int sectionIndex;
+  final String title;
+
+  const _MoneyHabitsDetailPage({
+    required this.sectionIndex,
+    required this.title,
+  });
+
+  @override
+  State<_MoneyHabitsDetailPage> createState() => _MoneyHabitsDetailPageState();
+}
+
+class _MoneyHabitsDetailPageState extends State<_MoneyHabitsDetailPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  late AnimationController _bubbleController;
+
+  @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientScaffold(
+      title: widget.title,
+      body: Stack(
+        children: [
+          ...List.generate(8, (i) {
+            final top = (i * 67.0) % MediaQuery.of(context).size.height;
+            final left = (i * 83.0) % MediaQuery.of(context).size.width;
+            return AnimatedBuilder(
+              animation: _bubbleController,
+              builder: (context, child) {
+                final value = _bubbleController.value;
+                final offset = 20.0 *
+                    ((value * 2 * 3.14159).clamp(0, 6.28) != 0
+                        ? (value * 2 * 3.14159).abs() % 1
+                        : 0);
+                return Positioned(
+                  top: top + offset,
+                  left: left,
+                  child: Container(
+                    width: 20 + (i % 3) * 15.0,
+                    height: 20 + (i % 3) * 15.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          Colors.white.withValues(alpha: 0.15),
+                          Colors.white.withValues(alpha: 0.05),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: _buildContent(),
+          ),
+        ],
+      ),
+      bottomNavigationBar: const AdsScreen(),
     );
   }
 
-  Widget _buildDynamicContent(Map<String, dynamic> section) {
-    switch (section['title']) {
-      case 'What is Money?':
-        return _buildWhatIsMoney(section);
-      case 'Needs vs Wants':
-        return _buildNeedsVsWants(section);
-      case 'Saving Money':
-        return _buildSaving(section);
-      case 'Earning Money':
-        return _buildEarning(section);
-      case 'Spending Wisely':
-        return _buildSpending(section);
-      case 'Making a Budget':
-        return _buildBudget(section);
-      case 'Sharing & Giving':
-        return _buildSharing(section);
-      case 'Money Safety':
-        return _buildSafety(section);
+  Widget _buildContent() {
+    switch (widget.sectionIndex) {
+      case 0:
+        return _buildWhatIsMoney();
+      case 1:
+        return _buildNeedsVsWants();
+      case 2:
+        return _buildSaving();
+      case 3:
+        return _buildEarning();
+      case 4:
+        return _buildSpending();
+      case 5:
+        return _buildBudget();
+      case 6:
+        return _buildSharing();
+      case 7:
+        return _buildMoneySafety();
       default:
         return const SizedBox();
     }
   }
 
-  Widget _buildWhatIsMoney(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Types of Money:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              ...(section['types'] as List).map((type) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: section['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(type['emoji'], style: const TextStyle(fontSize: 28)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              type['type'],
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              type['examples'],
-                              style: GoogleFonts.nunito(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Row(
-            children: [
-              const Text('💡', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  section['funFact'],
-                  style: GoogleFonts.nunito(fontWeight: FontWeight.w600),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+  // ── Section 0: What is Money? ─────────────────────────────────────────────
 
-  Widget _buildNeedsVsWants(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.green.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('✅ NEEDS (Must Have):', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.green)),
-              const SizedBox(height: 10),
-              ...(section['needs'] as List).map((need) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Text(need['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(need['item'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 13)),
-                            Text(need['why'], style: GoogleFonts.nunito(fontSize: 11)),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.orange.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('⭐ WANTS (Nice to Have):', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.orange)),
-              const SizedBox(height: 10),
-              ...(section['wants'] as List).map((want) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Text(want['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(want['item'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 13)),
-                            Text(want['why'], style: GoogleFonts.nunito(fontSize: 11)),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: section['color'].withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              const Text('💡', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  section['tip'],
-                  style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+  Widget _buildWhatIsMoney() {
+    final types = [
+      {'type': 'Coins', 'icon': Icons.monetization_on, 'examples': '1, 2, 5, 10'},
+      {'type': 'Notes', 'icon': Icons.money, 'examples': '10, 20, 50, 100, 500'},
+      {'type': 'Digital Money', 'icon': Icons.phone_android, 'examples': 'UPI, Cards'},
+    ];
 
-  Widget _buildSaving(Map<String, dynamic> section) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('❓ Why Save?', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['whySave'] as List).map((reason) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Text(reason['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(reason['reason'], style: GoogleFonts.nunito(fontSize: 14)),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
+        _buildHeaderCard('What is Money?', 'Money is what we use to buy things we need and want!', Icons.payments, 0),
         const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.pink.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('💡 How to Save:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['howToSave'] as List).map((tip) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Text(tip['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(tip['tip'], style: GoogleFonts.nunito(fontSize: 14)),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Row(
-            children: [
-              Text(section['savingsGoal']['emoji'], style: const TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  section['savingsGoal']['example'],
-                  style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
-                ),
+        _buildSectionLabel('Types of Money'),
+        const SizedBox(height: 10),
+        ...types.asMap().entries.map((entry) {
+          final i = entry.key;
+          final t = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEarning(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('👨‍💼 How Parents Earn:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['howParentsEarn'] as List).map((job) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Text(job['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(job['job'], style: GoogleFonts.nunito(fontSize: 14)),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.orange.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('👧 How Kids Can Earn:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2.5,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                ),
-                itemCount: (section['howKidsCanEarn'] as List).length,
-                itemBuilder: (context, index) {
-                  final task = section['howKidsCanEarn'][index];
-                  return Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(task['emoji'], style: const TextStyle(fontSize: 18)),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            task['task'],
-                            style: GoogleFonts.nunito(fontSize: 11),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: section['color'].withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              const Text('💪', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  section['important'],
-                  style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSpending(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('❓ Ask Yourself:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['questions'] as List).map((q) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: section['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(q['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(q['q'], style: GoogleFonts.nunito(fontWeight: FontWeight.w600)),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.purple.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('🛒 Smart Shopping Tips:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['smartShopping'] as List).map((tip) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      Text(tip['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(tip['tip'], style: GoogleFonts.nunito(fontSize: 14)),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBudget(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            children: [
-              Text('📊 Parts of a Budget:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: (section['parts'] as List).map<Widget>((part) {
-                  return Column(
-                    children: [
-                      Text(part['emoji'], style: const TextStyle(fontSize: 32)),
-                      Text(part['part'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 12)),
-                      Text(part['desc'], style: GoogleFonts.nunito(fontSize: 10)),
-                    ],
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.cyan.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '📝 ${section['example']['title']}',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade100,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    const Text('📥', style: TextStyle(fontSize: 20)),
-                    const SizedBox(width: 8),
-                    Text('Income: ${section['example']['income']}', style: GoogleFonts.nunito(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              ...(section['example']['spend'] as List).map((item) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 4),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(item['item'], style: GoogleFonts.nunito()),
-                      Text(item['amount'], style: GoogleFonts.nunito(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                );
-              }),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.pink.shade100,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    const Text('🐷', style: TextStyle(fontSize: 20)),
-                    const SizedBox(width: 8),
-                    Text('Save: ${section['example']['save']}', style: GoogleFonts.nunito(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              const Text('⭐', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  section['rule'],
-                  style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSharing(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('💝 Ways to Give:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['ways'] as List).map((way) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: section['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(way['emoji'], style: const TextStyle(fontSize: 24)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(way['way'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 13)),
-                            Text(way['example'], style: GoogleFonts.nunito(fontSize: 11)),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.green.shade50,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('✨ Benefits of Giving:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              ...(section['benefits'] as List).map((benefit) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.favorite, color: Colors.green, size: 18),
-                      const SizedBox(width: 8),
-                      Text(benefit, style: GoogleFonts.nunito(fontSize: 13)),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSafety(Map<String, dynamic> section) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('🛡️ Safety Rules:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...(section['rules'] as List).map((rule) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: section['color'].withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(rule['emoji'], style: const TextStyle(fontSize: 18)),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(rule['rule'], style: GoogleFonts.nunito(fontSize: 14))),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.red.shade50,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.red.shade200),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+              child: Row(
                 children: [
-                  const Text('⚠️', style: TextStyle(fontSize: 24)),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Scam Warnings:',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red.shade700,
+                  Icon(t['icon'] as IconData, color: Colors.white, size: 36),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(t['type'] as String, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16)),
+                        Text('Examples: ${t['examples']}', style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              ...(section['scamWarnings'] as List).map((warning) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.warning, color: Colors.red, size: 16),
-                      const SizedBox(width: 8),
-                      Expanded(child: Text(warning, style: GoogleFonts.nunito(fontSize: 13))),
-                    ],
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
+        const SizedBox(height: 16),
+        _buildTipCard('Fun Fact', 'Long ago, people traded things like shells, beads, and animals instead of money!', Icons.lightbulb, Colors.amber.shade700),
       ],
     );
   }
 
-  Widget _buildNavButtons(Map<String, dynamic> section) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (currentSection > 0)
-            ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection--),
-              icon: const Icon(Icons.arrow_back),
-              label: const Text('Back'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: section['color'],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+  // ── Section 1: Needs vs Wants ─────────────────────────────────────────────
+
+  Widget _buildNeedsVsWants() {
+    final needs = [
+      {'item': 'Food', 'icon': Icons.restaurant, 'why': 'We need food to stay alive and healthy'},
+      {'item': 'Clothes', 'icon': Icons.checkroom, 'why': 'We need clothes to stay warm'},
+      {'item': 'Home', 'icon': Icons.home, 'why': 'We need shelter to be safe'},
+      {'item': 'School', 'icon': Icons.school, 'why': 'We need education to learn'},
+      {'item': 'Medicine', 'icon': Icons.local_pharmacy, 'why': 'We need medicine when sick'},
+    ];
+
+    final wants = [
+      {'item': 'Toys', 'icon': Icons.smart_toy, 'why': 'Nice to have, but not essential'},
+      {'item': 'Video Games', 'icon': Icons.sports_esports, 'why': 'Fun, but we can live without'},
+      {'item': 'Candy', 'icon': Icons.cake, 'why': 'Tasty, but not necessary'},
+      {'item': 'Latest Phone', 'icon': Icons.phone_iphone, 'why': 'Older phone works too'},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Needs vs Wants', 'Understanding the difference helps you spend wisely!', Icons.compare_arrows, 1),
+        const SizedBox(height: 16),
+        _buildSectionLabel('NEEDS (Must Have)'),
+        const SizedBox(height: 10),
+        ...needs.asMap().entries.map((entry) {
+          final i = entry.key;
+          final n = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
               ),
-            )
-          else
-            const SizedBox(width: 100),
-          if (currentSection < sections.length - 1)
-            ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection++),
-              icon: const Icon(Icons.arrow_forward),
-              label: const Text('Next'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: section['color'],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            )
-          else
-            ElevatedButton.icon(
-              onPressed: () => Get.back(),
-              icon: const Icon(Icons.check),
-              label: const Text('Done!'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+              child: Row(
+                children: [
+                  Icon(n['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(n['item'] as String, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
+                        Text(n['why'] as String, style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
+          );
+        }),
+        const SizedBox(height: 20),
+        _buildSectionLabel('WANTS (Nice to Have)'),
+        const SizedBox(height: 10),
+        ...wants.asMap().entries.map((entry) {
+          final i = entry.key;
+          final w = entry.value;
+          final colors = AppColors.getGradientForIndex(i + 5);
+          return buildFloatingItem(
+            index: (i + 5) % 8,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  Icon(w['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(w['item'] as String, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
+                        Text(w['why'] as String, style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 16),
+        _buildTipCard('Remember', 'Always make sure needs are met before buying wants!', Icons.tips_and_updates, Colors.blue),
+      ],
+    );
+  }
+
+  // ── Section 2: Saving Money ───────────────────────────────────────────────
+
+  Widget _buildSaving() {
+    final whySave = [
+      {'reason': 'For something special you want', 'icon': Icons.star},
+      {'reason': 'For emergencies', 'icon': Icons.emergency},
+      {'reason': 'To help others', 'icon': Icons.handshake},
+      {'reason': 'For your future', 'icon': Icons.auto_awesome},
+    ];
+
+    final howToSave = [
+      {'tip': 'Use a piggy bank', 'icon': Icons.savings},
+      {'tip': 'Save a little from pocket money', 'icon': Icons.money},
+      {'tip': 'Set a savings goal', 'icon': Icons.flag},
+      {'tip': 'Don\'t buy things you don\'t need', 'icon': Icons.block},
+      {'tip': 'Count your savings weekly', 'icon': Icons.calculate},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Saving Money', 'Saving helps you buy bigger things later!', Icons.savings, 2),
+        const SizedBox(height: 16),
+        _buildSectionLabel('Why Save?'),
+        const SizedBox(height: 10),
+        ...whySave.asMap().entries.map((entry) {
+          final i = entry.key;
+          final w = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+              ),
+              child: Row(
+                children: [
+                  Icon(w['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(w['reason'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600))),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 20),
+        _buildSectionLabel('How to Save'),
+        const SizedBox(height: 10),
+        ...howToSave.asMap().entries.map((entry) {
+          final i = entry.key;
+          final h = entry.value;
+          final colors = AppColors.getGradientForIndex(i + 4);
+          return buildFloatingItem(
+            index: (i + 4) % 8,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  Icon(h['icon'] as IconData, color: Colors.white, size: 26),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(h['tip'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 14))),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 16),
+        _buildTipCard('Savings Goal', 'Want a 500 toy? Save 50 per week = 10 weeks!', Icons.calendar_month, Colors.pink),
+      ],
+    );
+  }
+
+  // ── Section 3: Earning Money ──────────────────────────────────────────────
+
+  Widget _buildEarning() {
+    final howParentsEarn = [
+      {'job': 'Go to work', 'icon': Icons.business_center},
+      {'job': 'Run a business', 'icon': Icons.store},
+      {'job': 'Provide services', 'icon': Icons.build},
+      {'job': 'Sell things', 'icon': Icons.shopping_bag},
+    ];
+
+    final howKidsCanEarn = [
+      {'task': 'Do extra chores', 'icon': Icons.cleaning_services},
+      {'task': 'Help with garden work', 'icon': Icons.yard},
+      {'task': 'Wash the car', 'icon': Icons.local_car_wash},
+      {'task': 'Walk neighbor\'s dog', 'icon': Icons.pets},
+      {'task': 'Sell lemonade', 'icon': Icons.local_drink},
+      {'task': 'Help with small tasks', 'icon': Icons.pan_tool},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Earning Money', 'Money doesn\'t grow on trees! Here\'s how it\'s earned:', Icons.work, 3),
+        const SizedBox(height: 16),
+        _buildSectionLabel('How Parents Earn'),
+        const SizedBox(height: 10),
+        ...howParentsEarn.asMap().entries.map((entry) {
+          final i = entry.key;
+          final j = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+              ),
+              child: Row(
+                children: [
+                  Icon(j['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(j['job'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600))),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 20),
+        _buildSectionLabel('How Kids Can Earn'),
+        const SizedBox(height: 10),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1.4,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+          ),
+          itemCount: howKidsCanEarn.length,
+          itemBuilder: (context, i) {
+            final t = howKidsCanEarn[i];
+            final colors = AppColors.getGradientForIndex(i + 4);
+            return buildFloatingItem(
+              index: (i + 4) % 8,
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(t['icon'] as IconData, color: Colors.white, size: 30),
+                    const SizedBox(height: 6),
+                    Text(t['task'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+        _buildTipCard('Remember', 'Working hard and being responsible earns money!', Icons.emoji_events, Colors.orange),
+      ],
+    );
+  }
+
+  // ── Section 4: Spending Wisely ────────────────────────────────────────────
+
+  Widget _buildSpending() {
+    final questions = [
+      {'q': 'Do I really need this?', 'icon': Icons.help_outline},
+      {'q': 'Can I afford it?', 'icon': Icons.account_balance_wallet},
+      {'q': 'Is it worth the price?', 'icon': Icons.balance},
+      {'q': 'Will I use it often?', 'icon': Icons.bar_chart},
+      {'q': 'Can I wait and save?', 'icon': Icons.hourglass_bottom},
+    ];
+
+    final smartShopping = [
+      {'tip': 'Compare prices', 'icon': Icons.search},
+      {'tip': 'Look for sales', 'icon': Icons.local_offer},
+      {'tip': 'Don\'t buy just because friends have it', 'icon': Icons.groups},
+      {'tip': 'Make a shopping list', 'icon': Icons.list_alt},
+      {'tip': 'Stick to your budget', 'icon': Icons.thumb_up},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Spending Wisely', 'Think before you buy!', Icons.shopping_cart, 4),
+        const SizedBox(height: 16),
+        _buildSectionLabel('Ask Yourself'),
+        const SizedBox(height: 10),
+        ...questions.asMap().entries.map((entry) {
+          final i = entry.key;
+          final q = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+              ),
+              child: Row(
+                children: [
+                  Icon(q['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(q['q'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600))),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 20),
+        _buildSectionLabel('Smart Shopping Tips'),
+        const SizedBox(height: 10),
+        ...smartShopping.asMap().entries.map((entry) {
+          final i = entry.key;
+          final s = entry.value;
+          final colors = AppColors.getGradientForIndex(i + 5);
+          return buildFloatingItem(
+            index: (i + 5) % 8,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  Icon(s['icon'] as IconData, color: Colors.white, size: 26),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(s['tip'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 14))),
+                ],
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  // ── Section 5: Making a Budget ────────────────────────────────────────────
+
+  Widget _buildBudget() {
+    final parts = [
+      {'part': 'Money In', 'icon': Icons.arrow_downward, 'desc': 'How much you get', 'color': Colors.green},
+      {'part': 'Money Out', 'icon': Icons.arrow_upward, 'desc': 'How much you spend', 'color': Colors.orange},
+      {'part': 'Savings', 'icon': Icons.savings, 'desc': 'What\'s left to save', 'color': Colors.pink},
+    ];
+
+    final spendItems = [
+      {'item': 'Snacks', 'amount': '30'},
+      {'item': 'School supplies', 'amount': '20'},
+      {'item': 'Fun', 'amount': '20'},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Making a Budget', 'A budget is a plan for your money!', Icons.pie_chart, 5),
+        const SizedBox(height: 16),
+        _buildSectionLabel('Parts of a Budget'),
+        const SizedBox(height: 10),
+        Row(
+          children: parts.map<Widget>((p) {
+            return Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: (p['color'] as Color).withValues(alpha: 0.85),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [BoxShadow(color: (p['color'] as Color).withValues(alpha: 0.4), blurRadius: 6, offset: const Offset(0, 3))],
+                ),
+                child: Column(
+                  children: [
+                    Icon(p['icon'] as IconData, color: Colors.white, size: 30),
+                    const SizedBox(height: 6),
+                    Text(p['part'] as String, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12)),
+                    Text(p['desc'] as String, style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 10), textAlign: TextAlign.center),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 20),
+        _buildSectionLabel('Weekly Pocket Money Budget'),
+        const SizedBox(height: 10),
+        buildFloatingItem(
+          index: 0,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: AppColors.getGradientForIndex(5)),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [BoxShadow(color: AppColors.getGradientForIndex(5)[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.arrow_downward, color: Colors.white, size: 22),
+                      const SizedBox(width: 8),
+                      Text('Income: 100 pocket money', style: GoogleFonts.nunito(fontWeight: FontWeight.bold, color: Colors.white)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...spendItems.map((item) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(item['item']!, style: GoogleFonts.nunito(color: Colors.white)),
+                        Text(item['amount']!, style: GoogleFonts.nunito(fontWeight: FontWeight.bold, color: Colors.white)),
+                      ],
+                    ),
+                  );
+                }),
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.savings, color: Colors.white, size: 22),
+                      const SizedBox(width: 8),
+                      Text('Save: 30 in piggy bank', style: GoogleFonts.nunito(fontWeight: FontWeight.bold, color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        _buildTipCard('Golden Rule', 'The 50-30-20 Rule: 50% needs, 30% wants, 20% savings!', Icons.star, Colors.amber.shade700),
+      ],
+    );
+  }
+
+  // ── Section 6: Sharing & Giving ───────────────────────────────────────────
+
+  Widget _buildSharing() {
+    final ways = [
+      {'way': 'Donate to charity', 'icon': Icons.card_giftcard, 'example': 'Help people in need'},
+      {'way': 'Buy gifts for family', 'icon': Icons.cake, 'example': 'Birthday presents'},
+      {'way': 'Help a friend', 'icon': Icons.people, 'example': 'Share school supplies'},
+      {'way': 'Support a cause', 'icon': Icons.public, 'example': 'Plant trees, save animals'},
+    ];
+
+    final benefits = [
+      {'benefit': 'Makes you feel happy', 'icon': Icons.sentiment_very_satisfied},
+      {'benefit': 'Helps people who need it', 'icon': Icons.favorite},
+      {'benefit': 'Creates kindness', 'icon': Icons.diversity_1},
+      {'benefit': 'Teaches gratitude', 'icon': Icons.volunteer_activism},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Sharing & Giving', 'Using money to help others is wonderful!', Icons.volunteer_activism, 6),
+        const SizedBox(height: 16),
+        _buildSectionLabel('Ways to Give'),
+        const SizedBox(height: 10),
+        ...ways.asMap().entries.map((entry) {
+          final i = entry.key;
+          final w = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+              ),
+              child: Row(
+                children: [
+                  Icon(w['icon'] as IconData, color: Colors.white, size: 32),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(w['way'] as String, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
+                        Text(w['example'] as String, style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 20),
+        _buildSectionLabel('Benefits of Giving'),
+        const SizedBox(height: 10),
+        ...benefits.asMap().entries.map((entry) {
+          final i = entry.key;
+          final b = entry.value;
+          final colors = AppColors.getGradientForIndex(i + 4);
+          return buildFloatingItem(
+            index: (i + 4) % 8,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  Icon(b['icon'] as IconData, color: Colors.white, size: 26),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(b['benefit'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 14))),
+                ],
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  // ── Section 7: Money Safety ───────────────────────────────────────────────
+
+  Widget _buildMoneySafety() {
+    final rules = [
+      {'rule': 'Keep money in a safe place', 'icon': Icons.account_balance},
+      {'rule': 'Don\'t show money in public', 'icon': Icons.visibility_off},
+      {'rule': 'Count your change', 'icon': Icons.calculate},
+      {'rule': 'Tell parents if you find money', 'icon': Icons.family_restroom},
+      {'rule': 'Never share bank passwords', 'icon': Icons.lock},
+      {'rule': 'Beware of scams', 'icon': Icons.warning},
+    ];
+
+    final scamWarnings = [
+      {'warning': 'Nobody gives free money', 'icon': Icons.money_off},
+      {'warning': 'Don\'t share personal info online', 'icon': Icons.privacy_tip},
+      {'warning': 'If it sounds too good, it probably is', 'icon': Icons.report_problem},
+    ];
+
+    return Column(
+      children: [
+        _buildHeaderCard('Money Safety', 'Keep your money safe!', Icons.lock, 7),
+        const SizedBox(height: 16),
+        _buildSectionLabel('Safety Rules'),
+        const SizedBox(height: 10),
+        ...rules.asMap().entries.map((entry) {
+          final i = entry.key;
+          final r = entry.value;
+          final colors = AppColors.getGradientForIndex(i);
+          return buildFloatingItem(
+            index: i % 8,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colors[0], colors[1]]),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+              ),
+              child: Row(
+                children: [
+                  Icon(r['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(r['rule'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600))),
+                ],
+              ),
+            ),
+          );
+        }),
+        const SizedBox(height: 20),
+        _buildSectionLabel('Scam Warnings'),
+        const SizedBox(height: 10),
+        ...scamWarnings.asMap().entries.map((entry) {
+          final i = entry.key;
+          final s = entry.value;
+          return buildFloatingItem(
+            index: (i + 6) % 8,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [Colors.red.shade400, Colors.red.shade700]),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [BoxShadow(color: Colors.red.withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+              ),
+              child: Row(
+                children: [
+                  Icon(s['icon'] as IconData, color: Colors.white, size: 28),
+                  const SizedBox(width: 14),
+                  Expanded(child: Text(s['warning'] as String, style: GoogleFonts.nunito(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600))),
+                ],
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  // ── Shared Helpers ────────────────────────────────────────────────────────
+
+  Widget _buildHeaderCard(String title, String subtitle, IconData icon, int colorIndex) {
+    final colors = AppColors.getGradientForIndex(colorIndex);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [colors[0], colors[1]]),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.4), blurRadius: 16, offset: const Offset(0, 8))],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, size: 56, color: Colors.white),
+          const SizedBox(height: 12),
+          Text(title, style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
+          const SizedBox(height: 6),
+          Text(subtitle, style: GoogleFonts.nunito(fontSize: 14, color: Colors.white.withValues(alpha: 0.9)), textAlign: TextAlign.center),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionLabel(String label) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(label, style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+      ),
+    );
+  }
+
+  Widget _buildTipCard(String title, String text, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [color.withValues(alpha: 0.8), color]),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: color.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white, size: 32),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                Text(text, style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.95), fontSize: 13)),
+              ],
+            ),
+          ),
         ],
       ),
     );

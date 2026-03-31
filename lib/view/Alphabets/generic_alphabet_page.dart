@@ -6,6 +6,7 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 /// Generic Alphabet Page that can display capital or small letters
 /// Usage: GenericAlphabetPage(type: AlphabetType.capital)
@@ -130,7 +131,10 @@ class _GenericAlphabetPageState extends State<GenericAlphabetPage>
                     child: GradientCard(
                       gradient: gradient,
                       isSelected: isSelected,
-                      onTap: () => controller.handleTap(index),
+                      onTap: () {
+                        TtsService.to.speak(letter);
+                        controller.handleTap(index);
+                      },
                       pulseAnimation: pulseAnimation,
                       child: Stack(
                         children: [

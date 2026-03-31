@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AdhdSupportPage extends StatefulWidget {
   const AdhdSupportPage({super.key});
@@ -221,6 +222,7 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
           indicatorColor: Colors.white,
           indicatorWeight: 3,
           isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Timer", icon: Icon(Icons.timer, size: 18)),
             Tab(text: "Tasks", icon: Icon(Icons.checklist, size: 18)),
@@ -460,6 +462,7 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                 onPressed: task['completed']
                     ? null
                     : () {
+                        TtsService.to.speak(task['task']);
                         setState(() {
                           focusTasks[index]['completed'] = true;
                           earnedPoints += task['points'] as int;

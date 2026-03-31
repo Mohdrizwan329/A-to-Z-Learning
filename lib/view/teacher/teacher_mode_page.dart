@@ -113,6 +113,7 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
           indicatorColor: Colors.white,
           indicatorWeight: 3,
           isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Dashboard", icon: Icon(Icons.dashboard, size: 18)),
             Tab(text: "Students", icon: Icon(Icons.people, size: 18)),

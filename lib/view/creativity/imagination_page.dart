@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:math';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ImaginationPage extends StatefulWidget {
   const ImaginationPage({super.key});
@@ -175,6 +176,7 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
           bottom: const TabBar(
             indicatorColor: Colors.white,
             indicatorWeight: 3,
+            labelPadding: EdgeInsets.symmetric(horizontal: 20),
             tabs: [
               Tab(text: "Imagine", icon: Icon(Icons.auto_awesome, size: 20)),
               Tab(text: "What If?", icon: Icon(Icons.help_outline, size: 20)),
@@ -242,6 +244,7 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
 
               return GestureDetector(
                 onTap: () {
+                  TtsService.to.speak(activity['title']);
                   setState(() => currentActivity = index);
                   _speakText(activity['description']);
                 },

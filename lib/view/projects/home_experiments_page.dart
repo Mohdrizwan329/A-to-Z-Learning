@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class HomeExperimentsPage extends StatefulWidget {
   const HomeExperimentsPage({super.key});
@@ -257,6 +258,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
   Widget _buildExperimentCard(Map<String, dynamic> experiment) {
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(experiment['name']);
         setState(() {
           selectedExperiment = experiment['name'];
         });

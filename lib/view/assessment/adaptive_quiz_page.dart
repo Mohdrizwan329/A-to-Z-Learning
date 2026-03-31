@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/adaptive_learning_service.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class AdaptiveQuizPage extends StatefulWidget {
   const AdaptiveQuizPage({super.key});
@@ -761,7 +762,10 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                   );
                 },
                 child: GestureDetector(
-                  onTap: () => _selectAnswer(index),
+                  onTap: () {
+                    TtsService.to.speak(_questions[_currentIndex].options[index]);
+                    _selectAnswer(index);
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     decoration: BoxDecoration(

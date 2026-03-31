@@ -8,6 +8,7 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class TableScreen extends StatefulWidget {
   final List<Color>? gradient;
@@ -131,6 +132,7 @@ class _TableScreenState extends State<TableScreen>
                       gradient: gradient,
                       isSelected: isSelected,
                       onTap: () {
+                        TtsService.to.speak('Table of $number');
                         controller.toggleExpanded(index, number);
                         Get.to(() => TableDetailScreen(number: number));
                       },

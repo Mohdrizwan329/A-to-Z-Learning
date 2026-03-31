@@ -334,8 +334,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
             scale: _scaleController,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? LinearGradient(
@@ -366,7 +366,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                 children: [
                   // Fun character/emoji container
                   _buildCharacterContainer(cardData, isSelected),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
 
                   // Content
                   Expanded(
@@ -379,7 +379,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                             Text(
                               cardData['title'] as String,
                               style: GoogleFonts.fredoka(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: isSelected
                                     ? Colors.white
@@ -408,20 +408,20 @@ class _FunAgeCardState extends State<_FunAgeCard>
                               ),
                           ],
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 1),
 
                         // Subtitle
                         Text(
                           cardData['subtitle'] as String,
                           style: GoogleFonts.nunito(
-                            fontSize: 15,
+                            fontSize: 13,
                             fontWeight: FontWeight.w700,
                             color: isSelected
                                 ? Colors.white.withValues(alpha: 0.9)
                                 : Colors.grey.shade700,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
 
                         // Fun description with emojis
                         Row(
@@ -467,8 +467,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
   ) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      width: 70,
-      height: 70,
+      width: 60,
+      height: 60,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isSelected
@@ -496,7 +496,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
         children: [
           Text(
             cardData['character'] as String,
-            style: const TextStyle(fontSize: 38),
+            style: const TextStyle(fontSize: 32),
           ),
           // Small badge showing age range
           Positioned(

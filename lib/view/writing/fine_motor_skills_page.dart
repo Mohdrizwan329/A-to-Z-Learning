@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:math';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class FineMotorSkillsPage extends StatefulWidget {
   const FineMotorSkillsPage({super.key});
@@ -165,6 +166,7 @@ class _FineMotorSkillsPageState extends State<FineMotorSkillsPage> {
       showResult = false;
       accuracy = 0;
     });
+    TtsService.to.speak(exercises[currentExercise]['title']);
   }
 
   void _resetExercise() {

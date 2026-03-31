@@ -4,6 +4,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:async';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class RhythmLearningPage extends StatefulWidget {
   const RhythmLearningPage({super.key});
@@ -83,6 +84,7 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
 
   void _playPattern() async {
     if (isPlaying) return;
+    TtsService.to.speak(rhythmPatterns[currentPattern]['name']);
 
     setState(() {
       isPlaying = true;

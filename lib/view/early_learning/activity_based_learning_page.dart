@@ -5,6 +5,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:math';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ActivityBasedLearningPage extends StatefulWidget {
   const ActivityBasedLearningPage({super.key});
@@ -1076,6 +1077,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
   }
 
   void _startActivity(LearningActivity activity, int index) {
+    TtsService.to.speak(activity.name);
     HapticFeedback.mediumImpact();
     _markItemVisited(_currentCategory, index);
 
@@ -1790,6 +1792,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: _categories.map((cat) {
             return Tab(
               child: Text(

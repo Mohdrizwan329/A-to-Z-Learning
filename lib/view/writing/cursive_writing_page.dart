@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class CursiveWritingPage extends StatefulWidget {
   const CursiveWritingPage({super.key});
@@ -13,11 +14,19 @@ class CursiveWritingPage extends StatefulWidget {
 class _CursiveWritingPageState extends State<CursiveWritingPage> {
   final FlutterTts flutterTts = FlutterTts();
   int currentIndex = 0;
-  bool isCapital = true;
-  List<Offset?> points = [];
+  int currentCategory = 0; // 0=ABC, 1=abc, 2=123, 3=Hindi
+  List<CursiveDrawingPoint?> drawingPoints = [];
   Color penColor = Color(0xFF764BA2);
-  double penWidth = 4.0;
+  double penWidth = 20.0;
   bool showGuide = true;
+
+  final List<String> categoryLabels = ['ABC', 'abc', '123', 'हिंदी'];
+  final List<List<Color>> categoryGradients = [
+    [Color(0xFF667EEA), Color(0xFF764BA2)],
+    [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+    [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+    [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
+  ];
 
   final List<String> capitalLetters = [
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -30,6 +39,32 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
     'u', 'v', 'w', 'x', 'y', 'z'
   ];
+
+  final List<String> numbers = [
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+  ];
+
+  final List<String> hindiLetters = [
+    'अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः',
+    'क', 'ख', 'ग', 'घ', 'ङ',
+    'च', 'छ', 'ज', 'झ', 'ञ',
+    'ट', 'ठ', 'ड', 'ढ', 'ण',
+    'त', 'थ', 'द', 'ध', 'न',
+    'प', 'फ', 'ब', 'भ', 'म',
+    'य', 'र', 'ल', 'व',
+    'श', 'ष', 'स', 'ह',
+    'क्ष', 'त्र', 'ज्ञ',
+  ];
+
+  List<String> get currentList {
+    switch (currentCategory) {
+      case 0: return capitalLetters;
+      case 1: return smallLetters;
+      case 2: return numbers;
+      case 3: return hindiLetters;
+      default: return capitalLetters;
+    }
+  }
 
   final List<Color> penColors = [
     Color(0xFF764BA2),
@@ -52,20 +87,14 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
   }
 
   void _speakLetter() {
-    final letter = isCapital ? capitalLetters[currentIndex] : smallLetters[currentIndex];
-    flutterTts.speak("Cursive ${isCapital ? 'capital' : 'small'} $letter");
-  }
-
-  void _nextLetter() {
-    setState(() {
-      if (currentIndex < 25) {
-        currentIndex++;
-      } else {
-        currentIndex = 0;
-      }
-      points.clear();
-    });
-    _speakLetter();
+    final letter = currentList[currentIndex];
+    if (currentCategory == 3) {
+      flutterTts.setLanguage("hi-IN");
+      flutterTts.speak(letter);
+      flutterTts.setLanguage("en-US");
+    } else {
+      flutterTts.speak(letter);
+    }
   }
 
   void _previousLetter() {
@@ -73,22 +102,39 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
       if (currentIndex > 0) {
         currentIndex--;
       } else {
-        currentIndex = 25;
+        currentIndex = currentList.length - 1;
       }
-      points.clear();
+      drawingPoints.clear();
     });
+    TtsService.to.speak(currentList[currentIndex]);
+    _speakLetter();
+  }
+
+  void _nextLetter() {
+    setState(() {
+      if (currentIndex < currentList.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      drawingPoints.clear();
+    });
+    TtsService.to.speak(currentList[currentIndex]);
     _speakLetter();
   }
 
   void _clearCanvas() {
-    setState(() => points.clear());
+    setState(() => drawingPoints.clear());
   }
 
-  void _toggleCase() {
+  void _selectCategory(int index) {
+    if (currentCategory == index) return;
     setState(() {
-      isCapital = !isCapital;
-      points.clear();
+      currentCategory = index;
+      currentIndex = 0;
+      drawingPoints.clear();
     });
+    TtsService.to.speak(categoryLabels[index]);
   }
 
   @override
@@ -99,84 +145,70 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentLetter = isCapital ? capitalLetters[currentIndex] : smallLetters[currentIndex];
+    final currentLetter = currentList[currentIndex];
 
     return GradientScaffold(
       title: 'Cursive Writing',
       emoji: '✒️',
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: _clearCanvas,
+            icon: const Icon(Icons.refresh, color: Colors.white, size: 24),
+          ),
+        ),
+      ],
       bottomNavigationBar: const AdsScreen(),
       body: SafeArea(
           child: Column(
             children: [
               const SizedBox(height: 12),
-              // Case toggle and letter selector
+              // Category buttons + letter display
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Row(
+                child: Column(
                   children: [
-                    // Case toggle
-                    GestureDetector(
-                      onTap: _toggleCase,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: isCapital
-                                ? [Color(0xFF667EEA), Color(0xFF764BA2)]
-                                : [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+                    // Category buttons row
+                    Row(
+                      children: List.generate(4, (index) {
+                        final isSelected = currentCategory == index;
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: () => _selectCategory(index),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 4),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                gradient: isSelected
+                                    ? LinearGradient(colors: categoryGradients[index])
+                                    : null,
+                                color: isSelected ? null : Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  categoryLabels[index],
+                                  style: TextStyle(
+                                    color: isSelected ? Colors.white : Colors.grey.shade600,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          isCapital ? "ABC" : "abc",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    // Letter navigation
-                    IconButton(
-                      onPressed: _previousLetter,
-                      icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF764BA2)),
-                    ),
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF3E5F5),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Text(
-                          currentLetter,
-                          style: const TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Cursive',
-                            fontStyle: FontStyle.italic,
-                            color: Color(0xFF764BA2),
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: _nextLetter,
-                      icon: const Icon(Icons.arrow_forward_ios, color: Color(0xFF764BA2)),
-                    ),
-                    const Spacer(),
-                    // Speak button
-                    IconButton(
-                      onPressed: _speakLetter,
-                      icon: const Icon(Icons.volume_up, color: Color(0xFF764BA2), size: 28),
+                        );
+                      }),
                     ),
                   ],
                 ),
@@ -220,23 +252,34 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
                               ),
                             ),
                           ),
-                        // Drawing canvas
+                        // Drawing canvas (clipped to letter shape)
                         GestureDetector(
+                          onPanStart: (details) {
+                            setState(() {
+                              drawingPoints.add(CursiveDrawingPoint(
+                                offset: details.localPosition,
+                                color: penColor,
+                                strokeWidth: penWidth,
+                              ));
+                            });
+                          },
                           onPanUpdate: (details) {
                             setState(() {
-                              RenderBox box = context.findRenderObject() as RenderBox;
-                              points.add(box.globalToLocal(details.globalPosition));
+                              drawingPoints.add(CursiveDrawingPoint(
+                                offset: details.localPosition,
+                                color: penColor,
+                                strokeWidth: penWidth,
+                              ));
                             });
                           },
                           onPanEnd: (details) {
-                            setState(() => points.add(null));
+                            setState(() => drawingPoints.add(null));
                           },
                           child: CustomPaint(
                             size: Size.infinite,
-                            painter: CursiveDrawingPainter(
-                              points: points,
-                              color: penColor,
-                              strokeWidth: penWidth,
+                            painter: CursiveColoringPainter(
+                              drawingPoints: drawingPoints,
+                              letter: currentLetter,
                             ),
                           ),
                         ),
@@ -292,9 +335,9 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: _clearCanvas,
-                        icon: const Icon(Icons.refresh),
-                        label: const Text("Clear"),
+                        onPressed: _previousLetter,
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text("Previous"),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           foregroundColor: Colors.white,
@@ -359,33 +402,91 @@ class NotebookLinesPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-class CursiveDrawingPainter extends CustomPainter {
-  final List<Offset?> points;
+class CursiveDrawingPoint {
+  final Offset offset;
   final Color color;
   final double strokeWidth;
 
-  CursiveDrawingPainter({
-    required this.points,
+  CursiveDrawingPoint({
+    required this.offset,
     required this.color,
     required this.strokeWidth,
+  });
+}
+
+class CursiveColoringPainter extends CustomPainter {
+  final List<CursiveDrawingPoint?> drawingPoints;
+  final String letter;
+
+  CursiveColoringPainter({
+    required this.drawingPoints,
+    required this.letter,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round
-      ..style = PaintingStyle.stroke;
+    if (drawingPoints.isEmpty) return;
 
-    for (int i = 0; i < points.length - 1; i++) {
-      if (points[i] != null && points[i + 1] != null) {
-        canvas.drawLine(points[i]!, points[i + 1]!, paint);
+    // Save a compositing layer
+    canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
+
+    // Draw user strokes first (destination)
+    for (int i = 0; i < drawingPoints.length - 1; i++) {
+      if (drawingPoints[i] != null && drawingPoints[i + 1] != null) {
+        final paint = Paint()
+          ..color = drawingPoints[i]!.color
+          ..strokeWidth = drawingPoints[i]!.strokeWidth
+          ..strokeCap = StrokeCap.round
+          ..strokeJoin = StrokeJoin.round
+          ..style = PaintingStyle.stroke;
+
+        canvas.drawLine(
+          drawingPoints[i]!.offset,
+          drawingPoints[i + 1]!.offset,
+          paint,
+        );
+      } else if (drawingPoints[i] != null && drawingPoints[i + 1] == null) {
+        final paint = Paint()
+          ..color = drawingPoints[i]!.color
+          ..strokeWidth = drawingPoints[i]!.strokeWidth
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.fill;
+
+        canvas.drawCircle(
+          drawingPoints[i]!.offset,
+          drawingPoints[i]!.strokeWidth / 2,
+          paint,
+        );
       }
     }
+
+    // Draw the letter mask with dstIn — keeps strokes only inside letter
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: letter,
+        style: const TextStyle(
+          fontSize: 250,
+          fontFamily: 'Cursive',
+          fontStyle: FontStyle.italic,
+          fontWeight: FontWeight.w900,
+          color: Colors.black,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    final offset = Offset(
+      (size.width - textPainter.width) / 2,
+      (size.height - textPainter.height) / 2,
+    );
+    final maskPaint = Paint()..blendMode = BlendMode.dstIn;
+    canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), maskPaint);
+    textPainter.paint(canvas, offset);
+    canvas.restore();
+
+    canvas.restore();
   }
 
   @override
-  bool shouldRepaint(covariant CursiveDrawingPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CursiveColoringPainter oldDelegate) => true;
 }

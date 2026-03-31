@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -1691,7 +1692,10 @@ class _CertificatesPageState extends State<CertificatesPage>
         : cardGradients[index % cardGradients.length];
 
     return GestureDetector(
-      onTap: isEarned ? () => _showCertificate(cert) : null,
+      onTap: isEarned ? () {
+        TtsService.to.speak(cert['title']);
+        _showCertificate(cert);
+      } : null,
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(

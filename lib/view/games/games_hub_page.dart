@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view/games/puzzle_game_page.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class GamesHubPage extends StatefulWidget {
   const GamesHubPage({super.key});
@@ -85,7 +86,7 @@ class _GamesHubPageState extends State<GamesHubPage>
   // Floating bubbles for playful effect (same as home screen)
   List<Widget> _buildFloatingBubbles() {
     final random = math.Random(42);
-    return List.generate(15, (index) {
+    return List.generate(8, (index) {
       final size = 20.0 + random.nextDouble() * 60;
       final left = random.nextDouble() * 400;
       final top = random.nextDouble() * 800;
@@ -300,7 +301,10 @@ class _GamesHubPageState extends State<GamesHubPage>
     final gradient = (gradientList as List).cast<Color>();
 
     return GestureDetector(
-      onTap: () => Get.to(game['page']),
+      onTap: () {
+        TtsService.to.speak(game['title']);
+        Get.to(game['page']);
+      },
       child: AnimatedBuilder(
         animation: _floatController,
         builder: (context, child) {

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class TracingGamePage extends StatefulWidget {
   const TracingGamePage({super.key});
@@ -367,6 +368,7 @@ class _TracingGamePageState extends State<TracingGamePage>
             fontWeight: FontWeight.w500,
             color: Colors.white70,
           ),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: 'A-Z'),
             Tab(text: 'a-z'),
@@ -742,6 +744,7 @@ class _TracingGamePageState extends State<TracingGamePage>
 
                     return GestureDetector(
                       onTap: () {
+                        TtsService.to.speak(_currentList[index]);
                         setState(() {
                           _currentIndex = index;
                           _points = [];

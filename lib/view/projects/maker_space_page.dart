@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MakerSpacePage extends StatefulWidget {
   const MakerSpacePage({super.key});
@@ -321,6 +322,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
 
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(challenge['name']);
         setState(() {
           selectedChallenge = challenge['name'];
         });

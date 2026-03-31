@@ -7,6 +7,7 @@ import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view%20model/math%20controller/math_practice_controller.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 //////////////////////////////////////////////////////////
 //                MAIN MATH GRID SCREEN
@@ -60,98 +61,168 @@ class _MathGridScreenState extends State<MathGridScreen>
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      title: 'Math Practice',
+      title: 'Math Problem Solve Practice',
       emoji: '🔢',
-      body: GridView.builder(
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: 1.0,
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: () async {
+              await ProgressService.to.resetProgress(
+                ProgressService.kMathAddition,
+              );
+              await ProgressService.to.resetProgress(
+                ProgressService.kMathSubtraction,
+              );
+              await ProgressService.to.resetProgress(
+                ProgressService.kMathMultiplication,
+              );
+              await ProgressService.to.resetProgress(
+                ProgressService.kMathDivision,
+              );
+              setState(() {});
+            },
+            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+          ),
         ),
-        itemCount: mathOperations.length,
-        itemBuilder: (context, index) {
-          final item = mathOperations[index];
-          final gradient = AppColors.getGradientForIndex(index);
-          final String? progressKey = item['progressKey'];
-
-          return buildAnimatedGridItem(
-            index: index,
-            isSelected: false,
-            child: GradientCard(
-              gradient: gradient,
-              isSelected: false,
-              onTap: () => Get.to(item['page']),
-              pulseAnimation: pulseAnimation,
-              child: Stack(
+      ],
+      body: Column(
+        children: [
+          // Progress bar
+          Obx(() {
+            final addDone =
+                (ProgressService.to.completedItems[ProgressService
+                            .kMathAddition] ??
+                        0) >
+                    0
+                ? 1
+                : 0;
+            final subDone =
+                (ProgressService.to.completedItems[ProgressService
+                            .kMathSubtraction] ??
+                        0) >
+                    0
+                ? 1
+                : 0;
+            final mulDone =
+                (ProgressService.to.completedItems[ProgressService
+                            .kMathMultiplication] ??
+                        0) >
+                    0
+                ? 1
+                : 0;
+            final divDone =
+                (ProgressService.to.completedItems[ProgressService
+                            .kMathDivision] ??
+                        0) >
+                    0
+                ? 1
+                : 0;
+            final totalDone = addDone + subDone + mulDone + divDone;
+            const totalAll = 4;
+            final progress = totalDone / totalAll;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
                 children: [
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 75,
-                          height: 75,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.3),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              item['emoji'],
-                              style: const TextStyle(fontSize: 42),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        GradientCardText(
-                          text: item['label'],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Progress',
+                        style: TextStyle(
                           fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        '$totalDone/$totalAll completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(12),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.0,
+              ),
+              itemCount: mathOperations.length,
+              itemBuilder: (context, index) {
+                final item = mathOperations[index];
+                final gradient = AppColors.getGradientForIndex(index);
+                return buildAnimatedGridItem(
+                  index: index,
+                  isSelected: false,
+                  child: GradientCard(
+                    gradient: gradient,
+                    isSelected: false,
+                    onTap: () { TtsService.to.speak(item['label']); Get.to(item['page']); },
+                    pulseAnimation: pulseAnimation,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 75,
+                                height: 75,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.3),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    item['emoji'],
+                                    style: const TextStyle(fontSize: 42),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              GradientCardText(
+                                text: item['label'],
+                                fontSize: 14,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  // Progress indicator
-                  if (progressKey != null)
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Obx(() {
-                        final progress = ProgressService.to.getProgressPercentage(progressKey);
-                        final progressStr = ProgressService.to.getProgressString(progressKey);
-                        return Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: LinearProgressIndicator(
-                                value: progress / 100,
-                                backgroundColor: Colors.white.withValues(alpha: 0.3),
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  progress == 100 ? Colors.green : Colors.white,
-                                ),
-                                minHeight: 6,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              progressStr,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
-                    ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
       bottomNavigationBar: const AdsScreen(),
     );
@@ -229,9 +300,13 @@ class _MathGridTemplateState extends State<MathGridTemplate>
           if (widget.progressKey != null)
             Obx(() {
               final progress =
-                  ProgressService.to.getProgressPercentage(widget.progressKey!) / 100;
-              final progressString =
-                  ProgressService.to.getProgressString(widget.progressKey!);
+                  ProgressService.to.getProgressPercentage(
+                    widget.progressKey!,
+                  ) /
+                  100;
+              final progressString = ProgressService.to.getProgressString(
+                widget.progressKey!,
+              );
               return Padding(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: Column(
@@ -289,14 +364,14 @@ class _MathGridTemplateState extends State<MathGridTemplate>
                 itemBuilder: (context, index) {
                   final gradient = AppColors.getGradientForIndex(index);
 
-                  return Obx(() {
-                    final isSelected = controller.selectedIndex.value == index;
-                    final isCompleted = controller.isItemDone(index);
+                  return buildFloatingItem(
+                    index: index,
+                    child: Obx(() {
+                      final isSelected =
+                          controller.selectedIndex.value == index;
+                      final isCompleted = controller.isItemDone(index);
 
-                    return buildAnimatedGridItem(
-                      index: index,
-                      isSelected: isSelected,
-                      child: GradientCard(
+                      return GradientCard(
                         gradient: gradient,
                         isSelected: isSelected,
                         onTap: () => controller.handleTap(index),
@@ -329,9 +404,9 @@ class _MathGridTemplateState extends State<MathGridTemplate>
                               ),
                           ],
                         ),
-                      ),
-                    );
-                  });
+                      );
+                    }),
+                  );
                 },
               );
             }),
@@ -349,43 +424,43 @@ class _MathGridTemplateState extends State<MathGridTemplate>
 class AdditionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MathGridTemplate(
-        title: "Addition",
-        operator: '+',
-        emoji: '➕',
-        themeGradient: [Color(0xFFFF6B6B), Color(0xFFFF8E8E)],
-        progressKey: ProgressService.kMathAddition,
-      );
+    title: "Addition",
+    operator: '+',
+    emoji: '➕',
+    themeGradient: [Color(0xFFFF6B6B), Color(0xFFFF8E8E)],
+    progressKey: ProgressService.kMathAddition,
+  );
 }
 
 class SubtractionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MathGridTemplate(
-        title: "Subtraction",
-        operator: '-',
-        emoji: '➖',
-        themeGradient: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
-        progressKey: ProgressService.kMathSubtraction,
-      );
+    title: "Subtraction",
+    operator: '-',
+    emoji: '➖',
+    themeGradient: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
+    progressKey: ProgressService.kMathSubtraction,
+  );
 }
 
 class MultiplicationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MathGridTemplate(
-        title: "Multiplication",
-        operator: '×',
-        emoji: '✖️',
-        themeGradient: [Color(0xFF56D97F), Color(0xFF81E89E)],
-        progressKey: ProgressService.kMathMultiplication,
-      );
+    title: "Multiplication",
+    operator: '×',
+    emoji: '✖️',
+    themeGradient: [Color(0xFF56D97F), Color(0xFF81E89E)],
+    progressKey: ProgressService.kMathMultiplication,
+  );
 }
 
 class DivisionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MathGridTemplate(
-        title: "Division",
-        operator: '÷',
-        emoji: '➗',
-        themeGradient: [Color(0xFF45B7D1), Color(0xFF74C9DB)],
-        progressKey: ProgressService.kMathDivision,
-      );
+    title: "Division",
+    operator: '÷',
+    emoji: '➗',
+    themeGradient: [Color(0xFF45B7D1), Color(0xFF74C9DB)],
+    progressKey: ProgressService.kMathDivision,
+  );
 }

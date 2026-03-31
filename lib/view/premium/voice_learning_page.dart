@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class VoiceLearningPage extends StatefulWidget {
   const VoiceLearningPage({Key? key}) : super(key: key);
@@ -266,6 +267,7 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
 
           return GestureDetector(
             onTap: () {
+              TtsService.to.speak(cat['name']!);
               setState(() {
                 _selectedCategory = cat['id']!;
                 _currentIndex = 0;

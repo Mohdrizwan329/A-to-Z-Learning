@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ConversationPracticePage extends StatefulWidget {
   const ConversationPracticePage({super.key});
@@ -201,6 +202,7 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
           controller: _tabController,
           indicatorColor: Colors.white,
           indicatorWeight: 3,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Greetings", icon: Icon(Icons.waving_hand, size: 20)),
             Tab(text: "Polite", icon: Icon(Icons.favorite, size: 20)),
@@ -250,7 +252,10 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
 
         final greeting = greetings[index - 1];
         return GestureDetector(
-          onTap: () => _speakText("${greeting['phrase']} ${greeting['response']}"),
+          onTap: () {
+            TtsService.to.speak(greeting['phrase']);
+            _speakText("${greeting['phrase']} ${greeting['response']}");
+          },
           child: Container(
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.all(16),
@@ -304,7 +309,10 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
         final color = colors[(index - 1) % colors.length];
 
         return GestureDetector(
-          onTap: () => _speakText("${expression['phrase']}. ${expression['example']}"),
+          onTap: () {
+            TtsService.to.speak(expression['phrase']);
+            _speakText("${expression['phrase']}. ${expression['example']}");
+          },
           child: Container(
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
@@ -420,7 +428,10 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => isCurrentlyPlaying ? _stopDialogue() : _playDialogue(index - 1),
+                      onTap: () {
+                        TtsService.to.speak(dialogue['title']);
+                        isCurrentlyPlaying ? _stopDialogue() : _playDialogue(index - 1);
+                      },
                       child: Container(
                         width: 50,
                         height: 50,

@@ -1,8 +1,9 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class PuzzleGamePage extends StatefulWidget {
   const PuzzleGamePage({super.key});
@@ -11,7 +12,8 @@ class PuzzleGamePage extends StatefulWidget {
   State<PuzzleGamePage> createState() => _PuzzleGamePageState();
 }
 
-class _PuzzleGamePageState extends State<PuzzleGamePage> {
+class _PuzzleGamePageState extends State<PuzzleGamePage>
+    with TickerProviderStateMixin {
   final List<Map<String, dynamic>> _puzzles = [
     // Animals
     {
@@ -316,16 +318,45 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
   bool _isCorrect = false;
   bool _isWrong = false;
 
+  // Animation controllers (home screen style)
+  late AnimationController _floatController;
+  late AnimationController _bubbleController;
+  late Animation<double> _floatAnimation;
+
   @override
   void initState() {
     super.initState();
+
+    // Float animation for cards (3s, reverse)
+    _floatController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+    );
+
+    // Bubble animation (8s, repeat)
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+
     _setupPuzzle();
+  }
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    _bubbleController.dispose();
+    super.dispose();
   }
 
   void _setupPuzzle() {
     final puzzle = _puzzles[_currentPuzzleIndex];
     final letters = List<String>.from(puzzle['letters']);
-    letters.shuffle(Random());
+    letters.shuffle(math.Random());
 
     setState(() {
       _shuffledLetters = List<String>.from(letters);
@@ -338,7 +369,7 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
   void _resetCurrentPuzzle() {
     final puzzle = _puzzles[_currentPuzzleIndex];
     final letters = List<String>.from(puzzle['letters']);
-    letters.shuffle(Random());
+    letters.shuffle(math.Random());
 
     setState(() {
       _shuffledLetters = List<String>.from(letters);
@@ -358,6 +389,7 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
 
   void _onLetterTap(int index) {
     if (_shuffledLetters[index].isEmpty) return;
+    TtsService.to.speak(_shuffledLetters[index]);
 
     int emptySlot = _selectedLetters.indexOf(null);
     if (emptySlot == -1) return;
@@ -451,23 +483,49 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
     );
   }
 
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final puzzle = _puzzles[_currentPuzzleIndex];
 
     return GradientScaffold(
       title: 'Spell the Word',
-      appBarGradient: const [
-        Color(0xFFFF6B6B),
-        Color(0xFFFF8E53),
-        Color(0xFFFFAA5A),
-      ],
-      bodyGradient: const [
-        Color(0xFF667EEA),
-        Color(0xFF764BA2),
-        Color(0xFFf093fb),
-        Color(0xFFf5576c),
-      ],
       actions: [
         IconButton(
           icon: Container(
@@ -481,7 +539,13 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
           onPressed: _resetAllProgress,
         ),
       ],
-      body: Column(
+      body: Stack(
+        children: [
+          // Floating bubbles background
+          ..._buildFloatingBubbles(),
+
+          // Main content
+          Column(
         children: [
           // Progress bar with percentage
           Padding(
@@ -527,79 +591,88 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
 
           const Spacer(),
 
-          // Emoji and hint card - styled like home screen (increased height +30)
-          Container(
-            padding: const EdgeInsets.all(30),
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+          // Emoji and hint card - with float animation
+          AnimatedBuilder(
+            animation: _floatAnimation,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(0, _floatAnimation.value),
+                child: child,
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(30),
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                // Decorative circle
-                Positioned(
-                  top: -15,
-                  right: -15,
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  // Decorative circle
+                  Positioned(
+                    top: -15,
+                    right: -15,
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          puzzle['emoji'],
-                          style: const TextStyle(fontSize: 70),
+                  Column(
+                    children: [
+                      Container(
+                        width: 130,
+                        height: 130,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.3),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            puzzle['emoji'],
+                            style: const TextStyle(fontSize: 70),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Spell this word!',
-                      style: GoogleFonts.nunito(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    if (_isCorrect) ...[
-                      const SizedBox(height: 12),
-                      const Text(
-                        '✓ Correct!',
-                        style: TextStyle(
-                          color: Color(0xFFFFE66D),
+                      const SizedBox(height: 20),
+                      Text(
+                        'Spell this word!',
+                        style: GoogleFonts.nunito(
                           fontSize: 20,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      if (_isCorrect) ...[
+                        const SizedBox(height: 12),
+                        const Text(
+                          '✓ Correct!',
+                          style: TextStyle(
+                            color: Color(0xFFFFE66D),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -668,62 +741,74 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
                 if (_shuffledLetters[index].isEmpty) {
                   return const SizedBox(width: 55, height: 65);
                 }
-                return GestureDetector(
-                  onTap: () => _onLetterTap(index),
-                  child: Container(
-                    width: 55,
-                    height: 65,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
+                return AnimatedBuilder(
+                  animation: _floatAnimation,
+                  builder: (context, child) {
+                    final offset = index % 2 == 0
+                        ? _floatAnimation.value
+                        : -_floatAnimation.value;
+                    return Transform.translate(
+                      offset: Offset(0, offset),
+                      child: child,
+                    );
+                  },
+                  child: GestureDetector(
+                    onTap: () => _onLetterTap(index),
+                    child: Container(
+                      width: 55,
+                      height: 65,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        // Decorative circle
-                        Positioned(
-                          top: -8,
-                          right: -8,
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: [
+                          // Decorative circle
+                          Positioned(
+                            top: -8,
+                            right: -8,
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withValues(alpha: 0.1),
+                              ),
                             ),
                           ),
-                        ),
-                        Center(
-                          child: Container(
-                            width: 42,
-                            height: 42,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.3),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                _shuffledLetters[index],
-                                style: GoogleFonts.nunito(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                          Center(
+                            child: Container(
+                              width: 42,
+                              height: 42,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  _shuffledLetters[index],
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -914,6 +999,8 @@ class _PuzzleGamePageState extends State<PuzzleGamePage> {
           ),
 
           const Spacer(),
+        ],
+      ),
         ],
       ),
     );

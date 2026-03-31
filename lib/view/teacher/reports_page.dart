@@ -227,6 +227,7 @@ class _ReportsPageState extends State<ReportsPage>
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
         tabs: const [
           Tab(text: 'Day'),
           Tab(text: 'Week'),

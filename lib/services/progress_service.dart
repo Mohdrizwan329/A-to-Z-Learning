@@ -60,6 +60,66 @@ class ProgressService extends GetxService {
   static const String kBodySafety = 'progress_body_safety';
   static const String kFamilyRelationships = 'progress_family_relationships';
   static const String kGlobalCultures = 'progress_global_cultures';
+  static const String kSkillEvaluation = 'progress_skill_evaluation';
+  static const String kDesignThinking = 'progress_design_thinking';
+  static const String kMiniProjects = 'progress_mini_projects';
+  static const String kStemHub = 'progress_stem_hub';
+  static const String kScienceExperiments = 'progress_science_experiments';
+  static const String kScienceTopics = 'progress_science_topics';
+  static const String kEnvironmentTopics = 'progress_environment_topics';
+  static const String kSocialSkills = 'progress_social_skills';
+  static const String kCulturalAwareness = 'progress_cultural_awareness';
+  static const String kFestivalLearning = 'progress_festival_learning';
+  static const String kFolkTales = 'progress_folk_tales';
+  static const String kRegionalLanguages = 'progress_regional_languages';
+  static const String kComputerBasics = 'progress_computer_basics';
+  static const String kKeyboardMouse = 'progress_keyboard_mouse';
+  static const String kInternetSafety = 'progress_internet_safety';
+  static const String kDigitalEtiquette = 'progress_digital_etiquette';
+  static const String kDiyLearning = 'progress_diy_learning';
+  static const String kHygieneHabits = 'progress_hygiene_habits';
+  static const String kTimeManagement = 'progress_time_management';
+  static const String kSafetySkills = 'progress_safety_skills';
+  static const String kMoneyHabits = 'progress_money_habits';
+  static const String kPlanningSkills = 'progress_planning_skills';
+  static const String kGoalSetting = 'progress_goal_setting';
+  static const String kTaskSequencing = 'progress_task_sequencing';
+  static const String kWorkingMemory = 'progress_working_memory';
+  static const String kFunGames = 'progress_fun_games';
+  static const String kFocusTraining = 'progress_focus_training';
+  static const String kAttentionTraining = 'progress_attention_training';
+
+  // Sight Words progress keys
+  static const String kSightWordsPreK = 'progress_sight_words_prek';
+  static const String kSightWordsKindergarten = 'progress_sight_words_kindergarten';
+  static const String kSightWordsGrade1 = 'progress_sight_words_grade1';
+  static const String kSightWordsGrade2 = 'progress_sight_words_grade2';
+  static const String kSightWordsGrade3 = 'progress_sight_words_grade3';
+  static const String kSightWordsNouns = 'progress_sight_words_nouns';
+
+  // Spelling Practice progress keys
+  static const String kSpellingEasy = 'progress_spelling_easy';
+  static const String kSpellingMedium = 'progress_spelling_medium';
+  static const String kSpellingHard = 'progress_spelling_hard';
+  static const String kSpellingAnimals = 'progress_spelling_animals';
+  static const String kSpellingFood = 'progress_spelling_food';
+  static const String kSpellingNature = 'progress_spelling_nature';
+
+  // Sentence Formation progress keys
+  static const String kSentenceAnimals = 'progress_sentence_animals';
+  static const String kSentenceFamily = 'progress_sentence_family';
+  static const String kSentenceNature = 'progress_sentence_nature';
+  static const String kSentenceSchool = 'progress_sentence_school';
+  static const String kSentenceFood = 'progress_sentence_food';
+  static const String kSentenceActions = 'progress_sentence_actions';
+
+  // Reading Fluency progress keys
+  static const String kReadingAnimals = 'progress_reading_animals';
+  static const String kReadingFamily = 'progress_reading_family';
+  static const String kReadingNature = 'progress_reading_nature';
+  static const String kReadingSchool = 'progress_reading_school';
+  static const String kReadingAdventure = 'progress_reading_adventure';
+  static const String kReadingFriendship = 'progress_reading_friendship';
 
   // Animated Videos progress keys
   static const String kAnimatedABC = 'progress_animated_abc';
@@ -137,6 +197,62 @@ class ProgressService extends GetxService {
     kBodySafety: 8,
     kFamilyRelationships: 6,
     kGlobalCultures: 9,
+    kSkillEvaluation: 60,
+    kDesignThinking: 8,
+    kMiniProjects: 8,
+    kStemHub: 4,
+    kScienceExperiments: 8,
+    kScienceTopics: 6,
+    kEnvironmentTopics: 6,
+    kSocialSkills: 4,
+    kCulturalAwareness: 4,
+    kFestivalLearning: 5,
+    kFolkTales: 3,
+    kRegionalLanguages: 3,
+    kComputerBasics: 7,
+    kKeyboardMouse: 8,
+    kInternetSafety: 8,
+    kDigitalEtiquette: 8,
+    kDiyLearning: 5,
+    kHygieneHabits: 8,
+    kTimeManagement: 8,
+    kSafetySkills: 8,
+    kMoneyHabits: 8,
+    kPlanningSkills: 7,
+    kGoalSetting: 7,
+    kTaskSequencing: 7,
+    kWorkingMemory: 7,
+    kFunGames: 3,
+    kFocusTraining: 4,
+    kAttentionTraining: 5,
+    // Sight Words categories (Dolch Sight Words)
+    kSightWordsPreK: 40,
+    kSightWordsKindergarten: 52,
+    kSightWordsGrade1: 41,
+    kSightWordsGrade2: 45,
+    kSightWordsGrade3: 41,
+    kSightWordsNouns: 94,
+    // Spelling Practice categories
+    kSpellingEasy: 15,
+    kSpellingMedium: 15,
+    kSpellingHard: 15,
+    kSpellingAnimals: 15,
+    kSpellingFood: 15,
+    kSpellingNature: 15,
+    // Sentence Formation categories (10 sentences each)
+    kSentenceAnimals: 10,
+    kSentenceFamily: 10,
+    kSentenceNature: 10,
+    kSentenceSchool: 10,
+    kSentenceFood: 10,
+    kSentenceActions: 10,
+    // Reading Fluency categories (5 stories each)
+    kReadingAnimals: 5,
+    kReadingFamily: 5,
+    kReadingNature: 5,
+    kReadingSchool: 5,
+    kReadingAdventure: 5,
+    kReadingFriendship: 5,
     // Animated Videos categories
     kAnimatedABC: 8,
     kAnimatedNumbers: 10,

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/learn%20set%20controller/gk_learning_controller.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'dart:math' as math;
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class GKLearningPage extends StatefulWidget {
   const GKLearningPage({super.key});
@@ -19,6 +21,7 @@ class _GKLearningPageState extends State<GKLearningPage>
   late Animation<double> _flipAnimation;
   late AnimationController _floatController;
   late Animation<double> _floatAnimation;
+  late AnimationController _bubbleController;
   late TabController _tabController;
 
   @override
@@ -51,6 +54,11 @@ class _GKLearningPageState extends State<GKLearningPage>
       duration: const Duration(seconds: 3),
     )..repeat(reverse: true);
 
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+
     _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
       CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
     );
@@ -61,6 +69,7 @@ class _GKLearningPageState extends State<GKLearningPage>
     _tabController.dispose();
     _flipController.dispose();
     _floatController.dispose();
+    _bubbleController.dispose();
     super.dispose();
   }
 
@@ -99,7 +108,9 @@ class _GKLearningPageState extends State<GKLearningPage>
             fontWeight: FontWeight.w500,
             fontSize: 15,
           ),
-          tabAlignment: TabAlignment.start,
+          tabAlignment: TabAlignment.center,
+          dividerColor: Colors.transparent,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 44),
           tabs: controller.categories.map((category) {
             return Tab(
               child: Text(
@@ -111,7 +122,10 @@ class _GKLearningPageState extends State<GKLearningPage>
         ),
       ),
       bottomNavigationBar: const AdsScreen(),
-      body: SafeArea(
+      body: Stack(
+        children: [
+          ..._buildFloatingBubbles(),
+          SafeArea(
         child: Obx(() {
           final questions = controller.filteredQuestions;
           if (questions.isEmpty) {
@@ -191,6 +205,7 @@ class _GKLearningPageState extends State<GKLearningPage>
                       ),
                       child: GestureDetector(
                         onTap: () {
+                          TtsService.to.speak(question['question']!);
                           if (!controller.showAnswer.value) {
                             controller.revealAnswer();
                             _flipController.forward();
@@ -327,7 +342,46 @@ class _GKLearningPageState extends State<GKLearningPage>
           );
         }),
       ),
+        ],
+      ),
     );
+  }
+
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
   }
 
   Widget _buildQuestionCard(Map<String, String> question) {

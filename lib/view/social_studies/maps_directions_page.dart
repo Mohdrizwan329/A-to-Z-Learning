@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MapsDirectionsPage extends StatefulWidget {
   const MapsDirectionsPage({super.key});
@@ -277,7 +278,10 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
         children: [
           if (currentSection > 0)
             ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection--),
+              onPressed: () {
+                setState(() => currentSection--);
+                TtsService.to.speak(sections[currentSection]['title']);
+              },
               icon: const Icon(Icons.arrow_back),
               label: const Text('Back'),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: section['color'], shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
@@ -285,7 +289,10 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
           else const SizedBox(width: 100),
           if (currentSection < sections.length - 1)
             ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection++),
+              onPressed: () {
+                setState(() => currentSection++);
+                TtsService.to.speak(sections[currentSection]['title']);
+              },
               icon: const Icon(Icons.arrow_forward),
               label: const Text('Next'),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: section['color'], shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),

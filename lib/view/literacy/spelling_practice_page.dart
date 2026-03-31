@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/view%20model/spelling_practice_controller/spelling_practice_controller.dart';
+import 'package:jiyan_learning/view/literacy/spelling_practice_detail_page.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class SpellingPracticePage extends StatefulWidget {
   const SpellingPracticePage({super.key});
@@ -10,281 +17,266 @@ class SpellingPracticePage extends StatefulWidget {
   State<SpellingPracticePage> createState() => _SpellingPracticePageState();
 }
 
-class _SpellingPracticePageState extends State<SpellingPracticePage> {
-  final FlutterTts flutterTts = FlutterTts();
-  final TextEditingController _textController = TextEditingController();
-  int currentWordIndex = 0;
-  int score = 0;
-  bool showResult = false;
-  bool isCorrect = false;
-  String userInput = "";
+class _SpellingPracticePageState extends State<SpellingPracticePage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  late final SpellingPracticeController controller;
+  int selectedIndex = -1;
 
-  final List<Map<String, dynamic>> spellingWords = [
-    {'word': 'APPLE', 'hint': 'A red fruit', 'emoji': '🍎'},
-    {'word': 'BANANA', 'hint': 'A yellow fruit', 'emoji': '🍌'},
-    {'word': 'CAT', 'hint': 'A pet that meows', 'emoji': '🐱'},
-    {'word': 'DOG', 'hint': 'A pet that barks', 'emoji': '🐕'},
-    {'word': 'ELEPHANT', 'hint': 'Big animal with trunk', 'emoji': '🐘'},
-    {'word': 'FISH', 'hint': 'Lives in water', 'emoji': '🐟'},
-    {'word': 'GIRL', 'hint': 'Young female', 'emoji': '👧'},
-    {'word': 'HOUSE', 'hint': 'Place to live', 'emoji': '🏠'},
-    {'word': 'ICE', 'hint': 'Frozen water', 'emoji': '🧊'},
-    {'word': 'JAM', 'hint': 'Sweet spread', 'emoji': '🍯'},
-    {'word': 'KITE', 'hint': 'Flies in the sky', 'emoji': '🪁'},
-    {'word': 'LION', 'hint': 'King of jungle', 'emoji': '🦁'},
-    {'word': 'MOON', 'hint': 'Shines at night', 'emoji': '🌙'},
-    {'word': 'NEST', 'hint': 'Bird\'s home', 'emoji': '🪺'},
-    {'word': 'ORANGE', 'hint': 'A citrus fruit', 'emoji': '🍊'},
+  final List<Map<String, dynamic>> levelCards = [
+    {
+      'name': 'Easy',
+      'emoji': '🔤',
+      'subtitle': '3-4 Letter Words',
+      'levelIndex': 0,
+    },
+    {
+      'name': 'Medium',
+      'emoji': '📝',
+      'subtitle': '5-6 Letter Words',
+      'levelIndex': 1,
+    },
+    {
+      'name': 'Hard',
+      'emoji': '🏆',
+      'subtitle': '7+ Letter Words',
+      'levelIndex': 2,
+    },
+    {
+      'name': 'Animals',
+      'emoji': '🦁',
+      'subtitle': 'Animal Names',
+      'levelIndex': 3,
+    },
+    {
+      'name': 'Food & Fruits',
+      'emoji': '🍎',
+      'subtitle': 'Food Spelling',
+      'levelIndex': 4,
+    },
+    {
+      'name': 'Nature',
+      'emoji': '🌿',
+      'subtitle': 'Nature Words',
+      'levelIndex': 5,
+    },
   ];
 
   @override
   void initState() {
     super.initState();
-    _initTts();
-  }
-
-  Future<void> _initTts() async {
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setSpeechRate(0.4);
-  }
-
-  Future<void> _speakWord() async {
-    await flutterTts.speak(spellingWords[currentWordIndex]['word']);
-  }
-
-  void _checkSpelling() {
-    final correctWord = spellingWords[currentWordIndex]['word'];
-    isCorrect = userInput.toUpperCase().trim() == correctWord;
-    if (isCorrect) {
-      score += 10;
-      flutterTts.speak("Correct! Well done!");
-    } else {
-      flutterTts.speak("Try again! The word is $correctWord");
-    }
-    setState(() => showResult = true);
-  }
-
-  void _nextWord() {
-    setState(() {
-      if (currentWordIndex < spellingWords.length - 1) {
-        currentWordIndex++;
-      } else {
-        currentWordIndex = 0;
-      }
-      _textController.clear();
-      userInput = "";
-      showResult = false;
-    });
-  }
-
-  void _resetCurrent() {
-    setState(() {
-      _textController.clear();
-      userInput = "";
-      showResult = false;
-    });
+    controller = Get.put(SpellingPracticeController());
+    initGridAnimations(this, floatRange: 2.0, pulseMax: 1.0);
   }
 
   @override
   void dispose() {
-    flutterTts.stop();
-    _textController.dispose();
+    disposeGridAnimations();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentWord = spellingWords[currentWordIndex];
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-        ),
-        elevation: 8,
-        title: const Text("Spelling Practice", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-        centerTitle: true,
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+    return GradientScaffold(
+      title: 'Spelling Practice',
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
           ),
-        ],
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          onPressed: () {
+            controller.resetProgress();
+            setState(() {});
+          },
         ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                // Progress indicator
-                Text(
-                  "Word ${currentWordIndex + 1} of ${spellingWords.length}",
-                  style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.8)),
-                ),
-                const SizedBox(height: 30),
-                // Emoji display
-                Text(currentWord['emoji'], style: const TextStyle(fontSize: 100)),
-                const SizedBox(height: 20),
-                // Hint
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    "Hint: ${currentWord['hint']}",
-                    style: const TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Listen button
-                ElevatedButton.icon(
-                  onPressed: _speakWord,
-                  icon: const Icon(Icons.volume_up, size: 28),
-                  label: const Text("Listen to Word", style: TextStyle(fontSize: 18)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFAA5A),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                // Text input
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: showResult
-                        ? Border.all(color: isCorrect ? Colors.green : Colors.red, width: 3)
-                        : null,
-                  ),
-                  child: TextField(
-                    controller: _textController,
-                    enabled: !showResult,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: 4),
-                    textCapitalization: TextCapitalization.characters,
-                    decoration: InputDecoration(
-                      hintText: "Type the word",
-                      hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 20, letterSpacing: 1),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(20),
-                    ),
-                    onChanged: (value) => userInput = value,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Result message
-                if (showResult)
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: isCorrect ? Colors.green.shade100 : Colors.red.shade100,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          isCorrect ? Icons.check_circle : Icons.cancel,
-                          color: isCorrect ? Colors.green : Colors.red,
-                          size: 30,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          isCorrect ? "Correct! 🎉" : "Answer: ${currentWord['word']}",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: isCorrect ? Colors.green : Colors.red,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                const SizedBox(height: 30),
-                // Action buttons
-                if (!showResult)
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: userInput.isNotEmpty ? _checkSpelling : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF56D97F),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                      child: const Text("Check Spelling", style: TextStyle(fontSize: 20, color: Colors.white)),
-                    ),
-                  ),
-                if (showResult)
+      ],
+      body: Column(
+        children: [
+          // Progress bar
+          Obx(() {
+            int levelsCompleted = 0;
+            final totalLevels =
+                SpellingPracticeController.progressKeys.length;
+            for (var key in SpellingPracticeController.progressKeys) {
+              final completed = ProgressService.to.getCompletedCount(key);
+              final total = ProgressService.to.getTotalCount(key);
+              if (total > 0 && completed >= total) {
+                levelsCompleted++;
+              }
+            }
+            final progress =
+                totalLevels > 0 ? levelsCompleted / totalLevels : 0.0;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _resetCurrent,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: const Text("Try Again", style: TextStyle(fontSize: 18, color: Colors.white)),
+                      const Text(
+                        'Progress',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _nextWord,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF56D97F),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: const Text("Next Word", style: TextStyle(fontSize: 18, color: Colors.white)),
+                      Text(
+                        '$levelsCompleted/$totalLevels completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
-              ],
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+          // Level cards grid (2x2)
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.0,
+              ),
+              itemCount: levelCards.length,
+              itemBuilder: (context, index) {
+                final card = levelCards[index];
+                final gradient = AppColors.getGradientForIndex(index);
+                final levelIndex = card['levelIndex'] as int;
+                final progressKey =
+                    SpellingPracticeController.progressKeys[levelIndex];
+
+                return Obx(() {
+                  final isSelected = selectedIndex == index;
+                  final completed =
+                      ProgressService.to.getCompletedCount(progressKey);
+                  final total =
+                      ProgressService.to.getTotalCount(progressKey);
+
+                  return buildFloatingItem(
+                    index: index,
+                    child: GradientCard(
+                      gradient: gradient,
+                      isSelected: isSelected,
+                      showDecorations: true,
+                      onTap: () {
+                        TtsService.to.speak(card['name']);
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                        controller.selectLevel(levelIndex);
+                        Get.to(() => SpellingPracticeDetailPage(
+                              levelIndex: levelIndex,
+                            ));
+                      },
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 65,
+                                  height: 65,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Colors.white.withValues(alpha: 0.25),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      card['emoji'],
+                                      style: const TextStyle(fontSize: 32),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  card['name'],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  card['subtitle'],
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 11,
+                                    color:
+                                        Colors.white.withValues(alpha: 0.9),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '$completed/$total',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 11,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Checkmark if all completed
+                          if (completed >= total && total > 0)
+                            Positioned(
+                              bottom: 4,
+                              right: 4,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 12,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+              },
             ),
           ),
-        ),
+        ],
       ),
-      bottomNavigationBar: const AdsScreen(),
+      bottomNavigationBar: const SizedBox.shrink(),
     );
   }
 }

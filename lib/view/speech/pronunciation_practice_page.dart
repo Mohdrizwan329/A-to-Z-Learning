@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class PronunciationPracticePage extends StatefulWidget {
   const PronunciationPracticePage({super.key});
@@ -140,6 +141,7 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
           indicatorColor: Colors.white,
           indicatorWeight: 3,
           isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Vowels", icon: Icon(Icons.record_voice_over, size: 20)),
             Tab(text: "Sounds", icon: Icon(Icons.mic, size: 20)),
@@ -228,7 +230,10 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
 
         final vowel = vowelSounds[index - 1];
         return GestureDetector(
-          onTap: () => _speakSlow("${vowel['letter']}. ${vowel['word']}"),
+          onTap: () {
+            TtsService.to.speak(vowel['word']);
+            _speakSlow("${vowel['letter']}. ${vowel['word']}");
+          },
           child: Container(
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(20),
@@ -341,7 +346,10 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
                   runSpacing: 10,
                   children: (sound['words'] as List<String>).map((word) {
                     return GestureDetector(
-                      onTap: () => _speakSlow(word),
+                      onTap: () {
+                        TtsService.to.speak(word);
+                        _speakSlow(word);
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                         decoration: BoxDecoration(
@@ -389,7 +397,10 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
 
         final twister = tongTwisters[index - 1];
         return GestureDetector(
-          onTap: () => _speakText(twister['text']),
+          onTap: () {
+            TtsService.to.speak(twister['title']);
+            _speakText(twister['text']);
+          },
           child: Container(
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
@@ -501,7 +512,10 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => _speakSlow(pair['word1']),
+                      onTap: () {
+                        TtsService.to.speak(pair['word1']);
+                        _speakSlow(pair['word1']);
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -524,7 +538,10 @@ class _PronunciationPracticePageState extends State<PronunciationPracticePage> w
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => _speakSlow(pair['word2']),
+                      onTap: () {
+                        TtsService.to.speak(pair['word2']);
+                        _speakSlow(pair['word2']);
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(

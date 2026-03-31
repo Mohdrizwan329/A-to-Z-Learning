@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/learn%20set%20controller/shapes_learning_controller.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ShapesLearningPage extends StatefulWidget {
   const ShapesLearningPage({super.key});
@@ -181,6 +182,7 @@ class _ShapesLearningPageState extends State<ShapesLearningPage>
       Map<String, String> item, List<Color> gradient, bool isSelected, bool isCompleted, int index) {
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(item['name']!);
         setState(() {
           controller.selectShape(index);
         });

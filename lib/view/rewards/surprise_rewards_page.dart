@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:math';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class SurpriseRewardsPage extends StatefulWidget {
   const SurpriseRewardsPage({super.key});
@@ -310,6 +311,7 @@ class _SurpriseRewardsPageState extends State<SurpriseRewardsPage> with TickerPr
           controller: _tabController,
           indicatorColor: Colors.white,
           indicatorWeight: 3,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Spin", icon: Icon(Icons.casino, size: 20)),
             Tab(text: "Mystery", icon: Icon(Icons.card_giftcard, size: 20)),
@@ -387,7 +389,7 @@ class _SurpriseRewardsPageState extends State<SurpriseRewardsPage> with TickerPr
               ),
               // Center button
               GestureDetector(
-                onTap: dailySpinsLeft > 0 && !isSpinning ? _spinWheel : null,
+                onTap: dailySpinsLeft > 0 && !isSpinning ? () { TtsService.to.speak('Spin Wheel'); _spinWheel(); } : null,
                 child: Container(
                   width: 70,
                   height: 70,
@@ -482,7 +484,7 @@ class _SurpriseRewardsPageState extends State<SurpriseRewardsPage> with TickerPr
 
           // Mystery Box
           GestureDetector(
-            onTap: dailyBoxesLeft > 0 && !isOpening ? _openMysteryBox : null,
+            onTap: dailyBoxesLeft > 0 && !isOpening ? () { TtsService.to.speak('Mystery Box'); _openMysteryBox(); } : null,
             child: AnimatedBuilder(
               animation: Listenable.merge([_shakeAnimation, _openAnimation]),
               builder: (context, child) {
@@ -634,7 +636,7 @@ class _SurpriseRewardsPageState extends State<SurpriseRewardsPage> with TickerPr
 
           // Scratch Card
           GestureDetector(
-            onTap: dailyScratchLeft > 0 && !scratchRevealed ? _scratchCard : null,
+            onTap: dailyScratchLeft > 0 && !scratchRevealed ? () { TtsService.to.speak('Scratch Card'); _scratchCard(); } : null,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 500),
               width: 280,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/learn%20set%20controller/rhymes_controller.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class RhymesPage extends StatefulWidget {
   const RhymesPage({super.key});
@@ -125,7 +126,7 @@ class _RhymesPageState extends State<RhymesPage> with TickerProviderStateMixin {
                   final isCompleted = controller.isRhymeCompleted(index);
 
                   return GestureDetector(
-                    onTap: () => _openRhymeDetail(index),
+                    onTap: () { TtsService.to.speak(rhyme['title']!); _openRhymeDetail(index); },
                     child: AnimatedBuilder(
                       animation: _bounceAnimation,
                       builder: (context, child) {

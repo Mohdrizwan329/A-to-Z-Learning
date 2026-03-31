@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MindfulnessPage extends StatefulWidget {
   const MindfulnessPage({super.key});
@@ -723,6 +724,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Practice"),
             Tab(text: "Imagine"),
@@ -822,7 +824,10 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                   );
                 },
                 child: GestureDetector(
-                  onTap: () => _showExerciseDialog(index),
+                  onTap: () {
+                    TtsService.to.speak(mindfulnessExercises[index]['name']);
+                    _showExerciseDialog(index);
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(16),

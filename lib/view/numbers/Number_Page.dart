@@ -7,6 +7,7 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class NumbersScreen extends StatefulWidget {
   final List<Color>? gradient;
@@ -131,7 +132,10 @@ class _NumbersScreenState extends State<NumbersScreen>
                       gradient: gradient,
                       isSelected: isSelected,
                       showDecorations: false,
-                      onTap: () => controller.handleTap(index),
+                      onTap: () {
+                        TtsService.to.speak('$number');
+                        controller.handleTap(index);
+                      },
                       pulseAnimation: pulseAnimation,
                       child: Stack(
                         children: [

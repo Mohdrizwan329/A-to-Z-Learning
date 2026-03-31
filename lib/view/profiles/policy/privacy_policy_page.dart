@@ -47,7 +47,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
   // Floating bubbles for playful effect - same as home page
   List<Widget> _buildFloatingBubbles() {
     final random = math.Random(42);
-    return List.generate(15, (index) {
+    return List.generate(8, (index) {
       final size = 20.0 + random.nextDouble() * 60;
       final left = random.nextDouble() * 400;
       final top = random.nextDouble() * 800;

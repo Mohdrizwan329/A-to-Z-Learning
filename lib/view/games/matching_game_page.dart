@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class MatchingGamePage extends StatefulWidget {
   const MatchingGamePage({super.key});
@@ -151,6 +152,8 @@ class _MatchingGamePageState extends State<MatchingGamePage>
 
   void _onLeftTap(String id) {
     if (_currentMatchedIds.contains(id)) return;
+    final leftItem = _currentLeftItems.firstWhere((item) => item['id'] == id, orElse: () => {});
+    if (leftItem.containsKey('label')) TtsService.to.speak(leftItem['label']!);
     setState(() {
       _selectedLeft = id;
       _checkMatch();
@@ -398,6 +401,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: 'Farm Animals'),
             Tab(text: 'Wild Animals'),

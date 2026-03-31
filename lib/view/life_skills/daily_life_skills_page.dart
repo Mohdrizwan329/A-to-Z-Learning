@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class DailyLifeSkillsPage extends StatefulWidget {
   const DailyLifeSkillsPage({super.key});
@@ -852,7 +853,10 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
         children: [
           if (currentSection > 0)
             ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection--),
+              onPressed: () {
+                setState(() => currentSection--);
+                TtsService.to.speak(sections[currentSection]['title']);
+              },
               icon: const Icon(Icons.arrow_back),
               label: const Text('Back'),
               style: ElevatedButton.styleFrom(
@@ -867,7 +871,10 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             const SizedBox(width: 100),
           if (currentSection < sections.length - 1)
             ElevatedButton.icon(
-              onPressed: () => setState(() => currentSection++),
+              onPressed: () {
+                setState(() => currentSection++);
+                TtsService.to.speak(sections[currentSection]['title']);
+              },
               icon: const Icon(Icons.arrow_forward),
               label: const Text('Next'),
               style: ElevatedButton.styleFrom(

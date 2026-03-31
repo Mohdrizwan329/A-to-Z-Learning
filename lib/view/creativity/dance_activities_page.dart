@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class DanceActivitiesPage extends StatefulWidget {
   const DanceActivitiesPage({super.key});
@@ -843,6 +844,7 @@ class _DanceActivitiesPageState extends State<DanceActivitiesPage>
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
+            labelPadding: EdgeInsets.symmetric(horizontal: 20),
             tabs: [
               Tab(text: "Dances"),
               Tab(text: "Songs"),
@@ -898,6 +900,7 @@ class _DanceActivitiesPageState extends State<DanceActivitiesPage>
                   },
                   child: GestureDetector(
                     onTap: () {
+                      TtsService.to.speak(dance['name']);
                       setState(() {
                         _viewedDances.add(selectedDance);
                         _currentDanceTapped = true;
@@ -1060,6 +1063,7 @@ class _DanceActivitiesPageState extends State<DanceActivitiesPage>
 
               return GestureDetector(
                 onTap: () {
+                  TtsService.to.speak(song['name']);
                   _viewSong(index);
                   _speakText("${song['name']}. ${song['action']}");
                 },
@@ -1210,6 +1214,7 @@ class _DanceActivitiesPageState extends State<DanceActivitiesPage>
 
                     return GestureDetector(
                       onTap: () {
+                        TtsService.to.speak(move['move']);
                         _viewMove(index);
                         _speakText("${move['move']}. ${move['how']}");
                       },

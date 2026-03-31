@@ -12,6 +12,7 @@ import 'package:jiyan_learning/services/speech_recognition_service.dart';
 import 'package:jiyan_learning/view/home/widgets/app_drawer.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/profiles/notification/notification_list_page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -330,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Floating bubbles for playful effect
   List<Widget> _buildFloatingBubbles() {
     final random = math.Random(42);
-    return List.generate(15, (index) {
+    return List.generate(8, (index) {
       final size = 20.0 + random.nextDouble() * 60;
       final left = random.nextDouble() * 400;
       final top = random.nextDouble() * 800;
@@ -535,6 +536,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildCategoryCard(ClassItem item, int index) {
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(item.title);
         if (item.pageBuilder != null) {
           Get.to(item.pageBuilder!);
         }

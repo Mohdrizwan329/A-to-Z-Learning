@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class InfographicsPage extends StatefulWidget {
   const InfographicsPage({super.key});
@@ -253,6 +254,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           indicatorColor: Colors.white,
           indicatorWeight: 3,
           isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: const [
             Tab(text: "Body", icon: Icon(Icons.accessibility_new, size: 18)),
             Tab(text: "Space", icon: Icon(Icons.rocket_launch, size: 18)),
@@ -302,7 +304,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           const SizedBox(height: 20),
           ...(data['parts'] as List<Map<String, dynamic>>).map((part) {
             return GestureDetector(
-              onTap: () => _showPartDetails(part, data['color']),
+              onTap: () { TtsService.to.speak(part['name']); _showPartDetails(part, data['color']); },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),
@@ -356,7 +358,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
             child: Column(
               children: (data['planets'] as List<Map<String, dynamic>>).map((planet) {
                 return GestureDetector(
-                  onTap: () => _showPlanetDetails(planet),
+                  onTap: () { TtsService.to.speak(planet['name']); _showPlanetDetails(planet); },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(12),
@@ -413,7 +415,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           const SizedBox(height: 20),
           ...(data['levels'] as List<Map<String, dynamic>>).reversed.map((level) {
             return GestureDetector(
-              onTap: () => _showFoodLevelDetails(level),
+              onTap: () { TtsService.to.speak(level['name']); _showFoodLevelDetails(level); },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: ClipPath(
@@ -456,7 +458,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           const SizedBox(height: 20),
           ...(data['habitats'] as List<Map<String, dynamic>>).map((habitat) {
             return GestureDetector(
-              onTap: () => _showHabitatDetails(habitat),
+              onTap: () { TtsService.to.speak(habitat['name']); _showHabitatDetails(habitat); },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
@@ -541,6 +543,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
               final weather = data['weathers'][index];
               return GestureDetector(
                 onTap: () {
+                  TtsService.to.speak(weather['name']);
                   _speakText("${weather['name']}. ${weather['description']}");
                 },
                 child: Container(
@@ -583,7 +586,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           const SizedBox(height: 20),
           ...(data['cycles'] as List<Map<String, dynamic>>).map((cycle) {
             return GestureDetector(
-              onTap: () => _showLifecycleDetails(cycle),
+              onTap: () { TtsService.to.speak(cycle['name']); _showLifecycleDetails(cycle); },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20),
                 padding: const EdgeInsets.all(20),

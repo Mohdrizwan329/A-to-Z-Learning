@@ -1,6 +1,14 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/utils/app_colors.dart';
+import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
+import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class DiyLearningPage extends StatefulWidget {
   const DiyLearningPage({super.key});
@@ -9,14 +17,16 @@ class DiyLearningPage extends StatefulWidget {
   State<DiyLearningPage> createState() => _DiyLearningPageState();
 }
 
-class _DiyLearningPageState extends State<DiyLearningPage> {
-  String? selectedCategory;
-  String? selectedItem;
+class _DiyLearningPageState extends State<DiyLearningPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  int selectedIndex = -1;
+  late AnimationController _bubbleController;
 
   final List<Map<String, dynamic>> categories = [
     {
       'name': 'Math Tools',
       'emoji': '🔢',
+      'subtitle': 'Count & Learn',
       'color': Color(0xFF6366F1),
       'description': 'Make your own math learning tools',
       'items': [
@@ -60,6 +70,7 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
     {
       'name': 'Reading Helpers',
       'emoji': '📚',
+      'subtitle': 'Read & Create',
       'color': Color(0xFFEC4899),
       'description': 'Create tools to help you read',
       'items': [
@@ -104,13 +115,18 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
     {
       'name': 'Science Kits',
       'emoji': '🔬',
+      'subtitle': 'Explore & Discover',
       'color': Color(0xFF10B981),
       'description': 'Build science exploration tools',
       'items': [
         {
           'name': 'Bug Viewer Box',
           'emoji': '🐛',
-          'materials': ['Plastic container', 'Magnifying glass', 'Mesh fabric'],
+          'materials': [
+            'Plastic container',
+            'Magnifying glass',
+            'Mesh fabric'
+          ],
           'steps': [
             'Cut hole in lid',
             'Glue mesh over hole for air',
@@ -148,13 +164,20 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
     {
       'name': 'Art Materials',
       'emoji': '🎨',
+      'subtitle': 'Make & Play',
       'color': Color(0xFFF59E0B),
       'description': 'Make your own art supplies',
       'items': [
         {
           'name': 'Homemade Playdough',
           'emoji': '🟡',
-          'materials': ['Flour', 'Salt', 'Water', 'Food coloring', 'Oil'],
+          'materials': [
+            'Flour',
+            'Salt',
+            'Water',
+            'Food coloring',
+            'Oil'
+          ],
           'steps': [
             'Mix 1 cup flour + 1/2 cup salt',
             'Add 1/2 cup water + 1 tbsp oil',
@@ -192,6 +215,7 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
     {
       'name': 'Music Makers',
       'emoji': '🎵',
+      'subtitle': 'Sound & Rhythm',
       'color': Color(0xFF8B5CF6),
       'description': 'Create musical instruments',
       'items': [
@@ -210,7 +234,11 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
         {
           'name': 'Rubber Band Guitar',
           'emoji': '🎸',
-          'materials': ['Tissue box', 'Rubber bands', 'Cardboard tube'],
+          'materials': [
+            'Tissue box',
+            'Rubber bands',
+            'Cardboard tube'
+          ],
           'steps': [
             'Stretch rubber bands over box opening',
             'Attach tube as neck',
@@ -222,7 +250,12 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
         {
           'name': 'Rain Stick',
           'emoji': '🌧️',
-          'materials': ['Paper towel tube', 'Toothpicks', 'Rice', 'Tape'],
+          'materials': [
+            'Paper towel tube',
+            'Toothpicks',
+            'Rice',
+            'Tape'
+          ],
           'steps': [
             'Poke toothpicks through tube in spiral',
             'Cover one end with paper',
@@ -236,513 +269,628 @@ class _DiyLearningPageState extends State<DiyLearningPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'DIY Learning',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
-            stops: [0.0, 0.3, 0.7, 1.0],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: selectedItem != null
-                    ? _buildItemDetail()
-                    : selectedCategory != null
-                        ? _buildCategoryItems()
-                        : _buildCategoriesGrid(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    initGridAnimations(this, floatRange: 2.0, pulseMax: 1.0);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
   }
-  Widget _buildCategoriesGrid() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Intro
-          Container(
-            padding: const EdgeInsets.all(16),
+
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientScaffold(
+      title: 'DIY Learning',
+      bottomNavigationBar: const AdsScreen(),
+      actions: [
+        IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Row(
-              children: [
-                const Text('✨', style: TextStyle(fontSize: 40)),
-                const SizedBox(width: 16),
-                Expanded(
+            child:
+                const Icon(Icons.refresh, color: Colors.white, size: 20),
+          ),
+          onPressed: () {
+            ProgressService.to
+                .resetProgress(ProgressService.kDiyLearning);
+            setState(() {});
+          },
+        ),
+      ],
+      body: Stack(
+        children: [
+          ..._buildFloatingBubbles(),
+          Column(
+            children: [
+              Obx(() {
+                final progress =
+                    ProgressService.to.getProgressPercentage(
+                          ProgressService.kDiyLearning,
+                        ) /
+                        100;
+                final progressString =
+                    ProgressService.to.getProgressString(
+                  ProgressService.kDiyLearning,
+                );
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Make Your Own!',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                      Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '$progressString completed',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Create learning tools with stuff at home',
-                        style: GoogleFonts.nunito(
-                          color: Colors.white.withValues(alpha: 0.9),
-                          fontSize: 14,
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 10,
+                          backgroundColor:
+                              Colors.white.withValues(alpha: 0.2),
+                          valueColor:
+                              const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
                   ),
+                );
+              }),
+              Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 1.0,
+                  ),
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    final category = categories[index];
+                    final gradient =
+                        AppColors.getGradientForIndex(index);
+
+                    return Obx(() {
+                      final isSelected = selectedIndex == index;
+                      final isCompleted =
+                          ProgressService.to.isItemCompleted(
+                        ProgressService.kDiyLearning,
+                        index,
+                      );
+
+                      return buildFloatingItem(
+                        index: index,
+                        child: GradientCard(
+                          gradient: gradient,
+                          isSelected: isSelected,
+                          showDecorations: true,
+                          onTap: () {
+                            TtsService.to.speak(category['name']);
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                            ProgressService.to.markItemCompleted(
+                              ProgressService.kDiyLearning,
+                              index,
+                            );
+                            Get.to(() => _DiyLearningDetailPage(
+                                  category: category,
+                                  categoryIndex: index,
+                                ));
+                          },
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 65,
+                                      height: 65,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white
+                                            .withValues(alpha: 0.25),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          category['emoji'],
+                                          style: const TextStyle(
+                                              fontSize: 32),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      category['name'],
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow:
+                                          TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      category['subtitle'],
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 11,
+                                        color: Colors.white
+                                            .withValues(alpha: 0.9),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (isCompleted)
+                                Positioned(
+                                  bottom: 4,
+                                  right: 4,
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.all(2),
+                                    decoration:
+                                        const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 12,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+                  },
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Categories Grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.0,
-            ),
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              return _buildCategoryCard(categories[index]);
-            },
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCategoryCard(Map<String, dynamic> category) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedCategory = category['name'];
-        });
-      },
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+}
+
+/// Detail page for each DIY Learning category
+class _DiyLearningDetailPage extends StatefulWidget {
+  final Map<String, dynamic> category;
+  final int categoryIndex;
+
+  const _DiyLearningDetailPage({
+    required this.category,
+    required this.categoryIndex,
+  });
+
+  @override
+  State<_DiyLearningDetailPage> createState() =>
+      _DiyLearningDetailPageState();
+}
+
+class _DiyLearningDetailPageState extends State<_DiyLearningDetailPage>
+    with TickerProviderStateMixin, GridAnimationsMixin {
+  Map<String, dynamic> get category => widget.category;
+  late AnimationController _bubbleController;
+
+  @override
+  void initState() {
+    super.initState();
+    initGridAnimations(this);
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    disposeGridAnimations();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientScaffold(
+      title: category['name'],
+      bottomNavigationBar: const AdsScreen(),
+      body: Stack(
+        children: [
+          ..._buildFloatingBubbles(),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                // Header card
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Text(category['emoji'],
+                          style: const TextStyle(fontSize: 50)),
+                      const SizedBox(height: 12),
+                      Text(
+                        category['name'],
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: category['color'],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        category['description'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.grey.shade700,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Items
+                ...List.generate(
+                    (category['items'] as List).length, (index) {
+                  final item = category['items'][index];
+                  return _buildItemCard(item, index);
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItemCard(Map<String, dynamic> item, int index) {
+    final gradient = AppColors.getGradientForIndex(index);
+    return buildFloatingItem(
+      index: index,
       child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              category['color'],
-              category['color'].withValues(alpha: 0.7),
-            ],
+            colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: category['color'].withValues(alpha: 0.4),
+              color: gradient[0].withValues(alpha: 0.4),
               blurRadius: 12,
               offset: const Offset(0, 6),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                category['emoji'],
-                style: const TextStyle(fontSize: 45),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                category['name'],
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                '${(category['items'] as List).length} projects',
-                style: GoogleFonts.nunito(
-                  fontSize: 12,
-                  color: Colors.white.withValues(alpha: 0.8),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCategoryItems() {
-    final category = categories.firstWhere((c) => c['name'] == selectedCategory);
-    final items = category['items'] as List;
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Category Header
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: category['color'].withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Text(category['emoji'], style: const TextStyle(fontSize: 40)),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    category['description'],
-                    style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Items List
-          ...items.map<Widget>((item) => _buildItemCard(item, category['color'])),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildItemCard(Map<String, dynamic> item, Color color) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedItem = item['name'];
-        });
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: color.withValues(alpha: 0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Text(item['emoji'], style: const TextStyle(fontSize: 32)),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item['name'],
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      color: color,
-                    ),
-                  ),
-                  Text(
-                    item['learning'],
-                    style: GoogleFonts.nunito(
-                      color: Colors.grey.shade600,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios, color: color, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildItemDetail() {
-    final category = categories.firstWhere((c) => c['name'] == selectedCategory);
-    final item = (category['items'] as List).firstWhere((i) => i['name'] == selectedItem);
-    final color = category['color'];
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Header Card
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.4),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(item['emoji'], style: const TextStyle(fontSize: 70)),
-                const SizedBox(height: 12),
-                Text(
-                  item['name'],
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Materials
-          _buildSection('🛠️', 'Materials', item['materials'], color),
-          // Steps
-          _buildStepsSection(item['steps'], color),
-          // Learning
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.amber.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.amber, width: 2),
-            ),
-            child: Row(
-              children: [
-                const Text('💡', style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'What You\'ll Learn:',
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.amber.shade700,
-                        ),
-                      ),
-                      Text(
-                        item['learning'],
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Start Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Get.snackbar(
-                  '🎨 Let\'s Make It!',
-                  'Gather your materials and start creating!',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: color,
-                  colorText: Colors.white,
-                  margin: const EdgeInsets.all(16),
-                  borderRadius: 12,
-                );
-              },
-              icon: const Text('✨', style: TextStyle(fontSize: 20)),
-              label: Text(
-                'Start Making!',
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: color,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSection(String emoji, String title, List<dynamic> items, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: items.map<Widget>((item) {
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  item,
-                  style: GoogleFonts.nunito(
-                    color: color,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStepsSection(List<dynamic> steps, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Text('📝', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
-              Text(
-                'Steps',
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...List.generate(steps.length, (index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              // Item header
+              Row(
                 children: [
                   Container(
-                    width: 28,
-                    height: 28,
+                    width: 55,
+                    height: 55,
                     decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
+                      child: Text(item['emoji'],
+                          style: const TextStyle(fontSize: 30)),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   Expanded(
-                    child: Text(
-                      steps[index],
-                      style: GoogleFonts.nunito(
-                        color: Colors.grey.shade700,
-                        fontSize: 14,
-                      ),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['name'],
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          item['learning'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 12,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            );
-          }),
-        ],
+              const SizedBox(height: 16),
+              // Materials
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '🛠️ Materials:',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
+                      children:
+                          (item['materials'] as List).map<Widget>(
+                        (mat) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white
+                                  .withValues(alpha: 0.2),
+                              borderRadius:
+                                  BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              mat,
+                              style: GoogleFonts.nunito(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Steps
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '📝 Steps:',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    ...List.generate(
+                        (item['steps'] as List).length,
+                        (stepIndex) {
+                      return Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 6),
+                        child: Row(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 22,
+                              height: 22,
+                              decoration: BoxDecoration(
+                                color: Colors.white
+                                    .withValues(alpha: 0.3),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '${stepIndex + 1}',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight:
+                                        FontWeight.bold,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                item['steps'][stepIndex],
+                                style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Learning badge
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.amber.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Text('💡',
+                        style: TextStyle(fontSize: 18)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        item['learning'],
+                        style: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  List<Widget> _buildFloatingBubbles() {
+    final random = math.Random(42);
+    return List.generate(8, (index) {
+      final size = 20.0 + random.nextDouble() * 60;
+      final left = random.nextDouble() * 400;
+      final top = random.nextDouble() * 800;
+      final delay = random.nextDouble();
+
+      return AnimatedBuilder(
+        animation: _bubbleController,
+        builder: (context, child) {
+          final progress = (_bubbleController.value + delay) % 1.0;
+          final yOffset = -progress * 200;
+          final opacity = (1 - progress) * 0.15;
+
+          return Positioned(
+            left: left,
+            top: top + yOffset,
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
   }
 }

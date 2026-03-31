@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class HandwritingPracticePage extends StatefulWidget {
   const HandwritingPracticePage({Key? key}) : super(key: key);
@@ -157,6 +158,7 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
           final isSelected = _selectedCategory == cat['id'];
           return GestureDetector(
             onTap: () {
+              TtsService.to.speak(cat['name'] as String);
               setState(() {
                 _selectedCategory = cat['id'] as String;
                 _currentIndex = 0;

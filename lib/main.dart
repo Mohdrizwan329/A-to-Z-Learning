@@ -24,6 +24,7 @@ import 'package:jiyan_learning/services/cloud_sync_service.dart';
 import 'package:jiyan_learning/services/multi_profile_service.dart';
 import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/services/ad_service.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,42 +54,27 @@ Future<void> main() async {
   // Initialize ScreenTimeService globally (for parental controls)
   Get.put(ScreenTimeService(), permanent: true);
 
-  // Initialize new services
-  // Speech Recognition Service
-  await Get.putAsync(() => SpeechRecognitionService().init(), permanent: true);
+  // Initialize essential services (non-blocking for faster startup)
+  // Ad Service (needed for home screen ads)
+  await Get.putAsync(() => AdService().init(), permanent: true);
 
-  // Smart Learning Service (AI-based learning analytics)
-  await Get.putAsync(() => SmartLearningService().init(), permanent: true);
-
-  // Avatar & Coins Service (gamification)
-  await Get.putAsync(() => AvatarCoinsService().init(), permanent: true);
-
-  // Leaderboard Service (social features)
-  await Get.putAsync(() => LeaderboardService().init(), permanent: true);
-
-  // Notification Service (push notifications)
-  await Get.putAsync(() => NotificationService().init(), permanent: true);
-
-  // Festival Content Service (themed content)
-  await Get.putAsync(() => FestivalContentService().init(), permanent: true);
-
-  // Syllabus Service (CBSE/ICSE curriculum)
-  await Get.putAsync(() => SyllabusService().init(), permanent: true);
-
-  // Accessibility Service (dyslexia font, color blind mode)
-  await Get.putAsync(() => AccessibilityService().init(), permanent: true);
-
-  // Cloud Sync Service (backup/restore)
-  await Get.putAsync(() => CloudSyncService().init(), permanent: true);
-
-  // Multi Profile Service (child profiles)
-  await Get.putAsync(() => MultiProfileService().init(), permanent: true);
-
-  // Age Content Service (age-wise content filtering)
+  // Age Content Service (needed for content filtering)
   await Get.putAsync(() => AgeContentService().init(), permanent: true);
 
-  // Ad Service (Google Mobile Ads)
-  await Get.putAsync(() => AdService().init(), permanent: true);
+  // TTS Service (Text-to-Speech for all screens)
+  await Get.putAsync(() => TtsService().init(), permanent: true);
+
+  // Lazy-load services that are not needed at startup (saves memory)
+  Get.lazyPut(() => SpeechRecognitionService(), fenix: true);
+  Get.lazyPut(() => SmartLearningService(), fenix: true);
+  Get.lazyPut(() => AvatarCoinsService(), fenix: true);
+  Get.lazyPut(() => LeaderboardService(), fenix: true);
+  Get.lazyPut(() => NotificationService(), fenix: true);
+  Get.lazyPut(() => FestivalContentService(), fenix: true);
+  Get.lazyPut(() => SyllabusService(), fenix: true);
+  Get.lazyPut(() => AccessibilityService(), fenix: true);
+  Get.lazyPut(() => CloudSyncService(), fenix: true);
+  Get.lazyPut(() => MultiProfileService(), fenix: true);
 
   await dotenv.load(fileName: ".env");
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class ListeningSkillsPage extends StatefulWidget {
   const ListeningSkillsPage({super.key});
@@ -288,7 +289,10 @@ class _ListeningSkillsPageState extends State<ListeningSkillsPage> with TickerPr
                     }
 
                     return GestureDetector(
-                      onTap: () => _selectAnswer(option),
+                      onTap: () {
+                        TtsService.to.speak(label);
+                        _selectAnswer(option);
+                      },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         decoration: BoxDecoration(

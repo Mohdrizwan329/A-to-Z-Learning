@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class CraftIdeasPage extends StatefulWidget {
   const CraftIdeasPage({super.key});
@@ -377,6 +378,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
               final category = craftCategories[index];
               return GestureDetector(
                 onTap: () {
+                  TtsService.to.speak(category['name']);
                   setState(() => selectedCraft = index);
                   _speakText(category['name']);
                 },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class PhonicsPage extends StatefulWidget {
   const PhonicsPage({super.key});
@@ -112,6 +113,7 @@ class _PhonicsPageState extends State<PhonicsPage> with TickerProviderStateMixin
               },
               child: GestureDetector(
                 onTap: () {
+                  TtsService.to.speak(item['word']);
                   setState(() => selectedIndex = index);
                   _speakPhonics(item['letter'], item['word']);
                 },

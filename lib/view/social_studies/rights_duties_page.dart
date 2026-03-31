@@ -8,6 +8,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/services/tts_service.dart';
+
 class RightsDutiesPage extends StatefulWidget {
   const RightsDutiesPage({super.key});
 
@@ -66,6 +68,7 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
         tabs: const [
           Tab(text: 'My Rights'),
           Tab(text: 'My Duties'),
@@ -166,7 +169,10 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
               detailKey: 'example',
               detailLabel: 'Example:',
               detailEmoji: '💡',
-              onExpand: () => controller.markRightRead(index, right['title']),
+              onExpand: () {
+                TtsService.to.speak(right['title']);
+                controller.markRightRead(index, right['title']);
+              },
             ),
           );
         });
@@ -195,7 +201,10 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
               detailKey: 'howTo',
               detailLabel: 'How to do it:',
               detailEmoji: '✅',
-              onExpand: () => controller.markDutyRead(index, duty['title']),
+              onExpand: () {
+                TtsService.to.speak(duty['title']);
+                controller.markDutyRead(index, duty['title']);
+              },
             ),
           );
         });

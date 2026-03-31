@@ -5,6 +5,7 @@ import 'package:jiyan_learning/view%20model/poem%20controller/poem_detail_contro
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class PoemListPage extends StatefulWidget {
   const PoemListPage({super.key});
@@ -135,6 +136,7 @@ class _PoemListPageState extends State<PoemListPage>
       Poem poem, String emoji, List<Color> gradient, int index) {
     return GestureDetector(
       onTap: () {
+        TtsService.to.speak(poem.title);
         Get.put(PoemController(poem), tag: poem.title);
         ProgressService.to.markItemCompleted(ProgressService.kPoems, index);
         Get.to(() => PoemDetailPage(poem: poem));

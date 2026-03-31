@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class KinestheticLearningPage extends StatefulWidget {
   const KinestheticLearningPage({super.key});
@@ -243,6 +244,7 @@ class _KinestheticLearningPageState extends State<KinestheticLearningPage>
   }
 
   void _onItemTap(KinestheticItem item, int itemIndex) {
+    TtsService.to.speak(item.name);
     HapticFeedback.mediumImpact();
     _speak('${item.name}. ${item.description}');
     _markItemVisited(_currentCategory, itemIndex);
@@ -432,6 +434,7 @@ class _KinestheticLearningPageState extends State<KinestheticLearningPage>
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
           tabs: _categories.map((cat) {
             return Tab(
               child: Text(cat.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

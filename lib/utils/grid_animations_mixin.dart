@@ -42,10 +42,10 @@ mixin GridAnimationsMixin<T extends StatefulWidget> on State<T>, TickerProviderS
   void initGridAnimations(
     TickerProvider vsync, {
     Duration floatDuration = const Duration(seconds: 3),
-    Duration pulseDuration = const Duration(milliseconds: 1500),
+    Duration pulseDuration = const Duration(milliseconds: 2500),
     double floatRange = 4.0,
     double pulseMin = 1.0,
-    double pulseMax = 1.08,
+    double pulseMax = 1.04,
   }) {
     _floatController = AnimationController(
       vsync: vsync,
@@ -139,10 +139,10 @@ class GridAnimationsHelper {
 
   void init({
     Duration floatDuration = const Duration(seconds: 3),
-    Duration pulseDuration = const Duration(milliseconds: 1500),
+    Duration pulseDuration = const Duration(milliseconds: 2500),
     double floatRange = 4.0,
     double pulseMin = 1.0,
-    double pulseMax = 1.08,
+    double pulseMax = 1.04,
   }) {
     floatController = AnimationController(
       vsync: vsync,

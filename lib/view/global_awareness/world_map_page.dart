@@ -9,6 +9,7 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 class WorldMapPage extends StatefulWidget {
   const WorldMapPage({super.key});
@@ -128,6 +129,7 @@ class _WorldMapPageState extends State<WorldMapPage>
                       gradient: gradient,
                       isSelected: isSelected,
                       onTap: () {
+                        TtsService.to.speak(section['title']);
                         controller.toggleExpanded(index);
                         Get.to(() => WorldMapDetailPage(sectionIndex: index));
                       },

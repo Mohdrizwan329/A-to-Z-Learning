@@ -5,6 +5,7 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
+import 'package:jiyan_learning/services/tts_service.dart';
 
 /// Generic Learning Page that can display any learning set
 /// Usage: GenericLearningPage(type: 'animals') or GenericLearningPage(type: 'fruits')
@@ -138,6 +139,7 @@ class _GenericLearningPageState extends State<GenericLearningPage>
                       isSelected: isSelected,
                       borderRadius: 24,
                       onTap: () {
+                        TtsService.to.speak(item['name'] ?? '');
                         setState(() {
                           controller.selectItem(index);
                         });
