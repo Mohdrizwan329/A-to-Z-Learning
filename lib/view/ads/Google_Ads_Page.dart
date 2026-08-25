@@ -7,10 +7,16 @@ class AdsScreen extends StatefulWidget {
   final EdgeInsetsGeometry? margin;
   final bool showGradientBorder;
 
+  /// When true the widget takes no space at all once a request comes back
+  /// unfilled, instead of holding the loading placeholder open. Used by the
+  /// app-wide banner, where a permanent empty strip would sit on every screen.
+  final bool collapseWhenUnfilled;
+
   const AdsScreen({
     super.key,
     this.margin,
     this.showGradientBorder = false,
+    this.collapseWhenUnfilled = false,
   });
 
   @override
@@ -24,6 +30,7 @@ class _AdsScreenState extends State<AdsScreen> {
   UniqueKey _adKey = UniqueKey();
   bool _adLoadStarted = false;
   bool _isDisposed = false;
+  bool _loadFailed = false;
 
   @override
   void initState() {
@@ -46,6 +53,7 @@ class _AdsScreenState extends State<AdsScreen> {
     // Dispose old ad if exists
     _bannerAd?.dispose();
     _bannerAd = null;
+    _loadFailed = false;
 
     // Use adaptive banner for full width, fallback to standard banner
     AdSize adSize = AdSize.banner;
@@ -69,6 +77,7 @@ class _AdsScreenState extends State<AdsScreen> {
           if (mounted && !_isDisposed) {
             setState(() {
               _isLoaded = true;
+              _loadFailed = false;
               _adKey = UniqueKey();
             });
           }
@@ -79,6 +88,7 @@ class _AdsScreenState extends State<AdsScreen> {
             setState(() {
               _isLoaded = false;
               _bannerAd = null;
+              _loadFailed = true;
             });
           }
         },
@@ -103,6 +113,9 @@ class _AdsScreenState extends State<AdsScreen> {
     }
 
     if (!_isLoaded || _bannerAd == null) {
+      if (widget.collapseWhenUnfilled && _loadFailed) {
+        return const SizedBox.shrink();
+      }
       // Show placeholder while loading
       final loadingRadius = widget.showGradientBorder ? 16.0 : 0.0;
       return Container(

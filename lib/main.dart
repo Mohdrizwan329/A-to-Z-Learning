@@ -25,6 +25,7 @@ import 'package:jiyan_learning/services/multi_profile_service.dart';
 import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/services/ad_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
+import 'package:jiyan_learning/widgets/global_ad_shell.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,6 +101,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       getPages: AppPages.routes,
+      // Keeps the app-wide banner in step with navigation, so it can stay off
+      // the splash, the auth flow and the pages selling the ad-free upgrade.
+      routingCallback: GlobalAdShell.onRouteChanged,
+      // Mounts one banner below every screen. Currently a no-op: the shell's
+      // adsEnabled switch is off, so nothing is added to any layout yet.
+      builder: (context, child) =>
+          GlobalAdShell(child: child ?? const SizedBox.shrink()),
     );
   }
 }
