@@ -14,12 +14,6 @@ class GlobalAdShell extends StatelessWidget {
 
   final Widget child;
 
-  /// Master switch for the app-wide banner.
-  ///
-  /// Off for now, so the wiring is in place but no screen's layout changes.
-  /// Flip to true to turn the banner on across every screen at once.
-  static bool adsEnabled = false;
-
   /// Routes that must stay ad-free: the splash and auth flow, and the pages
   /// that sell the ad-free upgrade.
   static const Set<String> _adFreeRoutes = {
@@ -36,11 +30,19 @@ class GlobalAdShell extends StatelessWidget {
   static final RxString currentRoute = ''.obs;
 
   static void onRouteChanged(Routing? routing) {
-    currentRoute.value = routing?.current ?? '';
+    final next = routing?.current ?? '';
+    if (next == currentRoute.value) return;
+    // GetX calls this while the Navigator is still applying the route change.
+    // Writing the observable now would mark the banner dirty in the middle of
+    // that update; defer to after the frame so the rebuild lands on a settled
+    // tree.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      currentRoute.value = next;
+    });
   }
 
   bool _hasAds(String route) {
-    if (!adsEnabled) return false;
+    if (!AdService.adsEnabled) return false;
     if (!AdService.isAvailable) return false;
     if (_adFreeRoutes.contains(route)) return false;
     // PremiumService is registered lazily, so treat "not loaded yet" as free.
@@ -54,48 +56,48 @@ class GlobalAdShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
 
-    return Obx(() {
-      // Read first and unconditionally: Obx throws instead of rendering when a
-      // build registers no observable, and every check below can bail out
-      // early -- including the adsEnabled switch, which is off by default.
-      final route = currentRoute.value;
+    final bottomInset = mq.padding.bottom;
 
-      // The keyboard already eats most of the screen; a banner on top of that
-      // leaves nothing of the form the user is typing into.
-      final keyboardOpen = mq.viewInsets.bottom > 0;
-      final showBanner = _hasAds(route) && !keyboardOpen;
+    // `child` is the app's Navigator, and it is deliberately kept OUT of the
+    // Obx below. Rebuilding it on a route change corrupts the element tree --
+    // routingCallback fires while Navigator is mid-update, so the rebuild lands
+    // in the middle of that mutation and trips
+    // '_elements.contains(element)', replacing the whole app with a red error
+    // screen. Only the strip underneath is allowed to react.
+    //
+    // The bottom system inset is handed to that strip unconditionally, so this
+    // MediaQuery never has to change with the banner's visibility.
+    final content = MediaQuery(
+      data: mq.copyWith(
+        padding: mq.padding.copyWith(bottom: 0),
+        viewPadding: mq.viewPadding.copyWith(bottom: 0),
+      ),
+      child: child,
+    );
 
-      // The shape of this tree must NOT change with showBanner. Returning
-      // `child` bare on ad-free routes and a Column elsewhere re-parents the
-      // whole Navigator on the first navigation away from the splash, which
-      // trips '_elements.contains(element)' and replaces the app with a red
-      // error screen. Keep one structure and vary only what fills the slot.
-      final bottomInset = mq.padding.bottom;
-      final content = MediaQuery(
-        data: showBanner
-            // With a banner present it owns the bottom system inset, so the
-            // screens above must stop reserving that space or every SafeArea
-            // leaves a double gap.
-            ? mq.copyWith(
-                padding: mq.padding.copyWith(bottom: 0),
-                viewPadding: mq.viewPadding.copyWith(bottom: 0),
-              )
-            : mq,
-        child: child,
-      );
+    return Column(
+      children: [
+        Expanded(child: content),
+        Obx(() {
+          // Read first and unconditionally: Obx throws instead of rendering
+          // when a build registers no observable, and every check below can
+          // bail out early.
+          final route = currentRoute.value;
 
-      return Column(
-        children: [
-          Expanded(child: content),
-          if (showBanner)
-            Padding(
-              padding: EdgeInsets.only(bottom: bottomInset),
-              child: const AdsScreen(collapseWhenUnfilled: true),
-            )
-          else
-            const SizedBox.shrink(),
-        ],
-      );
-    });
+          // The keyboard already eats most of the screen; a banner on top of
+          // that leaves nothing of the form the user is typing into.
+          final keyboardOpen = mq.viewInsets.bottom > 0;
+          final showBanner = _hasAds(route) && !keyboardOpen;
+
+          // Either way this strip owns the bottom inset the app above gave up.
+          return Padding(
+            padding: EdgeInsets.only(bottom: bottomInset),
+            child: showBanner
+                ? const AdsScreen(collapseWhenUnfilled: true)
+                : const SizedBox.shrink(),
+          );
+        }),
+      ],
+    );
   }
 }

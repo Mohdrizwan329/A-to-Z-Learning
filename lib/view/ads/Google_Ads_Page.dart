@@ -48,6 +48,7 @@ class _AdsScreenState extends State<AdsScreen> {
   }
 
   void _loadAd() async {
+    if (!AdService.adsEnabled) return;
     if (_adService == null || !mounted || _isDisposed) return;
 
     // Dispose old ad if exists
@@ -107,6 +108,12 @@ class _AdsScreenState extends State<AdsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Return empty when ads are switched off app-wide, so the ~150 screens
+    // embedding this widget lose the banner without any of them being edited.
+    if (!AdService.adsEnabled) {
+      return const SizedBox.shrink();
+    }
+
     // Return empty if AdService not available
     if (_adService == null) {
       return const SizedBox.shrink();

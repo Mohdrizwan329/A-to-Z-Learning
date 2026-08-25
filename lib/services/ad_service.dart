@@ -8,6 +8,13 @@ class AdService extends GetxService {
   static AdService get to => Get.find<AdService>();
   static bool get isAvailable => Get.isRegistered<AdService>();
 
+  /// Master switch for every ad in the app.
+  ///
+  /// AdsScreen checks this before requesting anything, so flipping it here
+  /// turns ads on or off across all ~150 screens that embed a banner plus the
+  /// app-wide GlobalAdShell -- no per-screen edits needed.
+  static bool adsEnabled = false;
+
   // Banner Ad Unit ID
   String get bannerAdUnitId {
     if (Platform.isAndroid) {
