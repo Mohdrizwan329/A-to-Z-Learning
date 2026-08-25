@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/leaderboard_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({super.key});
@@ -178,7 +177,6 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

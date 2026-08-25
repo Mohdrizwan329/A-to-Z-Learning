@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class OfflineLearningPage extends StatefulWidget {
   const OfflineLearningPage({Key? key}) : super(key: key);
@@ -1733,7 +1732,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

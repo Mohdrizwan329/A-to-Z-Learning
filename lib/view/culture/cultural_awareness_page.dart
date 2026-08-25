@@ -5,7 +5,6 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
@@ -142,7 +141,6 @@ class _CulturalAwarenessPageState extends State<CulturalAwarenessPage>
           Tab(text: "Arts"),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
       body: Column(
         children: [
           Obx(() {

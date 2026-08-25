@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
@@ -123,7 +122,6 @@ class _WordBuildingPageState extends State<WordBuildingPage> {
           child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         ),
       ],
-      bottomNavigationBar: const AdsScreen(),
       body: SafeArea(
           child: Column(
             children: [

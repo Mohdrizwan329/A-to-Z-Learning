@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class EarlyLearningHubPage extends StatefulWidget {
   const EarlyLearningHubPage({super.key});
@@ -262,7 +261,6 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
           ),
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

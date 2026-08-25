@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view/games/puzzle_game_page.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
@@ -157,7 +156,6 @@ class _GamesHubPageState extends State<GamesHubPage>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
-      bottomNavigationBar: const AdsScreen(),
       body: Container(
         width: double.infinity,
         height: double.infinity,

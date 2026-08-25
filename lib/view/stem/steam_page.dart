@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view%20model/steam_controller/steam_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/stem/steam_detail_page.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
@@ -202,7 +201,6 @@ class _SteamPageState extends State<SteamPage>
           ),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

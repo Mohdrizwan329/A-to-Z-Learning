@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/premium_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/premium/advanced_math_games_page.dart';
 import 'package:jiyan_learning/view/premium/fun_games_page.dart';
 import 'package:jiyan_learning/view/premium/parent_dashboard_page.dart';
@@ -297,7 +296,6 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
           );
         }),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

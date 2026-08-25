@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class HandwritingPracticePage extends StatefulWidget {
@@ -138,7 +137,6 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 import 'package:jiyan_learning/services/firebase_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class ParentDashboardPage extends StatefulWidget {
   const ParentDashboardPage({super.key});
@@ -127,7 +126,6 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class FlashcardsPage extends StatefulWidget {
@@ -264,7 +263,6 @@ class _FlashcardsPageState extends State<FlashcardsPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

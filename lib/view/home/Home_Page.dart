@@ -10,7 +10,6 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 import 'package:jiyan_learning/view/home/widgets/app_drawer.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/profiles/notification/notification_list_page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
@@ -457,8 +456,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     categoryItems,
                   );
                 }),
-                // Banner Ad at bottom
-                const AdsScreen(),
               ],
             );
           }),

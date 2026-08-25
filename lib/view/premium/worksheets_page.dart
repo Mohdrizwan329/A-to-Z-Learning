@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class WorksheetsPage extends StatefulWidget {
@@ -194,7 +193,6 @@ class _WorksheetsPageState extends State<WorksheetsPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

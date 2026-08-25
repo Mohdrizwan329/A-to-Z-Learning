@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class TermsConditionsScreen extends StatefulWidget {
   const TermsConditionsScreen({super.key});
@@ -151,7 +150,6 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
-      bottomNavigationBar: const AdsScreen(),
       body: Container(
         width: double.infinity,
         height: double.infinity,

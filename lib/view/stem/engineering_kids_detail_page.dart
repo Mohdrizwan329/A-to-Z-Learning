@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class EngineeringKidsDetailPage extends StatefulWidget {
   final int sectionIndex;
@@ -231,7 +230,6 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
         padding: const EdgeInsets.all(16),
         child: _buildSectionContent(section),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

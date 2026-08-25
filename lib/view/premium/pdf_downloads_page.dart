@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class PdfDownloadsPage extends StatelessWidget {
   const PdfDownloadsPage({Key? key}) : super(key: key);
@@ -113,7 +112,6 @@ class PdfDownloadsPage extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class ProgressReportsPage extends StatefulWidget {
   const ProgressReportsPage({super.key});
@@ -281,7 +280,6 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

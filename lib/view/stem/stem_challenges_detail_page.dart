@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class StemChallengesDetailPage extends StatefulWidget {
   final int challengeIndex;
@@ -237,7 +236,6 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         padding: const EdgeInsets.all(16),
         child: _buildChallengeContent(challenge),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

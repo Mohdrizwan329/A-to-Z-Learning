@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/view%20model/qustion%20controller/generic_math_questions_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
@@ -176,7 +175,6 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
           ),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

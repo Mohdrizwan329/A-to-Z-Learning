@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 class DeviceOptimizationPage extends StatefulWidget {
@@ -99,7 +98,6 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
     return GradientScaffold(
       title: 'Device Settings',
       emoji: '⚡',
-      bottomNavigationBar: const AdsScreen(),
       body: ListView(
           padding: const EdgeInsets.all(16),
           children: [

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view%20model/think_about_thinking_controller/think_about_thinking_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/metacognition/think_about_thinking_detail_page.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
@@ -229,7 +228,6 @@ class _ThinkAboutThinkingPageState extends State<ThinkAboutThinkingPage>
           ),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

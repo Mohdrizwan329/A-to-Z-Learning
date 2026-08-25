@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/number%20controller/numbers_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
@@ -40,7 +39,6 @@ class _NumbersScreenState extends State<NumbersScreen>
   Widget build(BuildContext context) {
     return GradientScaffold(
       title: 'Numbers',
-      bottomNavigationBar: const AdsScreen(),
       actions: [
         IconButton(
           icon: Container(

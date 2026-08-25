@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class TeacherModePage extends StatefulWidget {
   const TeacherModePage({super.key});
@@ -141,7 +140,6 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

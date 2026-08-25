@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 class ImageDrowingScreen extends StatefulWidget {
@@ -1232,7 +1231,6 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
           },
         ),
       ],
-      bottomNavigationBar: const AdsScreen(),
       body: Stack(
         children: [
           // Floating bubbles background

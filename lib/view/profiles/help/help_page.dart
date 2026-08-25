@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view%20model/setting%20controller/help_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -91,7 +90,6 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
-      bottomNavigationBar: const AdsScreen(),
       body: Container(
         width: double.infinity,
         height: double.infinity,

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/view%20model/math%20scanner%20controller/math_scanner_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class MathScannerPage extends StatelessWidget {
   MathScannerPage({super.key});
@@ -44,7 +43,6 @@ class MathScannerPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: _buildFloatingButtons(),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

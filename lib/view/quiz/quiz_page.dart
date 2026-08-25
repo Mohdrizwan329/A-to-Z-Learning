@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/rewards_service.dart';
 import 'package:jiyan_learning/services/daily_goals_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class QuizPage extends StatefulWidget {
@@ -1994,7 +1993,6 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

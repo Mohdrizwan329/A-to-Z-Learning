@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 // Generic Math Questions Page - replaces 4 individual pages
 import 'package:jiyan_learning/view/math%20qustion/generic_math_questions_page.dart';
@@ -110,7 +109,6 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
           ),
         ),
       ],
-      bottomNavigationBar: const AdsScreen(),
       body: Column(
         children: [
           // Progress bar with percentage

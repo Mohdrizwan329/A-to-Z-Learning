@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
@@ -562,7 +561,6 @@ class _WritingAccuracyPageState extends State<WritingAccuracyPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

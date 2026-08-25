@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class InfographicsPage extends StatefulWidget {
@@ -286,7 +285,6 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

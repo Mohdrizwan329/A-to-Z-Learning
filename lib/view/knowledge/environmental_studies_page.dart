@@ -4,7 +4,6 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
@@ -201,7 +200,6 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
           Tab(text: "Ecosystems"),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
       body: Column(
         children: [
           // Progress bar
@@ -435,7 +433,6 @@ class _EnvironmentTopicDetailPageState extends State<EnvironmentTopicDetailPage>
 
     return GradientScaffold(
       title: widget.title,
-      bottomNavigationBar: const AdsScreen(),
       body: GridView.builder(
         padding: const EdgeInsets.all(12),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

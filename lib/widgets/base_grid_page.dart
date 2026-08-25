@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../utils/app_colors.dart';
 import '../utils/grid_animations_mixin.dart';
 import 'gradient_scaffold.dart';
-import '../view/ads/Google_Ads_Page.dart';
 
 /// Base widget for grid-based learning pages
 /// Provides consistent layout with AppBar, gradient background, animated grid, and ads
@@ -51,7 +50,6 @@ class BaseGridPage<T extends GetxController> extends StatefulWidget {
   final double crossAxisSpacing;
   final List<Color>? appBarGradient;
   final List<Color>? bodyGradient;
-  final bool showAds;
   final List<Widget>? actions;
 
   const BaseGridPage({
@@ -72,7 +70,6 @@ class BaseGridPage<T extends GetxController> extends StatefulWidget {
     this.crossAxisSpacing = 12,
     this.appBarGradient,
     this.bodyGradient,
-    this.showAds = true,
     this.actions,
   });
 
@@ -152,7 +149,6 @@ class _BaseGridPageState<T extends GetxController>
               ),
             ),
           ),
-          if (widget.showAds) const AdsScreen(),
         ],
       ),
     );
@@ -176,7 +172,6 @@ class SimpleGridPage extends StatefulWidget {
   final VoidCallback? onRefresh;
   final int crossAxisCount;
   final double childAspectRatio;
-  final bool showAds;
 
   const SimpleGridPage({
     super.key,
@@ -189,7 +184,6 @@ class SimpleGridPage extends StatefulWidget {
     this.onRefresh,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1.0,
-    this.showAds = true,
   });
 
   @override
@@ -267,7 +261,6 @@ class _SimpleGridPageState extends State<SimpleGridPage>
               },
             ),
           ),
-          if (widget.showAds) const AdsScreen(),
         ],
       ),
     );

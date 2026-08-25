@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class FamousPlacesDetailPage extends StatefulWidget {
   final int sectionIndex;
@@ -378,7 +377,6 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
         padding: const EdgeInsets.all(16),
         child: _buildSectionContent(section),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

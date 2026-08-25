@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:math';
@@ -420,7 +419,6 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

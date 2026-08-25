@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/view%20model/exercise_fitness_controller/exercise_fitness_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/health/exercise_fitness_detail_page.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
@@ -229,7 +228,6 @@ class _ExerciseFitnessPageState extends State<ExerciseFitnessPage>
           ),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

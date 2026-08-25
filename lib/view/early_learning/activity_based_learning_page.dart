@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:math';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class ActivityBasedLearningPage extends StatefulWidget {
@@ -2007,7 +2006,6 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
           ),
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

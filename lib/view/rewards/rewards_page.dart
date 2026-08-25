@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/rewards_service.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class RewardsPage extends StatefulWidget {
   const RewardsPage({super.key});
@@ -187,7 +186,6 @@ class _RewardsPageState extends State<RewardsPage>
                     ),
                   ),
                 ),
-                const AdsScreen(),
               ],
             ),
           ],

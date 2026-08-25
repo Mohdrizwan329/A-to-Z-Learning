@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/table%20controller/table_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/tables/Table_Count_Page.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
@@ -185,7 +184,6 @@ class _TableScreenState extends State<TableScreen>
           ),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

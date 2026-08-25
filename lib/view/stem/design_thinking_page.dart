@@ -7,7 +7,6 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class DesignThinkingPage extends StatefulWidget {
@@ -266,7 +265,6 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
   Widget build(BuildContext context) {
     return GradientScaffold(
       title: 'Design Thinking',
-      bottomNavigationBar: const AdsScreen(),
       actions: [
         IconButton(
           icon: Container(
@@ -543,7 +541,6 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
   Widget build(BuildContext context) {
     return GradientScaffold(
       title: section['title'],
-      bottomNavigationBar: const AdsScreen(),
       body: Stack(
         children: [
           // Animated floating bubbles background

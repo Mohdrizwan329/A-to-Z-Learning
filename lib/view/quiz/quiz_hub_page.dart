@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/view/quiz/quiz_page.dart';
 import 'package:jiyan_learning/view/rewards/rewards_page.dart';
 import 'package:jiyan_learning/view/rewards/daily_goals_page.dart';
@@ -396,7 +395,6 @@ class _QuizHubPageState extends State<QuizHubPage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'dart:async';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 class QuizBattlePage extends StatefulWidget {
@@ -675,7 +674,6 @@ class _QuizBattlePageState extends State<QuizBattlePage>
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     ),
     );
   }

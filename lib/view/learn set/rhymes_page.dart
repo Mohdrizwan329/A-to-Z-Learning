@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view%20model/learn%20set%20controller/rhymes_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
@@ -58,7 +57,6 @@ class _RhymesPageState extends State<RhymesPage> with TickerProviderStateMixin {
         controller.stopSinging();
         Get.back();
       },
-      bottomNavigationBar: const AdsScreen(),
       body: Column(
         children: [
           // Progress bar with percentage

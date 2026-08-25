@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view%20model/ocr%20controller/ocr_controller.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class OcrScreen extends StatelessWidget {
   final controller = Get.put(OcrController());
@@ -87,7 +86,6 @@ class OcrScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: _buildFloatingButtons(),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

@@ -4,7 +4,6 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
@@ -97,7 +96,6 @@ class _WorldMapPageState extends State<WorldMapPage>
           Tab(text: "Oceans"),
         ],
       ),
-      bottomNavigationBar: const AdsScreen(),
       body: Column(
         children: [
           Obx(() {
@@ -261,7 +259,6 @@ class _ContinentDetailPageState extends State<ContinentDetailPage>
 
     return GradientScaffold(
       title: c['name'],
-      bottomNavigationBar: const AdsScreen(),
       body: GridView.builder(
         padding: const EdgeInsets.all(12),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/premium_service.dart';
 import 'package:jiyan_learning/view/premium/premium_features_screen.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class PremiumPlansPage extends StatelessWidget {
   const PremiumPlansPage({Key? key}) : super(key: key);
@@ -280,7 +279,6 @@ class PremiumPlansPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

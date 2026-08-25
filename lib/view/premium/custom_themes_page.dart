@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class CustomThemesPage extends StatefulWidget {
   const CustomThemesPage({Key? key}) : super(key: key);
@@ -178,7 +177,6 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const AdsScreen(),
     );
   }
 

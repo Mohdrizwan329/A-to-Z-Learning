@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
-import 'package:jiyan_learning/view/ads/Google_Ads_Page.dart';
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({Key? key}) : super(key: key);
@@ -133,7 +132,6 @@ class _SupportScreenState extends State<SupportScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
-      bottomNavigationBar: const AdsScreen(),
       body: Container(
         width: double.infinity,
         height: double.infinity,
