@@ -189,9 +189,13 @@ class _WordBuildingPageState extends State<WordBuildingPage> {
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: Column(
+                // The ConstrainedBox above forces this column to at least the
+                // viewport height, so spreading the children fills the screen
+                // the way the old Spacers did - without a flex child, which a
+                // scroll view cannot lay out.
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 24.h),
                   // Emoji and hint
                   Text(
                     currentWord['emoji'],
@@ -205,7 +209,6 @@ class _WordBuildingPageState extends State<WordBuildingPage> {
                       color: Colors.white.withValues(alpha: 0.8),
                     ),
                   ),
-                  SizedBox(height: 24.h),
                   // Selected letters area
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20.w),
