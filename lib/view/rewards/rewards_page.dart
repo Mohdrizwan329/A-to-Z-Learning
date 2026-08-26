@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/rewards_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class RewardsPage extends StatefulWidget {
   const RewardsPage({super.key});
 
@@ -74,32 +76,43 @@ class _RewardsPageState extends State<RewardsPage>
   Widget build(BuildContext context) {
     if (!_isInitialized) {
       return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.back(),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+          child: const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
         ),
       );
     }
@@ -132,7 +145,7 @@ class _RewardsPageState extends State<RewardsPage>
                 Expanded(
                   child: SafeArea(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.r),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -142,7 +155,7 @@ class _RewardsPageState extends State<RewardsPage>
                             child: _buildStatsCard(),
                           ),
 
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
 
                           // Streak Card with float animation
                           _buildFloatingCard(
@@ -150,37 +163,40 @@ class _RewardsPageState extends State<RewardsPage>
                             child: _buildStreakCard(),
                           ),
 
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24.h),
 
                           // Badges Section
                           _buildAnimatedCard(
                             delay: 200,
                             child: _buildSectionTitle("Badges", "🏅"),
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12.h),
                           _buildBadgesGrid(),
 
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24.h),
 
                           // Trophies Section
                           _buildAnimatedCard(
                             delay: 300,
                             child: _buildSectionTitle("Trophies", "🏆"),
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12.h),
                           _buildTrophiesGrid(),
 
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24.h),
 
                           // Stickers Section
                           _buildAnimatedCard(
                             delay: 400,
-                            child: _buildSectionTitle("Sticker Collection", "🎨"),
+                            child: _buildSectionTitle(
+                              "Sticker Collection",
+                              "🎨",
+                            ),
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12.h),
                           _buildStickersSection(),
 
-                          const SizedBox(height: 32),
+                          SizedBox(height: 32.h),
                         ],
                       ),
                     ),
@@ -205,7 +221,8 @@ class _RewardsPageState extends State<RewardsPage>
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -229,11 +246,10 @@ class _RewardsPageState extends State<RewardsPage>
     return AnimatedBuilder(
       animation: _floatAnimation,
       builder: (context, _) {
-        final offset = index.isEven ? _floatAnimation.value : -_floatAnimation.value;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        final offset = index.isEven
+            ? _floatAnimation.value
+            : -_floatAnimation.value;
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
     );
   }
@@ -245,73 +261,77 @@ class _RewardsPageState extends State<RewardsPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'My ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'My ',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'Rewards',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'Rewards',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
     );
@@ -325,81 +345,89 @@ class _RewardsPageState extends State<RewardsPage>
       builder: (context, value, _) {
         return Transform.translate(
           offset: Offset(0, 30 * (1 - value)),
-          child: Opacity(
-            opacity: value.clamp(0.0, 1.0),
-            child: child,
-          ),
+          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
         );
       },
     );
   }
 
   Widget _buildStatsCard() {
-    return Obx(() => Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFFFD700).withValues(alpha: 0.4),
-                blurRadius: 15,
-                offset: const Offset(0, 8),
-              ),
-            ],
+    return Obx(
+      () => Container(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Stack(
-            children: [
-              // Decorative circle
-              Positioned(
-                top: -20,
-                right: -20,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.15),
-                  ),
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFFD700).withValues(alpha: 0.4),
+              blurRadius: 15.r,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Decorative circle
+            Positioned(
+              top: -20.h,
+              right: -20.w,
+              child: Container(
+                width: 80.w,
+                height: 80.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.15),
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildStatItem(
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Flexible(
+                      child: _buildStatItem(
                         "⭐",
                         "${rewardsService.totalStars.value}",
                         "Stars",
                       ),
-                      _buildStatItem(
+                    ),
+                    Flexible(
+                      child: _buildStatItem(
                         "🏅",
                         "${rewardsService.earnedBadges.length}",
                         "Badges",
                       ),
-                      _buildStatItem(
+                    ),
+                    Flexible(
+                      child: _buildStatItem(
                         "🏆",
                         "${rewardsService.earnedTrophies.length}",
                         "Trophies",
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                Container(
+                  padding: EdgeInsets.all(12.r),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      // Each half takes an equal share, so the longer label
+                      // wraps inside its own column instead of pushing the
+                      // row past the card.
+                      Expanded(
+                        child: Column(
                           children: [
                             Text(
                               "Level ${rewardsService.currentLevel.value}",
@@ -418,12 +446,14 @@ class _RewardsPageState extends State<RewardsPage>
                             ),
                           ],
                         ),
-                        Container(
-                          width: 1,
-                          height: 40,
-                          color: Colors.white.withValues(alpha: 0.3),
-                        ),
-                        Column(
+                      ),
+                      Container(
+                        width: 1.w,
+                        height: 40.h,
+                        color: Colors.white.withValues(alpha: 0.3),
+                      ),
+                      Expanded(
+                        child: Column(
                           children: [
                             Text(
                               "${rewardsService.totalXP.value} XP",
@@ -439,164 +469,170 @@ class _RewardsPageState extends State<RewardsPage>
                                 fontSize: 14,
                                 color: Colors.white.withValues(alpha: 0.9),
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  // Level Progress
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Next Level",
-                            style: GoogleFonts.nunito(
-                              color: Colors.white.withValues(alpha: 0.9),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            "${(rewardsService.levelProgress * 100).toInt()}%",
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Container(
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: LinearProgressIndicator(
-                            value: rewardsService.levelProgress,
-                            backgroundColor: Colors.transparent,
-                            valueColor:
-                                const AlwaysStoppedAnimation<Color>(Colors.white),
-                            minHeight: 12,
-                          ),
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ],
-          ),
-        ));
+                ),
+                SizedBox(height: 12.h),
+                // Level Progress
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Next Level",
+                          style: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          "${(rewardsService.levelProgress * 100).toInt()}%",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 6.h),
+                    Container(
+                      height: 12.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: LinearProgressIndicator(
+                          value: rewardsService.levelProgress,
+                          backgroundColor: Colors.transparent,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
+                          minHeight: 12.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildStreakCard() {
-    return Obx(() => Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: cardGradients[0], // Coral Red gradient
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: cardGradients[0][0].withValues(alpha: 0.4),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
-              ),
-            ],
+    return Obx(
+      () => Container(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: cardGradients[0], // Coral Red gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Stack(
-            children: [
-              // Decorative circle
-              Positioned(
-                top: -15,
-                right: -15,
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.15),
-                  ),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: cardGradients[0][0].withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Decorative circle
+            Positioned(
+              top: -15.h,
+              right: -15.w,
+              child: Container(
+                width: 60.w,
+                height: 60.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.15),
                 ),
               ),
-              Row(
-                children: [
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(
-                      child: Text("🔥", style: TextStyle(fontSize: 40)),
-                    ),
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 64.w,
+                  height: 64.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Daily Streak",
-                          style: GoogleFonts.nunito(
-                            fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          "${rewardsService.dailyStreak.value} Days",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: const Center(
+                    child: Text("🔥", style: TextStyle(fontSize: 40)),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "XP Needed",
-                          style: GoogleFonts.nunito(
-                            color: Colors.white.withValues(alpha: 0.9),
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                          ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Daily Streak",
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontWeight: FontWeight.w500,
                         ),
-                        Text(
-                          "${rewardsService.xpToNextLevel}",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                      ),
+                      Text(
+                        "${rewardsService.dailyStreak.value} Days",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
-          ),
-        ));
+                ),
+                Container(
+                  padding: EdgeInsets.all(14.r),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        "XP Needed",
+                        style: GoogleFonts.nunito(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        "${rewardsService.xpToNextLevel}",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildBadgesGrid() {
@@ -606,10 +642,10 @@ class _RewardsPageState extends State<RewardsPage>
       return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
+          mainAxisSpacing: 12.r,
+          crossAxisSpacing: 12.r,
           childAspectRatio: 0.85,
         ),
         itemCount: badgesList.length,
@@ -623,14 +659,16 @@ class _RewardsPageState extends State<RewardsPage>
           return AnimatedBuilder(
             animation: _floatAnimation,
             builder: (context, child) {
-              final offset = index.isEven ? _floatAnimation.value * 0.5 : -_floatAnimation.value * 0.5;
+              final offset = index.isEven
+                  ? _floatAnimation.value * 0.5
+                  : -_floatAnimation.value * 0.5;
               return Transform.translate(
                 offset: Offset(0, offset),
                 child: child,
               );
             },
             child: Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12.r),
               decoration: BoxDecoration(
                 gradient: isEarned
                     ? LinearGradient(
@@ -640,12 +678,12 @@ class _RewardsPageState extends State<RewardsPage>
                       )
                     : null,
                 color: isEarned ? null : Colors.white.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(18.r),
                 boxShadow: isEarned
                     ? [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.4),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: const Offset(0, 4),
                         ),
                       ]
@@ -656,11 +694,11 @@ class _RewardsPageState extends State<RewardsPage>
                   // Decorative circle for earned badges
                   if (isEarned)
                     Positioned(
-                      top: -10,
-                      right: -10,
+                      top: -10.h,
+                      right: -10.w,
                       child: Container(
-                        width: 30,
-                        height: 30,
+                        width: 30.w,
+                        height: 30.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.15),
@@ -671,10 +709,12 @@ class _RewardsPageState extends State<RewardsPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: isEarned ? 0.3 : 0.1),
+                          color: Colors.white.withValues(
+                            alpha: isEarned ? 0.3 : 0.1,
+                          ),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -687,24 +727,26 @@ class _RewardsPageState extends State<RewardsPage>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        badge['name'] as String,
-                        style: GoogleFonts.nunito(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: isEarned
-                              ? Colors.white
-                              : Colors.white.withValues(alpha: 0.7),
+                      SizedBox(height: 4.h),
+                      Flexible(
+                        child: Text(
+                          badge['name'] as String,
+                          style: GoogleFonts.nunito(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: isEarned
+                                ? Colors.white
+                                : Colors.white.withValues(alpha: 0.7),
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       if (!isEarned)
                         Icon(
                           Icons.lock_rounded,
-                          size: 14,
+                          size: 14.r,
                           color: Colors.white.withValues(alpha: 0.5),
                         ),
                     ],
@@ -725,10 +767,10 @@ class _RewardsPageState extends State<RewardsPage>
       return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
+          mainAxisSpacing: 12.r,
+          crossAxisSpacing: 12.r,
           childAspectRatio: 1.2,
         ),
         itemCount: trophiesList.length,
@@ -742,14 +784,16 @@ class _RewardsPageState extends State<RewardsPage>
           return AnimatedBuilder(
             animation: _floatAnimation,
             builder: (context, child) {
-              final offset = index.isEven ? _floatAnimation.value * 0.6 : -_floatAnimation.value * 0.6;
+              final offset = index.isEven
+                  ? _floatAnimation.value * 0.6
+                  : -_floatAnimation.value * 0.6;
               return Transform.translate(
                 offset: Offset(0, offset),
                 child: child,
               );
             },
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: isEarned
                     ? LinearGradient(
@@ -759,12 +803,12 @@ class _RewardsPageState extends State<RewardsPage>
                       )
                     : null,
                 color: isEarned ? null : Colors.white.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(22),
+                borderRadius: BorderRadius.circular(22.r),
                 boxShadow: isEarned
                     ? [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.4),
-                          blurRadius: 12,
+                          blurRadius: 12.r,
                           offset: const Offset(0, 6),
                         ),
                       ]
@@ -775,11 +819,11 @@ class _RewardsPageState extends State<RewardsPage>
                   // Decorative circle
                   if (isEarned)
                     Positioned(
-                      top: -15,
-                      right: -15,
+                      top: -15.h,
+                      right: -15.w,
                       child: Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.15),
@@ -790,11 +834,13 @@ class _RewardsPageState extends State<RewardsPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 52,
-                        height: 52,
+                        width: 52.w,
+                        height: 52.h,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: isEarned ? 0.3 : 0.15),
-                          borderRadius: BorderRadius.circular(14),
+                          color: Colors.white.withValues(
+                            alpha: isEarned ? 0.3 : 0.15,
+                          ),
+                          borderRadius: BorderRadius.circular(14.r),
                         ),
                         child: Center(
                           child: Text(
@@ -803,17 +849,23 @@ class _RewardsPageState extends State<RewardsPage>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        trophy['name'] as String,
-                        style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: isEarned
-                              ? Colors.white
-                              : Colors.white.withValues(alpha: 0.7),
+                      SizedBox(height: 8.h),
+                      // Capped so a two-word trophy name does not push the
+                      // locked-XP row out of the tile.
+                      Flexible(
+                        child: Text(
+                          trophy['name'] as String,
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: isEarned
+                                ? Colors.white
+                                : Colors.white.withValues(alpha: 0.7),
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       if (!isEarned)
                         Row(
@@ -821,10 +873,10 @@ class _RewardsPageState extends State<RewardsPage>
                           children: [
                             Icon(
                               Icons.lock_rounded,
-                              size: 14,
+                              size: 14.r,
                               color: Colors.white.withValues(alpha: 0.5),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Text(
                               "${trophy['xpReward']} XP",
                               style: GoogleFonts.nunito(
@@ -855,35 +907,39 @@ class _RewardsPageState extends State<RewardsPage>
           final entry = categories[index];
           final categoryName = entry.key;
           final stickers = entry.value;
-          final earnedInCategory = stickers.where(
-            (s) => earnedStickers.contains(s),
-          ).toList();
+          final earnedInCategory = stickers
+              .where((s) => earnedStickers.contains(s))
+              .toList();
 
           final gradient = cardGradients[index % cardGradients.length];
-          final progress = stickers.isEmpty ? 0.0 : earnedInCategory.length / stickers.length;
+          final progress = stickers.isEmpty
+              ? 0.0
+              : earnedInCategory.length / stickers.length;
 
           return AnimatedBuilder(
             animation: _floatAnimation,
             builder: (context, child) {
-              final offset = index.isEven ? _floatAnimation.value * 0.4 : -_floatAnimation.value * 0.4;
+              final offset = index.isEven
+                  ? _floatAnimation.value * 0.4
+                  : -_floatAnimation.value * 0.4;
               return Transform.translate(
                 offset: Offset(0, offset),
                 child: child,
               );
             },
             child: Container(
-              margin: const EdgeInsets.only(bottom: 16),
+              margin: EdgeInsets.only(bottom: 16.h),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 12,
+                    blurRadius: 12.r,
                     offset: const Offset(0, 6),
                   ),
                 ],
@@ -892,11 +948,11 @@ class _RewardsPageState extends State<RewardsPage>
                 children: [
                   // Decorative circle
                   Positioned(
-                    top: -20,
-                    right: -20,
+                    top: -20.h,
+                    right: -20.w,
                     child: Container(
-                      width: 70,
-                      height: 70,
+                      width: 70.w,
+                      height: 70.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white.withValues(alpha: 0.15),
@@ -907,15 +963,15 @@ class _RewardsPageState extends State<RewardsPage>
                     children: [
                       // Header
                       Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.r),
                         child: Row(
                           children: [
                             Container(
-                              width: 50,
-                              height: 50,
+                              width: 50.w,
+                              height: 50.h,
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.3),
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(14.r),
                               ),
                               child: Center(
                                 child: Text(
@@ -924,7 +980,7 @@ class _RewardsPageState extends State<RewardsPage>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 14),
+                            SizedBox(width: 14.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -941,7 +997,9 @@ class _RewardsPageState extends State<RewardsPage>
                                   Text(
                                     "${earnedInCategory.length} / ${stickers.length} collected",
                                     style: GoogleFonts.nunito(
-                                      color: Colors.white.withValues(alpha: 0.9),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.9,
+                                      ),
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -954,13 +1012,18 @@ class _RewardsPageState extends State<RewardsPage>
                               alignment: Alignment.center,
                               children: [
                                 SizedBox(
-                                  width: 48,
-                                  height: 48,
+                                  width: 48.w,
+                                  height: 48.h,
                                   child: CircularProgressIndicator(
                                     value: progress,
-                                    backgroundColor: Colors.white.withValues(alpha: 0.2),
-                                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                                    strokeWidth: 5,
+                                    backgroundColor: Colors.white.withValues(
+                                      alpha: 0.2,
+                                    ),
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
+                                        ),
+                                    strokeWidth: 5.r,
                                   ),
                                 ),
                                 Text(
@@ -978,25 +1041,25 @@ class _RewardsPageState extends State<RewardsPage>
                       ),
                       // Stickers Grid
                       Container(
-                        margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                        padding: const EdgeInsets.all(12),
+                        margin: EdgeInsets.fromLTRB(12.w, 0, 12.w, 12.h),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(14.r),
                         ),
                         child: Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                          spacing: 8.r,
+                          runSpacing: 8.r,
                           children: stickers.map((sticker) {
                             final isEarned = earnedStickers.contains(sticker);
                             return Container(
-                              width: 42,
-                              height: 42,
+                              width: 42.w,
+                              height: 42.h,
                               decoration: BoxDecoration(
                                 color: isEarned
                                     ? gradient[0].withValues(alpha: 0.15)
                                     : Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.r),
                                 border: isEarned
                                     ? Border.all(color: gradient[0], width: 2)
                                     : null,
@@ -1009,7 +1072,7 @@ class _RewardsPageState extends State<RewardsPage>
                                       )
                                     : Icon(
                                         Icons.lock_rounded,
-                                        size: 18,
+                                        size: 18.r,
                                         color: Colors.grey.shade400,
                                       ),
                               ),
@@ -1060,17 +1123,17 @@ class _RewardsPageState extends State<RewardsPage>
     return Column(
       children: [
         Container(
-          width: 56,
-          height: 56,
+          width: 56.w,
+          height: 56.h,
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
           child: Center(
             child: Text(emoji, style: const TextStyle(fontSize: 30)),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           value,
           style: GoogleFonts.baloo2(
@@ -1095,30 +1158,34 @@ class _RewardsPageState extends State<RewardsPage>
     return Row(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: 40.w,
+          height: 40.h,
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Center(
             child: Text(emoji, style: const TextStyle(fontSize: 22)),
           ),
         ),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          style: GoogleFonts.baloo2(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 4,
-                offset: const Offset(1, 2),
-              ),
-            ],
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Text(
+            title,
+            style: GoogleFonts.baloo2(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 4.r,
+                  offset: const Offset(1, 2),
+                ),
+              ],
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

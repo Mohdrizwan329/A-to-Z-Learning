@@ -5,6 +5,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SelfReflectionDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -114,7 +116,7 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
     return GradientScaffold(
       title: section['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Header Card
@@ -122,18 +124,18 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -144,7 +146,7 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                       section['emoji'],
                       style: const TextStyle(fontSize: 60),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       section['title'],
                       style: GoogleFonts.poppins(
@@ -158,7 +160,7 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Options
             ...List.generate((section['options'] as List).length, (index) {
               final option = section['options'][index];
@@ -177,8 +179,8 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: isSelected
                           ? LinearGradient(
@@ -191,16 +193,17 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       border: isSelected
                           ? Border.all(color: Colors.white, width: 3)
                           : null,
                       boxShadow: [
                         BoxShadow(
-                          color: (isSelected
-                                  ? AppColors.selectedGradient[0]
-                                  : cardGradient[0])
-                              .withValues(alpha: 0.4),
+                          color:
+                              (isSelected
+                                      ? AppColors.selectedGradient[0]
+                                      : cardGradient[0])
+                                  .withValues(alpha: 0.4),
                           blurRadius: isSelected ? 12 : 6,
                           offset: const Offset(0, 3),
                         ),
@@ -209,11 +212,11 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                     child: Row(
                       children: [
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: 50.w,
+                          height: 50.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Center(
                             child: Text(
@@ -222,7 +225,7 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(width: 16.w),
                         Expanded(
                           child: Text(
                             option['text'],
@@ -235,8 +238,8 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                         ),
                         if (isSelected)
                           Container(
-                            width: 28,
-                            height: 28,
+                            width: 28.w,
+                            height: 28.h,
                             decoration: const BoxDecoration(
                               color: Colors.white,
                               shape: BoxShape.circle,
@@ -244,7 +247,7 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                             child: Icon(
                               Icons.check,
                               color: AppColors.selectedGradient[0],
-                              size: 18,
+                              size: 18.r,
                             ),
                           ),
                       ],
@@ -253,7 +256,7 @@ class _SelfReflectionDetailPageState extends State<SelfReflectionDetailPage>
                 ),
               );
             }),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
           ],
         ),
       ),

@@ -16,6 +16,8 @@ import 'package:jiyan_learning/view/premium/quiz_battle_page.dart';
 import 'package:jiyan_learning/view/premium/story_time_page.dart';
 import 'package:jiyan_learning/view/premium/handwriting_practice_page.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PremiumFeaturesScreen extends StatefulWidget {
   const PremiumFeaturesScreen({Key? key}) : super(key: key);
 
@@ -176,7 +178,10 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
     },
   ];
 
-  List<Map<String, dynamic>> get allFeatures => [...monthlyFeatures, ...yearlyFeatures];
+  List<Map<String, dynamic>> get allFeatures => [
+    ...monthlyFeatures,
+    ...yearlyFeatures,
+  ];
 
   @override
   void initState() {
@@ -215,7 +220,7 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -251,13 +256,13 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
           final isPremium = PremiumService.to.isPremium.value;
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Premium Status Card
                 _buildPremiumStatusCard(),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Monthly Plan Features Section (Available in all plans)
                 _buildSectionHeader(
@@ -266,20 +271,22 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                   color: Color(0xFF4ECDC4),
                   isUnlocked: isPremium,
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 _buildFeatureGrid(monthlyFeatures),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 // Yearly Plan Features Section
                 _buildSectionHeader(
                   title: 'Pro Features',
                   subtitle: 'Included in Yearly Plan (₹399)',
                   color: Color(0xFFFFAA5A),
-                  isUnlocked: isPremium && (planType == 'yearly' || planType == 'lifetime'),
+                  isUnlocked:
+                      isPremium &&
+                      (planType == 'yearly' || planType == 'lifetime'),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 _buildFeatureGrid(yearlyFeatures),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 // Lifetime Exclusive Features
                 _buildSectionHeader(
@@ -288,9 +295,9 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                   color: Color(0xFFA78BFA),
                   isUnlocked: isPremium && planType == 'lifetime',
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 _buildFeatureGrid(lifetimeFeatures),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
               ],
             ),
           );
@@ -303,8 +310,8 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
     return Obx(() {
       final premiumService = PremiumService.to;
       return Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.all(16.r),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: premiumService.isPremium.value
@@ -313,12 +320,15 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
-              color: (premiumService.isPremium.value ? Color(0xFFFFD700) : Colors.black)
-                  .withOpacity(0.3),
-              blurRadius: 15,
+              color:
+                  (premiumService.isPremium.value
+                          ? Color(0xFFFFD700)
+                          : Colors.black)
+                      .withOpacity(0.3),
+              blurRadius: 15.r,
               offset: const Offset(0, 8),
             ),
           ],
@@ -326,8 +336,8 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
         child: Row(
           children: [
             Container(
-              width: 60,
-              height: 60,
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.3),
                 shape: BoxShape.circle,
@@ -339,7 +349,7 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -356,12 +366,12 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                           : Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     premiumService.isPremium.value
                         ? (premiumService.planType.value == 'lifetime'
-                            ? 'Unlimited Access'
-                            : '${premiumService.remainingDays} days remaining')
+                              ? 'Unlimited Access'
+                              : '${premiumService.remainingDays} days remaining')
                         : 'Upgrade to unlock all features',
                     style: TextStyle(
                       fontSize: 14,
@@ -380,7 +390,7 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                   backgroundColor: Color(0xFFFFD700),
                   foregroundColor: Colors.brown.shade800,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
                 child: const Text('Upgrade'),
@@ -398,10 +408,10 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
     required bool isUnlocked,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: isUnlocked ? color : Colors.white30,
           width: 2,
@@ -410,8 +420,8 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
       child: Row(
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: 50.w,
+            height: 50.h,
             decoration: BoxDecoration(
               color: isUnlocked ? color : Colors.grey,
               shape: BoxShape.circle,
@@ -420,11 +430,11 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
               child: Icon(
                 isUnlocked ? Icons.check_circle : Icons.lock,
                 color: Colors.white,
-                size: 28,
+                size: 28.r,
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -448,10 +458,10 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: isUnlocked ? Colors.green : Colors.orange,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
               isUnlocked ? 'UNLOCKED' : 'LOCKED',
@@ -471,10 +481,10 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
+        mainAxisSpacing: 12.r,
+        crossAxisSpacing: 12.r,
         childAspectRatio: 1.0,
       ),
       itemCount: features.length,
@@ -486,10 +496,7 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             final offset = (index % 2 == 0)
                 ? _floatAnimation.value
                 : -_floatAnimation.value;
-            return Transform.translate(
-              offset: Offset(0, offset),
-              child: child,
-            );
+            return Transform.translate(offset: Offset(0, offset), child: child);
           },
           child: _buildFeatureCard(feature, index),
         );
@@ -533,15 +540,17 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: isAvailable ? gradient : [Colors.grey.shade400, Colors.grey.shade500],
+            colors: isAvailable
+                ? gradient
+                : [Colors.grey.shade400, Colors.grey.shade500],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: (isAvailable ? gradient[0] : Colors.grey).withOpacity(0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -550,11 +559,11 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
           children: [
             // Background circles
             Positioned(
-              top: -20,
-              right: -20,
+              top: -20.h,
+              right: -20.w,
               child: Container(
-                width: 80,
-                height: 80,
+                width: 80.w,
+                height: 80.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(0.1),
@@ -562,11 +571,11 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
               ),
             ),
             Positioned(
-              bottom: -30,
-              left: -30,
+              bottom: -30.h,
+              left: -30.w,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 100.w,
+                height: 100.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(0.1),
@@ -576,13 +585,14 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             // Content
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.r),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.3),
                         shape: BoxShape.circle,
@@ -594,24 +604,34 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      feature['title'],
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    SizedBox(height: 10.h),
+                    // Line caps keep a long feature name from pushing the tile
+                    // past its fixed square height on a narrow phone.
+                    Flexible(
+                      child: Text(
+                        feature['title'],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      feature['subtitle'],
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.white.withOpacity(0.8),
+                    SizedBox(height: 4.h),
+                    Flexible(
+                      child: Text(
+                        feature['subtitle'],
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.white.withOpacity(0.8),
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -620,31 +640,27 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             // Lock icon for unavailable features
             if (!isAvailable)
               Positioned(
-                top: 8,
-                right: 8,
+                top: 8.h,
+                right: 8.w,
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: EdgeInsets.all(6.r),
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.lock,
-                    color: Colors.white,
-                    size: 16,
-                  ),
+                  child: Icon(Icons.lock, color: Colors.white, size: 16.r),
                 ),
               ),
             // Active badge for automatic features
             if (isAutomatic && isAvailable)
               Positioned(
-                top: 8,
-                left: 8,
+                top: 8.h,
+                left: 8.w,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: Colors.green,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: const Text(
                     'Active',
@@ -659,13 +675,13 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
             // Coming soon badge
             if (!hasPage && !isAutomatic && isAvailable)
               Positioned(
-                top: 8,
-                left: 8,
+                top: 8.h,
+                left: 8.w,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: Colors.orange,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: const Text(
                     'Soon',
@@ -686,12 +702,14 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
   void _showUpgradeDialog() {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text("👑", style: TextStyle(fontSize: 50)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             const Text(
               'Upgrade to Premium',
               style: TextStyle(
@@ -700,16 +718,13 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                 color: Color(0xFFFFAA5A),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'Unlock all premium features and give your child the best learning experience!',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Row(
               children: [
                 Expanded(
@@ -717,13 +732,13 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                     onPressed: () => Get.back(),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: const Text('Later'),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -734,7 +749,7 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                       backgroundColor: Color(0xFFFFAA5A),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: const Text('Upgrade'),
@@ -751,12 +766,14 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
   void _showPlanUpgradeDialog(String featureName) {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text("⬆️", style: TextStyle(fontSize: 50)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             const Text(
               'Upgrade Your Plan',
               style: TextStyle(
@@ -765,16 +782,13 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                 color: Color(0xFFA78BFA),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               '$featureName is available in Yearly and Lifetime plans. Upgrade to access this feature!',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -786,7 +800,7 @@ class _PremiumFeaturesScreenState extends State<PremiumFeaturesScreen>
                   backgroundColor: Color(0xFFA78BFA),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
                 child: const Text('View Plans'),

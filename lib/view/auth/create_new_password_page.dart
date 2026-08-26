@@ -3,13 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view/auth/login_page.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class CreateNewPasswordPage extends StatefulWidget {
   final String phoneNumber;
 
-  const CreateNewPasswordPage({
-    super.key,
-    required this.phoneNumber,
-  });
+  const CreateNewPasswordPage({super.key, required this.phoneNumber});
 
   @override
   State<CreateNewPasswordPage> createState() => _CreateNewPasswordPageState();
@@ -66,8 +65,8 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
       backgroundColor: const Color(0xFF66BB6A),
       colorText: Colors.white,
       duration: const Duration(seconds: 3),
-      margin: const EdgeInsets.all(16),
-      borderRadius: 16,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 16.r,
     );
 
     Get.offAll(() => const LoginPage());
@@ -109,7 +108,12 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -117,7 +121,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.r),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -127,25 +131,30 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                   child: GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 10.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 8,
+                            blurRadius: 8.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.arrow_back_rounded,
-                              size: 20, color: Color(0xFF66BB6A)),
-                          SizedBox(width: 6),
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            size: 20.r,
+                            color: Color(0xFF66BB6A),
+                          ),
+                          SizedBox(width: 6.w),
                           Text(
                             'Back',
                             style: TextStyle(
@@ -159,7 +168,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
 
                 // Animated mascot
                 AnimatedBuilder(
@@ -171,25 +180,22 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20.r),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 15,
+                          blurRadius: 15.r,
                           offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-                    child: const Text(
-                      '🔒',
-                      style: TextStyle(fontSize: 50),
-                    ),
+                    child: const Text('🔒', style: TextStyle(fontSize: 50)),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Title
                 const Text(
@@ -200,13 +206,15 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                     color: Color(0xFF2E7D32),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: const Text(
                     'Choose a secret password',
@@ -217,14 +225,14 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
 
                 // Form Card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(25.r),
                     border: Border.all(
                       color: const Color(0xFFA5D6A7),
                       width: 3,
@@ -232,7 +240,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.08),
-                        blurRadius: 15,
+                        blurRadius: 15.r,
                         offset: const Offset(0, 8),
                       ),
                     ],
@@ -245,7 +253,10 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                         TextFormField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           decoration: _buildInputDecoration(
                             label: 'New Password',
@@ -275,13 +286,16 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
 
                         // Confirm Password Field
                         TextFormField(
                           controller: _confirmPasswordController,
                           obscureText: _obscureConfirmPassword,
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           decoration: _buildInputDecoration(
                             label: 'Confirm Password',
@@ -312,14 +326,14 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
 
                         // Password Requirements
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16.r),
                           decoration: BoxDecoration(
                             color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,12 +346,12 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                                   color: Color(0xFF666666),
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12.h),
                               _buildRequirement(
                                 'At least 6 characters',
                                 _isPasswordLongEnough,
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8.h),
                               _buildRequirement(
                                 'Both passwords match',
                                 _doPasswordsMatch,
@@ -345,44 +359,50 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24.h),
 
                         // Reset Password Button
                         SizedBox(
                           width: double.infinity,
-                          height: 54,
+                          height: 54.h,
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _resetPassword,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF66BB6A),
                               foregroundColor: Colors.white,
                               elevation: 4,
-                              shadowColor: const Color(0xFF66BB6A)
-                                  .withValues(alpha: 0.4),
+                              shadowColor: const Color(
+                                0xFF66BB6A,
+                              ).withValues(alpha: 0.4),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(27),
+                                borderRadius: BorderRadius.circular(27.r),
                               ),
                             ),
                             child: _isLoading
-                                ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
+                                ? SizedBox(
+                                    height: 24.h,
+                                    width: 24.w,
                                     child: CircularProgressIndicator(
-                                      strokeWidth: 3,
+                                      strokeWidth: 3.r,
                                       color: Colors.white,
                                     ),
                                   )
-                                : const Row(
+                                : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.check_circle_rounded,
-                                          size: 24),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        'Save Password',
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
+                                      Icon(
+                                        Icons.check_circle_rounded,
+                                        size: 24.r,
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Flexible(
+                                        child: Text(
+                                          'Save Password',
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ],
@@ -394,7 +414,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
               ],
             ),
           ),
@@ -407,7 +427,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(4),
+          padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
             color: isMet
                 ? const Color(0xFF66BB6A).withValues(alpha: 0.2)
@@ -416,17 +436,21 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
           ),
           child: Icon(
             isMet ? Icons.check_rounded : Icons.circle_outlined,
-            size: 18,
+            size: 18.r,
             color: isMet ? const Color(0xFF66BB6A) : Colors.grey,
           ),
         ),
-        const SizedBox(width: 12),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: isMet ? const Color(0xFF66BB6A) : Colors.grey[600],
+        SizedBox(width: 12.w),
+        // Takes the width left beside the tick so the rule wraps instead of
+        // running off the checklist card.
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: isMet ? const Color(0xFF66BB6A) : Colors.grey[600],
+            ),
           ),
         ),
       ],
@@ -447,34 +471,34 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage>
         color: Colors.grey[600],
       ),
       prefixIcon: Container(
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(10),
+        margin: EdgeInsets.all(8.r),
+        padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
-        child: Icon(icon, color: color, size: 20),
+        child: Icon(icon, color: color, size: 20.r),
       ),
       suffixIcon: suffixIcon,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: BorderSide(color: color, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: const BorderSide(color: Colors.redAccent, width: 2),
       ),
       filled: true,
       fillColor: Colors.grey[50],
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
     );
   }
 }

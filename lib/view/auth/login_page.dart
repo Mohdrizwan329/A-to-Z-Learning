@@ -8,6 +8,8 @@ import 'package:jiyan_learning/view/auth/forgot_password_page.dart';
 import 'package:jiyan_learning/view/auth/signup_page.dart';
 import 'package:jiyan_learning/view/main_navigation_screen.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -29,6 +31,7 @@ class _LoginPageState extends State<LoginPage>
     }
     return Get.find<AuthController>();
   }
+
   bool _obscurePassword = true;
   bool _usePhoneLogin = false;
   String _selectedCountryDialCode = '91';
@@ -83,8 +86,8 @@ class _LoginPageState extends State<LoginPage>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red[400],
         colorText: Colors.white,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 16,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
       );
       return;
     }
@@ -108,14 +111,15 @@ class _LoginPageState extends State<LoginPage>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red[400],
         colorText: Colors.white,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 16,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
       );
       return;
     }
 
-    final success =
-        await _authController.verifyOtpAndLogin(_otpController.text.trim());
+    final success = await _authController.verifyOtpAndLogin(
+      _otpController.text.trim(),
+    );
 
     if (success) {
       Get.offAll(() => MainNavigationScreen());
@@ -131,8 +135,8 @@ class _LoginPageState extends State<LoginPage>
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.red[400],
       colorText: Colors.white,
-      margin: const EdgeInsets.all(16),
-      borderRadius: 16,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 16.r,
     );
   }
 
@@ -164,7 +168,12 @@ class _LoginPageState extends State<LoginPage>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -172,11 +181,11 @@ class _LoginPageState extends State<LoginPage>
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.r),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
 
                 // Animated cute animal mascot
                 AnimatedBuilder(
@@ -188,25 +197,22 @@ class _LoginPageState extends State<LoginPage>
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20.r),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 20,
+                          blurRadius: 20.r,
                           offset: const Offset(0, 10),
                         ),
                       ],
                     ),
-                    child: const Text(
-                      '👋',
-                      style: TextStyle(fontSize: 60),
-                    ),
+                    child: const Text('👋', style: TextStyle(fontSize: 60)),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Welcome text
                 const Text(
@@ -218,13 +224,15 @@ class _LoginPageState extends State<LoginPage>
                     letterSpacing: 1,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFEB3B).withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: const Text(
                     "Let's learn & play!",
@@ -235,14 +243,14 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
 
                 // Login Card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(30.r),
                     border: Border.all(
                       color: const Color(0xFFFFB74D),
                       width: 3,
@@ -250,7 +258,7 @@ class _LoginPageState extends State<LoginPage>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.08),
-                        blurRadius: 20,
+                        blurRadius: 20.r,
                         offset: const Offset(0, 10),
                       ),
                     ],
@@ -260,115 +268,122 @@ class _LoginPageState extends State<LoginPage>
                     child: Column(
                       children: [
                         // Login Type Toggle
-                        Obx(() => _authController.otpSent.value
-                            ? const SizedBox.shrink()
-                            : Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[100],
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _usePhoneLogin = false;
-                                          });
-                                          _authController.resetOtpState();
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12),
-                                          decoration: BoxDecoration(
-                                            color: !_usePhoneLogin
-                                                ? const Color(0xFF42A5F5)
-                                                : Colors.transparent,
-                                            borderRadius:
-                                                BorderRadius.circular(22),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.email_rounded,
-                                                size: 18,
-                                                color: !_usePhoneLogin
-                                                    ? Colors.white
-                                                    : Colors.grey[600],
-                                              ),
-                                              const SizedBox(width: 6),
-                                              Text(
-                                                'Email',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                        Obx(
+                          () => _authController.otpSent.value
+                              ? const SizedBox.shrink()
+                              : Container(
+                                  padding: EdgeInsets.all(4.r),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(25.r),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _usePhoneLogin = false;
+                                            });
+                                            _authController.resetOtpState();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 12.h,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: !_usePhoneLogin
+                                                  ? const Color(0xFF42A5F5)
+                                                  : Colors.transparent,
+                                              borderRadius:
+                                                  BorderRadius.circular(22.r),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.email_rounded,
+                                                  size: 18.r,
                                                   color: !_usePhoneLogin
                                                       ? Colors.white
                                                       : Colors.grey[600],
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 6.w),
+                                                Text(
+                                                  'Email',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: !_usePhoneLogin
+                                                        ? Colors.white
+                                                        : Colors.grey[600],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _usePhoneLogin = true;
-                                          });
-                                          _authController.resetOtpState();
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12),
-                                          decoration: BoxDecoration(
-                                            color: _usePhoneLogin
-                                                ? const Color(0xFF26A69A)
-                                                : Colors.transparent,
-                                            borderRadius:
-                                                BorderRadius.circular(22),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.phone_rounded,
-                                                size: 18,
-                                                color: _usePhoneLogin
-                                                    ? Colors.white
-                                                    : Colors.grey[600],
-                                              ),
-                                              const SizedBox(width: 6),
-                                              Text(
-                                                'Phone',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _usePhoneLogin = true;
+                                            });
+                                            _authController.resetOtpState();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 12.h,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: _usePhoneLogin
+                                                  ? const Color(0xFF26A69A)
+                                                  : Colors.transparent,
+                                              borderRadius:
+                                                  BorderRadius.circular(22.r),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.phone_rounded,
+                                                  size: 18.r,
                                                   color: _usePhoneLogin
                                                       ? Colors.white
                                                       : Colors.grey[600],
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 6.w),
+                                                Text(
+                                                  'Phone',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: _usePhoneLogin
+                                                        ? Colors.white
+                                                        : Colors.grey[600],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              )),
-                        const SizedBox(height: 20),
+                        ),
+                        SizedBox(height: 20.h),
 
                         // Email Login Fields
                         if (!_usePhoneLogin) ...[
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            style: const TextStyle(fontSize: 16, color: Colors.black87),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                            ),
                             enableInteractiveSelection: true,
                             autofocus: false,
                             readOnly: false,
@@ -389,11 +404,14 @@ class _LoginPageState extends State<LoginPage>
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 16.h),
                           TextFormField(
                             controller: _passwordController,
                             obscureText: _obscurePassword,
-                            style: const TextStyle(fontSize: 16, color: Colors.black87),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                            ),
                             enableInteractiveSelection: true,
                             readOnly: false,
                             showCursor: true,
@@ -437,416 +455,460 @@ class _LoginPageState extends State<LoginPage>
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Obx(() => SizedBox(
-                                width: double.infinity,
-                                height: 56,
-                                child: ElevatedButton(
-                                  onPressed: _authController.isLoading.value
-                                      ? null
-                                      : _handleEmailLogin,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF66BB6A),
-                                    foregroundColor: Colors.white,
-                                    elevation: 4,
-                                    shadowColor: const Color(0xFF66BB6A)
-                                        .withValues(alpha: 0.4),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(28),
-                                    ),
+                          SizedBox(height: 8.h),
+                          Obx(
+                            () => SizedBox(
+                              width: double.infinity,
+                              height: 56.h,
+                              child: ElevatedButton(
+                                onPressed: _authController.isLoading.value
+                                    ? null
+                                    : _handleEmailLogin,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF66BB6A),
+                                  foregroundColor: Colors.white,
+                                  elevation: 4,
+                                  shadowColor: const Color(
+                                    0xFF66BB6A,
+                                  ).withValues(alpha: 0.4),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(28.r),
                                   ),
-                                  child: _authController.isLoading.value
-                                      ? const SizedBox(
-                                          height: 24,
-                                          width: 24,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 3,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.login_rounded,
-                                                size: 28),
-                                            SizedBox(width: 8),
-                                            Text(
-                                              "Login",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 1,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                 ),
-                              )),
+                                child: _authController.isLoading.value
+                                    ? SizedBox(
+                                        height: 24.h,
+                                        width: 24.w,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 3.r,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.login_rounded, size: 28.r),
+                                          SizedBox(width: 8.w),
+                                          Text(
+                                            "Login",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 1,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ),
                         ],
 
                         // Phone Login Fields
                         if (_usePhoneLogin) ...[
-                          Obx(() => !_authController.otpSent.value
-                              ? Column(
-                                  children: [
-                                    // Phone number input with country code
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey[300]!, width: 2),
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.grey[50],
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          // Country Code Picker
-                                          CountryCodePicker(
-                                            onChanged: (CountryCode code) {
-                                              setState(() {
-                                                _selectedCountryDialCode =
-                                                    code.dialCode
-                                                            ?.replaceAll(
-                                                                '+', '') ??
-                                                        '91';
-                                              });
-                                            },
-                                            initialSelection: 'IN',
-                                            favorite: const [
-                                              '+91',
-                                              '+1',
-                                              '+44',
-                                              '+971'
-                                            ],
-                                            showCountryOnly: false,
-                                            showOnlyCountryWhenClosed: false,
-                                            alignLeft: false,
-                                            padding: EdgeInsets.zero,
-                                            textStyle: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF26A69A),
-                                            ),
-                                            dialogTextStyle: const TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                            searchDecoration: InputDecoration(
-                                              hintText: 'Search country',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                            ),
-                                            dialogSize: Size(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.85,
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.7,
-                                            ),
+                          Obx(
+                            () => !_authController.otpSent.value
+                                ? Column(
+                                    children: [
+                                      // Phone number input with country code
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey[300]!,
+                                            width: 2,
                                           ),
-                                          Container(
-                                            width: 1,
-                                            height: 30,
-                                            color: Colors.grey[300],
+                                          borderRadius: BorderRadius.circular(
+                                            16.r,
                                           ),
-                                          // Phone Number Input
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: _phoneController,
-                                              keyboardType: TextInputType.phone,
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly,
-                                                LengthLimitingTextInputFormatter(
-                                                    15),
+                                          color: Colors.grey[50],
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            // Country Code Picker
+                                            CountryCodePicker(
+                                              onChanged: (CountryCode code) {
+                                                setState(() {
+                                                  _selectedCountryDialCode =
+                                                      code.dialCode?.replaceAll(
+                                                        '+',
+                                                        '',
+                                                      ) ??
+                                                      '91';
+                                                });
+                                              },
+                                              initialSelection: 'IN',
+                                              favorite: const [
+                                                '+91',
+                                                '+1',
+                                                '+44',
+                                                '+971',
                                               ],
-                                              style:
-                                                  const TextStyle(fontSize: 16, color: Colors.black87),
-                                              enableInteractiveSelection: true,
-                                              readOnly: false,
-                                              showCursor: true,
-                                              cursorColor: const Color(0xFF26A69A),
-                                              decoration: const InputDecoration(
-                                                hintText: 'Phone Number',
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey),
-                                                border: InputBorder.none,
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 16),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    // Send OTP Button
-                                    Obx(() => SizedBox(
-                                          width: double.infinity,
-                                          height: 56,
-                                          child: ElevatedButton(
-                                            onPressed:
-                                                _authController.isLoading.value
-                                                    ? null
-                                                    : _handleSendOtp,
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color(0xFF26A69A),
-                                              foregroundColor: Colors.white,
-                                              elevation: 4,
-                                              shadowColor:
-                                                  const Color(0xFF26A69A)
-                                                      .withValues(alpha: 0.4),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(28),
-                                              ),
-                                            ),
-                                            child:
-                                                _authController.isLoading.value
-                                                    ? const SizedBox(
-                                                        height: 24,
-                                                        width: 24,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          strokeWidth: 3,
-                                                          color: Colors.white,
-                                                        ),
-                                                      )
-                                                    : const Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .send_rounded,
-                                                              size: 24),
-                                                          SizedBox(width: 8),
-                                                          Text(
-                                                            "Send OTP",
-                                                            style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              letterSpacing: 1,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                          ),
-                                        )),
-                                  ],
-                                )
-                              : Column(
-                                  children: [
-                                    // OTP sent message
-                                    Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF26A69A)
-                                            .withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          const Icon(Icons.check_circle,
-                                              color: Color(0xFF26A69A)),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: Text(
-                                              'OTP sent to ${_authController.phoneNumberForOtp.value}',
-                                              style: const TextStyle(
-                                                color: Color(0xFF26A69A),
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              _authController.resetOtpState();
-                                              _otpController.clear();
-                                            },
-                                            child: const Text(
-                                              'Change',
-                                              style: TextStyle(
-                                                color: Color(0xFFFF7043),
+                                              showCountryOnly: false,
+                                              showOnlyCountryWhenClosed: false,
+                                              alignLeft: false,
+                                              padding: EdgeInsets.zero,
+                                              textStyle: const TextStyle(
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.underline,
+                                                color: Color(0xFF26A69A),
+                                              ),
+                                              dialogTextStyle: const TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                              searchDecoration: InputDecoration(
+                                                hintText: 'Search country',
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        12.r,
+                                                      ),
+                                                ),
+                                              ),
+                                              dialogSize: Size(
+                                                MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
+                                                    0.85,
+                                                MediaQuery.of(
+                                                      context,
+                                                    ).size.height *
+                                                    0.7,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    // OTP Input
-                                    TextFormField(
-                                      controller: _otpController,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 6,
-                                      textAlign: TextAlign.center,
-                                      enableInteractiveSelection: true,
-                                      readOnly: false,
-                                      showCursor: true,
-                                      cursorColor: const Color(0xFF26A69A),
-                                      style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 8,
-                                        color: Colors.black87,
-                                      ),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
-                                      decoration: InputDecoration(
-                                        labelText: 'Enter OTP',
-                                        labelStyle: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey[600],
-                                        ),
-                                        counterText: '',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: BorderSide(
-                                              color: Colors.grey[300]!,
-                                              width: 2),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: BorderSide(
-                                              color: Colors.grey[300]!,
-                                              width: 2),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: const BorderSide(
-                                              color: Color(0xFF26A69A),
-                                              width: 2),
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.grey[50],
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 16),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    // Resend OTP
-                                    GestureDetector(
-                                      onTap: _handleSendOtp,
-                                      child: const Text(
-                                        'Resend OTP',
-                                        style: TextStyle(
-                                          color: Color(0xFF26A69A),
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
+                                            Container(
+                                              width: 1.w,
+                                              height: 30.h,
+                                              color: Colors.grey[300],
+                                            ),
+                                            // Phone Number Input
+                                            Expanded(
+                                              child: TextFormField(
+                                                controller: _phoneController,
+                                                keyboardType:
+                                                    TextInputType.phone,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly,
+                                                  LengthLimitingTextInputFormatter(
+                                                    15,
+                                                  ),
+                                                ],
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black87,
+                                                ),
+                                                enableInteractiveSelection:
+                                                    true,
+                                                readOnly: false,
+                                                showCursor: true,
+                                                cursorColor: const Color(
+                                                  0xFF26A69A,
+                                                ),
+                                                decoration: InputDecoration(
+                                                  hintText: 'Phone Number',
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                  border: InputBorder.none,
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                        horizontal: 12.w,
+                                                        vertical: 16.h,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    // Verify OTP Button
-                                    Obx(() => SizedBox(
+                                      SizedBox(height: 20.h),
+                                      // Send OTP Button
+                                      Obx(
+                                        () => SizedBox(
                                           width: double.infinity,
-                                          height: 56,
+                                          height: 56.h,
                                           child: ElevatedButton(
                                             onPressed:
                                                 _authController.isLoading.value
-                                                    ? null
-                                                    : _handleVerifyOtp,
+                                                ? null
+                                                : _handleSendOtp,
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color(0xFF66BB6A),
+                                              backgroundColor: const Color(
+                                                0xFF26A69A,
+                                              ),
                                               foregroundColor: Colors.white,
                                               elevation: 4,
-                                              shadowColor:
-                                                  const Color(0xFF66BB6A)
-                                                      .withValues(alpha: 0.4),
+                                              shadowColor: const Color(
+                                                0xFF26A69A,
+                                              ).withValues(alpha: 0.4),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(28),
+                                                    BorderRadius.circular(28.r),
                                               ),
                                             ),
                                             child:
                                                 _authController.isLoading.value
-                                                    ? const SizedBox(
-                                                        height: 24,
-                                                        width: 24,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          strokeWidth: 3,
+                                                ? SizedBox(
+                                                    height: 24.h,
+                                                    width: 24.w,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                          strokeWidth: 3.r,
                                                           color: Colors.white,
                                                         ),
-                                                      )
-                                                    : const Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .verified_rounded,
-                                                              size: 24),
-                                                          SizedBox(width: 8),
-                                                          Text(
-                                                            "Verify & Login",
-                                                            style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              letterSpacing: 1,
-                                                            ),
-                                                          ),
-                                                        ],
+                                                  )
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.send_rounded,
+                                                        size: 24.r,
                                                       ),
+                                                      SizedBox(width: 8.w),
+                                                      Text(
+                                                        "Send OTP",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          letterSpacing: 1,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                           ),
-                                        )),
-                                  ],
-                                )),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      // OTP sent message
+                                      Container(
+                                        padding: EdgeInsets.all(12.r),
+                                        decoration: BoxDecoration(
+                                          color: const Color(
+                                            0xFF26A69A,
+                                          ).withValues(alpha: 0.1),
+                                          borderRadius: BorderRadius.circular(
+                                            12.r,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.check_circle,
+                                              color: Color(0xFF26A69A),
+                                            ),
+                                            SizedBox(width: 8.w),
+                                            Expanded(
+                                              child: Text(
+                                                'OTP sent to ${_authController.phoneNumberForOtp.value}',
+                                                style: const TextStyle(
+                                                  color: Color(0xFF26A69A),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                _authController.resetOtpState();
+                                                _otpController.clear();
+                                              },
+                                              child: const Text(
+                                                'Change',
+                                                style: TextStyle(
+                                                  color: Color(0xFFFF7043),
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      // OTP Input
+                                      TextFormField(
+                                        controller: _otpController,
+                                        keyboardType: TextInputType.number,
+                                        maxLength: 6,
+                                        textAlign: TextAlign.center,
+                                        enableInteractiveSelection: true,
+                                        readOnly: false,
+                                        showCursor: true,
+                                        cursorColor: const Color(0xFF26A69A),
+                                        style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 8,
+                                          color: Colors.black87,
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          labelText: 'Enter OTP',
+                                          labelStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[600],
+                                          ),
+                                          counterText: '',
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              16.r,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: Colors.grey[300]!,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              16.r,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: Colors.grey[300]!,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              16.r,
+                                            ),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF26A69A),
+                                              width: 2,
+                                            ),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.grey[50],
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 16.w,
+                                            vertical: 16.h,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 16.h),
+                                      // Resend OTP
+                                      GestureDetector(
+                                        onTap: _handleSendOtp,
+                                        child: const Text(
+                                          'Resend OTP',
+                                          style: TextStyle(
+                                            color: Color(0xFF26A69A),
+                                            fontWeight: FontWeight.bold,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      // Verify OTP Button
+                                      Obx(
+                                        () => SizedBox(
+                                          width: double.infinity,
+                                          height: 56.h,
+                                          child: ElevatedButton(
+                                            onPressed:
+                                                _authController.isLoading.value
+                                                ? null
+                                                : _handleVerifyOtp,
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color(
+                                                0xFF66BB6A,
+                                              ),
+                                              foregroundColor: Colors.white,
+                                              elevation: 4,
+                                              shadowColor: const Color(
+                                                0xFF66BB6A,
+                                              ).withValues(alpha: 0.4),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(28.r),
+                                              ),
+                                            ),
+                                            child:
+                                                _authController.isLoading.value
+                                                ? SizedBox(
+                                                    height: 24.h,
+                                                    width: 24.w,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                          strokeWidth: 3.r,
+                                                          color: Colors.white,
+                                                        ),
+                                                  )
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.verified_rounded,
+                                                        size: 24.r,
+                                                      ),
+                                                      SizedBox(width: 8.w),
+                                                      Text(
+                                                        "Verify & Login",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          letterSpacing: 1,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                          ),
                         ],
                       ],
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 // Sign Up Link
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 12.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(25.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
+                        blurRadius: 10.r,
                       ),
                     ],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        "New here? ",
-                        style: TextStyle(
-                          color: Color(0xFF5D4037),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: const Text(
+                          "New here? ",
+                          style: TextStyle(
+                            color: Color(0xFF5D4037),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
                       GestureDetector(
@@ -866,7 +928,7 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
               ],
             ),
           ),
@@ -889,34 +951,34 @@ class _LoginPageState extends State<LoginPage>
         color: Colors.grey[600],
       ),
       prefixIcon: Container(
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(10),
+        margin: EdgeInsets.all(8.r),
+        padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
-        child: Icon(icon, color: color, size: 22),
+        child: Icon(icon, color: color, size: 22.r),
       ),
       suffixIcon: suffixIcon,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: BorderSide(color: color, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         borderSide: const BorderSide(color: Colors.redAccent, width: 2),
       ),
       filled: true,
       fillColor: Colors.grey[50],
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ScreenResponsibilityPage extends StatefulWidget {
   const ScreenResponsibilityPage({super.key});
 
@@ -25,22 +27,22 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
         {
           'icon': '⏰',
           'title': 'Set a Timer',
-          'desc': 'Take breaks every 20-30 minutes'
+          'desc': 'Take breaks every 20-30 minutes',
         },
         {
           'icon': '🌳',
           'title': 'Go Outside',
-          'desc': 'Play outdoors after screen time'
+          'desc': 'Play outdoors after screen time',
         },
         {
           'icon': '👀',
           'title': 'Rest Your Eyes',
-          'desc': 'Look at something far away'
+          'desc': 'Look at something far away',
         },
         {
           'icon': '🤸',
           'title': 'Move & Stretch',
-          'desc': 'Keep your body active'
+          'desc': 'Keep your body active',
         },
       ],
     },
@@ -55,25 +57,25 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           'good': 'Sit up straight',
           'bad': 'Slouching',
           'goodEmoji': '🧍',
-          'badEmoji': '😩'
+          'badEmoji': '😩',
         },
         {
           'good': 'Screen at arm\'s length',
           'bad': 'Too close to screen',
           'goodEmoji': '📏',
-          'badEmoji': '👃'
+          'badEmoji': '👃',
         },
         {
           'good': 'Good lighting',
           'bad': 'Dark room',
           'goodEmoji': '💡',
-          'badEmoji': '🌑'
+          'badEmoji': '🌑',
         },
         {
           'good': 'Blink often',
           'bad': 'Staring without blinking',
           'goodEmoji': '😊',
-          'badEmoji': '👁️'
+          'badEmoji': '👁️',
         },
       ],
     },
@@ -99,22 +101,22 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
         {
           'icon': '📵',
           'title': 'No Screens Before Bed',
-          'desc': 'Stop 1 hour before sleep time'
+          'desc': 'Stop 1 hour before sleep time',
         },
         {
           'icon': '📖',
           'title': 'Read a Book Instead',
-          'desc': 'Books are better for bedtime'
+          'desc': 'Books are better for bedtime',
         },
         {
           'icon': '🌅',
           'title': 'Night Mode',
-          'desc': 'Use warm colors in the evening'
+          'desc': 'Use warm colors in the evening',
         },
         {
           'icon': '🛏️',
           'title': 'No Devices in Bed',
-          'desc': 'Keep phones away from pillows'
+          'desc': 'Keep phones away from pillows',
         },
       ],
       'funFact': 'Blue light from screens tells your brain it\'s daytime!',
@@ -144,28 +146,27 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
       'title': 'Being a Good Digital Citizen',
       'emoji': '🌟',
       'color': Color(0xFF00BCD4),
-      'description':
-          'When we use screens, we should be kind and responsible!',
+      'description': 'When we use screens, we should be kind and responsible!',
       'citizenship': [
         {
           'icon': '💬',
           'title': 'Be Kind Online',
-          'desc': 'Use nice words, no bullying'
+          'desc': 'Use nice words, no bullying',
         },
         {
           'icon': '🤫',
           'title': 'Keep Secrets Safe',
-          'desc': 'Don\'t share personal info'
+          'desc': 'Don\'t share personal info',
         },
         {
           'icon': '👨‍👩‍👧',
           'title': 'Tell an Adult',
-          'desc': 'If something feels wrong'
+          'desc': 'If something feels wrong',
         },
         {
           'icon': '✅',
           'title': 'Ask Permission',
-          'desc': 'Before downloading or clicking'
+          'desc': 'Before downloading or clicking',
         },
       ],
     },
@@ -178,27 +179,27 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
         {
           'time': 'Morning',
           'emoji': '🌅',
-          'activity': 'Get ready, eat breakfast, no screens!'
+          'activity': 'Get ready, eat breakfast, no screens!',
         },
         {
           'time': 'School Time',
           'emoji': '📚',
-          'activity': 'Learning screens only'
+          'activity': 'Learning screens only',
         },
         {
           'time': 'After School',
           'emoji': '🏃',
-          'activity': 'Play outside first, then some screen time'
+          'activity': 'Play outside first, then some screen time',
         },
         {
           'time': 'Evening',
           'emoji': '🌙',
-          'activity': 'Family time, limit screens'
+          'activity': 'Family time, limit screens',
         },
         {
           'time': 'Bedtime',
           'emoji': '😴',
-          'activity': 'No screens, read a book!'
+          'activity': 'No screens, read a book!',
         },
       ],
     },
@@ -266,7 +267,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
               _buildProgressDots(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.r),
                   child: _buildSectionContent(section),
                 ),
               ),
@@ -277,21 +278,22 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
       ),
     );
   }
+
   Widget _buildProgressDots() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(sections.length, (index) {
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 4),
+            margin: EdgeInsets.symmetric(horizontal: 4.w),
             width: currentSection == index ? 24 : 8,
-            height: 8,
+            height: 8.h,
             decoration: BoxDecoration(
               color: currentSection == index
                   ? Colors.white
                   : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(4.r),
             ),
           );
         }),
@@ -326,7 +328,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -336,35 +338,32 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['tips'].length, (index) {
           final tip = section['tips'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: Offset(0, 4),
                 ),
               ],
@@ -372,14 +371,14 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: section['color'].withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Text(tip['icon'], style: TextStyle(fontSize: 28)),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,7 +413,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -424,31 +423,28 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['habits'].length, (index) {
           final habit = section['habits'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
@@ -456,16 +452,18 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: Colors.green.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
                           children: [
-                            Text(habit['goodEmoji'],
-                                style: TextStyle(fontSize: 24)),
-                            SizedBox(width: 8),
+                            Text(
+                              habit['goodEmoji'],
+                              style: TextStyle(fontSize: 24),
+                            ),
+                            SizedBox(width: 8.w),
                             Expanded(
                               child: Text(
                                 habit['good'],
@@ -479,18 +477,20 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Container(
-                        padding: EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: Colors.red.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
                           children: [
-                            Text(habit['badEmoji'],
-                                style: TextStyle(fontSize: 24)),
-                            SizedBox(width: 8),
+                            Text(
+                              habit['badEmoji'],
+                              style: TextStyle(fontSize: 24),
+                            ),
+                            SizedBox(width: 8.w),
                             Expanded(
                               child: Text(
                                 habit['bad'],
@@ -519,7 +519,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -529,28 +529,25 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 32),
+        SizedBox(height: 32.h),
         Container(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             children: [
@@ -561,7 +558,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                   color: Colors.grey[600],
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(section['rules'].length, (index) {
@@ -569,8 +566,8 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                   return Column(
                     children: [
                       Container(
-                        width: 80,
-                        height: 80,
+                        width: 80.w,
+                        height: 80.h,
                         decoration: BoxDecoration(
                           color: section['color'],
                           shape: BoxShape.circle,
@@ -586,7 +583,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         rule['unit'],
                         style: GoogleFonts.poppins(
@@ -605,17 +602,17 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                   );
                 }),
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.amber.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   children: [
                     Text('💡', style: TextStyle(fontSize: 24)),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         section['reminder'],
@@ -636,7 +633,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -646,43 +643,40 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['rules'].length, (index) {
           final rule = section['rules'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: section['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(rule['icon'], style: TextStyle(fontSize: 28)),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -708,17 +702,17 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
             ),
           );
         }),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Text('🔬', style: TextStyle(fontSize: 28)),
-              SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -745,7 +739,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -755,23 +749,20 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         GridView.count(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -783,15 +774,15 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
             return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(activity['emoji'], style: TextStyle(fontSize: 32)),
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
                     child: Text(
                       activity['name'],
                       style: GoogleFonts.nunito(
@@ -815,7 +806,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -825,37 +816,34 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['citizenship'].length, (index) {
           final item = section['citizenship'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: section['color'].withValues(alpha: 0.1),
                     shape: BoxShape.circle,
@@ -864,7 +852,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                     child: Text(item['icon'], style: TextStyle(fontSize: 24)),
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -898,7 +886,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -908,23 +896,20 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['schedule'].length, (index) {
           final schedule = section['schedule'][index];
           final colors = [
@@ -935,28 +920,30 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
             Color(0xFF3F51B5),
           ];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: colors[index], width: 2),
             ),
             child: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: colors[index],
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child:
-                        Text(schedule['emoji'], style: TextStyle(fontSize: 24)),
+                    child: Text(
+                      schedule['emoji'],
+                      style: TextStyle(fontSize: 24),
+                    ),
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -990,7 +977,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -1000,7 +987,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'I promise to...',
           style: GoogleFonts.nunito(
@@ -1008,16 +995,16 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: Offset(0, 5),
               ),
             ],
@@ -1025,17 +1012,17 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
           child: Column(
             children: List.generate(section['pledges'].length, (index) {
               return Container(
-                margin: EdgeInsets.only(bottom: 12),
-                padding: EdgeInsets.all(12),
+                margin: EdgeInsets.only(bottom: 12.h),
+                padding: EdgeInsets.all(12.r),
                 decoration: BoxDecoration(
                   color: section['color'].withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   children: [
                     Container(
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       decoration: BoxDecoration(
                         color: section['color'],
                         shape: BoxShape.circle,
@@ -1044,11 +1031,11 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                         child: Icon(
                           Icons.check,
                           color: Colors.white,
-                          size: 18,
+                          size: 18.r,
                         ),
                       ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         section['pledges'][index],
@@ -1065,12 +1052,12 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
             }),
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(30.r),
           ),
           child: Text(
             '🌟 I am a responsible screen user! 🌟',
@@ -1086,7 +1073,7 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
 
   Widget _buildNavigationButtons(Map<String, dynamic> section) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Row(
         children: [
           if (currentSection > 0)
@@ -1103,14 +1090,14 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white.withValues(alpha: 0.3),
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                 ),
               ),
             ),
-          if (currentSection > 0) SizedBox(width: 12),
+          if (currentSection > 0) SizedBox(width: 12.w),
           Expanded(
             child: ElevatedButton.icon(
               onPressed: () {
@@ -1134,9 +1121,9 @@ class _ScreenResponsibilityPageState extends State<ScreenResponsibilityPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: section['color'] as Color,
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
               ),
             ),

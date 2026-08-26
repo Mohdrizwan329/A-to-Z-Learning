@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class StoryTimePage extends StatefulWidget {
   const StoryTimePage({Key? key}) : super(key: key);
 
@@ -25,31 +27,38 @@ class _StoryTimePageState extends State<StoryTimePage> {
       'pages': [
         {
           'image': '🐦☀️🏜️',
-          'text': 'Once upon a time, there was a crow. It was a very hot summer day. The crow was very thirsty.',
+          'text':
+              'Once upon a time, there was a crow. It was a very hot summer day. The crow was very thirsty.',
         },
         {
           'image': '🐦👀🏺',
-          'text': 'The crow flew here and there looking for water. At last, he saw a pot. He flew down to see if there was any water inside.',
+          'text':
+              'The crow flew here and there looking for water. At last, he saw a pot. He flew down to see if there was any water inside.',
         },
         {
           'image': '🏺💧',
-          'text': 'Yes! There was some water in the pot. But the water was very low. The crow could not reach it with his beak.',
+          'text':
+              'Yes! There was some water in the pot. But the water was very low. The crow could not reach it with his beak.',
         },
         {
           'image': '🐦🤔💡',
-          'text': 'The crow thought and thought. Then he had a clever idea! He saw some pebbles lying nearby.',
+          'text':
+              'The crow thought and thought. Then he had a clever idea! He saw some pebbles lying nearby.',
         },
         {
           'image': '🐦⚪🏺',
-          'text': 'The crow picked up the pebbles one by one with his beak. He dropped them into the pot.',
+          'text':
+              'The crow picked up the pebbles one by one with his beak. He dropped them into the pot.',
         },
         {
           'image': '🏺💧⬆️',
-          'text': 'Slowly, the water rose up! The clever crow dropped more and more pebbles until the water came to the top.',
+          'text':
+              'Slowly, the water rose up! The clever crow dropped more and more pebbles until the water came to the top.',
         },
         {
           'image': '🐦😊💧',
-          'text': 'Finally, the crow drank the water happily. His clever thinking saved his life!',
+          'text':
+              'Finally, the crow drank the water happily. His clever thinking saved his life!',
         },
       ],
     },
@@ -61,31 +70,38 @@ class _StoryTimePageState extends State<StoryTimePage> {
       'pages': [
         {
           'image': '🦁😴🌳',
-          'text': 'Once upon a time, a big lion was sleeping under a tree in the forest.',
+          'text':
+              'Once upon a time, a big lion was sleeping under a tree in the forest.',
         },
         {
           'image': '🐭🦁',
-          'text': 'A little mouse came running and climbed on the lion. The lion woke up!',
+          'text':
+              'A little mouse came running and climbed on the lion. The lion woke up!',
         },
         {
           'image': '🦁😠🐭',
-          'text': 'The lion caught the mouse in his big paw. He was very angry!',
+          'text':
+              'The lion caught the mouse in his big paw. He was very angry!',
         },
         {
           'image': '🐭🙏🦁',
-          'text': '"Please let me go!" said the mouse. "One day I will help you!" The lion laughed but let the mouse go.',
+          'text':
+              '"Please let me go!" said the mouse. "One day I will help you!" The lion laughed but let the mouse go.',
         },
         {
           'image': '🦁🪢😰',
-          'text': 'After some days, the lion got caught in a hunter\'s net. He tried hard but could not escape.',
+          'text':
+              'After some days, the lion got caught in a hunter\'s net. He tried hard but could not escape.',
         },
         {
           'image': '🐭🦷🪢',
-          'text': 'The little mouse heard the lion\'s roar. She ran to help and started biting the net with her sharp teeth.',
+          'text':
+              'The little mouse heard the lion\'s roar. She ran to help and started biting the net with her sharp teeth.',
         },
         {
           'image': '🦁🐭❤️',
-          'text': 'Soon, the lion was free! He thanked the little mouse. They became best friends forever.',
+          'text':
+              'Soon, the lion was free! He thanked the little mouse. They became best friends forever.',
         },
       ],
     },
@@ -97,31 +113,38 @@ class _StoryTimePageState extends State<StoryTimePage> {
       'pages': [
         {
           'image': '🐰🐢',
-          'text': 'Once there was a hare who was very proud. He always made fun of the slow tortoise.',
+          'text':
+              'Once there was a hare who was very proud. He always made fun of the slow tortoise.',
         },
         {
           'image': '🐰😤🐢',
-          'text': '"You are so slow!" laughed the hare. The tortoise said, "Let\'s have a race and see who wins!"',
+          'text':
+              '"You are so slow!" laughed the hare. The tortoise said, "Let\'s have a race and see who wins!"',
         },
         {
           'image': '🏁🐰🐢',
-          'text': 'The race began! The hare ran very fast. The tortoise walked slowly but did not stop.',
+          'text':
+              'The race began! The hare ran very fast. The tortoise walked slowly but did not stop.',
         },
         {
           'image': '🐰😴🌳',
-          'text': 'The hare was far ahead. "I have lots of time," he thought. He lay down under a tree and fell asleep.',
+          'text':
+              'The hare was far ahead. "I have lots of time," he thought. He lay down under a tree and fell asleep.',
         },
         {
           'image': '🐢🚶',
-          'text': 'The tortoise kept walking slowly. He did not stop even for a minute. Step by step, he moved forward.',
+          'text':
+              'The tortoise kept walking slowly. He did not stop even for a minute. Step by step, he moved forward.',
         },
         {
           'image': '🐢🏁',
-          'text': 'The tortoise passed the sleeping hare and crossed the finish line!',
+          'text':
+              'The tortoise passed the sleeping hare and crossed the finish line!',
         },
         {
           'image': '🐰😱🐢🏆',
-          'text': 'The hare woke up and ran fast, but it was too late! The tortoise had won the race!',
+          'text':
+              'The hare woke up and ran fast, but it was too late! The tortoise had won the race!',
         },
       ],
     },
@@ -133,31 +156,38 @@ class _StoryTimePageState extends State<StoryTimePage> {
       'pages': [
         {
           'image': '🐕🍖',
-          'text': 'Once there was a dog. He found a piece of meat and was very happy.',
+          'text':
+              'Once there was a dog. He found a piece of meat and was very happy.',
         },
         {
           'image': '🐕🌉',
-          'text': 'The dog was crossing a bridge over a river. He looked down into the water.',
+          'text':
+              'The dog was crossing a bridge over a river. He looked down into the water.',
         },
         {
           'image': '🐕👀🐕',
-          'text': 'He saw his own reflection in the water. But he thought it was another dog with meat!',
+          'text':
+              'He saw his own reflection in the water. But he thought it was another dog with meat!',
         },
         {
           'image': '🐕😠',
-          'text': '"That dog has a bigger piece of meat! I want that too!" thought the greedy dog.',
+          'text':
+              '"That dog has a bigger piece of meat! I want that too!" thought the greedy dog.',
         },
         {
           'image': '🐕🗣️💧',
-          'text': 'The dog opened his mouth to bark at the other dog. His meat fell into the water!',
+          'text':
+              'The dog opened his mouth to bark at the other dog. His meat fell into the water!',
         },
         {
           'image': '🐕😢',
-          'text': 'The meat sank into the river. The dog lost his own meat because of greed.',
+          'text':
+              'The meat sank into the river. The dog lost his own meat because of greed.',
         },
         {
           'image': '🐕🚫',
-          'text': 'The dog was very sad. He learned that being greedy only leads to losing what we already have.',
+          'text':
+              'The dog was very sad. He learned that being greedy only leads to losing what we already have.',
         },
       ],
     },
@@ -169,19 +199,23 @@ class _StoryTimePageState extends State<StoryTimePage> {
       'pages': [
         {
           'image': '🦊☀️',
-          'text': 'One hot summer day, a fox was walking through the forest. He was very hungry.',
+          'text':
+              'One hot summer day, a fox was walking through the forest. He was very hungry.',
         },
         {
           'image': '🦊👀🍇',
-          'text': 'The fox saw a beautiful bunch of grapes hanging from a vine. They looked so juicy and sweet!',
+          'text':
+              'The fox saw a beautiful bunch of grapes hanging from a vine. They looked so juicy and sweet!',
         },
         {
           'image': '🦊⬆️🍇',
-          'text': 'The fox jumped high to reach the grapes. But they were too high!',
+          'text':
+              'The fox jumped high to reach the grapes. But they were too high!',
         },
         {
           'image': '🦊💨🍇',
-          'text': 'He tried again and again. He jumped as high as he could, but could not reach the grapes.',
+          'text':
+              'He tried again and again. He jumped as high as he could, but could not reach the grapes.',
         },
         {
           'image': '🦊😤',
@@ -189,11 +223,13 @@ class _StoryTimePageState extends State<StoryTimePage> {
         },
         {
           'image': '🦊🚶🍇',
-          'text': 'The fox walked away saying, "Those grapes are sour anyway! I don\'t want them!"',
+          'text':
+              'The fox walked away saying, "Those grapes are sour anyway! I don\'t want them!"',
         },
         {
           'image': '🦊💭',
-          'text': 'But deep inside, the fox knew the grapes were sweet. He just could not get them.',
+          'text':
+              'But deep inside, the fox knew the grapes were sweet. He just could not get them.',
         },
       ],
     },
@@ -279,7 +315,7 @@ class _StoryTimePageState extends State<StoryTimePage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -299,7 +335,12 @@ class _StoryTimePageState extends State<StoryTimePage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -311,7 +352,12 @@ class _StoryTimePageState extends State<StoryTimePage> {
             _buildStorySelector(),
             // Story Content
             Expanded(
-              child: _buildStoryContent(story, currentPage, color, pages.length),
+              child: _buildStoryContent(
+                story,
+                currentPage,
+                color,
+                pages.length,
+              ),
             ),
             // Navigation
             _buildNavigation(pages.length, color),
@@ -323,11 +369,11 @@ class _StoryTimePageState extends State<StoryTimePage> {
 
   Widget _buildStorySelector() {
     return Container(
-      height: 100,
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      height: 100.h,
+      padding: EdgeInsets.symmetric(vertical: 12.h),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: stories.length,
         itemBuilder: (context, index) {
           final story = stories[index];
@@ -341,30 +387,39 @@ class _StoryTimePageState extends State<StoryTimePage> {
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              width: 80,
-              margin: const EdgeInsets.only(right: 12),
+              width: 80.w,
+              margin: EdgeInsets.only(right: 12.w),
               decoration: BoxDecoration(
                 color: isSelected ? color : Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 border: isSelected
                     ? Border.all(color: Colors.white, width: 2)
                     : null,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(story['icon'], style: const TextStyle(fontSize: 32)),
-                  const SizedBox(height: 4),
-                  Text(
-                    (story['title'] as String).split(' ').last,
-                    style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.white70,
-                      fontSize: 11,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              // The icon and its caption are a fixed pair inside a strip of
+              // fixed height, so on a short screen the pair is scaled down
+              // rather than clipped.
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(story['icon'], style: const TextStyle(fontSize: 32)),
+                    SizedBox(height: 4.h),
+                    Text(
+                      (story['title'] as String).split(' ').last,
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.white70,
+                        fontSize: 11,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -380,16 +435,16 @@ class _StoryTimePageState extends State<StoryTimePage> {
     int totalPages,
   ) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       child: Column(
         children: [
           // Story Title
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               children: [
@@ -401,7 +456,7 @@ class _StoryTimePageState extends State<StoryTimePage> {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   'Page ${_currentPageIndex + 1} of $totalPages',
                   style: const TextStyle(color: Colors.white60),
@@ -409,20 +464,20 @@ class _StoryTimePageState extends State<StoryTimePage> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Story Page Card
           GestureDetector(
             onTap: () => _speakText(currentPage['text']),
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.r),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
                 boxShadow: [
                   BoxShadow(
                     color: color.withValues(alpha: 0.3),
-                    blurRadius: 20,
+                    blurRadius: 20.r,
                     offset: const Offset(0, 10),
                   ),
                 ],
@@ -431,10 +486,10 @@ class _StoryTimePageState extends State<StoryTimePage> {
                 children: [
                   // Image/Emoji Section
                   Container(
-                    height: 120,
+                    height: 120.h,
                     decoration: BoxDecoration(
                       color: color.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Center(
                       child: Text(
@@ -443,7 +498,7 @@ class _StoryTimePageState extends State<StoryTimePage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   // Text
                   Text(
                     currentPage['text'],
@@ -454,13 +509,16 @@ class _StoryTimePageState extends State<StoryTimePage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   // Listen Button
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 10.h,
+                    ),
                     decoration: BoxDecoration(
                       color: _isPlaying ? color : color.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -469,12 +527,15 @@ class _StoryTimePageState extends State<StoryTimePage> {
                           _isPlaying ? Icons.stop : Icons.volume_up,
                           color: _isPlaying ? Colors.white : color,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          _isPlaying ? 'Stop' : 'Tap to Listen',
-                          style: TextStyle(
-                            color: _isPlaying ? Colors.white : color,
-                            fontWeight: FontWeight.w500,
+                        SizedBox(width: 8.w),
+                        Flexible(
+                          child: Text(
+                            _isPlaying ? 'Stop' : 'Tap to Listen',
+                            style: TextStyle(
+                              color: _isPlaying ? Colors.white : color,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -486,15 +547,15 @@ class _StoryTimePageState extends State<StoryTimePage> {
           ),
           // Moral (show on last page)
           if (_currentPageIndex == totalPages - 1) ...[
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 children: [
@@ -506,7 +567,7 @@ class _StoryTimePageState extends State<StoryTimePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     story['moral'],
                     style: const TextStyle(
@@ -528,7 +589,7 @@ class _StoryTimePageState extends State<StoryTimePage> {
 
   Widget _buildNavigation(int totalPages, Color color) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       child: Row(
         children: [
           // Previous Button
@@ -542,30 +603,27 @@ class _StoryTimePageState extends State<StoryTimePage> {
                 foregroundColor: Colors.white,
                 disabledBackgroundColor: Colors.white.withValues(alpha: 0.1),
                 disabledForegroundColor: Colors.white30,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           // Page Indicator
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
               '${_currentPageIndex + 1}/$totalPages',
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           // Next Button
           Expanded(
             child: ElevatedButton.icon(
@@ -577,9 +635,9 @@ class _StoryTimePageState extends State<StoryTimePage> {
                 foregroundColor: Colors.white,
                 disabledBackgroundColor: Colors.white.withValues(alpha: 0.1),
                 disabledForegroundColor: Colors.white30,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             ),

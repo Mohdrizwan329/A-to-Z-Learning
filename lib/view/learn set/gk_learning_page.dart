@@ -5,6 +5,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'dart:math' as math;
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class GKLearningPage extends StatefulWidget {
   const GKLearningPage({super.key});
 
@@ -80,12 +82,12 @@ class _GKLearningPageState extends State<GKLearningPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => controller.resetProgress(),
         ),
@@ -96,7 +98,7 @@ class _GKLearningPageState extends State<GKLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(
@@ -109,7 +111,7 @@ class _GKLearningPageState extends State<GKLearningPage>
           ),
           tabAlignment: TabAlignment.center,
           dividerColor: Colors.transparent,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 44),
+          labelPadding: EdgeInsets.symmetric(horizontal: 44.w),
           tabs: controller.categories.map((category) {
             return Tab(
               child: Text(
@@ -124,222 +126,256 @@ class _GKLearningPageState extends State<GKLearningPage>
         children: [
           ..._buildFloatingBubbles(),
           SafeArea(
-        child: Obx(() {
-          final questions = controller.filteredQuestions;
-          if (questions.isEmpty) {
-            return const Center(
-              child: Text(
-                'No questions in this category',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            );
-          }
-          final question = questions[controller.currentIndex.value];
-          final progress = controller.progressPercentage / 100;
-          final progressString = controller.progressString;
+            child: Obx(() {
+              final questions = controller.filteredQuestions;
+              if (questions.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No questions in this category',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                );
+              }
+              final question = questions[controller.currentIndex.value];
+              final progress = controller.progressPercentage / 100;
+              final progressString = controller.progressString;
 
-          return Column(
-            children: [
-              // Progress Bar with percentage
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                    // Progress Bar with percentage
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: const Text(
+                                  'Progress',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  '$progressString completed',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Text(
-                          '$progressString completed',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 10,
-                        backgroundColor: Colors.white.withValues(alpha: 0.2),
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF4CAF50),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Question Card with float animation
-              AnimatedBuilder(
-                animation: _floatController,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(0, _floatAnimation.value * 0.5),
-                    child: child,
-                  );
-                },
-                child: SizedBox(
-                  height: 370,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 4,
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          TtsService.to.speak(question['question']!);
-                          if (!controller.showAnswer.value) {
-                            controller.revealAnswer();
-                            _flipController.forward();
-                          } else {
-                            controller.showAnswer.value = false;
-                            _flipController.reverse();
-                          }
-                        },
-                        child: AnimatedBuilder(
-                          animation: _flipAnimation,
-                          builder: (context, child) {
-                            return Transform(
-                              transform: Matrix4.identity()
-                                ..setEntry(3, 2, 0.001)
-                                ..rotateY(_flipAnimation.value * 3.14159),
-                              alignment: Alignment.center,
-                              child:
-                                  controller.showAnswer.value &&
-                                      _flipAnimation.value >= 0.5
-                                  ? _buildAnswerCard(question)
-                                  : _buildQuestionCard(question),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // Question counter between card and buttons
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Question counter badge
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                            blurRadius: 6,
-                            offset: Offset(0, 2),
+                          SizedBox(height: 8.h),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.r),
+                            child: LinearProgressIndicator(
+                              value: progress,
+                              minHeight: 10.h,
+                              backgroundColor: Colors.white.withValues(
+                                alpha: 0.2,
+                              ),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                Color(0xFF4CAF50),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      child: Text(
-                        '${controller.currentIndex.value + 1} / ${questions.length}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    // Question Card with float animation
+                    AnimatedBuilder(
+                      animation: _floatController,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(0, _floatAnimation.value * 0.5),
+                          child: child,
+                        );
+                      },
+                      child: SizedBox(
+                        height: 370.h,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 4.h,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                TtsService.to.speak(question['question']!);
+                                if (!controller.showAnswer.value) {
+                                  controller.revealAnswer();
+                                  _flipController.forward();
+                                } else {
+                                  controller.showAnswer.value = false;
+                                  _flipController.reverse();
+                                }
+                              },
+                              child: AnimatedBuilder(
+                                animation: _flipAnimation,
+                                builder: (context, child) {
+                                  return Transform(
+                                    transform: Matrix4.identity()
+                                      ..setEntry(3, 2, 0.001)
+                                      ..rotateY(_flipAnimation.value * 3.14159),
+                                    alignment: Alignment.center,
+                                    child:
+                                        controller.showAnswer.value &&
+                                            _flipAnimation.value >= 0.5
+                                        ? _buildAnswerCard(question)
+                                        : _buildQuestionCard(question),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 10.h),
+
+                    // Question counter between card and buttons
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Question counter badge
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 6.h,
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFFFF6B6B),
+                                  Color(0xFFFF8E53),
+                                  Color(0xFFFFAA5A),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(
+                                    0xFFFF6B6B,
+                                  ).withValues(alpha: 0.4),
+                                  blurRadius: 6.r,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '${controller.currentIndex.value + 1} / ${questions.length}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 30.h),
+
+                    // Navigation Buttons - Always visible with gradient background
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 16.w,
+                        right: 16.w,
+                        bottom: 8.h,
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFF667EEA).withValues(alpha: 0.4),
+                            blurRadius: 10.r,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildNavButton(
+                              icon: Icons.arrow_back_ios,
+                              label: 'Previous',
+                              gradientColors: [
+                                Color(0xFFEC4899),
+                                Color(0xFFF472B6),
+                              ],
+                              onTap: controller.currentIndex.value > 0
+                                  ? () {
+                                      controller.previousQuestion();
+                                      _flipController.reset();
+                                    }
+                                  : null,
+                            ),
+                            _buildNavButton(
+                              icon: Icons.volume_up,
+                              label: 'Listen',
+                              gradientColors: [
+                                Color(0xFF4ECDC4),
+                                Color(0xFF44A08D),
+                              ],
+                              onTap: () => controller.speakQuestion(),
+                            ),
+                            _buildNavButton(
+                              icon: Icons.arrow_forward_ios,
+                              label: 'Next',
+                              gradientColors: [
+                                Color(0xFF3B82F6),
+                                Color(0xFF60A5FA),
+                              ],
+                              onTap:
+                                  controller.currentIndex.value <
+                                      questions.length - 1
+                                  ? () {
+                                      controller.nextQuestion();
+                                      _flipController.reset();
+                                    }
+                                  : null,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-
-              const SizedBox(height: 30),
-
-              // Navigation Buttons - Always visible with gradient background
-              Container(
-                margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF667EEA).withValues(alpha: 0.4),
-                      blurRadius: 10,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildNavButton(
-                      icon: Icons.arrow_back_ios,
-                      label: 'Previous',
-                      gradientColors: [Color(0xFFEC4899), Color(0xFFF472B6)],
-                      onTap: controller.currentIndex.value > 0
-                          ? () {
-                              controller.previousQuestion();
-                              _flipController.reset();
-                            }
-                          : null,
-                    ),
-                    _buildNavButton(
-                      icon: Icons.volume_up,
-                      label: 'Listen',
-                      gradientColors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-                      onTap: () => controller.speakQuestion(),
-                    ),
-                    _buildNavButton(
-                      icon: Icons.arrow_forward_ios,
-                      label: 'Next',
-                      gradientColors: [Color(0xFF3B82F6), Color(0xFF60A5FA)],
-                      onTap:
-                          controller.currentIndex.value <
-                              questions.length - 1
-                          ? () {
-                              controller.nextQuestion();
-                              _flipController.reset();
-                            }
-                          : null,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }),
-      ),
+              );
+            }),
+          ),
         ],
       ),
     );
@@ -385,19 +421,19 @@ class _GKLearningPageState extends State<GKLearningPage>
   Widget _buildQuestionCard(Map<String, String> question) {
     return Container(
       width: double.infinity,
-      height: 350,
-      padding: EdgeInsets.all(16),
+      height: 350.h,
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
             color: Color(0xFFFF6B6B).withValues(alpha: 0.4),
-            blurRadius: 15,
+            blurRadius: 15.r,
             offset: Offset(0, 8),
           ),
         ],
@@ -407,8 +443,8 @@ class _GKLearningPageState extends State<GKLearningPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 75,
-            height: 75,
+            width: 75.w,
+            height: 75.h,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.3),
               shape: BoxShape.circle,
@@ -417,7 +453,7 @@ class _GKLearningPageState extends State<GKLearningPage>
               child: Text(question['emoji']!, style: TextStyle(fontSize: 42)),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             'Question',
             style: TextStyle(
@@ -426,7 +462,7 @@ class _GKLearningPageState extends State<GKLearningPage>
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 6),
+          SizedBox(height: 6.h),
           Text(
             question['question']!,
             style: TextStyle(
@@ -437,11 +473,11 @@ class _GKLearningPageState extends State<GKLearningPage>
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Icon(
             Icons.touch_app,
             color: Colors.white.withValues(alpha: 0.5),
-            size: 28,
+            size: 28.r,
           ),
         ],
       ),
@@ -454,19 +490,19 @@ class _GKLearningPageState extends State<GKLearningPage>
       alignment: Alignment.center,
       child: Container(
         width: double.infinity,
-        height: 350,
-        padding: EdgeInsets.all(16),
+        height: 350.h,
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF56D97F), Color(0xFF11998E)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: Color(0xFF56D97F).withValues(alpha: 0.4),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 8),
             ),
           ],
@@ -476,15 +512,15 @@ class _GKLearningPageState extends State<GKLearningPage>
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 75,
-              height: 75,
+              width: 75.w,
+              height: 75.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: Center(child: Text("✅", style: TextStyle(fontSize: 42))),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Text(
               'Answer',
               style: TextStyle(
@@ -493,7 +529,7 @@ class _GKLearningPageState extends State<GKLearningPage>
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 6),
+            SizedBox(height: 6.h),
             Text(
               question['answer']!,
               style: TextStyle(
@@ -503,17 +539,17 @@ class _GKLearningPageState extends State<GKLearningPage>
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 8.h),
             ElevatedButton.icon(
               onPressed: () => controller.speakAnswer(),
-              icon: Icon(Icons.volume_up, size: 16),
+              icon: Icon(Icons.volume_up, size: 16.r),
               label: Text('Listen', style: TextStyle(fontSize: 13)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Color(0xFF11998E),
-                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
               ),
             ),
@@ -534,7 +570,7 @@ class _GKLearningPageState extends State<GKLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         decoration: BoxDecoration(
           gradient: isEnabled
               ? LinearGradient(
@@ -547,12 +583,12 @@ class _GKLearningPageState extends State<GKLearningPage>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: isEnabled
               ? [
                   BoxShadow(
                     color: gradientColors[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: Offset(0, 3),
                   ),
                 ]
@@ -561,8 +597,8 @@ class _GKLearningPageState extends State<GKLearningPage>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 18),
-            SizedBox(width: 6),
+            Icon(icon, color: Colors.white, size: 18.r),
+            SizedBox(width: 6.w),
             Text(
               label,
               style: TextStyle(

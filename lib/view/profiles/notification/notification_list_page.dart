@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class NotificationItem {
   final String id;
   final String title;
@@ -27,13 +29,13 @@ class NotificationItem {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'message': message,
-        'type': type,
-        'time': time.toIso8601String(),
-        'isRead': isRead,
-      };
+    'id': id,
+    'title': title,
+    'message': message,
+    'type': type,
+    'time': time.toIso8601String(),
+    'isRead': isRead,
+  };
 
   factory NotificationItem.fromJson(Map<String, dynamic> json) {
     final type = json['type'] as String? ?? 'general';
@@ -129,7 +131,8 @@ class NotificationListController extends GetxController {
       NotificationItem(
         id: '1',
         title: 'Welcome to Jiyan Learning! 🎉',
-        message: 'Start your learning journey today. Explore Numbers, Alphabets, and more!',
+        message:
+            'Start your learning journey today. Explore Numbers, Alphabets, and more!',
         type: 'general',
         time: now,
         icon: Icons.celebration_rounded,
@@ -138,7 +141,8 @@ class NotificationListController extends GetxController {
       NotificationItem(
         id: '2',
         title: 'Daily Practice Reminder ⏰',
-        message: 'Don\'t forget to practice today! Just 10 minutes can make a big difference.',
+        message:
+            'Don\'t forget to practice today! Just 10 minutes can make a big difference.',
         type: 'reminder',
         time: now.subtract(const Duration(hours: 2)),
         icon: Icons.alarm_rounded,
@@ -165,7 +169,8 @@ class NotificationListController extends GetxController {
       NotificationItem(
         id: '5',
         title: 'Tip for Parents 💡',
-        message: 'Encourage your child to learn for 15-20 minutes daily for best results.',
+        message:
+            'Encourage your child to learn for 15-20 minutes daily for best results.',
         type: 'tip',
         time: now.subtract(const Duration(days: 2)),
         icon: Icons.lightbulb_rounded,
@@ -218,7 +223,7 @@ class NotificationListController extends GetxController {
       backgroundColor: Colors.green,
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(16),
+      margin: EdgeInsets.all(16.r),
     );
   }
 
@@ -230,7 +235,9 @@ class NotificationListController extends GetxController {
   void clearAllNotifications() {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         title: Text(
           'Clear All?',
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
@@ -253,11 +260,13 @@ class NotificationListController extends GetxController {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
             ),
-            child: Text('Clear All',
-                style: GoogleFonts.poppins(color: Colors.white)),
+            child: Text(
+              'Clear All',
+              style: GoogleFonts.poppins(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -293,8 +302,9 @@ class NotificationListPage extends StatefulWidget {
 
 class _NotificationListPageState extends State<NotificationListPage>
     with TickerProviderStateMixin {
-  final NotificationListController controller =
-      Get.put(NotificationListController());
+  final NotificationListController controller = Get.put(
+    NotificationListController(),
+  );
 
   // Home screen style animations
   late AnimationController _floatController;
@@ -412,129 +422,144 @@ class _NotificationListPageState extends State<NotificationListPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Notifi',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // The title is a Row of separately styled words, so it cannot
+        // ellipsize; scaling it down keeps the whole title readable on a
+        // narrow phone instead of clipping the last word.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Notifi',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'cations',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'cations',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
       actions: [
-        Obx(() => controller.notifications.isNotEmpty
-            ? PopupMenuButton<String>(
-                icon: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.more_vert_rounded,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                onSelected: (value) {
-                  if (value == 'read_all') {
-                    controller.markAllAsRead();
-                  } else if (value == 'clear_all') {
-                    controller.clearAllNotifications();
-                  }
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 'read_all',
-                    child: Row(
-                      children: [
-                        const Icon(Icons.done_all_rounded,
-                            color: Colors.green, size: 20),
-                        const SizedBox(width: 12),
-                        Text('Mark all as read',
-                            style: GoogleFonts.poppins(fontSize: 14)),
-                      ],
+        Obx(
+          () => controller.notifications.isNotEmpty
+              ? PopupMenuButton<String>(
+                  icon: Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Icon(
+                      Icons.more_vert_rounded,
+                      color: Colors.white,
+                      size: 20.r,
                     ),
                   ),
-                  PopupMenuItem(
-                    value: 'clear_all',
-                    child: Row(
-                      children: [
-                        const Icon(Icons.delete_sweep_rounded,
-                            color: Colors.red, size: 20),
-                        const SizedBox(width: 12),
-                        Text('Clear all',
-                            style: GoogleFonts.poppins(fontSize: 14)),
-                      ],
-                    ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
-                ],
-              )
-            : const SizedBox()),
-        const SizedBox(width: 8),
+                  onSelected: (value) {
+                    if (value == 'read_all') {
+                      controller.markAllAsRead();
+                    } else if (value == 'clear_all') {
+                      controller.clearAllNotifications();
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'read_all',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.done_all_rounded,
+                            color: Colors.green,
+                            size: 20.r,
+                          ),
+                          SizedBox(width: 12.w),
+                          Text(
+                            'Mark all as read',
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'clear_all',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.delete_sweep_rounded,
+                            color: Colors.red,
+                            size: 20.r,
+                          ),
+                          SizedBox(width: 12.w),
+                          Text(
+                            'Clear all',
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
+        ),
+        SizedBox(width: 8.w),
       ],
     );
   }
@@ -553,20 +578,20 @@ class _NotificationListPageState extends State<NotificationListPage>
               );
             },
             child: Container(
-              width: 120,
-              height: 120,
+              width: 120.w,
+              height: 120.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.notifications_off_rounded,
-                size: 60,
+                size: 60.r,
                 color: Colors.white,
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             'No Notifications',
             style: GoogleFonts.poppins(
@@ -575,9 +600,9 @@ class _NotificationListPageState extends State<NotificationListPage>
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
             child: Text(
               'You\'re all caught up! Check back later for updates.',
               textAlign: TextAlign.center,
@@ -606,7 +631,9 @@ class _NotificationListPageState extends State<NotificationListPage>
           builder: (context, child) {
             return Transform.translate(
               offset: Offset(
-                  0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                0,
+                index.isEven ? _floatAnimation.value : -_floatAnimation.value,
+              ),
               child: child,
             );
           },
@@ -624,11 +651,11 @@ class _NotificationListPageState extends State<NotificationListPage>
         margin: EdgeInsets.only(bottom: AppTheme.spacingS),
         decoration: BoxDecoration(
           color: Colors.red,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
-        child: const Icon(Icons.delete_rounded, color: Colors.white, size: 28),
+        padding: EdgeInsets.only(right: 20.w),
+        child: Icon(Icons.delete_rounded, color: Colors.white, size: 28.r),
       ),
       onDismissed: (_) => controller.deleteNotification(notification.id),
       child: GestureDetector(
@@ -643,14 +670,15 @@ class _NotificationListPageState extends State<NotificationListPage>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
-                color: (notification.isRead
-                        ? Colors.grey
-                        : notification.gradient[0])
-                    .withValues(alpha: 0.4),
-                blurRadius: 12,
+                color:
+                    (notification.isRead
+                            ? Colors.grey
+                            : notification.gradient[0])
+                        .withValues(alpha: 0.4),
+                blurRadius: 12.r,
                 offset: const Offset(0, 6),
               ),
             ],
@@ -664,16 +692,16 @@ class _NotificationListPageState extends State<NotificationListPage>
                   children: [
                     // Icon
                     Container(
-                      width: 52,
-                      height: 52,
+                      width: 52.w,
+                      height: 52.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                       ),
                       child: Icon(
                         notification.icon,
                         color: Colors.white,
-                        size: 26,
+                        size: 26.r,
                       ),
                     ),
                     SizedBox(width: AppTheme.spacingM),
@@ -691,7 +719,7 @@ class _NotificationListPageState extends State<NotificationListPage>
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4.h),
                           Text(
                             notification.message,
                             style: GoogleFonts.nunito(
@@ -702,15 +730,15 @@ class _NotificationListPageState extends State<NotificationListPage>
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           Row(
                             children: [
                               Icon(
                                 Icons.access_time_rounded,
-                                size: 14,
+                                size: 14.r,
                                 color: Colors.white.withValues(alpha: 0.7),
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: 4.w),
                               Text(
                                 controller.getTimeAgo(notification.time),
                                 style: GoogleFonts.nunito(
@@ -730,19 +758,19 @@ class _NotificationListPageState extends State<NotificationListPage>
               // Unread indicator
               if (!notification.isRead)
                 Positioned(
-                  top: 12,
-                  right: 12,
+                  top: 12.h,
+                  right: 12.w,
                   child: Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
+                    width: 10.w,
+                    height: 10.h,
+                    decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.white24,
-                          blurRadius: 4,
-                          spreadRadius: 2,
+                          blurRadius: 4.r,
+                          spreadRadius: 2.r,
                         ),
                       ],
                     ),

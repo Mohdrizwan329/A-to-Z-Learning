@@ -8,6 +8,8 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SkillEvaluationPage extends StatefulWidget {
   const SkillEvaluationPage({super.key});
 
@@ -34,16 +36,56 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
       emoji: '🔢',
       color: 0xFF4CAF50,
       questions: [
-        SkillQuestion(question: 'What number is this? 5', options: ['3', '5', '7', '9'], correctIndex: 1),
-        SkillQuestion(question: 'Which is bigger: 8 or 3?', options: ['3', '8'], correctIndex: 1),
-        SkillQuestion(question: 'Count: 🍎🍎🍎', options: ['2', '3', '4', '5'], correctIndex: 1),
-        SkillQuestion(question: 'What comes after 6?', options: ['5', '6', '7', '8'], correctIndex: 2),
-        SkillQuestion(question: 'Which is the smallest?', options: ['9', '2', '7', '5'], correctIndex: 1),
-        SkillQuestion(question: 'What comes before 4?', options: ['2', '3', '5', '6'], correctIndex: 1),
-        SkillQuestion(question: 'Count: 🌟🌟🌟🌟🌟', options: ['3', '4', '5', '6'], correctIndex: 2),
-        SkillQuestion(question: 'Which is an even number?', options: ['3', '5', '6', '7'], correctIndex: 2),
-        SkillQuestion(question: 'What is 10 + 0?', options: ['0', '1', '10', '100'], correctIndex: 2),
-        SkillQuestion(question: 'How many fingers on one hand?', options: ['3', '4', '5', '6'], correctIndex: 2),
+        SkillQuestion(
+          question: 'What number is this? 5',
+          options: ['3', '5', '7', '9'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Which is bigger: 8 or 3?',
+          options: ['3', '8'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Count: 🍎🍎🍎',
+          options: ['2', '3', '4', '5'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What comes after 6?',
+          options: ['5', '6', '7', '8'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which is the smallest?',
+          options: ['9', '2', '7', '5'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What comes before 4?',
+          options: ['2', '3', '5', '6'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Count: 🌟🌟🌟🌟🌟',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which is an even number?',
+          options: ['3', '5', '6', '7'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What is 10 + 0?',
+          options: ['0', '1', '10', '100'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'How many fingers on one hand?',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 2,
+        ),
       ],
     ),
     SkillCategory(
@@ -52,16 +94,56 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
       emoji: '🔤',
       color: 0xFF2196F3,
       questions: [
-        SkillQuestion(question: 'What letter is this? A', options: ['A', 'B', 'C', 'D'], correctIndex: 0),
-        SkillQuestion(question: 'What comes after B?', options: ['A', 'B', 'C', 'D'], correctIndex: 2),
-        SkillQuestion(question: 'Find the vowel:', options: ['B', 'C', 'E', 'D'], correctIndex: 2),
-        SkillQuestion(question: 'Which is uppercase?', options: ['a', 'b', 'C', 'd'], correctIndex: 2),
-        SkillQuestion(question: 'What letter starts "Apple"?', options: ['B', 'A', 'P', 'L'], correctIndex: 1),
-        SkillQuestion(question: 'Which is lowercase?', options: ['A', 'B', 'c', 'D'], correctIndex: 2),
-        SkillQuestion(question: 'What letter starts "Dog"?', options: ['B', 'C', 'D', 'E'], correctIndex: 2),
-        SkillQuestion(question: 'How many vowels: A E I O U?', options: ['3', '4', '5', '6'], correctIndex: 2),
-        SkillQuestion(question: 'What comes before Z?', options: ['W', 'X', 'Y', 'V'], correctIndex: 2),
-        SkillQuestion(question: 'Which letter starts "Mango"?', options: ['N', 'M', 'L', 'O'], correctIndex: 1),
+        SkillQuestion(
+          question: 'What letter is this? A',
+          options: ['A', 'B', 'C', 'D'],
+          correctIndex: 0,
+        ),
+        SkillQuestion(
+          question: 'What comes after B?',
+          options: ['A', 'B', 'C', 'D'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Find the vowel:',
+          options: ['B', 'C', 'E', 'D'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which is uppercase?',
+          options: ['a', 'b', 'C', 'd'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What letter starts "Apple"?',
+          options: ['B', 'A', 'P', 'L'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Which is lowercase?',
+          options: ['A', 'B', 'c', 'D'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What letter starts "Dog"?',
+          options: ['B', 'C', 'D', 'E'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'How many vowels: A E I O U?',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What comes before Z?',
+          options: ['W', 'X', 'Y', 'V'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which letter starts "Mango"?',
+          options: ['N', 'M', 'L', 'O'],
+          correctIndex: 1,
+        ),
       ],
     ),
     SkillCategory(
@@ -70,16 +152,56 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
       emoji: '➕',
       color: 0xFFFF9800,
       questions: [
-        SkillQuestion(question: '2 + 2 = ?', options: ['3', '4', '5', '6'], correctIndex: 1),
-        SkillQuestion(question: '5 - 3 = ?', options: ['1', '2', '3', '4'], correctIndex: 1),
-        SkillQuestion(question: '3 + 4 = ?', options: ['5', '6', '7', '8'], correctIndex: 2),
-        SkillQuestion(question: '10 - 5 = ?', options: ['3', '4', '5', '6'], correctIndex: 2),
-        SkillQuestion(question: '1 + 1 + 1 = ?', options: ['2', '3', '4', '5'], correctIndex: 1),
-        SkillQuestion(question: '6 + 3 = ?', options: ['7', '8', '9', '10'], correctIndex: 2),
-        SkillQuestion(question: '8 - 4 = ?', options: ['2', '3', '4', '5'], correctIndex: 2),
-        SkillQuestion(question: '2 x 3 = ?', options: ['4', '5', '6', '7'], correctIndex: 2),
-        SkillQuestion(question: '9 - 7 = ?', options: ['1', '2', '3', '4'], correctIndex: 1),
-        SkillQuestion(question: '5 + 5 = ?', options: ['8', '9', '10', '11'], correctIndex: 2),
+        SkillQuestion(
+          question: '2 + 2 = ?',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: '5 - 3 = ?',
+          options: ['1', '2', '3', '4'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: '3 + 4 = ?',
+          options: ['5', '6', '7', '8'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: '10 - 5 = ?',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: '1 + 1 + 1 = ?',
+          options: ['2', '3', '4', '5'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: '6 + 3 = ?',
+          options: ['7', '8', '9', '10'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: '8 - 4 = ?',
+          options: ['2', '3', '4', '5'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: '2 x 3 = ?',
+          options: ['4', '5', '6', '7'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: '9 - 7 = ?',
+          options: ['1', '2', '3', '4'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: '5 + 5 = ?',
+          options: ['8', '9', '10', '11'],
+          correctIndex: 2,
+        ),
       ],
     ),
     SkillCategory(
@@ -88,16 +210,56 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
       emoji: '🌈',
       color: 0xFFE91E63,
       questions: [
-        SkillQuestion(question: 'What color is 🔴?', options: ['Blue', 'Red', 'Green', 'Yellow'], correctIndex: 1),
-        SkillQuestion(question: 'What color is the sky?', options: ['Red', 'Green', 'Blue', 'Yellow'], correctIndex: 2),
-        SkillQuestion(question: 'What color is 🟢?', options: ['Green', 'Blue', 'Red', 'Purple'], correctIndex: 0),
-        SkillQuestion(question: 'What color is a banana?', options: ['Red', 'Blue', 'Green', 'Yellow'], correctIndex: 3),
-        SkillQuestion(question: 'Mix red + blue = ?', options: ['Green', 'Orange', 'Purple', 'Brown'], correctIndex: 2),
-        SkillQuestion(question: 'What color is 🟡?', options: ['Red', 'Yellow', 'Blue', 'Green'], correctIndex: 1),
-        SkillQuestion(question: 'What color are leaves?', options: ['Red', 'Blue', 'Green', 'White'], correctIndex: 2),
-        SkillQuestion(question: 'Mix red + yellow = ?', options: ['Purple', 'Orange', 'Green', 'Pink'], correctIndex: 1),
-        SkillQuestion(question: 'What color is snow?', options: ['Blue', 'Grey', 'Yellow', 'White'], correctIndex: 3),
-        SkillQuestion(question: 'What color is 🟣?', options: ['Pink', 'Blue', 'Purple', 'Red'], correctIndex: 2),
+        SkillQuestion(
+          question: 'What color is 🔴?',
+          options: ['Blue', 'Red', 'Green', 'Yellow'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What color is the sky?',
+          options: ['Red', 'Green', 'Blue', 'Yellow'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What color is 🟢?',
+          options: ['Green', 'Blue', 'Red', 'Purple'],
+          correctIndex: 0,
+        ),
+        SkillQuestion(
+          question: 'What color is a banana?',
+          options: ['Red', 'Blue', 'Green', 'Yellow'],
+          correctIndex: 3,
+        ),
+        SkillQuestion(
+          question: 'Mix red + blue = ?',
+          options: ['Green', 'Orange', 'Purple', 'Brown'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What color is 🟡?',
+          options: ['Red', 'Yellow', 'Blue', 'Green'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What color are leaves?',
+          options: ['Red', 'Blue', 'Green', 'White'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Mix red + yellow = ?',
+          options: ['Purple', 'Orange', 'Green', 'Pink'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What color is snow?',
+          options: ['Blue', 'Grey', 'Yellow', 'White'],
+          correctIndex: 3,
+        ),
+        SkillQuestion(
+          question: 'What color is 🟣?',
+          options: ['Pink', 'Blue', 'Purple', 'Red'],
+          correctIndex: 2,
+        ),
       ],
     ),
     SkillCategory(
@@ -106,16 +268,56 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
       emoji: '🔷',
       color: 0xFF9C27B0,
       questions: [
-        SkillQuestion(question: 'How many sides has a triangle?', options: ['2', '3', '4', '5'], correctIndex: 1),
-        SkillQuestion(question: 'What shape is ⭕?', options: ['Square', 'Circle', 'Triangle', 'Star'], correctIndex: 1),
-        SkillQuestion(question: 'How many sides has a square?', options: ['3', '4', '5', '6'], correctIndex: 1),
-        SkillQuestion(question: 'What shape is 🟥?', options: ['Circle', 'Triangle', 'Square', 'Star'], correctIndex: 2),
-        SkillQuestion(question: 'Which has no corners?', options: ['Square', 'Triangle', 'Circle', 'Rectangle'], correctIndex: 2),
-        SkillQuestion(question: 'How many sides has a rectangle?', options: ['3', '4', '5', '6'], correctIndex: 1),
-        SkillQuestion(question: 'Which shape has 5 sides?', options: ['Square', 'Triangle', 'Pentagon', 'Hexagon'], correctIndex: 2),
-        SkillQuestion(question: 'What shape is a ball?', options: ['Cube', 'Sphere', 'Cone', 'Cylinder'], correctIndex: 1),
-        SkillQuestion(question: 'Which shape has 6 sides?', options: ['Pentagon', 'Hexagon', 'Octagon', 'Triangle'], correctIndex: 1),
-        SkillQuestion(question: 'What shape is a dice?', options: ['Sphere', 'Cone', 'Cube', 'Cylinder'], correctIndex: 2),
+        SkillQuestion(
+          question: 'How many sides has a triangle?',
+          options: ['2', '3', '4', '5'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What shape is ⭕?',
+          options: ['Square', 'Circle', 'Triangle', 'Star'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'How many sides has a square?',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What shape is 🟥?',
+          options: ['Circle', 'Triangle', 'Square', 'Star'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which has no corners?',
+          options: ['Square', 'Triangle', 'Circle', 'Rectangle'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'How many sides has a rectangle?',
+          options: ['3', '4', '5', '6'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Which shape has 5 sides?',
+          options: ['Square', 'Triangle', 'Pentagon', 'Hexagon'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'What shape is a ball?',
+          options: ['Cube', 'Sphere', 'Cone', 'Cylinder'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Which shape has 6 sides?',
+          options: ['Pentagon', 'Hexagon', 'Octagon', 'Triangle'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What shape is a dice?',
+          options: ['Sphere', 'Cone', 'Cube', 'Cylinder'],
+          correctIndex: 2,
+        ),
       ],
     ),
     SkillCategory(
@@ -124,16 +326,56 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
       emoji: '🦁',
       color: 0xFF795548,
       questions: [
-        SkillQuestion(question: 'What sound does a dog make?', options: ['Meow', 'Bark', 'Moo', 'Oink'], correctIndex: 1),
-        SkillQuestion(question: 'Which animal has a trunk?', options: ['Lion', 'Dog', 'Elephant', 'Cat'], correctIndex: 2),
-        SkillQuestion(question: 'Which can fly?', options: ['Fish', 'Dog', 'Bird', 'Cat'], correctIndex: 2),
-        SkillQuestion(question: 'Which lives in water?', options: ['Dog', 'Cat', 'Bird', 'Fish'], correctIndex: 3),
-        SkillQuestion(question: 'What does a cow give?', options: ['Eggs', 'Milk', 'Wool', 'Honey'], correctIndex: 1),
-        SkillQuestion(question: 'Which is the fastest animal?', options: ['Elephant', 'Cheetah', 'Dog', 'Horse'], correctIndex: 1),
-        SkillQuestion(question: 'What does a hen give?', options: ['Milk', 'Wool', 'Eggs', 'Honey'], correctIndex: 2),
-        SkillQuestion(question: 'Which animal has stripes?', options: ['Lion', 'Zebra', 'Bear', 'Dog'], correctIndex: 1),
-        SkillQuestion(question: 'What sound does a cat make?', options: ['Bark', 'Moo', 'Meow', 'Oink'], correctIndex: 2),
-        SkillQuestion(question: 'Which is the tallest animal?', options: ['Elephant', 'Horse', 'Giraffe', 'Bear'], correctIndex: 2),
+        SkillQuestion(
+          question: 'What sound does a dog make?',
+          options: ['Meow', 'Bark', 'Moo', 'Oink'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Which animal has a trunk?',
+          options: ['Lion', 'Dog', 'Elephant', 'Cat'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which can fly?',
+          options: ['Fish', 'Dog', 'Bird', 'Cat'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which lives in water?',
+          options: ['Dog', 'Cat', 'Bird', 'Fish'],
+          correctIndex: 3,
+        ),
+        SkillQuestion(
+          question: 'What does a cow give?',
+          options: ['Eggs', 'Milk', 'Wool', 'Honey'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'Which is the fastest animal?',
+          options: ['Elephant', 'Cheetah', 'Dog', 'Horse'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What does a hen give?',
+          options: ['Milk', 'Wool', 'Eggs', 'Honey'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which animal has stripes?',
+          options: ['Lion', 'Zebra', 'Bear', 'Dog'],
+          correctIndex: 1,
+        ),
+        SkillQuestion(
+          question: 'What sound does a cat make?',
+          options: ['Bark', 'Moo', 'Meow', 'Oink'],
+          correctIndex: 2,
+        ),
+        SkillQuestion(
+          question: 'Which is the tallest animal?',
+          options: ['Elephant', 'Horse', 'Giraffe', 'Bear'],
+          correctIndex: 2,
+        ),
       ],
     ),
   ];
@@ -215,8 +457,15 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
     }
 
     // Mark question as completed in ProgressService
-    final flatIndex = _skills.sublist(0, _currentSkillIndex).fold(0, (sum, s) => sum + s.questions.length) + _currentQuestionIndex;
-    ProgressService.to.markItemCompleted(ProgressService.kSkillEvaluation, flatIndex);
+    final flatIndex =
+        _skills
+            .sublist(0, _currentSkillIndex)
+            .fold(0, (sum, s) => sum + s.questions.length) +
+        _currentQuestionIndex;
+    ProgressService.to.markItemCompleted(
+      ProgressService.kSkillEvaluation,
+      flatIndex,
+    );
 
     if (isCorrect) {
       _results[skill.id] = _results[skill.id]!.copyWith(
@@ -254,7 +503,8 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
         _currentQuestionIndex--;
       } else if (_currentSkillIndex > 0) {
         _currentSkillIndex--;
-        _currentQuestionIndex = _skills[_currentSkillIndex].questions.length - 1;
+        _currentQuestionIndex =
+            _skills[_currentSkillIndex].questions.length - 1;
       }
       _speakCurrentQuestion();
     });
@@ -282,20 +532,18 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
           ? [
               IconButton(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+                  child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
                 ),
                 onPressed: _startEvaluation,
               ),
             ]
           : null,
-      body: _isEvaluating
-          ? _buildEvaluationScreen()
-          : _buildResultsScreen(),
+      body: _isEvaluating ? _buildEvaluationScreen() : _buildResultsScreen(),
     );
   }
 
@@ -304,7 +552,7 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
     final question = skill.questions[_currentQuestionIndex];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(bottom: 20.h),
       child: Column(
         children: [
           // Progress bar (like Number screen - using ProgressService)
@@ -318,36 +566,43 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
               ProgressService.kSkillEvaluation,
             );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -359,19 +614,19 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
             );
           }),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Question Card
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.all(24),
+            margin: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.all(24.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 20,
+                  blurRadius: 20.r,
                   offset: const Offset(0, 10),
                 ),
               ],
@@ -379,7 +634,7 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
             child: Column(
               children: [
                 Text(skill.emoji, style: const TextStyle(fontSize: 48)),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
                   question.question,
                   textAlign: TextAlign.center,
@@ -393,11 +648,11 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
             ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Options with gradient colors and floating animation
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
               children: List.generate(question.options.length, (index) {
                 final gradient = AppColors.getGradientForIndex(index);
@@ -405,18 +660,21 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                 return buildFloatingItem(
                   index: index,
                   child: GestureDetector(
-                    onTap: () { TtsService.to.speak(question.options[index]); _selectOption(index); },
+                    onTap: () {
+                      TtsService.to.speak(question.options[index]);
+                      _selectOption(index);
+                    },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(16),
+                      margin: EdgeInsets.only(bottom: 12.h),
+                      padding: EdgeInsets.all(16.r),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: gradient,
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         border: isSelected
                             ? Border.all(color: Colors.white, width: 3)
                             : null,
@@ -433,17 +691,21 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                       child: Row(
                         children: [
                           Container(
-                            width: 36,
-                            height: 36,
+                            width: 36.w,
+                            height: 36.h,
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? Colors.white.withValues(alpha: 0.5)
                                   : Colors.white.withValues(alpha: 0.25),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: Center(
                               child: isSelected
-                                  ? const Icon(Icons.check, color: Colors.white, size: 20)
+                                  ? Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 20.r,
+                                    )
                                   : Text(
                                       String.fromCharCode(65 + index),
                                       style: const TextStyle(
@@ -453,11 +715,11 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                                     ),
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Expanded(
                             child: Text(
                               question.options[index],
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -465,7 +727,7 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                                   Shadow(
                                     color: Colors.black26,
                                     offset: Offset(1, 1),
-                                    blurRadius: 2,
+                                    blurRadius: 2.r,
                                   ),
                                 ],
                               ),
@@ -480,55 +742,66 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
             ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Previous and Next buttons
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
               children: [
                 // Previous button
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: (_currentSkillIndex == 0 && _currentQuestionIndex == 0)
+                    onPressed:
+                        (_currentSkillIndex == 0 && _currentQuestionIndex == 0)
                         ? null
                         : _goToPrevious,
-                    icon: const Icon(Icons.arrow_back_rounded, size: 20),
+                    icon: Icon(Icons.arrow_back_rounded, size: 20.r),
                     label: const Text(
                       'Previous',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white.withValues(alpha: 0.25),
                       foregroundColor: Colors.white,
-                      disabledBackgroundColor: Colors.white.withValues(alpha: 0.1),
+                      disabledBackgroundColor: Colors.white.withValues(
+                        alpha: 0.1,
+                      ),
                       disabledForegroundColor: Colors.white38,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       elevation: 0,
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 // Next button
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: _selectedOptionIndex != null ? _goToNext : null,
                     icon: const Text(
                       'Next',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    label: const Icon(Icons.arrow_forward_rounded, size: 20),
+                    label: Icon(Icons.arrow_forward_rounded, size: 20.r),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: const Color(0xFF667EEA),
-                      disabledBackgroundColor: Colors.white.withValues(alpha: 0.15),
+                      disabledBackgroundColor: Colors.white.withValues(
+                        alpha: 0.15,
+                      ),
                       disabledForegroundColor: Colors.white38,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       elevation: 4,
                     ),
@@ -543,25 +816,33 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
   }
 
   Widget _buildResultsScreen() {
-    final overallCorrect = _results.values.fold(0, (sum, r) => sum + r.correctAnswers);
-    final overallTotal = _results.values.fold(0, (sum, r) => sum + r.totalQuestions);
-    final overallPercentage = overallTotal > 0 ? (overallCorrect / overallTotal * 100) : 0.0;
+    final overallCorrect = _results.values.fold(
+      0,
+      (sum, r) => sum + r.correctAnswers,
+    );
+    final overallTotal = _results.values.fold(
+      0,
+      (sum, r) => sum + r.totalQuestions,
+    );
+    final overallPercentage = overallTotal > 0
+        ? (overallCorrect / overallTotal * 100)
+        : 0.0;
 
     return Column(
       children: [
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         // Overall Score
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.all(20),
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: const Offset(0, 8),
               ),
             ],
@@ -569,10 +850,12 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
           child: Column(
             children: [
               Text(
-                overallPercentage >= 80 ? '🌟' : (overallPercentage >= 60 ? '👍' : '💪'),
+                overallPercentage >= 80
+                    ? '🌟'
+                    : (overallPercentage >= 60 ? '👍' : '💪'),
                 style: const TextStyle(fontSize: 48),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 '${overallPercentage.round()}%',
                 style: const TextStyle(
@@ -583,17 +866,16 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
               ),
               Text(
                 'Overall Score',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
-                  color: _getLevelColor(_getSkillLevel(overallPercentage)).withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(20),
+                  color: _getLevelColor(
+                    _getSkillLevel(overallPercentage),
+                  ).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
                   _getLevelLabel(_getSkillLevel(overallPercentage)),
@@ -607,16 +889,16 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
           ),
         ),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
 
         // Skill Breakdown
         Expanded(
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -629,7 +911,7 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                     color: Color(0xFF2D3436),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Expanded(
                   child: ListView.builder(
                     itemCount: _skills.length,
@@ -637,31 +919,38 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                       final skill = _skills[index];
                       final result = _results[skill.id];
                       final percentage = result != null
-                          ? (result.correctAnswers / result.totalQuestions * 100)
+                          ? (result.correctAnswers /
+                                result.totalQuestions *
+                                100)
                           : 0.0;
                       final level = _getSkillLevel(percentage);
 
                       return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(12),
+                        margin: EdgeInsets.only(bottom: 12.h),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
                           children: [
                             Container(
-                              width: 44,
-                              height: 44,
+                              width: 44.w,
+                              height: 44.h,
                               decoration: BoxDecoration(
-                                color: Color(skill.color).withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(12),
+                                color: Color(
+                                  skill.color,
+                                ).withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Center(
-                                child: Text(skill.emoji, style: const TextStyle(fontSize: 24)),
+                                child: Text(
+                                  skill.emoji,
+                                  style: const TextStyle(fontSize: 24),
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -673,23 +962,27 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                                       fontSize: 14,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4.h),
                                   Row(
                                     children: [
                                       Expanded(
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius: BorderRadius.circular(
+                                            4.r,
+                                          ),
                                           child: LinearProgressIndicator(
                                             value: percentage / 100,
-                                            backgroundColor: Colors.grey.shade200,
-                                            valueColor: AlwaysStoppedAnimation<Color>(
-                                              Color(skill.color),
-                                            ),
-                                            minHeight: 6,
+                                            backgroundColor:
+                                                Colors.grey.shade200,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                  Color(skill.color),
+                                                ),
+                                            minHeight: 6.h,
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: 8.w),
                                       Text(
                                         '${percentage.round()}%',
                                         style: TextStyle(
@@ -703,15 +996,17 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8.w),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
-                                color: _getLevelColor(level).withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(8),
+                                color: _getLevelColor(
+                                  level,
+                                ).withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
                               child: Text(
                                 _getLevelEmoji(level),
@@ -731,7 +1026,7 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
 
         // Buttons
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           child: Row(
             children: [
               Expanded(
@@ -740,24 +1035,24 @@ class _SkillEvaluationPageState extends State<SkillEvaluationPage>
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white, width: 2),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                   child: const Text('Done'),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: ElevatedButton(
                   onPressed: _startEvaluation,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: const Color(0xFF667EEA),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                   child: const Text(
@@ -864,7 +1159,9 @@ class SkillResult {
       skillName: json['skillName'] ?? '',
       totalQuestions: json['totalQuestions'] ?? 0,
       correctAnswers: json['correctAnswers'] ?? 0,
-      evaluatedAt: DateTime.parse(json['evaluatedAt'] ?? DateTime.now().toIso8601String()),
+      evaluatedAt: DateTime.parse(
+        json['evaluatedAt'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 

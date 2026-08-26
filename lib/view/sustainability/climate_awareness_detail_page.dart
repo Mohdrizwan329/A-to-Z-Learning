@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ClimateAwarenessDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -14,18 +16,31 @@ class ClimateAwarenessDetailPage extends StatefulWidget {
       _ClimateAwarenessDetailPageState();
 }
 
-class _ClimateAwarenessDetailPageState
-    extends State<ClimateAwarenessDetailPage>
+class _ClimateAwarenessDetailPageState extends State<ClimateAwarenessDetailPage>
     with TickerProviderStateMixin, GridAnimationsMixin {
   final List<Map<String, dynamic>> sections = [
     {
       'title': 'What is Climate?',
       'emoji': '🌡️',
       'content': [
-        {'icon': '☀️', 'text': 'Climate is the usual weather in a place over many years'},
-        {'icon': '🌧️', 'text': 'Some places are usually hot, some are usually cold'},
-        {'icon': '🌍', 'text': 'Weather changes every day, but climate stays mostly the same'},
-        {'icon': '📅', 'text': 'Scientists study weather for 30+ years to understand climate'},
+        {
+          'icon': '☀️',
+          'text': 'Climate is the usual weather in a place over many years',
+        },
+        {
+          'icon': '🌧️',
+          'text': 'Some places are usually hot, some are usually cold',
+        },
+        {
+          'icon': '🌍',
+          'text':
+              'Weather changes every day, but climate stays mostly the same',
+        },
+        {
+          'icon': '📅',
+          'text':
+              'Scientists study weather for 30+ years to understand climate',
+        },
       ],
     },
     {
@@ -33,9 +48,15 @@ class _ClimateAwarenessDetailPageState
       'emoji': '🌡️⬆️',
       'content': [
         {'icon': '🔥', 'text': 'The Earth is getting warmer than before'},
-        {'icon': '🏭', 'text': 'Smoke from factories and cars makes Earth warmer'},
+        {
+          'icon': '🏭',
+          'text': 'Smoke from factories and cars makes Earth warmer',
+        },
         {'icon': '🌳', 'text': 'Cutting down too many trees makes it worse'},
-        {'icon': '😟', 'text': 'This change is called Global Warming or Climate Change'},
+        {
+          'icon': '😟',
+          'text': 'This change is called Global Warming or Climate Change',
+        },
       ],
     },
     {
@@ -43,9 +64,18 @@ class _ClimateAwarenessDetailPageState
       'emoji': '🏠',
       'content': [
         {'icon': '☀️', 'text': 'Sun sends heat to Earth to keep us warm'},
-        {'icon': '🌫️', 'text': 'Some gases in the air trap this heat like a blanket'},
-        {'icon': '🏡', 'text': 'It\'s like a greenhouse that keeps plants warm'},
-        {'icon': '⚠️', 'text': 'Too many gases = too much heat = Earth gets too hot'},
+        {
+          'icon': '🌫️',
+          'text': 'Some gases in the air trap this heat like a blanket',
+        },
+        {
+          'icon': '🏡',
+          'text': 'It\'s like a greenhouse that keeps plants warm',
+        },
+        {
+          'icon': '⚠️',
+          'text': 'Too many gases = too much heat = Earth gets too hot',
+        },
       ],
       'visual': true,
     },
@@ -53,21 +83,53 @@ class _ClimateAwarenessDetailPageState
       'title': 'What\'s Happening?',
       'emoji': '😢',
       'effects': [
-        {'effect': 'Ice is Melting', 'emoji': '🧊', 'detail': 'Polar bears are losing their homes'},
-        {'effect': 'Sea Levels Rising', 'emoji': '🌊', 'detail': 'Oceans are getting higher'},
-        {'effect': 'More Storms', 'emoji': '🌀', 'detail': 'Hurricanes and floods happen more'},
-        {'effect': 'Droughts', 'emoji': '🏜️', 'detail': 'Some places have less rain'},
-        {'effect': 'Animals in Danger', 'emoji': '🦋', 'detail': 'Many species are dying'},
+        {
+          'effect': 'Ice is Melting',
+          'emoji': '🧊',
+          'detail': 'Polar bears are losing their homes',
+        },
+        {
+          'effect': 'Sea Levels Rising',
+          'emoji': '🌊',
+          'detail': 'Oceans are getting higher',
+        },
+        {
+          'effect': 'More Storms',
+          'emoji': '🌀',
+          'detail': 'Hurricanes and floods happen more',
+        },
+        {
+          'effect': 'Droughts',
+          'emoji': '🏜️',
+          'detail': 'Some places have less rain',
+        },
+        {
+          'effect': 'Animals in Danger',
+          'emoji': '🦋',
+          'detail': 'Many species are dying',
+        },
       ],
     },
     {
       'title': 'Climate Zones',
       'emoji': '🗺️',
       'zones': [
-        {'name': 'Tropical', 'emoji': '🌴', 'weather': 'Hot and rainy all year'},
+        {
+          'name': 'Tropical',
+          'emoji': '🌴',
+          'weather': 'Hot and rainy all year',
+        },
         {'name': 'Desert', 'emoji': '🏜️', 'weather': 'Very hot and dry'},
-        {'name': 'Temperate', 'emoji': '🍂', 'weather': 'Not too hot, not too cold'},
-        {'name': 'Polar', 'emoji': '❄️', 'weather': 'Very cold with ice and snow'},
+        {
+          'name': 'Temperate',
+          'emoji': '🍂',
+          'weather': 'Not too hot, not too cold',
+        },
+        {
+          'name': 'Polar',
+          'emoji': '❄️',
+          'weather': 'Very cold with ice and snow',
+        },
       ],
     },
     {
@@ -75,7 +137,10 @@ class _ClimateAwarenessDetailPageState
       'emoji': '⚡',
       'comparison': [
         {'weather': 'Today is sunny', 'climate': 'This area is usually sunny'},
-        {'weather': 'It rained this morning', 'climate': 'Monsoon season brings rain'},
+        {
+          'weather': 'It rained this morning',
+          'climate': 'Monsoon season brings rain',
+        },
         {'weather': 'It\'s snowing now', 'climate': 'Winters here are cold'},
         {'weather': 'Changes every day', 'climate': 'Stays the same for years'},
       ],
@@ -84,24 +149,60 @@ class _ClimateAwarenessDetailPageState
       'title': 'How Can YOU Help?',
       'emoji': '🦸',
       'tips': [
-        {'tip': 'Turn off lights when not using', 'emoji': '💡', 'saves': 'Energy'},
-        {'tip': 'Walk or cycle instead of car rides', 'emoji': '🚲', 'saves': 'Fuel'},
-        {'tip': 'Plant trees and take care of plants', 'emoji': '🌱', 'saves': 'Air'},
+        {
+          'tip': 'Turn off lights when not using',
+          'emoji': '💡',
+          'saves': 'Energy',
+        },
+        {
+          'tip': 'Walk or cycle instead of car rides',
+          'emoji': '🚲',
+          'saves': 'Fuel',
+        },
+        {
+          'tip': 'Plant trees and take care of plants',
+          'emoji': '🌱',
+          'saves': 'Air',
+        },
         {'tip': 'Don\'t waste water', 'emoji': '💧', 'saves': 'Water'},
         {'tip': 'Use less plastic', 'emoji': '🚫', 'saves': 'Ocean'},
         {'tip': 'Reduce, Reuse, Recycle', 'emoji': '♻️', 'saves': 'Resources'},
-        {'tip': 'Eat more vegetables, less meat', 'emoji': '🥗', 'saves': 'Land'},
-        {'tip': 'Tell others about climate change', 'emoji': '🗣️', 'saves': 'Future'},
+        {
+          'tip': 'Eat more vegetables, less meat',
+          'emoji': '🥗',
+          'saves': 'Land',
+        },
+        {
+          'tip': 'Tell others about climate change',
+          'emoji': '🗣️',
+          'saves': 'Future',
+        },
       ],
     },
     {
       'title': 'Climate Heroes',
       'emoji': '🌟',
       'heroes': [
-        {'name': 'Scientists', 'emoji': '👩‍🔬', 'role': 'Study the climate and find solutions'},
-        {'name': 'Activists', 'emoji': '📢', 'role': 'Spread awareness about climate change'},
-        {'name': 'Engineers', 'emoji': '👷', 'role': 'Create clean energy like solar panels'},
-        {'name': 'You!', 'emoji': '🌟', 'role': 'Every small action helps save our planet'},
+        {
+          'name': 'Scientists',
+          'emoji': '👩‍🔬',
+          'role': 'Study the climate and find solutions',
+        },
+        {
+          'name': 'Activists',
+          'emoji': '📢',
+          'role': 'Spread awareness about climate change',
+        },
+        {
+          'name': 'Engineers',
+          'emoji': '👷',
+          'role': 'Create clean energy like solar panels',
+        },
+        {
+          'name': 'You!',
+          'emoji': '🌟',
+          'role': 'Every small action helps save our planet',
+        },
       ],
     },
   ];
@@ -125,32 +226,29 @@ class _ClimateAwarenessDetailPageState
       title: section['title'] ?? '',
       emoji: section['emoji'] ?? '',
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+        padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
         child: _buildSectionContent(section),
       ),
     );
   }
 
-  Widget _buildGradientItem({
-    required int itemIndex,
-    required Widget child,
-  }) {
+  Widget _buildGradientItem({required int itemIndex, required Widget child}) {
     final gradient = AppColors.getGradientForIndex(itemIndex);
     return buildFloatingItem(
       index: itemIndex,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient.first.withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -192,12 +290,12 @@ class _ClimateAwarenessDetailPageState
           return _buildGradientItem(
             itemIndex: idx,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
                   Container(
-                    width: 55,
-                    height: 55,
+                    width: 55.w,
+                    height: 55.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -209,7 +307,7 @@ class _ClimateAwarenessDetailPageState
                       ),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Text(
                       item['text'] ?? '',
@@ -229,7 +327,7 @@ class _ClimateAwarenessDetailPageState
           _buildGradientItem(
             itemIndex: itemIndex,
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               child: Column(
                 children: [
                   const Text(
@@ -237,7 +335,7 @@ class _ClimateAwarenessDetailPageState
                     style: TextStyle(fontSize: 32),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     'Sun → Heat → Earth\nGases trap heat like a blanket',
                     style: GoogleFonts.nunito(
@@ -265,12 +363,12 @@ class _ClimateAwarenessDetailPageState
         return _buildGradientItem(
           itemIndex: idx,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -282,7 +380,7 @@ class _ClimateAwarenessDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,12 +421,12 @@ class _ClimateAwarenessDetailPageState
         return _buildGradientItem(
           itemIndex: idx,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -340,7 +438,7 @@ class _ClimateAwarenessDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,15 +479,15 @@ class _ClimateAwarenessDetailPageState
         _buildGradientItem(
           itemIndex: itemIndex++,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Text(
                       '⛅ Weather',
@@ -402,13 +500,13 @@ class _ClimateAwarenessDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Text(
                       '🌍 Climate',
@@ -431,7 +529,7 @@ class _ClimateAwarenessDetailPageState
           return _buildGradientItem(
             itemIndex: idx,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
                   Expanded(
@@ -476,12 +574,12 @@ class _ClimateAwarenessDetailPageState
         return _buildGradientItem(
           itemIndex: idx,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -493,7 +591,7 @@ class _ClimateAwarenessDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,14 +605,14 @@ class _ClimateAwarenessDetailPageState
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 4),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
+                        margin: EdgeInsets.only(top: 4.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
                           'Saves: ${tip['saves'] ?? ''}',
@@ -546,12 +644,12 @@ class _ClimateAwarenessDetailPageState
         return _buildGradientItem(
           itemIndex: idx,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -563,7 +661,7 @@ class _ClimateAwarenessDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

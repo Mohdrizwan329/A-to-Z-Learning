@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class FamousPlacesDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -374,7 +376,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
       title: section['title'] ?? '',
       emoji: section['emoji'] ?? '',
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: _buildSectionContent(section),
       ),
     );
@@ -404,19 +406,19 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
     return buildFloatingItem(
       index: index,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -424,11 +426,11 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -448,7 +450,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -458,12 +460,12 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'] ?? '',
@@ -471,7 +473,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(categories.length, (index) {
           final category = categories[index];
           return _buildGradientItem(
@@ -479,8 +481,8 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -492,7 +494,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     category['name'] ?? '',
@@ -516,7 +518,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -527,7 +529,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
           textAlign: TextAlign.center,
         ),
         if (section['subtitle'] != null) ...[
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             section['subtitle'],
             style: GoogleFonts.nunito(
@@ -536,7 +538,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             ),
           ),
         ],
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(items.length, (index) {
           final item = items[index];
           return _buildGradientItem(
@@ -544,8 +546,8 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -557,7 +559,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -576,7 +578,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                             item['flag'] ?? '',
                             style: const TextStyle(fontSize: 14),
                           ),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4.w),
                           Text(
                             item['country'] ?? '',
                             style: GoogleFonts.nunito(
@@ -588,12 +590,8 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                       ),
                       Row(
                         children: [
-                          const Icon(
-                            Icons.star,
-                            size: 14,
-                            color: Colors.amber,
-                          ),
-                          const SizedBox(width: 4),
+                          Icon(Icons.star, size: 14.r, color: Colors.amber),
+                          SizedBox(width: 4.w),
                           Expanded(
                             child: Text(
                               item['fact'] ?? '',
@@ -622,7 +620,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -633,7 +631,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
           textAlign: TextAlign.center,
         ),
         if (section['subtitle'] != null) ...[
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             section['subtitle'],
             style: GoogleFonts.nunito(
@@ -642,7 +640,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             ),
           ),
         ],
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(places.length, (index) {
           final place = places[index];
           return _buildGradientItem(
@@ -650,8 +648,8 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -663,7 +661,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -678,12 +676,12 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                       ),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.location_on,
-                            size: 14,
+                            size: 14.r,
                             color: Colors.white70,
                           ),
-                          const SizedBox(width: 2),
+                          SizedBox(width: 2.w),
                           Text(
                             place['city'] ?? '',
                             style: GoogleFonts.nunito(
@@ -695,12 +693,8 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                       ),
                       Row(
                         children: [
-                          const Icon(
-                            Icons.star,
-                            size: 14,
-                            color: Colors.amber,
-                          ),
-                          const SizedBox(width: 4),
+                          Icon(Icons.star, size: 14.r, color: Colors.amber),
+                          SizedBox(width: 4.w),
                           Expanded(
                             child: Text(
                               place['fact'] ?? '',
@@ -729,7 +723,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -739,7 +733,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Test your knowledge!',
           style: GoogleFonts.nunito(
@@ -747,7 +741,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(quizItems.length, (index) {
           final quiz = quizItems[index];
           return _buildGradientItem(
@@ -757,8 +751,8 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                 Row(
                   children: [
                     Container(
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -773,7 +767,7 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         quiz['question'] ?? '',
@@ -790,25 +784,25 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.4),
                     ),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.check_circle,
                         color: Colors.greenAccent,
-                        size: 20,
+                        size: 20.r,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Text(
                         quiz['answer'] ?? '',
                         style: GoogleFonts.nunito(
@@ -823,13 +817,13 @@ class _FamousPlacesDetailPageState extends State<FamousPlacesDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildGradientItem(
           index: quizItems.length,
           child: Column(
             children: [
               const Text('🏆🌍🎉', style: TextStyle(fontSize: 40)),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 section['badge'] ?? '',
                 style: GoogleFonts.poppins(

@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SocialAwarenessPage extends StatefulWidget {
   const SocialAwarenessPage({super.key});
 
@@ -26,55 +28,195 @@ class _SocialAwarenessPageState extends State<SocialAwarenessPage>
       'title': 'Manners',
       'emoji': '🙏',
       'items': [
-        {'title': 'Say Please', 'emoji': '🙏', 'description': 'Always say please when asking for something'},
-        {'title': 'Say Thank You', 'emoji': '😊', 'description': 'Thank people when they help you'},
-        {'title': 'Say Sorry', 'emoji': '😔', 'description': 'Apologize when you make a mistake'},
-        {'title': 'Share with Others', 'emoji': '🤝', 'description': 'Share your toys and food with friends'},
-        {'title': 'Wait Your Turn', 'emoji': '⏳', 'description': 'Be patient and wait in line'},
-        {'title': 'Listen Carefully', 'emoji': '👂', 'description': 'Pay attention when others speak'},
-        {'title': 'Respect Elders', 'emoji': '👴', 'description': 'Be polite to older people'},
-        {'title': 'Help Others', 'emoji': '💪', 'description': 'Help people who need it'},
-        {'title': 'Be Kind', 'emoji': '❤️', 'description': 'Be nice to everyone'},
-        {'title': 'Don\'t Lie', 'emoji': '✅', 'description': 'Always tell the truth'},
+        {
+          'title': 'Say Please',
+          'emoji': '🙏',
+          'description': 'Always say please when asking for something',
+        },
+        {
+          'title': 'Say Thank You',
+          'emoji': '😊',
+          'description': 'Thank people when they help you',
+        },
+        {
+          'title': 'Say Sorry',
+          'emoji': '😔',
+          'description': 'Apologize when you make a mistake',
+        },
+        {
+          'title': 'Share with Others',
+          'emoji': '🤝',
+          'description': 'Share your toys and food with friends',
+        },
+        {
+          'title': 'Wait Your Turn',
+          'emoji': '⏳',
+          'description': 'Be patient and wait in line',
+        },
+        {
+          'title': 'Listen Carefully',
+          'emoji': '👂',
+          'description': 'Pay attention when others speak',
+        },
+        {
+          'title': 'Respect Elders',
+          'emoji': '👴',
+          'description': 'Be polite to older people',
+        },
+        {
+          'title': 'Help Others',
+          'emoji': '💪',
+          'description': 'Help people who need it',
+        },
+        {
+          'title': 'Be Kind',
+          'emoji': '❤️',
+          'description': 'Be nice to everyone',
+        },
+        {
+          'title': 'Don\'t Lie',
+          'emoji': '✅',
+          'description': 'Always tell the truth',
+        },
       ],
     },
     {
       'title': 'Helpers',
       'emoji': '👨‍⚕️',
       'items': [
-        {'title': 'Doctor', 'emoji': '👨‍⚕️', 'description': 'Takes care of sick people', 'place': 'Hospital'},
-        {'title': 'Teacher', 'emoji': '👩‍🏫', 'description': 'Teaches us in school', 'place': 'School'},
-        {'title': 'Police', 'emoji': '👮', 'description': 'Keeps us safe', 'place': 'Police Station'},
-        {'title': 'Firefighter', 'emoji': '👨‍🚒', 'description': 'Puts out fires', 'place': 'Fire Station'},
-        {'title': 'Farmer', 'emoji': '👨‍🌾', 'description': 'Grows our food', 'place': 'Farm'},
-        {'title': 'Nurse', 'emoji': '👩‍⚕️', 'description': 'Cares for patients', 'place': 'Hospital'},
-        {'title': 'Postman', 'emoji': '📬', 'description': 'Delivers our letters', 'place': 'Post Office'},
-        {'title': 'Chef', 'emoji': '👨‍🍳', 'description': 'Cooks delicious food', 'place': 'Restaurant'},
-        {'title': 'Pilot', 'emoji': '👨‍✈️', 'description': 'Flies airplanes', 'place': 'Airport'},
-        {'title': 'Driver', 'emoji': '🚌', 'description': 'Drives buses and cars', 'place': 'Road'},
+        {
+          'title': 'Doctor',
+          'emoji': '👨‍⚕️',
+          'description': 'Takes care of sick people',
+          'place': 'Hospital',
+        },
+        {
+          'title': 'Teacher',
+          'emoji': '👩‍🏫',
+          'description': 'Teaches us in school',
+          'place': 'School',
+        },
+        {
+          'title': 'Police',
+          'emoji': '👮',
+          'description': 'Keeps us safe',
+          'place': 'Police Station',
+        },
+        {
+          'title': 'Firefighter',
+          'emoji': '👨‍🚒',
+          'description': 'Puts out fires',
+          'place': 'Fire Station',
+        },
+        {
+          'title': 'Farmer',
+          'emoji': '👨‍🌾',
+          'description': 'Grows our food',
+          'place': 'Farm',
+        },
+        {
+          'title': 'Nurse',
+          'emoji': '👩‍⚕️',
+          'description': 'Cares for patients',
+          'place': 'Hospital',
+        },
+        {
+          'title': 'Postman',
+          'emoji': '📬',
+          'description': 'Delivers our letters',
+          'place': 'Post Office',
+        },
+        {
+          'title': 'Chef',
+          'emoji': '👨‍🍳',
+          'description': 'Cooks delicious food',
+          'place': 'Restaurant',
+        },
+        {
+          'title': 'Pilot',
+          'emoji': '👨‍✈️',
+          'description': 'Flies airplanes',
+          'place': 'Airport',
+        },
+        {
+          'title': 'Driver',
+          'emoji': '🚌',
+          'description': 'Drives buses and cars',
+          'place': 'Road',
+        },
       ],
     },
     {
       'title': 'Safety',
       'emoji': '🛡️',
       'items': [
-        {'title': 'Road Safety', 'emoji': '🚦', 'description': 'Look both ways, use zebra crossing, walk on footpath'},
-        {'title': 'Home Safety', 'emoji': '🏠', 'description': 'Don\'t touch sockets, don\'t play with fire'},
-        {'title': 'Water Safety', 'emoji': '🏊', 'description': 'Never swim alone, wear life jacket'},
-        {'title': 'Stranger Danger', 'emoji': '⚠️', 'description': 'Don\'t talk to strangers, stay close to parents'},
-        {'title': 'Internet Safety', 'emoji': '💻', 'description': 'Don\'t share personal info, use internet with adults'},
+        {
+          'title': 'Road Safety',
+          'emoji': '🚦',
+          'description': 'Look both ways, use zebra crossing, walk on footpath',
+        },
+        {
+          'title': 'Home Safety',
+          'emoji': '🏠',
+          'description': 'Don\'t touch sockets, don\'t play with fire',
+        },
+        {
+          'title': 'Water Safety',
+          'emoji': '🏊',
+          'description': 'Never swim alone, wear life jacket',
+        },
+        {
+          'title': 'Stranger Danger',
+          'emoji': '⚠️',
+          'description': 'Don\'t talk to strangers, stay close to parents',
+        },
+        {
+          'title': 'Internet Safety',
+          'emoji': '💻',
+          'description': 'Don\'t share personal info, use internet with adults',
+        },
       ],
     },
     {
       'title': 'Festivals',
       'emoji': '🎉',
       'items': [
-        {'title': 'Diwali', 'emoji': '🪔', 'description': 'Festival of Lights', 'month': 'October/November'},
-        {'title': 'Holi', 'emoji': '🎨', 'description': 'Festival of Colors', 'month': 'March'},
-        {'title': 'Eid', 'emoji': '🌙', 'description': 'Festival after Ramadan', 'month': 'Varies'},
-        {'title': 'Christmas', 'emoji': '🎄', 'description': 'Birth of Jesus Christ', 'month': 'December'},
-        {'title': 'Raksha Bandhan', 'emoji': '🎀', 'description': 'Brother-Sister bond', 'month': 'August'},
-        {'title': 'Ganesh Chaturthi', 'emoji': '🐘', 'description': 'Lord Ganesha\'s birthday', 'month': 'August/September'},
+        {
+          'title': 'Diwali',
+          'emoji': '🪔',
+          'description': 'Festival of Lights',
+          'month': 'October/November',
+        },
+        {
+          'title': 'Holi',
+          'emoji': '🎨',
+          'description': 'Festival of Colors',
+          'month': 'March',
+        },
+        {
+          'title': 'Eid',
+          'emoji': '🌙',
+          'description': 'Festival after Ramadan',
+          'month': 'Varies',
+        },
+        {
+          'title': 'Christmas',
+          'emoji': '🎄',
+          'description': 'Birth of Jesus Christ',
+          'month': 'December',
+        },
+        {
+          'title': 'Raksha Bandhan',
+          'emoji': '🎀',
+          'description': 'Brother-Sister bond',
+          'month': 'August',
+        },
+        {
+          'title': 'Ganesh Chaturthi',
+          'emoji': '🐘',
+          'description': 'Lord Ganesha\'s birthday',
+          'month': 'August/September',
+        },
       ],
     },
   ];
@@ -110,30 +252,31 @@ class _SocialAwarenessPageState extends State<SocialAwarenessPage>
       title: 'Social Skills',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: () async {
-              await ProgressService.to
-                  .resetProgress(ProgressService.kSocialSkills);
+              await ProgressService.to.resetProgress(
+                ProgressService.kSocialSkills,
+              );
               setState(() {});
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
         ),
       ],
       bottom: TabBar(
         controller: _tabController,
         indicatorColor: Colors.white,
-        indicatorWeight: 3,
+        indicatorWeight: 3.r,
         isScrollable: true,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white70,
         tabAlignment: TabAlignment.center,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 28),
+        labelPadding: EdgeInsets.symmetric(horizontal: 28.w),
         dividerColor: Colors.transparent,
         tabs: const [
           Tab(text: "Manners"),
@@ -146,43 +289,56 @@ class _SocialAwarenessPageState extends State<SocialAwarenessPage>
         children: [
           // Progress bar
           Obx(() {
-            final progress = ProgressService.to
-                    .getProgressPercentage(ProgressService.kSocialSkills) /
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kSocialSkills,
+                ) /
                 100;
-            final progressString = ProgressService.to
-                .getProgressString(ProgressService.kSocialSkills);
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kSocialSkills,
+            );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.white70,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF4CAF50)),
+                        Color(0xFF4CAF50),
+                      ),
                     ),
                   ),
                 ],
@@ -207,11 +363,11 @@ class _SocialAwarenessPageState extends State<SocialAwarenessPage>
     final items = category['items'] as List<Map<String, dynamic>>;
 
     return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(12.r),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
+        mainAxisSpacing: 16.r,
+        crossAxisSpacing: 16.r,
         childAspectRatio: 1.0,
       ),
       itemCount: items.length,
@@ -226,10 +382,11 @@ class _SocialAwarenessPageState extends State<SocialAwarenessPage>
             isSelected: false,
             onTap: () {
               TtsService.to.speak(item['title']);
-              ProgressService.to
-                  .markItemCompleted(ProgressService.kSocialSkills, tabIndex);
-              _speakText(
-                  "${item['title']}. ${item['description']}");
+              ProgressService.to.markItemCompleted(
+                ProgressService.kSocialSkills,
+                tabIndex,
+              );
+              _speakText("${item['title']}. ${item['description']}");
             },
             pulseAnimation: pulseAnimation,
             child: Center(
@@ -237,27 +394,32 @@ class _SocialAwarenessPageState extends State<SocialAwarenessPage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 65,
-                    height: 65,
+                    width: 65.w,
+                    height: 65.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text(item['emoji'],
-                          style: const TextStyle(fontSize: 36)),
+                      child: Text(
+                        item['emoji'],
+                        style: const TextStyle(fontSize: 36),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  GradientCardText(text: item['title'], fontSize: 13),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 8.h),
+                  Flexible(
+                    child: GradientCardText(text: item['title'], fontSize: 13),
+                  ),
+                  SizedBox(height: 4.h),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     child: Text(
                       item['description'],
                       style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white.withValues(alpha: 0.9)),
+                        fontSize: 10,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

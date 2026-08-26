@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Common AppBar with gradient styling used across the app
 /// Matches the design from Numbers page
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -55,7 +57,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.3),
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],

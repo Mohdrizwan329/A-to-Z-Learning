@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class FamilyRelationshipsDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -22,37 +24,98 @@ class _FamilyRelationshipsDetailPageState
       'title': 'My Family',
       'emoji': '👨‍👩‍👧‍👦',
       'members': [
-        {'name': 'Mother', 'emoji': '👩', 'hindi': 'माँ (Maa)', 'role': 'Takes care of us with love'},
-        {'name': 'Father', 'emoji': '👨', 'hindi': 'पिता (Pita)', 'role': 'Protects and provides for family'},
-        {'name': 'Sister', 'emoji': '👧', 'hindi': 'बहन (Behen)', 'role': 'A friend to play and share with'},
-        {'name': 'Brother', 'emoji': '👦', 'hindi': 'भाई (Bhai)', 'role': 'A friend to learn and grow with'},
+        {
+          'name': 'Mother',
+          'emoji': '👩',
+          'hindi': 'माँ (Maa)',
+          'role': 'Takes care of us with love',
+        },
+        {
+          'name': 'Father',
+          'emoji': '👨',
+          'hindi': 'पिता (Pita)',
+          'role': 'Protects and provides for family',
+        },
+        {
+          'name': 'Sister',
+          'emoji': '👧',
+          'hindi': 'बहन (Behen)',
+          'role': 'A friend to play and share with',
+        },
+        {
+          'name': 'Brother',
+          'emoji': '👦',
+          'hindi': 'भाई (Bhai)',
+          'role': 'A friend to learn and grow with',
+        },
       ],
     },
     {
       'title': 'Grandparents',
       'emoji': '👴👵',
       'members': [
-        {'name': 'Grandfather', 'emoji': '👴', 'hindi': 'दादा/नाना', 'role': 'Tells stories and gives wisdom'},
-        {'name': 'Grandmother', 'emoji': '👵', 'hindi': 'दादी/नानी', 'role': 'Cooks yummy food and gives hugs'},
+        {
+          'name': 'Grandfather',
+          'emoji': '👴',
+          'hindi': 'दादा/नाना',
+          'role': 'Tells stories and gives wisdom',
+        },
+        {
+          'name': 'Grandmother',
+          'emoji': '👵',
+          'hindi': 'दादी/नानी',
+          'role': 'Cooks yummy food and gives hugs',
+        },
       ],
     },
     {
       'title': 'Extended Family',
       'emoji': '👥',
       'members': [
-        {'name': 'Uncle', 'emoji': '👨', 'hindi': 'चाचा/मामा', 'role': 'Father\'s or Mother\'s brother'},
-        {'name': 'Aunt', 'emoji': '👩', 'hindi': 'चाची/मामी', 'role': 'Father\'s or Mother\'s sister'},
-        {'name': 'Cousin', 'emoji': '🧒', 'hindi': 'चचेरा भाई/बहन', 'role': 'Uncle or Aunt\'s children'},
+        {
+          'name': 'Uncle',
+          'emoji': '👨',
+          'hindi': 'चाचा/मामा',
+          'role': 'Father\'s or Mother\'s brother',
+        },
+        {
+          'name': 'Aunt',
+          'emoji': '👩',
+          'hindi': 'चाची/मामी',
+          'role': 'Father\'s or Mother\'s sister',
+        },
+        {
+          'name': 'Cousin',
+          'emoji': '🧒',
+          'hindi': 'चचेरा भाई/बहन',
+          'role': 'Uncle or Aunt\'s children',
+        },
       ],
     },
     {
       'title': 'Family Values',
       'emoji': '❤️',
       'values': [
-        {'name': 'Love', 'emoji': '💕', 'meaning': 'Care for each other always'},
-        {'name': 'Respect', 'emoji': '🙏', 'meaning': 'Listen and be polite to elders'},
-        {'name': 'Sharing', 'emoji': '🤝', 'meaning': 'Share toys, food, and happiness'},
-        {'name': 'Helping', 'emoji': '🤲', 'meaning': 'Help with chores and tasks'},
+        {
+          'name': 'Love',
+          'emoji': '💕',
+          'meaning': 'Care for each other always',
+        },
+        {
+          'name': 'Respect',
+          'emoji': '🙏',
+          'meaning': 'Listen and be polite to elders',
+        },
+        {
+          'name': 'Sharing',
+          'emoji': '🤝',
+          'meaning': 'Share toys, food, and happiness',
+        },
+        {
+          'name': 'Helping',
+          'emoji': '🤲',
+          'meaning': 'Help with chores and tasks',
+        },
         {'name': 'Honesty', 'emoji': '✨', 'meaning': 'Always tell the truth'},
       ],
     },
@@ -60,10 +123,26 @@ class _FamilyRelationshipsDetailPageState
       'title': 'Types of Families',
       'emoji': '🏠',
       'types': [
-        {'name': 'Nuclear Family', 'emoji': '👨‍👩‍👧', 'desc': 'Parents and children living together'},
-        {'name': 'Joint Family', 'emoji': '👨‍👩‍👧‍👦👴👵', 'desc': 'Grandparents, parents, and children together'},
-        {'name': 'Single Parent', 'emoji': '👩‍👧', 'desc': 'One parent taking care of children'},
-        {'name': 'Extended Family', 'emoji': '👥', 'desc': 'Relatives living together or nearby'},
+        {
+          'name': 'Nuclear Family',
+          'emoji': '👨‍👩‍👧',
+          'desc': 'Parents and children living together',
+        },
+        {
+          'name': 'Joint Family',
+          'emoji': '👨‍👩‍👧‍👦👴👵',
+          'desc': 'Grandparents, parents, and children together',
+        },
+        {
+          'name': 'Single Parent',
+          'emoji': '👩‍👧',
+          'desc': 'One parent taking care of children',
+        },
+        {
+          'name': 'Extended Family',
+          'emoji': '👥',
+          'desc': 'Relatives living together or nearby',
+        },
       ],
     },
     {
@@ -100,7 +179,7 @@ class _FamilyRelationshipsDetailPageState
     return GradientScaffold(
       title: section['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -108,18 +187,18 @@ class _FamilyRelationshipsDetailPageState
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -130,7 +209,7 @@ class _FamilyRelationshipsDetailPageState
                       section['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       section['title'],
                       style: GoogleFonts.poppins(
@@ -140,7 +219,7 @@ class _FamilyRelationshipsDetailPageState
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.3),
-                            blurRadius: 4,
+                            blurRadius: 4.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -151,17 +230,13 @@ class _FamilyRelationshipsDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Content based on type
-            if (section.containsKey('members'))
-              _buildMemberCards(section),
-            if (section.containsKey('values'))
-              _buildValueCards(section),
-            if (section.containsKey('types'))
-              _buildTypeCards(section),
-            if (section.containsKey('tips'))
-              _buildTipCards(section),
-            const SizedBox(height: 16),
+            if (section.containsKey('members')) _buildMemberCards(section),
+            if (section.containsKey('values')) _buildValueCards(section),
+            if (section.containsKey('types')) _buildTypeCards(section),
+            if (section.containsKey('tips')) _buildTipCards(section),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -170,28 +245,30 @@ class _FamilyRelationshipsDetailPageState
 
   Widget _buildMemberCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['members'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['members'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final member = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -199,7 +276,7 @@ class _FamilyRelationshipsDetailPageState
             child: Row(
               children: [
                 Text(member['emoji'], style: const TextStyle(fontSize: 40)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,28 +316,30 @@ class _FamilyRelationshipsDetailPageState
 
   Widget _buildValueCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['values'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['values'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final value = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -268,7 +347,7 @@ class _FamilyRelationshipsDetailPageState
             child: Row(
               children: [
                 Text(value['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,28 +380,28 @@ class _FamilyRelationshipsDetailPageState
 
   Widget _buildTypeCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['types'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['types'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final type = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -330,7 +409,7 @@ class _FamilyRelationshipsDetailPageState
             child: Row(
               children: [
                 Text(type['emoji'], style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,28 +442,28 @@ class _FamilyRelationshipsDetailPageState
 
   Widget _buildTipCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['tips'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['tips'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final tip = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -392,7 +471,7 @@ class _FamilyRelationshipsDetailPageState
             child: Row(
               children: [
                 Text(tip['emoji'], style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Text(
                     tip['tip'],

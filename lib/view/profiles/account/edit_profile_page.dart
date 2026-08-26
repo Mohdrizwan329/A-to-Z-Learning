@@ -8,6 +8,8 @@ import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -361,113 +363,130 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                           );
                         },
                         child: Center(
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: _showImagePickerOptions,
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.5),
-                                  width: 3,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.2),
-                                    blurRadius: 15,
-                                  ),
-                                ],
-                                image: _selectedImage != null
-                                    ? DecorationImage(
-                                        image: FileImage(_selectedImage!),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : null,
-                              ),
-                              child: _selectedImage == null
-                                  ? Center(
-                                      child: Text(
-                                        'U',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 42,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF4ECDC4),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: _showImagePickerOptions,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: 100.w,
+                                      height: 100.h,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.5,
+                                          ),
+                                          width: 3,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(
+                                              alpha: 0.2,
+                                            ),
+                                            blurRadius: 15.r,
+                                          ),
+                                        ],
+                                        image: _selectedImage != null
+                                            ? DecorationImage(
+                                                image: FileImage(
+                                                  _selectedImage!,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : null,
+                                      ),
+                                      child: _selectedImage == null
+                                          ? Center(
+                                              child: Text(
+                                                'U',
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 42,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: const Color(
+                                                    0xFF4ECDC4,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(6.r),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: const LinearGradient(
+                                            colors: [
+                                              Color(0xFF4ECDC4),
+                                              Color(0xFF44A08D),
+                                            ],
+                                          ),
+                                          border: Border.all(
+                                            color: Colors.white,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.camera_alt_rounded,
+                                          color: Colors.white,
+                                          size: 16.r,
                                         ),
                                       ),
-                                    )
-                                  : null,
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-                                  ),
-                                  border: Border.all(color: Colors.white, width: 2),
-                                ),
-                                child: const Icon(
-                                  Icons.camera_alt_rounded,
-                                  color: Colors.white,
-                                  size: 16,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                ),
-                SizedBox(height: AppTheme.spacingL),
+                      SizedBox(height: AppTheme.spacingL),
 
-                // Child Name Field
-                _buildFieldLabel('Child Name', Icons.person_outline_rounded),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  controller: _nameController,
-                  hint: 'Enter child name',
-                  validator: _validateName,
-                ),
-                SizedBox(height: AppTheme.spacingM),
+                      // Child Name Field
+                      _buildFieldLabel(
+                        'Child Name',
+                        Icons.person_outline_rounded,
+                      ),
+                      SizedBox(height: AppTheme.spacingS),
+                      _buildTextField(
+                        controller: _nameController,
+                        hint: 'Enter child name',
+                        validator: _validateName,
+                      ),
+                      SizedBox(height: AppTheme.spacingM),
 
-                // Parent Email Field
-                _buildFieldLabel('Parent Email', Icons.email_outlined),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  controller: _emailController,
-                  hint: 'Enter parent email',
-                  keyboardType: TextInputType.emailAddress,
-                  validator: _validateEmail,
-                ),
-                SizedBox(height: AppTheme.spacingM),
+                      // Parent Email Field
+                      _buildFieldLabel('Parent Email', Icons.email_outlined),
+                      SizedBox(height: AppTheme.spacingS),
+                      _buildTextField(
+                        controller: _emailController,
+                        hint: 'Enter parent email',
+                        keyboardType: TextInputType.emailAddress,
+                        validator: _validateEmail,
+                      ),
+                      SizedBox(height: AppTheme.spacingM),
 
-                // Phone Number Field
-                _buildFieldLabel('Phone Number', Icons.phone_outlined),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  controller: _phoneController,
-                  hint: 'Enter phone number',
-                  keyboardType: TextInputType.phone,
-                  validator: _validatePhone,
-                ),
-                SizedBox(height: AppTheme.spacingM),
+                      // Phone Number Field
+                      _buildFieldLabel('Phone Number', Icons.phone_outlined),
+                      SizedBox(height: AppTheme.spacingS),
+                      _buildTextField(
+                        controller: _phoneController,
+                        hint: 'Enter phone number',
+                        keyboardType: TextInputType.phone,
+                        validator: _validatePhone,
+                      ),
+                      SizedBox(height: AppTheme.spacingM),
 
-                // Location Field
-                _buildFieldLabel('Location', Icons.location_on_outlined),
-                SizedBox(height: AppTheme.spacingS),
-                _buildLocationField(),
-                SizedBox(height: AppTheme.spacingXL),
+                      // Location Field
+                      _buildFieldLabel('Location', Icons.location_on_outlined),
+                      SizedBox(height: AppTheme.spacingS),
+                      _buildLocationField(),
+                      SizedBox(height: AppTheme.spacingXL),
 
                       // Save Button
                       _buildSaveButton(),
@@ -490,34 +509,30 @@ class _EditProfileScreenState extends State<EditProfileScreen>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -532,7 +547,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -552,7 +567,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           ),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.3),
               width: 1,
@@ -582,7 +597,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
               ),
               border: InputBorder.none,
               isDense: true,
-              contentPadding: const EdgeInsets.symmetric(vertical: 8),
+              contentPadding: EdgeInsets.symmetric(vertical: 8.h),
               suffixIcon: _locationController.text.isNotEmpty
                   ? GestureDetector(
                       onTap: () {
@@ -595,7 +610,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                       child: Icon(
                         Icons.close_rounded,
                         color: Colors.white.withValues(alpha: 0.7),
-                        size: 20,
+                        size: 20.r,
                       ),
                     )
                   : null,
@@ -605,20 +620,20 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         // Suggestions dropdown
         if (_showLocationSuggestions && _locationSuggestions.isNotEmpty)
           Container(
-            margin: const EdgeInsets.only(top: 4),
+            margin: EdgeInsets.only(top: 4.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               child: Column(
                 children: _locationSuggestions.asMap().entries.map((entry) {
                   final index = entry.key;
@@ -629,9 +644,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                       onTap: () => _selectLocation(city),
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 12.h,
                         ),
                         decoration: BoxDecoration(
                           border: index < _locationSuggestions.length - 1
@@ -647,9 +662,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                             Icon(
                               Icons.location_on_outlined,
                               color: const Color(0xFF667EEA),
-                              size: 20,
+                              size: 20.r,
                             ),
-                            const SizedBox(width: 12),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Text(
                                 city,
@@ -677,12 +692,12 @@ class _EditProfileScreenState extends State<EditProfileScreen>
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
           ),
-          child: Icon(icon, color: Colors.white, size: 18),
+          child: Icon(icon, color: Colors.white, size: 18.r),
         ),
         SizedBox(width: AppTheme.spacingS),
         Text(
@@ -694,7 +709,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
             shadows: [
               Shadow(
                 color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 2,
+                blurRadius: 2.r,
                 offset: const Offset(0, 1),
               ),
             ],
@@ -717,7 +732,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
       ),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.3),
           width: 1,
@@ -747,7 +762,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           ),
           border: InputBorder.none,
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
         ),
       ),
     );
@@ -758,33 +773,30 @@ class _EditProfileScreenState extends State<EditProfileScreen>
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
+            topLeft: Radius.circular(25.r),
+            topRight: Radius.circular(25.r),
           ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 40,
-              height: 4,
+              width: 40.w,
+              height: 4.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(2.r),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Text(
               'Choose Photo',
               style: GoogleFonts.poppins(
@@ -793,14 +805,18 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildPickerOption(
                   icon: Icons.camera_alt_rounded,
                   label: 'Camera',
-                  gradient: const [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                  gradient: const [
+                    Color(0xFFFF6B6B),
+                    Color(0xFFFF8E53),
+                    Color(0xFFFFAA5A),
+                  ],
                   onTap: () {
                     Navigator.pop(context);
                     _pickImage(ImageSource.camera);
@@ -817,7 +833,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
           ],
         ),
       ),
@@ -835,30 +851,26 @@ class _EditProfileScreenState extends State<EditProfileScreen>
       child: Column(
         children: [
           Container(
-            width: 70,
-            height: 70,
+            width: 70.w,
+            height: 70.h,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 12,
+                  blurRadius: 12.r,
                   offset: const Offset(0, 6),
                 ),
               ],
             ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 32,
-            ),
+            child: Icon(icon, color: Colors.white, size: 32.r),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             label,
             style: GoogleFonts.nunito(
@@ -893,8 +905,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
     }
   }
@@ -910,8 +922,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
       return;
     }
@@ -935,8 +947,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFF4ECDC4),
           colorText: Colors.white,
-          borderRadius: 16,
-          margin: const EdgeInsets.all(16),
+          borderRadius: 16.r,
+          margin: EdgeInsets.all(16.r),
         );
         // Go back to Profile screen (pop Edit Profile and Account Settings)
         Get.close(2);
@@ -949,8 +961,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFFFF6B6B),
           colorText: Colors.white,
-          borderRadius: 16,
-          margin: const EdgeInsets.all(16),
+          borderRadius: 16.r,
+          margin: EdgeInsets.all(16.r),
         );
       }
     } catch (e) {
@@ -961,8 +973,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
     } finally {
       if (mounted) {
@@ -989,25 +1001,25 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
-              blurRadius: 16,
+              blurRadius: 16.r,
               offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Center(
           child: _isSaving
-              ? const SizedBox(
-                  width: 24,
-                  height: 24,
+              ? SizedBox(
+                  width: 24.w,
+                  height: 24.h,
                   child: CircularProgressIndicator(
                     color: Colors.white,
-                    strokeWidth: 2.5,
+                    strokeWidth: 2.5.r,
                   ),
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.save_rounded, color: Colors.white, size: 22),
+                    Icon(Icons.save_rounded, color: Colors.white, size: 22.r),
                     SizedBox(width: AppTheme.spacingS),
                     Text(
                       'Save Changes',

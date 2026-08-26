@@ -6,11 +6,14 @@ import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/services/notification_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class NotificationSettingsScreen extends StatefulWidget {
   const NotificationSettingsScreen({super.key});
 
   @override
-  State<NotificationSettingsScreen> createState() => _NotificationSettingsScreenState();
+  State<NotificationSettingsScreen> createState() =>
+      _NotificationSettingsScreenState();
 }
 
 class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
@@ -264,34 +267,30 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -306,7 +305,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -323,7 +322,13 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
 
     return Obx(() {
       final isEnabled = _getNotificationValue(key);
-      return _buildNotificationTileContent(item, gradientList, isEnabled, key, index);
+      return _buildNotificationTileContent(
+        item,
+        gradientList,
+        isEnabled,
+        key,
+        index,
+      );
     });
   }
 
@@ -340,92 +345,87 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
         final offset = (index % 2 == 0)
             ? _floatAnimation.value * 0.5
             : -_floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
-      margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: isEnabled
-              ? gradientList
-              : [Colors.grey.shade400, Colors.grey.shade500],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: (isEnabled ? gradientList[0] : Colors.grey).withValues(alpha: 0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+        margin: EdgeInsets.only(bottom: AppTheme.spacingS),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: isEnabled
+                ? gradientList
+                : [Colors.grey.shade400, Colors.grey.shade500],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(20),
-          onTap: () => _toggleNotification(key, !isEnabled),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppTheme.spacingM,
-              vertical: AppTheme.spacingL,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: (isEnabled ? gradientList[0] : Colors.grey).withValues(
+                alpha: 0.4,
+              ),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
             ),
-            child: Row(
-              children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(14),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(20.r),
+            onTap: () => _toggleNotification(key, !isEnabled),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppTheme.spacingM,
+                vertical: AppTheme.spacingL,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 56.w,
+                    height: 56.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    child: Icon(item['icon'], color: Colors.white, size: 26.r),
                   ),
-                  child: Icon(
-                    item['icon'],
-                    color: Colors.white,
-                    size: 26,
-                  ),
-                ),
-                SizedBox(width: AppTheme.spacingM),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item['title'],
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                  SizedBox(width: AppTheme.spacingM),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['title'],
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        item['subtitle'],
-                        style: GoogleFonts.nunito(
-                          fontSize: 13,
-                          color: Colors.white.withValues(alpha: 0.8),
+                        SizedBox(height: 2.h),
+                        Text(
+                          item['subtitle'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 13,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Switch(
-                  value: isEnabled,
-                  onChanged: (newValue) => _toggleNotification(key, newValue),
-                  activeThumbColor: Colors.white,
-                  activeTrackColor: Colors.white.withValues(alpha: 0.4),
-                  inactiveThumbColor: Colors.white,
-                  inactiveTrackColor: Colors.white.withValues(alpha: 0.2),
-                ),
-              ],
+                  Switch(
+                    value: isEnabled,
+                    onChanged: (newValue) => _toggleNotification(key, newValue),
+                    activeThumbColor: Colors.white,
+                    activeTrackColor: Colors.white.withValues(alpha: 0.4),
+                    inactiveThumbColor: Colors.white,
+                    inactiveTrackColor: Colors.white.withValues(alpha: 0.2),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

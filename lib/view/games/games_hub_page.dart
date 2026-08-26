@@ -6,6 +6,8 @@ import 'package:jiyan_learning/view/games/puzzle_game_page.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class GamesHubPage extends StatefulWidget {
   const GamesHubPage({super.key});
 
@@ -188,14 +190,13 @@ class _GamesHubPageState extends State<GamesHubPage>
                   // Games grid
                   Expanded(
                     child: GridView.builder(
-                      padding: const EdgeInsets.all(16),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
-                            childAspectRatio: 1.1,
-                          ),
+                      padding: EdgeInsets.all(16.r),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16.r,
+                        crossAxisSpacing: 16.r,
+                        childAspectRatio: 1.1,
+                      ),
                       itemCount: games.length,
                       itemBuilder: (context, index) => _buildGameCard(index),
                     ),
@@ -216,21 +217,21 @@ class _GamesHubPageState extends State<GamesHubPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // Vibrant kid-friendly gradient - Coral to Pink to Orange
           gradient: LinearGradient(
             colors: [
@@ -244,53 +245,61 @@ class _GamesHubPageState extends State<GamesHubPage>
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Fun ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Fun ',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'Games',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D), // Yellow
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'Games',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D), // Yellow
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
     );
   }
 
   Widget _buildHeader() {
-    return const SizedBox(height: 8);
+    return SizedBox(height: 8.h);
   }
 
   Widget _buildGameCard(int index) {
@@ -318,11 +327,11 @@ class _GamesHubPageState extends State<GamesHubPage>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
                 color: gradient[0].withValues(alpha: 0.4),
-                blurRadius: 8,
+                blurRadius: 8.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -331,11 +340,11 @@ class _GamesHubPageState extends State<GamesHubPage>
             children: [
               // Decorative circle
               Positioned(
-                top: -15,
-                right: -15,
+                top: -15.h,
+                right: -15.w,
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white.withValues(alpha: 0.1),
@@ -345,41 +354,44 @@ class _GamesHubPageState extends State<GamesHubPage>
               // Content
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Emoji
-                      Container(
-                        width: 75,
-                        height: 75,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            game['emoji']!,
-                            style: const TextStyle(fontSize: 35),
+                  padding: EdgeInsets.all(8.r),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Emoji
+                        Container(
+                          width: 75.w,
+                          height: 75.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              game['emoji']!,
+                              style: const TextStyle(fontSize: 35),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      // Title
-                      Text(
-                        game['title']!,
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          height: 1.1,
+                        SizedBox(height: 8.h),
+                        // Title
+                        Text(
+                          game['title']!,
+                          style: GoogleFonts.nunito(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.1,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -543,7 +555,9 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
     bool isLastLevel = _currentLevel >= _totalLevels - 1;
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -551,7 +565,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
               isLastLevel ? "🏆" : "🎉",
               style: const TextStyle(fontSize: 60),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               isLastLevel
                   ? 'All Levels Complete!'
@@ -562,12 +576,12 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                 color: Color(0xFFFFAA5A),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Completed in $_moves moves',
               style: const TextStyle(fontSize: 16),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -608,12 +622,12 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => _resetAllProgress(),
         ),
@@ -622,7 +636,7 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
         children: [
           // Progress bar
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
             child: Column(
               children: [
                 Row(
@@ -646,16 +660,16 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: LinearProgressIndicator(
                     value: (_currentLevel + 1) / _totalLevels,
                     backgroundColor: Colors.white.withValues(alpha: 0.3),
                     valueColor: const AlwaysStoppedAnimation<Color>(
                       Color(0xFF4CAF50),
                     ),
-                    minHeight: 10,
+                    minHeight: 10.h,
                   ),
                 ),
               ],
@@ -663,24 +677,30 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
           ),
           // Stats row
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Matches: $_matches/8',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                Flexible(
+                  child: Text(
+                    'Matches: $_matches/8',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text(
-                  'Moves: $_moves',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w500,
+                Flexible(
+                  child: Text(
+                    'Moves: $_moves',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -689,11 +709,11 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
           // Cards grid
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              padding: EdgeInsets.all(12.r),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
                 childAspectRatio: 1,
               ),
               itemCount: 16,
@@ -710,13 +730,13 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                               end: Alignment.bottomRight,
                             ),
                       color: _revealed[index] ? Colors.white : null,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: _revealed[index]
                               ? Colors.black.withValues(alpha: 0.1)
                               : const Color(0xFFFFAA5A).withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -726,11 +746,11 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                         // Decorative circle
                         if (!_revealed[index])
                           Positioned(
-                            top: -10,
-                            right: -10,
+                            top: -10.h,
+                            right: -10.w,
                             child: Container(
-                              width: 30,
-                              height: 30,
+                              width: 30.w,
+                              height: 30.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.1),
@@ -740,8 +760,8 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                         // Emoji
                         Center(
                           child: Container(
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               color: _revealed[index]
                                   ? Colors.grey.withValues(alpha: 0.1)
@@ -766,25 +786,29 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
           // Clear & Try Again button (shown when not complete and has moves)
           if (!_isLevelComplete && _moves > 0)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: 8.h),
               child: GestureDetector(
                 onTap: _clearAndRetry,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 12.h,
                   ),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                      colors: [
+                        Color(0xFFFF6B6B),
+                        Color(0xFFFF8E53),
+                        Color(0xFFFFAA5A),
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                        blurRadius: 8,
+                        blurRadius: 8.r,
                         offset: const Offset(0, 4),
                       ),
                     ],
@@ -792,8 +816,8 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.refresh, color: Colors.white, size: 20),
-                      const SizedBox(width: 8),
+                      Icon(Icons.refresh, color: Colors.white, size: 20.r),
+                      SizedBox(width: 8.w),
                       Text(
                         'Clear & Try Again',
                         style: GoogleFonts.nunito(
@@ -809,128 +833,139 @@ class _MemoryGamePageState extends State<MemoryGamePage> {
             ),
           // Navigation buttons
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Previous button
-                GestureDetector(
-                  onTap: _currentLevel > 0 ? _goToPreviousLevel : null,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: _currentLevel > 0
-                          ? const LinearGradient(
-                              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                          : null,
-                      color: _currentLevel > 0
-                          ? null
-                          : Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: _currentLevel > 0
-                          ? [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFFFF6B6B,
-                                ).withValues(alpha: 0.4),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: _currentLevel > 0
-                              ? Colors.white
-                              : Colors.white54,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Previous',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                Flexible(
+                  child: GestureDetector(
+                    onTap: _currentLevel > 0 ? _goToPreviousLevel : null,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: _currentLevel > 0
+                            ? const LinearGradient(
+                                colors: [
+                                  Color(0xFFFF6B6B),
+                                  Color(0xFFFF8E53),
+                                  Color(0xFFFFAA5A),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : null,
+                        color: _currentLevel > 0
+                            ? null
+                            : Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(16.r),
+                        boxShadow: _currentLevel > 0
+                            ? [
+                                BoxShadow(
+                                  color: const Color(
+                                    0xFFFF6B6B,
+                                  ).withValues(alpha: 0.4),
+                                  blurRadius: 8.r,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_back_ios,
                             color: _currentLevel > 0
                                 ? Colors.white
                                 : Colors.white54,
+                            size: 18.r,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 4.w),
+                          Flexible(
+                            child: Text(
+                              'Previous',
+                              style: GoogleFonts.nunito(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: _currentLevel > 0
+                                    ? Colors.white
+                                    : Colors.white54,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 // Next button (only enabled when level is complete)
-                GestureDetector(
-                  onTap: _isLevelComplete && _currentLevel < _totalLevels - 1
-                      ? _goToNextLevel
-                      : null,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient:
-                          _isLevelComplete && _currentLevel < _totalLevels - 1
-                          ? const LinearGradient(
-                              colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                          : null,
-                      color:
-                          _isLevelComplete && _currentLevel < _totalLevels - 1
-                          ? null
-                          : Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow:
-                          _isLevelComplete && _currentLevel < _totalLevels - 1
-                          ? [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFF56D97F,
-                                ).withValues(alpha: 0.4),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Next',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                Flexible(
+                  child: GestureDetector(
+                    onTap: _isLevelComplete && _currentLevel < _totalLevels - 1
+                        ? _goToNextLevel
+                        : null,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 12.h,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient:
+                            _isLevelComplete && _currentLevel < _totalLevels - 1
+                            ? const LinearGradient(
+                                colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : null,
+                        color:
+                            _isLevelComplete && _currentLevel < _totalLevels - 1
+                            ? null
+                            : Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(16.r),
+                        boxShadow:
+                            _isLevelComplete && _currentLevel < _totalLevels - 1
+                            ? [
+                                BoxShadow(
+                                  color: const Color(
+                                    0xFF56D97F,
+                                  ).withValues(alpha: 0.4),
+                                  blurRadius: 8.r,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Next',
+                            style: GoogleFonts.nunito(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  _isLevelComplete &&
+                                      _currentLevel < _totalLevels - 1
+                                  ? Colors.white
+                                  : Colors.white54,
+                            ),
+                          ),
+                          SizedBox(width: 4.w),
+                          Icon(
+                            Icons.arrow_forward_ios,
                             color:
                                 _isLevelComplete &&
                                     _currentLevel < _totalLevels - 1
                                 ? Colors.white
                                 : Colors.white54,
+                            size: 18.r,
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color:
-                              _isLevelComplete &&
-                                  _currentLevel < _totalLevels - 1
-                              ? Colors.white
-                              : Colors.white54,
-                          size: 18,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1058,7 +1093,9 @@ class _NumberQuizPageState extends State<NumberQuizPage> {
     final percentage = (_score / maxScore * 100).round();
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1070,7 +1107,7 @@ class _NumberQuizPageState extends State<NumberQuizPage> {
                   : "⭐",
               style: const TextStyle(fontSize: 60),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               percentage >= 80
                   ? 'Excellent!'
@@ -1083,17 +1120,17 @@ class _NumberQuizPageState extends State<NumberQuizPage> {
                 color: Color(0xFF56D97F),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Score: $_score/$maxScore ($percentage%)',
               style: const TextStyle(fontSize: 16),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Questions: $_totalQuestions',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -1132,183 +1169,109 @@ class _NumberQuizPageState extends State<NumberQuizPage> {
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: _resetQuiz,
           tooltip: 'Reset Quiz',
         ),
       ],
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // Progress bar section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.all(16.r),
+        child: LayoutBuilder(
+          // Portrait-shaped content: in landscape the body is barely 300pt tall,
+          // which is shorter than this column needs. Scroll when that happens and
+          // stay exactly as before whenever there is room.
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Question $_question/$_totalQuestions',
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  // Progress bar section
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Question $_question/$_totalQuestions',
+                              style: GoogleFonts.nunito(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '$percentage%',
+                              style: GoogleFonts.nunito(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Text(
-                        '$percentage%',
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 10,
-                      backgroundColor: Colors.white.withValues(alpha: 0.3),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Color(0xFF56D97F),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Score: $_score',
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        'Max: ${_totalQuestions * 10}',
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Question card - styled like home screen
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  // Decorative circle
-                  Positioned(
-                    top: -15,
-                    right: -15,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.1),
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Center(
-                          child: Text('🔢', style: TextStyle(fontSize: 40)),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        '$_num1 $_operator $_num2 = ?',
-                        style: GoogleFonts.nunito(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      if (_isCorrect != null) ...[
-                        const SizedBox(height: 12),
-                        Text(
-                          _isCorrect!
-                              ? '✓ Correct!'
-                              : '✗ Answer: $_correctAnswer',
-                          style: TextStyle(
-                            color: _isCorrect!
-                                ? Colors.white
-                                : const Color(0xFFFFE66D),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                        SizedBox(height: 8.h),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 10.h,
+                            backgroundColor: Colors.white.withValues(
+                              alpha: 0.3,
+                            ),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              Color(0xFF56D97F),
+                            ),
                           ),
                         ),
+                        SizedBox(height: 8.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Score: $_score',
+                              style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              'Max: ${_totalQuestions * 10}',
+                              style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
-                    ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            // Options grid - styled like home screen cards
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              childAspectRatio: 1.5,
-              children: _options.map((option) {
-                return GestureDetector(
-                  onTap: _isCorrect == null ? () => _checkAnswer(option) : null,
-                  child: Container(
+                  SizedBox(height: 16.h),
+                  // Question card - styled like home screen
+                  Container(
+                    padding: EdgeInsets.all(24.r),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -1317,33 +1280,300 @@ class _NumberQuizPageState extends State<NumberQuizPage> {
                       children: [
                         // Decorative circle
                         Positioned(
-                          top: -10,
-                          right: -10,
+                          top: -15.h,
+                          right: -15.w,
                           child: Container(
-                            width: 35,
-                            height: 35,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
                             ),
                           ),
                         ),
-                        Center(
-                          child: Container(
-                            width: 55,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.3),
-                              shape: BoxShape.circle,
+                        Column(
+                          children: [
+                            Container(
+                              width: 80.w,
+                              height: 80.h,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '🔢',
+                                  style: TextStyle(fontSize: 40),
+                                ),
+                              ),
                             ),
-                            child: Center(
-                              child: Text(
-                                '$option',
-                                style: GoogleFonts.nunito(
-                                  fontSize: 22,
-                                  color: Colors.white,
+                            SizedBox(height: 16.h),
+                            Text(
+                              '$_num1 $_operator $_num2 = ?',
+                              style: GoogleFonts.nunito(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            if (_isCorrect != null) ...[
+                              SizedBox(height: 12.h),
+                              Text(
+                                _isCorrect!
+                                    ? '✓ Correct!'
+                                    : '✗ Answer: $_correctAnswer',
+                                style: TextStyle(
+                                  color: _isCorrect!
+                                      ? Colors.white
+                                      : const Color(0xFFFFE66D),
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+                  // Options grid - styled like home screen cards
+                  GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 1.5,
+                    children: _options.map((option) {
+                      return GestureDetector(
+                        onTap: _isCorrect == null
+                            ? () => _checkAnswer(option)
+                            : null,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF56D97F,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 8.r,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              // Decorative circle
+                              Positioned(
+                                top: -10.h,
+                                right: -10.w,
+                                child: Container(
+                                  width: 35.w,
+                                  height: 35.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withValues(alpha: 0.1),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Container(
+                                  width: 55.w,
+                                  height: 55.h,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.3),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '$option',
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(height: 24.h),
+                  // Clear & Try Again button (shown when wrong)
+                  if (_isCorrect == false)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: GestureDetector(
+                        onTap: _clearAndRetry,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30.w,
+                            vertical: 14.h,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFFF6B6B),
+                                Color(0xFFFF8E53),
+                                Color(0xFFFFAA5A),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFFFF6B6B,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 8.r,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                                size: 20.r,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                'Clear & Try Again',
+                                style: GoogleFonts.nunito(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  // Navigation buttons
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Previous button (disabled for quiz as questions are random)
+                        Flexible(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 12.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white54,
+                                  size: 18.r,
+                                ),
+                                SizedBox(width: 4.w),
+                                Flexible(
+                                  child: Text(
+                                    'Previous',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white54,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // Next button (only enabled when correct)
+                        Flexible(
+                          child: GestureDetector(
+                            onTap:
+                                _isCorrect == true &&
+                                    _question < _totalQuestions
+                                ? _generateQuestion
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 12.h,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient:
+                                    _isCorrect == true &&
+                                        _question < _totalQuestions
+                                    ? const LinearGradient(
+                                        colors: [
+                                          Color(0xFF56D97F),
+                                          Color(0xFF4ECDC4),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      )
+                                    : null,
+                                color:
+                                    _isCorrect == true &&
+                                        _question < _totalQuestions
+                                    ? null
+                                    : Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow:
+                                    _isCorrect == true &&
+                                        _question < _totalQuestions
+                                    ? [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xFF56D97F,
+                                          ).withValues(alpha: 0.4),
+                                          blurRadius: 8.r,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ]
+                                    : null,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Next',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          _isCorrect == true &&
+                                              _question < _totalQuestions
+                                          ? Colors.white
+                                          : Colors.white54,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color:
+                                        _isCorrect == true &&
+                                            _question < _totalQuestions
+                                        ? Colors.white
+                                        : Colors.white54,
+                                    size: 18.r,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -1351,162 +1581,11 @@ class _NumberQuizPageState extends State<NumberQuizPage> {
                       ],
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-            const Spacer(),
-            // Clear & Try Again button (shown when wrong)
-            if (_isCorrect == false)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: GestureDetector(
-                  onTap: _clearAndRetry,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 14,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.refresh,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Clear & Try Again',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            // Navigation buttons
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Previous button (disabled for quiz as questions are random)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white54,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Previous',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white54,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Next button (only enabled when correct)
-                  GestureDetector(
-                    onTap: _isCorrect == true && _question < _totalQuestions
-                        ? _generateQuestion
-                        : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient:
-                            _isCorrect == true && _question < _totalQuestions
-                            ? const LinearGradient(
-                                colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : null,
-                        color: _isCorrect == true && _question < _totalQuestions
-                            ? null
-                            : Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow:
-                            _isCorrect == true && _question < _totalQuestions
-                            ? [
-                                BoxShadow(
-                                  color: const Color(
-                                    0xFF56D97F,
-                                  ).withValues(alpha: 0.4),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Next',
-                            style: GoogleFonts.nunito(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  _isCorrect == true &&
-                                      _question < _totalQuestions
-                                  ? Colors.white
-                                  : Colors.white54,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color:
-                                _isCorrect == true &&
-                                    _question < _totalQuestions
-                                ? Colors.white
-                                : Colors.white54,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 16.h),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-          ],
+          ),
         ),
       ),
     );
@@ -1682,7 +1761,9 @@ class _ColorMatchPageState extends State<ColorMatchPage> {
     final percentage = (_score / maxScore * 100).round();
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1694,7 +1775,7 @@ class _ColorMatchPageState extends State<ColorMatchPage> {
                   : "⭐",
               style: const TextStyle(fontSize: 60),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               percentage >= 80
                   ? 'Color Master!'
@@ -1707,17 +1788,17 @@ class _ColorMatchPageState extends State<ColorMatchPage> {
                 color: Color(0xFFFF6EB4),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Score: $_score/$maxScore ($percentage%)',
               style: const TextStyle(fontSize: 16),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Colors: $_totalQuestions',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -1758,428 +1839,469 @@ class _ColorMatchPageState extends State<ColorMatchPage> {
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: _resetGame,
           tooltip: 'Reset Game',
         ),
       ],
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // Progress bar section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.all(16.r),
+        child: LayoutBuilder(
+          // Portrait-shaped content: in landscape the body is barely 300pt tall,
+          // which is shorter than this column needs. Scroll when that happens and
+          // stay exactly as before whenever there is room.
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Color $_question/$_totalQuestions',
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '$percentage%',
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 10,
-                      backgroundColor: Colors.white.withValues(alpha: 0.3),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Color(0xFFFF6EB4),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Score: $_score',
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        'Max: ${_totalQuestions * 10}',
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Color display card
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFFF6EB4), Color(0xFFf093fb)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFFF6EB4).withValues(alpha: 0.4),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: -15,
-                    right: -15,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.1),
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        'What color is this?',
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: currentColor['color'],
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.5),
-                            width: 4,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: (currentColor['color'] as Color)
-                                  .withValues(alpha: 0.5),
-                              blurRadius: 15,
-                              spreadRadius: 2,
+                  // Progress bar section
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Color $_question/$_totalQuestions',
+                              style: GoogleFonts.nunito(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '$percentage%',
+                              style: GoogleFonts.nunito(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      if (_isCorrect != null) ...[
-                        const SizedBox(height: 12),
-                        Text(
-                          _isCorrect!
-                              ? '✓ Correct!'
-                              : '✗ It\'s ${currentColor['name']}',
-                          style: TextStyle(
-                            color: _isCorrect!
-                                ? Colors.white
-                                : const Color(0xFFFFE66D),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                        SizedBox(height: 8.h),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 10.h,
+                            backgroundColor: Colors.white.withValues(
+                              alpha: 0.3,
+                            ),
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              Color(0xFFFF6EB4),
+                            ),
                           ),
                         ),
+                        SizedBox(height: 8.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Score: $_score',
+                              style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              'Max: ${_totalQuestions * 10}',
+                              style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
-                    ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Options grid
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.8,
-              children: _options.map((option) {
-                final optionColor =
-                    _allColors.firstWhere((c) => c['name'] == option)['color']
-                        as Color;
-                return GestureDetector(
-                  onTap: _isCorrect == null ? () => _checkAnswer(option) : null,
-                  child: Container(
+                  SizedBox(height: 16.h),
+                  // Color display card
+                  Container(
+                    padding: EdgeInsets.all(24.r),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          optionColor,
-                          optionColor.withValues(alpha: 0.7),
-                        ],
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFF6EB4), Color(0xFFf093fb)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: optionColor.withValues(alpha: 0.4),
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
+                          color: const Color(0xFFFF6EB4).withValues(alpha: 0.4),
+                          blurRadius: 8.r,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
                     child: Stack(
                       children: [
                         Positioned(
-                          top: -8,
-                          right: -8,
+                          top: -15.h,
+                          right: -15.w,
                           child: Container(
-                            width: 25,
-                            height: 25,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
                             ),
                           ),
                         ),
-                        Center(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.3),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              option,
+                        Column(
+                          children: [
+                            Text(
+                              'What color is this?',
                               style: GoogleFonts.nunito(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                          ),
+                            SizedBox(height: 16.h),
+                            Container(
+                              width: 100.w,
+                              height: 100.h,
+                              decoration: BoxDecoration(
+                                color: currentColor['color'],
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.5),
+                                  width: 4,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: (currentColor['color'] as Color)
+                                        .withValues(alpha: 0.5),
+                                    blurRadius: 15.r,
+                                    spreadRadius: 2.r,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (_isCorrect != null) ...[
+                              SizedBox(height: 12.h),
+                              Text(
+                                _isCorrect!
+                                    ? '✓ Correct!'
+                                    : '✗ It\'s ${currentColor['name']}',
+                                style: TextStyle(
+                                  color: _isCorrect!
+                                      ? Colors.white
+                                      : const Color(0xFFFFE66D),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
                       ],
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-            const Spacer(),
-            // Clear & Try Again button (shown when wrong)
-            if (_isCorrect == false)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: GestureDetector(
-                  onTap: _clearAndRetry,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
+                  SizedBox(height: 16.h),
+                  // Options grid
+                  GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 1.8,
+                    children: _options.map((option) {
+                      final optionColor =
+                          _allColors.firstWhere(
+                                (c) => c['name'] == option,
+                              )['color']
+                              as Color;
+                      return GestureDetector(
+                        onTap: _isCorrect == null
+                            ? () => _checkAnswer(option)
+                            : null,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                optionColor,
+                                optionColor.withValues(alpha: 0.7),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: optionColor.withValues(alpha: 0.4),
+                                blurRadius: 6.r,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: -8.h,
+                                right: -8.w,
+                                child: Container(
+                                  width: 25.w,
+                                  height: 25.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withValues(alpha: 0.1),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 6.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.3),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Text(
+                                    option,
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(height: 24.h),
+                  // Clear & Try Again button (shown when wrong)
+                  if (_isCorrect == false)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: GestureDetector(
+                        onTap: _clearAndRetry,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24.w,
+                            vertical: 12.h,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFFF6B6B),
+                                Color(0xFFFF8E53),
+                                Color(0xFFFFAA5A),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFFFF6B6B,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 8.r,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                                size: 20.r,
+                              ),
+                              SizedBox(width: 8.w),
+                              Text(
+                                'Clear & Try Again',
+                                style: GoogleFonts.nunito(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
+                  // Navigation buttons
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Icon(
-                          Icons.refresh,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Clear & Try Again',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            // Navigation buttons
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Previous button
-                  GestureDetector(
-                    onTap: _currentColorIndex > 0 ? _goToPrevious : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: _currentColorIndex > 0
-                            ? const LinearGradient(
-                                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : null,
-                        color: _currentColorIndex > 0
-                            ? null
-                            : Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: _currentColorIndex > 0
-                            ? [
-                                BoxShadow(
-                                  color: const Color(
-                                    0xFFFF6B6B,
-                                  ).withValues(alpha: 0.4),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_back_ios,
-                            color: _currentColorIndex > 0
-                                ? Colors.white
-                                : Colors.white54,
-                            size: 18,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Previous',
-                            style: GoogleFonts.nunito(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: _currentColorIndex > 0
-                                  ? Colors.white
-                                  : Colors.white54,
+                        // Previous button
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: _currentColorIndex > 0
+                                ? _goToPrevious
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 12.h,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: _currentColorIndex > 0
+                                    ? const LinearGradient(
+                                        colors: [
+                                          Color(0xFFFF6B6B),
+                                          Color(0xFFFF8E53),
+                                          Color(0xFFFFAA5A),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      )
+                                    : null,
+                                color: _currentColorIndex > 0
+                                    ? null
+                                    : Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow: _currentColorIndex > 0
+                                    ? [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xFFFF6B6B,
+                                          ).withValues(alpha: 0.4),
+                                          blurRadius: 8.r,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ]
+                                    : null,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back_ios,
+                                    color: _currentColorIndex > 0
+                                        ? Colors.white
+                                        : Colors.white54,
+                                    size: 18.r,
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Flexible(
+                                    child: Text(
+                                      'Previous',
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: _currentColorIndex > 0
+                                            ? Colors.white
+                                            : Colors.white54,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Next button (only enabled when correct)
-                  GestureDetector(
-                    onTap:
-                        _isCorrect == true &&
-                            _currentColorIndex < _totalQuestions - 1
-                        ? _goToNext
-                        : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient:
-                            _isCorrect == true &&
-                                _currentColorIndex < _totalQuestions - 1
-                            ? const LinearGradient(
-                                colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : null,
-                        color:
-                            _isCorrect == true &&
-                                _currentColorIndex < _totalQuestions - 1
-                            ? null
-                            : Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow:
-                            _isCorrect == true &&
-                                _currentColorIndex < _totalQuestions - 1
-                            ? [
-                                BoxShadow(
-                                  color: const Color(
-                                    0xFF56D97F,
-                                  ).withValues(alpha: 0.4),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Next',
-                            style: GoogleFonts.nunito(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  _isCorrect == true &&
-                                      _currentColorIndex < _totalQuestions - 1
-                                  ? Colors.white
-                                  : Colors.white54,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color:
+                        ),
+                        // Next button (only enabled when correct)
+                        Flexible(
+                          child: GestureDetector(
+                            onTap:
                                 _isCorrect == true &&
                                     _currentColorIndex < _totalQuestions - 1
-                                ? Colors.white
-                                : Colors.white54,
-                            size: 18,
+                                ? _goToNext
+                                : null,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 12.h,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient:
+                                    _isCorrect == true &&
+                                        _currentColorIndex < _totalQuestions - 1
+                                    ? const LinearGradient(
+                                        colors: [
+                                          Color(0xFF56D97F),
+                                          Color(0xFF4ECDC4),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      )
+                                    : null,
+                                color:
+                                    _isCorrect == true &&
+                                        _currentColorIndex < _totalQuestions - 1
+                                    ? null
+                                    : Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow:
+                                    _isCorrect == true &&
+                                        _currentColorIndex < _totalQuestions - 1
+                                    ? [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xFF56D97F,
+                                          ).withValues(alpha: 0.4),
+                                          blurRadius: 8.r,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ]
+                                    : null,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Next',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          _isCorrect == true &&
+                                              _currentColorIndex <
+                                                  _totalQuestions - 1
+                                          ? Colors.white
+                                          : Colors.white54,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color:
+                                        _isCorrect == true &&
+                                            _currentColorIndex <
+                                                _totalQuestions - 1
+                                        ? Colors.white
+                                        : Colors.white54,
+                                    size: 18.r,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
+                  SizedBox(height: 16.h),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-          ],
+          ),
         ),
       ),
     );

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class FlashcardsPage extends StatefulWidget {
   const FlashcardsPage({Key? key}) : super(key: key);
 
@@ -38,7 +40,11 @@ class _FlashcardsPageState extends State<FlashcardsPage>
       {'front': '🍊', 'back': 'ORANGE', 'hint': 'Rich in Vitamin C'},
       {'front': '🍓', 'back': 'STRAWBERRY', 'hint': 'Red and sweet'},
       {'front': '🥭', 'back': 'MANGO', 'hint': 'King of fruits'},
-      {'front': '🍉', 'back': 'WATERMELON', 'hint': 'Green outside, red inside'},
+      {
+        'front': '🍉',
+        'back': 'WATERMELON',
+        'hint': 'Green outside, red inside',
+      },
       {'front': '🍒', 'back': 'CHERRY', 'hint': 'Small and red'},
       {'front': '🍑', 'back': 'PEACH', 'hint': 'Soft and fuzzy'},
       {'front': '🥝', 'back': 'KIWI', 'hint': 'Brown outside, green inside'},
@@ -184,7 +190,7 @@ class _FlashcardsPageState extends State<FlashcardsPage>
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -210,57 +216,78 @@ class _FlashcardsPageState extends State<FlashcardsPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Column(
-          children: [
-            // Deck Selector
-            _buildDeckSelector(),
-            // Progress
-            _buildProgress(deck.length),
-            // Flashcard
-            Expanded(
-              child: GestureDetector(
-                onTap: _flipCard,
-                onHorizontalDragEnd: (details) {
-                  if (details.primaryVelocity! < 0) {
-                    _nextCard();
-                  } else if (details.primaryVelocity! > 0) {
-                    _previousCard();
-                  }
-                },
-                child: AnimatedBuilder(
-                  animation: _flipAnimation,
-                  builder: (context, child) {
-                    final angle = _flipAnimation.value * pi;
-                    final showBack = angle > pi / 2;
+        child: LayoutBuilder(
+          // Portrait-shaped content: in landscape the body is barely 300pt tall,
+          // which is shorter than this column needs. Scroll when that happens and
+          // stay exactly as before whenever there is room.
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Deck Selector
+                  _buildDeckSelector(),
+                  // Progress
+                  _buildProgress(deck.length),
+                  // Flashcard
+                  SizedBox(
+                    // A share of the viewport rather than `Expanded`:
+                    // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                    // above it, and a scrollable cannot report an intrinsic
+                    // height - it throws.
+                    height: max(200.h, constraints.maxHeight * 0.55),
+                    child: GestureDetector(
+                      onTap: _flipCard,
+                      onHorizontalDragEnd: (details) {
+                        if (details.primaryVelocity! < 0) {
+                          _nextCard();
+                        } else if (details.primaryVelocity! > 0) {
+                          _previousCard();
+                        }
+                      },
+                      child: AnimatedBuilder(
+                        animation: _flipAnimation,
+                        builder: (context, child) {
+                          final angle = _flipAnimation.value * pi;
+                          final showBack = angle > pi / 2;
 
-                    return Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..setEntry(3, 2, 0.001)
-                        ..rotateY(angle),
-                      child: showBack
-                          ? Transform(
-                              alignment: Alignment.center,
-                              transform: Matrix4.identity()..rotateY(pi),
-                              child: _buildCardBack(currentCard, color),
-                            )
-                          : _buildCardFront(currentCard, color),
-                    );
-                  },
-                ),
+                          return Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()
+                              ..setEntry(3, 2, 0.001)
+                              ..rotateY(angle),
+                            child: showBack
+                                ? Transform(
+                                    alignment: Alignment.center,
+                                    transform: Matrix4.identity()..rotateY(pi),
+                                    child: _buildCardBack(currentCard, color),
+                                  )
+                                : _buildCardFront(currentCard, color),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  // Action Buttons
+                  _buildActionButtons(color),
+                  // Navigation
+                  _buildNavigation(deck.length),
+                ],
               ),
             ),
-            // Action Buttons
-            _buildActionButtons(color),
-            // Navigation
-            _buildNavigation(deck.length),
-          ],
+          ),
         ),
       ),
     );
@@ -276,8 +303,8 @@ class _FlashcardsPageState extends State<FlashcardsPage>
     ];
 
     return Container(
-      height: 60,
-      margin: const EdgeInsets.all(16),
+      height: 60.h,
+      margin: EdgeInsets.all(16.r),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: decks.length,
@@ -299,21 +326,23 @@ class _FlashcardsPageState extends State<FlashcardsPage>
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              margin: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              margin: EdgeInsets.only(right: 10.w),
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
               decoration: BoxDecoration(
                 color: isSelected ? color : Colors.white24,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Row(
                 children: [
                   Text(deck['icon']!, style: const TextStyle(fontSize: 20)),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6.w),
                   Text(
                     deck['name']!,
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.white70,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       fontSize: 13,
                     ),
                   ),
@@ -328,19 +357,23 @@ class _FlashcardsPageState extends State<FlashcardsPage>
 
   Widget _buildProgress(int total) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Card ${_currentIndex + 1} of $total',
-            style: const TextStyle(color: Colors.white70),
+          Flexible(
+            child: Text(
+              'Card ${_currentIndex + 1} of $total',
+              style: const TextStyle(color: Colors.white70),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
             decoration: BoxDecoration(
               color: Colors.green.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Text(
               'Known: ${knownCards.length}',
@@ -354,14 +387,14 @@ class _FlashcardsPageState extends State<FlashcardsPage>
 
   Widget _buildCardFront(Map<String, dynamic> card, Color color) {
     return Container(
-      margin: const EdgeInsets.all(24),
+      margin: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.4),
-            blurRadius: 20,
+            blurRadius: 20.r,
             offset: const Offset(0, 10),
           ),
         ],
@@ -369,37 +402,49 @@ class _FlashcardsPageState extends State<FlashcardsPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            card['front'],
-            style: const TextStyle(fontSize: 120),
+          Flexible(
+            child: Text(
+              card['front'],
+              style: const TextStyle(fontSize: 120),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.lightbulb_outline, color: color, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  card['hint'],
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                Icon(Icons.lightbulb_outline, color: color, size: 20.r),
+                SizedBox(width: 8.w),
+                Flexible(
+                  child: Text(
+                    card['hint'],
+                    style: TextStyle(
+                      color: color,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 24),
-          Text(
-            'Tap to reveal answer',
-            style: TextStyle(color: Colors.grey.shade500),
+          SizedBox(height: 24.h),
+          Flexible(
+            child: Text(
+              'Tap to reveal answer',
+              style: TextStyle(color: Colors.grey.shade500),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ],
       ),
@@ -408,18 +453,18 @@ class _FlashcardsPageState extends State<FlashcardsPage>
 
   Widget _buildCardBack(Map<String, dynamic> card, Color color) {
     return Container(
-      margin: const EdgeInsets.all(24),
+      margin: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [color, color.withValues(alpha: 0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.4),
-            blurRadius: 20,
+            blurRadius: 20.r,
             offset: const Offset(0, 10),
           ),
         ],
@@ -427,11 +472,8 @@ class _FlashcardsPageState extends State<FlashcardsPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            card['front'],
-            style: const TextStyle(fontSize: 60),
-          ),
-          const SizedBox(height: 24),
+          Text(card['front'], style: const TextStyle(fontSize: 60)),
+          SizedBox(height: 24.h),
           Text(
             card['back'],
             style: const TextStyle(
@@ -441,19 +483,16 @@ class _FlashcardsPageState extends State<FlashcardsPage>
               letterSpacing: 4,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Text(
               card['hint'],
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
         ],
@@ -463,7 +502,7 @@ class _FlashcardsPageState extends State<FlashcardsPage>
 
   Widget _buildActionButtons(Color color) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 16.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -497,28 +536,25 @@ class _FlashcardsPageState extends State<FlashcardsPage>
       child: Column(
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: 60.w,
+            height: 60.h,
             decoration: BoxDecoration(
               color: color,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
                   color: color.withValues(alpha: 0.4),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
-            child: Icon(icon, color: Colors.white, size: 30),
+            child: Icon(icon, color: Colors.white, size: 30.r),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
         ],
       ),
@@ -527,63 +563,67 @@ class _FlashcardsPageState extends State<FlashcardsPage>
 
   Widget _buildNavigation(int total) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton.icon(
-            onPressed: _currentIndex > 0 ? _previousCard : null,
-            icon: Icon(
-              Icons.arrow_back,
-              color: _currentIndex > 0 ? Colors.white : Colors.white30,
-            ),
-            label: Text(
-              'Previous',
-              style: TextStyle(
+      padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 24.h),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton.icon(
+              onPressed: _currentIndex > 0 ? _previousCard : null,
+              icon: Icon(
+                Icons.arrow_back,
                 color: _currentIndex > 0 ? Colors.white : Colors.white30,
               ),
+              label: Text(
+                'Previous',
+                style: TextStyle(
+                  color: _currentIndex > 0 ? Colors.white : Colors.white30,
+                ),
+              ),
             ),
-          ),
-          // Card indicators
-          Row(
-            children: List.generate(
-              total > 10 ? 10 : total,
-              (index) {
+            // Card indicators
+            Row(
+              children: List.generate(total > 10 ? 10 : total, (index) {
                 final actualIndex = total > 10
                     ? (_currentIndex ~/ 10) * 10 + index
                     : index;
                 if (actualIndex >= total) return const SizedBox.shrink();
 
                 return Container(
-                  width: 8,
-                  height: 8,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  width: 8.w,
+                  height: 8.h,
+                  margin: EdgeInsets.symmetric(horizontal: 2.w),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: actualIndex == _currentIndex
                         ? Colors.white
                         : (knownCards.contains(actualIndex)
-                            ? Colors.green
-                            : Colors.white30),
+                              ? Colors.green
+                              : Colors.white30),
                   ),
                 );
-              },
+              }),
             ),
-          ),
-          TextButton.icon(
-            onPressed: _currentIndex < total - 1 ? _nextCard : null,
-            icon: Text(
-              'Next',
-              style: TextStyle(
-                color: _currentIndex < total - 1 ? Colors.white : Colors.white30,
+            TextButton.icon(
+              onPressed: _currentIndex < total - 1 ? _nextCard : null,
+              icon: Text(
+                'Next',
+                style: TextStyle(
+                  color: _currentIndex < total - 1
+                      ? Colors.white
+                      : Colors.white30,
+                ),
+              ),
+              label: Icon(
+                Icons.arrow_forward,
+                color: _currentIndex < total - 1
+                    ? Colors.white
+                    : Colors.white30,
               ),
             ),
-            label: Icon(
-              Icons.arrow_forward,
-              color: _currentIndex < total - 1 ? Colors.white : Colors.white30,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

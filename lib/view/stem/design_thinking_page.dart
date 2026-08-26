@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class DesignThinkingPage extends StatefulWidget {
   const DesignThinkingPage({super.key});
 
@@ -47,22 +49,22 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
         {
           'title': 'Ask Questions',
           'emoji': '❓',
-          'example': 'What makes you happy? What is hard for you?'
+          'example': 'What makes you happy? What is hard for you?',
         },
         {
           'title': 'Watch Carefully',
           'emoji': '👀',
-          'example': 'See how people do things'
+          'example': 'See how people do things',
         },
         {
           'title': 'Listen Well',
           'emoji': '👂',
-          'example': 'Hear what people say they need'
+          'example': 'Hear what people say they need',
         },
         {
           'title': 'Feel Their Feelings',
           'emoji': '🤗',
-          'example': 'Imagine being in their shoes'
+          'example': 'Imagine being in their shoes',
         },
       ],
       'challenge':
@@ -80,19 +82,19 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
           'who': '👵 Grandma',
           'needs': 'needs a way to',
           'problem': 'remember to take medicine',
-          'because': 'because she sometimes forgets'
+          'because': 'because she sometimes forgets',
         },
         {
           'who': '🐕 Dogs',
           'needs': 'need a way to',
           'problem': 'stay cool in summer',
-          'because': 'because they have fur coats'
+          'because': 'because they have fur coats',
         },
         {
           'who': '📚 Students',
           'needs': 'need a way to',
           'problem': 'carry heavy books easily',
-          'because': 'because backpacks hurt'
+          'because': 'because backpacks hurt',
         },
       ],
       'formula': '"[Who] needs a way to [what] because [why]"',
@@ -110,7 +112,7 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
         {
           'icon': '🤝',
           'rule': 'Build on Others',
-          'tip': 'Add to friends\' ideas'
+          'tip': 'Add to friends\' ideas',
         },
         {'icon': '⏳', 'rule': 'Go Fast', 'tip': 'Don\'t judge, just write'},
       ],
@@ -118,22 +120,14 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
         {
           'name': 'Mind Map',
           'emoji': '🧠',
-          'desc': 'Branch out ideas like a tree'
+          'desc': 'Branch out ideas like a tree',
         },
-        {
-          'name': 'Brainstorm',
-          'emoji': '🌧️',
-          'desc': 'Let ideas rain down'
-        },
-        {
-          'name': 'Sketch',
-          'emoji': '✏️',
-          'desc': 'Draw your ideas quickly'
-        },
+        {'name': 'Brainstorm', 'emoji': '🌧️', 'desc': 'Let ideas rain down'},
+        {'name': 'Sketch', 'emoji': '✏️', 'desc': 'Draw your ideas quickly'},
         {
           'name': 'What If?',
           'emoji': '❓',
-          'desc': 'Ask "What if..." questions'
+          'desc': 'Ask "What if..." questions',
         },
       ],
     },
@@ -171,25 +165,25 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
           'step': '1',
           'title': 'Show Your Prototype',
           'desc': 'Let someone try it',
-          'emoji': '🎁'
+          'emoji': '🎁',
         },
         {
           'step': '2',
           'title': 'Watch Quietly',
           'desc': 'See how they use it',
-          'emoji': '👀'
+          'emoji': '👀',
         },
         {
           'step': '3',
           'title': 'Ask Questions',
           'desc': 'What worked? What didn\'t?',
-          'emoji': '❓'
+          'emoji': '❓',
         },
         {
           'step': '4',
           'title': 'Take Notes',
           'desc': 'Write down feedback',
-          'emoji': '📝'
+          'emoji': '📝',
         },
       ],
       'remember': 'Feedback helps us improve! Even "bad" feedback is good!',
@@ -220,25 +214,25 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
           'title': 'Pet Toy Designer',
           'emoji': '🐱',
           'problem': 'Design a toy that keeps pets entertained',
-          'difficulty': 'Easy'
+          'difficulty': 'Easy',
         },
         {
           'title': 'Lunch Box Inventor',
           'emoji': '🍱',
           'problem': 'Design a lunch box that keeps food fresh and organized',
-          'difficulty': 'Medium'
+          'difficulty': 'Medium',
         },
         {
           'title': 'Playground Creator',
           'emoji': '🛝',
           'problem': 'Design a playground that kids of all abilities can enjoy',
-          'difficulty': 'Hard'
+          'difficulty': 'Hard',
         },
         {
           'title': 'Future School',
           'emoji': '🏫',
           'problem': 'Design the school of the future',
-          'difficulty': 'Super Hard'
+          'difficulty': 'Super Hard',
         },
       ],
     },
@@ -268,12 +262,12 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             ProgressService.to.resetProgress(ProgressService.kDesignThinking);
@@ -292,43 +286,50 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
               Obx(() {
                 final progress =
                     ProgressService.to.getProgressPercentage(
-                          ProgressService.kDesignThinking,
-                        ) /
-                        100;
+                      ProgressService.kDesignThinking,
+                    ) /
+                    100;
                 final progressString = ProgressService.to.getProgressString(
                   ProgressService.kDesignThinking,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
@@ -342,11 +343,11 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
               // Grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: sections.length,
@@ -378,10 +379,12 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
                               index,
                             );
                             // Navigate to detail page
-                            Get.to(() => _DesignThinkingDetailPage(
-                                  section: section,
-                                  sectionIndex: index,
-                                ));
+                            Get.to(
+                              () => _DesignThinkingDetailPage(
+                                section: section,
+                                sectionIndex: index,
+                              ),
+                            );
                           },
                           child: Stack(
                             children: [
@@ -390,10 +393,12 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 65,
-                                      height: 65,
+                                      width: 65.w,
+                                      height: 65.h,
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.25),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
@@ -403,27 +408,35 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      section['subtitle'],
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 11,
-                                        color: Colors.white.withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w600,
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
@@ -431,18 +444,18 @@ class _DesignThinkingPageState extends State<DesignThinkingPage>
                               // Checkmark if completed
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 4,
-                                  right: 4,
+                                  bottom: 4.h,
+                                  right: 4.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(2),
+                                    padding: EdgeInsets.all(2.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 12,
+                                      size: 12.r,
                                     ),
                                   ),
                                 ),
@@ -547,7 +560,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
           ..._buildFloatingBubbles(),
           // Main content
           SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: _buildContent(),
           ),
         ],
@@ -619,12 +632,12 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
@@ -636,26 +649,26 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['keyPoints'].length, (index) {
           final point = section['keyPoints'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -663,7 +676,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
               child: Row(
                 children: [
                   Text(point['icon'], style: const TextStyle(fontSize: 32)),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Text(
                       point['text'],
@@ -675,7 +688,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
@@ -701,42 +714,39 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['activities'].length, (index) {
           final activity = section['activities'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -744,14 +754,17 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
                     ),
-                    child: Text(activity['emoji'], style: const TextStyle(fontSize: 28)),
+                    child: Text(
+                      activity['emoji'],
+                      style: const TextStyle(fontSize: 28),
+                    ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -779,17 +792,17 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('🌟', style: TextStyle(fontSize: 32)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -819,28 +832,25 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['formula'],
@@ -852,7 +862,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Examples:',
           style: GoogleFonts.poppins(
@@ -861,26 +871,26 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         ...List.generate(section['problemStatements'].length, (index) {
           final statement = section['problemStatements'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -888,34 +898,34 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
               child: Column(
                 children: [
                   Text(statement['who'], style: const TextStyle(fontSize: 40)),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: GoogleFonts.nunito(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: statement['needs'],
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: GoogleFonts.nunito(
+                        fontSize: 16,
+                        color: Colors.white,
                       ),
-                      const TextSpan(text: ' '),
-                      TextSpan(
-                        text: statement['problem'],
-                        style: TextStyle(
-                          color: Colors.yellow[200],
-                          fontWeight: FontWeight.bold,
+                      children: [
+                        TextSpan(
+                          text: statement['needs'],
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      const TextSpan(text: ' '),
-                      TextSpan(text: statement['because']),
-                    ],
+                        const TextSpan(text: ' '),
+                        TextSpan(
+                          text: statement['problem'],
+                          style: TextStyle(
+                            color: Colors.yellow[200],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const TextSpan(text: ' '),
+                        TextSpan(text: statement['because']),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             ),
           );
         }),
@@ -927,23 +937,20 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Rules for Ideation:',
           style: GoogleFonts.poppins(
@@ -952,7 +959,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -964,18 +971,18 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             final rule = section['rules'][index];
             final gradient = AppColors.getGradientForIndex(index);
             return Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -984,7 +991,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(rule['icon'], style: const TextStyle(fontSize: 32)),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     rule['rule'],
                     style: GoogleFonts.poppins(
@@ -1005,7 +1012,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             );
           }),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Techniques:',
           style: GoogleFonts.poppins(
@@ -1014,34 +1021,37 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         ...List.generate(section['techniques'].length, (index) {
           final technique = section['techniques'][index];
           final gradient = AppColors.getGradientForIndex(index + 4);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.all(12),
+              margin: EdgeInsets.only(bottom: 8.h),
+              padding: EdgeInsets.all(12.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(technique['emoji'], style: const TextStyle(fontSize: 28)),
-                  const SizedBox(width: 12),
+                  Text(
+                    technique['emoji'],
+                    style: const TextStyle(fontSize: 28),
+                  ),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1076,23 +1086,20 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Materials You Can Use:',
           style: GoogleFonts.poppins(
@@ -1101,7 +1108,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -1118,11 +1125,11 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1130,10 +1137,17 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(material['emoji'], style: const TextStyle(fontSize: 32)),
-                  const SizedBox(height: 4),
+                  Flexible(
+                    child: Text(
+                      material['emoji'],
+                      style: const TextStyle(fontSize: 32),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
                     child: Text(
                       material['item'],
                       style: GoogleFonts.nunito(
@@ -1149,12 +1163,12 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             );
           }),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1167,14 +1181,18 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                   color: section['color'],
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               ...List.generate(section['tips'].length, (index) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: EdgeInsets.only(bottom: 8.h),
                   child: Row(
                     children: [
-                      Icon(Icons.check_circle, color: section['color'], size: 20),
-                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.check_circle,
+                        color: section['color'],
+                        size: 20.r,
+                      ),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Text(
                           section['tips'][index],
@@ -1196,42 +1214,39 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['testingSteps'].length, (index) {
           final step = section['testingSteps'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1239,8 +1254,8 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
               child: Row(
                 children: [
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 40.w,
+                    height: 40.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
@@ -1256,7 +1271,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1284,17 +1299,17 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('💡', style: TextStyle(fontSize: 32)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['remember'],
@@ -1315,28 +1330,25 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             children: [
@@ -1345,16 +1357,22 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                 return Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24.w,
+                        vertical: 12.h,
+                      ),
                       decoration: BoxDecoration(
                         color: step['color'],
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(30.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(step['emoji'], style: const TextStyle(fontSize: 24)),
-                          const SizedBox(width: 8),
+                          Text(
+                            step['emoji'],
+                            style: const TextStyle(fontSize: 24),
+                          ),
+                          SizedBox(width: 8.w),
                           Text(
                             step['step'],
                             style: GoogleFonts.poppins(
@@ -1368,22 +1386,18 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                     ),
                     if (index < section['cycleSteps'].length - 1)
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
                         child: Icon(
                           Icons.arrow_downward,
                           color: Colors.grey[400],
-                          size: 24,
+                          size: 24.r,
                         ),
                       ),
                   ],
                 );
               }),
-              const SizedBox(height: 16),
-              Icon(
-                Icons.refresh,
-                color: section['color'],
-                size: 40,
-              ),
+              SizedBox(height: 16.h),
+              Icon(Icons.refresh, color: section['color'], size: 40.r),
               Text(
                 'Repeat!',
                 style: GoogleFonts.poppins(
@@ -1394,12 +1408,12 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             ],
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['motto'],
@@ -1418,7 +1432,7 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           'Try these design challenges!',
           style: GoogleFonts.nunito(
@@ -1426,26 +1440,26 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['challenges'].length, (index) {
           final challenge = section['challenges'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 16.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1455,8 +1469,11 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                 children: [
                   Row(
                     children: [
-                      Text(challenge['emoji'], style: const TextStyle(fontSize: 40)),
-                      const SizedBox(width: 12),
+                      Text(
+                        challenge['emoji'],
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1470,13 +1487,13 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 2,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 2.h,
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.25),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
                               child: Text(
                                 challenge['difficulty'],
@@ -1492,17 +1509,20 @@ class _DesignThinkingDetailPageState extends State<_DesignThinkingDetailPage>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.lightbulb_outline, color: Colors.white),
-                        const SizedBox(width: 8),
+                        const Icon(
+                          Icons.lightbulb_outline,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8.w),
                         Expanded(
                           child: Text(
                             challenge['problem'],

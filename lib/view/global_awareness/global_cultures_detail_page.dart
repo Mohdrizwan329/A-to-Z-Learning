@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class GlobalCulturesDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -41,7 +43,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Curry & Biryani',
           'dress': 'Saree & Kurta',
           'festival': 'Diwali',
-          'greeting': 'Namaste 🙏'
+          'greeting': 'Namaste 🙏',
         },
         {
           'country': 'Japan',
@@ -49,7 +51,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Sushi & Ramen',
           'dress': 'Kimono',
           'festival': 'Cherry Blossom',
-          'greeting': 'Konnichiwa'
+          'greeting': 'Konnichiwa',
         },
         {
           'country': 'China',
@@ -57,7 +59,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Noodles & Dim Sum',
           'dress': 'Hanfu',
           'festival': 'Chinese New Year',
-          'greeting': 'Ni Hao'
+          'greeting': 'Ni Hao',
         },
         {
           'country': 'Thailand',
@@ -65,7 +67,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Pad Thai',
           'dress': 'Chut Thai',
           'festival': 'Songkran',
-          'greeting': 'Sawadee'
+          'greeting': 'Sawadee',
         },
       ],
     },
@@ -79,7 +81,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Croissants & Crepes',
           'dress': 'Beret & Stripes',
           'festival': 'Bastille Day',
-          'greeting': 'Bonjour'
+          'greeting': 'Bonjour',
         },
         {
           'country': 'Italy',
@@ -87,7 +89,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Pizza & Pasta',
           'dress': 'Fashion Capital!',
           'festival': 'Carnival',
-          'greeting': 'Ciao'
+          'greeting': 'Ciao',
         },
         {
           'country': 'Spain',
@@ -95,7 +97,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Paella & Tapas',
           'dress': 'Flamenco Dress',
           'festival': 'La Tomatina',
-          'greeting': 'Hola'
+          'greeting': 'Hola',
         },
         {
           'country': 'Germany',
@@ -103,7 +105,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Pretzels & Sausages',
           'dress': 'Lederhosen',
           'festival': 'Oktoberfest',
-          'greeting': 'Guten Tag'
+          'greeting': 'Guten Tag',
         },
       ],
     },
@@ -117,7 +119,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Koshari & Falafel',
           'dress': 'Galabeya',
           'festival': 'Sham el-Nessim',
-          'greeting': 'Salaam'
+          'greeting': 'Salaam',
         },
         {
           'country': 'Kenya',
@@ -125,7 +127,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Ugali & Nyama Choma',
           'dress': 'Kikoy & Kanga',
           'festival': 'Madaraka Day',
-          'greeting': 'Jambo'
+          'greeting': 'Jambo',
         },
         {
           'country': 'Nigeria',
@@ -133,7 +135,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Jollof Rice',
           'dress': 'Agbada & Gele',
           'festival': 'Eyo Festival',
-          'greeting': 'Bawo ni'
+          'greeting': 'Bawo ni',
         },
         {
           'country': 'South Africa',
@@ -141,7 +143,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Braai & Bobotie',
           'dress': 'Colorful Prints',
           'festival': 'Heritage Day',
-          'greeting': 'Sawubona'
+          'greeting': 'Sawubona',
         },
       ],
     },
@@ -155,7 +157,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Burgers & Apple Pie',
           'dress': 'Jeans & T-shirt',
           'festival': 'Thanksgiving',
-          'greeting': 'Hello'
+          'greeting': 'Hello',
         },
         {
           'country': 'Mexico',
@@ -163,7 +165,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Tacos & Burritos',
           'dress': 'Sombrero & Serape',
           'festival': 'Day of the Dead',
-          'greeting': 'Hola'
+          'greeting': 'Hola',
         },
         {
           'country': 'Brazil',
@@ -171,7 +173,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Feijoada & Açaí',
           'dress': 'Carnival Costumes',
           'festival': 'Rio Carnival',
-          'greeting': 'Olá'
+          'greeting': 'Olá',
         },
         {
           'country': 'Argentina',
@@ -179,7 +181,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           'food': 'Asado & Empanadas',
           'dress': 'Gaucho Attire',
           'festival': 'Tango Festival',
-          'greeting': 'Hola'
+          'greeting': 'Hola',
         },
       ],
     },
@@ -217,23 +219,73 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
       'title': 'World Celebrations',
       'emoji': '🎉',
       'celebrations': [
-        {'festival': 'Diwali', 'country': 'India', 'emoji': '🪔', 'about': 'Festival of Lights'},
-        {'festival': 'Christmas', 'country': 'Worldwide', 'emoji': '🎄', 'about': 'Birth of Jesus'},
-        {'festival': 'Chinese New Year', 'country': 'China', 'emoji': '🧧', 'about': 'Lunar New Year'},
-        {'festival': 'Holi', 'country': 'India', 'emoji': '🎨', 'about': 'Festival of Colors'},
-        {'festival': 'Eid', 'country': 'Islamic World', 'emoji': '🌙', 'about': 'End of Ramadan'},
-        {'festival': 'Carnival', 'country': 'Brazil', 'emoji': '🎭', 'about': 'Dance & Costumes'},
+        {
+          'festival': 'Diwali',
+          'country': 'India',
+          'emoji': '🪔',
+          'about': 'Festival of Lights',
+        },
+        {
+          'festival': 'Christmas',
+          'country': 'Worldwide',
+          'emoji': '🎄',
+          'about': 'Birth of Jesus',
+        },
+        {
+          'festival': 'Chinese New Year',
+          'country': 'China',
+          'emoji': '🧧',
+          'about': 'Lunar New Year',
+        },
+        {
+          'festival': 'Holi',
+          'country': 'India',
+          'emoji': '🎨',
+          'about': 'Festival of Colors',
+        },
+        {
+          'festival': 'Eid',
+          'country': 'Islamic World',
+          'emoji': '🌙',
+          'about': 'End of Ramadan',
+        },
+        {
+          'festival': 'Carnival',
+          'country': 'Brazil',
+          'emoji': '🎭',
+          'about': 'Dance & Costumes',
+        },
       ],
     },
     {
       'title': 'Be a World Citizen!',
       'emoji': '🌟',
       'tips': [
-        {'tip': 'Respect all cultures', 'emoji': '🙏', 'desc': 'Every culture is special'},
-        {'tip': 'Try new foods', 'emoji': '🍴', 'desc': 'Taste dishes from other countries'},
-        {'tip': 'Learn new words', 'emoji': '📚', 'desc': 'Say hello in different languages'},
-        {'tip': 'Celebrate diversity', 'emoji': '🌈', 'desc': 'Our differences make us beautiful'},
-        {'tip': 'Make global friends', 'emoji': '🤝', 'desc': 'Connect with kids worldwide'},
+        {
+          'tip': 'Respect all cultures',
+          'emoji': '🙏',
+          'desc': 'Every culture is special',
+        },
+        {
+          'tip': 'Try new foods',
+          'emoji': '🍴',
+          'desc': 'Taste dishes from other countries',
+        },
+        {
+          'tip': 'Learn new words',
+          'emoji': '📚',
+          'desc': 'Say hello in different languages',
+        },
+        {
+          'tip': 'Celebrate diversity',
+          'emoji': '🌈',
+          'desc': 'Our differences make us beautiful',
+        },
+        {
+          'tip': 'Make global friends',
+          'emoji': '🤝',
+          'desc': 'Connect with kids worldwide',
+        },
         {'tip': 'Be curious', 'emoji': '🔍', 'desc': 'Ask questions and learn'},
       ],
       'motto': 'Different cultures, One world, One family!',
@@ -260,7 +312,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
     return GradientScaffold(
       title: section['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -268,18 +320,18 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -290,7 +342,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
                       section['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       section['title'],
                       style: GoogleFonts.poppins(
@@ -300,7 +352,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.3),
-                            blurRadius: 4,
+                            blurRadius: 4.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -311,21 +363,16 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Content based on type
-            if (section.containsKey('elements'))
-              _buildIntroCards(section),
-            if (section.containsKey('cultures'))
-              _buildCultureCards(section),
-            if (section.containsKey('greetings'))
-              _buildGreetingCards(section),
-            if (section.containsKey('foods'))
-              _buildFoodCards(section),
+            if (section.containsKey('elements')) _buildIntroCards(section),
+            if (section.containsKey('cultures')) _buildCultureCards(section),
+            if (section.containsKey('greetings')) _buildGreetingCards(section),
+            if (section.containsKey('foods')) _buildFoodCards(section),
             if (section.containsKey('celebrations'))
               _buildCelebrationCards(section),
-            if (section.containsKey('tips'))
-              _buildTipCards(section),
-            const SizedBox(height: 16),
+            if (section.containsKey('tips')) _buildTipCards(section),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -340,11 +387,11 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
         buildFloatingItem(
           index: 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 14),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 14.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Text(
               section['description'],
@@ -361,33 +408,33 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
         ...elements.asMap().entries.map<Widget>((entry) {
           final idx = entry.key;
           final element = entry.value;
-          final cardGradient =
-              AppColors.getGradientForIndex(widget.sectionIndex + idx + 2);
+          final cardGradient = AppColors.getGradientForIndex(
+            widget.sectionIndex + idx + 2,
+          );
           return buildFloatingItem(
             index: idx + 2,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: cardGradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: cardGradient[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(element['emoji'],
-                      style: const TextStyle(fontSize: 36)),
-                  const SizedBox(width: 16),
+                  Text(element['emoji'], style: const TextStyle(fontSize: 36)),
+                  SizedBox(width: 16.w),
                   Text(
                     element['name'],
                     style: GoogleFonts.poppins(
@@ -407,28 +454,30 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
 
   Widget _buildCultureCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['cultures'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['cultures'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final culture = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 14),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 14.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -437,9 +486,8 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
               children: [
                 Row(
                   children: [
-                    Text(culture['flag'],
-                        style: const TextStyle(fontSize: 40)),
-                    const SizedBox(width: 12),
+                    Text(culture['flag'], style: const TextStyle(fontSize: 40)),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -453,13 +501,13 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 2.h,
                             ),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                             child: Text(
                               culture['greeting'],
@@ -475,23 +523,16 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
-                    Expanded(
-                      child: _buildCultureChip(
-                          '🍜', culture['food']),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: _buildCultureChip(
-                          '👘', culture['dress']),
-                    ),
+                    Expanded(child: _buildCultureChip('🍜', culture['food'])),
+                    SizedBox(width: 8.w),
+                    Expanded(child: _buildCultureChip('👘', culture['dress'])),
                   ],
                 ),
-                const SizedBox(height: 8),
-                _buildCultureChip(
-                    '🎉', culture['festival']),
+                SizedBox(height: 8.h),
+                _buildCultureChip('🎉', culture['festival']),
               ],
             ),
           ),
@@ -502,15 +543,15 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
 
   Widget _buildCultureChip(String emoji, String value) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(8.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         children: [
           Text(emoji, style: const TextStyle(fontSize: 16)),
-          const SizedBox(width: 4),
+          SizedBox(width: 4.w),
           Expanded(
             child: Text(
               value,
@@ -529,37 +570,38 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
 
   Widget _buildGreetingCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['greetings'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['greetings'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final greeting = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Row(
               children: [
-                Text(greeting['emoji'],
-                    style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                Text(greeting['emoji'], style: const TextStyle(fontSize: 32)),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -592,28 +634,28 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
 
   Widget _buildFoodCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['foods'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['foods'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final food = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -621,7 +663,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
             child: Row(
               children: [
                 Text(food['emoji'], style: const TextStyle(fontSize: 36)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -654,31 +696,30 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
 
   Widget _buildCelebrationCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['celebrations'] as List)
-              .asMap()
-              .entries
-              .map<Widget>((entry) {
+      children: (section['celebrations'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final celebration = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -686,15 +727,17 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: Text(celebration['emoji'],
-                      style: const TextStyle(fontSize: 28)),
+                  child: Text(
+                    celebration['emoji'],
+                    style: const TextStyle(fontSize: 28),
+                  ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -740,24 +783,25 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
         ...tips.asMap().entries.map<Widget>((entry) {
           final idx = entry.key;
           final tip = entry.value;
-          final cardGradient =
-              AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+          final cardGradient = AppColors.getGradientForIndex(
+            widget.sectionIndex + idx + 1,
+          );
           return buildFloatingItem(
             index: idx + 1,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: cardGradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: cardGradient[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
@@ -765,7 +809,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
               child: Row(
                 children: [
                   Text(tip['emoji'], style: const TextStyle(fontSize: 28)),
-                  const SizedBox(width: 14),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -797,28 +841,27 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
           buildFloatingItem(
             index: tips.length + 1,
             child: Container(
-              margin: const EdgeInsets.only(top: 6, bottom: 10),
-              padding: const EdgeInsets.all(20),
+              margin: EdgeInsets.only(top: 6.h, bottom: 10.h),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFFFFB74D), Color(0xFFFFD54F)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 boxShadow: [
                   BoxShadow(
                     color: const Color(0xFFFFB74D).withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Column(
                 children: [
-                  const Text('🌍🤝🌏',
-                      style: TextStyle(fontSize: 36)),
-                  const SizedBox(height: 8),
+                  const Text('🌍🤝🌏', style: TextStyle(fontSize: 36)),
+                  SizedBox(height: 8.h),
                   Text(
                     section['motto'],
                     style: GoogleFonts.poppins(
@@ -828,7 +871,7 @@ class _GlobalCulturesDetailPageState extends State<GlobalCulturesDetailPage>
                       shadows: [
                         Shadow(
                           color: Colors.black.withValues(alpha: 0.25),
-                          blurRadius: 3,
+                          blurRadius: 3.r,
                           offset: const Offset(0, 1),
                         ),
                       ],

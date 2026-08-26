@@ -6,6 +6,8 @@ import 'package:jiyan_learning/services/rewards_service.dart';
 import 'package:jiyan_learning/services/daily_goals_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
 
@@ -1300,7 +1302,9 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
 
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.white,
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1314,7 +1318,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                   : "📚",
               style: const TextStyle(fontSize: 70),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               _correctAnswers >= 40
                   ? 'Excellent!'
@@ -1331,12 +1335,12 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                     : Colors.blue,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 children: [
@@ -1356,7 +1360,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1371,7 +1375,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1391,7 +1395,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Row(
               children: [
                 Expanded(
@@ -1403,9 +1407,9 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey.shade300,
                       foregroundColor: Colors.black87,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text(
@@ -1414,7 +1418,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -1426,9 +1430,9 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF56D97F),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text(
@@ -1458,7 +1462,11 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -1480,15 +1488,15 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -1496,16 +1504,16 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetQuiz,
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
         ],
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -1519,7 +1527,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -1558,271 +1566,333 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
 
             // Main content
             SafeArea(
-              child: Column(
-                children: [
-                  // Progress Bar with percentage
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: LayoutBuilder(
+                // Portrait-shaped content: in landscape the body is barely 300pt tall,
+                // which is shorter than this column needs. Scroll when that happens and
+                // stay exactly as before whenever there is room.
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      // A LayoutBuilder can sit inside another scrollable, where
+                      // maxHeight is infinite; a minHeight of infinity
+                      // is not a constraint anything can satisfy.
+                      minHeight: constraints.maxHeight.isFinite
+                          ? constraints.maxHeight
+                          : 0,
+                    ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Question ${_currentQuestionIndex + 1} of ${_questions.length}',
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                        // Progress Bar with percentage
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      'Question ${_currentQuestionIndex + 1} of ${_questions.length}',
+                                      style: GoogleFonts.nunito(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 4.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: Text(
+                                      '$progressPercent%',
+                                      style: GoogleFonts.nunito(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                '$progressPercent%',
-                                style: GoogleFonts.nunito(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                              SizedBox(height: 8.h),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: LinearProgressIndicator(
+                                  value: progress,
+                                  backgroundColor: Colors.white.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                  minHeight: 10.h,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: LinearProgressIndicator(
-                            value: progress,
-                            backgroundColor: Colors.white.withValues(
-                              alpha: 0.3,
-                            ),
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                              Colors.white,
-                            ),
-                            minHeight: 10,
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
 
-                  const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
 
-                  // Question Card with animation
-                  if (_isInitialized)
-                    AnimatedBuilder(
-                      animation: _floatAnimation,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(0, _floatAnimation.value * 0.3),
-                          child: child,
-                        );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.15),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Text('❓', style: const TextStyle(fontSize: 40)),
-                            const SizedBox(height: 12),
-                            Text(
-                              question['question'],
-                              style: GoogleFonts.nunito(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                        // Question Card with animation
+                        if (_isInitialized)
+                          AnimatedBuilder(
+                            animation: _floatAnimation,
+                            builder: (context, child) {
+                              return Transform.translate(
+                                offset: Offset(0, _floatAnimation.value * 0.3),
+                                child: child,
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 16.w),
+                              padding: EdgeInsets.all(24.r),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(24.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.15),
+                                    blurRadius: 20.r,
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ],
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                  const SizedBox(height: 24),
-
-                  // Options as 2x2 animated grid cards
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 14,
-                                crossAxisSpacing: 14,
-                                childAspectRatio: 1.3,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '❓',
+                                    style: const TextStyle(fontSize: 40),
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  Text(
+                                    question['question'],
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              itemCount: options.length,
-                              itemBuilder: (context, index) {
-                                final option = options[index];
-                                final isSelected = _selectedAnswer == option;
-                                final isCorrectOption =
-                                    option == question['answer'];
-                                final showResult = _answered;
-                                final optionLabels = ['A', 'B', 'C', 'D'];
+                            ),
+                          ),
 
-                                // Card gradient colors
-                                final List<List<Color>> cardGradients = [
-                                  [
-                                    const Color(0xFFFF6B6B),
-                                    const Color(0xFFFF8E53),
-                                  ],
-                                  [
-                                    const Color(0xFF4ECDC4),
-                                    const Color(0xFF44A08D),
-                                  ],
-                                  [
-                                    const Color(0xFFa18cd1),
-                                    const Color(0xFFfbc2eb),
-                                  ],
-                                  [
-                                    const Color(0xFFFFD700),
-                                    const Color(0xFFFFA500),
-                                  ],
-                                ];
+                        SizedBox(height: 24.h),
 
-                                List<Color> gradientColors =
-                                    cardGradients[index];
-
-                                if (showResult) {
-                                  if (isCorrectOption) {
-                                    gradientColors = [
-                                      const Color(0xFF56D97F),
-                                      const Color(0xFF11998E),
-                                    ];
-                                  } else if (isSelected) {
-                                    gradientColors = [
-                                      const Color(0xFFFF4444),
-                                      const Color(0xFFCC0000),
-                                    ];
-                                  }
-                                }
-
-                                return AnimatedBuilder(
-                                  animation: _floatController,
-                                  builder: (context, child) {
-                                    final floatOffset = (index % 2 == 0)
-                                        ? _floatAnimation.value * 0.5
-                                        : -_floatAnimation.value * 0.5;
-                                    return Transform.translate(
-                                      offset: Offset(0, floatOffset),
-                                      child: child,
-                                    );
-                                  },
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      TtsService.to.speak(option);
-                                      _selectAnswer(option);
-                                    },
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: gradientColors,
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
+                        // Options as 2x2 animated grid cards
+                        SizedBox(
+                          // A share of the viewport rather than `Expanded`:
+                          // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                          // above it, and a scrollable cannot report an intrinsic
+                          // height - it throws.
+                          height: math.max(200.h, constraints.maxHeight * 0.55),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: GridView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          mainAxisSpacing: 14.r,
+                                          crossAxisSpacing: 14.r,
+                                          childAspectRatio: 1.3,
                                         ),
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: gradientColors[0]
-                                                .withValues(alpha: 0.4),
-                                            blurRadius: 8,
-                                            offset: const Offset(0, 4),
-                                          ),
+                                    itemCount: options.length,
+                                    itemBuilder: (context, index) {
+                                      final option = options[index];
+                                      final isSelected =
+                                          _selectedAnswer == option;
+                                      final isCorrectOption =
+                                          option == question['answer'];
+                                      final showResult = _answered;
+                                      final optionLabels = ['A', 'B', 'C', 'D'];
+
+                                      // Card gradient colors
+                                      final List<List<Color>> cardGradients = [
+                                        [
+                                          const Color(0xFFFF6B6B),
+                                          const Color(0xFFFF8E53),
                                         ],
-                                      ),
-                                      child: Stack(
-                                        children: [
-                                          // Decorative circle
-                                          Positioned(
-                                            top: -15,
-                                            right: -15,
-                                            child: Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white
-                                                    .withValues(alpha: 0.15),
-                                              ),
+                                        [
+                                          const Color(0xFF4ECDC4),
+                                          const Color(0xFF44A08D),
+                                        ],
+                                        [
+                                          const Color(0xFFa18cd1),
+                                          const Color(0xFFfbc2eb),
+                                        ],
+                                        [
+                                          const Color(0xFFFFD700),
+                                          const Color(0xFFFFA500),
+                                        ],
+                                      ];
+
+                                      List<Color> gradientColors =
+                                          cardGradients[index];
+
+                                      if (showResult) {
+                                        if (isCorrectOption) {
+                                          gradientColors = [
+                                            const Color(0xFF56D97F),
+                                            const Color(0xFF11998E),
+                                          ];
+                                        } else if (isSelected) {
+                                          gradientColors = [
+                                            const Color(0xFFFF4444),
+                                            const Color(0xFFCC0000),
+                                          ];
+                                        }
+                                      }
+
+                                      return AnimatedBuilder(
+                                        animation: _floatController,
+                                        builder: (context, child) {
+                                          final floatOffset = (index % 2 == 0)
+                                              ? _floatAnimation.value * 0.5
+                                              : -_floatAnimation.value * 0.5;
+                                          return Transform.translate(
+                                            offset: Offset(0, floatOffset),
+                                            child: child,
+                                          );
+                                        },
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            TtsService.to.speak(option);
+                                            _selectAnswer(option);
+                                          },
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                              milliseconds: 300,
                                             ),
-                                          ),
-                                          Positioned(
-                                            bottom: -10,
-                                            left: -10,
-                                            child: Container(
-                                              width: 35,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white
-                                                    .withValues(alpha: 0.1),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: gradientColors,
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
                                               ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.r),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: gradientColors[0]
+                                                      .withValues(alpha: 0.4),
+                                                  blurRadius: 8.r,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          // Content
-                                          Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  // Option label circle
-                                                  Container(
-                                                    width: 36,
-                                                    height: 36,
+                                            child: Stack(
+                                              children: [
+                                                // Decorative circle
+                                                Positioned(
+                                                  top: -15.h,
+                                                  right: -15.w,
+                                                  child: Container(
+                                                    width: 50.w,
+                                                    height: 50.h,
                                                     decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
                                                       color: Colors.white
                                                           .withValues(
-                                                              alpha: 0.3),
-                                                      shape: BoxShape.circle,
+                                                            alpha: 0.15,
+                                                          ),
                                                     ),
-                                                    child: Center(
-                                                      child: showResult &&
-                                                              (isCorrectOption ||
-                                                                  isSelected)
-                                                          ? Icon(
-                                                              isCorrectOption
-                                                                  ? Icons
-                                                                      .check_circle
-                                                                  : Icons
-                                                                      .cancel,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 24,
-                                                            )
-                                                          : Text(
-                                                              optionLabels[
-                                                                  index],
-                                                              style: GoogleFonts
-                                                                  .baloo2(
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: -10.h,
+                                                  left: -10.w,
+                                                  child: Container(
+                                                    width: 35.w,
+                                                    height: 35.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white
+                                                          .withValues(
+                                                            alpha: 0.1,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Content
+                                                Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(
+                                                      8.r,
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        // Option label circle
+                                                        Container(
+                                                          width: 36.w,
+                                                          height: 36.h,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                color: Colors
+                                                                    .white
+                                                                    .withValues(
+                                                                      alpha:
+                                                                          0.3,
+                                                                    ),
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                          child: Center(
+                                                            child:
+                                                                showResult &&
+                                                                    (isCorrectOption ||
+                                                                        isSelected)
+                                                                ? Icon(
+                                                                    isCorrectOption
+                                                                        ? Icons
+                                                                              .check_circle
+                                                                        : Icons
+                                                                              .cancel,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    size: 24.r,
+                                                                  )
+                                                                : Text(
+                                                                    optionLabels[index],
+                                                                    style: GoogleFonts.baloo2(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 8.h),
+                                                        // Option text
+                                                        Text(
+                                                          option,
+                                                          style:
+                                                              GoogleFonts.nunito(
                                                                 fontSize: 16,
                                                                 fontWeight:
                                                                     FontWeight
@@ -1830,164 +1900,165 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                                                                 color: Colors
                                                                     .white,
                                                               ),
-                                                            ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 8),
-                                                  // Option text
-                                                  Text(
-                                                    option,
-                                                    style: GoogleFonts.nunito(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
-                          ),
+                                ),
 
-                          // Feedback message
-                          if (_answered)
-                            AnimatedBuilder(
-                              animation: _feedbackAnimation,
-                              builder: (context, child) {
-                                return Transform.scale(
-                                  scale: _feedbackAnimation.value,
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 12),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24,
-                                      vertical: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: _isCorrect
-                                          ? Colors.green
-                                          : Colors.red,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      _isCorrect
-                                          ? '✓ Correct! Great job!'
-                                          : '✗ Wrong!',
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                // Feedback message
+                                if (_answered)
+                                  AnimatedBuilder(
+                                    animation: _feedbackAnimation,
+                                    builder: (context, child) {
+                                      return Transform.scale(
+                                        scale: _feedbackAnimation.value,
+                                        child: Container(
+                                          margin: EdgeInsets.only(bottom: 12.h),
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 24.w,
+                                            vertical: 10.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: _isCorrect
+                                                ? Colors.green
+                                                : Colors.red,
+                                            borderRadius: BorderRadius.circular(
+                                              20.r,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            _isCorrect
+                                                ? '✓ Correct! Great job!'
+                                                : '✗ Wrong!',
+                                            style: GoogleFonts.nunito(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
-
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Navigation buttons - Previous, Refresh, Next
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                    child: Row(
-                      children: [
-                        // Previous button
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: _currentQuestionIndex > 0
-                                ? _goToPreviousQuestion
-                                : null,
-                            icon: const Icon(Icons.arrow_back_ios, size: 16),
-                            label: Text(
-                              'Previous',
-                              style: GoogleFonts.nunito(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.white.withValues(alpha: 0.9),
-                              foregroundColor: const Color(0xFF667EEA),
-                              disabledBackgroundColor:
-                                  Colors.white.withValues(alpha: 0.3),
-                              disabledForegroundColor:
-                                  Colors.white.withValues(alpha: 0.5),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
+                              ],
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        // Refresh button
-                        ElevatedButton(
-                          onPressed: _answered ? _clearAndTryAgain : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            foregroundColor: Colors.white,
-                            disabledBackgroundColor:
-                                Colors.white.withValues(alpha: 0.3),
-                            disabledForegroundColor:
-                                Colors.white.withValues(alpha: 0.5),
-                            padding: const EdgeInsets.all(12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            minimumSize: const Size(48, 48),
-                          ),
-                          child:
-                              const Icon(Icons.refresh_rounded, size: 22),
-                        ),
-                        const SizedBox(width: 8),
-                        // Next button
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: _answered ? _goToNextQuestion : null,
-                            icon: Text(
-                              _currentQuestionIndex == _questions.length - 1
-                                  ? 'Finish'
-                                  : 'Next',
-                              style: GoogleFonts.nunito(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+
+                        // Navigation buttons - Previous, Refresh, Next
+                        Container(
+                          padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 12.h),
+                          child: Row(
+                            children: [
+                              // Previous button
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: _currentQuestionIndex > 0
+                                      ? _goToPreviousQuestion
+                                      : null,
+                                  icon: Icon(Icons.arrow_back_ios, size: 16.r),
+                                  label: Text(
+                                    'Previous',
+                                    style: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white.withValues(
+                                      alpha: 0.9,
+                                    ),
+                                    foregroundColor: const Color(0xFF667EEA),
+                                    disabledBackgroundColor: Colors.white
+                                        .withValues(alpha: 0.3),
+                                    disabledForegroundColor: Colors.white
+                                        .withValues(alpha: 0.5),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 12.h,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14.r),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                            label: const Icon(
-                                Icons.arrow_forward_ios, size: 16),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF56D97F),
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor:
-                                  Colors.grey.withValues(alpha: 0.5),
-                              disabledForegroundColor:
-                                  Colors.white.withValues(alpha: 0.5),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                              SizedBox(width: 8.w),
+                              // Refresh button
+                              ElevatedButton(
+                                onPressed: _answered ? _clearAndTryAgain : null,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange,
+                                  foregroundColor: Colors.white,
+                                  disabledBackgroundColor: Colors.white
+                                      .withValues(alpha: 0.3),
+                                  disabledForegroundColor: Colors.white
+                                      .withValues(alpha: 0.5),
+                                  padding: EdgeInsets.all(12.r),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14.r),
+                                  ),
+                                  minimumSize: const Size(48, 48),
+                                ),
+                                child: Icon(Icons.refresh_rounded, size: 22.r),
                               ),
-                            ),
+                              SizedBox(width: 8.w),
+                              // Next button
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: _answered
+                                      ? _goToNextQuestion
+                                      : null,
+                                  icon: Text(
+                                    _currentQuestionIndex ==
+                                            _questions.length - 1
+                                        ? 'Finish'
+                                        : 'Next',
+                                    style: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  label: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16.r,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF56D97F),
+                                    foregroundColor: Colors.white,
+                                    disabledBackgroundColor: Colors.grey
+                                        .withValues(alpha: 0.5),
+                                    disabledForegroundColor: Colors.white
+                                        .withValues(alpha: 0.5),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 12.h,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14.r),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ],

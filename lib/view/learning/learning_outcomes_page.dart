@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/services/learning_outcomes_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class LearningOutcomesPage extends StatefulWidget {
   const LearningOutcomesPage({super.key});
 
@@ -67,7 +69,12 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -85,6 +92,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
       ),
     );
   }
+
   Widget _buildOverallProgress() {
     return Obx(() {
       final progress = _service.overallProgress;
@@ -93,15 +101,15 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
       final milestones = _service.unlockedMilestonesCount;
 
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: const Offset(0, 8),
             ),
           ],
@@ -111,14 +119,19 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildStat('📊', '${progress.round()}%', 'Progress'),
-                _buildStat('✅', '$completed/$total', 'Completed'),
-                _buildStat('🏆', '$milestones', 'Milestones'),
+                // Equal shares so the longest label wraps in its own column.
+                Expanded(
+                  child: _buildStat('📊', '${progress.round()}%', 'Progress'),
+                ),
+                Expanded(
+                  child: _buildStat('✅', '$completed/$total', 'Completed'),
+                ),
+                Expanded(child: _buildStat('🏆', '$milestones', 'Milestones')),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.r),
               child: LinearProgressIndicator(
                 value: progress / 100,
                 backgroundColor: Colors.grey.shade200,
@@ -126,10 +139,10 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                   progress >= 80
                       ? Colors.green
                       : progress >= 50
-                          ? Colors.orange
-                          : const Color(0xFF667EEA),
+                      ? Colors.orange
+                      : const Color(0xFF667EEA),
                 ),
-                minHeight: 10,
+                minHeight: 10.h,
               ),
             ),
           ],
@@ -142,7 +155,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
     return Column(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 24)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
           style: const TextStyle(
@@ -153,10 +166,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
         ),
         Text(
           label,
-          style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 12,
-          ),
+          style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
         ),
       ],
     );
@@ -164,31 +174,31 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
 
   Widget _buildTabBar() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: TabBar(
         controller: _tabController,
         isScrollable: true,
         indicator: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         labelColor: const Color(0xFF667EEA),
         unselectedLabelColor: Colors.white70,
         labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-        padding: const EdgeInsets.all(4),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.all(4.r),
+        labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
         tabs: _categories.map((cat) {
           return Tab(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Row(
                 children: [
                   Text(cat['emoji']!, style: const TextStyle(fontSize: 16)),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4.w),
                   Text(cat['name']!),
                 ],
               ),
@@ -224,7 +234,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('📭', style: TextStyle(fontSize: 64)),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 'No outcomes yet',
                 style: TextStyle(
@@ -246,7 +256,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
       });
 
       return ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         itemCount: outcomesList.length,
         itemBuilder: (context, index) {
           return _buildOutcomeCard(outcomesList[index]);
@@ -259,14 +269,14 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
     final moduleEmoji = _getModuleEmoji(outcome.moduleId);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -278,30 +288,37 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
             TtsService.to.speak(outcome.title);
             _showOutcomeDetails(outcome);
           },
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 48,
-                      height: 48,
+                      width: 48.w,
+                      height: 48.h,
                       decoration: BoxDecoration(
                         color: outcome.isCompleted
                             ? Colors.green.shade50
                             : const Color(0xFF667EEA).withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Center(
                         child: outcome.isCompleted
-                            ? const Icon(Icons.check_circle, color: Colors.green, size: 28)
-                            : Text(moduleEmoji, style: const TextStyle(fontSize: 24)),
+                            ? Icon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                                size: 28.r,
+                              )
+                            : Text(
+                                moduleEmoji,
+                                style: const TextStyle(fontSize: 24),
+                              ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +331,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                               color: Color(0xFF2D3436),
                             ),
                           ),
-                          const SizedBox(height: 2),
+                          SizedBox(height: 2.h),
                           Text(
                             outcome.description,
                             style: TextStyle(
@@ -326,20 +343,22 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: outcome.isCompleted
                             ? Colors.green.shade100
                             : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Text(
                         '${outcome.progressPercentage.round()}%',
                         style: TextStyle(
-                          color: outcome.isCompleted ? Colors.green : Colors.grey.shade700,
+                          color: outcome.isCompleted
+                              ? Colors.green
+                              : Colors.grey.shade700,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -347,31 +366,33 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(4.r),
                   child: LinearProgressIndicator(
                     value: outcome.progressPercentage / 100,
                     backgroundColor: Colors.grey.shade200,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      outcome.isCompleted ? Colors.green : const Color(0xFF667EEA),
+                      outcome.isCompleted
+                          ? Colors.green
+                          : const Color(0xFF667EEA),
                     ),
-                    minHeight: 6,
+                    minHeight: 6.h,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
+                  spacing: 8.r,
+                  runSpacing: 4.r,
                   children: outcome.objectives.take(3).map((obj) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
                         obj,
@@ -399,24 +420,24 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
       builder: (context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.6,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           ),
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
+                margin: EdgeInsets.only(top: 12.h),
+                width: 40.w,
+                height: 4.h,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -424,11 +445,13 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                       Row(
                         children: [
                           Container(
-                            width: 56,
-                            height: 56,
+                            width: 56.w,
+                            height: 56.h,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF667EEA).withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(16),
+                              color: const Color(
+                                0xFF667EEA,
+                              ).withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(16.r),
                             ),
                             child: Center(
                               child: Text(
@@ -437,7 +460,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                               ),
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,43 +486,49 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                         ],
                       ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
                       // Progress
                       Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.r),
                         decoration: BoxDecoration(
                           color: outcome.isCompleted
                               ? Colors.green.shade50
                               : Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Progress',
-                                  style: TextStyle(
-                                    color: Colors.grey.shade700,
-                                    fontWeight: FontWeight.w500,
+                                Flexible(
+                                  child: Text(
+                                    'Progress',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade700,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                Text(
-                                  '${outcome.currentScore}/${outcome.targetScore}',
-                                  style: TextStyle(
-                                    color: outcome.isCompleted
-                                        ? Colors.green
-                                        : const Color(0xFF667EEA),
-                                    fontWeight: FontWeight.bold,
+                                Flexible(
+                                  child: Text(
+                                    '${outcome.currentScore}/${outcome.targetScore}',
+                                    style: TextStyle(
+                                      color: outcome.isCompleted
+                                          ? Colors.green
+                                          : const Color(0xFF667EEA),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                               child: LinearProgressIndicator(
                                 value: outcome.progressPercentage / 100,
                                 backgroundColor: Colors.grey.shade200,
@@ -508,19 +537,20 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                                       ? Colors.green
                                       : const Color(0xFF667EEA),
                                 ),
-                                minHeight: 12,
+                                minHeight: 12.h,
                               ),
                             ),
-                            if (outcome.isCompleted && outcome.completedAt != null) ...[
-                              const SizedBox(height: 12),
+                            if (outcome.isCompleted &&
+                                outcome.completedAt != null) ...[
+                              SizedBox(height: 12.h),
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.check_circle,
                                     color: Colors.green,
-                                    size: 20,
+                                    size: 20.r,
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: 8.w),
                                   Text(
                                     'Completed on ${_formatDate(outcome.completedAt!)}',
                                     style: const TextStyle(
@@ -535,7 +565,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
                       // Objectives
                       const Text(
@@ -546,28 +576,30 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                           color: Color(0xFF2D3436),
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       ...outcome.objectives.map((obj) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8.h),
                           child: Row(
                             children: [
                               Container(
-                                width: 24,
-                                height: 24,
+                                width: 24.w,
+                                height: 24.h,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF667EEA).withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(6),
+                                  color: const Color(
+                                    0xFF667EEA,
+                                  ).withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(6.r),
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Icon(
                                     Icons.check,
-                                    size: 14,
+                                    size: 14.r,
                                     color: Color(0xFF667EEA),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(width: 12.w),
                               Expanded(
                                 child: Text(
                                   obj,
@@ -582,12 +614,12 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                         );
                       }),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
                       // Action Button
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: 56.h,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -597,7 +629,7 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF667EEA),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                             ),
                           ),
                           child: Text(
@@ -644,8 +676,18 @@ class _LearningOutcomesPageState extends State<LearningOutcomesPage>
 
   String _formatDate(DateTime date) {
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }

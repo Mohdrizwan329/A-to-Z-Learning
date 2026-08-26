@@ -5,6 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AudioLearningPage extends StatefulWidget {
   const AudioLearningPage({super.key});
 
@@ -33,19 +35,39 @@ class _AudioLearningPageState extends State<AudioLearningPage>
         AudioItem('Cat', '🐱', 'Meow meow! Purr purr!', 'Cats meow and purr'),
         AudioItem('Cow', '🐄', 'Moo moo!', 'Cows say moo'),
         AudioItem('Duck', '🦆', 'Quack quack!', 'Ducks go quack'),
-        AudioItem('Rooster', '🐓', 'Cock-a-doodle-doo!', 'Roosters crow at dawn'),
+        AudioItem(
+          'Rooster',
+          '🐓',
+          'Cock-a-doodle-doo!',
+          'Roosters crow at dawn',
+        ),
         AudioItem('Lion', '🦁', 'Roar roar!', 'Lions roar loudly'),
         AudioItem('Frog', '🐸', 'Ribbit ribbit!', 'Frogs croak ribbit'),
         AudioItem('Sheep', '🐑', 'Baa baa!', 'Sheep say baa'),
-        AudioItem('Horse', '🐴', 'Neigh neigh! Clip clop!', 'Horses neigh and gallop'),
+        AudioItem(
+          'Horse',
+          '🐴',
+          'Neigh neigh! Clip clop!',
+          'Horses neigh and gallop',
+        ),
         AudioItem('Pig', '🐷', 'Oink oink!', 'Pigs oink happily'),
-        AudioItem('Elephant', '🐘', 'Trumpet! Pawoo!', 'Elephants trumpet loud'),
+        AudioItem(
+          'Elephant',
+          '🐘',
+          'Trumpet! Pawoo!',
+          'Elephants trumpet loud',
+        ),
         AudioItem('Owl', '🦉', 'Hoot hoot! Who who!', 'Owls hoot at night'),
         AudioItem('Snake', '🐍', 'Hiss hiss!', 'Snakes hiss softly'),
         AudioItem('Monkey', '🐵', 'Ooh ooh! Ah ah!', 'Monkeys chatter loudly'),
         AudioItem('Wolf', '🐺', 'Howl! Awooo!', 'Wolves howl at moon'),
         AudioItem('Bee', '🐝', 'Buzz buzz buzz!', 'Bees buzz around'),
-        AudioItem('Dolphin', '🐬', 'Click click! Squeak!', 'Dolphins click and squeak'),
+        AudioItem(
+          'Dolphin',
+          '🐬',
+          'Click click! Squeak!',
+          'Dolphins click and squeak',
+        ),
         AudioItem('Donkey', '🫏', 'Hee-haw! Hee-haw!', 'Donkeys bray hee-haw'),
         AudioItem('Turkey', '🦃', 'Gobble gobble!', 'Turkeys gobble loudly'),
         AudioItem('Crow', '🐦‍⬛', 'Caw caw caw!', 'Crows caw in trees'),
@@ -57,25 +79,70 @@ class _AudioLearningPageState extends State<AudioLearningPage>
       color: Colors.blue,
       items: [
         AudioItem('Car', '🚗', 'Vroom vroom! Beep beep!', 'Cars go vroom'),
-        AudioItem('Train', '🚂', 'Choo choo! Chugga chugga!', 'Trains go choo choo'),
-        AudioItem('Airplane', '✈️', 'Whoooosh! Zoom!', 'Planes fly with a whoosh'),
+        AudioItem(
+          'Train',
+          '🚂',
+          'Choo choo! Chugga chugga!',
+          'Trains go choo choo',
+        ),
+        AudioItem(
+          'Airplane',
+          '✈️',
+          'Whoooosh! Zoom!',
+          'Planes fly with a whoosh',
+        ),
         AudioItem('Ambulance', '🚑', 'Wee-woo wee-woo!', 'Ambulance siren'),
         AudioItem('Fire Truck', '🚒', 'Nee-naw nee-naw!', 'Fire truck siren'),
-        AudioItem('Bicycle', '🚲', 'Ring ring! Ding ding!', 'Bicycle bell rings'),
+        AudioItem(
+          'Bicycle',
+          '🚲',
+          'Ring ring! Ding ding!',
+          'Bicycle bell rings',
+        ),
         AudioItem('Boat', '🚤', 'Honk honk! Splash!', 'Boat horn honks'),
-        AudioItem('Helicopter', '🚁', 'Whop whop whop!', 'Helicopter blades spin'),
-        AudioItem('Motorcycle', '🏍️', 'Vroom vroom! Rev rev!', 'Motorcycle engines rev'),
-        AudioItem('Bus', '🚌', 'Beep beep! Psshh!', 'Bus doors open with psshh'),
+        AudioItem(
+          'Helicopter',
+          '🚁',
+          'Whop whop whop!',
+          'Helicopter blades spin',
+        ),
+        AudioItem(
+          'Motorcycle',
+          '🏍️',
+          'Vroom vroom! Rev rev!',
+          'Motorcycle engines rev',
+        ),
+        AudioItem(
+          'Bus',
+          '🚌',
+          'Beep beep! Psshh!',
+          'Bus doors open with psshh',
+        ),
         AudioItem('Truck', '🚚', 'Honk honk! Rumble!', 'Trucks rumble loudly'),
         AudioItem('Police Car', '🚔', 'Wee-oo wee-oo!', 'Police siren wails'),
         AudioItem('Tractor', '🚜', 'Putt putt putt!', 'Tractors putt along'),
         AudioItem('Rocket', '🚀', 'Whoooosh! Boom!', 'Rockets blast off'),
         AudioItem('Subway', '🚇', 'Whoosh! Screech!', 'Subway trains screech'),
-        AudioItem('Scooter', '🛵', 'Beep beep! Putt putt!', 'Scooters putt around'),
+        AudioItem(
+          'Scooter',
+          '🛵',
+          'Beep beep! Putt putt!',
+          'Scooters putt around',
+        ),
         AudioItem('Jet', '🛩️', 'Roarrr! Zoom!', 'Jets roar through sky'),
         AudioItem('Ship', '🚢', 'Hoooonk! Splash!', 'Ships honk their horns'),
-        AudioItem('Race Car', '🏎️', 'Vroooom! Screech!', 'Race cars zoom fast'),
-        AudioItem('Ice Cream Truck', '🍦', 'Ding ding! Jingle!', 'Ice cream truck jingles'),
+        AudioItem(
+          'Race Car',
+          '🏎️',
+          'Vroooom! Screech!',
+          'Race cars zoom fast',
+        ),
+        AudioItem(
+          'Ice Cream Truck',
+          '🍦',
+          'Ding ding! Jingle!',
+          'Ice cream truck jingles',
+        ),
       ],
     ),
     AudioCategory(
@@ -83,26 +150,91 @@ class _AudioLearningPageState extends State<AudioLearningPage>
       emoji: '🌿',
       color: Colors.teal,
       items: [
-        AudioItem('Rain', '🌧️', 'Pitter patter! Drip drop!', 'Rain falls softly'),
-        AudioItem('Thunder', '⛈️', 'Boom! Rumble rumble!', 'Thunder rumbles loud'),
+        AudioItem(
+          'Rain',
+          '🌧️',
+          'Pitter patter! Drip drop!',
+          'Rain falls softly',
+        ),
+        AudioItem(
+          'Thunder',
+          '⛈️',
+          'Boom! Rumble rumble!',
+          'Thunder rumbles loud',
+        ),
         AudioItem('Wind', '💨', 'Whoooosh! Swish swish!', 'Wind blows whoosh'),
-        AudioItem('Waves', '🌊', 'Splash! Swoosh swoosh!', 'Waves crash on shore'),
-        AudioItem('Bird', '🐦', 'Tweet tweet! Chirp chirp!', 'Birds sing tweets'),
+        AudioItem(
+          'Waves',
+          '🌊',
+          'Splash! Swoosh swoosh!',
+          'Waves crash on shore',
+        ),
+        AudioItem(
+          'Bird',
+          '🐦',
+          'Tweet tweet! Chirp chirp!',
+          'Birds sing tweets',
+        ),
         AudioItem('Bee', '🐝', 'Buzz buzz buzz!', 'Bees buzz around'),
-        AudioItem('Fire', '🔥', 'Crackle crackle! Pop!', 'Fire crackles warmly'),
+        AudioItem(
+          'Fire',
+          '🔥',
+          'Crackle crackle! Pop!',
+          'Fire crackles warmly',
+        ),
         AudioItem('Waterfall', '💦', 'Roar! Splash splash!', 'Waterfall roars'),
-        AudioItem('Stream', '🏞️', 'Babble babble! Gurgle!', 'Streams babble along'),
-        AudioItem('Leaves', '🍂', 'Rustle rustle! Crunch!', 'Leaves rustle in wind'),
-        AudioItem('Cricket', '🦗', 'Chirp chirp! Cricket!', 'Crickets chirp at night'),
-        AudioItem('Frog Pond', '🐸', 'Croak croak! Ribbit!', 'Frogs croak by ponds'),
-        AudioItem('Volcano', '🌋', 'Rumble! Boom boom!', 'Volcanoes rumble loud'),
-        AudioItem('Earthquake', '🌍', 'Rumble rumble! Shake!', 'Earthquakes shake ground'),
+        AudioItem(
+          'Stream',
+          '🏞️',
+          'Babble babble! Gurgle!',
+          'Streams babble along',
+        ),
+        AudioItem(
+          'Leaves',
+          '🍂',
+          'Rustle rustle! Crunch!',
+          'Leaves rustle in wind',
+        ),
+        AudioItem(
+          'Cricket',
+          '🦗',
+          'Chirp chirp! Cricket!',
+          'Crickets chirp at night',
+        ),
+        AudioItem(
+          'Frog Pond',
+          '🐸',
+          'Croak croak! Ribbit!',
+          'Frogs croak by ponds',
+        ),
+        AudioItem(
+          'Volcano',
+          '🌋',
+          'Rumble! Boom boom!',
+          'Volcanoes rumble loud',
+        ),
+        AudioItem(
+          'Earthquake',
+          '🌍',
+          'Rumble rumble! Shake!',
+          'Earthquakes shake ground',
+        ),
         AudioItem('Tornado', '🌪️', 'Whoooosh! Roar!', 'Tornadoes roar loudly'),
-        AudioItem('Snowfall', '❄️', 'Soft soft! Silence!', 'Snow falls silently'),
+        AudioItem(
+          'Snowfall',
+          '❄️',
+          'Soft soft! Silence!',
+          'Snow falls silently',
+        ),
         AudioItem('Hail', '🧊', 'Tap tap tap! Ping!', 'Hail taps on windows'),
         AudioItem('Ocean', '🌊', 'Whoosh whoosh! Roar!', 'Ocean waves roar'),
         AudioItem('Forest', '🌲', 'Rustle! Hoot! Tweet!', 'Forest sounds mix'),
-        AudioItem('Campfire', '🏕️', 'Crackle pop! Sizzle!', 'Campfire crackles nicely'),
+        AudioItem(
+          'Campfire',
+          '🏕️',
+          'Crackle pop! Sizzle!',
+          'Campfire crackles nicely',
+        ),
       ],
     ),
     AudioCategory(
@@ -111,24 +243,69 @@ class _AudioLearningPageState extends State<AudioLearningPage>
       color: Colors.purple,
       items: [
         AudioItem('Drum', '🥁', 'Boom boom! Tap tap!', 'Drums go boom'),
-        AudioItem('Piano', '🎹', 'Ding ding! Plink plink!', 'Piano keys tinkle'),
-        AudioItem('Guitar', '🎸', 'Strum strum! Twang!', 'Guitar strings strum'),
+        AudioItem(
+          'Piano',
+          '🎹',
+          'Ding ding! Plink plink!',
+          'Piano keys tinkle',
+        ),
+        AudioItem(
+          'Guitar',
+          '🎸',
+          'Strum strum! Twang!',
+          'Guitar strings strum',
+        ),
         AudioItem('Trumpet', '🎺', 'Toot toot! Ta-da!', 'Trumpet toots loudly'),
-        AudioItem('Bell', '🔔', 'Ding dong! Ring ring!', 'Bells ring ding dong'),
+        AudioItem(
+          'Bell',
+          '🔔',
+          'Ding dong! Ring ring!',
+          'Bells ring ding dong',
+        ),
         AudioItem('Whistle', '📯', 'Tweeeeet!', 'Whistle blows tweet'),
         AudioItem('Clap', '👏', 'Clap clap clap!', 'Hands clap together'),
         AudioItem('Tambourine', '🎀', 'Jingle jangle!', 'Tambourine jingles'),
         AudioItem('Violin', '🎻', 'Screech! Melody!', 'Violin plays melody'),
         AudioItem('Flute', '🪈', 'Toot toot! Melody!', 'Flute plays softly'),
         AudioItem('Xylophone', '🎶', 'Ting ting ting!', 'Xylophone tings'),
-        AudioItem('Harmonica', '🎵', 'Whee whoo whee!', 'Harmonica plays tunes'),
-        AudioItem('Cymbals', '🥁', 'Crash! Ching ching!', 'Cymbals crash loudly'),
-        AudioItem('Maracas', '🪇', 'Shake shake shake!', 'Maracas shake rhythm'),
+        AudioItem(
+          'Harmonica',
+          '🎵',
+          'Whee whoo whee!',
+          'Harmonica plays tunes',
+        ),
+        AudioItem(
+          'Cymbals',
+          '🥁',
+          'Crash! Ching ching!',
+          'Cymbals crash loudly',
+        ),
+        AudioItem(
+          'Maracas',
+          '🪇',
+          'Shake shake shake!',
+          'Maracas shake rhythm',
+        ),
         AudioItem('Triangle', '📐', 'Ting! Ting ting!', 'Triangle rings clear'),
-        AudioItem('Harp', '🪕', 'Twang twang! Glissando!', 'Harp strings shimmer'),
+        AudioItem(
+          'Harp',
+          '🪕',
+          'Twang twang! Glissando!',
+          'Harp strings shimmer',
+        ),
         AudioItem('Accordion', '🪗', 'Squeeze! Wheeze!', 'Accordion wheezes'),
-        AudioItem('Saxophone', '🎷', 'Honk! Jazz melody!', 'Saxophone plays jazz'),
-        AudioItem('Singing', '🎤', 'La la la! Do re mi!', 'Voice sings beautifully'),
+        AudioItem(
+          'Saxophone',
+          '🎷',
+          'Honk! Jazz melody!',
+          'Saxophone plays jazz',
+        ),
+        AudioItem(
+          'Singing',
+          '🎤',
+          'La la la! Do re mi!',
+          'Voice sings beautifully',
+        ),
         AudioItem('Snap', '🫰', 'Snap snap snap!', 'Fingers snap rhythm'),
       ],
     ),
@@ -185,7 +362,10 @@ class _AudioLearningPageState extends State<AudioLearningPage>
       setState(() {
         _visitedItems[categoryIndex]!.add(itemIndex);
       });
-      _box.write('audio_progress_$categoryIndex', _visitedItems[categoryIndex]!.toList());
+      _box.write(
+        'audio_progress_$categoryIndex',
+        _visitedItems[categoryIndex]!.toList(),
+      );
     }
   }
 
@@ -258,24 +438,26 @@ class _AudioLearningPageState extends State<AudioLearningPage>
     TtsService.to.speak(item.name);
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -284,7 +466,7 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                   child: Text(item.emoji, style: const TextStyle(fontSize: 60)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 item.name,
                 style: const TextStyle(
@@ -293,12 +475,12 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Text(
                   item.soundText,
@@ -309,13 +491,13 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 item.description,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 14, color: Colors.white70),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -352,20 +534,20 @@ class _AudioLearningPageState extends State<AudioLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 20.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: const TextStyle(
@@ -400,15 +582,15 @@ class _AudioLearningPageState extends State<AudioLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -434,16 +616,12 @@ class _AudioLearningPageState extends State<AudioLearningPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -452,14 +630,20 @@ class _AudioLearningPageState extends State<AudioLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: _categories.map((cat) {
             return Tab(
-              child: Text(cat.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(
+                cat.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             );
           }).toList(),
         ),
@@ -483,18 +667,22 @@ class _AudioLearningPageState extends State<AudioLearningPage>
             children: [
               // Progress bar
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        // The reader's font size can be 30% larger than this row was drawn for.
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -507,12 +695,12 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: _progressPercentage,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -525,11 +713,11 @@ class _AudioLearningPageState extends State<AudioLearningPage>
               // Audio items grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: category.items.length,
@@ -557,7 +745,9 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                         );
                       },
                       child: GestureDetector(
-                        onTap: _isPlaying ? null : () => _showItemDetail(item, index),
+                        onTap: _isPlaying
+                            ? null
+                            : () => _showItemDetail(item, index),
                         child: Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -565,11 +755,11 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -580,11 +770,11 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -593,11 +783,14 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                  ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Stack(
                                         alignment: Alignment.center,
@@ -607,12 +800,19 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                                               animation: _waveAnimation,
                                               builder: (context, child) {
                                                 return Container(
-                                                  width: 85 * _waveAnimation.value,
-                                                  height: 85 * _waveAnimation.value,
+                                                  width:
+                                                      85.w *
+                                                      _waveAnimation.value,
+                                                  height:
+                                                      85.h *
+                                                      _waveAnimation.value,
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     border: Border.all(
-                                                      color: Colors.white.withValues(alpha: 0.5),
+                                                      color: Colors.white
+                                                          .withValues(
+                                                            alpha: 0.5,
+                                                          ),
                                                       width: 2,
                                                     ),
                                                   ),
@@ -620,22 +820,26 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                                               },
                                             ),
                                           Container(
-                                            width: 75,
-                                            height: 75,
+                                            width: 75.w,
+                                            height: 75.h,
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withValues(alpha: 0.3),
+                                              color: Colors.white.withValues(
+                                                alpha: 0.3,
+                                              ),
                                               shape: BoxShape.circle,
                                             ),
                                             child: Center(
                                               child: Text(
                                                 item.emoji,
-                                                style: const TextStyle(fontSize: 42),
+                                                style: const TextStyle(
+                                                  fontSize: 42,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       Text(
                                         item.name,
                                         style: const TextStyle(
@@ -653,12 +857,15 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                                 ),
                               ),
                               // Checkmark badge when visited
-                              if (_visitedItems[_currentCategory]?.contains(index) == true)
+                              if (_visitedItems[_currentCategory]?.contains(
+                                    index,
+                                  ) ==
+                                  true)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
@@ -666,7 +873,7 @@ class _AudioLearningPageState extends State<AudioLearningPage>
                                     child: Icon(
                                       Icons.check,
                                       color: gradient[0],
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),

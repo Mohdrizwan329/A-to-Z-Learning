@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class StemChallengesDetailPage extends StatefulWidget {
   final int challengeIndex;
 
@@ -61,8 +63,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         'Fold edges sharply',
         'Add weight to nose for distance',
       ],
-      'science':
-          'Aerodynamics - how air flows around objects affects flight!',
+      'science': 'Aerodynamics - how air flows around objects affects flight!',
     },
     {
       'name': 'Straw Bridge',
@@ -70,12 +71,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
       'difficulty': 'Hard',
       'time': '45 min',
       'goal': 'Build a bridge that holds the most weight!',
-      'materials': [
-        '20 straws',
-        'Tape',
-        'Scissors',
-        'Small weights or coins',
-      ],
+      'materials': ['20 straws', 'Tape', 'Scissors', 'Small weights or coins'],
       'rules': [
         'Bridge must span 30cm gap',
         'Use only given materials',
@@ -111,8 +107,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         'Build in stages',
         'Don\'t wait to put marshmallow on top',
       ],
-      'science':
-          'Testing designs early (prototyping) helps find problems!',
+      'science': 'Testing designs early (prototyping) helps find problems!',
     },
     {
       'name': 'Boat Float Challenge',
@@ -131,8 +126,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         'High sides keep water out',
         'Spread weight evenly',
       ],
-      'science':
-          'Buoyancy - objects float when they displace enough water!',
+      'science': 'Buoyancy - objects float when they displace enough water!',
     },
     {
       'name': 'Catapult Launch',
@@ -182,8 +176,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         'Add curves and loops',
         'Test each section',
       ],
-      'science':
-          'Gravity pulls the marble down, speed depends on slope angle!',
+      'science': 'Gravity pulls the marble down, speed depends on slope angle!',
     },
     {
       'name': 'Wind Powered Car',
@@ -208,8 +201,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         'Light body moves easier',
         'Wheels must spin freely',
       ],
-      'science':
-          'Wind energy converts to motion - this is how sailboats work!',
+      'science': 'Wind energy converts to motion - this is how sailboats work!',
     },
   ];
 
@@ -233,7 +225,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
       title: challenge['name'] ?? '',
       emoji: challenge['emoji'] ?? '',
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: _buildChallengeContent(challenge),
       ),
     );
@@ -244,19 +236,19 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
     return buildFloatingItem(
       index: index,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -264,11 +256,11 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -292,16 +284,16 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
       children: [
         // Header
         Text(challenge['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         // Difficulty & Time tags
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Text(
                 challenge['difficulty'] ?? '',
@@ -312,12 +304,12 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Text(
                 '⏱️ ${challenge['time'] ?? ''}',
@@ -330,7 +322,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
             ),
           ],
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
 
         // Goal card
         _buildGradientItem(
@@ -338,8 +330,8 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
           child: Row(
             children: [
               Container(
-                width: 55,
-                height: 55,
+                width: 55.w,
+                height: 55.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -348,7 +340,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                   child: Text('🎯', style: TextStyle(fontSize: 28)),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,8 +376,8 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
               Row(
                 children: [
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 45.w,
+                    height: 45.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -394,7 +386,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                       child: Text('🧪', style: TextStyle(fontSize: 24)),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Text(
                     'Materials',
                     style: GoogleFonts.nunito(
@@ -405,19 +397,19 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: 8.r,
+                runSpacing: 8.r,
                 children: materials.map<Widget>((m) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       m ?? '',
@@ -441,8 +433,8 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 35,
-                  height: 35,
+                  width: 35.w,
+                  height: 35.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -458,7 +450,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     rules[index] ?? '',
@@ -481,8 +473,8 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 40.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -491,7 +483,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                     child: Text('💡', style: TextStyle(fontSize: 20)),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     tips[index] ?? '',
@@ -513,8 +505,8 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
           child: Row(
             children: [
               Container(
-                width: 55,
-                height: 55,
+                width: 55.w,
+                height: 55.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -523,7 +515,7 @@ class _StemChallengesDetailPageState extends State<StemChallengesDetailPage>
                   child: Text('🧠', style: TextStyle(fontSize: 28)),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

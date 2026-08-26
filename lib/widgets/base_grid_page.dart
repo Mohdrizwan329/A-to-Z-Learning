@@ -4,6 +4,8 @@ import '../utils/app_colors.dart';
 import '../utils/grid_animations_mixin.dart';
 import 'gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Base widget for grid-based learning pages
 /// Provides consistent layout with AppBar, gradient background, animated grid, and ads
 ///
@@ -45,14 +47,14 @@ class BaseGridPage<T extends GetxController> extends StatefulWidget {
   final VoidCallback? onRefresh;
   final int crossAxisCount;
   final double childAspectRatio;
-  final EdgeInsets gridPadding;
-  final double mainAxisSpacing;
-  final double crossAxisSpacing;
+  final EdgeInsets? gridPadding;
+  final double? mainAxisSpacing;
+  final double? crossAxisSpacing;
   final List<Color>? appBarGradient;
   final List<Color>? bodyGradient;
   final List<Widget>? actions;
 
-  const BaseGridPage({
+  BaseGridPage({
     super.key,
     required this.title,
     required this.controller,
@@ -65,9 +67,9 @@ class BaseGridPage<T extends GetxController> extends StatefulWidget {
     this.onRefresh,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1.0,
-    this.gridPadding = const EdgeInsets.all(16),
-    this.mainAxisSpacing = 12,
-    this.crossAxisSpacing = 12,
+    this.gridPadding,
+    this.mainAxisSpacing,
+    this.crossAxisSpacing,
     this.appBarGradient,
     this.bodyGradient,
     this.actions,
@@ -98,12 +100,12 @@ class _BaseGridPageState<T extends GetxController>
       if (widget.onRefresh != null)
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: widget.onRefresh,
           tooltip: 'Reset Progress',
@@ -122,12 +124,12 @@ class _BaseGridPageState<T extends GetxController>
           Expanded(
             child: Obx(
               () => GridView.builder(
-                padding: widget.gridPadding,
+                padding: widget.gridPadding ?? EdgeInsets.all(16.r),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: widget.crossAxisCount,
                   childAspectRatio: widget.childAspectRatio,
-                  mainAxisSpacing: widget.mainAxisSpacing,
-                  crossAxisSpacing: widget.crossAxisSpacing,
+                  mainAxisSpacing: widget.mainAxisSpacing ?? 12.r,
+                  crossAxisSpacing: widget.crossAxisSpacing ?? 12.r,
                 ),
                 itemCount: widget.itemCount,
                 itemBuilder: (context, index) {
@@ -214,16 +216,12 @@ class _SimpleGridPageState extends State<SimpleGridPage>
           ? [
               IconButton(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+                  child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
                 ),
                 onPressed: widget.onRefresh,
               ),
@@ -233,12 +231,12 @@ class _SimpleGridPageState extends State<SimpleGridPage>
         children: [
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: widget.crossAxisCount,
                 childAspectRatio: widget.childAspectRatio,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
               ),
               itemCount: widget.itemCount,
               itemBuilder: (context, index) {

@@ -4,6 +4,8 @@ import 'package:jiyan_learning/view%20model/learn%20set%20controller/seasons_lea
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SeasonsLearningPage extends StatefulWidget {
   const SeasonsLearningPage({super.key});
 
@@ -46,12 +48,12 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             setState(() {
@@ -67,36 +69,43 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
             final progress = controller.progressPercentage / 100;
             final progressString = controller.progressString;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -109,7 +118,7 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
           }),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: controller.seasons.length,
               itemBuilder: (context, index) {
                 final item = controller.seasons[index];
@@ -129,7 +138,12 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
                         child: child,
                       );
                     },
-                    child: _buildSeasonCard(item, isSelected, isCompleted, index),
+                    child: _buildSeasonCard(
+                      item,
+                      isSelected,
+                      isCompleted,
+                      index,
+                    ),
                   );
                 });
               },
@@ -141,7 +155,11 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
   }
 
   Widget _buildSeasonCard(
-      Map<String, dynamic> item, bool isSelected, bool isCompleted, int index) {
+    Map<String, dynamic> item,
+    bool isSelected,
+    bool isCompleted,
+    int index,
+  ) {
     final color = Color(item['color'] as int);
 
     return GestureDetector(
@@ -152,8 +170,8 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
         });
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 16),
-        padding: EdgeInsets.all(20),
+        margin: EdgeInsets.only(bottom: 16.h),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isSelected
@@ -162,11 +180,12 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
-              color: (isSelected ? Color(0xFFFFD700) : color)
-                  .withValues(alpha: 0.4),
+              color: (isSelected ? Color(0xFFFFD700) : color).withValues(
+                alpha: 0.4,
+              ),
               blurRadius: isSelected ? 15 : 10,
               offset: Offset(0, 6),
               spreadRadius: isSelected ? 2 : 0,
@@ -180,20 +199,17 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
               children: [
                 // Emoji Container
                 Container(
-                  width: 75,
-                  height: 75,
+                  width: 75.w,
+                  height: 75.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: Text(
-                      item['emoji']!,
-                      style: TextStyle(fontSize: 42),
-                    ),
+                    child: Text(item['emoji']!, style: TextStyle(fontSize: 42)),
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 // Content
                 Expanded(
                   child: Column(
@@ -214,12 +230,15 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
                           color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
-                      SizedBox(height: 6),
+                      SizedBox(height: 6.h),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
                           item['months']!,
@@ -230,7 +249,7 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
                           ),
                         ),
                       ),
-                      SizedBox(height: 6),
+                      SizedBox(height: 6.h),
                       Text(
                         item['description']!,
                         style: TextStyle(
@@ -244,11 +263,7 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
                 // Speaker Icon
                 IconButton(
                   onPressed: () => controller.speakSeasonInfo(index),
-                  icon: Icon(
-                    Icons.volume_up,
-                    color: Colors.white,
-                    size: 28,
-                  ),
+                  icon: Icon(Icons.volume_up, color: Colors.white, size: 28.r),
                 ),
               ],
             ),
@@ -258,16 +273,12 @@ class _SeasonsLearningPageState extends State<SeasonsLearningPage>
                 top: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: EdgeInsets.all(2.r),
                   decoration: const BoxDecoration(
                     color: Colors.green,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 12,
-                  ),
+                  child: Icon(Icons.check, color: Colors.white, size: 12.r),
                 ),
               ),
           ],

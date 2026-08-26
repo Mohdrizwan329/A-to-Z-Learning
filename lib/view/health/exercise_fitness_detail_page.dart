@@ -5,6 +5,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ExerciseFitnessDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -35,36 +37,121 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
       'title': 'Fun Exercises',
       'emoji': '🤸',
       'exercises': [
-        {'name': 'Jumping Jacks', 'emoji': '⭐', 'duration': '20 jumps', 'benefit': 'Full body warm-up'},
-        {'name': 'Running', 'emoji': '🏃', 'duration': '5 minutes', 'benefit': 'Strong legs & heart'},
-        {'name': 'Stretching', 'emoji': '🧘', 'duration': '5 minutes', 'benefit': 'Flexibility'},
-        {'name': 'Skipping Rope', 'emoji': '🪢', 'duration': '50 jumps', 'benefit': 'Coordination'},
-        {'name': 'Dancing', 'emoji': '💃', 'duration': '10 minutes', 'benefit': 'Fun cardio'},
-        {'name': 'Cycling', 'emoji': '🚴', 'duration': '15 minutes', 'benefit': 'Leg strength'},
+        {
+          'name': 'Jumping Jacks',
+          'emoji': '⭐',
+          'duration': '20 jumps',
+          'benefit': 'Full body warm-up',
+        },
+        {
+          'name': 'Running',
+          'emoji': '🏃',
+          'duration': '5 minutes',
+          'benefit': 'Strong legs & heart',
+        },
+        {
+          'name': 'Stretching',
+          'emoji': '🧘',
+          'duration': '5 minutes',
+          'benefit': 'Flexibility',
+        },
+        {
+          'name': 'Skipping Rope',
+          'emoji': '🪢',
+          'duration': '50 jumps',
+          'benefit': 'Coordination',
+        },
+        {
+          'name': 'Dancing',
+          'emoji': '💃',
+          'duration': '10 minutes',
+          'benefit': 'Fun cardio',
+        },
+        {
+          'name': 'Cycling',
+          'emoji': '🚴',
+          'duration': '15 minutes',
+          'benefit': 'Leg strength',
+        },
       ],
     },
     {
       'title': 'Sports to Play',
       'emoji': '⚽',
       'sports': [
-        {'name': 'Football', 'emoji': '⚽', 'players': 'Team', 'benefit': 'Running & teamwork'},
-        {'name': 'Cricket', 'emoji': '🏏', 'players': 'Team', 'benefit': 'Hand-eye coordination'},
-        {'name': 'Badminton', 'emoji': '🏸', 'players': '2 players', 'benefit': 'Quick reflexes'},
-        {'name': 'Swimming', 'emoji': '🏊', 'players': 'Solo', 'benefit': 'Full body exercise'},
-        {'name': 'Basketball', 'emoji': '🏀', 'players': 'Team', 'benefit': 'Jumping & running'},
-        {'name': 'Yoga', 'emoji': '🧘', 'players': 'Solo', 'benefit': 'Flexibility & calm'},
+        {
+          'name': 'Football',
+          'emoji': '⚽',
+          'players': 'Team',
+          'benefit': 'Running & teamwork',
+        },
+        {
+          'name': 'Cricket',
+          'emoji': '🏏',
+          'players': 'Team',
+          'benefit': 'Hand-eye coordination',
+        },
+        {
+          'name': 'Badminton',
+          'emoji': '🏸',
+          'players': '2 players',
+          'benefit': 'Quick reflexes',
+        },
+        {
+          'name': 'Swimming',
+          'emoji': '🏊',
+          'players': 'Solo',
+          'benefit': 'Full body exercise',
+        },
+        {
+          'name': 'Basketball',
+          'emoji': '🏀',
+          'players': 'Team',
+          'benefit': 'Jumping & running',
+        },
+        {
+          'name': 'Yoga',
+          'emoji': '🧘',
+          'players': 'Solo',
+          'benefit': 'Flexibility & calm',
+        },
       ],
     },
     {
       'title': 'Morning Routine',
       'emoji': '🌅',
       'routine': [
-        {'step': 1, 'activity': 'Wake up and stretch in bed', 'emoji': '🛏️', 'time': '2 min'},
-        {'step': 2, 'activity': 'Drink a glass of water', 'emoji': '💧', 'time': '1 min'},
-        {'step': 3, 'activity': 'Do jumping jacks', 'emoji': '⭐', 'time': '2 min'},
-        {'step': 4, 'activity': 'Touch your toes', 'emoji': '🦶', 'time': '1 min'},
+        {
+          'step': 1,
+          'activity': 'Wake up and stretch in bed',
+          'emoji': '🛏️',
+          'time': '2 min',
+        },
+        {
+          'step': 2,
+          'activity': 'Drink a glass of water',
+          'emoji': '💧',
+          'time': '1 min',
+        },
+        {
+          'step': 3,
+          'activity': 'Do jumping jacks',
+          'emoji': '⭐',
+          'time': '2 min',
+        },
+        {
+          'step': 4,
+          'activity': 'Touch your toes',
+          'emoji': '🦶',
+          'time': '1 min',
+        },
         {'step': 5, 'activity': 'Run in place', 'emoji': '🏃', 'time': '2 min'},
-        {'step': 6, 'activity': 'Take deep breaths', 'emoji': '🌬️', 'time': '1 min'},
+        {
+          'step': 6,
+          'activity': 'Take deep breaths',
+          'emoji': '🌬️',
+          'time': '1 min',
+        },
       ],
     },
     {
@@ -86,7 +173,11 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
         {'name': 'Play in the park', 'emoji': '🏞️', 'info': 'Fresh air & fun'},
         {'name': 'Fly a kite', 'emoji': '🪁', 'info': 'Running & coordination'},
         {'name': 'Play catch', 'emoji': '🥎', 'info': 'Hand-eye skills'},
-        {'name': 'Climb trees (safely!)', 'emoji': '🌳', 'info': 'Arm strength'},
+        {
+          'name': 'Climb trees (safely!)',
+          'emoji': '🌳',
+          'info': 'Arm strength',
+        },
         {'name': 'Hopscotch', 'emoji': '🔢', 'info': 'Balance & jumping'},
         {'name': 'Nature walk', 'emoji': '🚶', 'info': 'Exploring & walking'},
       ],
@@ -109,12 +200,24 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
       'title': 'Exercise Goals',
       'emoji': '🎯',
       'goals': [
-        {'goal': 'Play for 60 minutes every day', 'emoji': '⏱️', 'reward': '🌟'},
+        {
+          'goal': 'Play for 60 minutes every day',
+          'emoji': '⏱️',
+          'reward': '🌟',
+        },
         {'goal': 'Try a new sport each month', 'emoji': '🆕', 'reward': '🏆'},
         {'goal': 'Do 10 jumping jacks daily', 'emoji': '⭐', 'reward': '💪'},
-        {'goal': 'Go for a family walk weekly', 'emoji': '👨‍👩‍👧', 'reward': '❤️'},
+        {
+          'goal': 'Go for a family walk weekly',
+          'emoji': '👨‍👩‍👧',
+          'reward': '❤️',
+        },
         {'goal': 'Stretch every morning', 'emoji': '🧘', 'reward': '🌈'},
-        {'goal': 'Less screen time, more play time', 'emoji': '📵', 'reward': '🎮➡️🏃'},
+        {
+          'goal': 'Less screen time, more play time',
+          'emoji': '📵',
+          'reward': '🎮➡️🏃',
+        },
       ],
     },
   ];
@@ -140,7 +243,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
     return GradientScaffold(
       title: section['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -148,18 +251,18 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -170,7 +273,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                       section['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       section['title'],
                       style: GoogleFonts.poppins(
@@ -180,7 +283,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.3),
-                            blurRadius: 4,
+                            blurRadius: 4.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -191,23 +294,16 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Content based on type
-            if (section.containsKey('benefits'))
-              _buildBenefitCards(section),
-            if (section.containsKey('exercises'))
-              _buildExerciseCards(section),
-            if (section.containsKey('sports'))
-              _buildSportsCards(section),
-            if (section.containsKey('routine'))
-              _buildRoutineCards(section),
-            if (section.containsKey('activities'))
-              _buildActivityCards(section),
-            if (section.containsKey('safetyTips'))
-              _buildSafetyCards(section),
-            if (section.containsKey('goals'))
-              _buildGoalCards(section),
-            const SizedBox(height: 16),
+            if (section.containsKey('benefits')) _buildBenefitCards(section),
+            if (section.containsKey('exercises')) _buildExerciseCards(section),
+            if (section.containsKey('sports')) _buildSportsCards(section),
+            if (section.containsKey('routine')) _buildRoutineCards(section),
+            if (section.containsKey('activities')) _buildActivityCards(section),
+            if (section.containsKey('safetyTips')) _buildSafetyCards(section),
+            if (section.containsKey('goals')) _buildGoalCards(section),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -216,28 +312,30 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildBenefitCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['benefits'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['benefits'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final benefit = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -245,7 +343,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Text(benefit['icon'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     benefit['text'],
@@ -266,28 +364,30 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildExerciseCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['exercises'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['exercises'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final exercise = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -295,7 +395,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Text(exercise['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,11 +419,13 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     exercise['duration'],
@@ -344,28 +446,30 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildSportsCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['sports'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['sports'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final sport = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -373,7 +477,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Text(sport['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,11 +501,13 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     sport['players'],
@@ -422,28 +528,30 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildRoutineCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['routine'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['routine'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final step = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -451,8 +559,8 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 36.w,
+                  height: 36.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -467,9 +575,9 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(step['emoji'], style: const TextStyle(fontSize: 24)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     step['activity'],
@@ -480,11 +588,10 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(
                     step['time'],
@@ -505,28 +612,30 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildActivityCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['activities'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['activities'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final activity = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -534,7 +643,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Text(activity['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -567,28 +676,30 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildSafetyCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['safetyTips'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['safetyTips'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final tip = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -596,7 +707,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Text(tip['emoji'], style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Text(
                     tip['tip'],
@@ -617,28 +728,28 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
 
   Widget _buildGoalCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['goals'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['goals'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final goal = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -646,7 +757,7 @@ class _ExerciseFitnessDetailPageState extends State<ExerciseFitnessDetailPage>
             child: Row(
               children: [
                 Text(goal['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Text(
                     goal['goal'],

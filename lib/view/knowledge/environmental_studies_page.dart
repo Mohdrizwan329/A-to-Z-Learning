@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class EnvironmentalStudiesPage extends StatefulWidget {
   const EnvironmentalStudiesPage({super.key});
 
@@ -173,28 +175,29 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
       title: 'Environment',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: () async {
-              await ProgressService.to
-                  .resetProgress(ProgressService.kEnvironmentTopics);
+              await ProgressService.to.resetProgress(
+                ProgressService.kEnvironmentTopics,
+              );
               setState(() {});
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
         ),
       ],
       bottom: TabBar(
         controller: _tabController,
         indicatorColor: Colors.white,
-        indicatorWeight: 3,
+        indicatorWeight: 3.r,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white70,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 30),
+        labelPadding: EdgeInsets.symmetric(horizontal: 30.w),
         tabs: const [
           Tab(text: "Learn"),
           Tab(text: "Ecosystems"),
@@ -204,43 +207,56 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
         children: [
           // Progress bar
           Obx(() {
-            final progress = ProgressService.to.getProgressPercentage(
-                    ProgressService.kEnvironmentTopics) /
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kEnvironmentTopics,
+                ) /
                 100;
-            final progressString = ProgressService.to
-                .getProgressString(ProgressService.kEnvironmentTopics);
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kEnvironmentTopics,
+            );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.white70,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF4CAF50)),
+                        Color(0xFF4CAF50),
+                      ),
                     ),
                   ),
                 ],
@@ -250,10 +266,7 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [
-                _buildLearnTab(),
-                _buildEcosystemsTab(),
-              ],
+              children: [_buildLearnTab(), _buildEcosystemsTab()],
             ),
           ),
         ],
@@ -263,11 +276,11 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
 
   Widget _buildLearnTab() {
     return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(12.r),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
+        mainAxisSpacing: 16.r,
+        crossAxisSpacing: 16.r,
         childAspectRatio: 1.0,
       ),
       itemCount: topics.length,
@@ -283,15 +296,19 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
             onTap: () {
               TtsService.to.speak(topic['name']);
               ProgressService.to.markItemCompleted(
-                  ProgressService.kEnvironmentTopics, index);
-              Get.to(() => EnvironmentTopicDetailPage(
-                    title: topic['title'],
-                    facts: List<String>.from(topic['facts']),
-                    tip: topic['tip'],
-                    color: topic['color'],
-                    emoji: topic['emoji'],
-                    speakText: _speakText,
-                  ));
+                ProgressService.kEnvironmentTopics,
+                index,
+              );
+              Get.to(
+                () => EnvironmentTopicDetailPage(
+                  title: topic['title'],
+                  facts: List<String>.from(topic['facts']),
+                  tip: topic['tip'],
+                  color: topic['color'],
+                  emoji: topic['emoji'],
+                  speakText: _speakText,
+                ),
+              );
             },
             pulseAnimation: pulseAnimation,
             child: Center(
@@ -299,19 +316,23 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 75,
-                    height: 75,
+                    width: 75.w,
+                    height: 75.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text(topic['emoji'],
-                          style: const TextStyle(fontSize: 42)),
+                      child: Text(
+                        topic['emoji'],
+                        style: const TextStyle(fontSize: 42),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  GradientCardText(text: topic['title'], fontSize: 13),
+                  SizedBox(height: 10.h),
+                  Flexible(
+                    child: GradientCardText(text: topic['title'], fontSize: 13),
+                  ),
                 ],
               ),
             ),
@@ -323,11 +344,11 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
 
   Widget _buildEcosystemsTab() {
     return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(12.r),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
+        mainAxisSpacing: 16.r,
+        crossAxisSpacing: 16.r,
         childAspectRatio: 0.9,
       ),
       itemCount: ecosystems.length,
@@ -340,35 +361,38 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
           child: GradientCard(
             gradient: gradient,
             isSelected: false,
-            onTap: () => _speakText(
-                "${ecosystem['name']}. ${ecosystem['description']}"),
+            onTap: () =>
+                _speakText("${ecosystem['name']}. ${ecosystem['description']}"),
             pulseAnimation: pulseAnimation,
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 75,
-                    height: 75,
+                    width: 75.w,
+                    height: 75.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text(ecosystem['emoji'],
-                          style: const TextStyle(fontSize: 42)),
+                      child: Text(
+                        ecosystem['emoji'],
+                        style: const TextStyle(fontSize: 42),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   GradientCardText(text: ecosystem['name'], fontSize: 14),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     child: Text(
                       ecosystem['description'],
                       style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.white.withValues(alpha: 0.9)),
+                        fontSize: 11,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -382,7 +406,6 @@ class _EnvironmentalStudiesPageState extends State<EnvironmentalStudiesPage>
       },
     );
   }
-
 }
 
 // Detail page for an environment topic
@@ -434,11 +457,11 @@ class _EnvironmentTopicDetailPageState extends State<EnvironmentTopicDetailPage>
     return GradientScaffold(
       title: widget.title,
       body: GridView.builder(
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        padding: EdgeInsets.all(12.r),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
+          mainAxisSpacing: 12.r,
+          crossAxisSpacing: 12.r,
           childAspectRatio: 1.0,
         ),
         itemCount: items.length,
@@ -459,8 +482,8 @@ class _EnvironmentTopicDetailPageState extends State<EnvironmentTopicDetailPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 50,
-                      height: 50,
+                      width: 50.w,
+                      height: 50.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -472,13 +495,19 @@ class _EnvironmentTopicDetailPageState extends State<EnvironmentTopicDetailPage>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    GradientCardText(
-                      text: item['text']!,
-                      fontSize: 12,
+                    SizedBox(height: 8.h),
+                    // A fact is prose, not a single value: it takes what room
+                    // the square tile has left and shortens rather than
+                    // overflowing it.
+                    Flexible(
+                      child: GradientCardText(
+                        text: item['text']!,
+                        fontSize: 12,
+                        maxLines: 3,
+                      ),
                     ),
-                    const SizedBox(height: 6),
-                    const Icon(Icons.volume_up, color: Colors.white, size: 18),
+                    SizedBox(height: 6.h),
+                    Icon(Icons.volume_up, color: Colors.white, size: 18.r),
                   ],
                 ),
               ),

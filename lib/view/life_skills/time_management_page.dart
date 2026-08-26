@@ -8,6 +8,8 @@ import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class TimeManagementPage extends StatefulWidget {
   const TimeManagementPage({super.key});
 
@@ -88,12 +90,12 @@ class _TimeManagementPageState extends State<TimeManagementPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             _progress.resetProgress(ProgressService.kTimeManagement);
@@ -111,7 +113,8 @@ class _TimeManagementPageState extends State<TimeManagementPage>
               animation: _bubbleController,
               builder: (context, child) {
                 final value = _bubbleController.value;
-                final offset = 20.0 *
+                final offset =
+                    20.0 *
                     ((value * 2 * 3.14159).clamp(0, 6.28) != 0
                         ? (value * 2 * 3.14159).abs() % 1
                         : 0);
@@ -119,8 +122,8 @@ class _TimeManagementPageState extends State<TimeManagementPage>
                   top: top + offset,
                   left: left,
                   child: Container(
-                    width: 20 + (i % 3) * 15.0,
-                    height: 20 + (i % 3) * 15.0,
+                    width: 20.w + (i % 3) * 15.0,
+                    height: 20.h + (i % 3) * 15.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -139,34 +142,55 @@ class _TimeManagementPageState extends State<TimeManagementPage>
             children: [
               Obx(() {
                 final progress =
-                    _progress.getProgressPercentage(ProgressService.kTimeManagement) / 100;
-                final progressString =
-                    _progress.getProgressString(ProgressService.kTimeManagement);
+                    _progress.getProgressPercentage(
+                      ProgressService.kTimeManagement,
+                    ) /
+                    100;
+                final progressString = _progress.getProgressString(
+                  ProgressService.kTimeManagement,
+                );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
@@ -176,35 +200,42 @@ class _TimeManagementPageState extends State<TimeManagementPage>
               // Grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(16.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.95,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 14.r,
+                    mainAxisSpacing: 14.r,
                   ),
                   itemCount: sections.length,
                   itemBuilder: (context, index) {
                     final section = sections[index];
-                    final gradientColors =
-                        AppColors.getGradientForIndex(index);
+                    final gradientColors = AppColors.getGradientForIndex(index);
                     return buildFloatingItem(
                       index: index,
                       child: Obx(() {
                         final isCompleted = _progress.isItemCompleted(
-                            ProgressService.kTimeManagement, index);
+                          ProgressService.kTimeManagement,
+                          index,
+                        );
                         return GradientCard(
                           gradient: gradientColors,
                           onTap: () async {
                             TtsService.to.speak(section['title']);
-                            await Get.to(() => _TimeManagementDetailPage(
-                                  sectionIndex: index,
-                                  title: section['title'],
-                                ));
+                            await Get.to(
+                              () => _TimeManagementDetailPage(
+                                sectionIndex: index,
+                                title: section['title'],
+                              ),
+                            );
                             if (!_progress.isItemCompleted(
-                                ProgressService.kTimeManagement, index)) {
+                              ProgressService.kTimeManagement,
+                              index,
+                            )) {
                               await _progress.markItemCompleted(
-                                  ProgressService.kTimeManagement, index);
+                                ProgressService.kTimeManagement,
+                                index,
+                              );
                             }
                             setState(() {});
                           },
@@ -212,44 +243,56 @@ class _TimeManagementPageState extends State<TimeManagementPage>
                             children: [
                               if (isCompleted)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(Icons.check,
-                                        color: Colors.white, size: 16),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 16.r,
+                                    ),
                                   ),
                                 ),
                               Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(section['icon'],
-                                        size: 48, color: Colors.white),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    Icon(
+                                      section['icon'],
+                                      size: 48.r,
+                                      color: Colors.white,
                                     ),
-                                    const SizedBox(height: 4),
+                                    SizedBox(height: 10.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w,
+                                      ),
                                       child: Text(
                                         section['desc'],
                                         style: GoogleFonts.nunito(
                                           fontSize: 11,
-                                          color: Colors.white
-                                              .withValues(alpha: 0.9),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
                                         ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
@@ -326,7 +369,8 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
               animation: _bubbleController,
               builder: (context, child) {
                 final value = _bubbleController.value;
-                final offset = 20.0 *
+                final offset =
+                    20.0 *
                     ((value * 2 * 3.14159).clamp(0, 6.28) != 0
                         ? (value * 2 * 3.14159).abs() % 1
                         : 0);
@@ -334,8 +378,8 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
                   top: top + offset,
                   left: left,
                   child: Container(
-                    width: 20 + (i % 3) * 15.0,
-                    height: 20 + (i % 3) * 15.0,
+                    width: 20.w + (i % 3) * 15.0,
+                    height: 20.h + (i % 3) * 15.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -351,7 +395,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
             );
           }),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: _buildContent(),
           ),
         ],
@@ -386,9 +430,21 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
 
   Widget _buildWhatIsTime() {
     final concepts = [
-      {'unit': 'Seconds', 'icon': Icons.flash_on, 'example': 'Count: 1, 2, 3...'},
-      {'unit': 'Minutes', 'icon': Icons.timer, 'example': '60 seconds = 1 minute'},
-      {'unit': 'Hours', 'icon': Icons.schedule, 'example': '60 minutes = 1 hour'},
+      {
+        'unit': 'Seconds',
+        'icon': Icons.flash_on,
+        'example': 'Count: 1, 2, 3...',
+      },
+      {
+        'unit': 'Minutes',
+        'icon': Icons.timer,
+        'example': '60 seconds = 1 minute',
+      },
+      {
+        'unit': 'Hours',
+        'icon': Icons.schedule,
+        'example': '60 minutes = 1 hour',
+      },
       {'unit': 'Days', 'icon': Icons.today, 'example': '24 hours = 1 day'},
       {'unit': 'Weeks', 'icon': Icons.date_range, 'example': '7 days = 1 week'},
     ];
@@ -401,7 +457,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.access_time_filled,
           0,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         ...concepts.asMap().entries.map((entry) {
           final i = entry.key;
           final c = entry.value;
@@ -409,20 +465,24 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
+              margin: EdgeInsets.only(bottom: 12.h),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: ListTile(
-                leading: Icon(c['icon'] as IconData, color: Colors.white, size: 32),
+                leading: Icon(
+                  c['icon'] as IconData,
+                  color: Colors.white,
+                  size: 32.r,
+                ),
                 title: Text(
                   c['unit'] as String,
                   style: GoogleFonts.poppins(
@@ -432,13 +492,15 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
                 ),
                 subtitle: Text(
                   c['example'] as String,
-                  style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9)),
+                  style: GoogleFonts.nunito(
+                    color: Colors.white.withValues(alpha: 0.9),
+                  ),
                 ),
               ),
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildTipCard(
           'Fun Fact',
           'Time is the only thing we can\'t get back once it\'s gone!',
@@ -453,9 +515,21 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
 
   Widget _buildReadingClock() {
     final parts = [
-      {'part': 'Hour Hand', 'icon': Icons.looks_one, 'desc': 'Short hand - shows the hour'},
-      {'part': 'Minute Hand', 'icon': Icons.looks_two, 'desc': 'Long hand - shows the minutes'},
-      {'part': 'Second Hand', 'icon': Icons.looks_3, 'desc': 'Thin hand - counts seconds'},
+      {
+        'part': 'Hour Hand',
+        'icon': Icons.looks_one,
+        'desc': 'Short hand - shows the hour',
+      },
+      {
+        'part': 'Minute Hand',
+        'icon': Icons.looks_two,
+        'desc': 'Long hand - shows the minutes',
+      },
+      {
+        'part': 'Second Hand',
+        'icon': Icons.looks_3,
+        'desc': 'Thin hand - counts seconds',
+      },
     ];
 
     final practice = [
@@ -473,7 +547,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.watch_later,
           1,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         ...parts.asMap().entries.map((entry) {
           final i = entry.key;
           final p = entry.value;
@@ -481,33 +555,41 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(p['icon'] as IconData, color: Colors.white, size: 32),
-                  const SizedBox(width: 14),
+                  Icon(p['icon'] as IconData, color: Colors.white, size: 32.r),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(p['part'] as String,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.bold, color: Colors.white)),
-                        Text(p['desc'] as String,
-                            style: GoogleFonts.nunito(
-                                color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
+                        Text(
+                          p['part'] as String,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          p['desc'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            fontSize: 13,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -516,9 +598,9 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildSectionLabel('Practice Reading'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...practice.asMap().entries.map((entry) {
           final i = entry.key;
           final p = entry.value;
@@ -526,27 +608,37 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i + 3,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(p['time']!,
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
+                  Text(
+                    p['time']!,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
                   const Icon(Icons.arrow_forward, color: Colors.white70),
-                  Text(p['read']!,
-                      style: GoogleFonts.nunito(color: Colors.white, fontSize: 15)),
+                  Text(
+                    p['read']!,
+                    style: GoogleFonts.nunito(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildTipCard(
           'Tip',
           'Practice reading clocks every day!',
@@ -562,7 +654,11 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
   Widget _buildDailyRoutine() {
     final morningRoutine = [
       {'time': '7:00 AM', 'task': 'Wake up', 'icon': Icons.wb_sunny},
-      {'time': '7:15 AM', 'task': 'Brush teeth & wash face', 'icon': Icons.clean_hands},
+      {
+        'time': '7:15 AM',
+        'task': 'Brush teeth & wash face',
+        'icon': Icons.clean_hands,
+      },
       {'time': '7:30 AM', 'task': 'Get dressed', 'icon': Icons.checkroom},
       {'time': '7:45 AM', 'task': 'Eat breakfast', 'icon': Icons.restaurant},
       {'time': '8:00 AM', 'task': 'Leave for school', 'icon': Icons.school},
@@ -573,7 +669,11 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
       {'time': '4:30 PM', 'task': 'Homework', 'icon': Icons.menu_book},
       {'time': '5:30 PM', 'task': 'Free play', 'icon': Icons.sports_esports},
       {'time': '7:00 PM', 'task': 'Dinner', 'icon': Icons.dinner_dining},
-      {'time': '8:00 PM', 'task': 'Bath & bedtime routine', 'icon': Icons.bathtub},
+      {
+        'time': '8:00 PM',
+        'task': 'Bath & bedtime routine',
+        'icon': Icons.bathtub,
+      },
       {'time': '8:30 PM', 'task': 'Sleep', 'icon': Icons.bedtime},
     ];
 
@@ -585,9 +685,9 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.calendar_today,
           2,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildSectionLabel('Morning Routine'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...morningRoutine.asMap().entries.map((entry) {
           final i = entry.key;
           final item = entry.value;
@@ -595,15 +695,15 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
@@ -611,30 +711,47 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 6.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: Text(item['time'] as String,
-                        style: GoogleFonts.poppins(
-                            fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                    child: Text(
+                      item['time'] as String,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 12),
-                  Icon(item['icon'] as IconData, color: Colors.white, size: 28),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 12.w),
+                  Icon(
+                    item['icon'] as IconData,
+                    color: Colors.white,
+                    size: 28.r,
+                  ),
+                  SizedBox(width: 10.w),
                   Expanded(
-                    child: Text(item['task'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 14)),
+                    child: Text(
+                      item['task'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         _buildSectionLabel('Evening Routine'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...eveningRoutine.asMap().entries.map((entry) {
           final i = entry.key;
           final item = entry.value;
@@ -642,15 +759,15 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: (i + 5) % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
@@ -658,21 +775,38 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 6.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: Text(item['time'] as String,
-                        style: GoogleFonts.poppins(
-                            fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                    child: Text(
+                      item['time'] as String,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 12),
-                  Icon(item['icon'] as IconData, color: Colors.white, size: 28),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 12.w),
+                  Icon(
+                    item['icon'] as IconData,
+                    color: Colors.white,
+                    size: 28.r,
+                  ),
+                  SizedBox(width: 10.w),
                   Expanded(
-                    child: Text(item['task'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 14)),
+                    child: Text(
+                      item['task'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -687,10 +821,22 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
 
   Widget _buildPlanning() {
     final tools = [
-      {'tool': 'Calendar', 'icon': Icons.calendar_month, 'use': 'Mark important dates'},
-      {'tool': 'To-Do List', 'icon': Icons.checklist, 'use': 'Write tasks to complete'},
+      {
+        'tool': 'Calendar',
+        'icon': Icons.calendar_month,
+        'use': 'Mark important dates',
+      },
+      {
+        'tool': 'To-Do List',
+        'icon': Icons.checklist,
+        'use': 'Write tasks to complete',
+      },
       {'tool': 'Timer', 'icon': Icons.timer, 'use': 'Track time for tasks'},
-      {'tool': 'Reminder', 'icon': Icons.notifications_active, 'use': 'Alert for important things'},
+      {
+        'tool': 'Reminder',
+        'icon': Icons.notifications_active,
+        'use': 'Alert for important things',
+      },
     ];
 
     final steps = [
@@ -708,17 +854,17 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.event_note,
           3,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildSectionLabel('Planning Tools'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 1.1,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+            crossAxisSpacing: 12.r,
+            mainAxisSpacing: 12.r,
           ),
           itemCount: tools.length,
           itemBuilder: (context, i) {
@@ -727,14 +873,14 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
             return buildFloatingItem(
               index: i,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
                       color: colors[0].withValues(alpha: 0.3),
-                      blurRadius: 8,
+                      blurRadius: 8.r,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -742,24 +888,37 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(t['icon'] as IconData, color: Colors.white, size: 36),
-                    const SizedBox(height: 8),
-                    Text(t['tool'] as String,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13)),
-                    Text(t['use'] as String,
-                        style: GoogleFonts.nunito(
-                            color: Colors.white.withValues(alpha: 0.9), fontSize: 11),
-                        textAlign: TextAlign.center),
+                    Icon(
+                      t['icon'] as IconData,
+                      color: Colors.white,
+                      size: 36.r,
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      t['tool'] as String,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Text(
+                      t['use'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        fontSize: 11,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               ),
             );
           },
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         _buildSectionLabel('Planning Steps'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...steps.asMap().entries.map((entry) {
           final i = entry.key;
           final s = entry.value;
@@ -767,33 +926,42 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: (i + 4) % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 32,
-                    height: 32,
+                    width: 32.w,
+                    height: 32.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text('${i + 1}',
-                          style: GoogleFonts.poppins(
-                              color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        '${i + 1}',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Icon(s['icon'] as IconData, color: Colors.white, size: 26),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 12.w),
+                  Icon(s['icon'] as IconData, color: Colors.white, size: 26.r),
+                  SizedBox(width: 10.w),
                   Expanded(
-                    child: Text(s['step'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 14)),
+                    child: Text(
+                      s['step'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -830,9 +998,9 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.timer,
           4,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildSectionLabel('Why Be On Time?'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...reasons.asMap().entries.map((entry) {
           final i = entry.key;
           final r = entry.value;
@@ -840,36 +1008,41 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(r['icon'] as IconData, color: Colors.white, size: 30),
-                  const SizedBox(width: 14),
+                  Icon(r['icon'] as IconData, color: Colors.white, size: 30.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(r['reason'] as String,
-                        style: GoogleFonts.nunito(
-                            color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      r['reason'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         _buildSectionLabel('Tips to Be On Time'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...tips.asMap().entries.map((entry) {
           final i = entry.key;
           final t = entry.value;
@@ -877,19 +1050,24 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: (i + 4) % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
               child: Row(
                 children: [
-                  Icon(t['icon'] as IconData, color: Colors.white, size: 28),
-                  const SizedBox(width: 14),
+                  Icon(t['icon'] as IconData, color: Colors.white, size: 28.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(t['tip'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 14)),
+                    child: Text(
+                      t['tip'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -911,10 +1089,26 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
     ];
 
     final solutions = [
-      {'problem': 'Task too big', 'solution': 'Break it into small steps', 'icon': Icons.build},
-      {'problem': 'Don\'t know how', 'solution': 'Ask for help', 'icon': Icons.people},
-      {'problem': 'Distracted', 'solution': 'Remove distractions first', 'icon': Icons.phone_disabled},
-      {'problem': 'No motivation', 'solution': 'Reward yourself after', 'icon': Icons.card_giftcard},
+      {
+        'problem': 'Task too big',
+        'solution': 'Break it into small steps',
+        'icon': Icons.build,
+      },
+      {
+        'problem': 'Don\'t know how',
+        'solution': 'Ask for help',
+        'icon': Icons.people,
+      },
+      {
+        'problem': 'Distracted',
+        'solution': 'Remove distractions first',
+        'icon': Icons.phone_disabled,
+      },
+      {
+        'problem': 'No motivation',
+        'solution': 'Reward yourself after',
+        'icon': Icons.card_giftcard,
+      },
     ];
 
     return Column(
@@ -925,9 +1119,9 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.rocket_launch,
           5,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildSectionLabel('Why We Delay'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...delays.asMap().entries.map((entry) {
           final i = entry.key;
           final d = entry.value;
@@ -935,36 +1129,41 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(d['icon'] as IconData, color: Colors.white, size: 30),
-                  const SizedBox(width: 14),
+                  Icon(d['icon'] as IconData, color: Colors.white, size: 30.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(d['reason'] as String,
-                        style: GoogleFonts.nunito(
-                            color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      d['reason'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         _buildSectionLabel('Solutions'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...solutions.asMap().entries.map((entry) {
           final i = entry.key;
           final s = entry.value;
@@ -972,33 +1171,42 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: (i + 4) % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(s['icon'] as IconData, color: Colors.white, size: 30),
-                  const SizedBox(width: 14),
+                  Icon(s['icon'] as IconData, color: Colors.white, size: 30.r),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(s['problem'] as String,
-                            style: GoogleFonts.nunito(
-                                color: Colors.white.withValues(alpha: 0.7), fontSize: 12)),
-                        Text(s['solution'] as String,
-                            style: GoogleFonts.poppins(
-                                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                        Text(
+                          s['problem'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.7),
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          s['solution'] as String,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -1007,7 +1215,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildTipCard(
           'Golden Rule',
           'If it takes 2 minutes, do it now!',
@@ -1022,12 +1230,36 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
 
   Widget _buildFunTime() {
     final activities = [
-      {'activity': 'Play outside', 'icon': Icons.sports_soccer, 'benefit': 'Exercise & fresh air'},
-      {'activity': 'Read for fun', 'icon': Icons.auto_stories, 'benefit': 'Imagination & learning'},
-      {'activity': 'Art & crafts', 'icon': Icons.palette, 'benefit': 'Creativity'},
-      {'activity': 'Play with friends', 'icon': Icons.group, 'benefit': 'Social skills'},
-      {'activity': 'Family time', 'icon': Icons.family_restroom, 'benefit': 'Bonding'},
-      {'activity': 'Rest & relax', 'icon': Icons.self_improvement, 'benefit': 'Recharge energy'},
+      {
+        'activity': 'Play outside',
+        'icon': Icons.sports_soccer,
+        'benefit': 'Exercise & fresh air',
+      },
+      {
+        'activity': 'Read for fun',
+        'icon': Icons.auto_stories,
+        'benefit': 'Imagination & learning',
+      },
+      {
+        'activity': 'Art & crafts',
+        'icon': Icons.palette,
+        'benefit': 'Creativity',
+      },
+      {
+        'activity': 'Play with friends',
+        'icon': Icons.group,
+        'benefit': 'Social skills',
+      },
+      {
+        'activity': 'Family time',
+        'icon': Icons.family_restroom,
+        'benefit': 'Bonding',
+      },
+      {
+        'activity': 'Rest & relax',
+        'icon': Icons.self_improvement,
+        'benefit': 'Recharge energy',
+      },
     ];
 
     return Column(
@@ -1038,7 +1270,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.celebration,
           6,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         ...activities.asMap().entries.map((entry) {
           final i = entry.key;
           final a = entry.value;
@@ -1046,33 +1278,42 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(a['icon'] as IconData, color: Colors.white, size: 34),
-                  const SizedBox(width: 14),
+                  Icon(a['icon'] as IconData, color: Colors.white, size: 34.r),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(a['activity'] as String,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15)),
-                        Text(a['benefit'] as String,
-                            style: GoogleFonts.nunito(
-                                color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
+                        Text(
+                          a['activity'] as String,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          a['benefit'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            fontSize: 13,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -1081,7 +1322,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildTipCard(
           'Balance',
           'Finish your responsibilities first, then enjoy your free time guilt-free!',
@@ -1096,13 +1337,48 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
 
   Widget _buildWeeklyPlanner() {
     final days = [
-      {'day': 'Monday', 'icon': Icons.circle, 'color': Colors.blue, 'focus': 'Start strong'},
-      {'day': 'Tuesday', 'icon': Icons.circle, 'color': Colors.green, 'focus': 'Keep going'},
-      {'day': 'Wednesday', 'icon': Icons.circle, 'color': Colors.amber, 'focus': 'Halfway there!'},
-      {'day': 'Thursday', 'icon': Icons.circle, 'color': Colors.orange, 'focus': 'Almost weekend'},
-      {'day': 'Friday', 'icon': Icons.circle, 'color': Colors.red, 'focus': 'Finish tasks'},
-      {'day': 'Saturday', 'icon': Icons.circle, 'color': Colors.purple, 'focus': 'Fun & hobbies'},
-      {'day': 'Sunday', 'icon': Icons.circle, 'color': Colors.grey, 'focus': 'Rest & prepare'},
+      {
+        'day': 'Monday',
+        'icon': Icons.circle,
+        'color': Colors.blue,
+        'focus': 'Start strong',
+      },
+      {
+        'day': 'Tuesday',
+        'icon': Icons.circle,
+        'color': Colors.green,
+        'focus': 'Keep going',
+      },
+      {
+        'day': 'Wednesday',
+        'icon': Icons.circle,
+        'color': Colors.amber,
+        'focus': 'Halfway there!',
+      },
+      {
+        'day': 'Thursday',
+        'icon': Icons.circle,
+        'color': Colors.orange,
+        'focus': 'Almost weekend',
+      },
+      {
+        'day': 'Friday',
+        'icon': Icons.circle,
+        'color': Colors.red,
+        'focus': 'Finish tasks',
+      },
+      {
+        'day': 'Saturday',
+        'icon': Icons.circle,
+        'color': Colors.purple,
+        'focus': 'Fun & hobbies',
+      },
+      {
+        'day': 'Sunday',
+        'icon': Icons.circle,
+        'color': Colors.grey,
+        'focus': 'Rest & prepare',
+      },
     ];
 
     final weeklyTips = [
@@ -1121,9 +1397,9 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           Icons.date_range,
           7,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         _buildSectionLabel('Days of the Week'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...days.asMap().entries.map((entry) {
           final i = entry.key;
           final d = entry.value;
@@ -1131,39 +1407,48 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
                 boxShadow: [
                   BoxShadow(
                     color: colors[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(Icons.circle, color: d['color'] as Color, size: 24),
-                  const SizedBox(width: 14),
+                  Icon(Icons.circle, color: d['color'] as Color, size: 24.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(d['day'] as String,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15)),
+                    child: Text(
+                      d['day'] as String,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
-                  Text(d['focus'] as String,
-                      style: GoogleFonts.nunito(
-                          color: Colors.white.withValues(alpha: 0.9), fontSize: 12)),
+                  Text(
+                    d['focus'] as String,
+                    style: GoogleFonts.nunito(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         _buildSectionLabel('Weekly Planning Tips'),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ...weeklyTips.asMap().entries.map((entry) {
           final i = entry.key;
           final tip = entry.value;
@@ -1171,19 +1456,24 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
           return buildFloatingItem(
             index: (i + 3) % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.star, color: Colors.white, size: 22),
-                  const SizedBox(width: 12),
+                  Icon(Icons.star, color: Colors.white, size: 22.r),
+                  SizedBox(width: 12.w),
                   Expanded(
-                    child: Text(tip,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 14)),
+                    child: Text(
+                      tip,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -1197,26 +1487,30 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
   // ── Shared Helpers ────────────────────────────────────────────────────────
 
   Widget _buildHeaderCard(
-      String title, String subtitle, IconData icon, int colorIndex) {
+    String title,
+    String subtitle,
+    IconData icon,
+    int colorIndex,
+  ) {
     final colors = AppColors.getGradientForIndex(colorIndex);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [colors[0], colors[1]]),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
             color: colors[0].withValues(alpha: 0.4),
-            blurRadius: 16,
+            blurRadius: 16.r,
             offset: const Offset(0, 8),
           ),
         ],
       ),
       child: Column(
         children: [
-          Icon(icon, size: 56, color: Colors.white),
-          const SizedBox(height: 12),
+          Icon(icon, size: 56.r, color: Colors.white),
+          SizedBox(height: 12.h),
           Text(
             title,
             style: GoogleFonts.poppins(
@@ -1226,7 +1520,7 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
           Text(
             subtitle,
             style: GoogleFonts.nunito(
@@ -1244,10 +1538,10 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: Text(
           label,
@@ -1261,37 +1555,43 @@ class _TimeManagementDetailPageState extends State<_TimeManagementDetailPage>
     );
   }
 
-  Widget _buildTipCard(
-      String title, String text, IconData icon, Color color) {
+  Widget _buildTipCard(String title, String text, IconData icon, Color color) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18.r),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [color.withValues(alpha: 0.8), color],
-        ),
-        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(colors: [color.withValues(alpha: 0.8), color]),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.3),
-            blurRadius: 8,
+            blurRadius: 8.r,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.white, size: 32),
-          const SizedBox(width: 14),
+          Icon(icon, color: Colors.white, size: 32.r),
+          SizedBox(width: 14.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: GoogleFonts.poppins(
-                        color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
-                Text(text,
-                    style: GoogleFonts.nunito(
-                        color: Colors.white.withValues(alpha: 0.95), fontSize: 13)),
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                Text(
+                  text,
+                  style: GoogleFonts.nunito(
+                    color: Colors.white.withValues(alpha: 0.95),
+                    fontSize: 13,
+                  ),
+                ),
               ],
             ),
           ),

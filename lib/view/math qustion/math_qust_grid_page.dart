@@ -8,6 +8,8 @@ import 'package:jiyan_learning/view/math%20qustion/generic_math_questions_page.d
 import 'package:jiyan_learning/view%20model/qustion%20controller/generic_math_questions_controller.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MathQustionGridScreen extends StatefulWidget {
   @override
   State<MathQustionGridScreen> createState() => _MathQustionGridScreenState();
@@ -84,10 +86,10 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
       emoji: '🧮',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: () async {
@@ -105,7 +107,7 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
               );
               setState(() {});
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
         ),
       ],
@@ -145,36 +147,42 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
             const totalAll = 4;
             final progress = totalDone / totalAll;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$totalDone/$totalAll completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$totalDone/$totalAll completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -187,11 +195,11 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
           }),
           Expanded(
             child: GridView.builder(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
+                mainAxisSpacing: 20.r,
+                crossAxisSpacing: 20.r,
                 childAspectRatio: 0.8,
               ),
               itemCount: mathItems.length,
@@ -222,7 +230,10 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
   Widget _buildMathCard(Map<String, dynamic> item, int index) {
     final List<Color> gradient = item['gradient'];
     return GestureDetector(
-      onTap: () { TtsService.to.speak(item['label']); Get.to(item['pageBuilder']); },
+      onTap: () {
+        TtsService.to.speak(item['label']);
+        Get.to(item['pageBuilder']);
+      },
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -230,11 +241,11 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(28.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withOpacity(0.5),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 8),
             ),
           ],
@@ -242,11 +253,11 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
         child: Stack(
           children: [
             Positioned(
-              top: -25,
-              right: -25,
+              top: -25.h,
+              right: -25.w,
               child: Container(
-                width: 90,
-                height: 90,
+                width: 90.w,
+                height: 90.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(0.1),
@@ -254,11 +265,11 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
               ),
             ),
             Positioned(
-              bottom: -35,
-              left: -35,
+              bottom: -35.h,
+              left: -35.w,
               child: Container(
-                width: 110,
-                height: 110,
+                width: 110.w,
+                height: 110.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(0.1),
@@ -267,21 +278,21 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
             ),
             Center(
               child: Padding(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.r),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 100.w,
+                      height: 100.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.3),
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.white.withOpacity(0.3),
-                            blurRadius: 15,
-                            spreadRadius: 2,
+                            blurRadius: 15.r,
+                            spreadRadius: 2.r,
                           ),
                         ],
                       ),
@@ -292,22 +303,28 @@ class _MathQustionGridScreenState extends State<MathQustionGridScreen>
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
-                    Text(
-                      item['label'],
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black26,
-                            offset: Offset(1, 2),
-                            blurRadius: 3,
-                          ),
-                        ],
+                    SizedBox(height: 16.h),
+                    // Capped to two lines: 'Multiplication' wraps to three on a
+                    // narrow phone and pushes the tile past its fixed height.
+                    Flexible(
+                      child: Text(
+                        item['label'],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 2),
+                              blurRadius: 3.r,
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),

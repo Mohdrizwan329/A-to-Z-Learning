@@ -8,6 +8,8 @@ import 'package:jiyan_learning/view/profiles/account/edit_profile_page.dart';
 import 'package:jiyan_learning/view/profiles/account/change_password_page.dart';
 import 'package:jiyan_learning/view/profiles/notification/notification_settings_page.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({Key? key}) : super(key: key);
 
@@ -147,7 +149,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
                     ..._settingsItems.asMap().entries.map((entry) {
                       return TweenAnimationBuilder<double>(
                         tween: Tween(begin: 0, end: 1),
-                        duration: Duration(milliseconds: 400 + (entry.key * 100)),
+                        duration: Duration(
+                          milliseconds: 400 + (entry.key * 100),
+                        ),
                         curve: Curves.easeOut,
                         builder: (context, value, child) {
                           return Transform.translate(
@@ -179,21 +183,21 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // Same gradient as Home AppBar
           gradient: LinearGradient(
             colors: [
@@ -207,7 +211,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -222,7 +226,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -239,10 +243,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
         final offset = (index % 2 == 0)
             ? _floatAnimation.value * 0.5
             : -_floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
         margin: EdgeInsets.only(bottom: AppTheme.spacingS),
@@ -252,11 +253,13 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
-              color: (item['gradient'] as List<Color>)[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              color: (item['gradient'] as List<Color>)[0].withValues(
+                alpha: 0.4,
+              ),
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -264,7 +267,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             onTap: () => _handleTileTap(item['title']),
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -274,17 +277,13 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
               child: Row(
                 children: [
                   Container(
-                    width: 56,
-                    height: 56,
+                    width: 56.w,
+                    height: 56.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
-                    child: Icon(
-                      item['icon'],
-                      color: Colors.white,
-                      size: 28,
-                    ),
+                    child: Icon(item['icon'], color: Colors.white, size: 28.r),
                   ),
                   SizedBox(width: AppTheme.spacingM),
                   Expanded(
@@ -299,7 +298,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           item['subtitle'],
                           style: GoogleFonts.nunito(
@@ -311,14 +310,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_forward_ios_rounded,
-                      size: 16,
+                      size: 16.r,
                       color: Colors.white,
                     ),
                   ),

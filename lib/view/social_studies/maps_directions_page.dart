@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MapsDirectionsPage extends StatefulWidget {
   const MapsDirectionsPage({super.key});
 
@@ -19,10 +21,30 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
       'emoji': '🧭',
       'color': Color(0xFF4FC3F7),
       'items': [
-        {'name': 'North', 'emoji': '⬆️', 'hindi': 'उत्तर', 'tip': 'Where the sun rises is East, North is on your left'},
-        {'name': 'South', 'emoji': '⬇️', 'hindi': 'दक्षिण', 'tip': 'Opposite of North'},
-        {'name': 'East', 'emoji': '➡️', 'hindi': 'पूर्व', 'tip': 'Where the sun rises'},
-        {'name': 'West', 'emoji': '⬅️', 'hindi': 'पश्चिम', 'tip': 'Where the sun sets'},
+        {
+          'name': 'North',
+          'emoji': '⬆️',
+          'hindi': 'उत्तर',
+          'tip': 'Where the sun rises is East, North is on your left',
+        },
+        {
+          'name': 'South',
+          'emoji': '⬇️',
+          'hindi': 'दक्षिण',
+          'tip': 'Opposite of North',
+        },
+        {
+          'name': 'East',
+          'emoji': '➡️',
+          'hindi': 'पूर्व',
+          'tip': 'Where the sun rises',
+        },
+        {
+          'name': 'West',
+          'emoji': '⬅️',
+          'hindi': 'पश्चिम',
+          'tip': 'Where the sun sets',
+        },
       ],
     },
     {
@@ -30,10 +52,30 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
       'emoji': '👐',
       'color': Color(0xFFFF6B6B),
       'items': [
-        {'name': 'Left', 'emoji': '👈', 'hindi': 'बाएं', 'tip': 'Make an L with your left hand!'},
-        {'name': 'Right', 'emoji': '👉', 'hindi': 'दाएं', 'tip': 'The hand you write with (usually)'},
-        {'name': 'Straight', 'emoji': '⬆️', 'hindi': 'सीधा', 'tip': 'Go forward without turning'},
-        {'name': 'Turn Around', 'emoji': '🔄', 'hindi': 'पीछे मुड़ो', 'tip': 'Go back the way you came'},
+        {
+          'name': 'Left',
+          'emoji': '👈',
+          'hindi': 'बाएं',
+          'tip': 'Make an L with your left hand!',
+        },
+        {
+          'name': 'Right',
+          'emoji': '👉',
+          'hindi': 'दाएं',
+          'tip': 'The hand you write with (usually)',
+        },
+        {
+          'name': 'Straight',
+          'emoji': '⬆️',
+          'hindi': 'सीधा',
+          'tip': 'Go forward without turning',
+        },
+        {
+          'name': 'Turn Around',
+          'emoji': '🔄',
+          'hindi': 'पीछे मुड़ो',
+          'tip': 'Go back the way you came',
+        },
       ],
     },
     {
@@ -41,12 +83,42 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
       'emoji': '🗺️',
       'color': Color(0xFF66BB6A),
       'items': [
-        {'name': 'Road', 'emoji': '🛣️', 'symbol': '━━━', 'meaning': 'Path for cars and buses'},
-        {'name': 'Railway', 'emoji': '🚂', 'symbol': '┼┼┼', 'meaning': 'Path for trains'},
-        {'name': 'River', 'emoji': '🌊', 'symbol': '〰️', 'meaning': 'Water flowing through land'},
-        {'name': 'Mountain', 'emoji': '⛰️', 'symbol': '▲', 'meaning': 'Very high land'},
-        {'name': 'Forest', 'emoji': '🌲', 'symbol': '🌳🌳', 'meaning': 'Area with many trees'},
-        {'name': 'Building', 'emoji': '🏢', 'symbol': '■', 'meaning': 'Houses, schools, shops'},
+        {
+          'name': 'Road',
+          'emoji': '🛣️',
+          'symbol': '━━━',
+          'meaning': 'Path for cars and buses',
+        },
+        {
+          'name': 'Railway',
+          'emoji': '🚂',
+          'symbol': '┼┼┼',
+          'meaning': 'Path for trains',
+        },
+        {
+          'name': 'River',
+          'emoji': '🌊',
+          'symbol': '〰️',
+          'meaning': 'Water flowing through land',
+        },
+        {
+          'name': 'Mountain',
+          'emoji': '⛰️',
+          'symbol': '▲',
+          'meaning': 'Very high land',
+        },
+        {
+          'name': 'Forest',
+          'emoji': '🌲',
+          'symbol': '🌳🌳',
+          'meaning': 'Area with many trees',
+        },
+        {
+          'name': 'Building',
+          'emoji': '🏢',
+          'symbol': '■',
+          'meaning': 'Houses, schools, shops',
+        },
       ],
     },
     {
@@ -55,11 +127,27 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
       'color': Color(0xFFFFB74D),
       'items': [
         {'name': 'School', 'emoji': '🏫', 'purpose': 'Where we learn'},
-        {'name': 'Hospital', 'emoji': '🏥', 'purpose': 'Where doctors help sick people'},
-        {'name': 'Post Office', 'emoji': '📮', 'purpose': 'Where we send letters'},
-        {'name': 'Market', 'emoji': '🏪', 'purpose': 'Where we buy food and things'},
+        {
+          'name': 'Hospital',
+          'emoji': '🏥',
+          'purpose': 'Where doctors help sick people',
+        },
+        {
+          'name': 'Post Office',
+          'emoji': '📮',
+          'purpose': 'Where we send letters',
+        },
+        {
+          'name': 'Market',
+          'emoji': '🏪',
+          'purpose': 'Where we buy food and things',
+        },
         {'name': 'Park', 'emoji': '🏞️', 'purpose': 'Where we play and relax'},
-        {'name': 'Temple/Mosque/Church', 'emoji': '🛕', 'purpose': 'Where we pray'},
+        {
+          'name': 'Temple/Mosque/Church',
+          'emoji': '🛕',
+          'purpose': 'Where we pray',
+        },
       ],
     },
     {
@@ -121,7 +209,12 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -133,7 +226,7 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
               _buildProgressDots(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: _buildSectionContent(section),
                 ),
               ),
@@ -144,19 +237,22 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
       ),
     );
   }
+
   Widget _buildProgressDots() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(sections.length, (index) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
+            margin: EdgeInsets.symmetric(horizontal: 4.w),
             width: index == currentSection ? 24 : 10,
-            height: 10,
+            height: 10.h,
             decoration: BoxDecoration(
-              color: index == currentSection ? Colors.white : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(5),
+              color: index == currentSection
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.4),
+              borderRadius: BorderRadius.circular(5.r),
             ),
           );
         }),
@@ -168,21 +264,34 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, offset: const Offset(0, 10))],
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 20.r,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
           child: Column(
             children: [
               Text(section['emoji'], style: const TextStyle(fontSize: 60)),
-              const SizedBox(height: 12),
-              Text(section['title'], style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold, color: section['color'])),
+              SizedBox(height: 12.h),
+              Text(
+                section['title'],
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: section['color'],
+                ),
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         if (section.containsKey('items')) _buildItemCards(section),
         if (section.containsKey('steps')) _buildStepCards(section),
         if (section.containsKey('phrases')) _buildPhraseCards(section),
@@ -194,27 +303,70 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
     return Column(
       children: (section['items'] as List).map<Widget>((item) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(16.r),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
           child: Row(
             children: [
               Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(color: section['color'].withValues(alpha: 0.2), borderRadius: BorderRadius.circular(12)),
-                child: Center(child: Text(item['emoji'], style: const TextStyle(fontSize: 32))),
+                width: 60.w,
+                height: 60.h,
+                decoration: BoxDecoration(
+                  color: section['color'].withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Center(
+                  child: Text(
+                    item['emoji'],
+                    style: const TextStyle(fontSize: 32),
+                  ),
+                ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item['name'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: section['color'], fontSize: 18)),
-                    if (item.containsKey('hindi')) Text(item['hindi'], style: GoogleFonts.nunito(color: Colors.grey.shade600)),
-                    if (item.containsKey('tip')) Text(item['tip'], style: GoogleFonts.nunito(color: Colors.grey.shade700, fontSize: 12)),
-                    if (item.containsKey('meaning')) Text(item['meaning'], style: GoogleFonts.nunito(color: Colors.grey.shade700, fontSize: 12)),
-                    if (item.containsKey('purpose')) Text(item['purpose'], style: GoogleFonts.nunito(color: Colors.grey.shade700, fontSize: 12)),
+                    Text(
+                      item['name'],
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: section['color'],
+                        fontSize: 18,
+                      ),
+                    ),
+                    if (item.containsKey('hindi'))
+                      Text(
+                        item['hindi'],
+                        style: GoogleFonts.nunito(color: Colors.grey.shade600),
+                      ),
+                    if (item.containsKey('tip'))
+                      Text(
+                        item['tip'],
+                        style: GoogleFonts.nunito(
+                          color: Colors.grey.shade700,
+                          fontSize: 12,
+                        ),
+                      ),
+                    if (item.containsKey('meaning'))
+                      Text(
+                        item['meaning'],
+                        style: GoogleFonts.nunito(
+                          color: Colors.grey.shade700,
+                          fontSize: 12,
+                        ),
+                      ),
+                    if (item.containsKey('purpose'))
+                      Text(
+                        item['purpose'],
+                        style: GoogleFonts.nunito(
+                          color: Colors.grey.shade700,
+                          fontSize: 12,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -229,21 +381,44 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
     return Column(
       children: (section['steps'] as List).map<Widget>((step) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(16)),
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(16.r),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
           child: Row(
             children: [
               Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(color: section['color'], shape: BoxShape.circle),
-                child: Center(child: Text('${step['step']}', style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18))),
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: section['color'],
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    '${step['step']}',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Text(step['emoji'], style: const TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
-              Expanded(child: Text(step['text'], style: GoogleFonts.nunito(fontWeight: FontWeight.w600, color: Colors.grey.shade700))),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Text(
+                  step['text'],
+                  style: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -255,14 +430,26 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
     return Column(
       children: (section['phrases'] as List).map<Widget>((phrase) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(14)),
+          margin: EdgeInsets.only(bottom: 10.h),
+          padding: EdgeInsets.all(14.r),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(14.r),
+          ),
           child: Row(
             children: [
               Text(phrase['emoji'], style: const TextStyle(fontSize: 28)),
-              const SizedBox(width: 16),
-              Expanded(child: Text('"${phrase['phrase']}"', style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: section['color'], fontSize: 16))),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: Text(
+                  '"${phrase['phrase']}"',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    color: section['color'],
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -272,7 +459,7 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
 
   Widget _buildNavButtons(Map<String, dynamic> section) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -284,9 +471,16 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
               },
               icon: const Icon(Icons.arrow_back),
               label: const Text('Back'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: section['color'], shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: section['color'],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
             )
-          else const SizedBox(width: 100),
+          else
+            SizedBox(width: 100.w),
           if (currentSection < sections.length - 1)
             ElevatedButton.icon(
               onPressed: () {
@@ -295,14 +489,26 @@ class _MapsDirectionsPageState extends State<MapsDirectionsPage> {
               },
               icon: const Icon(Icons.arrow_forward),
               label: const Text('Next'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: section['color'], shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: section['color'],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
             )
           else
             ElevatedButton.icon(
               onPressed: () => Get.back(),
               icon: const Icon(Icons.check),
               label: const Text('Done!'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
             ),
         ],
       ),

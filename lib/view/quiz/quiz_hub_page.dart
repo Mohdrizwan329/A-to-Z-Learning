@@ -7,6 +7,8 @@ import 'package:jiyan_learning/view/rewards/rewards_page.dart';
 import 'package:jiyan_learning/view/rewards/daily_goals_page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class QuizHubPage extends StatefulWidget {
   const QuizHubPage({super.key});
 
@@ -131,15 +133,15 @@ class _QuizHubPageState extends State<QuizHubPage>
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -156,7 +158,7 @@ class _QuizHubPageState extends State<QuizHubPage>
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -200,12 +202,11 @@ class _QuizHubPageState extends State<QuizHubPage>
                   // Grid content
                   Expanded(
                     child: GridView.builder(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16.r,
+                        crossAxisSpacing: 16.r,
                         childAspectRatio: 0.85,
                       ),
                       itemCount: quizItems.length,
@@ -218,12 +219,17 @@ class _QuizHubPageState extends State<QuizHubPage>
                         }
 
                         return AnimatedBuilder(
-                          animation: Listenable.merge([_floatController, _scaleController]),
+                          animation: Listenable.merge([
+                            _floatController,
+                            _scaleController,
+                          ]),
                           builder: (_, child) {
                             final floatOffset = (index % 2 == 0)
                                 ? _floatAnimation.value
                                 : -_floatAnimation.value;
-                            final scale = index == 0 ? _scaleAnimation.value : 1.0;
+                            final scale = index == 0
+                                ? _scaleAnimation.value
+                                : 1.0;
 
                             return Transform.translate(
                               offset: Offset(0, floatOffset),
@@ -245,11 +251,13 @@ class _QuizHubPageState extends State<QuizHubPage>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                                borderRadius: BorderRadius.circular(24),
+                                borderRadius: BorderRadius.circular(24.r),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: gradientColors[0].withValues(alpha: 0.5),
-                                    blurRadius: 12,
+                                    color: gradientColors[0].withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    blurRadius: 12.r,
                                     offset: const Offset(0, 6),
                                   ),
                                 ],
@@ -258,17 +266,21 @@ class _QuizHubPageState extends State<QuizHubPage>
                                 children: [
                                   // Decorative circle top-right - colored
                                   Positioned(
-                                    top: -20,
-                                    right: -20,
+                                    top: -20.h,
+                                    right: -20.w,
                                     child: Container(
-                                      width: 70,
-                                      height: 70,
+                                      width: 70.w,
+                                      height: 70.h,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         gradient: RadialGradient(
                                           colors: [
-                                            gradientColors[1].withValues(alpha: 0.4),
-                                            gradientColors[0].withValues(alpha: 0.2),
+                                            gradientColors[1].withValues(
+                                              alpha: 0.4,
+                                            ),
+                                            gradientColors[0].withValues(
+                                              alpha: 0.2,
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -276,17 +288,21 @@ class _QuizHubPageState extends State<QuizHubPage>
                                   ),
                                   // Decorative circle bottom-left - colored
                                   Positioned(
-                                    bottom: -25,
-                                    left: -25,
+                                    bottom: -25.h,
+                                    left: -25.w,
                                     child: Container(
-                                      width: 80,
-                                      height: 80,
+                                      width: 80.w,
+                                      height: 80.h,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         gradient: RadialGradient(
                                           colors: [
-                                            gradientColors[0].withValues(alpha: 0.3),
-                                            gradientColors[1].withValues(alpha: 0.15),
+                                            gradientColors[0].withValues(
+                                              alpha: 0.3,
+                                            ),
+                                            gradientColors[1].withValues(
+                                              alpha: 0.15,
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -294,55 +310,65 @@ class _QuizHubPageState extends State<QuizHubPage>
                                   ),
                                   // Small decorative circle - colored
                                   Positioned(
-                                    top: 40,
-                                    left: -10,
+                                    top: 40.h,
+                                    left: -10.w,
                                     child: Container(
-                                      width: 30,
-                                      height: 30,
+                                      width: 30.w,
+                                      height: 30.h,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: gradientColors[1].withValues(alpha: 0.25),
+                                        color: gradientColors[1].withValues(
+                                          alpha: 0.25,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   // Extra decorative circle bottom-right
                                   Positioned(
-                                    bottom: 20,
-                                    right: -15,
+                                    bottom: 20.h,
+                                    right: -15.w,
                                     child: Container(
-                                      width: 40,
-                                      height: 40,
+                                      width: 40.w,
+                                      height: 40.h,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: gradientColors[0].withValues(alpha: 0.2),
+                                        color: gradientColors[0].withValues(
+                                          alpha: 0.2,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   // Content
                                   Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(16),
+                                      padding: EdgeInsets.all(16.r),
                                       child: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           // Emoji container with gradient glow
                                           Container(
-                                            width: 80,
-                                            height: 80,
+                                            width: 80.w,
+                                            height: 80.h,
                                             decoration: BoxDecoration(
                                               gradient: RadialGradient(
                                                 colors: [
-                                                  Colors.white.withValues(alpha: 0.35),
-                                                  gradientColors[1].withValues(alpha: 0.2),
+                                                  Colors.white.withValues(
+                                                    alpha: 0.35,
+                                                  ),
+                                                  gradientColors[1].withValues(
+                                                    alpha: 0.2,
+                                                  ),
                                                 ],
                                               ),
                                               shape: BoxShape.circle,
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: gradientColors[0].withValues(alpha: 0.3),
-                                                  blurRadius: 15,
-                                                  spreadRadius: 2,
+                                                  color: gradientColors[0]
+                                                      .withValues(alpha: 0.3),
+                                                  blurRadius: 15.r,
+                                                  spreadRadius: 2.r,
                                                 ),
                                               ],
                                             ),
@@ -355,27 +381,40 @@ class _QuizHubPageState extends State<QuizHubPage>
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(height: 14),
-                                          // Title
-                                          Text(
-                                            item['title']!,
-                                            style: GoogleFonts.baloo2(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
+                                          SizedBox(height: 14.h),
+                                          // Title. Flexible with a line cap so a
+                                          // long label shortens instead of
+                                          // pushing the tile past its fixed
+                                          // aspect-ratio height.
+                                          Flexible(
+                                            child: Text(
+                                              item['title']!,
+                                              style: GoogleFonts.baloo2(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
-                                          const SizedBox(height: 4),
+                                          SizedBox(height: 4.h),
                                           // Subtitle
-                                          Text(
-                                            item['subtitle']!,
-                                            style: GoogleFonts.nunito(
-                                              fontSize: 12,
-                                              color: Colors.white.withValues(alpha: 0.95),
-                                              fontWeight: FontWeight.w600,
+                                          Flexible(
+                                            child: Text(
+                                              item['subtitle']!,
+                                              style: GoogleFonts.nunito(
+                                                fontSize: 12,
+                                                color: Colors.white.withValues(
+                                                  alpha: 0.95,
+                                                ),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
                                         ],
                                       ),

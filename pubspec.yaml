@@ -38,13 +38,10 @@ dependencies:
   flutter_tts: 4.1.0
   audioplayers: ^6.5.0
   get_storage: ^2.1.1
-  scribble: ^0.10.0+1
   image_picker: ^1.2.0
   painter: ^2.0.0
   google_mobile_ads: ^5.2.0
-  device_info_plus: ^11.5.0
   google_fonts: ^6.3.1
-  math_expressions: ^3.1.0
   google_mlkit_text_recognition: ^0.15.0
   flutter_dotenv: ^6.0.0
   firebase_core: ^3.8.1
@@ -56,7 +53,6 @@ dependencies:
   path_provider: ^2.1.5
   share_plus: ^10.1.4
   open_file: ^3.5.9
-  url_launcher: ^6.2.5
   country_code_picker: ^3.0.0
   speech_to_text: ^7.0.0
   flutter_local_notifications: ^18.0.1
@@ -67,6 +63,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # Supplies setupFirebaseCoreMocks(), which lets the layout probes build the
+  # ten pages that reach Firebase while they render.
+  firebase_core_platform_interface: ^6.0.0
   rename: ^3.0.2
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.3

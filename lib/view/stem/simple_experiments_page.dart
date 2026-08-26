@@ -8,6 +8,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SimpleExperimentsPage extends StatefulWidget {
   const SimpleExperimentsPage({super.key});
 
@@ -30,7 +32,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         'Vinegar',
         'Dish soap',
         'Food coloring',
-        'Bottle'
+        'Bottle',
       ],
       'steps': [
         'Put the bottle in a tray',
@@ -52,7 +54,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         'Food coloring',
         'Dish soap',
         'Plate',
-        'Cotton swab'
+        'Cotton swab',
       ],
       'steps': [
         'Pour milk into the plate',
@@ -61,8 +63,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         'Touch the milk with the swab',
         'Watch colors dance and swirl!',
       ],
-      'science':
-          'Soap breaks the surface tension of milk, making colors move!',
+      'science': 'Soap breaks the surface tension of milk, making colors move!',
     },
     {
       'name': 'Floating Egg',
@@ -84,12 +85,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
       'emoji': '💧',
       'difficulty': 'Medium',
       'time': '1 hour',
-      'materials': [
-        '3 glasses',
-        'Paper towels',
-        'Food coloring',
-        'Water'
-      ],
+      'materials': ['3 glasses', 'Paper towels', 'Food coloring', 'Water'],
       'steps': [
         'Place 3 glasses in a row',
         'Fill glass 1 with red water, glass 3 with blue',
@@ -97,8 +93,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         'Fold paper towels and connect glasses',
         'Wait and watch water walk!',
       ],
-      'science':
-          'Water travels up the paper towel through capillary action!',
+      'science': 'Water travels up the paper towel through capillary action!',
     },
     {
       'name': 'Dancing Raisins',
@@ -124,7 +119,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         'Lemon juice',
         'White paper',
         'Cotton swab',
-        'Lamp or iron'
+        'Lamp or iron',
       ],
       'steps': [
         'Dip cotton swab in lemon juice',
@@ -157,13 +152,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
       'emoji': '💎',
       'difficulty': 'Hard',
       'time': '1-3 days',
-      'materials': [
-        'Salt',
-        'Hot water',
-        'String',
-        'Pencil',
-        'Glass jar'
-      ],
+      'materials': ['Salt', 'Hot water', 'String', 'Pencil', 'Glass jar'],
       'steps': [
         'Dissolve lots of salt in hot water',
         'Tie string to pencil',
@@ -198,108 +187,115 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         }
       },
       child: GradientScaffold(
-      title: selectedExperiment == -1
-          ? 'Science Experiments'
-          : experiments[selectedExperiment]['name'],
-      onBackPressed: () {
-        if (selectedExperiment != -1) {
-          setState(() => selectedExperiment = -1);
-        } else {
-          Get.back();
-        }
-      },
-      actions: selectedExperiment == -1
-          ? [
-              IconButton(
-                icon: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child:
-                      const Icon(Icons.refresh, color: Colors.white, size: 20),
-                ),
-                onPressed: () {
-                  ProgressService.to
-                      .resetProgress(ProgressService.kScienceExperiments);
-                  setState(() {});
-                },
-              ),
-            ]
-          : null,
-      body: Column(
-        children: [
-          // Progress bar - only on grid screen
-          if (selectedExperiment == -1)
-            Obx(() {
-              final progress =
-                  ProgressService.to.getProgressPercentage(
-                        ProgressService.kScienceExperiments,
-                      ) /
-                      100;
-              final progressString = ProgressService.to.getProgressString(
-                ProgressService.kScienceExperiments,
-              );
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          '$progressString completed',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
+        title: selectedExperiment == -1
+            ? 'Science Experiments'
+            : experiments[selectedExperiment]['name'],
+        onBackPressed: () {
+          if (selectedExperiment != -1) {
+            setState(() => selectedExperiment = -1);
+          } else {
+            Get.back();
+          }
+        },
+        actions: selectedExperiment == -1
+            ? [
+                IconButton(
+                  icon: Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 10,
-                        backgroundColor: Colors.white.withValues(alpha: 0.2),
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF4CAF50),
+                    child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
+                  ),
+                  onPressed: () {
+                    ProgressService.to.resetProgress(
+                      ProgressService.kScienceExperiments,
+                    );
+                    setState(() {});
+                  },
+                ),
+              ]
+            : null,
+        body: Column(
+          children: [
+            // Progress bar - only on grid screen
+            if (selectedExperiment == -1)
+              Obx(() {
+                final progress =
+                    ProgressService.to.getProgressPercentage(
+                      ProgressService.kScienceExperiments,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
+                  ProgressService.kScienceExperiments,
+                );
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.h),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 10.h,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          Expanded(
-            child: selectedExperiment == -1
-                ? _buildExperimentGrid()
-                : _buildExperimentDetail(experiments[selectedExperiment]),
-          ),
-        ],
+                    ],
+                  ),
+                );
+              }),
+            Expanded(
+              child: selectedExperiment == -1
+                  ? _buildExperimentGrid()
+                  : _buildExperimentDetail(experiments[selectedExperiment]),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 
   Widget _buildExperimentGrid() {
     return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
+        mainAxisSpacing: 12.r,
+        crossAxisSpacing: 12.r,
         childAspectRatio: 0.85,
       ),
       itemCount: experiments.length,
@@ -340,7 +336,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                           exp['emoji'],
                           style: const TextStyle(fontSize: 36),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         Text(
                           exp['name'],
                           style: GoogleFonts.poppins(
@@ -352,13 +348,15 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
+                        // Two tags side by side are wider than the tile on a
+                        // small phone, so each is allowed to shrink.
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildTag(exp['difficulty']),
-                            const SizedBox(width: 6),
-                            _buildTag(exp['time']),
+                            Flexible(child: _buildTag(exp['difficulty'])),
+                            SizedBox(width: 6.w),
+                            Flexible(child: _buildTag(exp['time'])),
                           ],
                         ),
                       ],
@@ -366,18 +364,18 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                   ),
                   if (isCompleted)
                     Positioned(
-                      bottom: 4,
-                      right: 4,
+                      bottom: 4.h,
+                      right: 4.w,
                       child: Container(
-                        padding: const EdgeInsets.all(2),
+                        padding: EdgeInsets.all(2.r),
                         decoration: const BoxDecoration(
                           color: Colors.green,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.check,
                           color: Colors.white,
-                          size: 12,
+                          size: 12.r,
                         ),
                       ),
                     ),
@@ -392,10 +390,10 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
 
   Widget _buildTag(String text) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Text(
         text,
@@ -404,6 +402,8 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
@@ -413,19 +413,19 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
     return buildFloatingItem(
       index: index,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -433,11 +433,11 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -457,21 +457,20 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
     int itemIndex = 0;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Header emoji + tags
           Text(exp['emoji'], style: const TextStyle(fontSize: 80)),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Text(
                   exp['difficulty'],
@@ -482,13 +481,12 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Text(
                   '⏱️ ${exp['time']}',
@@ -501,7 +499,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
 
           // Materials card
           _buildGradientItem(
@@ -512,8 +510,8 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                 Row(
                   children: [
                     Container(
-                      width: 45,
-                      height: 45,
+                      width: 45.w,
+                      height: 45.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -522,7 +520,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                         child: Text('🧪', style: TextStyle(fontSize: 24)),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Text(
                       'Materials You Need',
                       style: GoogleFonts.nunito(
@@ -533,19 +531,19 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 8.r,
+                  runSpacing: 8.r,
                   children: materials.map<Widget>((m) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         m,
@@ -569,8 +567,8 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
               child: Row(
                 children: [
                   Container(
-                    width: 35,
-                    height: 35,
+                    width: 35.w,
+                    height: 35.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -586,7 +584,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       steps[index],
@@ -608,8 +606,8 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -618,7 +616,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
                     child: Text('🧠', style: TextStyle(fontSize: 28)),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -644,7 +642,7 @@ class _SimpleExperimentsPageState extends State<SimpleExperimentsPage>
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
         ],
       ),
     );

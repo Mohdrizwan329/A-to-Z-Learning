@@ -5,6 +5,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class BodySafetyDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -24,7 +26,10 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
         {'icon': '⭐', 'text': 'Your body is special and belongs only to you'},
         {'icon': '🛡️', 'text': 'You have the right to keep your body safe'},
         {'icon': '👍', 'text': 'You decide who can touch you'},
-        {'icon': '🗣️', 'text': 'You can always say NO to touches you don\'t like'},
+        {
+          'icon': '🗣️',
+          'text': 'You can always say NO to touches you don\'t like',
+        },
         {'icon': '❤️', 'text': 'It\'s important to take care of your body'},
       ],
     },
@@ -60,22 +65,46 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
       'title': 'Private Parts',
       'emoji': '🔒',
       'content': [
-        {'icon': '👙', 'text': 'Private parts are covered by your underwear/swimsuit'},
+        {
+          'icon': '👙',
+          'text': 'Private parts are covered by your underwear/swimsuit',
+        },
         {'icon': '🔐', 'text': 'These parts are called PRIVATE for a reason'},
         {'icon': '🚫', 'text': 'No one should touch or ask to see them'},
-        {'icon': '👨‍👩‍👧', 'text': 'Only parents or doctors (with parents) can help when needed'},
-        {'icon': '🗣️', 'text': 'Tell a trusted adult if anyone tries to touch them'},
+        {
+          'icon': '👨‍👩‍👧',
+          'text': 'Only parents or doctors (with parents) can help when needed',
+        },
+        {
+          'icon': '🗣️',
+          'text': 'Tell a trusted adult if anyone tries to touch them',
+        },
       ],
     },
     {
       'title': 'The Underwear Rule',
       'emoji': '🩲',
       'rules': [
-        {'rule': 'P - Privates are Private', 'detail': 'Parts covered by underwear are only yours'},
-        {'rule': 'A - Always remember your body is yours', 'detail': 'You\'re the boss of your body'},
-        {'rule': 'N - No means No!', 'detail': 'You can always say no to bad touches'},
-        {'rule': 'T - Talk about secrets that upset you', 'detail': 'Tell a trusted adult'},
-        {'rule': 'S - Speak up, someone can help', 'detail': 'Adults you trust will help you'},
+        {
+          'rule': 'P - Privates are Private',
+          'detail': 'Parts covered by underwear are only yours',
+        },
+        {
+          'rule': 'A - Always remember your body is yours',
+          'detail': 'You\'re the boss of your body',
+        },
+        {
+          'rule': 'N - No means No!',
+          'detail': 'You can always say no to bad touches',
+        },
+        {
+          'rule': 'T - Talk about secrets that upset you',
+          'detail': 'Tell a trusted adult',
+        },
+        {
+          'rule': 'S - Speak up, someone can help',
+          'detail': 'Adults you trust will help you',
+        },
       ],
     },
     {
@@ -89,16 +118,37 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
         {'who': 'Close relatives you trust', 'emoji': '👨‍👧'},
         {'who': 'Police', 'emoji': '👮'},
       ],
-      'tip': 'A trusted adult is someone who makes you feel safe and listens to you.',
+      'tip':
+          'A trusted adult is someone who makes you feel safe and listens to you.',
     },
     {
       'title': 'What to Do If...',
       'emoji': '🆘',
       'steps': [
-        {'step': 1, 'action': 'Say NO loudly', 'emoji': '🗣️', 'detail': '"NO! I don\'t like this!"'},
-        {'step': 2, 'action': 'Get away if you can', 'emoji': '🏃', 'detail': 'Run to a safe place'},
-        {'step': 3, 'action': 'Tell a trusted adult', 'emoji': '👨‍👩‍👧', 'detail': 'It\'s NEVER your fault'},
-        {'step': 4, 'action': 'Keep telling until someone helps', 'emoji': '🔁', 'detail': 'Don\'t give up'},
+        {
+          'step': 1,
+          'action': 'Say NO loudly',
+          'emoji': '🗣️',
+          'detail': '"NO! I don\'t like this!"',
+        },
+        {
+          'step': 2,
+          'action': 'Get away if you can',
+          'emoji': '🏃',
+          'detail': 'Run to a safe place',
+        },
+        {
+          'step': 3,
+          'action': 'Tell a trusted adult',
+          'emoji': '👨‍👩‍👧',
+          'detail': 'It\'s NEVER your fault',
+        },
+        {
+          'step': 4,
+          'action': 'Keep telling until someone helps',
+          'emoji': '🔁',
+          'detail': 'Don\'t give up',
+        },
       ],
     },
     {
@@ -165,7 +215,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
     return GradientScaffold(
       title: section['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -173,18 +223,18 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -195,7 +245,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                       section['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       section['title'],
                       style: GoogleFonts.poppins(
@@ -205,7 +255,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.3),
-                            blurRadius: 4,
+                            blurRadius: 4.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -216,23 +266,16 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Content based on type
-            if (section.containsKey('content'))
-              _buildContentCards(section),
-            if (section.containsKey('touches'))
-              _buildTouchCards(section),
-            if (section.containsKey('rules'))
-              _buildRuleCards(section),
-            if (section.containsKey('adults'))
-              _buildAdultCards(section),
-            if (section.containsKey('steps'))
-              _buildStepCards(section),
-            if (section.containsKey('secrets'))
-              _buildSecretCards(section),
-            if (section.containsKey('reminders'))
-              _buildReminderCards(section),
-            const SizedBox(height: 16),
+            if (section.containsKey('content')) _buildContentCards(section),
+            if (section.containsKey('touches')) _buildTouchCards(section),
+            if (section.containsKey('rules')) _buildRuleCards(section),
+            if (section.containsKey('adults')) _buildAdultCards(section),
+            if (section.containsKey('steps')) _buildStepCards(section),
+            if (section.containsKey('secrets')) _buildSecretCards(section),
+            if (section.containsKey('reminders')) _buildReminderCards(section),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -241,28 +284,30 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
 
   Widget _buildContentCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['content'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['content'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final item = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -270,7 +315,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
             child: Row(
               children: [
                 Text(item['icon'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     item['text'],
@@ -291,28 +336,30 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
 
   Widget _buildTouchCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['touches'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['touches'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final touch = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 14),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 14.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -322,9 +369,8 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(touch['emoji'],
-                        style: const TextStyle(fontSize: 28)),
-                    const SizedBox(width: 10),
+                    Text(touch['emoji'], style: const TextStyle(fontSize: 28)),
+                    SizedBox(width: 10.w),
                     Text(
                       touch['type'],
                       style: GoogleFonts.poppins(
@@ -335,15 +381,15 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Container(
-                  height: 1,
+                  height: 1.h,
                   color: Colors.white.withValues(alpha: 0.3),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 ...(touch['examples'] as List).map<Widget>((example) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
                         Icon(
@@ -351,9 +397,9 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                               ? Icons.check_circle
                               : Icons.cancel,
                           color: Colors.white,
-                          size: 20,
+                          size: 20.r,
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10.w),
                         Expanded(
                           child: Text(
                             example,
@@ -378,28 +424,28 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
 
   Widget _buildRuleCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['rules'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['rules'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final rule = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -415,7 +461,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                     fontSize: 15,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   rule['detail'],
                   style: GoogleFonts.nunito(
@@ -438,24 +484,25 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
         ...adults.asMap().entries.map<Widget>((entry) {
           final idx = entry.key;
           final adult = entry.value;
-          final cardGradient =
-              AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+          final cardGradient = AppColors.getGradientForIndex(
+            widget.sectionIndex + idx + 1,
+          );
           return buildFloatingItem(
             index: idx + 1,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: cardGradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: cardGradient[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
@@ -463,7 +510,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
               child: Row(
                 children: [
                   Text(adult['emoji'], style: const TextStyle(fontSize: 32)),
-                  const SizedBox(width: 14),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Text(
                       adult['who'],
@@ -483,15 +530,15 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
           buildFloatingItem(
             index: adults.length + 1,
             child: Container(
-              margin: const EdgeInsets.only(top: 4, bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(top: 4.h, bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 color: Colors.green.withValues(alpha: 0.85),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.green.withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
@@ -499,7 +546,7 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
               child: Row(
                 children: [
                   const Text('💡', style: TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       section['tip'],
@@ -520,28 +567,28 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
 
   Widget _buildStepCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['steps'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['steps'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final step = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -549,8 +596,8 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 36.w,
+                  height: 36.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -565,9 +612,9 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(step['emoji'], style: const TextStyle(fontSize: 24)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -600,28 +647,30 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
 
   Widget _buildSecretCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['secrets'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['secrets'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final secret = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 14),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 14.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -631,9 +680,8 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(secret['emoji'],
-                        style: const TextStyle(fontSize: 28)),
-                    const SizedBox(width: 10),
+                    Text(secret['emoji'], style: const TextStyle(fontSize: 28)),
+                    SizedBox(width: 10.w),
                     Text(
                       secret['type'],
                       style: GoogleFonts.poppins(
@@ -644,10 +692,10 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 ...(secret['examples'] as List).map<Widget>((example) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
                         Icon(
@@ -655,9 +703,9 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                               ? Icons.check
                               : Icons.warning,
                           color: Colors.white,
-                          size: 18,
+                          size: 18.r,
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10.w),
                         Expanded(
                           child: Text(
                             example,
@@ -672,13 +720,13 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
                     ),
                   );
                 }),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Text(
                     secret['note'],
@@ -700,37 +748,38 @@ class _BodySafetyDetailPageState extends State<BodySafetyDetailPage>
 
   Widget _buildReminderCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['reminders'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['reminders'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final reminder = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Row(
               children: [
-                Text(reminder['emoji'],
-                    style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                Text(reminder['emoji'], style: const TextStyle(fontSize: 32)),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     reminder['text'],

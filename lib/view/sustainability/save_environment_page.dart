@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SaveEnvironmentPage extends StatefulWidget {
   const SaveEnvironmentPage({super.key});
 
@@ -39,25 +41,25 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           'problem': 'Pollution',
           'emoji': '🏭',
           'effect': 'Makes air and water dirty',
-          'color': Color(0xFF9E9E9E)
+          'color': Color(0xFF9E9E9E),
         },
         {
           'problem': 'Cutting Trees',
           'emoji': '🪓',
           'effect': 'Animals lose their homes',
-          'color': Color(0xFF795548)
+          'color': Color(0xFF795548),
         },
         {
           'problem': 'Too Much Plastic',
           'emoji': '🥤',
           'effect': 'Hurts ocean animals',
-          'color': Color(0xFF00BCD4)
+          'color': Color(0xFF00BCD4),
         },
         {
           'problem': 'Wasting Water',
           'emoji': '🚿',
           'effect': 'Less water for everyone',
-          'color': Color(0xFF2196F3)
+          'color': Color(0xFF2196F3),
         },
       ],
     },
@@ -70,27 +72,27 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
         {
           'action': 'Turn off tap while brushing',
           'emoji': '🚿',
-          'saves': 'Saves 6 liters!'
+          'saves': 'Saves 6 liters!',
         },
         {
           'action': 'Take short showers',
           'emoji': '🛁',
-          'saves': 'Saves lots of water!'
+          'saves': 'Saves lots of water!',
         },
         {
           'action': 'Fix leaky taps',
           'emoji': '🔧',
-          'saves': 'No drip, drip, drip!'
+          'saves': 'No drip, drip, drip!',
         },
         {
           'action': 'Use a bucket, not a hose',
           'emoji': '🪣',
-          'saves': 'For washing cars!'
+          'saves': 'For washing cars!',
         },
         {
           'action': 'Water plants in evening',
           'emoji': '🌱',
-          'saves': 'Less water evaporates!'
+          'saves': 'Less water evaporates!',
         },
       ],
       'funFact':
@@ -105,27 +107,27 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
         {
           'action': 'Turn off lights',
           'emoji': '💡',
-          'when': 'When leaving a room'
+          'when': 'When leaving a room',
         },
         {
           'action': 'Unplug devices',
           'emoji': '🔌',
-          'when': 'When not using them'
+          'when': 'When not using them',
         },
         {
           'action': 'Open curtains',
           'emoji': '🪟',
-          'when': 'Use sunlight during day'
+          'when': 'Use sunlight during day',
         },
         {
           'action': 'Use fans first',
           'emoji': '🌀',
-          'when': 'Before turning on AC'
+          'when': 'Before turning on AC',
         },
         {
           'action': 'Walk or cycle',
           'emoji': '🚴',
-          'when': 'For short distances'
+          'when': 'For short distances',
         },
       ],
       'renewables': [
@@ -144,22 +146,30 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           'r': 'Reduce',
           'emoji': '📉',
           'meaning': 'Use less stuff',
-          'examples': ['Use less paper', 'Buy only what you need', 'Say no to extra packaging'],
-          'color': Color(0xFFE91E63)
+          'examples': [
+            'Use less paper',
+            'Buy only what you need',
+            'Say no to extra packaging',
+          ],
+          'color': Color(0xFFE91E63),
         },
         {
           'r': 'Reuse',
           'emoji': '🔄',
           'meaning': 'Use things again',
-          'examples': ['Reuse bags', 'Donate old toys', 'Use both sides of paper'],
-          'color': Color(0xFF9C27B0)
+          'examples': [
+            'Reuse bags',
+            'Donate old toys',
+            'Use both sides of paper',
+          ],
+          'color': Color(0xFF9C27B0),
         },
         {
           'r': 'Recycle',
           'emoji': '♻️',
           'meaning': 'Make into new things',
           'examples': ['Recycle bottles', 'Recycle paper', 'Recycle cans'],
-          'color': Color(0xFF4CAF50)
+          'color': Color(0xFF4CAF50),
         },
       ],
     },
@@ -167,7 +177,8 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
       'title': 'Plant Trees',
       'emoji': '🌳',
       'color': Color(0xFF388E3C),
-      'description': 'Trees are Earth\'s superheroes! They help us in so many ways:',
+      'description':
+          'Trees are Earth\'s superheroes! They help us in so many ways:',
       'benefits': [
         {'benefit': 'Make oxygen we breathe', 'emoji': '💨'},
         {'benefit': 'Clean the air', 'emoji': '🌫️'},
@@ -176,7 +187,8 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
         {'benefit': 'Give us fruits', 'emoji': '🍎'},
         {'benefit': 'Stop soil from washing away', 'emoji': '🏔️'},
       ],
-      'challenge': 'Plant a tree and watch it grow! Name it and take care of it.',
+      'challenge':
+          'Plant a tree and watch it grow! Name it and take care of it.',
     },
     {
       'title': 'Say No to Plastic',
@@ -188,25 +200,25 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           'plastic': 'Plastic bags',
           'use': 'Cloth bags',
           'plasticEmoji': '🛍️',
-          'useEmoji': '👜'
+          'useEmoji': '👜',
         },
         {
           'plastic': 'Plastic bottles',
           'use': 'Steel/Glass bottle',
           'plasticEmoji': '🍾',
-          'useEmoji': '🫙'
+          'useEmoji': '🫙',
         },
         {
           'plastic': 'Plastic straws',
           'use': 'Paper/Steel straws',
           'plasticEmoji': '🥤',
-          'useEmoji': '🧃'
+          'useEmoji': '🧃',
         },
         {
           'plastic': 'Plastic boxes',
           'use': 'Steel tiffin',
           'plasticEmoji': '📦',
-          'useEmoji': '🥡'
+          'useEmoji': '🥡',
         },
       ],
       'sadFact': 'Every year, 8 million tons of plastic goes into the ocean!',
@@ -215,7 +227,8 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
       'title': 'Protect Animals',
       'emoji': '🐾',
       'color': Color(0xFFFF5722),
-      'description': 'Animals are part of our Earth family. Let\'s protect them!',
+      'description':
+          'Animals are part of our Earth family. Let\'s protect them!',
       'endangered': [
         {'animal': 'Tigers', 'emoji': '🐅'},
         {'animal': 'Elephants', 'emoji': '🐘'},
@@ -244,8 +257,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
         {'action': 'Teach others about environment', 'emoji': '📢'},
         {'action': 'Love and respect nature', 'emoji': '💚'},
       ],
-      'pledge':
-          'I promise to take care of Earth and be an Eco Hero every day!',
+      'pledge': 'I promise to take care of Earth and be an Eco Hero every day!',
     },
   ];
 
@@ -297,7 +309,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
               _buildProgressDots(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.r),
                   child: _buildSectionContent(section),
                 ),
               ),
@@ -308,21 +320,22 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
       ),
     );
   }
+
   Widget _buildProgressDots() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(sections.length, (index) {
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 3),
+            margin: EdgeInsets.symmetric(horizontal: 3.w),
             width: currentSection == index ? 20 : 8,
-            height: 8,
+            height: 8.h,
             decoration: BoxDecoration(
               color: currentSection == index
                   ? Colors.white
                   : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(4.r),
             ),
           );
         }),
@@ -359,7 +372,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -369,23 +382,20 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Earth gives us:',
           style: GoogleFonts.poppins(
@@ -394,7 +404,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         GridView.count(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -406,21 +416,32 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(gift['emoji'], style: TextStyle(fontSize: 36)),
-                  SizedBox(height: 4),
-                  Text(
-                    gift['item'],
-                    style: GoogleFonts.nunito(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: section['color'],
+                  Flexible(
+                    child: Text(
+                      gift['emoji'],
+                      style: TextStyle(fontSize: 36),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 4.h),
+                  Flexible(
+                    child: Text(
+                      gift['item'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: section['color'],
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
@@ -435,7 +456,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -445,43 +466,40 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['problems'].length, (index) {
           final problem = section['problems'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: problem['color'].withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Text(problem['emoji'], style: TextStyle(fontSize: 28)),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -504,7 +522,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                     ],
                   ),
                 ),
-                Icon(Icons.warning_amber, color: Colors.amber, size: 28),
+                Icon(Icons.warning_amber, color: Colors.amber, size: 28.r),
               ],
             ),
           );
@@ -517,7 +535,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -527,36 +545,33 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['tips'].length, (index) {
           final tip = section['tips'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Text(tip['emoji'], style: TextStyle(fontSize: 32)),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,17 +599,17 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             ),
           );
         }),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Text('💡', style: TextStyle(fontSize: 28)),
-              SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -621,7 +636,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -631,36 +646,33 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['tips'].length, (index) {
           final tip = section['tips'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Text(tip['emoji'], style: TextStyle(fontSize: 32)),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -686,7 +698,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             ),
           );
         }),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           'Clean Energy Sources:',
           style: GoogleFonts.poppins(
@@ -695,16 +707,16 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(section['renewables'].length, (index) {
             final source = section['renewables'][index];
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 children: [
@@ -729,7 +741,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -739,31 +751,28 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['threeRs'].length, (index) {
           final r = section['threeRs'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 16),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 16.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: r['color'], width: 2),
             ),
             child: Column(
@@ -771,14 +780,14 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
                         color: r['color'],
                         shape: BoxShape.circle,
                       ),
                       child: Text(r['emoji'], style: TextStyle(fontSize: 24)),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -792,22 +801,20 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                         ),
                         Text(
                           r['meaning'],
-                          style: GoogleFonts.nunito(
-                            color: Colors.grey[600],
-                          ),
+                          style: GoogleFonts.nunito(color: Colors.grey[600]),
                         ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 ...List.generate(r['examples'].length, (i) {
                   return Padding(
-                    padding: EdgeInsets.only(left: 50, bottom: 4),
+                    padding: EdgeInsets.only(left: 50.w, bottom: 4.h),
                     child: Row(
                       children: [
-                        Icon(Icons.check, color: r['color'], size: 18),
-                        SizedBox(width: 8),
+                        Icon(Icons.check, color: r['color'], size: 18.r),
+                        SizedBox(width: 8.w),
                         Text(
                           r['examples'][i],
                           style: GoogleFonts.nunito(fontSize: 14),
@@ -828,7 +835,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -838,36 +845,33 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['benefits'].length, (index) {
           final benefit = section['benefits'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Text(benefit['emoji'], style: TextStyle(fontSize: 32)),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     benefit['benefit'],
@@ -882,17 +886,17 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             ),
           );
         }),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Text('🌟', style: TextStyle(fontSize: 28)),
-              SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -925,7 +929,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             Text(section['emoji'], style: TextStyle(fontSize: 40)),
           ],
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -935,23 +939,20 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Switch from plastic to:',
           style: GoogleFonts.poppins(
@@ -960,15 +961,15 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 12.h),
         ...List.generate(section['alternatives'].length, (index) {
           final alt = section['alternatives'][index];
           return Container(
-            margin: EdgeInsets.only(bottom: 12),
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
@@ -987,7 +988,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward, color: section['color'], size: 32),
+                Icon(Icons.arrow_forward, color: section['color'], size: 32.r),
                 Expanded(
                   child: Column(
                     children: [
@@ -1007,17 +1008,17 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             ),
           );
         }),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.red.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Text('😢', style: TextStyle(fontSize: 28)),
-              SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['sadFact'],
@@ -1039,7 +1040,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -1049,23 +1050,20 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            style: GoogleFonts.nunito(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           'Endangered Animals:',
           style: GoogleFonts.poppins(
@@ -1074,7 +1072,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 12.h),
         GridView.count(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -1086,13 +1084,13 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(animal['emoji'], style: TextStyle(fontSize: 36)),
-                  SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     animal['animal'],
                     style: GoogleFonts.nunito(
@@ -1106,12 +1104,12 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             );
           }),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1124,14 +1122,14 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                   color: section['color'],
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
               ...List.generate(section['howToHelp'].length, (index) {
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: EdgeInsets.only(bottom: 8.h),
                   child: Row(
                     children: [
-                      Icon(Icons.favorite, color: section['color'], size: 18),
-                      SizedBox(width: 8),
+                      Icon(Icons.favorite, color: section['color'], size: 18.r),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Text(
                           section['howToHelp'][index],
@@ -1153,7 +1151,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
     return Column(
       children: [
         Text(section['emoji'], style: TextStyle(fontSize: 80)),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -1163,7 +1161,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'You can save the Earth!',
           style: GoogleFonts.nunito(
@@ -1171,35 +1169,37 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           child: Column(
             children: List.generate(section['heroActions'].length, (index) {
               final action = section['heroActions'][index];
               return Container(
-                margin: EdgeInsets.only(bottom: 12),
-                padding: EdgeInsets.all(12),
+                margin: EdgeInsets.only(bottom: 12.h),
+                padding: EdgeInsets.all(12.r),
                 decoration: BoxDecoration(
                   color: section['color'].withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
                         color: section['color'],
                         shape: BoxShape.circle,
                       ),
-                      child: Text(action['emoji'],
-                          style: TextStyle(fontSize: 20)),
+                      child: Text(
+                        action['emoji'],
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         action['action'],
@@ -1216,17 +1216,17 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
             }),
           ),
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           child: Column(
             children: [
               Text('🤝', style: TextStyle(fontSize: 40)),
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 'My Pledge:',
                 style: GoogleFonts.poppins(
@@ -1234,7 +1234,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 section['pledge'],
                 style: GoogleFonts.nunito(fontSize: 16),
@@ -1249,7 +1249,7 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
 
   Widget _buildNavigationButtons(Map<String, dynamic> section) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Row(
         children: [
           if (currentSection > 0)
@@ -1266,14 +1266,14 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white.withValues(alpha: 0.3),
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                 ),
               ),
             ),
-          if (currentSection > 0) SizedBox(width: 12),
+          if (currentSection > 0) SizedBox(width: 12.w),
           Expanded(
             child: ElevatedButton.icon(
               onPressed: () {
@@ -1297,9 +1297,9 @@ class _SaveEnvironmentPageState extends State<SaveEnvironmentPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: section['color'] as Color,
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
               ),
             ),

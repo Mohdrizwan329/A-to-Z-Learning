@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class HomeExperimentsPage extends StatefulWidget {
   const HomeExperimentsPage({super.key});
 
@@ -27,7 +29,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         'Drop in 4-5 raisins',
         'Watch them sink, then rise, then sink again!',
       ],
-      'science': 'Bubbles stick to raisins and lift them up. At the top, bubbles pop and raisins sink!',
+      'science':
+          'Bubbles stick to raisins and lift them up. At the top, bubbles pop and raisins sink!',
       'tryThis': 'Try with other small objects - do they dance too?',
     },
     {
@@ -37,14 +40,21 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
       'time': '10 mins',
       'safetyLevel': 'Very Safe',
       'description': 'Create swirling colors in milk with dish soap!',
-      'materials': ['Plate', 'Whole milk', 'Food coloring', 'Dish soap', 'Cotton swab'],
+      'materials': [
+        'Plate',
+        'Whole milk',
+        'Food coloring',
+        'Dish soap',
+        'Cotton swab',
+      ],
       'steps': [
         'Pour milk to cover plate bottom',
         'Add drops of different food colors',
         'Dip cotton swab in dish soap',
         'Touch the milk surface and watch magic happen!',
       ],
-      'science': 'Soap breaks up the fat in milk, making colors swirl and move!',
+      'science':
+          'Soap breaks up the fat in milk, making colors swirl and move!',
       'tryThis': 'Try with skim milk vs whole milk - which works better?',
     },
     {
@@ -54,7 +64,12 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
       'time': '30 mins',
       'safetyLevel': 'Very Safe',
       'description': 'Watch water walk from one glass to another!',
-      'materials': ['6 glasses', 'Water', 'Paper towels', 'Red, yellow, blue food coloring'],
+      'materials': [
+        '6 glasses',
+        'Water',
+        'Paper towels',
+        'Red, yellow, blue food coloring',
+      ],
       'steps': [
         'Fill 3 glasses with water (leave 3 empty)',
         'Add colors: red, yellow, blue to filled glasses',
@@ -62,7 +77,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         'Connect with folded paper towels',
         'Wait and watch water walk!',
       ],
-      'science': 'Capillary action - water molecules pull each other up the paper towel!',
+      'science':
+          'Capillary action - water molecules pull each other up the paper towel!',
       'tryThis': 'See what new colors form where waters meet!',
     },
     {
@@ -72,7 +88,12 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
       'time': '15 mins',
       'safetyLevel': 'Adult Help Needed',
       'description': 'Write secret messages that appear like magic!',
-      'materials': ['Lemon juice', 'White paper', 'Cotton swab', 'Lamp (with adult)'],
+      'materials': [
+        'Lemon juice',
+        'White paper',
+        'Cotton swab',
+        'Lamp (with adult)',
+      ],
       'steps': [
         'Dip cotton swab in lemon juice',
         'Write a secret message on paper',
@@ -98,7 +119,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         'Tape balloon to straw',
         'Let go and watch it zoom!',
       ],
-      'science': 'Air rushes out the back, pushing the balloon forward - Newton\'s 3rd Law!',
+      'science':
+          'Air rushes out the back, pushing the balloon forward - Newton\'s 3rd Law!',
       'tryThis': 'What happens with bigger or smaller balloons?',
     },
     {
@@ -116,7 +138,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         'Gently lower egg into glass',
         'Watch it float in the middle!',
       ],
-      'science': 'Salt water is denser than fresh water. The egg floats where waters meet!',
+      'science':
+          'Salt water is denser than fresh water. The egg floats where waters meet!',
       'tryThis': 'How much salt does it take to make the egg float on top?',
     },
     {
@@ -126,7 +149,12 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
       'time': '10 mins',
       'safetyLevel': 'Adult Help Needed',
       'description': 'Create your own cloud inside a jar!',
-      'materials': ['Glass jar with lid', 'Hot water', 'Ice cubes', 'Hairspray'],
+      'materials': [
+        'Glass jar with lid',
+        'Hot water',
+        'Ice cubes',
+        'Hairspray',
+      ],
       'steps': [
         'Pour hot water in jar (1 inch)',
         'Swirl it around',
@@ -134,7 +162,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         'Put lid with ice on top',
         'Watch cloud form!',
       ],
-      'science': 'Warm water vapor rises, hits cold air, and condenses on hairspray particles!',
+      'science':
+          'Warm water vapor rises, hits cold air, and condenses on hairspray particles!',
       'tryThis': 'Open the lid and watch the cloud escape!',
     },
     {
@@ -152,7 +181,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         'Touch the water center',
         'Watch pepper race to the edges!',
       ],
-      'science': 'Soap breaks the water surface tension, pulling water (and pepper) outward!',
+      'science':
+          'Soap breaks the water surface tension, pulling water (and pepper) outward!',
       'tryThis': 'Try with other spices - does it work the same?',
     },
   ];
@@ -186,7 +216,12 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -206,23 +241,24 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
       ),
     );
   }
+
   Widget _buildExperimentsList() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Safety Banner
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.amber.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: Colors.amber, width: 2),
             ),
             child: Row(
               children: [
                 const Text('⚠️', style: TextStyle(fontSize: 30)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +283,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Experiments List
           ...experiments.map((exp) => _buildExperimentCard(exp)),
         ],
@@ -264,15 +300,15 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: experiment['color'].withValues(alpha: 0.3),
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -280,8 +316,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
         child: Row(
           children: [
             Container(
-              width: 70,
-              height: 70,
+              width: 70.w,
+              height: 70.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -289,7 +325,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                     experiment['color'].withValues(alpha: 0.7),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Center(
                 child: Text(
@@ -298,7 +334,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,7 +347,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                       color: experiment['color'],
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     experiment['description'],
                     style: GoogleFonts.nunito(
@@ -320,23 +356,36 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                     ),
                     maxLines: 2,
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Row(
                     children: [
-                      _buildTag('⏱️ ${experiment['time']}', experiment['color']),
-                      const SizedBox(width: 6),
-                      _buildTag(
-                        experiment['safetyLevel'] == 'Adult Help Needed' ? '👨‍👩‍👧' : '✅',
-                        experiment['safetyLevel'] == 'Adult Help Needed'
-                            ? Colors.orange
-                            : Colors.green,
+                      Flexible(
+                        child: _buildTag(
+                          '⏱️ ${experiment['time']}',
+                          experiment['color'],
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                      Flexible(
+                        child: _buildTag(
+                          experiment['safetyLevel'] == 'Adult Help Needed'
+                              ? '👨‍👩‍👧'
+                              : '✅',
+                          experiment['safetyLevel'] == 'Adult Help Needed'
+                              ? Colors.orange
+                              : Colors.green,
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: experiment['color'], size: 20),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: experiment['color'],
+              size: 20.r,
+            ),
           ],
         ),
       ),
@@ -345,10 +394,10 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
 
   Widget _buildTag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Text(
         text,
@@ -362,22 +411,24 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
   }
 
   Widget _buildExperimentDetail() {
-    final experiment = experiments.firstWhere((e) => e['name'] == selectedExperiment);
+    final experiment = experiments.firstWhere(
+      (e) => e['name'] == selectedExperiment,
+    );
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
                   color: experiment['color'].withValues(alpha: 0.4),
-                  blurRadius: 20,
+                  blurRadius: 20.r,
                   offset: const Offset(0, 10),
                 ),
               ],
@@ -385,7 +436,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
             child: Column(
               children: [
                 Text(experiment['emoji'], style: const TextStyle(fontSize: 70)),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Text(
                   experiment['name'],
                   style: GoogleFonts.poppins(
@@ -394,12 +445,15 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                     color: experiment['color'],
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildDetailTag('⏱️ ${experiment['time']}', experiment['color']),
-                    const SizedBox(width: 8),
+                    _buildDetailTag(
+                      '⏱️ ${experiment['time']}',
+                      experiment['color'],
+                    ),
+                    SizedBox(width: 8.w),
                     _buildDetailTag(
                       experiment['safetyLevel'] == 'Adult Help Needed'
                           ? '👨‍👩‍👧 Adult Help'
@@ -413,24 +467,29 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Materials
-          _buildSection('🛠️', 'You\'ll Need:', experiment['materials'], experiment['color']),
+          _buildSection(
+            '🛠️',
+            'You\'ll Need:',
+            experiment['materials'],
+            experiment['color'],
+          ),
           // Steps
           _buildStepsSection(experiment),
           // Science
           Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 16.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: experiment['color'].withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('🔬', style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -444,9 +503,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                       ),
                       Text(
                         experiment['science'],
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                        ),
+                        style: GoogleFonts.nunito(color: Colors.white),
                       ),
                     ],
                   ),
@@ -456,17 +513,17 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
           ),
           // Try This
           Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 16.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.amber.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: Colors.amber, width: 2),
             ),
             child: Row(
               children: [
                 const Text('💡', style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,9 +537,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                       ),
                       Text(
                         experiment['tryThis'],
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                        ),
+                        style: GoogleFonts.nunito(color: Colors.white),
                       ),
                     ],
                   ),
@@ -501,8 +556,8 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: experiment['color'],
                   colorText: Colors.white,
-                  margin: const EdgeInsets.all(16),
-                  borderRadius: 12,
+                  margin: EdgeInsets.all(16.r),
+                  borderRadius: 12.r,
                 );
               },
               icon: const Text('🚀', style: TextStyle(fontSize: 20)),
@@ -516,9 +571,9 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: experiment['color'],
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
               ),
             ),
@@ -530,10 +585,10 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
 
   Widget _buildDetailTag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(
         text,
@@ -546,13 +601,18 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
     );
   }
 
-  Widget _buildSection(String emoji, String title, List<dynamic> items, Color color) {
+  Widget _buildSection(
+    String emoji,
+    String title,
+    List<dynamic> items,
+    Color color,
+  ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -560,7 +620,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
           Row(
             children: [
               Text(emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 title,
                 style: GoogleFonts.poppins(
@@ -571,16 +631,16 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 8.r,
+            runSpacing: 8.r,
             children: items.map<Widget>((item) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Text(
                   item,
@@ -599,11 +659,11 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
 
   Widget _buildStepsSection(Map<String, dynamic> experiment) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -611,7 +671,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
           Row(
             children: [
               const Text('📝', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 'Steps:',
                 style: GoogleFonts.poppins(
@@ -622,16 +682,16 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           ...List.generate((experiment['steps'] as List).length, (index) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(bottom: 10.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 28,
-                    height: 28,
+                    width: 28.w,
+                    height: 28.h,
                     decoration: BoxDecoration(
                       color: experiment['color'],
                       shape: BoxShape.circle,
@@ -647,7 +707,7 @@ class _HomeExperimentsPageState extends State<HomeExperimentsPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       experiment['steps'][index],

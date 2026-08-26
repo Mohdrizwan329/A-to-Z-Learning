@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/leaderboard_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({super.key});
 
@@ -75,32 +77,43 @@ class _LeaderboardPageState extends State<LeaderboardPage>
   Widget build(BuildContext context) {
     if (!_isInitialized) {
       return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.back(),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+          child: const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
         ),
       );
     }
@@ -132,26 +145,32 @@ class _LeaderboardPageState extends State<LeaderboardPage>
               child: Column(
                 children: [
                   // User's current rank card with float animation
-                  _buildFloatingCard(
-                    index: 0,
-                    child: _buildUserRankCard(),
-                  ),
+                  _buildFloatingCard(index: 0, child: _buildUserRankCard()),
 
                   // Leaderboard tabs
                   Expanded(
                     child: Obx(() {
                       if (_leaderboardService.isLoading.value) {
                         return Center(
+                          // In landscape this sits in a 60pt-tall slot, so the
+                          // spinner and its caption shrink to fit rather than
+                          // overflowing.
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const CircularProgressIndicator(color: Colors.white),
-                              const SizedBox(height: 16),
-                              Text(
-                                'Loading leaderboard...',
-                                style: GoogleFonts.nunito(
-                                  color: Colors.white,
-                                  fontSize: 14,
+                              const CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 16.h),
+                              Flexible(
+                                child: Text(
+                                  'Loading leaderboard...',
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -163,9 +182,13 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                         controller: _tabController,
                         children: [
                           _buildLeaderboardList(
-                              _leaderboardService.globalLeaderboard, false),
+                            _leaderboardService.globalLeaderboard,
+                            false,
+                          ),
                           _buildLeaderboardList(
-                              _leaderboardService.weeklyLeaderboard, true),
+                            _leaderboardService.weeklyLeaderboard,
+                            true,
+                          ),
                           _buildFriendsLeaderboard(),
                         ],
                       );
@@ -191,7 +214,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -215,11 +239,10 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     return AnimatedBuilder(
       animation: _floatAnimation,
       builder: (context, _) {
-        final offset = index.isEven ? _floatAnimation.value : -_floatAnimation.value;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        final offset = index.isEven
+            ? _floatAnimation.value
+            : -_floatAnimation.value;
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
     );
   }
@@ -231,93 +254,97 @@ class _LeaderboardPageState extends State<LeaderboardPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Leader',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Leader',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'board',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'board',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
-            child: const Icon(Icons.refresh_rounded, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh_rounded, color: Colors.white, size: 20.r),
           ),
           onPressed: () => _leaderboardService.refreshLeaderboards(),
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
       ],
       bottom: TabBar(
         controller: _tabController,
         indicatorColor: Colors.white,
-        indicatorWeight: 3,
+        indicatorWeight: 3.r,
         indicatorSize: TabBarIndicatorSize.label,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white.withValues(alpha: 0.6),
@@ -329,7 +356,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           fontWeight: FontWeight.w500,
           fontSize: 15,
         ),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+        labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
         tabs: const [
           Tab(text: 'Global'),
           Tab(text: 'Weekly'),
@@ -349,19 +376,19 @@ class _LeaderboardPageState extends State<LeaderboardPage>
       final tierInfo = LeaderboardService.tierInfo[tier]!;
 
       return Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(20),
+        margin: EdgeInsets.all(16.r),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFFFFD700).withValues(alpha: 0.4),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: const Offset(0, 8),
             ),
           ],
@@ -370,11 +397,11 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           children: [
             // Decorative circle
             Positioned(
-              top: -20,
-              right: -20,
+              top: -20.h,
+              right: -20.w,
               child: Container(
-                width: 80,
-                height: 80,
+                width: 80.w,
+                height: 80.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -385,8 +412,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
               children: [
                 // Rank badge
                 Container(
-                  width: 70,
-                  height: 70,
+                  width: 70.w,
+                  height: 70.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -415,7 +442,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                           ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,15 +455,15 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6.h),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -445,13 +472,16 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                               tierInfo.emoji,
                               style: const TextStyle(fontSize: 16),
                             ),
-                            const SizedBox(width: 6),
-                            Text(
-                              tierInfo.name,
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                            SizedBox(width: 6.w),
+                            Flexible(
+                              child: Text(
+                                tierInfo.name,
+                                style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
@@ -461,13 +491,13 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 10.h,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Column(
                     children: [
@@ -505,8 +535,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 100,
-              height: 100,
+              width: 100.w,
+              height: 100.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
@@ -515,7 +545,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 child: Text("📊", style: TextStyle(fontSize: 50)),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Text(
               'No entries yet',
               style: GoogleFonts.baloo2(
@@ -524,7 +554,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Complete lessons to earn points!',
               style: GoogleFonts.nunito(
@@ -538,18 +568,17 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: entries.length,
       itemBuilder: (context, index) {
         final entry = entries[index];
         return AnimatedBuilder(
           animation: _floatAnimation,
           builder: (context, child) {
-            final offset = index.isEven ? _floatAnimation.value * 0.4 : -_floatAnimation.value * 0.4;
-            return Transform.translate(
-              offset: Offset(0, offset),
-              child: child,
-            );
+            final offset = index.isEven
+                ? _floatAnimation.value * 0.4
+                : -_floatAnimation.value * 0.4;
+            return Transform.translate(offset: Offset(0, offset), child: child);
           },
           child: _buildLeaderboardItem(entry, isWeekly, index),
         );
@@ -557,7 +586,11 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     );
   }
 
-  Widget _buildLeaderboardItem(LeaderboardEntry entry, bool isWeekly, int index) {
+  Widget _buildLeaderboardItem(
+    LeaderboardEntry entry,
+    bool isWeekly,
+    int index,
+  ) {
     final tier = _leaderboardService.getUserTier(entry.totalPoints);
     final tierInfo = LeaderboardService.tierInfo[tier]!;
     final points = entry.getDisplayPoints(isWeekly);
@@ -575,18 +608,18 @@ class _LeaderboardPageState extends State<LeaderboardPage>
         : cardGradients[index % cardGradients.length];
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: gradient,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: gradient[0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -595,11 +628,11 @@ class _LeaderboardPageState extends State<LeaderboardPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -15,
-            right: -15,
+            top: -15.h,
+            right: -15.w,
             child: Container(
-              width: 50,
-              height: 50,
+              width: 50.w,
+              height: 50.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -607,19 +640,16 @@ class _LeaderboardPageState extends State<LeaderboardPage>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14.r),
             child: Row(
               children: [
                 // Rank
-                SizedBox(
-                  width: 45,
-                  child: _buildRankBadge(entry.rank),
-                ),
-                const SizedBox(width: 12),
+                SizedBox(width: 45.w, child: _buildRankBadge(entry.rank)),
+                SizedBox(width: 12.w),
                 // Avatar
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -631,7 +661,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 // Name and tier
                 Expanded(
                   child: Column(
@@ -647,15 +677,15 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2.h),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
                           tierInfo.name,
@@ -671,10 +701,13 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 ),
                 // Points
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: Column(
                     children: [
@@ -708,44 +741,38 @@ class _LeaderboardPageState extends State<LeaderboardPage>
   Widget _buildRankBadge(int rank) {
     if (rank == 1) {
       return Container(
-        width: 40,
-        height: 40,
+        width: 40.w,
+        height: 40.h,
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.3),
           shape: BoxShape.circle,
         ),
-        child: const Center(
-          child: Text("🥇", style: TextStyle(fontSize: 28)),
-        ),
+        child: const Center(child: Text("🥇", style: TextStyle(fontSize: 28))),
       );
     } else if (rank == 2) {
       return Container(
-        width: 40,
-        height: 40,
+        width: 40.w,
+        height: 40.h,
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.3),
           shape: BoxShape.circle,
         ),
-        child: const Center(
-          child: Text("🥈", style: TextStyle(fontSize: 28)),
-        ),
+        child: const Center(child: Text("🥈", style: TextStyle(fontSize: 28))),
       );
     } else if (rank == 3) {
       return Container(
-        width: 40,
-        height: 40,
+        width: 40.w,
+        height: 40.h,
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.3),
           shape: BoxShape.circle,
         ),
-        child: const Center(
-          child: Text("🥉", style: TextStyle(fontSize: 28)),
-        ),
+        child: const Center(child: Text("🥉", style: TextStyle(fontSize: 28))),
       );
     } else {
       return Container(
-        width: 38,
-        height: 38,
+        width: 38.w,
+        height: 38.h,
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.3),
           shape: BoxShape.circle,
@@ -773,8 +800,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 100,
-              height: 100,
+              width: 100.w,
+              height: 100.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
@@ -783,7 +810,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 child: Text("👥", style: TextStyle(fontSize: 50)),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Text(
               'No friends yet',
               style: GoogleFonts.baloo2(
@@ -792,7 +819,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'Add friends to compete!',
               style: GoogleFonts.nunito(
@@ -800,7 +827,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 fontSize: 14,
               ),
             ),
-            const SizedBox(height: 28),
+            SizedBox(height: 28.h),
             _buildFloatingCard(
               index: 1,
               child: _buildActionButton(
@@ -810,7 +837,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 onTap: _showAddFriendDialog,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             _buildFloatingCard(
               index: 2,
               child: _buildActionButton(
@@ -828,7 +855,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
           child: Row(
             children: [
               Expanded(
@@ -839,7 +866,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                   onTap: _showAddFriendDialog,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: _buildSmallActionButton(
                   icon: Icons.share_rounded,
@@ -853,13 +880,15 @@ class _LeaderboardPageState extends State<LeaderboardPage>
         ),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             itemCount: friends.length,
             itemBuilder: (context, index) {
               return AnimatedBuilder(
                 animation: _floatAnimation,
                 builder: (context, child) {
-                  final offset = index.isEven ? _floatAnimation.value * 0.4 : -_floatAnimation.value * 0.4;
+                  final offset = index.isEven
+                      ? _floatAnimation.value * 0.4
+                      : -_floatAnimation.value * 0.4;
                   return Transform.translate(
                     offset: Offset(0, offset),
                     child: child,
@@ -883,18 +912,18 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 14.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -902,8 +931,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 22),
-            const SizedBox(width: 10),
+            Icon(icon, color: Colors.white, size: 22.r),
+            SizedBox(width: 10.w),
             Text(
               label,
               style: GoogleFonts.poppins(
@@ -927,18 +956,18 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -946,8 +975,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: 18),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 18.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: GoogleFonts.poppins(
@@ -966,22 +995,24 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     _friendCodeController.clear();
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.white,
         title: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 44.w,
+              height: 44.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: cardGradients[2]),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: const Center(
                 child: Text("👥", style: TextStyle(fontSize: 24)),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Text(
               'Add Friend',
               style: GoogleFonts.baloo2(
@@ -1002,7 +1033,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 color: Colors.grey.shade600,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             TextField(
               controller: _friendCodeController,
               decoration: InputDecoration(
@@ -1011,7 +1042,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 filled: true,
                 fillColor: Colors.grey.shade100,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(14.r),
                   borderSide: BorderSide.none,
                 ),
                 prefixIcon: Icon(Icons.tag_rounded, color: cardGradients[2][0]),
@@ -1043,18 +1074,20 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 result.success ? 'Success!' : 'Error',
                 result.message,
                 snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: result.success ? cardGradients[2][0] : Colors.red,
+                backgroundColor: result.success
+                    ? cardGradients[2][0]
+                    : Colors.red,
                 colorText: Colors.white,
-                margin: const EdgeInsets.all(16),
-                borderRadius: 14,
+                margin: EdgeInsets.all(16.r),
+                borderRadius: 14.r,
               );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: cardGradients[2][0],
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
             ),
             child: Text(
@@ -1072,22 +1105,24 @@ class _LeaderboardPageState extends State<LeaderboardPage>
 
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.white,
         title: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 44.w,
+              height: 44.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: cardGradients[6]),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: const Center(
                 child: Text("🎫", style: TextStyle(fontSize: 24)),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Text(
               'Your Friend Code',
               style: GoogleFonts.baloo2(
@@ -1108,10 +1143,10 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                 color: Colors.grey.shade600,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -1119,11 +1154,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
                     cardGradients[6][1].withValues(alpha: 0.2),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: cardGradients[6][0],
-                  width: 2,
-                ),
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: cardGradients[6][0], width: 2),
               ),
               child: Center(
                 child: Text(
@@ -1143,7 +1175,7 @@ class _LeaderboardPageState extends State<LeaderboardPage>
           TextButton(
             onPressed: () => Get.back(),
             style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
             ),
             child: Text(
               'Close',

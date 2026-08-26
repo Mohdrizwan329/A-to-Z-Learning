@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ComputerAwarenessPage extends StatefulWidget {
   const ComputerAwarenessPage({super.key});
 
@@ -27,7 +29,8 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       'emoji': '🖥️',
       'subtitle': 'Introduction',
       'color': Color(0xFF2196F3),
-      'content': 'A computer is an electronic machine that can store, process, and display information!',
+      'content':
+          'A computer is an electronic machine that can store, process, and display information!',
       'parts': [
         {'name': 'Brain', 'computer': 'CPU', 'emoji': '🧠'},
         {'name': 'Memory', 'computer': 'RAM', 'emoji': '💭'},
@@ -56,10 +59,30 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       'subtitle': 'Different Kinds',
       'color': Color(0xFF9C27B0),
       'types': [
-        {'name': 'Desktop', 'emoji': '🖥️', 'desc': 'Stays on a desk', 'good': 'Big screen, powerful'},
-        {'name': 'Laptop', 'emoji': '💻', 'desc': 'Portable computer', 'good': 'Take anywhere'},
-        {'name': 'Tablet', 'emoji': '📱', 'desc': 'Touch screen', 'good': 'Easy to carry'},
-        {'name': 'Smartphone', 'emoji': '📲', 'desc': 'Mini computer + phone', 'good': 'Fits in pocket'},
+        {
+          'name': 'Desktop',
+          'emoji': '🖥️',
+          'desc': 'Stays on a desk',
+          'good': 'Big screen, powerful',
+        },
+        {
+          'name': 'Laptop',
+          'emoji': '💻',
+          'desc': 'Portable computer',
+          'good': 'Take anywhere',
+        },
+        {
+          'name': 'Tablet',
+          'emoji': '📱',
+          'desc': 'Touch screen',
+          'good': 'Easy to carry',
+        },
+        {
+          'name': 'Smartphone',
+          'emoji': '📲',
+          'desc': 'Mini computer + phone',
+          'good': 'Fits in pocket',
+        },
       ],
     },
     {
@@ -68,14 +91,34 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       'subtitle': 'Super Powers',
       'color': Color(0xFFFF9800),
       'abilities': [
-        {'action': 'Write', 'emoji': '✍️', 'example': 'Type stories and homework'},
+        {
+          'action': 'Write',
+          'emoji': '✍️',
+          'example': 'Type stories and homework',
+        },
         {'action': 'Draw', 'emoji': '🎨', 'example': 'Create digital art'},
         {'action': 'Play', 'emoji': '🎮', 'example': 'Fun games and puzzles'},
-        {'action': 'Learn', 'emoji': '📚', 'example': 'Watch educational videos'},
-        {'action': 'Talk', 'emoji': '💬', 'example': 'Video call friends & family'},
-        {'action': 'Calculate', 'emoji': '🔢', 'example': 'Solve math problems'},
+        {
+          'action': 'Learn',
+          'emoji': '📚',
+          'example': 'Watch educational videos',
+        },
+        {
+          'action': 'Talk',
+          'emoji': '💬',
+          'example': 'Video call friends & family',
+        },
+        {
+          'action': 'Calculate',
+          'emoji': '🔢',
+          'example': 'Solve math problems',
+        },
         {'action': 'Store', 'emoji': '📁', 'example': 'Keep photos and files'},
-        {'action': 'Search', 'emoji': '🔍', 'example': 'Find information online'},
+        {
+          'action': 'Search',
+          'emoji': '🔍',
+          'example': 'Find information online',
+        },
       ],
     },
     {
@@ -84,12 +127,36 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       'subtitle': 'Safety Rules',
       'color': Color(0xFFE91E63),
       'rules': [
-        {'rule': 'Keep food and drinks away', 'emoji': '🍔🚫', 'why': 'Spills can damage computers'},
-        {'rule': 'Wash hands before using', 'emoji': '🧼', 'why': 'Keeps keyboard clean'},
-        {'rule': 'Handle gently', 'emoji': '🤲', 'why': 'Computers are delicate'},
-        {'rule': 'Turn off properly', 'emoji': '⚡', 'why': 'Helps computer last longer'},
-        {'rule': 'Keep screen clean', 'emoji': '✨', 'why': 'Better to see things'},
-        {'rule': 'Don\'t touch screen with fingers', 'emoji': '👆🚫', 'why': 'Leaves marks'},
+        {
+          'rule': 'Keep food and drinks away',
+          'emoji': '🍔🚫',
+          'why': 'Spills can damage computers',
+        },
+        {
+          'rule': 'Wash hands before using',
+          'emoji': '🧼',
+          'why': 'Keeps keyboard clean',
+        },
+        {
+          'rule': 'Handle gently',
+          'emoji': '🤲',
+          'why': 'Computers are delicate',
+        },
+        {
+          'rule': 'Turn off properly',
+          'emoji': '⚡',
+          'why': 'Helps computer last longer',
+        },
+        {
+          'rule': 'Keep screen clean',
+          'emoji': '✨',
+          'why': 'Better to see things',
+        },
+        {
+          'rule': 'Don\'t touch screen with fingers',
+          'emoji': '👆🚫',
+          'why': 'Leaves marks',
+        },
       ],
     },
     {
@@ -98,14 +165,38 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       'subtitle': 'Vocabulary',
       'color': Color(0xFF00BCD4),
       'vocabulary': [
-        {'word': 'Software', 'meaning': 'Programs that run on computer', 'emoji': '💿'},
+        {
+          'word': 'Software',
+          'meaning': 'Programs that run on computer',
+          'emoji': '💿',
+        },
         {'word': 'Hardware', 'meaning': 'Parts you can touch', 'emoji': '🔧'},
-        {'word': 'File', 'meaning': 'A saved document or picture', 'emoji': '📄'},
-        {'word': 'Folder', 'meaning': 'Holds many files together', 'emoji': '📁'},
-        {'word': 'Icon', 'meaning': 'Small picture you can click', 'emoji': '🖼️'},
-        {'word': 'Desktop', 'meaning': 'Main screen when computer starts', 'emoji': '🏠'},
+        {
+          'word': 'File',
+          'meaning': 'A saved document or picture',
+          'emoji': '📄',
+        },
+        {
+          'word': 'Folder',
+          'meaning': 'Holds many files together',
+          'emoji': '📁',
+        },
+        {
+          'word': 'Icon',
+          'meaning': 'Small picture you can click',
+          'emoji': '🖼️',
+        },
+        {
+          'word': 'Desktop',
+          'meaning': 'Main screen when computer starts',
+          'emoji': '🏠',
+        },
         {'word': 'Browser', 'meaning': 'Used to go on internet', 'emoji': '🌐'},
-        {'word': 'Download', 'meaning': 'Get something from internet', 'emoji': '⬇️'},
+        {
+          'word': 'Download',
+          'meaning': 'Get something from internet',
+          'emoji': '⬇️',
+        },
       ],
     },
     {
@@ -115,11 +206,23 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       'color': Color(0xFF795548),
       'facts': [
         {'fact': 'The first mouse was made of wood!', 'emoji': '🪵'},
-        {'fact': 'Computers can do millions of calculations per second', 'emoji': '⚡'},
-        {'fact': 'The word "bug" came from a real bug in a computer', 'emoji': '🐛'},
+        {
+          'fact': 'Computers can do millions of calculations per second',
+          'emoji': '⚡',
+        },
+        {
+          'fact': 'The word "bug" came from a real bug in a computer',
+          'emoji': '🐛',
+        },
         {'fact': 'The first computer game was made in 1962', 'emoji': '🎮'},
-        {'fact': 'Smartphones are more powerful than old supercomputers', 'emoji': '📱'},
-        {'fact': 'There are over 2 billion computers in the world', 'emoji': '🌍'},
+        {
+          'fact': 'Smartphones are more powerful than old supercomputers',
+          'emoji': '📱',
+        },
+        {
+          'fact': 'There are over 2 billion computers in the world',
+          'emoji': '🌍',
+        },
       ],
     },
   ];
@@ -148,12 +251,12 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             ProgressService.to.resetProgress(ProgressService.kComputerBasics);
@@ -170,43 +273,50 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
               Obx(() {
                 final progress =
                     ProgressService.to.getProgressPercentage(
-                          ProgressService.kComputerBasics,
-                        ) /
-                        100;
+                      ProgressService.kComputerBasics,
+                    ) /
+                    100;
                 final progressString = ProgressService.to.getProgressString(
                   ProgressService.kComputerBasics,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
@@ -220,11 +330,11 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
               // Grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: sections.length,
@@ -254,10 +364,12 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
                               ProgressService.kComputerBasics,
                               index,
                             );
-                            Get.to(() => _ComputerBasicsDetailPage(
-                                  section: section,
-                                  sectionIndex: index,
-                                ));
+                            Get.to(
+                              () => _ComputerBasicsDetailPage(
+                                section: section,
+                                sectionIndex: index,
+                              ),
+                            );
                           },
                           child: Stack(
                             children: [
@@ -266,10 +378,12 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 65,
-                                      height: 65,
+                                      width: 65.w,
+                                      height: 65.h,
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.25),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
@@ -279,45 +393,53 @@ class _ComputerAwarenessPageState extends State<ComputerAwarenessPage>
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      section['subtitle'],
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 11,
-                                        color: Colors.white.withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w600,
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
                               ),
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 4,
-                                  right: 4,
+                                  bottom: 4.h,
+                                  right: 4.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(2),
+                                    padding: EdgeInsets.all(2.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 12,
+                                      size: 12.r,
                                     ),
                                   ),
                                 ),
@@ -420,27 +542,30 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         children: [
           ..._buildFloatingBubbles(),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 // Header card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 20,
+                        blurRadius: 20.r,
                         offset: const Offset(0, 10),
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
-                      Text(section['emoji'], style: const TextStyle(fontSize: 50)),
-                      const SizedBox(height: 12),
+                      Text(
+                        section['emoji'],
+                        style: const TextStyle(fontSize: 50),
+                      ),
+                      SizedBox(height: 12.h),
                       Text(
                         section['title'],
                         style: GoogleFonts.poppins(
@@ -451,7 +576,7 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
                         textAlign: TextAlign.center,
                       ),
                       if (section.containsKey('content')) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         Text(
                           section['content'],
                           style: GoogleFonts.nunito(
@@ -464,7 +589,7 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildContent(),
               ],
             ),
@@ -504,19 +629,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -524,7 +649,7 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
               child: Row(
                 children: [
                   Text(part['emoji'], style: const TextStyle(fontSize: 28)),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       'Your ${part['name']} = Computer\'s ${part['computer']}',
@@ -540,23 +665,21 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('💡', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['fact'],
-                  style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: GoogleFonts.nunito(fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -574,19 +697,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -594,14 +717,17 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
                     shape: BoxShape.circle,
                   ),
-                  child: Text(part['emoji'], style: const TextStyle(fontSize: 28)),
+                  child: Text(
+                    part['emoji'],
+                    style: const TextStyle(fontSize: 28),
+                  ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -640,19 +766,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -660,17 +786,20 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Center(
-                    child: Text(type['emoji'], style: const TextStyle(fontSize: 32)),
+                    child: Text(
+                      type['emoji'],
+                      style: const TextStyle(fontSize: 32),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -690,11 +819,14 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 4),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        margin: EdgeInsets.only(top: 4.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                         child: Text(
                           '✓ ${type['good']}',
@@ -724,19 +856,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -744,14 +876,17 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
                     shape: BoxShape.circle,
                   ),
-                  child: Text(ability['emoji'], style: const TextStyle(fontSize: 24)),
+                  child: Text(
+                    ability['emoji'],
+                    style: const TextStyle(fontSize: 24),
+                  ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -789,19 +924,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -809,7 +944,7 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             child: Row(
               children: [
                 Text(rule['emoji'], style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -848,19 +983,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -868,17 +1003,20 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 45,
-                  height: 45,
+                  width: 45.w,
+                  height: 45.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
-                    child: Text(vocab['emoji'], style: const TextStyle(fontSize: 24)),
+                    child: Text(
+                      vocab['emoji'],
+                      style: const TextStyle(fontSize: 24),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -916,19 +1054,19 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -936,8 +1074,8 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 40.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
                     shape: BoxShape.circle,
@@ -952,7 +1090,7 @@ class _ComputerBasicsDetailPageState extends State<_ComputerBasicsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Text(
                     fact['fact'],

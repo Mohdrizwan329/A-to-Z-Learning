@@ -6,6 +6,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SensoryLearningPage extends StatefulWidget {
   const SensoryLearningPage({super.key});
 
@@ -29,7 +31,12 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
       emoji: '👋',
       color: Colors.orange,
       items: [
-        SensoryItem('Soft', '🧸', 'Teddy bear is soft and fluffy', Colors.brown),
+        SensoryItem(
+          'Soft',
+          '🧸',
+          'Teddy bear is soft and fluffy',
+          Colors.brown,
+        ),
         SensoryItem('Hard', '🪨', 'Rock is hard and solid', Colors.grey),
         SensoryItem('Smooth', '🥚', 'Egg is smooth and round', Colors.white),
         SensoryItem('Rough', '🪵', 'Wood bark is rough', Colors.brown),
@@ -37,7 +44,12 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         SensoryItem('Dry', '🏜️', 'Sand is dry and warm', Colors.amber),
         SensoryItem('Sticky', '🍯', 'Honey is sticky and sweet', Colors.orange),
         SensoryItem('Slimy', '🐌', 'Snail leaves slimy trail', Colors.green),
-        SensoryItem('Fluffy', '☁️', 'Cloud looks fluffy and soft', Colors.white),
+        SensoryItem(
+          'Fluffy',
+          '☁️',
+          'Cloud looks fluffy and soft',
+          Colors.white,
+        ),
         SensoryItem('Bumpy', '🥒', 'Cucumber skin is bumpy', Colors.green),
         SensoryItem('Fuzzy', '🍑', 'Peach skin is fuzzy', Colors.orange),
         SensoryItem('Prickly', '🌵', 'Cactus is prickly', Colors.green),
@@ -72,9 +84,19 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         SensoryItem('Ringing', '📞', 'Phone rings loudly', Colors.blue),
         SensoryItem('Squeaking', '🐭', 'Mouse squeaks softly', Colors.grey),
         SensoryItem('Thundering', '⛈️', 'Thunder is very loud', Colors.indigo),
-        SensoryItem('Whistling', '🎶', 'Wind whistles through trees', Colors.cyan),
+        SensoryItem(
+          'Whistling',
+          '🎶',
+          'Wind whistles through trees',
+          Colors.cyan,
+        ),
         SensoryItem('Clapping', '👏', 'Hands clap together', Colors.pink),
-        SensoryItem('Snoring', '😴', 'Sleeping makes snoring sounds', Colors.purple),
+        SensoryItem(
+          'Snoring',
+          '😴',
+          'Sleeping makes snoring sounds',
+          Colors.purple,
+        ),
         SensoryItem('Giggling', '😄', 'Children giggle happily', Colors.yellow),
       ],
     ),
@@ -95,10 +117,20 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         SensoryItem('Crunchy', '🥕', 'Carrot is crunchy', Colors.orange),
         SensoryItem('Juicy', '🍇', 'Grapes are juicy', Colors.purple),
         SensoryItem('Minty', '🌿', 'Mint tastes fresh and cool', Colors.green),
-        SensoryItem('Chocolatey', '🍫', 'Chocolate is rich and sweet', Colors.brown),
+        SensoryItem(
+          'Chocolatey',
+          '🍫',
+          'Chocolate is rich and sweet',
+          Colors.brown,
+        ),
         SensoryItem('Fruity', '🍓', 'Strawberry is fruity', Colors.red),
         SensoryItem('Nutty', '🥜', 'Peanut has nutty taste', Colors.brown),
-        SensoryItem('Buttery', '🧈', 'Butter is rich and smooth', Colors.yellow),
+        SensoryItem(
+          'Buttery',
+          '🧈',
+          'Butter is rich and smooth',
+          Colors.yellow,
+        ),
         SensoryItem('Cheesy', '🧀', 'Cheese has strong flavor', Colors.yellow),
         SensoryItem('Fizzy', '🥤', 'Soda is fizzy', Colors.brown),
         SensoryItem('Bland', '🥖', 'Bread can be bland', Colors.brown),
@@ -116,7 +148,12 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         SensoryItem('Fruity', '🍎', 'Apple smells fruity', Colors.red),
         SensoryItem('Earthy', '🌍', 'Rain on soil smells earthy', Colors.brown),
         SensoryItem('Citrus', '🍊', 'Orange smells citrusy', Colors.orange),
-        SensoryItem('Floral', '🌸', 'Cherry blossom smells floral', Colors.pink),
+        SensoryItem(
+          'Floral',
+          '🌸',
+          'Cherry blossom smells floral',
+          Colors.pink,
+        ),
         SensoryItem('Smoky', '🔥', 'Campfire smells smoky', Colors.grey),
         SensoryItem('Spicy', '🌶️', 'Peppers smell spicy', Colors.red),
         SensoryItem('Woody', '🌲', 'Pine trees smell woody', Colors.green),
@@ -126,7 +163,12 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         SensoryItem('Coffee', '☕', 'Coffee has strong smell', Colors.brown),
         SensoryItem('Vanilla', '🍨', 'Vanilla is sweet smell', Colors.yellow),
         SensoryItem('Minty', '🫛', 'Peppermint smells minty', Colors.green),
-        SensoryItem('Grassy', '🌱', 'Fresh cut grass smells grassy', Colors.green),
+        SensoryItem(
+          'Grassy',
+          '🌱',
+          'Fresh cut grass smells grassy',
+          Colors.green,
+        ),
         SensoryItem('Perfumy', '💐', 'Flowers smell perfumy', Colors.purple),
         SensoryItem('Musky', '🦌', 'Forest smells musky', Colors.brown),
         SensoryItem('Clean', '🧼', 'Soap smells clean', Colors.blue),
@@ -203,7 +245,10 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
       setState(() {
         _visitedItems[categoryIndex]!.add(itemIndex);
       });
-      _box.write('sensory_progress_$categoryIndex', _visitedItems[categoryIndex]!.toList());
+      _box.write(
+        'sensory_progress_$categoryIndex',
+        _visitedItems[categoryIndex]!.toList(),
+      );
     }
   }
 
@@ -260,24 +305,26 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
   void _showItemDetail(SensoryItem item) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -286,7 +333,7 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                   child: Text(item.emoji, style: const TextStyle(fontSize: 60)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 item.name,
                 style: const TextStyle(
@@ -295,13 +342,13 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 item.description,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16, color: Colors.white70),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -335,20 +382,20 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 20.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: const TextStyle(
@@ -384,15 +431,15 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -418,16 +465,12 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -436,14 +479,20 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: _categories.map((cat) {
             return Tab(
-              child: Text(cat.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(
+                cat.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             );
           }).toList(),
         ),
@@ -467,18 +516,22 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
             children: [
               // Progress bar with percentage
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        // The reader's font size can be 30% larger than this row was drawn for.
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -491,12 +544,12 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: _progressPercentage,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -509,11 +562,11 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
               // Sensory items grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: category.items.length,
@@ -548,11 +601,11 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -560,11 +613,11 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -573,8 +626,8 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -583,8 +636,8 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                                         CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        width: 75,
-                                        height: 75,
+                                        width: 75.w,
+                                        height: 75.h,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withValues(
                                             alpha: 0.3,
@@ -600,7 +653,7 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       Text(
                                         item.name,
                                         style: const TextStyle(
@@ -618,12 +671,15 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                                 ),
                               ),
                               // Checkmark badge when visited
-                              if (_visitedItems[_currentCategory]?.contains(index) == true)
+                              if (_visitedItems[_currentCategory]?.contains(
+                                    index,
+                                  ) ==
+                                  true)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
@@ -631,7 +687,7 @@ class _SensoryLearningPageState extends State<SensoryLearningPage>
                                     child: Icon(
                                       Icons.check,
                                       color: gradient[0],
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),

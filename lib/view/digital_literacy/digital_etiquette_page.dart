@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class DigitalEtiquettePage extends StatefulWidget {
   const DigitalEtiquettePage({super.key});
 
@@ -32,20 +34,14 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
       'comparison': [
         {
           'real': 'Say please and thank you',
-          'digital': 'Use kind words in messages'
+          'digital': 'Use kind words in messages',
         },
         {
           'real': 'Don\'t yell at people',
-          'digital': 'Don\'t write in ALL CAPS'
+          'digital': 'Don\'t write in ALL CAPS',
         },
-        {
-          'real': 'Wait your turn',
-          'digital': 'Don\'t interrupt video calls'
-        },
-        {
-          'real': 'Be respectful',
-          'digital': 'Treat everyone kindly online'
-        },
+        {'real': 'Wait your turn', 'digital': 'Don\'t interrupt video calls'},
+        {'real': 'Be respectful', 'digital': 'Treat everyone kindly online'},
       ],
     },
     {
@@ -62,10 +58,7 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
       ],
       'donts': [
         {'rule': 'Don\'t send too many messages', 'emoji': '📧❌'},
-        {
-          'rule': 'Don\'t use ALL CAPS (it\'s shouting!)',
-          'emoji': '🗣️❌'
-        },
+        {'rule': 'Don\'t use ALL CAPS (it\'s shouting!)', 'emoji': '🗣️❌'},
         {'rule': 'Don\'t share mean messages', 'emoji': '😠❌'},
         {'rule': 'Don\'t send before thinking', 'emoji': '🤔'},
       ],
@@ -133,22 +126,10 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
       'color': Color(0xFF00BCD4),
       'parts': [
         {'part': 'To', 'desc': 'Who gets the email', 'emoji': '👤'},
-        {
-          'part': 'Subject',
-          'desc': 'What it\'s about',
-          'emoji': '📋'
-        },
-        {
-          'part': 'Greeting',
-          'desc': 'Say hi! (Dear..., Hi...)',
-          'emoji': '👋'
-        },
+        {'part': 'Subject', 'desc': 'What it\'s about', 'emoji': '📋'},
+        {'part': 'Greeting', 'desc': 'Say hi! (Dear..., Hi...)', 'emoji': '👋'},
         {'part': 'Body', 'desc': 'Your message', 'emoji': '📝'},
-        {
-          'part': 'Closing',
-          'desc': 'End nicely (Best, Thanks)',
-          'emoji': '👍'
-        },
+        {'part': 'Closing', 'desc': 'End nicely (Best, Thanks)', 'emoji': '👍'},
         {'part': 'Signature', 'desc': 'Your name', 'emoji': '✍️'},
       ],
       'tips': [
@@ -164,17 +145,11 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
       'subtitle': 'Be Kind',
       'color': Color(0xFF795548),
       'rules': [
-        {
-          'rule': 'Ask before sharing someone\'s photo',
-          'emoji': '📷'
-        },
+        {'rule': 'Ask before sharing someone\'s photo', 'emoji': '📷'},
         {'rule': 'Respect different opinions', 'emoji': '🤔'},
         {'rule': 'Don\'t make fun of others', 'emoji': '😔❌'},
         {'rule': 'Keep secrets secret', 'emoji': '🤐'},
-        {
-          'rule': 'Give credit when sharing others\' work',
-          'emoji': '🎨'
-        },
+        {'rule': 'Give credit when sharing others\' work', 'emoji': '🎨'},
         {'rule': 'Include everyone', 'emoji': '👫'},
       ],
       'golden':
@@ -222,17 +197,15 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child:
-                const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
-            ProgressService.to
-                .resetProgress(ProgressService.kDigitalEtiquette);
+            ProgressService.to.resetProgress(ProgressService.kDigitalEtiquette);
             setState(() {});
           },
         ),
@@ -245,49 +218,52 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
               Obx(() {
                 final progress =
                     ProgressService.to.getProgressPercentage(
-                          ProgressService.kDigitalEtiquette,
-                        ) /
-                        100;
-                final progressString =
-                    ProgressService.to.getProgressString(
+                      ProgressService.kDigitalEtiquette,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
                   ProgressService.kDigitalEtiquette,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
-                          backgroundColor:
-                              Colors.white.withValues(alpha: 0.2),
-                          valueColor:
-                              const AlwaysStoppedAnimation<Color>(
+                          minHeight: 10.h,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
                           ),
                         ),
@@ -298,24 +274,21 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
               }),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: sections.length,
                   itemBuilder: (context, index) {
                     final section = sections[index];
-                    final gradient =
-                        AppColors.getGradientForIndex(index);
+                    final gradient = AppColors.getGradientForIndex(index);
 
                     return Obx(() {
                       final isSelected = selectedIndex == index;
-                      final isCompleted =
-                          ProgressService.to.isItemCompleted(
+                      final isCompleted = ProgressService.to.isItemCompleted(
                         ProgressService.kDigitalEtiquette,
                         index,
                       );
@@ -335,78 +308,82 @@ class _DigitalEtiquettePageState extends State<DigitalEtiquettePage>
                               ProgressService.kDigitalEtiquette,
                               index,
                             );
-                            Get.to(() =>
-                                _DigitalEtiquetteDetailPage(
-                                  section: section,
-                                  sectionIndex: index,
-                                ));
+                            Get.to(
+                              () => _DigitalEtiquetteDetailPage(
+                                section: section,
+                                sectionIndex: index,
+                              ),
+                            );
                           },
                           child: Stack(
                             children: [
                               Center(
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 65,
-                                      height: 65,
+                                      width: 65.w,
+                                      height: 65.h,
                                       decoration: BoxDecoration(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.25),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
                                         child: Text(
                                           section['emoji'],
-                                          style: const TextStyle(
-                                              fontSize: 32),
+                                          style: const TextStyle(fontSize: 32),
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow:
-                                          TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      section['subtitle'],
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 11,
-                                        color: Colors.white
-                                            .withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w600,
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
                               ),
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 4,
-                                  right: 4,
+                                  bottom: 4.h,
+                                  right: 4.w,
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.all(2),
-                                    decoration:
-                                        const BoxDecoration(
+                                    padding: EdgeInsets.all(2.r),
+                                    decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 12,
+                                      size: 12.r,
                                     ),
                                   ),
                                 ),
@@ -510,27 +487,29 @@ class _DigitalEtiquetteDetailPageState
         children: [
           ..._buildFloatingBubbles(),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 20,
+                        blurRadius: 20.r,
                         offset: const Offset(0, 10),
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
-                      Text(section['emoji'],
-                          style: const TextStyle(fontSize: 50)),
-                      const SizedBox(height: 12),
+                      Text(
+                        section['emoji'],
+                        style: const TextStyle(fontSize: 50),
+                      ),
+                      SizedBox(height: 12.h),
                       Text(
                         section['title'],
                         style: GoogleFonts.poppins(
@@ -541,7 +520,7 @@ class _DigitalEtiquetteDetailPageState
                         textAlign: TextAlign.center,
                       ),
                       if (section.containsKey('content')) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         Text(
                           section['content'],
                           style: GoogleFonts.nunito(
@@ -552,7 +531,7 @@ class _DigitalEtiquetteDetailPageState
                         ),
                       ],
                       if (section.containsKey('intro')) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         Text(
                           section['intro'],
                           style: GoogleFonts.nunito(
@@ -565,7 +544,7 @@ class _DigitalEtiquetteDetailPageState
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildContent(),
               ],
             ),
@@ -600,26 +579,25 @@ class _DigitalEtiquetteDetailPageState
 
   Widget _buildIntro() {
     return Column(
-      children: List.generate(
-          (section['comparison'] as List).length, (index) {
+      children: List.generate((section['comparison'] as List).length, (index) {
         final item = section['comparison'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -648,12 +626,14 @@ class _DigitalEtiquetteDetailPageState
                     ],
                   ),
                 ),
-                const Text('=',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
+                const Text(
+                  '=',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -696,28 +676,27 @@ class _DigitalEtiquetteDetailPageState
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 22)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 22)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       '✅ ${item['rule']}',
@@ -733,38 +712,35 @@ class _DigitalEtiquetteDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Don'ts
-        ...List.generate(
-            (section['donts'] as List).length, (index) {
+        ...List.generate((section['donts'] as List).length, (index) {
           final item = section['donts'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 5);
+          final gradient = AppColors.getGradientForIndex(index + 5);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 22)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 22)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       '❌ ${item['rule']}',
@@ -789,35 +765,33 @@ class _DigitalEtiquetteDetailPageState
     return Column(
       children: [
         // Before
-        ...List.generate(
-            (section['before'] as List).length, (index) {
+        ...List.generate((section['before'] as List).length, (index) {
           final item = section['before'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 22)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 22)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       '🔧 ${item['rule']}',
@@ -833,38 +807,35 @@ class _DigitalEtiquetteDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // During
-        ...List.generate(
-            (section['during'] as List).length, (index) {
+        ...List.generate((section['during'] as List).length, (index) {
           final item = section['during'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 4);
+          final gradient = AppColors.getGradientForIndex(index + 4);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 22)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 22)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       '📹 ${item['rule']}',
@@ -889,35 +860,33 @@ class _DigitalEtiquetteDetailPageState
     return Column(
       children: [
         // Kind actions
-        ...List.generate(
-            (section['kindActions'] as List).length, (index) {
+        ...List.generate((section['kindActions'] as List).length, (index) {
           final item = section['kindActions'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Text(
                     item['action'],
                     style: GoogleFonts.nunito(
@@ -931,24 +900,25 @@ class _DigitalEtiquetteDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         // THINK before post
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(5),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(5)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    5,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -963,27 +933,25 @@ class _DigitalEtiquetteDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 12),
-                ...(section['thinkBeforePost'] as Map)
-                    .entries
-                    .map((entry) {
+                SizedBox(height: 12.h),
+                ...(section['thinkBeforePost'] as Map).entries.map((entry) {
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 6),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 8),
+                    margin: EdgeInsets.only(bottom: 6.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          width: 30,
-                          height: 30,
+                          width: 30.w,
+                          height: 30.h,
                           decoration: BoxDecoration(
-                            color: Colors.white
-                                .withValues(alpha: 0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                             shape: BoxShape.circle,
                           ),
                           child: Center(
@@ -996,7 +964,7 @@ class _DigitalEtiquetteDetailPageState
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10.w),
                         Text(
                           entry.value,
                           style: GoogleFonts.nunito(
@@ -1019,26 +987,25 @@ class _DigitalEtiquetteDetailPageState
   Widget _buildGaming() {
     return Column(
       children: [
-        ...List.generate(
-            (section['rules'] as List).length, (index) {
+        ...List.generate((section['rules'] as List).length, (index) {
           final item = section['rules'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1046,19 +1013,20 @@ class _DigitalEtiquetteDetailPageState
               child: Row(
                 children: [
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 40.w,
+                    height: 40.h,
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Center(
-                      child: Text(item['emoji'],
-                          style: const TextStyle(fontSize: 20)),
+                      child: Text(
+                        item['emoji'],
+                        style: const TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       item['rule'],
@@ -1073,24 +1041,21 @@ class _DigitalEtiquetteDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
-              const Text('🌟',
-                  style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              const Text('🌟', style: TextStyle(fontSize: 28)),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['goodGamer'],
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -1105,26 +1070,25 @@ class _DigitalEtiquetteDetailPageState
     return Column(
       children: [
         // Email parts
-        ...List.generate(
-            (section['parts'] as List).length, (index) {
+        ...List.generate((section['parts'] as List).length, (index) {
           final part = section['parts'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1132,11 +1096,10 @@ class _DigitalEtiquetteDetailPageState
               child: Row(
                 children: [
                   Container(
-                    width: 30,
-                    height: 30,
+                    width: 30.w,
+                    height: 30.h,
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
@@ -1150,11 +1113,10 @@ class _DigitalEtiquetteDetailPageState
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           part['part'],
@@ -1174,31 +1136,31 @@ class _DigitalEtiquetteDetailPageState
                       ],
                     ),
                   ),
-                  Text(part['emoji'],
-                      style: const TextStyle(fontSize: 20)),
+                  Text(part['emoji'], style: const TextStyle(fontSize: 20)),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Tips
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(6),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(6)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    6,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1213,16 +1175,18 @@ class _DigitalEtiquetteDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ...(section['tips'] as List).map((tip) {
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
-                        const Icon(Icons.check_circle,
-                            color: Colors.white70, size: 18),
-                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.white70,
+                          size: 18.r,
+                        ),
+                        SizedBox(width: 8.w),
                         Expanded(
                           child: Text(
                             tip,
@@ -1247,26 +1211,25 @@ class _DigitalEtiquetteDetailPageState
   Widget _buildRespect() {
     return Column(
       children: [
-        ...List.generate(
-            (section['rules'] as List).length, (index) {
+        ...List.generate((section['rules'] as List).length, (index) {
           final item = section['rules'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1274,19 +1237,20 @@ class _DigitalEtiquetteDetailPageState
               child: Row(
                 children: [
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 40.w,
+                    height: 40.h,
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Center(
-                      child: Text(item['emoji'],
-                          style: const TextStyle(fontSize: 20)),
+                      child: Text(
+                        item['emoji'],
+                        style: const TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       item['rule'],
@@ -1302,18 +1266,17 @@ class _DigitalEtiquetteDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             children: [
-              const Text('✨',
-                  style: TextStyle(fontSize: 36)),
-              const SizedBox(height: 8),
+              const Text('✨', style: TextStyle(fontSize: 36)),
+              SizedBox(height: 8.h),
               Text(
                 section['golden'],
                 style: GoogleFonts.poppins(
@@ -1331,26 +1294,25 @@ class _DigitalEtiquetteDetailPageState
 
   Widget _buildChecklist() {
     return Column(
-      children: List.generate(
-          (section['checklist'] as List).length, (index) {
+      children: List.generate((section['checklist'] as List).length, (index) {
         final item = section['checklist'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1358,16 +1320,15 @@ class _DigitalEtiquetteDetailPageState
             child: Row(
               children: [
                 Container(
-                  width: 30,
-                  height: 30,
+                  width: 30.w,
+                  height: 30.h,
                   decoration: const BoxDecoration(
                     color: Colors.white24,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.check,
-                      color: Colors.white, size: 18),
+                  child: Icon(Icons.check, color: Colors.white, size: 18.r),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     item['item'],
@@ -1377,8 +1338,7 @@ class _DigitalEtiquetteDetailPageState
                     ),
                   ),
                 ),
-                Text(item['emoji'],
-                    style: const TextStyle(fontSize: 22)),
+                Text(item['emoji'], style: const TextStyle(fontSize: 22)),
               ],
             ),
           ),

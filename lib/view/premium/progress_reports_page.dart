@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ProgressReportsPage extends StatefulWidget {
   const ProgressReportsPage({super.key});
 
@@ -139,32 +141,43 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
   Widget build(BuildContext context) {
     if (!_isInitialized) {
       return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.back(),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+          child: const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
         ),
       );
     }
@@ -200,16 +213,18 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                 int totalCompleted = 0;
                 int totalItems = 0;
                 for (var cat in categories) {
-                  totalCompleted +=
-                      progressService.getCompletedCount(cat['key'] as String);
+                  totalCompleted += progressService.getCompletedCount(
+                    cat['key'] as String,
+                  );
                   totalItems += cat['total'] as int;
                 }
-                double overallProgress =
-                    totalItems > 0 ? (totalCompleted / totalItems) * 100 : 0;
+                double overallProgress = totalItems > 0
+                    ? (totalCompleted / totalItems) * 100
+                    : 0;
 
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: Column(
                     children: [
                       // Overall Progress Card with float animation
@@ -224,7 +239,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Stats Row with float animation
                       _buildFloatingCard(
@@ -232,10 +247,13 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                         child: _buildAnimatedCard(
                           delay: 100,
                           child: _buildStatsRow(
-                              totalCompleted, totalItems, progressService),
+                            totalCompleted,
+                            totalItems,
+                            progressService,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Category Progress Cards with float animation
                       ...List.generate(categories.length, (index) {
@@ -244,12 +262,16 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                           index: index + 2,
                           child: _buildAnimatedCard(
                             delay: 200 + (index * 80),
-                            child: _buildCategoryCard(cat, progressService, index),
+                            child: _buildCategoryCard(
+                              cat,
+                              progressService,
+                              index,
+                            ),
                           ),
                         );
                       }),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Tips Card with float animation
                       _buildFloatingCard(
@@ -260,7 +282,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                         ),
                       ),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Achievement Card with float animation
                       _buildFloatingCard(
@@ -271,7 +293,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                         ),
                       ),
 
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32.h),
                     ],
                   ),
                 );
@@ -294,7 +316,8 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -318,11 +341,10 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     return AnimatedBuilder(
       animation: _floatAnimation,
       builder: (context, _) {
-        final offset = index.isEven ? _floatAnimation.value * 0.5 : -_floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        final offset = index.isEven
+            ? _floatAnimation.value * 0.5
+            : -_floatAnimation.value * 0.5;
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
     );
   }
@@ -334,73 +356,77 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Progress ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Progress ',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'Reports',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'Reports',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
     );
@@ -414,30 +440,26 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
       builder: (context, value, _) {
         return Transform.translate(
           offset: Offset(0, 30 * (1 - value)),
-          child: Opacity(
-            opacity: value.clamp(0.0, 1.0),
-            child: child,
-          ),
+          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
         );
       },
     );
   }
 
-  Widget _buildOverallProgressCard(
-      double progress, int completed, int total) {
+  Widget _buildOverallProgressCard(double progress, int completed, int total) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFFFFD700).withValues(alpha: 0.4),
-            blurRadius: 20,
+            blurRadius: 20.r,
             offset: const Offset(0, 10),
           ),
         ],
@@ -446,11 +468,11 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -30,
-            right: -30,
+            top: -30.h,
+            right: -30.w,
             child: Container(
-              width: 100,
-              height: 100,
+              width: 100.w,
+              height: 100.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -466,8 +488,8 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                     alignment: Alignment.center,
                     children: [
                       SizedBox(
-                        width: 100,
-                        height: 100,
+                        width: 100.w,
+                        height: 100.h,
                         child: TweenAnimationBuilder<double>(
                           tween: Tween(begin: 0, end: progress / 100),
                           duration: const Duration(milliseconds: 1500),
@@ -475,8 +497,10 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                           builder: (context, value, _) {
                             return CircularProgressIndicator(
                               value: value,
-                              strokeWidth: 10,
-                              backgroundColor: Colors.white.withValues(alpha: 0.3),
+                              strokeWidth: 10.r,
+                              backgroundColor: Colors.white.withValues(
+                                alpha: 0.3,
+                              ),
                               valueColor: const AlwaysStoppedAnimation<Color>(
                                 Colors.white,
                               ),
@@ -485,8 +509,8 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                         ),
                       ),
                       Container(
-                        width: 80,
-                        height: 80,
+                        width: 80.w,
+                        height: 80.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.3),
                           shape: BoxShape.circle,
@@ -502,7 +526,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                       ),
                     ],
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: 20.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -515,7 +539,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         TweenAnimationBuilder<double>(
                           tween: Tween(begin: 0, end: progress),
                           duration: const Duration(milliseconds: 1500),
@@ -531,15 +555,15 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                             );
                           },
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         Container(
-                          height: 12,
+                          height: 12.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(6.r),
                             color: Colors.white.withValues(alpha: 0.3),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(6.r),
                             child: TweenAnimationBuilder<double>(
                               tween: Tween(begin: 0, end: progress / 100),
                               duration: const Duration(milliseconds: 1500),
@@ -551,9 +575,12 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                                   child: Container(
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
-                                        colors: [Colors.white, Color(0xFFFFF8DC)],
+                                        colors: [
+                                          Colors.white,
+                                          Color(0xFFFFF8DC),
+                                        ],
                                       ),
-                                      borderRadius: BorderRadius.circular(6),
+                                      borderRadius: BorderRadius.circular(6.r),
                                     ),
                                   ),
                                 );
@@ -566,29 +593,45 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildStatItem('Completed', '$completed', '✅'),
+                    // Three equal shares, so the widest label wraps inside its
+                    // own column rather than pushing the row past the card.
+                    Expanded(
+                      child: _buildStatItem('Completed', '$completed', '✅'),
+                    ),
                     Container(
-                      width: 1,
-                      height: 40,
+                      width: 1.w,
+                      height: 40.h,
                       color: Colors.white.withValues(alpha: 0.3),
                     ),
-                    _buildStatItem('Remaining', '${total - completed}', '📝'),
+                    Expanded(
+                      child: _buildStatItem(
+                        'Remaining',
+                        '${total - completed}',
+                        '📝',
+                      ),
+                    ),
                     Container(
-                      width: 1,
-                      height: 40,
+                      width: 1.w,
+                      height: 40.h,
                       color: Colors.white.withValues(alpha: 0.3),
                     ),
-                    _buildStatItem('Categories', '${categories.length}', '📂'),
+                    Expanded(
+                      child: _buildStatItem(
+                        'Categories',
+                        '${categories.length}',
+                        '📂',
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -603,7 +646,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     return Column(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 22)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
           style: GoogleFonts.baloo2(
@@ -625,7 +668,10 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
   }
 
   Widget _buildStatsRow(
-      int completed, int total, ProgressService progressService) {
+    int completed,
+    int total,
+    ProgressService progressService,
+  ) {
     // Count completed categories
     int completedCategories = 0;
     for (var cat in categories) {
@@ -635,18 +681,18 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: cardGradients[3],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: cardGradients[3][0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -655,11 +701,11 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -20,
-            right: -20,
+            top: -20.h,
+            right: -20.w,
             child: Container(
-              width: 60,
-              height: 60,
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -669,21 +715,33 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildQuickStat('🎯', 'Categories\nCompleted',
-                  '$completedCategories/${categories.length}'),
+              Expanded(
+                child: _buildQuickStat(
+                  '🎯',
+                  'Categories\nCompleted',
+                  '$completedCategories/${categories.length}',
+                ),
+              ),
               Container(
-                width: 1,
-                height: 60,
+                width: 1.w,
+                height: 60.h,
                 color: Colors.white.withValues(alpha: 0.2),
               ),
-              _buildQuickStat('📈', 'Items\nLearned', '$completed'),
+              Expanded(
+                child: _buildQuickStat('📈', 'Items\nLearned', '$completed'),
+              ),
               Container(
-                width: 1,
-                height: 60,
+                width: 1.w,
+                height: 60.h,
                 color: Colors.white.withValues(alpha: 0.2),
               ),
-              _buildQuickStat('🔥', 'Keep\nGoing!',
-                  completedCategories > 0 ? 'Great!' : 'Start!'),
+              Expanded(
+                child: _buildQuickStat(
+                  '🔥',
+                  'Keep\nGoing!',
+                  completedCategories > 0 ? 'Great!' : 'Start!',
+                ),
+              ),
             ],
           ),
         ],
@@ -695,7 +753,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     return Column(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 28)),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           value,
           style: GoogleFonts.baloo2(
@@ -717,26 +775,31 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
   }
 
   Widget _buildCategoryCard(
-      Map<String, dynamic> cat, ProgressService progressService, int index) {
-    final progress = progressService.getProgressPercentage(cat['key'] as String);
+    Map<String, dynamic> cat,
+    ProgressService progressService,
+    int index,
+  ) {
+    final progress = progressService.getProgressPercentage(
+      cat['key'] as String,
+    );
     final completed = progressService.getCompletedCount(cat['key'] as String);
     final total = cat['total'] as int;
     final colors = cat['colors'] as List<Color>;
     final isComplete = progress >= 100;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: colors,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: colors[0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -745,11 +808,11 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -15,
-            right: -15,
+            top: -15.h,
+            right: -15.w,
             child: Container(
-              width: 50,
-              height: 50,
+              width: 50.w,
+              height: 50.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -758,16 +821,16 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
           ),
           // Content
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 // Icon with background
                 Container(
-                  width: 56,
-                  height: 56,
+                  width: 56.w,
+                  height: 56.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Center(
                     child: Text(
@@ -776,7 +839,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 // Title and progress
                 Expanded(
                   child: Column(
@@ -790,7 +853,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Row(
                         children: [
                           Text(
@@ -801,25 +864,28 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                               color: Colors.white,
                             ),
                           ),
-                          Text(
-                            ' of $total completed',
-                            style: GoogleFonts.nunito(
-                              fontSize: 13,
-                              color: Colors.white.withValues(alpha: 0.9),
+                          Flexible(
+                            child: Text(
+                              ' of $total completed',
+                              style: GoogleFonts.nunito(
+                                fontSize: 13,
+                                color: Colors.white.withValues(alpha: 0.9),
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       // Progress bar
                       Container(
-                        height: 8,
+                        height: 8.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4.r),
                           color: Colors.white.withValues(alpha: 0.3),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4.r),
                           child: TweenAnimationBuilder<double>(
                             tween: Tween(begin: 0, end: progress / 100),
                             duration: const Duration(milliseconds: 1200),
@@ -831,7 +897,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(4),
+                                    borderRadius: BorderRadius.circular(4.r),
                                   ),
                                 ),
                               );
@@ -842,16 +908,18 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 // Progress percentage
                 Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 8.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                       ),
                       child: Text(
                         '${progress.toStringAsFixed(0)}%',
@@ -863,7 +931,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                       ),
                     ),
                     if (isComplete) ...[
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6.h),
                       const Text("🎉", style: TextStyle(fontSize: 20)),
                     ],
                   ],
@@ -885,18 +953,18 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     ];
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: cardGradients[3],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: cardGradients[3][0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -905,11 +973,11 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -20,
-            right: -20,
+            top: -20.h,
+            right: -20.w,
             child: Container(
-              width: 60,
-              height: 60,
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -922,57 +990,63 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
               Row(
                 children: [
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: 48.w,
+                    height: 48.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: const Center(
                       child: Text("💡", style: TextStyle(fontSize: 26)),
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  Text(
-                    "Learning Tips",
-                    style: GoogleFonts.baloo2(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  SizedBox(width: 14.w),
+                  Expanded(
+                    child: Text(
+                      "Learning Tips",
+                      style: GoogleFonts.baloo2(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              ...tips.map((tip) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            tip['icon']!,
-                            style: const TextStyle(fontSize: 22),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              tip['tip']!,
-                              style: GoogleFonts.nunito(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+              SizedBox(height: 16.h),
+              ...tips.map(
+                (tip) => Padding(
+                  padding: EdgeInsets.only(bottom: 10.h),
+                  child: Container(
+                    padding: EdgeInsets.all(12.r),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          tip['icon']!,
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Text(
+                            tip['tip']!,
+                            style: GoogleFonts.nunito(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ],
@@ -1014,18 +1088,18 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: colors,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: colors[0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -1034,11 +1108,11 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -20,
-            right: -20,
+            top: -20.h,
+            right: -20.w,
             child: Container(
-              width: 60,
-              height: 60,
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -1048,20 +1122,17 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
           Row(
             children: [
               Container(
-                width: 70,
-                height: 70,
+                width: 70.w,
+                height: 70.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Center(
-                  child: Text(
-                    emoji,
-                    style: const TextStyle(fontSize: 40),
-                  ),
+                  child: Text(emoji, style: const TextStyle(fontSize: 40)),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1074,7 +1145,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       subtitle,
                       style: GoogleFonts.nunito(

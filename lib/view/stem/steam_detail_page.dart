@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SteamDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -26,7 +28,8 @@ class _SteamDetailPageState extends State<SteamDetailPage>
         {'letter': 'A', 'word': 'Art', 'emoji': '🎨'},
         {'letter': 'M', 'word': 'Math', 'emoji': '🔢'},
       ],
-      'description': 'STEAM adds Art to STEM! Creativity + Science = Amazing things!',
+      'description':
+          'STEAM adds Art to STEM! Creativity + Science = Amazing things!',
     },
     {
       'title': 'Color Science',
@@ -199,7 +202,7 @@ class _SteamDetailPageState extends State<SteamDetailPage>
       title: section['title'] ?? '',
       emoji: section['emoji'] ?? '',
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+        padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
         child: widget.sectionIndex == 0
             ? _buildSteamIntroSection(section)
             : _buildProjectsSection(section),
@@ -207,26 +210,23 @@ class _SteamDetailPageState extends State<SteamDetailPage>
     );
   }
 
-  Widget _buildGradientItem({
-    required int itemIndex,
-    required Widget child,
-  }) {
+  Widget _buildGradientItem({required int itemIndex, required Widget child}) {
     final gradient = AppColors.getGradientForIndex(itemIndex);
     return buildFloatingItem(
       index: itemIndex,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient.first.withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -248,12 +248,12 @@ class _SteamDetailPageState extends State<SteamDetailPage>
           return _buildGradientItem(
             itemIndex: idx,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 60.w,
+                    height: 60.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -269,7 +269,7 @@ class _SteamDetailPageState extends State<SteamDetailPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,14 +298,11 @@ class _SteamDetailPageState extends State<SteamDetailPage>
         _buildGradientItem(
           itemIndex: itemIndex++,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               children: [
-                const Text(
-                  '🎨 + 🔬 = ✨',
-                  style: TextStyle(fontSize: 32),
-                ),
-                const SizedBox(height: 8),
+                const Text('🎨 + 🔬 = ✨', style: TextStyle(fontSize: 32)),
+                SizedBox(height: 8.h),
                 Text(
                   section['description'] ?? '',
                   style: GoogleFonts.nunito(
@@ -315,7 +312,7 @@ class _SteamDetailPageState extends State<SteamDetailPage>
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   'Art makes science creative!\nScience makes art meaningful!',
                   style: GoogleFonts.nunito(
@@ -342,15 +339,15 @@ class _SteamDetailPageState extends State<SteamDetailPage>
         return _buildGradientItem(
           itemIndex: idx,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 55,
-                      height: 55,
+                      width: 55.w,
+                      height: 55.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -362,7 +359,7 @@ class _SteamDetailPageState extends State<SteamDetailPage>
                         ),
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    SizedBox(width: 14.w),
                     Expanded(
                       child: Text(
                         project['name'] ?? '',
@@ -375,20 +372,20 @@ class _SteamDetailPageState extends State<SteamDetailPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 // How to do it
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('🎨', style: TextStyle(fontSize: 16)),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Text(
                           project['how'] ?? '',
@@ -402,20 +399,20 @@ class _SteamDetailPageState extends State<SteamDetailPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 // Science behind it
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('🔬', style: TextStyle(fontSize: 16)),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Text(
                           project['science'] ?? '',

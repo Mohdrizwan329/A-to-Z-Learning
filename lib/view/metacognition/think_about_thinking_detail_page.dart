@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ThinkAboutThinkingDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -112,7 +114,7 @@ class _ThinkAboutThinkingDetailPageState
     return GradientScaffold(
       title: concept['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -120,18 +122,18 @@ class _ThinkAboutThinkingDetailPageState
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -142,7 +144,7 @@ class _ThinkAboutThinkingDetailPageState
                       concept['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       concept['title'],
                       style: GoogleFonts.poppins(
@@ -152,7 +154,7 @@ class _ThinkAboutThinkingDetailPageState
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       concept['question'],
                       style: GoogleFonts.nunito(
@@ -165,7 +167,7 @@ class _ThinkAboutThinkingDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Content based on type
             if (concept.containsKey('options'))
               _buildOptionsCards(concept)
@@ -173,15 +175,15 @@ class _ThinkAboutThinkingDetailPageState
               _buildStepsCards(concept)
             else if (concept.containsKey('tricks'))
               _buildTricksCards(concept),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             // Tip Card
             buildFloatingItem(
               index: 99,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.amber.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
                     color: Colors.amber.withValues(alpha: 0.6),
                     width: 2,
@@ -190,7 +192,7 @@ class _ThinkAboutThinkingDetailPageState
                 child: Row(
                   children: [
                     const Text('💡', style: TextStyle(fontSize: 28)),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         concept['tip'],
@@ -205,7 +207,7 @@ class _ThinkAboutThinkingDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -214,28 +216,30 @@ class _ThinkAboutThinkingDetailPageState
 
   Widget _buildOptionsCards(Map<String, dynamic> concept) {
     return Column(
-      children:
-          (concept['options'] as List).asMap().entries.map<Widget>((entry) {
+      children: (concept['options'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final option = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -243,7 +247,7 @@ class _ThinkAboutThinkingDetailPageState
             child: Row(
               children: [
                 Text(option['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,28 +279,28 @@ class _ThinkAboutThinkingDetailPageState
 
   Widget _buildStepsCards(Map<String, dynamic> concept) {
     return Column(
-      children:
-          (concept['steps'] as List).asMap().entries.map<Widget>((entry) {
+      children: (concept['steps'] as List).asMap().entries.map<Widget>((entry) {
         final index = entry.key;
         final step = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + index + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + index + 1,
+        );
         return buildFloatingItem(
           index: index + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -304,8 +308,8 @@ class _ThinkAboutThinkingDetailPageState
             child: Row(
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 36.w,
+                  height: 36.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -320,9 +324,9 @@ class _ThinkAboutThinkingDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(step['emoji'], style: const TextStyle(fontSize: 24)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     step['text'],
@@ -342,28 +346,30 @@ class _ThinkAboutThinkingDetailPageState
 
   Widget _buildTricksCards(Map<String, dynamic> concept) {
     return Column(
-      children:
-          (concept['tricks'] as List).asMap().entries.map<Widget>((entry) {
+      children: (concept['tricks'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final trick = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -371,7 +377,7 @@ class _ThinkAboutThinkingDetailPageState
             child: Row(
               children: [
                 Text(trick['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

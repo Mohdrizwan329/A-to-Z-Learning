@@ -1,7 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
+
+import 'package:jiyan_learning/utils/responsive.dart';
 
 class VoiceLearningPage extends StatefulWidget {
   const VoiceLearningPage({Key? key}) : super(key: key);
@@ -36,8 +40,16 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
       };
     }),
     'animals': [
-      {'item': '🦁', 'phonetic': 'Lion', 'word': 'The lion is the king of jungle'},
-      {'item': '🐘', 'phonetic': 'Elephant', 'word': 'Elephant has a long trunk'},
+      {
+        'item': '🦁',
+        'phonetic': 'Lion',
+        'word': 'The lion is the king of jungle',
+      },
+      {
+        'item': '🐘',
+        'phonetic': 'Elephant',
+        'word': 'Elephant has a long trunk',
+      },
       {'item': '🐕', 'phonetic': 'Dog', 'word': 'Dog is a faithful animal'},
       {'item': '🐈', 'phonetic': 'Cat', 'word': 'Cat says meow meow'},
       {'item': '🐄', 'phonetic': 'Cow', 'word': 'Cow gives us milk'},
@@ -60,12 +72,32 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
       {'item': '💗', 'phonetic': 'Pink', 'word': 'Rose is pink'},
     ],
     'fruits': [
-      {'item': '🍎', 'phonetic': 'Apple', 'word': 'An apple a day keeps doctor away'},
-      {'item': '🍌', 'phonetic': 'Banana', 'word': 'Banana is yellow and sweet'},
+      {
+        'item': '🍎',
+        'phonetic': 'Apple',
+        'word': 'An apple a day keeps doctor away',
+      },
+      {
+        'item': '🍌',
+        'phonetic': 'Banana',
+        'word': 'Banana is yellow and sweet',
+      },
       {'item': '🍇', 'phonetic': 'Grapes', 'word': 'Grapes grow in bunches'},
-      {'item': '🍊', 'phonetic': 'Orange', 'word': 'Orange is rich in vitamin C'},
-      {'item': '🍓', 'phonetic': 'Strawberry', 'word': 'Strawberry is red and tasty'},
-      {'item': '🥭', 'phonetic': 'Mango', 'word': 'Mango is the king of fruits'},
+      {
+        'item': '🍊',
+        'phonetic': 'Orange',
+        'word': 'Orange is rich in vitamin C',
+      },
+      {
+        'item': '🍓',
+        'phonetic': 'Strawberry',
+        'word': 'Strawberry is red and tasty',
+      },
+      {
+        'item': '🥭',
+        'phonetic': 'Mango',
+        'word': 'Mango is the king of fruits',
+      },
       {'item': '🍉', 'phonetic': 'Watermelon', 'word': 'Watermelon is juicy'},
       {'item': '🍑', 'phonetic': 'Peach', 'word': 'Peach is soft and sweet'},
       {'item': '🍒', 'phonetic': 'Cherry', 'word': 'Cherry is small and red'},
@@ -139,10 +171,27 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
 
   static String _getNumberWord(int num) {
     final words = [
-      '', 'One', 'Two', 'Three', 'Four', 'Five',
-      'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen',
-      'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen', 'Twenty'
+      '',
+      'One',
+      'Two',
+      'Three',
+      'Four',
+      'Five',
+      'Six',
+      'Seven',
+      'Eight',
+      'Nine',
+      'Ten',
+      'Eleven',
+      'Twelve',
+      'Thirteen',
+      'Fourteen',
+      'Fifteen',
+      'Sixteen',
+      'Seventeen',
+      'Eighteen',
+      'Nineteen',
+      'Twenty',
     ];
     return words[num];
   }
@@ -220,25 +269,46 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Column(
-          children: [
-            // Category Selector
-            _buildCategorySelector(),
-            // Main Content
-            Expanded(
-              child: _buildMainContent(currentItem),
+        child: LayoutBuilder(
+          // Portrait-shaped content: in landscape the body is barely 300pt tall,
+          // which is shorter than this column needs. Scroll when that happens and
+          // stay exactly as before whenever there is room.
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Category Selector
+                  _buildCategorySelector(),
+                  // Main Content
+                  SizedBox(
+                    // A share of the viewport rather than `Expanded`:
+                    // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                    // above it, and a scrollable cannot report an intrinsic
+                    // height - it throws.
+                    height: math.max(200.h, constraints.maxHeight * 0.55),
+                    child: _buildMainContent(currentItem),
+                  ),
+                  // Navigation Controls
+                  _buildNavigationControls(currentData.length),
+                  // Progress Indicator
+                  _buildProgressIndicator(currentData.length),
+                ],
+              ),
             ),
-            // Navigation Controls
-            _buildNavigationControls(currentData.length),
-            // Progress Indicator
-            _buildProgressIndicator(currentData.length),
-          ],
+          ),
         ),
       ),
     );
@@ -254,8 +324,8 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
     ];
 
     return Container(
-      height: 70,
-      margin: const EdgeInsets.all(16),
+      height: 70.h,
+      margin: EdgeInsets.all(16.r),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
@@ -273,21 +343,23 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              margin: const EdgeInsets.only(right: 12),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              margin: EdgeInsets.only(right: 12.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               decoration: BoxDecoration(
                 color: isSelected ? Colors.white : Colors.white24,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Row(
                 children: [
                   Text(cat['icon']!, style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     cat['name']!,
                     style: TextStyle(
                       color: isSelected ? Color(0xFF667EEA) : Colors.white,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                 ],
@@ -301,142 +373,175 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
 
   Widget _buildMainContent(Map<String, String> item) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Main Item Card
-          GestureDetector(
-            onTap: () => _speak(item['phonetic']!),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              width: double.infinity,
-              padding: const EdgeInsets.all(40),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: _isSpeaking
-                        ? Colors.blue.withValues(alpha: 0.5)
-                        : Colors.black.withValues(alpha: 0.2),
-                    blurRadius: _isSpeaking ? 30 : 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  // Speaking indicator
-                  if (_isSpeaking)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(Icons.volume_up, color: Colors.white, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            'Speaking...',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  // Item display
-                  Text(
-                    item['item']!,
-                    style: TextStyle(
-                      fontSize: _selectedCategory == 'alphabets' ? 120 : 80,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF667EEA),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Phonetic text
-                  Text(
-                    item['phonetic']!,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  // Tap to hear
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: 24.w),
+      child: LayoutBuilder(
+        // The card and the example block together are taller than this slot on
+        // a short screen. Scroll when that happens, and stay centred whenever
+        // there is room.
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Main Item Card
+                GestureDetector(
+                  onTap: () => _speak(item['phonetic']!),
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    width: double.infinity,
+                    padding: EdgeInsets.all(40.r),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: _isSpeaking
+                              ? Colors.blue.withValues(alpha: 0.5)
+                              : Colors.black.withValues(alpha: 0.2),
+                          blurRadius: _isSpeaking ? 30 : 20,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.touch_app, color: Colors.grey, size: 18),
-                        SizedBox(width: 4),
+                    child: Column(
+                      children: [
+                        // Speaking indicator
+                        if (_isSpeaking)
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 6.h,
+                            ),
+                            margin: EdgeInsets.only(bottom: 16.h),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.volume_up,
+                                  color: Colors.white,
+                                  size: 16.r,
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  'Speaking...',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        // Item display
                         Text(
-                          'Tap to hear',
-                          style: TextStyle(color: Colors.grey),
+                          item['item']!,
+                          style: TextStyle(
+                            fontSize: _selectedCategory == 'alphabets'
+                                ? 120
+                                : 80,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF667EEA),
+                          ),
+                        ),
+                        SizedBox(height: 16.h),
+                        // Phonetic text
+                        Text(
+                          item['phonetic']!,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8.h),
+                        // Tap to hear
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 8.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.touch_app,
+                                color: Colors.grey,
+                                size: 18.r,
+                              ),
+                              SizedBox(width: 4.w),
+                              Flexible(
+                                child: Text(
+                                  'Tap to hear',
+                                  style: TextStyle(color: Colors.grey),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          // Example/Sentence
-          GestureDetector(
-            onTap: () => _speak(item['word']!),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.white30),
-              ),
-              child: Column(
-                children: [
-                  const Text(
-                    'Example:',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
+                ),
+                SizedBox(height: 24.h),
+                // Example/Sentence
+                GestureDetector(
+                  onTap: () => _speak(item['word']!),
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(20.r),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(color: Colors.white30),
+                    ),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Example:',
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          item['word']!,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8.h),
+                        Icon(
+                          Icons.volume_up,
+                          color: Colors.white60,
+                          size: 20.r,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    item['word']!,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  const Icon(Icons.volume_up, color: Colors.white60, size: 20),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildNavigationControls(int totalItems) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -451,17 +556,21 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
           GestureDetector(
             onTap: () => _speakAll(),
             child: Container(
-              width: 80,
-              height: 80,
+              width: 80.w,
+              height: 80.h,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                  colors: [
+                    Color(0xFFFF6B6B),
+                    Color(0xFFFF8E53),
+                    Color(0xFFFFAA5A),
+                  ],
                 ),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.red.withValues(alpha: 0.4),
-                    blurRadius: 15,
+                    blurRadius: 15.r,
                     offset: const Offset(0, 8),
                   ),
                 ],
@@ -469,7 +578,7 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
               child: Icon(
                 _isSpeaking ? Icons.stop : Icons.play_arrow,
                 color: Colors.white,
-                size: 40,
+                size: 40.r,
               ),
             ),
           ),
@@ -489,8 +598,8 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 60,
-        height: 60,
+        width: 60.w,
+        height: 60.h,
         decoration: BoxDecoration(
           color: onTap != null ? Colors.white : Colors.white30,
           shape: BoxShape.circle,
@@ -505,7 +614,7 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
 
   Widget _buildProgressIndicator(int totalItems) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 24.h),
       child: Column(
         children: [
           Row(
@@ -521,14 +630,14 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.r),
             child: LinearProgressIndicator(
               value: (_currentIndex + 1) / totalItems,
               backgroundColor: Colors.white24,
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-              minHeight: 8,
+              minHeight: 8.h,
             ),
           ),
         ],
@@ -550,26 +659,23 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
   void _showSettingsDialog() {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setModalState) {
             return Container(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.r),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Voice Settings',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   // Speech Rate
                   const Text('Speech Speed'),
                   Slider(
@@ -586,19 +692,27 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
                       flutterTts.setSpeechRate(value);
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   // Language
                   const Text('Language'),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Wrap(
-                    spacing: 8,
+                    spacing: 8.r,
                     children: [
-                      _buildLanguageChip('English (US)', 'en-US', setModalState),
-                      _buildLanguageChip('English (UK)', 'en-GB', setModalState),
+                      _buildLanguageChip(
+                        'English (US)',
+                        'en-US',
+                        setModalState,
+                      ),
+                      _buildLanguageChip(
+                        'English (UK)',
+                        'en-GB',
+                        setModalState,
+                      ),
                       _buildLanguageChip('Hindi', 'hi-IN', setModalState),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -606,9 +720,9 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF667EEA),
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16.h),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
                       child: const Text('Done'),
@@ -623,7 +737,11 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
     );
   }
 
-  Widget _buildLanguageChip(String label, String langCode, StateSetter setModalState) {
+  Widget _buildLanguageChip(
+    String label,
+    String langCode,
+    StateSetter setModalState,
+  ) {
     final isSelected = _selectedLanguage == langCode;
     return ChoiceChip(
       label: Text(label),
@@ -634,9 +752,7 @@ class _VoiceLearningPageState extends State<VoiceLearningPage> {
         flutterTts.setLanguage(langCode);
       },
       selectedColor: Color(0xFF667EEA),
-      labelStyle: TextStyle(
-        color: isSelected ? Colors.white : Colors.black,
-      ),
+      labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
     );
   }
 }

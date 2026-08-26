@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/adaptive_learning_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AdaptiveQuizPage extends StatefulWidget {
   const AdaptiveQuizPage({super.key});
 
@@ -197,40 +199,46 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
   // Progress bar widget like other screens
   Widget _buildProgressBar(int percentage) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Progress',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+              Flexible(
+                child: const Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                'Question ${_currentIndex + 1} / ${_questions.length} ($percentage%)',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  'Question ${_currentIndex + 1} / ${_questions.length} ($percentage%)',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: LinearProgressIndicator(
               value: (_currentIndex + 1) / _questions.length,
               backgroundColor: Colors.white.withValues(alpha: 0.2),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 Color(0xFF56D97F),
               ),
-              minHeight: 10,
+              minHeight: 10.h,
             ),
           ),
         ],
@@ -311,21 +319,21 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new,
             color: Colors.white,
-            size: 22,
+            size: 22.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // Vibrant kid-friendly gradient - Coral to Pink to Orange
           gradient: LinearGradient(
             colors: [
@@ -339,7 +347,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -355,7 +363,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -366,12 +374,12 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
         if (_questions.isNotEmpty && !_showResult)
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetQuiz,
           ),
@@ -429,12 +437,12 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
 
     return Column(
       children: [
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         // Categories
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             itemCount: _categories.length,
             itemBuilder: (context, index) {
               final category = _categories[index];
@@ -463,21 +471,21 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                     setState(() => _selectedCategory = category['id']!);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
+                    margin: EdgeInsets.only(bottom: 16.h),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: gradient,
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       border: isSelected
                           ? Border.all(color: const Color(0xFFFFE66D), width: 3)
                           : null,
                       boxShadow: [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -486,11 +494,11 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                       children: [
                         // Decorative circle (Home screen style)
                         Positioned(
-                          top: -10,
-                          right: -10,
+                          top: -10.h,
+                          right: -10.w,
                           child: Container(
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -499,13 +507,13 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                         ),
                         // Content
                         Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16.r),
                           child: Row(
                             children: [
                               // Circular emoji container (Home screen style)
                               Container(
-                                width: 60,
-                                height: 60,
+                                width: 60.w,
+                                height: 60.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   shape: BoxShape.circle,
@@ -517,7 +525,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: 16.w),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -530,20 +538,20 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
+                                    SizedBox(height: 4.h),
                                     Row(
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 2,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 8.w,
+                                            vertical: 2.h,
                                           ),
                                           decoration: BoxDecoration(
                                             color: Colors.white.withValues(
                                               alpha: 0.3,
                                             ),
                                             borderRadius: BorderRadius.circular(
-                                              8,
+                                              8.r,
                                             ),
                                           ),
                                           child: Text(
@@ -555,7 +563,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        SizedBox(width: 8.w),
                                         if (performance != null)
                                           Text(
                                             '${(performance.accuracy * 100).round()}% accuracy',
@@ -571,15 +579,15 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                               ),
                               if (isSelected)
                                 Container(
-                                  padding: const EdgeInsets.all(4),
+                                  padding: EdgeInsets.all(4.r),
                                   decoration: const BoxDecoration(
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.check,
                                     color: Color(0xFF56D97F),
-                                    size: 20,
+                                    size: 20.r,
                                   ),
                                 ),
                             ],
@@ -596,25 +604,25 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
 
         // Start Button
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           child: SizedBox(
             width: double.infinity,
-            height: 56,
+            height: 56.h,
             child: ElevatedButton(
               onPressed: _startQuiz,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: const Color(0xFF667EEA),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 elevation: 4,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.play_arrow_rounded, size: 28),
-                  const SizedBox(width: 8),
+                  Icon(Icons.play_arrow_rounded, size: 28.r),
+                  SizedBox(width: 8.w),
                   Text(
                     'Start Quiz',
                     style: GoogleFonts.nunito(
@@ -644,16 +652,16 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
         // Level Change Notification
         if (_newLevel != null)
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            padding: const EdgeInsets.all(12),
+            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+            padding: EdgeInsets.all(12.r),
             decoration: BoxDecoration(
               color: Colors.amber.shade400,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Row(
               children: [
                 const Text('🎉', style: TextStyle(fontSize: 20)),
-                const SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
                     'Level changed to ${_newLevel!.name.toUpperCase()}!',
@@ -671,15 +679,15 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
 
         // Question Card
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.all(24),
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 20,
+                blurRadius: 20.r,
                 offset: const Offset(0, 10),
               ),
             ],
@@ -691,7 +699,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                   question.imageEmoji!,
                   style: const TextStyle(fontSize: 48),
                 ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 question.question,
                 textAlign: TextAlign.center,
@@ -702,16 +710,16 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                 ),
               ),
               if (question.hint != null && !_isAnswered) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.lightbulb_outline,
-                      size: 16,
+                      size: 16.r,
                       color: Colors.amber,
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4.w),
                     Text(
                       question.hint!,
                       style: TextStyle(
@@ -731,7 +739,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
 
         // Options with Home screen style gradients
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             children: List.generate(question.options.length, (index) {
               final isSelected = _selectedAnswer == index;
@@ -761,11 +769,13 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                 },
                 child: GestureDetector(
                   onTap: () {
-                    TtsService.to.speak(_questions[_currentIndex].options[index]);
+                    TtsService.to.speak(
+                      _questions[_currentIndex].options[index],
+                    );
                     _selectAnswer(index);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
+                    margin: EdgeInsets.only(bottom: 12.h),
                     decoration: BoxDecoration(
                       gradient: showCorrect
                           ? const LinearGradient(
@@ -784,7 +794,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color:
@@ -794,7 +804,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                                       ? Colors.red
                                       : gradient[0])
                                   .withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -803,11 +813,11 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                       children: [
                         // Decorative circle
                         Positioned(
-                          top: -8,
-                          right: -8,
+                          top: -8.h,
+                          right: -8.w,
                           child: Container(
-                            width: 30,
-                            height: 30,
+                            width: 30.w,
+                            height: 30.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -815,28 +825,28 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16.r),
                           child: Row(
                             children: [
                               Container(
-                                width: 40,
-                                height: 40,
+                                width: 40.w,
+                                height: 40.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: showCorrect
-                                      ? const Icon(
+                                      ? Icon(
                                           Icons.check,
                                           color: Colors.white,
-                                          size: 24,
+                                          size: 24.r,
                                         )
                                       : showWrong
-                                      ? const Icon(
+                                      ? Icon(
                                           Icons.close,
                                           color: Colors.white,
-                                          size: 24,
+                                          size: 24.r,
                                         )
                                       : Text(
                                           String.fromCharCode(65 + index),
@@ -848,7 +858,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                                         ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: 16.w),
                               Expanded(
                                 child: Text(
                                   question.options[index],
@@ -871,18 +881,18 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
           ),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         // Navigation Buttons (Previous & Next)
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
             children: [
               // Previous Button
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: _currentIndex > 0 ? _previousQuestion : null,
-                  icon: const Icon(Icons.arrow_back_ios, size: 18),
+                  icon: Icon(Icons.arrow_back_ios, size: 18.r),
                   label: Text(
                     'Previous',
                     style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
@@ -892,14 +902,14 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                         ? Colors.white
                         : Colors.white.withValues(alpha: 0.5),
                     foregroundColor: const Color(0xFF667EEA),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               // Next Button (disabled until answered)
               Expanded(
                 child: ElevatedButton.icon(
@@ -912,16 +922,16 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                     _currentIndex < _questions.length - 1
                         ? Icons.arrow_forward_ios
                         : Icons.check,
-                    size: 18,
+                    size: 18.r,
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isAnswered
                         ? Colors.white
                         : Colors.white.withValues(alpha: 0.5),
                     foregroundColor: const Color(0xFF667EEA),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                 ),
@@ -930,7 +940,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
           ),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
       ],
     );
   }
@@ -945,15 +955,15 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
 
         // Result Card
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          padding: const EdgeInsets.all(24),
+          margin: EdgeInsets.symmetric(horizontal: 24.w),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 20,
+                blurRadius: 20.r,
                 offset: const Offset(0, 10),
               ),
             ],
@@ -964,7 +974,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                 accuracy >= 80 ? '🎉' : (accuracy >= 60 ? '👏' : '💪'),
                 style: const TextStyle(fontSize: 64),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 accuracy >= 80
                     ? 'Excellent!'
@@ -975,7 +985,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                   color: Color(0xFF2D3436),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Stats
               Row(
@@ -991,16 +1001,16 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                 ],
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Current Level
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Color(
                     _adaptiveService.getDifficultyColor(_currentLevel),
                   ).withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1013,15 +1023,15 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: Color(
                           _adaptiveService.getDifficultyColor(_currentLevel),
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
                         _currentLevel.name.toUpperCase(),
@@ -1036,7 +1046,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
               ),
 
               if (performance != null) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Text(
                   'Overall accuracy: ${(performance.accuracy * 100).round()}% (${performance.totalAttempts} attempts)',
                   style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
@@ -1050,7 +1060,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
 
         // Buttons
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           child: Row(
             children: [
               Expanded(
@@ -1064,24 +1074,24 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white, width: 2),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                   child: const Text('Change Category'),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: ElevatedButton(
                   onPressed: _startQuiz,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: const Color(0xFF667EEA),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                   child: const Text(
@@ -1116,18 +1126,18 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -1135,7 +1145,7 @@ class _AdaptiveQuizPageState extends State<AdaptiveQuizPage>
         child: Column(
           children: [
             Text(emoji, style: const TextStyle(fontSize: 24)),
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
             Text(
               value,
               style: GoogleFonts.nunito(

@@ -6,6 +6,8 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SpellingPracticeDetailPage extends StatefulWidget {
   final int levelIndex;
 
@@ -66,8 +68,7 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    final levelName =
-        controller.levels[widget.levelIndex]['name'] as String;
+    final levelName = controller.levels[widget.levelIndex]['name'] as String;
     final progressKey =
         SpellingPracticeController.progressKeys[widget.levelIndex];
 
@@ -77,12 +78,12 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
         // Reset button
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             controller.resetLevelProgress(widget.levelIndex);
@@ -98,39 +99,46 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
           Obx(() {
             final progress =
                 ProgressService.to.getProgressPercentage(progressKey) / 100;
-            final progressString =
-                ProgressService.to.getProgressString(progressKey);
+            final progressString = ProgressService.to.getProgressString(
+              progressKey,
+            );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString spelled',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString spelled',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -141,7 +149,7 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
               ),
             );
           }),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           // Main spelling content
           Expanded(
             child: Obx(() {
@@ -152,18 +160,19 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
               final isCorrect = controller.isCorrect.value;
 
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.r),
                 child: Column(
                   children: [
                     // Word counter
                     Text(
                       "Word ${wordIndex + 1} of ${words.length}",
                       style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          color: Colors.white.withValues(alpha: 0.8),
-                          fontWeight: FontWeight.w600),
+                        fontSize: 16,
+                        color: Colors.white.withValues(alpha: 0.8),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Emoji display card with float animation
                     AnimatedBuilder(
@@ -176,19 +185,20 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                       },
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        padding: EdgeInsets.symmetric(vertical: 24.h),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(24.r),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFFF6B6B)
-                                  .withValues(alpha: 0.4),
-                              blurRadius: 12,
+                              color: const Color(
+                                0xFFFF6B6B,
+                              ).withValues(alpha: 0.4),
+                              blurRadius: 12.r,
                               offset: const Offset(0, 6),
                             ),
                           ],
@@ -196,11 +206,11 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                         child: Stack(
                           children: [
                             Positioned(
-                              top: -15,
-                              right: -15,
+                              top: -15.h,
+                              right: -15.w,
                               child: Container(
-                                width: 50,
-                                height: 50,
+                                width: 50.w,
+                                height: 50.h,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white.withValues(alpha: 0.1),
@@ -208,11 +218,11 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                               ),
                             ),
                             Positioned(
-                              bottom: -10,
-                              left: -10,
+                              bottom: -10.h,
+                              left: -10.w,
                               child: Container(
-                                width: 40,
-                                height: 40,
+                                width: 40.w,
+                                height: 40.h,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white.withValues(alpha: 0.1),
@@ -220,44 +230,45 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                               ),
                             ),
                             Center(
-                              child: Text(currentWord['emoji'],
-                                  style: const TextStyle(fontSize: 100)),
+                              child: Text(
+                                currentWord['emoji'],
+                                style: const TextStyle(fontSize: 100),
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Hint card
                     AnimatedBuilder(
                       animation: _floatController,
                       builder: (context, child) {
                         return Transform.translate(
-                          offset:
-                              Offset(0, -_floatAnimation.value * 0.5),
+                          offset: Offset(0, -_floatAnimation.value * 0.5),
                           child: child,
                         );
                       },
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 14),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                          vertical: 14.h,
+                        ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF667EEA),
-                              Color(0xFF764BA2)
-                            ],
+                            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF667EEA)
-                                  .withValues(alpha: 0.3),
-                              blurRadius: 8,
+                              color: const Color(
+                                0xFF667EEA,
+                              ).withValues(alpha: 0.3),
+                              blurRadius: 8.r,
                               offset: const Offset(0, 4),
                             ),
                           ],
@@ -265,31 +276,34 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.lightbulb,
-                                color: Colors.amber, size: 24),
-                            const SizedBox(width: 10),
+                            Icon(
+                              Icons.lightbulb,
+                              color: Colors.amber,
+                              size: 24.r,
+                            ),
+                            SizedBox(width: 10.w),
                             Flexible(
                               child: Text(
                                 "Hint: ${currentWord['hint']}",
                                 style: GoogleFonts.nunito(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600),
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Listen button
                     AnimatedBuilder(
                       animation: _floatController,
                       builder: (context, child) {
                         return Transform.translate(
-                          offset:
-                              Offset(0, _floatAnimation.value * 0.3),
+                          offset: Offset(0, _floatAnimation.value * 0.3),
                           child: child,
                         );
                       },
@@ -299,23 +313,23 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                           controller.speakWord(currentWord['word']);
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 28, vertical: 14),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 28.w,
+                            vertical: 14.h,
+                          ),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFFFFAA5A),
-                                Color(0xFFFF8E53)
-                              ],
+                              colors: [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(30.r),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFFFAA5A)
-                                    .withValues(alpha: 0.4),
-                                blurRadius: 8,
+                                color: const Color(
+                                  0xFFFFAA5A,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 8.r,
                                 offset: const Offset(0, 4),
                               ),
                             ],
@@ -323,39 +337,48 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.volume_up,
-                                  size: 28, color: Colors.white),
-                              const SizedBox(width: 10),
-                              Text("Listen to Word",
+                              Icon(
+                                Icons.volume_up,
+                                size: 28.r,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 10.w),
+                              Flexible(
+                                child: Text(
+                                  "Listen to Word",
                                   style: GoogleFonts.poppins(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
 
                     // Text input
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         border: showResult
                             ? Border.all(
-                                color:
-                                    isCorrect ? Colors.green : Colors.red,
-                                width: 3)
+                                color: isCorrect ? Colors.green : Colors.red,
+                                width: 3,
+                              )
                             : Border.all(
-                                color:
-                                    Colors.white.withValues(alpha: 0.5),
-                                width: 2),
+                                color: Colors.white.withValues(alpha: 0.5),
+                                width: 2,
+                              ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
@@ -365,25 +388,25 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                         enabled: !showResult,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 4),
-                        textCapitalization:
-                            TextCapitalization.characters,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 4,
+                        ),
+                        textCapitalization: TextCapitalization.characters,
                         decoration: InputDecoration(
                           hintText: "Type the word",
                           hintStyle: GoogleFonts.nunito(
-                              color: Colors.grey.shade400,
-                              fontSize: 20,
-                              letterSpacing: 1),
+                            color: Colors.grey.shade400,
+                            fontSize: 20,
+                            letterSpacing: 1,
+                          ),
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.all(20),
+                          contentPadding: EdgeInsets.all(20.r),
                         ),
-                        onChanged: (value) =>
-                            setState(() => userInput = value),
+                        onChanged: (value) => setState(() => userInput = value),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Result message
                     if (showResult)
@@ -391,52 +414,49 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                         animation: _floatController,
                         builder: (context, child) {
                           return Transform.translate(
-                            offset: Offset(
-                                0, _floatAnimation.value * 0.3),
+                            offset: Offset(0, _floatAnimation.value * 0.3),
                             child: child,
                           );
                         },
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16.r),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: isCorrect
                                   ? [
                                       const Color(0xFF56D97F),
-                                      const Color(0xFF43A047)
+                                      const Color(0xFF43A047),
                                     ]
                                   : [
                                       const Color(0xFFFF6B6B),
-                                      const Color(0xFFFF5252)
+                                      const Color(0xFFFF5252),
                                     ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                             boxShadow: [
                               BoxShadow(
-                                color: (isCorrect
-                                        ? const Color(0xFF56D97F)
-                                        : const Color(0xFFFF6B6B))
-                                    .withValues(alpha: 0.4),
-                                blurRadius: 8,
+                                color:
+                                    (isCorrect
+                                            ? const Color(0xFF56D97F)
+                                            : const Color(0xFFFF6B6B))
+                                        .withValues(alpha: 0.4),
+                                blurRadius: 8.r,
                                 offset: const Offset(0, 4),
                               ),
                             ],
                           ),
                           child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                isCorrect
-                                    ? Icons.check_circle
-                                    : Icons.cancel,
+                                isCorrect ? Icons.check_circle : Icons.cancel,
                                 color: Colors.white,
-                                size: 30,
+                                size: 30.r,
                               ),
-                              const SizedBox(width: 10),
+                              SizedBox(width: 10.w),
                               Flexible(
                                 child: Text(
                                   isCorrect
@@ -453,49 +473,50 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                           ),
                         ),
                       ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
 
                     // Action buttons
                     if (!showResult)
                       SizedBox(
                         width: double.infinity,
                         child: GestureDetector(
-                          onTap: userInput.isNotEmpty
-                              ? _checkSpelling
-                              : null,
+                          onTap: userInput.isNotEmpty ? _checkSpelling : null,
                           child: Container(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: userInput.isNotEmpty
                                     ? [
                                         const Color(0xFF56D97F),
-                                        const Color(0xFF43A047)
+                                        const Color(0xFF43A047),
                                       ]
                                     : [
                                         Colors.grey.shade400,
-                                        Colors.grey.shade500
+                                        Colors.grey.shade500,
                                       ],
                               ),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               boxShadow: userInput.isNotEmpty
                                   ? [
                                       BoxShadow(
-                                        color: const Color(0xFF56D97F)
-                                            .withValues(alpha: 0.4),
-                                        blurRadius: 8,
+                                        color: const Color(
+                                          0xFF56D97F,
+                                        ).withValues(alpha: 0.4),
+                                        blurRadius: 8.r,
                                         offset: const Offset(0, 4),
                                       ),
                                     ]
                                   : null,
                             ),
                             child: Center(
-                              child: Text("Check Spelling",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
+                              child: Text(
+                                "Check Spelling",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -507,69 +528,71 @@ class _SpellingPracticeDetailPageState extends State<SpellingPracticeDetailPage>
                             child: GestureDetector(
                               onTap: _resetCurrent,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 16),
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
                                     colors: [
                                       Color(0xFFFFAA5A),
-                                      Color(0xFFFF8E53)
+                                      Color(0xFFFF8E53),
                                     ],
                                   ),
-                                  borderRadius:
-                                      BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(16.r),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFFFFAA5A)
-                                          .withValues(alpha: 0.4),
-                                      blurRadius: 8,
+                                      color: const Color(
+                                        0xFFFFAA5A,
+                                      ).withValues(alpha: 0.4),
+                                      blurRadius: 8.r,
                                       offset: const Offset(0, 4),
                                     ),
                                   ],
                                 ),
                                 child: Center(
-                                  child: Text("Try Again",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight:
-                                              FontWeight.bold)),
+                                  child: Text(
+                                    "Try Again",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Expanded(
                             child: GestureDetector(
                               onTap: _nextWord,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 16),
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
                                     colors: [
                                       Color(0xFF56D97F),
-                                      Color(0xFF43A047)
+                                      Color(0xFF43A047),
                                     ],
                                   ),
-                                  borderRadius:
-                                      BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(16.r),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFF56D97F)
-                                          .withValues(alpha: 0.4),
-                                      blurRadius: 8,
+                                      color: const Color(
+                                        0xFF56D97F,
+                                      ).withValues(alpha: 0.4),
+                                      blurRadius: 8.r,
                                       offset: const Offset(0, 4),
                                     ),
                                   ],
                                 ),
                                 child: Center(
-                                  child: Text("Next Word",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight:
-                                              FontWeight.bold)),
+                                  child: Text(
+                                    "Next Word",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// A scaffold with gradient background and styled AppBar
 /// Used for consistent styling across all screens in the app
 class GradientScaffold extends StatelessWidget {
@@ -64,15 +66,15 @@ class GradientScaffold extends StatelessWidget {
         leading: showBackButton
             ? IconButton(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.arrow_back_ios_new,
                     color: Colors.white,
-                    size: 20,
+                    size: 20.r,
                   ),
                 ),
                 onPressed: onBackPressed ?? () => Get.back(),
@@ -89,7 +91,7 @@ class GradientScaffold extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -112,10 +114,7 @@ class GradientScaffold extends StatelessWidget {
             if (subtitle != null)
               Text(
                 subtitle!,
-                style: GoogleFonts.nunito(
-                  fontSize: 12,
-                  color: Colors.white70,
-                ),
+                style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70),
               ),
           ],
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class TeacherModePage extends StatefulWidget {
   const TeacherModePage({super.key});
 
@@ -8,16 +10,53 @@ class TeacherModePage extends StatefulWidget {
   State<TeacherModePage> createState() => _TeacherModePageState();
 }
 
-class _TeacherModePageState extends State<TeacherModePage> with TickerProviderStateMixin {
+class _TeacherModePageState extends State<TeacherModePage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   final List<Map<String, dynamic>> students = [
-    {'name': 'Aarav', 'age': 5, 'progress': 85, 'emoji': '👦', 'lastActive': 'Today'},
-    {'name': 'Ananya', 'age': 6, 'progress': 92, 'emoji': '👧', 'lastActive': 'Today'},
-    {'name': 'Vihaan', 'age': 5, 'progress': 78, 'emoji': '👦', 'lastActive': 'Yesterday'},
-    {'name': 'Diya', 'age': 6, 'progress': 88, 'emoji': '👧', 'lastActive': 'Today'},
-    {'name': 'Arjun', 'age': 5, 'progress': 65, 'emoji': '👦', 'lastActive': '2 days ago'},
-    {'name': 'Ishita', 'age': 6, 'progress': 95, 'emoji': '👧', 'lastActive': 'Today'},
+    {
+      'name': 'Aarav',
+      'age': 5,
+      'progress': 85,
+      'emoji': '👦',
+      'lastActive': 'Today',
+    },
+    {
+      'name': 'Ananya',
+      'age': 6,
+      'progress': 92,
+      'emoji': '👧',
+      'lastActive': 'Today',
+    },
+    {
+      'name': 'Vihaan',
+      'age': 5,
+      'progress': 78,
+      'emoji': '👦',
+      'lastActive': 'Yesterday',
+    },
+    {
+      'name': 'Diya',
+      'age': 6,
+      'progress': 88,
+      'emoji': '👧',
+      'lastActive': 'Today',
+    },
+    {
+      'name': 'Arjun',
+      'age': 5,
+      'progress': 65,
+      'emoji': '👦',
+      'lastActive': '2 days ago',
+    },
+    {
+      'name': 'Ishita',
+      'age': 6,
+      'progress': 95,
+      'emoji': '👧',
+      'lastActive': 'Today',
+    },
   ];
 
   final List<Map<String, dynamic>> assignments = [
@@ -60,12 +99,48 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
   ];
 
   final List<Map<String, dynamic>> curriculum = [
-    {'topic': 'Numbers', 'emoji': '🔢', 'lessons': 10, 'completed': 7, 'color': Color(0xFF4ECDC4)},
-    {'topic': 'Alphabets', 'emoji': '🔤', 'lessons': 8, 'completed': 5, 'color': Color(0xFF667EEA)},
-    {'topic': 'Hindi', 'emoji': '📚', 'lessons': 12, 'completed': 3, 'color': Color(0xFFFFAA5A)},
-    {'topic': 'Math', 'emoji': '➕', 'lessons': 15, 'completed': 10, 'color': Color(0xFF56D97F)},
-    {'topic': 'Science', 'emoji': '🔬', 'lessons': 8, 'completed': 2, 'color': Color(0xFFA78BFA)},
-    {'topic': 'Culture', 'emoji': '🏛️', 'lessons': 6, 'completed': 1, 'color': Color(0xFFFF6B6B)},
+    {
+      'topic': 'Numbers',
+      'emoji': '🔢',
+      'lessons': 10,
+      'completed': 7,
+      'color': Color(0xFF4ECDC4),
+    },
+    {
+      'topic': 'Alphabets',
+      'emoji': '🔤',
+      'lessons': 8,
+      'completed': 5,
+      'color': Color(0xFF667EEA),
+    },
+    {
+      'topic': 'Hindi',
+      'emoji': '📚',
+      'lessons': 12,
+      'completed': 3,
+      'color': Color(0xFFFFAA5A),
+    },
+    {
+      'topic': 'Math',
+      'emoji': '➕',
+      'lessons': 15,
+      'completed': 10,
+      'color': Color(0xFF56D97F),
+    },
+    {
+      'topic': 'Science',
+      'emoji': '🔬',
+      'lessons': 8,
+      'completed': 2,
+      'color': Color(0xFFA78BFA),
+    },
+    {
+      'topic': 'Culture',
+      'emoji': '🏛️',
+      'lessons': 6,
+      'completed': 1,
+      'color': Color(0xFFFF6B6B),
+    },
   ];
 
   @override
@@ -85,12 +160,12 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -98,33 +173,57 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                blurRadius: 10.r,
+                offset: Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Teacher Mode", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text(
+          "Teacher Mode",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-          tabs: const [
-            Tab(text: "Dashboard", icon: Icon(Icons.dashboard, size: 18)),
-            Tab(text: "Students", icon: Icon(Icons.people, size: 18)),
-            Tab(text: "Assignments", icon: Icon(Icons.assignment, size: 18)),
-            Tab(text: "Curriculum", icon: Icon(Icons.menu_book, size: 18)),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
+          tabs: [
+            Tab(
+              text: "Dashboard",
+              icon: Icon(Icons.dashboard, size: 18.r),
+            ),
+            Tab(
+              text: "Students",
+              icon: Icon(Icons.people, size: 18.r),
+            ),
+            Tab(
+              text: "Assignments",
+              icon: Icon(Icons.assignment, size: 18.r),
+            ),
+            Tab(
+              text: "Curriculum",
+              icon: Icon(Icons.menu_book, size: 18.r),
+            ),
           ],
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -145,135 +244,256 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
 
   Widget _buildDashboardTab() {
     final totalStudents = students.length;
-    final avgProgress = students.map((s) => s['progress'] as int).reduce((a, b) => a + b) ~/ totalStudents;
-    final activeToday = students.where((s) => s['lastActive'] == 'Today').length;
-    final pendingAssignments = assignments.where((a) => a['status'] == 'Active').length;
+    final avgProgress =
+        students.map((s) => s['progress'] as int).reduce((a, b) => a + b) ~/
+        totalStudents;
+    final activeToday = students
+        .where((s) => s['lastActive'] == 'Today')
+        .length;
+    final pendingAssignments = assignments
+        .where((a) => a['status'] == 'Active')
+        .length;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("📊", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          const Text("Class Overview", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 20),
+          SizedBox(height: 8.h),
+          const Text(
+            "Class Overview",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 20.h),
 
           // Quick Stats
           Row(
             children: [
-              Expanded(child: _buildStatCard("👨‍👩‍👧‍👦", "Students", totalStudents.toString(), Color(0xFF4ECDC4))),
-              const SizedBox(width: 12),
-              Expanded(child: _buildStatCard("📈", "Avg Progress", "$avgProgress%", Color(0xFF56D97F))),
+              Expanded(
+                child: _buildStatCard(
+                  "👨‍👩‍👧‍👦",
+                  "Students",
+                  totalStudents.toString(),
+                  Color(0xFF4ECDC4),
+                ),
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: _buildStatCard(
+                  "📈",
+                  "Avg Progress",
+                  "$avgProgress%",
+                  Color(0xFF56D97F),
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Row(
             children: [
-              Expanded(child: _buildStatCard("✅", "Active Today", activeToday.toString(), Color(0xFF667EEA))),
-              const SizedBox(width: 12),
-              Expanded(child: _buildStatCard("📋", "Pending Tasks", pendingAssignments.toString(), Color(0xFFFFAA5A))),
+              Expanded(
+                child: _buildStatCard(
+                  "✅",
+                  "Active Today",
+                  activeToday.toString(),
+                  Color(0xFF667EEA),
+                ),
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: _buildStatCard(
+                  "📋",
+                  "Pending Tasks",
+                  pendingAssignments.toString(),
+                  Color(0xFFFFAA5A),
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
 
           // Top Performers
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Text("🏆", style: TextStyle(fontSize: 24)),
-                    SizedBox(width: 8),
-                    Text("Top Performers", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Flexible(
+                      child: Text(
+                        "🏆",
+                        style: TextStyle(fontSize: 24),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Flexible(
+                      child: Text(
+                        "Top Performers",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 ...students
                     .where((s) => (s['progress'] as int) >= 85)
-                    .map((s) => Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: Row(
-                            children: [
-                              Text(s['emoji'], style: const TextStyle(fontSize: 30)),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(s['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    Text("Age ${s['age']}", style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
-                                  ],
+                    .map(
+                      (s) => Padding(
+                        padding: EdgeInsets.only(bottom: 12.h),
+                        child: Row(
+                          children: [
+                            Text(
+                              s['emoji'],
+                              style: const TextStyle(fontSize: 30),
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    s['name'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Age ${s['age']}",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF56D97F).withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Text(
+                                "${s['progress']}%",
+                                style: const TextStyle(
+                                  color: Color(0xFF56D97F),
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF56D97F).withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text("${s['progress']}%", style: const TextStyle(color: Color(0xFF56D97F), fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                        ))
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                     .toList(),
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Needs Attention
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Text("⚠️", style: TextStyle(fontSize: 24)),
-                    SizedBox(width: 8),
-                    Text("Needs Attention", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Flexible(
+                      child: Text(
+                        "⚠️",
+                        style: TextStyle(fontSize: 24),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Flexible(
+                      child: Text(
+                        "Needs Attention",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 ...students
                     .where((s) => (s['progress'] as int) < 75)
-                    .map((s) => Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: Row(
-                            children: [
-                              Text(s['emoji'], style: const TextStyle(fontSize: 30)),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(s['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                                    Text("Last active: ${s['lastActive']}", style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
-                                  ],
+                    .map(
+                      (s) => Padding(
+                        padding: EdgeInsets.only(bottom: 12.h),
+                        child: Row(
+                          children: [
+                            Text(
+                              s['emoji'],
+                              style: const TextStyle(fontSize: 30),
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    s['name'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Last active: ${s['lastActive']}",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFFF6B6B).withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Text(
+                                "${s['progress']}%",
+                                style: const TextStyle(
+                                  color: Color(0xFFFF6B6B),
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFF6B6B).withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text("${s['progress']}%", style: const TextStyle(color: Color(0xFFFF6B6B), fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                        ))
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                     .toList(),
               ],
             ),
@@ -285,17 +505,27 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
 
   Widget _buildStatCard(String emoji, String title, String value, Color color) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         children: [
           Text(emoji, style: const TextStyle(fontSize: 30)),
-          const SizedBox(height: 8),
-          Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-          Text(title, style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+          SizedBox(height: 8.h),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          Text(
+            title,
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          ),
         ],
       ),
     );
@@ -303,25 +533,38 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
 
   Widget _buildStudentsTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: students.length + 2,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("👨‍👩‍👧‍👦", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("My Students", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("${students.length} students enrolled", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "My Students",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "${students.length} students enrolled",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
 
         if (index == students.length + 1) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: 16.h),
             child: ElevatedButton.icon(
               onPressed: () => _showAddStudentDialog(),
               icon: const Icon(Icons.add),
@@ -329,8 +572,10 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Color(0xFF667EEA),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
               ),
             ),
           );
@@ -338,45 +583,65 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
 
         final student = students[index - 1];
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
+          margin: EdgeInsets.only(bottom: 12.h),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: ListTile(
-            contentPadding: const EdgeInsets.all(16),
+            contentPadding: EdgeInsets.all(16.r),
             leading: Container(
-              width: 55,
-              height: 55,
+              width: 55.w,
+              height: 55.h,
               decoration: BoxDecoration(
-                color: _getProgressColor(student['progress']).withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(14),
+                color: _getProgressColor(
+                  student['progress'],
+                ).withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(14.r),
               ),
-              child: Center(child: Text(student['emoji'], style: const TextStyle(fontSize: 30))),
+              child: Center(
+                child: Text(
+                  student['emoji'],
+                  style: const TextStyle(fontSize: 30),
+                ),
+              ),
             ),
-            title: Text(student['name'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+            title: Text(
+              student['name'],
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Age ${student['age']} • ${student['lastActive']}", style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
-                const SizedBox(height: 8),
+                Text(
+                  "Age ${student['age']} • ${student['lastActive']}",
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                ),
+                SizedBox(height: 8.h),
                 LinearProgressIndicator(
                   value: student['progress'] / 100,
                   backgroundColor: Colors.grey.shade200,
-                  valueColor: AlwaysStoppedAnimation(_getProgressColor(student['progress'])),
-                  borderRadius: BorderRadius.circular(4),
+                  valueColor: AlwaysStoppedAnimation(
+                    _getProgressColor(student['progress']),
+                  ),
+                  borderRadius: BorderRadius.circular(4.r),
                 ),
               ],
             ),
             trailing: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               decoration: BoxDecoration(
-                color: _getProgressColor(student['progress']).withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                color: _getProgressColor(
+                  student['progress'],
+                ).withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Text(
                 "${student['progress']}%",
-                style: TextStyle(color: _getProgressColor(student['progress']), fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: _getProgressColor(student['progress']),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             onTap: () => _showStudentDetails(student),
@@ -395,25 +660,38 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
 
   Widget _buildAssignmentsTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: assignments.length + 2,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("📋", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Assignments", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Track and manage class assignments", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "Assignments",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Track and manage class assignments",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
 
         if (index == assignments.length + 1) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: 16.h),
             child: ElevatedButton.icon(
               onPressed: () => _showCreateAssignmentDialog(),
               icon: const Icon(Icons.add),
@@ -421,71 +699,116 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Color(0xFF667EEA),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
               ),
             ),
           );
         }
 
         final assignment = assignments[index - 1];
-        final completionRate = (assignment['completed'] / assignment['assigned'] * 100).toInt();
+        final completionRate =
+            (assignment['completed'] / assignment['assigned'] * 100).toInt();
 
         return Container(
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: EdgeInsets.only(bottom: 16.h),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [assignment['color'], assignment['color'].withValues(alpha: 0.7)]),
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                  gradient: LinearGradient(
+                    colors: [
+                      assignment['color'],
+                      assignment['color'].withValues(alpha: 0.7),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.r),
+                    topRight: Radius.circular(16.r),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    Text(assignment['emoji'], style: const TextStyle(fontSize: 30)),
-                    const SizedBox(width: 12),
+                    Text(
+                      assignment['emoji'],
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(assignment['title'], style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold)),
-                          Text("Due: ${assignment['dueDate']}", style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                          Text(
+                            assignment['title'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Due: ${assignment['dueDate']}",
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 6.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
-                      child: Text(assignment['status'], style: const TextStyle(color: Colors.white, fontSize: 12)),
+                      child: Text(
+                        assignment['status'],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Completion: ${assignment['completed']}/${assignment['assigned']}", style: TextStyle(color: Colors.grey.shade700)),
-                        Text("$completionRate%", style: TextStyle(color: assignment['color'], fontWeight: FontWeight.bold)),
+                        Text(
+                          "Completion: ${assignment['completed']}/${assignment['assigned']}",
+                          style: TextStyle(color: Colors.grey.shade700),
+                        ),
+                        Text(
+                          "$completionRate%",
+                          style: TextStyle(
+                            color: assignment['color'],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     LinearProgressIndicator(
                       value: completionRate / 100,
                       backgroundColor: Colors.grey.shade200,
                       valueColor: AlwaysStoppedAnimation(assignment['color']),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(4.r),
                     ),
                   ],
                 ),
@@ -499,18 +822,31 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
 
   Widget _buildCurriculumTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: curriculum.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("📚", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Curriculum", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Track lesson progress across topics", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "Curriculum",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Track lesson progress across topics",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
@@ -519,43 +855,68 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
         final progress = (topic['completed'] / topic['lessons'] * 100).toInt();
 
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Container(
-                width: 55,
-                height: 55,
+                width: 55.w,
+                height: 55.h,
                 decoration: BoxDecoration(
                   color: topic['color'].withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
-                child: Center(child: Text(topic['emoji'], style: const TextStyle(fontSize: 28))),
+                child: Center(
+                  child: Text(
+                    topic['emoji'],
+                    style: const TextStyle(fontSize: 28),
+                  ),
+                ),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: 14.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(topic['topic'], style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: topic['color'])),
-                    const SizedBox(height: 4),
-                    Text("${topic['completed']}/${topic['lessons']} lessons completed", style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
-                    const SizedBox(height: 8),
+                    Text(
+                      topic['topic'],
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: topic['color'],
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      "${topic['completed']}/${topic['lessons']} lessons completed",
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
                     LinearProgressIndicator(
                       value: progress / 100,
                       backgroundColor: Colors.grey.shade200,
                       valueColor: AlwaysStoppedAnimation(topic['color']),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(4.r),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
-              Text("$progress%", style: TextStyle(color: topic['color'], fontWeight: FontWeight.bold, fontSize: 16)),
+              SizedBox(width: 12.w),
+              Text(
+                "$progress%",
+                style: TextStyle(
+                  color: topic['color'],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ],
           ),
         );
@@ -570,8 +931,8 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.white,
       colorText: Color(0xFF667EEA),
-      margin: const EdgeInsets.all(16),
-      borderRadius: 12,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 12.r,
     );
   }
 
@@ -582,56 +943,82 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.white,
       colorText: Color(0xFF667EEA),
-      margin: const EdgeInsets.all(16),
-      borderRadius: 12,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 12.r,
     );
   }
 
   void _showStudentDetails(Map<String, dynamic> student) {
     Get.bottomSheet(
       Container(
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
+        padding: EdgeInsets.all(24.r),
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24.r),
+            topRight: Radius.circular(24.r),
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 50,
-              height: 5,
-              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
-            ),
-            const SizedBox(height: 20),
-            Text(student['emoji'], style: const TextStyle(fontSize: 60)),
-            const SizedBox(height: 12),
-            Text(student['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            Text("Age ${student['age']} • Last active: ${student['lastActive']}", style: TextStyle(color: Colors.grey.shade600)),
-            const SizedBox(height: 24),
-            Container(
-              padding: const EdgeInsets.all(20),
+              width: 50.w,
+              height: 5.h,
               decoration: BoxDecoration(
-                color: _getProgressColor(student['progress']).withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(16),
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Text(student['emoji'], style: const TextStyle(fontSize: 60)),
+            SizedBox(height: 12.h),
+            Text(
+              student['name'],
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Age ${student['age']} • Last active: ${student['lastActive']}",
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+            SizedBox(height: 24.h),
+            Container(
+              padding: EdgeInsets.all(20.r),
+              decoration: BoxDecoration(
+                color: _getProgressColor(
+                  student['progress'],
+                ).withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 children: [
-                  const Text("📊 Overall Progress", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 12),
-                  Text("${student['progress']}%", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: _getProgressColor(student['progress']))),
-                  const SizedBox(height: 8),
+                  const Text(
+                    "📊 Overall Progress",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    "${student['progress']}%",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: _getProgressColor(student['progress']),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
                   LinearProgressIndicator(
                     value: student['progress'] / 100,
                     backgroundColor: Colors.grey.shade200,
-                    valueColor: AlwaysStoppedAnimation(_getProgressColor(student['progress'])),
-                    minHeight: 8,
-                    borderRadius: BorderRadius.circular(4),
+                    valueColor: AlwaysStoppedAnimation(
+                      _getProgressColor(student['progress']),
+                    ),
+                    minHeight: 8.h,
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Row(
               children: [
                 Expanded(
@@ -642,11 +1029,11 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF667EEA),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () => Get.back(),
@@ -655,7 +1042,7 @@ class _TeacherModePageState extends State<TeacherModePage> with TickerProviderSt
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF56D97F),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
                     ),
                   ),
                 ),

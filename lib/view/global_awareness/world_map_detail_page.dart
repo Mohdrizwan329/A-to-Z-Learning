@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class WorldMapDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -220,16 +222,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           'emoji': '🏔️',
           'shows': 'Mountains, rivers, lakes',
         },
-        {
-          'type': 'Climate Map',
-          'emoji': '🌡️',
-          'shows': 'Weather patterns',
-        },
-        {
-          'type': 'Road Map',
-          'emoji': '🛣️',
-          'shows': 'Streets and highways',
-        },
+        {'type': 'Climate Map', 'emoji': '🌡️', 'shows': 'Weather patterns'},
+        {'type': 'Road Map', 'emoji': '🛣️', 'shows': 'Streets and highways'},
         {
           'type': 'Treasure Map',
           'emoji': '🗺️',
@@ -293,7 +287,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
       title: section['title'],
       emoji: section['emoji'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: _buildSectionContent(section),
       ),
     );
@@ -332,8 +326,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return buildFloatingItem(
       index: index,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
@@ -344,7 +338,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -352,11 +346,11 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -374,7 +368,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -384,12 +378,12 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
@@ -397,7 +391,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['mapElements'].length, (index) {
           final element = section['mapElements'][index];
           return _buildGradientItem(
@@ -405,8 +399,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -418,7 +412,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -453,7 +447,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -463,7 +457,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           '7 Great Land Masses',
           style: GoogleFonts.nunito(
@@ -471,7 +465,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['continents'].length, (index) {
           final continent = section['continents'][index];
           return _buildGradientItem(
@@ -479,8 +473,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -492,7 +486,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -535,7 +529,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -545,7 +539,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           '5 Great Bodies of Water',
           style: GoogleFonts.nunito(
@@ -553,7 +547,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['oceans'].length, (index) {
           final ocean = section['oceans'][index];
           return _buildGradientItem(
@@ -564,8 +558,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                 Row(
                   children: [
                     Container(
-                      width: 55,
-                      height: 55,
+                      width: 55.w,
+                      height: 55.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -577,7 +571,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -602,18 +596,18 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Wrap(
-                  spacing: 6,
+                  spacing: 6.r,
                   children: List.generate(ocean['animals'].length, (i) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Text(
                         ocean['animals'][i],
@@ -638,7 +632,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -648,12 +642,12 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
@@ -661,7 +655,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['directions'].length, (index) {
           final direction = section['directions'][index];
           return _buildGradientItem(
@@ -669,8 +663,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -682,7 +676,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Text(
                   direction['symbol'],
                   style: GoogleFonts.poppins(
@@ -691,7 +685,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(
                   direction['name'],
                   style: GoogleFonts.nunito(
@@ -704,17 +698,17 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('☀️', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['tip'],
@@ -735,7 +729,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -745,12 +739,12 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
@@ -758,7 +752,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['symbols'].length, (index) {
           final symbol = section['symbols'][index];
           return _buildGradientItem(
@@ -766,8 +760,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -779,7 +773,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Text(
                   symbol['means'],
                   style: GoogleFonts.nunito(
@@ -800,7 +794,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -810,7 +804,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Important lines on the map!',
           style: GoogleFonts.nunito(
@@ -818,7 +812,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['lines'].length, (index) {
           final line = section['lines'][index];
           return _buildGradientItem(
@@ -826,8 +820,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -839,7 +833,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -874,7 +868,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -884,7 +878,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Different maps show different things!',
           style: GoogleFonts.nunito(
@@ -892,7 +886,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['mapTypes'].length, (index) {
           final mapType = section['mapTypes'][index];
           return _buildGradientItem(
@@ -900,8 +894,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -913,7 +907,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -948,7 +942,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -958,7 +952,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Fun activities to try!',
           style: GoogleFonts.nunito(
@@ -966,7 +960,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['activities'].length, (index) {
           final activity = section['activities'][index];
           return _buildGradientItem(
@@ -974,8 +968,8 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -987,7 +981,7 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1014,17 +1008,17 @@ class _WorldMapDetailPageState extends State<WorldMapDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('🚀', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

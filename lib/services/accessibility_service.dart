@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AccessibilityService extends GetxService {
   final GetStorage _box = GetStorage();
 
@@ -46,13 +48,16 @@ class AccessibilityService extends GetxService {
     final colorBlindIndex = _box.read<int>('a11y_color_blind_type') ?? 0;
     colorBlindType.value = ColorBlindType.values[colorBlindIndex];
     highContrastEnabled.value = _box.read<bool>('a11y_high_contrast') ?? false;
-    reduceAnimationsEnabled.value = _box.read<bool>('a11y_reduce_animations') ?? false;
+    reduceAnimationsEnabled.value =
+        _box.read<bool>('a11y_reduce_animations') ?? false;
 
     largeButtonsEnabled.value = _box.read<bool>('a11y_large_buttons') ?? false;
     boldTextEnabled.value = _box.read<bool>('a11y_bold_text') ?? false;
-    underlinkLinksEnabled.value = _box.read<bool>('a11y_underline_links') ?? false;
+    underlinkLinksEnabled.value =
+        _box.read<bool>('a11y_underline_links') ?? false;
 
-    screenReaderOptimized.value = _box.read<bool>('a11y_screen_reader') ?? false;
+    screenReaderOptimized.value =
+        _box.read<bool>('a11y_screen_reader') ?? false;
     hapticFeedbackEnabled.value = _box.read<bool>('a11y_haptic') ?? true;
     voiceSpeed.value = _box.read<double>('a11y_voice_speed') ?? 1.0;
 
@@ -84,7 +89,8 @@ class AccessibilityService extends GetxService {
   }
 
   // Font helpers
-  String get fontFamily => dyslexiaFontEnabled.value ? 'OpenDyslexic' : 'Roboto';
+  String get fontFamily =>
+      dyslexiaFontEnabled.value ? 'OpenDyslexic' : 'Roboto';
 
   TextStyle applyAccessibility(TextStyle style) {
     return style.copyWith(
@@ -174,8 +180,8 @@ class AccessibilityService extends GetxService {
   double get buttonHeight => largeButtonsEnabled.value ? 60 : 48;
   double get iconSize => largeButtonsEnabled.value ? 32 : 24;
   EdgeInsets get buttonPadding => largeButtonsEnabled.value
-      ? const EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-      : const EdgeInsets.symmetric(horizontal: 16, vertical: 12);
+      ? EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h)
+      : EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h);
 
   // Animation duration
   Duration get animationDuration => reduceAnimationsEnabled.value
@@ -273,9 +279,9 @@ class AccessibilityService extends GetxService {
 
 enum ColorBlindType {
   none,
-  protanopia,   // Red-blind
+  protanopia, // Red-blind
   deuteranopia, // Green-blind
-  tritanopia,   // Blue-blind
+  tritanopia, // Blue-blind
 }
 
 extension ColorBlindTypeExtension on ColorBlindType {

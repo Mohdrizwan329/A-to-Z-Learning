@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class CountriesFlagsDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -295,7 +297,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
       title: section['title'],
       emoji: section['emoji'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: _buildSectionContent(section),
       ),
     );
@@ -325,19 +327,19 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
     return buildFloatingItem(
       index: index,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -345,11 +347,11 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -367,7 +369,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -377,12 +379,12 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Text(
             section['description'],
@@ -390,7 +392,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         Text(
           '7 Continents of the World:',
           style: GoogleFonts.poppins(
@@ -399,7 +401,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         ...List.generate(section['continents'].length, (index) {
           final continent = section['continents'][index];
           return _buildGradientItem(
@@ -407,8 +409,8 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -420,7 +422,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,7 +454,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -462,7 +464,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['countries'].length, (index) {
           final country = section['countries'][index];
           return _buildGradientItem(
@@ -470,8 +472,8 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -483,7 +485,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,12 +500,12 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
                       ),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.location_city,
-                            size: 14,
+                            size: 14.r,
                             color: Colors.white70,
                           ),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4.w),
                           Text(
                             country['capital'],
                             style: GoogleFonts.nunito(
@@ -515,8 +517,8 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.star, size: 14, color: Colors.amber),
-                          const SizedBox(width: 4),
+                          Icon(Icons.star, size: 14.r, color: Colors.amber),
+                          SizedBox(width: 4.w),
                           Text(
                             country['famous'],
                             style: GoogleFonts.nunito(
@@ -542,7 +544,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -552,7 +554,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Colors in flags have special meanings!',
           style: GoogleFonts.nunito(
@@ -560,7 +562,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['meanings'].length, (index) {
           final meaning = section['meanings'][index];
           return _buildGradientItem(
@@ -568,8 +570,8 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -578,7 +580,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
                     child: Text('🎨', style: const TextStyle(fontSize: 28)),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -613,7 +615,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
     return Column(
       children: [
         Text(section['emoji'], style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'],
           style: GoogleFonts.poppins(
@@ -623,7 +625,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Can you guess the country?',
           style: GoogleFonts.nunito(
@@ -631,7 +633,7 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             color: Colors.white.withValues(alpha: 0.9),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(section['quiz'].length, (index) {
           final quiz = section['quiz'][index];
           return _buildGradientItem(
@@ -639,21 +641,21 @@ class _CountriesFlagsDetailPageState extends State<CountriesFlagsDetailPage>
             child: Column(
               children: [
                 Text(quiz['flag'], style: const TextStyle(fontSize: 56)),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Wrap(
-                  spacing: 8,
+                  spacing: 8.r,
                   children: List.generate(quiz['options'].length, (i) {
                     final isAnswer = i == quiz['answer'];
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 8.h,
                       ),
                       decoration: BoxDecoration(
                         color: isAnswer
                             ? Colors.white.withValues(alpha: 0.4)
                             : Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         border: Border.all(
                           color: isAnswer
                               ? Colors.white

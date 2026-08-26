@@ -6,6 +6,8 @@ import 'package:jiyan_learning/view/math%20scanner/math_scanner_page.dart';
 import 'package:jiyan_learning/view/profiles/profile/profile_page.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MainNavigationController extends GetxController {
   var currentIndex = 0.obs;
 
@@ -50,52 +52,62 @@ class MainNavigationScreen extends StatelessWidget {
           ],
         );
       }),
-      bottomNavigationBar: Obx(() => Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10,
-              offset: const Offset(0, -4),
+      bottomNavigationBar: Obx(
+        () => Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildNavItem(
-                  index: 0,
-                  icon: Icons.home_rounded,
-                  label: "Home",
-                ),
-                _buildNavItem(
-                  index: 1,
-                  icon: Icons.document_scanner_rounded,
-                  label: "OCR",
-                ),
-                _buildNavItem(
-                  index: 2,
-                  icon: Icons.camera_alt_rounded,
-                  label: "Scanner",
-                ),
-                _buildNavItem(
-                  index: 3,
-                  icon: Icons.person_rounded,
-                  label: "Profile",
-                ),
-              ],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10.r,
+                offset: const Offset(0, -4),
+              ),
+            ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Flexible(
+                    child: _buildNavItem(
+                      index: 0,
+                      icon: Icons.home_rounded,
+                      label: "Home",
+                    ),
+                  ),
+                  Flexible(
+                    child: _buildNavItem(
+                      index: 1,
+                      icon: Icons.document_scanner_rounded,
+                      label: "OCR",
+                    ),
+                  ),
+                  Flexible(
+                    child: _buildNavItem(
+                      index: 2,
+                      icon: Icons.camera_alt_rounded,
+                      label: "Scanner",
+                    ),
+                  ),
+                  Flexible(
+                    child: _buildNavItem(
+                      index: 3,
+                      icon: Icons.person_rounded,
+                      label: "Profile",
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 
@@ -110,20 +122,18 @@ class MainNavigationScreen extends StatelessWidget {
       onTap: () => controller.changeTab(index),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white.withOpacity(0.2) : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          color: isSelected
+              ? Colors.white.withOpacity(0.2)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 24,
-            ),
-            const SizedBox(height: 4),
+            Icon(icon, color: Colors.white, size: 24.r),
+            SizedBox(height: 4.h),
             Text(
               label,
               style: const TextStyle(

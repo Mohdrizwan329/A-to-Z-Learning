@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class EarlyLearningHubPage extends StatefulWidget {
   const EarlyLearningHubPage({super.key});
 
@@ -57,6 +59,10 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
         totalCompleted++;
       }
     }
+    // _learningTypes is currently never populated, so this divided 0 by 0 and
+    // handed LinearProgressIndicator a NaN, which blew the layout out by ~99k
+    // pixels. Guard the division regardless of what the list holds.
+    if (_learningTypes.isEmpty) return 0;
     return totalCompleted / _learningTypes.length;
   }
 
@@ -98,21 +104,21 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
@@ -121,7 +127,7 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
             boxShadow: [
               BoxShadow(
                 color: Color(0x40FF6B6B),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: Offset(0, 5),
               ),
             ],
@@ -139,16 +145,12 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -178,36 +180,44 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
                 final progress = _overallProgress;
                 final progressString = _progressString;
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
@@ -221,11 +231,11 @@ class _EarlyLearningHubPageState extends State<EarlyLearningHubPage>
               // Learning types grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: _learningTypes.length,
@@ -308,11 +318,11 @@ class _LearningTypeCard extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -321,11 +331,11 @@ class _LearningTypeCard extends StatelessWidget {
           children: [
             // Decorative circles (same as Learning Sets)
             Positioned(
-              top: -20,
-              right: -20,
+              top: -20.h,
+              right: -20.w,
               child: Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -335,55 +345,58 @@ class _LearningTypeCard extends StatelessWidget {
             // Content - emoji with text
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 75,
-                      height: 75,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          type.emoji,
-                          style: const TextStyle(fontSize: 42),
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 75.w,
+                        height: 75.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.3),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            type.emoji,
+                            style: const TextStyle(fontSize: 42),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      type.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        height: 1.1,
+                      SizedBox(height: 8.h),
+                      Text(
+                        type.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          height: 1.1,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
             // Checkmark badge when visited
             if (hasProgress)
               Positioned(
-                top: 8,
-                right: 8,
+                top: 8.h,
+                right: 8.w,
                 child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: EdgeInsets.all(4.r),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.check, color: gradient[0], size: 16),
+                  child: Icon(Icons.check, color: gradient[0], size: 16.r),
                 ),
               ),
           ],

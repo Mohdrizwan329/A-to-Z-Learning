@@ -6,6 +6,8 @@ import 'package:get_storage/get_storage.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PlayBasedLearningPage extends StatefulWidget {
   const PlayBasedLearningPage({super.key});
 
@@ -522,24 +524,26 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
   void _showItemDetail(PlayItem item) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -548,7 +552,7 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                   child: Text(item.emoji, style: const TextStyle(fontSize: 60)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 item.name,
                 style: const TextStyle(
@@ -557,13 +561,13 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 item.description,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16, color: Colors.white70),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -612,23 +616,25 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
   void _showComingSoon(PlayItem item) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(item.emoji, style: const TextStyle(fontSize: 60)),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 item.name,
                 style: const TextStyle(
@@ -637,12 +643,12 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               const Text(
                 'Coming Soon!',
                 style: TextStyle(fontSize: 16, color: Colors.white70),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               _buildGradientButton(
                 icon: Icons.check,
                 label: 'OK',
@@ -679,20 +685,20 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 20.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: const TextStyle(
@@ -727,15 +733,15 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -761,12 +767,12 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -775,11 +781,11 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: _categories.map((cat) {
             return Tab(
               child: Text(
@@ -812,18 +818,22 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
             children: [
               // Progress bar
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        // The reader's font size can be 30% larger than this row was drawn for.
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -836,12 +846,12 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: _progressPercentage,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -854,11 +864,11 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
               // Games grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: category.items.length,
@@ -894,11 +904,11 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -906,11 +916,11 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -919,16 +929,16 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
-                                        width: 75,
-                                        height: 75,
+                                        width: 75.w,
+                                        height: 75.h,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withValues(
                                             alpha: 0.3,
@@ -944,7 +954,7 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       Text(
                                         item.name,
                                         style: const TextStyle(
@@ -967,10 +977,10 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                                   ) ==
                                   true)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
@@ -978,7 +988,7 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                                     child: Icon(
                                       Icons.check,
                                       color: gradient[0],
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),
@@ -1067,7 +1077,7 @@ class _MemoryGameScreenState extends State<_MemoryGameScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -1084,7 +1094,12 @@ class _MemoryGameScreenState extends State<_MemoryGameScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -1094,7 +1109,7 @@ class _MemoryGameScreenState extends State<_MemoryGameScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Row(
                   children: [
                     IconButton(
@@ -1115,20 +1130,19 @@ class _MemoryGameScreenState extends State<_MemoryGameScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(width: 48),
+                    SizedBox(width: 48.w),
                   ],
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                        ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 8.r,
+                      crossAxisSpacing: 8.r,
+                    ),
                     itemCount: _emojis.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
@@ -1149,11 +1163,11 @@ class _MemoryGameScreenState extends State<_MemoryGameScreen> {
                                             const Color(0xFFFF8E53),
                                           ]),
                             ),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 5,
+                                blurRadius: 5.r,
                               ),
                             ],
                           ),
@@ -1241,7 +1255,7 @@ class _ColorPopScreenState extends State<_ColorPopScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -1258,7 +1272,12 @@ class _ColorPopScreenState extends State<_ColorPopScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -1268,7 +1287,7 @@ class _ColorPopScreenState extends State<_ColorPopScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Row(
                   children: [
                     IconButton(
@@ -1289,11 +1308,11 @@ class _ColorPopScreenState extends State<_ColorPopScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(width: 48),
+                    SizedBox(width: 48.w),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Text(
                 'Pop the ${_targetColor['name']} bubbles!',
                 style: const TextStyle(
@@ -1303,9 +1322,9 @@ class _ColorPopScreenState extends State<_ColorPopScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(16),
-                width: 50,
-                height: 50,
+                margin: EdgeInsets.all(16.r),
+                width: 50.w,
+                height: 50.h,
                 decoration: BoxDecoration(
                   color: _targetColor['color'],
                   shape: BoxShape.circle,
@@ -1323,15 +1342,15 @@ class _ColorPopScreenState extends State<_ColorPopScreen> {
                       child: GestureDetector(
                         onTap: () => _onBubbleTap(index, bubbleColor),
                         child: Container(
-                          width: 60,
-                          height: 60,
+                          width: 60.w,
+                          height: 60.h,
                           decoration: BoxDecoration(
                             color: bubbleColor.withValues(alpha: 0.8),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color: bubbleColor.withValues(alpha: 0.5),
-                                blurRadius: 10,
+                                blurRadius: 10.r,
                               ),
                             ],
                           ),
@@ -1390,7 +1409,7 @@ class _NumberJumpScreenState extends State<_NumberJumpScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -1407,7 +1426,12 @@ class _NumberJumpScreenState extends State<_NumberJumpScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -1417,7 +1441,7 @@ class _NumberJumpScreenState extends State<_NumberJumpScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Row(
                   children: [
                     IconButton(
@@ -1438,20 +1462,19 @@ class _NumberJumpScreenState extends State<_NumberJumpScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(width: 48),
+                    SizedBox(width: 48.w),
                   ],
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 16,
-                          crossAxisSpacing: 16,
-                        ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 16.r,
+                      crossAxisSpacing: 16.r,
+                    ),
                     itemCount: _shuffledNumbers.length,
                     itemBuilder: (context, index) {
                       final number = _shuffledNumbers[index];
@@ -1472,12 +1495,12 @@ class _NumberJumpScreenState extends State<_NumberJumpScreen> {
                                       const Color(0xFFFF8E53),
                                     ],
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                             boxShadow: [
                               BoxShadow(
                                 color: (isFound ? Colors.green : Colors.red)
                                     .withValues(alpha: 0.4),
-                                blurRadius: 10,
+                                blurRadius: 10.r,
                               ),
                             ],
                           ),

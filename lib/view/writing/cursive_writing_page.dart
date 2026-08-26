@@ -3,6 +3,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class CursiveWritingPage extends StatefulWidget {
   const CursiveWritingPage({super.key});
 
@@ -28,40 +30,139 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
   ];
 
   final List<String> capitalLetters = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-    'U', 'V', 'W', 'X', 'Y', 'Z'
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
   ];
 
   final List<String> smallLetters = [
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-    'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-    'u', 'v', 'w', 'x', 'y', 'z'
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
   ];
 
   final List<String> numbers = [
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
   ];
 
   final List<String> hindiLetters = [
-    'अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः',
-    'क', 'ख', 'ग', 'घ', 'ङ',
-    'च', 'छ', 'ज', 'झ', 'ञ',
-    'ट', 'ठ', 'ड', 'ढ', 'ण',
-    'त', 'थ', 'द', 'ध', 'न',
-    'प', 'फ', 'ब', 'भ', 'म',
-    'य', 'र', 'ल', 'व',
-    'श', 'ष', 'स', 'ह',
-    'क्ष', 'त्र', 'ज्ञ',
+    'अ',
+    'आ',
+    'इ',
+    'ई',
+    'उ',
+    'ऊ',
+    'ए',
+    'ऐ',
+    'ओ',
+    'औ',
+    'अं',
+    'अः',
+    'क',
+    'ख',
+    'ग',
+    'घ',
+    'ङ',
+    'च',
+    'छ',
+    'ज',
+    'झ',
+    'ञ',
+    'ट',
+    'ठ',
+    'ड',
+    'ढ',
+    'ण',
+    'त',
+    'थ',
+    'द',
+    'ध',
+    'न',
+    'प',
+    'फ',
+    'ब',
+    'भ',
+    'म',
+    'य',
+    'र',
+    'ल',
+    'व',
+    'श',
+    'ष',
+    'स',
+    'ह',
+    'क्ष',
+    'त्र',
+    'ज्ञ',
   ];
 
   List<String> get currentList {
     switch (currentCategory) {
-      case 0: return capitalLetters;
-      case 1: return smallLetters;
-      case 2: return numbers;
-      case 3: return hindiLetters;
-      default: return capitalLetters;
+      case 0:
+        return capitalLetters;
+      case 1:
+        return smallLetters;
+      case 2:
+        return numbers;
+      case 3:
+        return hindiLetters;
+      default:
+        return capitalLetters;
     }
   }
 
@@ -151,220 +252,234 @@ class _CursiveWritingPageState extends State<CursiveWritingPage> {
       emoji: '✒️',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: _clearCanvas,
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 24),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 24.r),
           ),
         ),
       ],
       body: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-              // Category buttons + letter display
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    // Category buttons row
-                    Row(
-                      children: List.generate(4, (index) {
-                        final isSelected = currentCategory == index;
-                        return Expanded(
-                          child: GestureDetector(
-                            onTap: () => _selectCategory(index),
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 4),
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                gradient: isSelected
-                                    ? LinearGradient(colors: categoryGradients[index])
-                                    : null,
-                                color: isSelected ? null : Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  categoryLabels[index],
-                                  style: TextStyle(
-                                    color: isSelected ? Colors.white : Colors.grey.shade600,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
+        child: Column(
+          children: [
+            SizedBox(height: 12.h),
+            // Category buttons + letter display
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Column(
+                children: [
+                  // Category buttons row
+                  Row(
+                    children: List.generate(4, (index) {
+                      final isSelected = currentCategory == index;
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () => _selectCategory(index),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 4.w),
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
+                            decoration: BoxDecoration(
+                              gradient: isSelected
+                                  ? LinearGradient(
+                                      colors: categoryGradients[index],
+                                    )
+                                  : null,
+                              color: isSelected ? null : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                categoryLabels[index],
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : Colors.grey.shade600,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      }),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 12.h),
+            // Canvas
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 15.r,
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 12),
-              // Canvas
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24.r),
+                  child: Stack(
+                    children: [
+                      // Guide lines (notebook style)
+                      CustomPaint(
+                        size: Size.infinite,
+                        painter: NotebookLinesPainter(),
+                      ),
+                      // Guide letter (faded cursive)
+                      if (showGuide)
+                        Center(
+                          child: Text(
+                            currentLetter,
+                            style: TextStyle(
+                              fontSize: 250,
+                              fontFamily: 'Cursive',
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.purple.withValues(alpha: 0.12),
+                            ),
+                          ),
+                        ),
+                      // Drawing canvas (clipped to letter shape)
+                      GestureDetector(
+                        onPanStart: (details) {
+                          setState(() {
+                            drawingPoints.add(
+                              CursiveDrawingPoint(
+                                offset: details.localPosition,
+                                color: penColor,
+                                strokeWidth: penWidth,
+                              ),
+                            );
+                          });
+                        },
+                        onPanUpdate: (details) {
+                          setState(() {
+                            drawingPoints.add(
+                              CursiveDrawingPoint(
+                                offset: details.localPosition,
+                                color: penColor,
+                                strokeWidth: penWidth,
+                              ),
+                            );
+                          });
+                        },
+                        onPanEnd: (details) {
+                          setState(() => drawingPoints.add(null));
+                        },
+                        child: CustomPaint(
+                          size: Size.infinite,
+                          painter: CursiveColoringPainter(
+                            drawingPoints: drawingPoints,
+                            letter: currentLetter,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24),
-                    child: Stack(
-                      children: [
-                        // Guide lines (notebook style)
-                        CustomPaint(
-                          size: Size.infinite,
-                          painter: NotebookLinesPainter(),
+                ),
+              ),
+            ),
+            SizedBox(height: 12.h),
+            // Tools
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.all(12.r),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Color picker
+                  ...penColors.map(
+                    (color) => GestureDetector(
+                      onTap: () => setState(() => penColor = color),
+                      child: Container(
+                        width: 32.w,
+                        height: 32.h,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: penColor == color
+                              ? Border.all(color: Colors.white, width: 3)
+                              : null,
                         ),
-                        // Guide letter (faded cursive)
-                        if (showGuide)
-                          Center(
-                            child: Text(
-                              currentLetter,
-                              style: TextStyle(
-                                fontSize: 250,
-                                fontFamily: 'Cursive',
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.purple.withValues(alpha: 0.12),
-                              ),
-                            ),
-                          ),
-                        // Drawing canvas (clipped to letter shape)
-                        GestureDetector(
-                          onPanStart: (details) {
-                            setState(() {
-                              drawingPoints.add(CursiveDrawingPoint(
-                                offset: details.localPosition,
-                                color: penColor,
-                                strokeWidth: penWidth,
-                              ));
-                            });
-                          },
-                          onPanUpdate: (details) {
-                            setState(() {
-                              drawingPoints.add(CursiveDrawingPoint(
-                                offset: details.localPosition,
-                                color: penColor,
-                                strokeWidth: penWidth,
-                              ));
-                            });
-                          },
-                          onPanEnd: (details) {
-                            setState(() => drawingPoints.add(null));
-                          },
-                          child: CustomPaint(
-                            size: Size.infinite,
-                            painter: CursiveColoringPainter(
-                              drawingPoints: drawingPoints,
-                              letter: currentLetter,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              // Tools
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // Color picker
-                    ...penColors.map((color) => GestureDetector(
-                          onTap: () => setState(() => penColor = color),
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: color,
-                              shape: BoxShape.circle,
-                              border: penColor == color
-                                  ? Border.all(color: Colors.white, width: 3)
-                                  : null,
-                            ),
-                          ),
-                        )),
-                    const SizedBox(width: 16),
-                    // Toggle guide
-                    IconButton(
-                      onPressed: () => setState(() => showGuide = !showGuide),
-                      icon: Icon(
-                        showGuide ? Icons.visibility : Icons.visibility_off,
-                        color: Colors.white,
-                      ),
+                  SizedBox(width: 16.w),
+                  // Toggle guide
+                  IconButton(
+                    onPressed: () => setState(() => showGuide = !showGuide),
+                    icon: Icon(
+                      showGuide ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              // Action buttons
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _previousLetter,
-                        icon: const Icon(Icons.arrow_back),
-                        label: const Text("Previous"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            ),
+            SizedBox(height: 12.h),
+            // Action buttons
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _previousLetter,
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text("Previous"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _nextLetter,
-                        icon: const Icon(Icons.arrow_forward),
-                        label: const Text("Next"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF56D97F),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  ),
+                  SizedBox(width: 16.w),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _nextLetter,
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text("Next"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF56D97F),
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-            ],
-          ),
+            ),
+            SizedBox(height: 16.h),
+          ],
         ),
+      ),
     );
   }
 }
@@ -416,10 +531,7 @@ class CursiveColoringPainter extends CustomPainter {
   final List<CursiveDrawingPoint?> drawingPoints;
   final String letter;
 
-  CursiveColoringPainter({
-    required this.drawingPoints,
-    required this.letter,
-  });
+  CursiveColoringPainter({required this.drawingPoints, required this.letter});
 
   @override
   void paint(Canvas canvas, Size size) {

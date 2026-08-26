@@ -7,6 +7,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class FunGamesPage extends StatefulWidget {
   const FunGamesPage({super.key});
 
@@ -17,11 +19,7 @@ class FunGamesPage extends StatefulWidget {
 class _FunGamesPageState extends State<FunGamesPage>
     with TickerProviderStateMixin {
   final List<Map<String, dynamic>> _games = [
-    {
-      'title': 'Memory Match',
-      'icon': '🧠',
-      'description': 'Match the pairs!',
-    },
+    {'title': 'Memory Match', 'icon': '🧠', 'description': 'Match the pairs!'},
     {
       'title': 'Word Scramble',
       'icon': '🔤',
@@ -111,12 +109,12 @@ class _FunGamesPageState extends State<FunGamesPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () async {
             await _progressService.resetProgress(ProgressService.kFunGames);
@@ -138,36 +136,42 @@ class _FunGamesPageState extends State<FunGamesPage>
                   ProgressService.kFunGames,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$completed/$total completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$completed/$total completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: total > 0 ? completed / total : 0,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
@@ -181,11 +185,11 @@ class _FunGamesPageState extends State<FunGamesPage>
               // Games grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(16.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: _games.length,
@@ -235,11 +239,11 @@ class _FunGamesPageState extends State<FunGamesPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -247,11 +251,11 @@ class _FunGamesPageState extends State<FunGamesPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 80,
-                                  height: 80,
+                                  width: 80.w,
+                                  height: 80.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.1),
@@ -259,11 +263,11 @@ class _FunGamesPageState extends State<FunGamesPage>
                                 ),
                               ),
                               Positioned(
-                                bottom: -15,
-                                left: -15,
+                                bottom: -15.h,
+                                left: -15.w,
                                 child: Container(
-                                  width: 50,
-                                  height: 50,
+                                  width: 50.w,
+                                  height: 50.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.1),
@@ -275,8 +279,8 @@ class _FunGamesPageState extends State<FunGamesPage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 60,
-                                      height: 60,
+                                      width: 60.w,
+                                      height: 60.h,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withValues(
                                           alpha: 0.3,
@@ -290,23 +294,31 @@ class _FunGamesPageState extends State<FunGamesPage>
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      game['title'],
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    SizedBox(height: 12.h),
+                                    Flexible(
+                                      child: Text(
+                                        game['title'],
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      game['description'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white.withValues(
-                                          alpha: 0.8,
+                                    SizedBox(height: 4.h),
+                                    Flexible(
+                                      child: Text(
+                                        game['description'],
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.8,
+                                          ),
                                         ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
                                     ),
                                   ],
@@ -315,18 +327,18 @@ class _FunGamesPageState extends State<FunGamesPage>
                               // Green checkmark for completed
                               if (isCompleted)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),
@@ -356,16 +368,7 @@ class MemoryMatchGame extends StatefulWidget {
 
 class _MemoryMatchGameState extends State<MemoryMatchGame>
     with TickerProviderStateMixin {
-  final List<String> _emojis = [
-    '🐶',
-    '🐱',
-    '🐰',
-    '🦊',
-    '🐻',
-    '🐼',
-    '🐨',
-    '🦁',
-  ];
+  final List<String> _emojis = ['🐶', '🐱', '🐰', '🦊', '🐻', '🐼', '🐨', '🦁'];
   late List<String> _cards;
   late List<bool> _revealed;
   int? _firstIndex;
@@ -460,12 +463,14 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
   void _showWinDialog() {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text("🎉", style: TextStyle(fontSize: 60)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             const Text(
               'You Won!',
               style: TextStyle(
@@ -474,12 +479,12 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
                 color: Color(0xFF4ECDC4),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'Completed in $_moves moves',
               style: const TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -489,7 +494,7 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
                 backgroundColor: const Color(0xFF4ECDC4),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
               child: const Text('Play Again'),
@@ -545,12 +550,12 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => setState(() => _initGame()),
         ),
@@ -563,36 +568,42 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
               children: [
                 // Progress bar
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 0),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$_matches/8 matched',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$_matches/8 matched',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: _matches / 8,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
@@ -604,13 +615,12 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
                 ),
                 Expanded(
                   child: GridView.builder(
-                    padding: const EdgeInsets.all(16),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                        ),
+                    padding: EdgeInsets.all(16.r),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 10.r,
+                      crossAxisSpacing: 10.r,
+                    ),
                     itemCount: 16,
                     itemBuilder: (context, index) {
                       return AnimatedBuilder(
@@ -634,16 +644,17 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
                                       colors: [Colors.white, Color(0xFFF0F0F0)],
                                     )
                                   : LinearGradient(
-                                      colors:
-                                          AppColors.getGradientForIndex(index),
+                                      colors: AppColors.getGradientForIndex(
+                                        index,
+                                      ),
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withValues(alpha: 0.2),
-                                  blurRadius: 6,
+                                  blurRadius: 6.r,
                                   offset: const Offset(0, 3),
                                 ),
                               ],
@@ -651,11 +662,11 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
                             child: Stack(
                               children: [
                                 Positioned(
-                                  top: -8,
-                                  right: -8,
+                                  top: -8.h,
+                                  right: -8.w,
                                   child: Container(
-                                    width: 20,
-                                    height: 20,
+                                    width: 20.w,
+                                    height: 20.h,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.white.withValues(
@@ -685,5 +696,4 @@ class _MemoryMatchGameState extends State<MemoryMatchGame>
       ),
     );
   }
-
 }

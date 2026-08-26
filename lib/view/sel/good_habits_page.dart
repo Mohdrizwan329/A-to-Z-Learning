@@ -5,6 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class GoodHabitsPage extends StatefulWidget {
   const GoodHabitsPage({super.key});
 
@@ -12,7 +14,8 @@ class GoodHabitsPage extends StatefulWidget {
   State<GoodHabitsPage> createState() => _GoodHabitsPageState();
 }
 
-class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStateMixin {
+class _GoodHabitsPageState extends State<GoodHabitsPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
   Map<String, bool> habitChecks = {};
@@ -24,40 +27,128 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
 
   final List<Map<String, dynamic>> morningHabits = [
     {'habit': 'Wake up early', 'emoji': '⏰', 'tip': 'Go to bed on time!'},
-    {'habit': 'Make your bed', 'emoji': '🛏️', 'tip': 'A tidy room feels great!'},
+    {
+      'habit': 'Make your bed',
+      'emoji': '🛏️',
+      'tip': 'A tidy room feels great!',
+    },
     {'habit': 'Brush your teeth', 'emoji': '🪥', 'tip': 'Brush for 2 minutes!'},
-    {'habit': 'Wash your face', 'emoji': '🧼', 'tip': 'Clean face, fresh start!'},
-    {'habit': 'Eat a healthy breakfast', 'emoji': '🥣', 'tip': 'Breakfast gives you energy!'},
+    {
+      'habit': 'Wash your face',
+      'emoji': '🧼',
+      'tip': 'Clean face, fresh start!',
+    },
+    {
+      'habit': 'Eat a healthy breakfast',
+      'emoji': '🥣',
+      'tip': 'Breakfast gives you energy!',
+    },
     {'habit': 'Get dressed neatly', 'emoji': '👕', 'tip': 'Look your best!'},
   ];
 
   final List<Map<String, dynamic>> dailyHabits = [
-    {'habit': 'Say please and thank you', 'emoji': '🙏', 'tip': 'Polite words make friends!'},
-    {'habit': 'Listen when others speak', 'emoji': '👂', 'tip': 'Listening shows you care.'},
-    {'habit': 'Share with others', 'emoji': '🤝', 'tip': 'Sharing brings happiness!'},
-    {'habit': 'Be kind to everyone', 'emoji': '💖', 'tip': 'Kindness comes back to you!'},
-    {'habit': 'Finish homework on time', 'emoji': '📚', 'tip': 'Then you can play!'},
-    {'habit': 'Help around the house', 'emoji': '🏠', 'tip': 'Everyone helps at home!'},
-    {'habit': 'Drink enough water', 'emoji': '💧', 'tip': 'Water keeps you healthy!'},
-    {'habit': 'Play outside', 'emoji': '🌳', 'tip': 'Fresh air is good for you!'},
+    {
+      'habit': 'Say please and thank you',
+      'emoji': '🙏',
+      'tip': 'Polite words make friends!',
+    },
+    {
+      'habit': 'Listen when others speak',
+      'emoji': '👂',
+      'tip': 'Listening shows you care.',
+    },
+    {
+      'habit': 'Share with others',
+      'emoji': '🤝',
+      'tip': 'Sharing brings happiness!',
+    },
+    {
+      'habit': 'Be kind to everyone',
+      'emoji': '💖',
+      'tip': 'Kindness comes back to you!',
+    },
+    {
+      'habit': 'Finish homework on time',
+      'emoji': '📚',
+      'tip': 'Then you can play!',
+    },
+    {
+      'habit': 'Help around the house',
+      'emoji': '🏠',
+      'tip': 'Everyone helps at home!',
+    },
+    {
+      'habit': 'Drink enough water',
+      'emoji': '💧',
+      'tip': 'Water keeps you healthy!',
+    },
+    {
+      'habit': 'Play outside',
+      'emoji': '🌳',
+      'tip': 'Fresh air is good for you!',
+    },
   ];
 
   final List<Map<String, dynamic>> nightHabits = [
-    {'habit': 'Tidy up your toys', 'emoji': '🧸', 'tip': 'Clean up before bed!'},
-    {'habit': 'Take a bath/shower', 'emoji': '🛁', 'tip': 'Stay clean and fresh!'},
-    {'habit': 'Brush teeth again', 'emoji': '🦷', 'tip': 'No cavities allowed!'},
+    {
+      'habit': 'Tidy up your toys',
+      'emoji': '🧸',
+      'tip': 'Clean up before bed!',
+    },
+    {
+      'habit': 'Take a bath/shower',
+      'emoji': '🛁',
+      'tip': 'Stay clean and fresh!',
+    },
+    {
+      'habit': 'Brush teeth again',
+      'emoji': '🦷',
+      'tip': 'No cavities allowed!',
+    },
     {'habit': 'Read a book', 'emoji': '📖', 'tip': 'Reading makes you smart!'},
-    {'habit': 'Say goodnight to family', 'emoji': '😴', 'tip': 'Love your family!'},
-    {'habit': 'Go to bed on time', 'emoji': '🌙', 'tip': 'Sleep helps you grow!'},
+    {
+      'habit': 'Say goodnight to family',
+      'emoji': '😴',
+      'tip': 'Love your family!',
+    },
+    {
+      'habit': 'Go to bed on time',
+      'emoji': '🌙',
+      'tip': 'Sleep helps you grow!',
+    },
   ];
 
   final List<Map<String, dynamic>> healthyHabits = [
-    {'habit': 'Eat fruits & vegetables', 'emoji': '🥗', 'why': 'They give you vitamins and make you strong!'},
-    {'habit': 'Exercise every day', 'emoji': '🏃', 'why': 'Your body needs to move to stay healthy!'},
-    {'habit': 'Wash hands before eating', 'emoji': '🧴', 'why': 'Keep germs away from your tummy!'},
-    {'habit': 'Cover mouth when sneezing', 'emoji': '🤧', 'why': 'Don\'t spread germs to others!'},
-    {'habit': 'Sit up straight', 'emoji': '🧘', 'why': 'Good posture keeps your back healthy!'},
-    {'habit': 'Limit screen time', 'emoji': '📱', 'why': 'Your eyes and brain need rest!'},
+    {
+      'habit': 'Eat fruits & vegetables',
+      'emoji': '🥗',
+      'why': 'They give you vitamins and make you strong!',
+    },
+    {
+      'habit': 'Exercise every day',
+      'emoji': '🏃',
+      'why': 'Your body needs to move to stay healthy!',
+    },
+    {
+      'habit': 'Wash hands before eating',
+      'emoji': '🧴',
+      'why': 'Keep germs away from your tummy!',
+    },
+    {
+      'habit': 'Cover mouth when sneezing',
+      'emoji': '🤧',
+      'why': 'Don\'t spread germs to others!',
+    },
+    {
+      'habit': 'Sit up straight',
+      'emoji': '🧘',
+      'why': 'Good posture keeps your back healthy!',
+    },
+    {
+      'habit': 'Limit screen time',
+      'emoji': '📱',
+      'why': 'Your eyes and brain need rest!',
+    },
   ];
 
   @override
@@ -126,7 +217,8 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -198,12 +290,16 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20.r,
+            ),
           ),
           onPressed: () => Get.back(),
         ),
@@ -217,7 +313,7 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -226,18 +322,22 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
         elevation: 8,
         title: const Text(
           "Good Habits",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -245,13 +345,19 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           isScrollable: true,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: "Morning"),
             Tab(text: "Daily"),
@@ -263,7 +369,12 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -295,36 +406,43 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
     final progressString = _getProgressString(tabIndex);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Progress',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+              // The reader's font size can be 30% larger than this row was drawn for.
+              Flexible(
+                child: const Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                '$progressString completed',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  '$progressString completed',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: LinearProgressIndicator(
               value: progress,
-              minHeight: 10,
+              minHeight: 10.h,
               backgroundColor: Colors.white.withValues(alpha: 0.2),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 Color(0xFF4CAF50),
@@ -336,7 +454,11 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
     );
   }
 
-  Widget _buildHabitList(List<Map<String, dynamic>> habits, String title, int tabIndex) {
+  Widget _buildHabitList(
+    List<Map<String, dynamic>> habits,
+    String title,
+    int tabIndex,
+  ) {
     int completed = habits.where((h) => habitChecks[h['habit']] == true).length;
 
     return Column(
@@ -346,35 +468,45 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
 
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             itemCount: habits.length + (completed == habits.length ? 1 : 0),
             itemBuilder: (context, index) {
               // Show celebration card at the end if all completed
               if (index == habits.length && completed == habits.length) {
                 return Container(
-                  margin: const EdgeInsets.only(top: 8),
-                  padding: const EdgeInsets.all(20),
+                  margin: EdgeInsets.only(top: 8.h),
+                  padding: EdgeInsets.all(20.r),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFFFFD700).withValues(alpha: 0.4),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
+                        color: Color(0xFFFFD700).withValues(alpha: 0.4),
+                        blurRadius: 8.r,
+                        offset: Offset(0, 4),
                       ),
                     ],
                   ),
                   child: Column(
-                    children: const [
+                    children: [
                       Text("🏆", style: TextStyle(fontSize: 40)),
-                      SizedBox(height: 8),
-                      Text("Amazing! All Done!", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text("You're a superstar!", style: TextStyle(color: Colors.white70)),
+                      SizedBox(height: 8.h),
+                      Text(
+                        "Amazing! All Done!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "You're a superstar!",
+                        style: TextStyle(color: Colors.white70),
+                      ),
                     ],
                   ),
                 );
@@ -388,7 +520,12 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                 animation: _floatAnimation,
                 builder: (context, child) {
                   return Transform.translate(
-                    offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                    offset: Offset(
+                      0,
+                      index.isEven
+                          ? _floatAnimation.value
+                          : -_floatAnimation.value,
+                    ),
                     child: child,
                   );
                 },
@@ -398,8 +535,8 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                     _toggleHabit(habit['habit']);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isChecked
@@ -408,11 +545,15 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: (isChecked ? const Color(0xFF56D97F) : gradient[0]).withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          color:
+                              (isChecked
+                                      ? const Color(0xFF56D97F)
+                                      : gradient[0])
+                                  .withValues(alpha: 0.4),
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -420,17 +561,20 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                     child: Row(
                       children: [
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: 50.w,
+                          height: 50.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Center(
-                            child: Text(habit['emoji'], style: const TextStyle(fontSize: 25)),
+                            child: Text(
+                              habit['emoji'],
+                              style: const TextStyle(fontSize: 25),
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 14),
+                        SizedBox(width: 14.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,17 +587,24 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              SizedBox(height: 2.h),
                               Text(
                                 habit['tip'],
-                                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8)),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                ),
                               ),
                             ],
                           ),
                         ),
                         IconButton(
-                          onPressed: () => _speakText("${habit['habit']}. ${habit['tip']}"),
-                          icon: Icon(Icons.volume_up, color: Colors.white.withValues(alpha: 0.8)),
+                          onPressed: () =>
+                              _speakText("${habit['habit']}. ${habit['tip']}"),
+                          icon: Icon(
+                            Icons.volume_up,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
                         ),
                       ],
                     ),
@@ -468,7 +619,9 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
   }
 
   Widget _buildHealthTab() {
-    int completed = healthyHabits.where((h) => habitChecks[h['habit']] == true).length;
+    int completed = healthyHabits
+        .where((h) => habitChecks[h['habit']] == true)
+        .length;
 
     return Column(
       children: [
@@ -477,35 +630,48 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
 
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: healthyHabits.length + (completed == healthyHabits.length ? 1 : 0),
+            padding: EdgeInsets.all(16.r),
+            itemCount:
+                healthyHabits.length +
+                (completed == healthyHabits.length ? 1 : 0),
             itemBuilder: (context, index) {
               // Show celebration card at the end if all completed
-              if (index == healthyHabits.length && completed == healthyHabits.length) {
+              if (index == healthyHabits.length &&
+                  completed == healthyHabits.length) {
                 return Container(
-                  margin: const EdgeInsets.only(top: 8),
-                  padding: const EdgeInsets.all(20),
+                  margin: EdgeInsets.only(top: 8.h),
+                  padding: EdgeInsets.all(20.r),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFFFFD700).withValues(alpha: 0.4),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
+                        color: Color(0xFFFFD700).withValues(alpha: 0.4),
+                        blurRadius: 8.r,
+                        offset: Offset(0, 4),
                       ),
                     ],
                   ),
                   child: Column(
-                    children: const [
+                    children: [
                       Text("🏆", style: TextStyle(fontSize: 40)),
-                      SizedBox(height: 8),
-                      Text("Health Star!", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text("Keep it up!", style: TextStyle(color: Colors.white70)),
+                      SizedBox(height: 8.h),
+                      Text(
+                        "Health Star!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Keep it up!",
+                        style: TextStyle(color: Colors.white70),
+                      ),
                     ],
                   ),
                 );
@@ -519,7 +685,12 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                 animation: _floatAnimation,
                 builder: (context, child) {
                   return Transform.translate(
-                    offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                    offset: Offset(
+                      0,
+                      index.isEven
+                          ? _floatAnimation.value
+                          : -_floatAnimation.value,
+                    ),
                     child: child,
                   );
                 },
@@ -529,7 +700,7 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                     _speakText("${habit['habit']}. ${habit['why']}");
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
+                    margin: EdgeInsets.only(bottom: 12.h),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isChecked
@@ -538,11 +709,15 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: (isChecked ? const Color(0xFF56D97F) : gradient[0]).withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          color:
+                              (isChecked
+                                      ? const Color(0xFF56D97F)
+                                      : gradient[0])
+                                  .withValues(alpha: 0.4),
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -550,21 +725,24 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16.r),
                           child: Row(
                             children: [
                               Container(
-                                width: 50,
-                                height: 50,
+                                width: 50.w,
+                                height: 50.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
                                 child: Center(
-                                  child: Text(habit['emoji'], style: const TextStyle(fontSize: 25)),
+                                  child: Text(
+                                    habit['emoji'],
+                                    style: const TextStyle(fontSize: 25),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 14),
+                              SizedBox(width: 14.w),
                               Expanded(
                                 child: Text(
                                   habit['habit'],
@@ -575,28 +753,34 @@ class _GoodHabitsPageState extends State<GoodHabitsPage> with TickerProviderStat
                                   ),
                                 ),
                               ),
-                              Icon(Icons.volume_up, color: Colors.white.withValues(alpha: 0.7)),
+                              Icon(
+                                Icons.volume_up,
+                                color: Colors.white.withValues(alpha: 0.7),
+                              ),
                             ],
                           ),
                         ),
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(12),
+                          padding: EdgeInsets.all(12.r),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.15),
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(16),
-                              bottomRight: Radius.circular(16),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(16.r),
+                              bottomRight: Radius.circular(16.r),
                             ),
                           ),
                           child: Row(
                             children: [
                               const Text("💡", style: TextStyle(fontSize: 16)),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8.w),
                               Expanded(
                                 child: Text(
                                   habit['why'],
-                                  style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 13),
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ),
                             ],

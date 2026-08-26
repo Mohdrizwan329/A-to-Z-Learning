@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AdvancedMathGamesPage extends StatefulWidget {
   const AdvancedMathGamesPage({super.key});
 
@@ -23,7 +25,6 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
   int? _selectedAnswer;
   String _difficulty = 'Easy';
 
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,9 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
       _currentQuestion++;
 
       // Adjust difficulty
-      int maxNum = _difficulty == 'Easy' ? 20 : (_difficulty == 'Medium' ? 50 : 100);
+      int maxNum = _difficulty == 'Easy'
+          ? 20
+          : (_difficulty == 'Medium' ? 50 : 100);
 
       _num1 = _random.nextInt(maxNum) + 1;
       _num2 = _random.nextInt(maxNum) + 1;
@@ -79,7 +82,9 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
       _options = [_correctAnswer];
       while (_options.length < 4) {
         int option = _correctAnswer + _random.nextInt(21) - 10;
-        if (option != _correctAnswer && option >= 0 && !_options.contains(option)) {
+        if (option != _correctAnswer &&
+            option >= 0 &&
+            !_options.contains(option)) {
           _options.add(option);
         }
       }
@@ -94,7 +99,9 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
       _answered = true;
       _selectedAnswer = answer;
       if (answer == _correctAnswer) {
-        _score += _difficulty == 'Easy' ? 10 : (_difficulty == 'Medium' ? 20 : 30);
+        _score += _difficulty == 'Easy'
+            ? 10
+            : (_difficulty == 'Medium' ? 20 : 30);
       }
     });
 
@@ -110,7 +117,9 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
   void _showGameOverDialog() {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -118,24 +127,23 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
               _score >= 200 ? "🏆" : (_score >= 100 ? "🌟" : "💪"),
               style: const TextStyle(fontSize: 60),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
-              _score >= 200 ? 'Excellent!' : (_score >= 100 ? 'Great Job!' : 'Good Try!'),
+              _score >= 200
+                  ? 'Excellent!'
+                  : (_score >= 100 ? 'Great Job!' : 'Good Try!'),
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFFF6B6B),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'Score: $_score',
-              style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Row(
               children: [
                 Expanded(
@@ -146,13 +154,13 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
                     },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: const Text('Exit'),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -167,7 +175,7 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
                       backgroundColor: Color(0xFFFF6B6B),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: const Text('Play Again'),
@@ -200,7 +208,7 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -218,16 +226,16 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
         centerTitle: true,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            margin: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: Colors.white24,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Row(
               children: [
                 const Text("⭐", style: TextStyle(fontSize: 16)),
-                const SizedBox(width: 4),
+                SizedBox(width: 4.w),
                 Text(
                   '$_score',
                   style: const TextStyle(
@@ -244,7 +252,12 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -252,165 +265,194 @@ class _AdvancedMathGamesPageState extends State<AdvancedMathGamesPage> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                // Difficulty selector
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.white24,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: ['Easy', 'Medium', 'Hard'].map((d) {
-                      final isSelected = _difficulty == d;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _difficulty = d;
-                            _score = 0;
-                            _currentQuestion = 0;
-                          });
-                          _generateQuestion();
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected ? Colors.white : Colors.transparent,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            d,
-                            style: TextStyle(
-                              color: isSelected ? Color(0xFF764BA2) : Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Progress
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(10, (index) {
-                    return Container(
-                      width: 28,
-                      height: 8,
-                      margin: const EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                        color: index < _currentQuestion
-                            ? Colors.white
-                            : Colors.white30,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    );
-                  }),
-                ),
-                const SizedBox(height: 30),
-                // Question card
-                Container(
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
+            padding: EdgeInsets.all(20.r),
+            child: LayoutBuilder(
+              // Portrait-shaped content: in landscape the body is barely 300pt tall,
+              // which is shorter than this column needs. Scroll when that happens and
+              // stay exactly as before whenever there is room.
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'Question $_currentQuestion/10',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
+                      // Difficulty selector
+                      Container(
+                        padding: EdgeInsets.all(4.r),
+                        decoration: BoxDecoration(
+                          color: Colors.white24,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: ['Easy', 'Medium', 'Hard'].map((d) {
+                            final isSelected = _difficulty == d;
+                            // Equal shares: the three chips are wider than the
+                            // card once the reader turns their font size up.
+                            return Flexible(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _difficulty = d;
+                                    _score = 0;
+                                    _currentQuestion = 0;
+                                  });
+                                  _generateQuestion();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w,
+                                    vertical: 8.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  child: Text(
+                                    d,
+                                    style: TextStyle(
+                                      color: isSelected
+                                          ? Color(0xFF764BA2)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        '$_num1 $_operator $_num2 = ?',
-                        style: const TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF333333),
+                      SizedBox(height: 20.h),
+                      // Progress
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(10, (index) {
+                            return Container(
+                              width: 28.w,
+                              height: 8.h,
+                              margin: EdgeInsets.symmetric(horizontal: 2.w),
+                              decoration: BoxDecoration(
+                                color: index < _currentQuestion
+                                    ? Colors.white
+                                    : Colors.white30,
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      SizedBox(height: 30.h),
+                      // Question card
+                      Container(
+                        padding: EdgeInsets.all(30.r),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 20.r,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Question $_currentQuestion/10',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+                            Text(
+                              '$_num1 $_operator $_num2 = ?',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 30.h),
+                      // Options
+                      SizedBox(
+                        // A share of the viewport rather than `Expanded`:
+                        // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                        // above it, and a scrollable cannot report an intrinsic
+                        // height - it throws.
+                        height: max(200.h, constraints.maxHeight * 0.55),
+                        child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 16.r,
+                                crossAxisSpacing: 16.r,
+                                childAspectRatio: 2,
+                              ),
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            final option = _options[index];
+                            final isCorrect = option == _correctAnswer;
+                            final isSelected = _selectedAnswer == option;
+
+                            Color bgColor = Colors.white;
+                            if (_answered) {
+                              if (isCorrect) {
+                                bgColor = Colors.green.shade400;
+                              } else if (isSelected) {
+                                bgColor = Colors.red.shade400;
+                              }
+                            }
+
+                            return GestureDetector(
+                              onTap: () {
+                                TtsService.to.speak('$option');
+                                _checkAnswer(option);
+                              },
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                decoration: BoxDecoration(
+                                  color: bgColor,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 8.r,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '$option',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          _answered && (isCorrect || isSelected)
+                                          ? Colors.white
+                                          : Color(0xFF333333),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
-                // Options
-                Expanded(
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 2,
-                    ),
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      final option = _options[index];
-                      final isCorrect = option == _correctAnswer;
-                      final isSelected = _selectedAnswer == option;
-
-                      Color bgColor = Colors.white;
-                      if (_answered) {
-                        if (isCorrect) {
-                          bgColor = Colors.green.shade400;
-                        } else if (isSelected) {
-                          bgColor = Colors.red.shade400;
-                        }
-                      }
-
-                      return GestureDetector(
-                        onTap: () {
-                          TtsService.to.speak('$option');
-                          _checkAnswer(option);
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          decoration: BoxDecoration(
-                            color: bgColor,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              '$option',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: _answered && (isCorrect || isSelected)
-                                    ? Colors.white
-                                    : Color(0xFF333333),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

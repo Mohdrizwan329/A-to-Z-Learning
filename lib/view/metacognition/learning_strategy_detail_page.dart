@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class LearningStrategyDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -14,8 +16,7 @@ class LearningStrategyDetailPage extends StatefulWidget {
       _LearningStrategyDetailPageState();
 }
 
-class _LearningStrategyDetailPageState
-    extends State<LearningStrategyDetailPage>
+class _LearningStrategyDetailPageState extends State<LearningStrategyDetailPage>
     with TickerProviderStateMixin, GridAnimationsMixin {
   static final List<Map<String, dynamic>> strategies = [
     {
@@ -153,7 +154,7 @@ class _LearningStrategyDetailPageState
     return GradientScaffold(
       title: strategy['name'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -161,18 +162,18 @@ class _LearningStrategyDetailPageState
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -183,7 +184,7 @@ class _LearningStrategyDetailPageState
                       strategy['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       strategy['name'],
                       style: GoogleFonts.poppins(
@@ -193,7 +194,7 @@ class _LearningStrategyDetailPageState
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       strategy['tagline'],
                       style: GoogleFonts.nunito(
@@ -203,7 +204,7 @@ class _LearningStrategyDetailPageState
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       strategy['description'],
                       style: GoogleFonts.nunito(
@@ -216,15 +217,15 @@ class _LearningStrategyDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Example Card
             buildFloatingItem(
               index: 1,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.amber.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   border: Border.all(
                     color: Colors.amber.withValues(alpha: 0.6),
                     width: 2,
@@ -233,7 +234,7 @@ class _LearningStrategyDetailPageState
                 child: Row(
                   children: [
                     const Text('💡', style: TextStyle(fontSize: 28)),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,28 +260,29 @@ class _LearningStrategyDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             // Steps Cards
             ..._buildStepsCards(strategy),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             // Best For Card
             buildFloatingItem(
               index: (strategy['steps'] as List).length + 2,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: AppColors.getGradientForIndex(
-                        widget.sectionIndex + 5),
+                      widget.sectionIndex + 5,
+                    ),
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.3),
-                      blurRadius: 6,
+                      blurRadius: 6.r,
                       offset: const Offset(0, 3),
                     ),
                   ],
@@ -291,7 +293,7 @@ class _LearningStrategyDetailPageState
                     Row(
                       children: [
                         const Text('⭐', style: TextStyle(fontSize: 24)),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8.w),
                         Text(
                           'Best For:',
                           style: GoogleFonts.poppins(
@@ -302,18 +304,21 @@ class _LearningStrategyDetailPageState
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children:
-                          (strategy['bestFor'] as List).map<Widget>((item) {
+                      spacing: 8.r,
+                      runSpacing: 8.r,
+                      children: (strategy['bestFor'] as List).map<Widget>((
+                        item,
+                      ) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 8),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 14.w,
+                            vertical: 8.h,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
                             item,
@@ -329,7 +334,7 @@ class _LearningStrategyDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -341,24 +346,25 @@ class _LearningStrategyDetailPageState
     return steps.asMap().entries.map<Widget>((entry) {
       final index = entry.key;
       final step = entry.value;
-      final cardGradient =
-          AppColors.getGradientForIndex(widget.sectionIndex + index + 1);
+      final cardGradient = AppColors.getGradientForIndex(
+        widget.sectionIndex + index + 1,
+      );
       return buildFloatingItem(
         index: index + 2,
         child: Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(16),
+          margin: EdgeInsets.only(bottom: 10.h),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: cardGradient,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
                 color: cardGradient[0].withValues(alpha: 0.3),
-                blurRadius: 6,
+                blurRadius: 6.r,
                 offset: const Offset(0, 3),
               ),
             ],
@@ -366,8 +372,8 @@ class _LearningStrategyDetailPageState
           child: Row(
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: 36.w,
+                height: 36.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -382,7 +388,7 @@ class _LearningStrategyDetailPageState
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   step,

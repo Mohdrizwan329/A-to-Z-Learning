@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ListeningSkillsPage extends StatefulWidget {
   const ListeningSkillsPage({super.key});
 
@@ -10,7 +12,8 @@ class ListeningSkillsPage extends StatefulWidget {
   State<ListeningSkillsPage> createState() => _ListeningSkillsPageState();
 }
 
-class _ListeningSkillsPageState extends State<ListeningSkillsPage> with TickerProviderStateMixin {
+class _ListeningSkillsPageState extends State<ListeningSkillsPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -172,204 +175,264 @@ class _ListeningSkillsPageState extends State<ListeningSkillsPage> with TickerPr
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Listening Skills", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text(
+          "Listening Skills",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            margin: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "⭐ $score",
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              // Progress
-              Text(
-                "Question ${currentQuestionIndex + 1} of ${questions.length}",
-                style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.8)),
-              ),
-              const SizedBox(height: 30),
-              // Play button
-              ScaleTransition(
-                scale: hasPlayed ? const AlwaysStoppedAnimation(1.0) : _pulseAnimation,
-                child: GestureDetector(
-                  onTap: _playQuestion,
-                  child: Container(
-                    width: 140,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: hasPlayed
-                            ? [Color(0xFF56D97F), Color(0xFF11998E)]
-                            : [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 20.h),
+                // Progress
+                Text(
+                  "Question ${currentQuestionIndex + 1} of ${questions.length}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white.withValues(alpha: 0.8),
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                // Play button
+                ScaleTransition(
+                  scale: hasPlayed
+                      ? const AlwaysStoppedAnimation(1.0)
+                      : _pulseAnimation,
+                  child: GestureDetector(
+                    onTap: _playQuestion,
+                    child: Container(
+                      width: 140.w,
+                      height: 140.h,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: hasPlayed
+                              ? [Color(0xFF56D97F), Color(0xFF11998E)]
+                              : [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                (hasPlayed
+                                        ? Color(0xFF56D97F)
+                                        : Color(0xFFFFAA5A))
+                                    .withValues(alpha: 0.5),
+                            blurRadius: 20.r,
+                            spreadRadius: 5.r,
+                          ),
+                        ],
                       ),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: (hasPlayed ? Color(0xFF56D97F) : Color(0xFFFFAA5A)).withValues(alpha: 0.5),
-                          blurRadius: 20,
-                          spreadRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          hasPlayed ? Icons.replay : Icons.volume_up,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          hasPlayed ? "Play Again" : "Listen",
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            hasPlayed ? Icons.replay : Icons.volume_up,
+                            size: 50.r,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            hasPlayed ? "Play Again" : "Listen",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                hasPlayed ? "Select the correct answer" : "Tap to listen to the question",
-                style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.9)),
-              ),
-              const Spacer(),
-              // Options grid
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 1.3,
+                SizedBox(height: 20.h),
+                Text(
+                  hasPlayed
+                      ? "Select the correct answer"
+                      : "Tap to listen to the question",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
-                  itemCount: options.length,
-                  itemBuilder: (context, index) {
-                    final option = options[index];
-                    final label = optionLabels[index];
-                    final isSelected = selectedAnswer == option;
-                    final isCorrectOption = option == correctAnswer;
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                SizedBox(height: 24.h),
+                // Options grid
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.r,
+                      crossAxisSpacing: 16.r,
+                      childAspectRatio: 1.3,
+                    ),
+                    itemCount: options.length,
+                    itemBuilder: (context, index) {
+                      final option = options[index];
+                      final label = optionLabels[index];
+                      final isSelected = selectedAnswer == option;
+                      final isCorrectOption = option == correctAnswer;
 
-                    Color getBgColor() {
-                      if (showResult) {
-                        if (isCorrectOption) return Colors.green;
-                        if (isSelected && !isCorrectOption) return Colors.red;
+                      Color getBgColor() {
+                        if (showResult) {
+                          if (isCorrectOption) return Colors.green;
+                          if (isSelected && !isCorrectOption) return Colors.red;
+                        }
+                        if (isSelected) return Color(0xFFFFD700);
+                        return Colors.white;
                       }
-                      if (isSelected) return Color(0xFFFFD700);
-                      return Colors.white;
-                    }
 
-                    return GestureDetector(
-                      onTap: () {
-                        TtsService.to.speak(label);
-                        _selectAnswer(option);
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        decoration: BoxDecoration(
-                          color: getBgColor(),
-                          borderRadius: BorderRadius.circular(20),
-                          border: isSelected && !showResult
-                              ? Border.all(color: Color(0xFFFFAA00), width: 4)
-                              : null,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
+                      return GestureDetector(
+                        onTap: () {
+                          TtsService.to.speak(label);
+                          _selectAnswer(option);
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          decoration: BoxDecoration(
+                            color: getBgColor(),
+                            borderRadius: BorderRadius.circular(20.r),
+                            border: isSelected && !showResult
+                                ? Border.all(color: Color(0xFFFFAA00), width: 4)
+                                : null,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.2),
+                                blurRadius: 10.r,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                option,
+                                style: const TextStyle(fontSize: 40),
+                              ),
+                              SizedBox(height: 8.h),
+                              Text(
+                                label,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: showResult && isCorrectOption
+                                      ? Colors.white
+                                      : (showResult &&
+                                            isSelected &&
+                                            !isCorrectOption)
+                                      ? Colors.white
+                                      : Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(option, style: const TextStyle(fontSize: 40)),
-                            const SizedBox(height: 8),
-                            Text(
-                              label,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: showResult && isCorrectOption
-                                    ? Colors.white
-                                    : (showResult && isSelected && !isCorrectOption)
-                                        ? Colors.white
-                                        : Colors.black87,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                // Action button
+                Padding(
+                  padding: EdgeInsets.all(20.r),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: showResult
+                        ? ElevatedButton(
+                            onPressed: _nextQuestion,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF56D97F),
+                              padding: EdgeInsets.symmetric(vertical: 16.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                            child: Text(
+                              currentQuestionIndex < questions.length - 1
+                                  ? "Next Question"
+                                  : "Start Over",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : ElevatedButton(
+                            onPressed: (hasPlayed && selectedAnswer != null)
+                                ? _checkAnswer
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF56D97F),
+                              disabledBackgroundColor: Colors.grey.shade400,
+                              padding: EdgeInsets.symmetric(vertical: 16.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            ),
+                            child: Text(
+                              hasPlayed
+                                  ? (selectedAnswer != null
+                                        ? "Check Answer"
+                                        : "Select an option")
+                                  : "Listen first",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                  ),
                 ),
-              ),
-              const Spacer(),
-              // Action button
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: showResult
-                      ? ElevatedButton(
-                          onPressed: _nextQuestion,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF56D97F),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: Text(
-                            currentQuestionIndex < questions.length - 1 ? "Next Question" : "Start Over",
-                            style: const TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                        )
-                      : ElevatedButton(
-                          onPressed: (hasPlayed && selectedAnswer != null) ? _checkAnswer : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF56D97F),
-                            disabledBackgroundColor: Colors.grey.shade400,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: Text(
-                            hasPlayed
-                                ? (selectedAnswer != null ? "Check Answer" : "Select an option")
-                                : "Listen first",
-                            style: const TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 10),
-            ],
+                SizedBox(height: 10.h),
+              ],
+            ),
           ),
         ),
       ),

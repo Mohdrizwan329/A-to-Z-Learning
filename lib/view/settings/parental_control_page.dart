@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/services/screen_time_service.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ParentalControlPage extends StatefulWidget {
   const ParentalControlPage({super.key});
 
@@ -17,6 +19,7 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
     }
     return Get.find<ScreenTimeService>();
   }
+
   final TextEditingController _pinController = TextEditingController();
   final TextEditingController _confirmPinController = TextEditingController();
   bool _isSettingPin = false;
@@ -27,41 +30,41 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
       title: 'Parental Controls',
       emoji: '🔐',
       body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // PIN Setup Section
-              _buildSectionTitle('🔑 PIN Protection'),
-              const SizedBox(height: 12),
-              _buildPinSection(),
-              const SizedBox(height: 24),
+        padding: EdgeInsets.all(16.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // PIN Setup Section
+            _buildSectionTitle('🔑 PIN Protection'),
+            SizedBox(height: 12.h),
+            _buildPinSection(),
+            SizedBox(height: 24.h),
 
-              // Screen Time Section
-              _buildSectionTitle('⏰ Screen Time'),
-              const SizedBox(height: 12),
-              _buildScreenTimeSection(),
-              const SizedBox(height: 24),
+            // Screen Time Section
+            _buildSectionTitle('⏰ Screen Time'),
+            SizedBox(height: 12.h),
+            _buildScreenTimeSection(),
+            SizedBox(height: 24.h),
 
-              // Content Lock Section
-              _buildSectionTitle('🔒 Content Lock'),
-              const SizedBox(height: 12),
-              _buildContentLockSection(),
-              const SizedBox(height: 24),
+            // Content Lock Section
+            _buildSectionTitle('🔒 Content Lock'),
+            SizedBox(height: 12.h),
+            _buildContentLockSection(),
+            SizedBox(height: 24.h),
 
-              // Break Reminders Section
-              _buildSectionTitle('👀 Eye Care'),
-              const SizedBox(height: 12),
-              _buildBreakReminderSection(),
-              const SizedBox(height: 24),
+            // Break Reminders Section
+            _buildSectionTitle('👀 Eye Care'),
+            SizedBox(height: 12.h),
+            _buildBreakReminderSection(),
+            SizedBox(height: 24.h),
 
-              // Usage Stats
-              _buildSectionTitle('📊 Usage Statistics'),
-              const SizedBox(height: 12),
-              _buildUsageStatsSection(),
-            ],
-          ),
+            // Usage Stats
+            _buildSectionTitle('📊 Usage Statistics'),
+            SizedBox(height: 12.h),
+            _buildUsageStatsSection(),
+          ],
         ),
+      ),
     );
   }
 
@@ -81,14 +84,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
       final hasPin = _screenTimeService.hasParentalPin();
 
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -98,17 +101,21 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
             Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFFA78BFA).withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Center(
-                    child: Icon(Icons.lock, color: Color(0xFFA78BFA), size: 28),
+                  child: Center(
+                    child: Icon(
+                      Icons.lock,
+                      color: Color(0xFFA78BFA),
+                      size: 28.r,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,12 +144,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                   onChanged: hasPin
                       ? (v) => _screenTimeService.toggleParentalLock(v)
                       : null,
-                  activeTrackColor: const Color(0xFFA78BFA).withValues(alpha: 0.5),
+                  activeTrackColor: const Color(
+                    0xFFA78BFA,
+                  ).withValues(alpha: 0.5),
                   activeThumbColor: const Color(0xFFA78BFA),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             if (_isSettingPin) ...[
               TextField(
                 controller: _pinController,
@@ -152,12 +161,12 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                 decoration: InputDecoration(
                   labelText: 'Enter 4-digit PIN',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   counterText: '',
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               TextField(
                 controller: _confirmPinController,
                 keyboardType: TextInputType.number,
@@ -166,12 +175,12 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                 decoration: InputDecoration(
                   labelText: 'Confirm PIN',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   counterText: '',
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -185,7 +194,7 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                     },
                     child: const Text('Cancel'),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   ElevatedButton(
                     onPressed: _savePin,
                     style: ElevatedButton.styleFrom(
@@ -210,13 +219,13 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                         backgroundColor: const Color(0xFFA78BFA),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
                     ),
                   ),
                   if (hasPin) ...[
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     ElevatedButton.icon(
                       onPressed: _showRemovePinDialog,
                       icon: const Icon(Icons.delete),
@@ -225,7 +234,7 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                         backgroundColor: Colors.red.shade400,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
                     ),
@@ -241,18 +250,24 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
 
   void _savePin() {
     if (_pinController.text.length != 4) {
-      Get.snackbar('Error', 'PIN must be 4 digits',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'PIN must be 4 digits',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
     if (_pinController.text != _confirmPinController.text) {
-      Get.snackbar('Error', 'PINs do not match',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'PINs do not match',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
@@ -263,10 +278,13 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
       _confirmPinController.clear();
     });
 
-    Get.snackbar('Success', 'PIN has been set',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white);
+    Get.snackbar(
+      'Success',
+      'PIN has been set',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
   }
 
   void _showRemovePinDialog() {
@@ -274,13 +292,15 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
 
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         title: const Text('Remove PIN'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text('Enter current PIN to remove:'),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             TextField(
               controller: verifyController,
               keyboardType: TextInputType.number,
@@ -289,7 +309,7 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
               decoration: InputDecoration(
                 hintText: 'Current PIN',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 counterText: '',
               ),
@@ -297,24 +317,27 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               if (_screenTimeService.verifyParentalPin(verifyController.text)) {
                 _screenTimeService.removeParentalPin();
                 Get.back();
-                Get.snackbar('Success', 'PIN removed',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.green,
-                    colorText: Colors.white);
+                Get.snackbar(
+                  'Success',
+                  'PIN removed',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                );
               } else {
-                Get.snackbar('Error', 'Invalid PIN',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.red,
-                    colorText: Colors.white);
+                Get.snackbar(
+                  'Error',
+                  'Invalid PIN',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -328,14 +351,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
   Widget _buildScreenTimeSection() {
     return Obx(() {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -346,17 +369,21 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
             Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFF4ECDC4).withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Center(
-                    child: Icon(Icons.timer, color: Color(0xFF4ECDC4), size: 28),
+                  child: Center(
+                    child: Icon(
+                      Icons.timer,
+                      color: Color(0xFF4ECDC4),
+                      size: 28.r,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,13 +410,15 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                 Switch(
                   value: _screenTimeService.isScreenTimeEnabled.value,
                   onChanged: (v) => _screenTimeService.toggleScreenTimeLimit(v),
-                  activeTrackColor: const Color(0xFF4ECDC4).withValues(alpha: 0.5),
+                  activeTrackColor: const Color(
+                    0xFF4ECDC4,
+                  ).withValues(alpha: 0.5),
                   activeThumbColor: const Color(0xFF4ECDC4),
                 ),
               ],
             ),
             if (_screenTimeService.isScreenTimeEnabled.value) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               // Time Limit Slider
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,7 +434,8 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                     ],
                   ),
                   Slider(
-                    value: _screenTimeService.screenTimeLimitMinutes.value.toDouble(),
+                    value: _screenTimeService.screenTimeLimitMinutes.value
+                        .toDouble(),
                     min: 15,
                     max: 180,
                     divisions: 11,
@@ -423,13 +453,13 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               // Today's Usage
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.r),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -447,9 +477,9 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
                 child: LinearProgressIndicator(
                   value: _screenTimeService.usagePercentage / 100,
                   backgroundColor: Colors.grey.shade300,
@@ -458,7 +488,7 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                         ? Colors.red
                         : const Color(0xFF4ECDC4),
                   ),
-                  minHeight: 8,
+                  minHeight: 8.h,
                 ),
               ),
             ],
@@ -478,14 +508,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
 
     return Obx(() {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -496,16 +526,20 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
               'Lock specific features (requires PIN)',
               style: TextStyle(color: Colors.grey),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             ...features.map((feature) {
-              final isLocked =
-                  _screenTimeService.lockedFeatures.contains(feature['id']);
+              final isLocked = _screenTimeService.lockedFeatures.contains(
+                feature['id'],
+              );
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: EdgeInsets.symmetric(vertical: 4.h),
                 child: Row(
                   children: [
-                    Text(feature['icon']!, style: const TextStyle(fontSize: 24)),
-                    const SizedBox(width: 12),
+                    Text(
+                      feature['icon']!,
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         feature['name']!,
@@ -519,11 +553,15 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                               if (v) {
                                 _screenTimeService.lockFeature(feature['id']!);
                               } else {
-                                _screenTimeService.unlockFeature(feature['id']!);
+                                _screenTimeService.unlockFeature(
+                                  feature['id']!,
+                                );
                               }
                             }
                           : null,
-                      activeTrackColor: const Color(0xFFFF6B6B).withValues(alpha: 0.5),
+                      activeTrackColor: const Color(
+                        0xFFFF6B6B,
+                      ).withValues(alpha: 0.5),
                       activeThumbColor: const Color(0xFFFF6B6B),
                     ),
                   ],
@@ -539,14 +577,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
   Widget _buildBreakReminderSection() {
     return Obx(() {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -556,17 +594,17 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
             Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFF56D97F).withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: const Center(
                     child: Text("👀", style: TextStyle(fontSize: 28)),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -591,24 +629,31 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                 Switch(
                   value: _screenTimeService.isBreakReminderEnabled.value,
                   onChanged: (v) => _screenTimeService.toggleBreakReminder(v),
-                  activeTrackColor: const Color(0xFF56D97F).withValues(alpha: 0.5),
+                  activeTrackColor: const Color(
+                    0xFF56D97F,
+                  ).withValues(alpha: 0.5),
                   activeThumbColor: const Color(0xFF56D97F),
                 ),
               ],
             ),
             if (_screenTimeService.isBreakReminderEnabled.value) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Remind every'),
+                  Flexible(
+                    child: const Text(
+                      'Remind every',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                   DropdownButton<int>(
                     value: _screenTimeService.breakIntervalMinutes.value,
                     items: [10, 15, 20, 30, 45, 60]
-                        .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text('$e min'),
-                            ))
+                        .map(
+                          (e) =>
+                              DropdownMenuItem(value: e, child: Text('$e min')),
+                        )
                         .toList(),
                     onChanged: (v) {
                       if (v != null) _screenTimeService.setBreakInterval(v);
@@ -626,14 +671,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
   Widget _buildUsageStatsSection() {
     return Obx(() {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -643,36 +688,46 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildStatItem(
-                  'Today',
-                  '${_screenTimeService.todayUsageMinutes.value} min',
-                  '📅',
+                // Equal shares, so the widest label wraps inside its own
+                // column instead of pushing the row past the card.
+                Expanded(
+                  child: _buildStatItem(
+                    'Today',
+                    '${_screenTimeService.todayUsageMinutes.value} min',
+                    '📅',
+                  ),
                 ),
-                _buildStatItem(
-                  'Weekly Avg',
-                  '${_screenTimeService.weeklyAverageMinutes} min',
-                  '📊',
+                Expanded(
+                  child: _buildStatItem(
+                    'Weekly Avg',
+                    '${_screenTimeService.weeklyAverageMinutes} min',
+                    '📊',
+                  ),
                 ),
-                _buildStatItem(
-                  'This Week',
-                  '${_screenTimeService.totalWeeklyMinutes} min',
-                  '📈',
+                Expanded(
+                  child: _buildStatItem(
+                    'This Week',
+                    '${_screenTimeService.totalWeeklyMinutes} min',
+                    '📈',
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             // Weekly usage chart placeholder
             Container(
-              height: 100,
+              height: 100.h,
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: List.generate(7, (index) {
-                  final date = DateTime.now().subtract(Duration(days: 6 - index));
+                  final date = DateTime.now().subtract(
+                    Duration(days: 6 - index),
+                  );
                   final dateStr = date.toIso8601String().split('T')[0];
                   final usage = _screenTimeService.usageHistory[dateStr] ?? 0;
                   final maxUsage = 60; // Normalize to 60 min
@@ -682,14 +737,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        width: 30,
+                        width: 30.w,
                         height: height,
                         decoration: BoxDecoration(
                           color: const Color(0xFF4ECDC4),
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4.r),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.weekday % 7],
                         style: const TextStyle(fontSize: 10),
@@ -709,20 +764,14 @@ class _ParentalControlPageState extends State<ParentalControlPage> {
     return Column(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 24)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
         ),
       ],
     );

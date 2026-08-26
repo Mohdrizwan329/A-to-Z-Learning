@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/daily_goals_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class DailyGoalsPage extends StatefulWidget {
   const DailyGoalsPage({super.key});
 
@@ -74,32 +76,43 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
   Widget build(BuildContext context) {
     if (!_isInitialized) {
       return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.back(),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+          child: const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
         ),
       );
     }
@@ -129,61 +142,46 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
             ..._buildFloatingBubbles(),
             SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Overall Progress Card with float animation
-                    _buildFloatingCard(
-                      index: 0,
-                      child: _buildProgressCard(),
-                    ),
+                    _buildFloatingCard(index: 0, child: _buildProgressCard()),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Streak Card with float animation
-                    _buildFloatingCard(
-                      index: 1,
-                      child: _buildStreakCard(),
-                    ),
+                    _buildFloatingCard(index: 1, child: _buildStreakCard()),
 
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
 
                     // Daily Goals List Title
                     _buildAnimatedCard(
                       delay: 200,
                       child: _buildSectionTitle("Today's Goals", "🎯"),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
 
                     // Goals List
                     _buildGoalsList(),
 
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
 
                     // Completion Bonus with float animation
-                    _buildFloatingCard(
-                      index: 2,
-                      child: _buildBonusCard(),
-                    ),
+                    _buildFloatingCard(index: 2, child: _buildBonusCard()),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Tips Card with float animation
-                    _buildFloatingCard(
-                      index: 3,
-                      child: _buildTipsCard(),
-                    ),
+                    _buildFloatingCard(index: 3, child: _buildTipsCard()),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     // Motivation Card with float animation
-                    _buildFloatingCard(
-                      index: 4,
-                      child: _buildMotivationCard(),
-                    ),
+                    _buildFloatingCard(index: 4, child: _buildMotivationCard()),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                   ],
                 ),
               ),
@@ -205,7 +203,8 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -229,11 +228,10 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
     return AnimatedBuilder(
       animation: _floatAnimation,
       builder: (context, _) {
-        final offset = index.isEven ? _floatAnimation.value : -_floatAnimation.value;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        final offset = index.isEven
+            ? _floatAnimation.value
+            : -_floatAnimation.value;
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
     );
   }
@@ -245,73 +243,85 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Daily ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                'Daily ',
+                style: GoogleFonts.baloo2(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 4.r,
+                      offset: const Offset(1, 2),
+                    ),
+                  ],
                 ),
-              ],
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-          ),
-          Text(
-            'Goals',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
+            Flexible(
+              child: Text(
+                'Goals',
+                style: GoogleFonts.baloo2(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFFFFE66D),
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 4.r,
+                      offset: const Offset(1, 2),
+                    ),
+                  ],
                 ),
-              ],
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
     );
@@ -325,278 +335,287 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
       builder: (context, value, _) {
         return Transform.translate(
           offset: Offset(0, 30 * (1 - value)),
-          child: Opacity(
-            opacity: value.clamp(0.0, 1.0),
-            child: child,
-          ),
+          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
         );
       },
     );
   }
 
   Widget _buildProgressCard() {
-    return Obx(() => Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: goalsService.allGoalsCompleted.value
-                ? const LinearGradient(
-                    colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : LinearGradient(
-                    colors: cardGradients[2], // Green gradient
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: goalsService.allGoalsCompleted.value
-                    ? const Color(0xFFFFD700).withValues(alpha: 0.4)
-                    : cardGradients[2][0].withValues(alpha: 0.4),
-                blurRadius: 15,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              // Decorative circle
-              Positioned(
-                top: -20,
-                right: -20,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.15),
-                  ),
+    return Obx(
+      () => Container(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          gradient: goalsService.allGoalsCompleted.value
+              ? const LinearGradient(
+                  colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : LinearGradient(
+                  colors: cardGradients[2], // Green gradient
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: [
+            BoxShadow(
+              color: goalsService.allGoalsCompleted.value
+                  ? const Color(0xFFFFD700).withValues(alpha: 0.4)
+                  : cardGradients[2][0].withValues(alpha: 0.4),
+              blurRadius: 15.r,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Decorative circle
+            Positioned(
+              top: -20.h,
+              right: -20.w,
+              child: Container(
+                width: 80.w,
+                height: 80.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.15),
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            goalsService.allGoalsCompleted.value
+                                ? "All Goals Complete! 🎉"
+                                : "Today's Progress",
+                            style: GoogleFonts.baloo2(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            "${goalsService.completedGoalIds.length} of ${goalsService.dailyGoals.length} completed",
+                            style: GoogleFonts.nunito(
+                              fontSize: 14,
+                              color: Colors.white.withValues(alpha: 0.9),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 70.w,
+                      height: 70.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: 60.w,
+                            height: 60.h,
+                            child: CircularProgressIndicator(
+                              value: goalsService.overallDailyProgress / 100,
+                              backgroundColor: Colors.white.withValues(
+                                alpha: 0.2,
+                              ),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                              strokeWidth: 6.r,
+                            ),
+                          ),
+                          Text(
+                            "${goalsService.overallDailyProgress.toInt()}%",
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                Container(
+                  height: 12.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: LinearProgressIndicator(
+                      value: goalsService.overallDailyProgress / 100,
+                      backgroundColor: Colors.transparent,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.white,
+                      ),
+                      minHeight: 12.h,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStreakCard() {
+    return Obx(
+      () => Container(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: cardGradients[0], // Coral Red gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: cardGradients[0][0].withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Decorative circle
+            Positioned(
+              top: -15.h,
+              right: -15.w,
+              child: Container(
+                width: 60.w,
+                height: 60.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.15),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 64.w,
+                  height: 64.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: const Center(
+                    child: Text("🔥", style: TextStyle(fontSize: 40)),
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              goalsService.allGoalsCompleted.value
-                                  ? "All Goals Complete! 🎉"
-                                  : "Today's Progress",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "${goalsService.completedGoalIds.length} of ${goalsService.dailyGoals.length} completed",
-                              style: GoogleFonts.nunito(
-                                fontSize: 14,
-                                color: Colors.white.withValues(alpha: 0.9),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        "Goal Streak",
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              height: 60,
-                              child: CircularProgressIndicator(
-                                value: goalsService.overallDailyProgress / 100,
-                                backgroundColor: Colors.white.withValues(alpha: 0.2),
-                                valueColor:
-                                    const AlwaysStoppedAnimation<Color>(Colors.white),
-                                strokeWidth: 6,
-                              ),
-                            ),
-                            Text(
-                              "${goalsService.overallDailyProgress.toInt()}%",
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        "${goalsService.goalStreak.value} Days",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Container(
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: LinearProgressIndicator(
-                        value: goalsService.overallDailyProgress / 100,
-                        backgroundColor: Colors.transparent,
-                        valueColor:
-                            const AlwaysStoppedAnimation<Color>(Colors.white),
-                        minHeight: 12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ));
-  }
-
-  Widget _buildStreakCard() {
-    return Obx(() => Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: cardGradients[0], // Coral Red gradient
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: cardGradients[0][0].withValues(alpha: 0.4),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              // Decorative circle
-              Positioned(
-                top: -15,
-                right: -15,
-                child: Container(
-                  width: 60,
-                  height: 60,
+                ),
+                Container(
+                  padding: EdgeInsets.all(14.r),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Total",
+                        style: GoogleFonts.nunito(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        "${goalsService.totalGoalsCompleted.value}",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(
-                      child: Text("🔥", style: TextStyle(fontSize: 40)),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Goal Streak",
-                          style: GoogleFonts.nunito(
-                            fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          "${goalsService.goalStreak.value} Days",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Total",
-                          style: GoogleFonts.nunito(
-                            color: Colors.white.withValues(alpha: 0.9),
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          "${goalsService.totalGoalsCompleted.value}",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ));
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildSectionTitle(String title, String emoji) {
     return Row(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: 40.w,
+          height: 40.h,
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Center(
             child: Text(emoji, style: const TextStyle(fontSize: 22)),
           ),
         ),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          style: GoogleFonts.baloo2(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 4,
-                offset: const Offset(1, 2),
-              ),
-            ],
+        SizedBox(width: 12.w),
+        Flexible(
+          child: Text(
+            title,
+            style: GoogleFonts.baloo2(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 4.r,
+                  offset: const Offset(1, 2),
+                ),
+              ],
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
       ],
@@ -604,227 +623,244 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
   }
 
   Widget _buildGoalsList() {
-    return Obx(() => ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: goalsService.dailyGoals.length,
-          itemBuilder: (context, index) {
-            final goal = goalsService.dailyGoals[index];
-            final goalId = goal['id'] as String;
-            final isCompleted = goalsService.isGoalCompleted(goalId);
-            final progress = goalsService.getGoalProgressPercentage(goalId);
-            final currentProgress = goalsService.goalProgress[goalId] ?? 0;
-            final target = goal['target'] as int;
+    return Obx(
+      () => ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: goalsService.dailyGoals.length,
+        itemBuilder: (context, index) {
+          final goal = goalsService.dailyGoals[index];
+          final goalId = goal['id'] as String;
+          final isCompleted = goalsService.isGoalCompleted(goalId);
+          final progress = goalsService.getGoalProgressPercentage(goalId);
+          final currentProgress = goalsService.goalProgress[goalId] ?? 0;
+          final target = goal['target'] as int;
 
-            final colorPair = cardGradients[index % cardGradients.length];
+          final colorPair = cardGradients[index % cardGradients.length];
 
-            return AnimatedBuilder(
-              animation: _floatAnimation,
-              builder: (context, child) {
-                final offset = index.isEven ? _floatAnimation.value * 0.4 : -_floatAnimation.value * 0.4;
-                return Transform.translate(
-                  offset: Offset(0, offset),
-                  child: child,
-                );
-              },
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  gradient: isCompleted
-                      ? LinearGradient(
-                          colors: cardGradients[2], // Green gradient for completed
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        )
-                      : LinearGradient(
-                          colors: colorPair,
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: (isCompleted ? cardGradients[2][0] : colorPair[0]).withValues(alpha: 0.4),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    // Decorative circle
-                    Positioned(
-                      top: -15,
-                      right: -15,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: 0.15),
-                        ),
+          return AnimatedBuilder(
+            animation: _floatAnimation,
+            builder: (context, child) {
+              final offset = index.isEven
+                  ? _floatAnimation.value * 0.4
+                  : -_floatAnimation.value * 0.4;
+              return Transform.translate(
+                offset: Offset(0, offset),
+                child: child,
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 16.h),
+              decoration: BoxDecoration(
+                gradient: isCompleted
+                    ? LinearGradient(
+                        colors:
+                            cardGradients[2], // Green gradient for completed
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : LinearGradient(
+                        colors: colorPair,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                borderRadius: BorderRadius.circular(20.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: (isCompleted ? cardGradients[2][0] : colorPair[0])
+                        .withValues(alpha: 0.4),
+                    blurRadius: 12.r,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  // Decorative circle
+                  Positioned(
+                    top: -15.h,
+                    right: -15.w,
+                    child: Container(
+                      width: 50.w,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.15),
                       ),
                     ),
-                    Column(
-                      children: [
-                        // Goal Header
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 54,
-                                height: 54,
+                  ),
+                  Column(
+                    children: [
+                      // Goal Header
+                      Container(
+                        padding: EdgeInsets.all(16.r),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 54.w,
+                              height: 54.h,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                borderRadius: BorderRadius.circular(14.r),
+                              ),
+                              child: Center(
+                                child: isCompleted
+                                    ? Icon(
+                                        Icons.check_rounded,
+                                        color: Colors.white,
+                                        size: 30.r,
+                                      )
+                                    : Text(
+                                        goal['icon'] as String,
+                                        style: const TextStyle(fontSize: 28),
+                                      ),
+                              ),
+                            ),
+                            SizedBox(width: 14.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    goal['title'] as String,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      decoration: isCompleted
+                                          ? TextDecoration.lineThrough
+                                          : null,
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    goal['description'] as String,
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 12,
+                                      color: Colors.white.withValues(
+                                        alpha: 0.9,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Text(
+                                "$currentProgress/$target",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Progress Section
+                      Container(
+                        padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 10.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(5.r),
                                 ),
-                                child: Center(
-                                  child: isCompleted
-                                      ? const Icon(Icons.check_rounded,
-                                          color: Colors.white, size: 30)
-                                      : Text(
-                                          goal['icon'] as String,
-                                          style: const TextStyle(fontSize: 28),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.r),
+                                  child: LinearProgressIndicator(
+                                    value: progress / 100,
+                                    backgroundColor: Colors.transparent,
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
                                         ),
-                                ),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      goal['title'] as String,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        decoration: isCompleted
-                                            ? TextDecoration.lineThrough
-                                            : null,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      goal['description'] as String,
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 12,
-                                        color: Colors.white.withValues(alpha: 0.9),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.3),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  "$currentProgress/$target",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                    minHeight: 10.h,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(width: 14.w),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    "⭐",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  SizedBox(width: 2.w),
+                                  Text(
+                                    "${goal['starReward']}",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 11,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Text(
+                                "+${goal['xpReward']} XP",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 11,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        // Progress Section
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.3),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: LinearProgressIndicator(
-                                      value: progress / 100,
-                                      backgroundColor: Colors.transparent,
-                                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                                      minHeight: 10,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 14),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.3),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    const Text("⭐", style: TextStyle(fontSize: 12)),
-                                    const SizedBox(width: 2),
-                                    Text(
-                                      "${goal['starReward']}",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 11,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.3),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  "+${goal['xpReward']} XP",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 11,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            );
-          },
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildBonusCard() {
     return Obx(() {
       if (!goalsService.allGoalsCompleted.value) {
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.3),
               width: 2,
@@ -833,17 +869,17 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
           child: Row(
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: 56.w,
+                height: 56.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: const Center(
                   child: Text("🎁", style: TextStyle(fontSize: 32)),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -856,7 +892,7 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       "Complete all goals to earn:\n⭐ 10 Stars  +50 XP  🏅 Badge",
                       style: GoogleFonts.nunito(
@@ -872,18 +908,18 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
         );
       }
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFFFFD700).withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -892,11 +928,11 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
           children: [
             // Decorative circle
             Positioned(
-              top: -15,
-              right: -15,
+              top: -15.h,
+              right: -15.w,
               child: Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -906,17 +942,17 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
             Row(
               children: [
                 Container(
-                  width: 56,
-                  height: 56,
+                  width: 56.w,
+                  height: 56.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: const Center(
                     child: Text("🎉", style: TextStyle(fontSize: 32)),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -929,7 +965,7 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         "You earned: ⭐ 10 Stars  +50 XP  🏅 Badge",
                         style: GoogleFonts.nunito(
@@ -961,18 +997,18 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
     final gradient = cardGradients[3]; // Blue gradient
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: gradient,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: gradient[0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -981,11 +1017,11 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -20,
-            right: -20,
+            top: -20.h,
+            right: -20.w,
             child: Container(
-              width: 70,
-              height: 70,
+              width: 70.w,
+              height: 70.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -998,34 +1034,38 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
               Row(
                 children: [
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: 48.w,
+                    height: 48.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: const Center(
                       child: Text("💡", style: TextStyle(fontSize: 26)),
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  Text(
-                    "Today's Tip",
-                    style: GoogleFonts.baloo2(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  SizedBox(width: 14.w),
+                  Flexible(
+                    child: Text(
+                      "Today's Tip",
+                      style: GoogleFonts.baloo2(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Row(
                   children: [
@@ -1033,7 +1073,7 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
                       randomTip['icon']!,
                       style: const TextStyle(fontSize: 28),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         randomTip['tip']!,
@@ -1063,22 +1103,23 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
       {"emoji": "🌈", "text": "Learning is fun, keep exploring!"},
     ];
 
-    final randomMotivation = motivations[DateTime.now().hour % motivations.length];
+    final randomMotivation =
+        motivations[DateTime.now().hour % motivations.length];
     final gradient = cardGradients[4]; // Purple gradient
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: gradient,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: gradient[0].withValues(alpha: 0.4),
-            blurRadius: 12,
+            blurRadius: 12.r,
             offset: const Offset(0, 6),
           ),
         ],
@@ -1087,11 +1128,11 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
         children: [
           // Decorative circle
           Positioned(
-            top: -15,
-            right: -15,
+            top: -15.h,
+            right: -15.w,
             child: Container(
-              width: 60,
-              height: 60,
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -1101,11 +1142,11 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
           Row(
             children: [
               Container(
-                width: 64,
-                height: 64,
+                width: 64.w,
+                height: 64.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Center(
                   child: Text(
@@ -1114,7 +1155,7 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1127,7 +1168,7 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       randomMotivation['text']!,
                       style: GoogleFonts.nunito(
@@ -1140,15 +1181,15 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.favorite_rounded,
                   color: Colors.white,
-                  size: 24,
+                  size: 24.r,
                 ),
               ),
             ],

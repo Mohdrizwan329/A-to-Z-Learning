@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class DailyLifeSkillsPage extends StatefulWidget {
   const DailyLifeSkillsPage({super.key});
 
@@ -48,7 +50,8 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
         {'step': 'Push one ear through the hole', 'emoji': '🕳️'},
         {'step': 'Pull both ears tight', 'emoji': '✨'},
       ],
-      'tip': 'Practice makes perfect! Try on a shoe that\'s not on your foot first.',
+      'tip':
+          'Practice makes perfect! Try on a shoe that\'s not on your foot first.',
     },
     {
       'title': 'Making Your Bed',
@@ -81,7 +84,8 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
         {'item': 'Glass', 'where': 'Above the knife', 'emoji': '🥛'},
         {'item': 'Napkin', 'where': 'Under fork or on plate', 'emoji': '🧻'},
       ],
-      'tip': 'Remember: Fork has 4 letters, Left has 4 letters. Fork goes on the Left!',
+      'tip':
+          'Remember: Fork has 4 letters, Left has 4 letters. Fork goes on the Left!',
     },
     {
       'title': 'Packing Your Bag',
@@ -128,7 +132,10 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
       'color': Color(0xFF795548),
       'intro': 'Learn to help in the kitchen safely!',
       'safetyFirst': [
-        {'rule': 'Always ask an adult before using the kitchen', 'emoji': '👨‍👩‍👧'},
+        {
+          'rule': 'Always ask an adult before using the kitchen',
+          'emoji': '👨‍👩‍👧',
+        },
         {'rule': 'Wash hands before cooking', 'emoji': '🧼'},
         {'rule': 'Be careful with sharp objects', 'emoji': '🔪'},
         {'rule': 'Never touch hot stoves or ovens', 'emoji': '🔥'},
@@ -195,7 +202,12 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -207,7 +219,7 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
               _buildProgressDots(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: _buildSectionContent(section),
                 ),
               ),
@@ -218,21 +230,22 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
       ),
     );
   }
+
   Widget _buildProgressDots() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(sections.length, (index) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
+            margin: EdgeInsets.symmetric(horizontal: 3.w),
             width: index == currentSection ? 20 : 8,
-            height: 8,
+            height: 8.h,
             decoration: BoxDecoration(
               color: index == currentSection
                   ? Colors.white
                   : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(4.r),
             ),
           );
         }),
@@ -244,14 +257,14 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 20,
+                blurRadius: 20.r,
                 offset: const Offset(0, 10),
               ),
             ],
@@ -259,7 +272,7 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
           child: Column(
             children: [
               Text(section['emoji'], style: const TextStyle(fontSize: 50)),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 section['title'],
                 style: GoogleFonts.poppins(
@@ -269,16 +282,19 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 section['intro'],
-                style: GoogleFonts.nunito(fontSize: 14, color: Colors.grey.shade700),
+                style: GoogleFonts.nunito(
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         _buildDynamicContent(section),
       ],
     );
@@ -311,43 +327,59 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('📋 Steps:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
+              Text(
+                '📋 Steps:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 12.h),
               ...(section['steps'] as List).asMap().entries.map((entry) {
                 final step = entry.value;
-                return _buildStep(entry.key + 1, step['step'], step['emoji'], section['color']);
+                return _buildStep(
+                  entry.key + 1,
+                  step['step'],
+                  step['emoji'],
+                  section['color'],
+                );
               }),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('💡 Tips:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
+              Text(
+                '💡 Tips:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.h),
               ...(section['tips'] as List).map((tip) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
-                      const Icon(Icons.star, color: Colors.amber, size: 18),
-                      const SizedBox(width: 8),
-                      Expanded(child: Text(tip, style: GoogleFonts.nunito(fontSize: 13))),
+                      Icon(Icons.star, color: Colors.amber, size: 18.r),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          tip,
+                          style: GoogleFonts.nunito(fontSize: 13),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -363,29 +395,36 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
-            children: (section['steps'] as List).asMap().entries.map<Widget>((entry) {
+            children: (section['steps'] as List).asMap().entries.map<Widget>((
+              entry,
+            ) {
               final step = entry.value;
-              return _buildStep(entry.key + 1, step['step'], step['emoji'], section['color']);
+              return _buildStep(
+                entry.key + 1,
+                step['step'],
+                step['emoji'],
+                section['color'],
+              );
             }).toList(),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.green.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('🐰', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['tip'],
@@ -403,37 +442,51 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
-            children: (section['steps'] as List).asMap().entries.map<Widget>((entry) {
+            children: (section['steps'] as List).asMap().entries.map<Widget>((
+              entry,
+            ) {
               final step = entry.value;
-              return _buildStep(entry.key + 1, step['step'], step['emoji'], section['color']);
+              return _buildStep(
+                entry.key + 1,
+                step['step'],
+                step['emoji'],
+                section['color'],
+              );
             }).toList(),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.purple.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('✨ Benefits:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
+              Text(
+                '✨ Benefits:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.h),
               ...(section['benefits'] as List).map((benefit) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle, color: Colors.purple, size: 18),
-                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.purple,
+                        size: 18.r,
+                      ),
+                      SizedBox(width: 8.w),
                       Text(benefit, style: GoogleFonts.nunito(fontSize: 13)),
                     ],
                   ),
@@ -450,31 +503,33 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             children: (section['placement'] as List).map<Widget>((item) {
               return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.all(12),
+                margin: EdgeInsets.only(bottom: 10.h),
+                padding: EdgeInsets.all(12.r),
                 decoration: BoxDecoration(
                   color: section['color'].withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   children: [
                     Text(item['emoji'], style: const TextStyle(fontSize: 28)),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             item['item'],
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             item['where'],
@@ -489,17 +544,17 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             }).toList(),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('💡', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: Text(
                   section['tip'],
@@ -517,39 +572,49 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('📝 Checklist:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
+              Text(
+                '📝 Checklist:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 12.h),
               ...(section['checklist'] as List).map((item) {
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(12),
+                  margin: EdgeInsets.only(bottom: 8.h),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: section['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Row(
                     children: [
                       Container(
-                        width: 24,
-                        height: 24,
+                        width: 24.w,
+                        height: 24.h,
                         decoration: BoxDecoration(
                           border: Border.all(color: section['color'], width: 2),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(6.r),
                         ),
-                        child: Icon(Icons.check, size: 16, color: section['color']),
+                        child: Icon(
+                          Icons.check,
+                          size: 16.r,
+                          color: section['color'],
+                        ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Text(item['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 8),
-                      Text(item['item'], style: GoogleFonts.nunito(fontWeight: FontWeight.w600)),
+                      SizedBox(width: 8.w),
+                      Text(
+                        item['item'],
+                        style: GoogleFonts.nunito(fontWeight: FontWeight.w600),
+                      ),
                     ],
                   ),
                 );
@@ -557,26 +622,34 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.pink.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('💡 Tips:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
+              Text(
+                '💡 Tips:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.h),
               ...(section['tips'] as List).map((tip) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
-                      const Icon(Icons.star, color: Colors.pink, size: 18),
-                      const SizedBox(width: 8),
-                      Expanded(child: Text(tip, style: GoogleFonts.nunito(fontSize: 13))),
+                      Icon(Icons.star, color: Colors.pink, size: 18.r),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          tip,
+                          style: GoogleFonts.nunito(fontSize: 13),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -592,24 +665,30 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('📅 Daily Tasks:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
+              Text(
+                '📅 Daily Tasks:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10.h),
               ...(section['dailyTasks'] as List).map((task) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
                       Text(task['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(task['task'], style: GoogleFonts.nunito(fontSize: 14)),
+                      SizedBox(width: 10.w),
+                      Text(
+                        task['task'],
+                        style: GoogleFonts.nunito(fontSize: 14),
+                      ),
                     ],
                   ),
                 );
@@ -617,26 +696,32 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.cyan.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('📆 Weekly Tasks:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
+              Text(
+                '📆 Weekly Tasks:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10.h),
               ...(section['weeklyTasks'] as List).map((task) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
                       Text(task['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(task['task'], style: GoogleFonts.nunito(fontSize: 14)),
+                      SizedBox(width: 10.w),
+                      Text(
+                        task['task'],
+                        style: GoogleFonts.nunito(fontSize: 14),
+                      ),
                     ],
                   ),
                 );
@@ -644,17 +729,17 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('⏰', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['tip'],
@@ -672,10 +757,10 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.red.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             border: Border.all(color: Colors.red.shade200),
           ),
           child: Column(
@@ -684,7 +769,7 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
               Row(
                 children: [
                   const Text('⚠️', style: TextStyle(fontSize: 24)),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     'Safety First!',
                     style: GoogleFonts.poppins(
@@ -694,15 +779,20 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               ...(section['safetyFirst'] as List).map((item) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
                       Text(item['emoji'], style: const TextStyle(fontSize: 18)),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(item['rule'], style: GoogleFonts.nunito(fontSize: 13))),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Text(
+                          item['rule'],
+                          style: GoogleFonts.nunito(fontSize: 13),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -710,26 +800,35 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('🍳 Skills You Can Learn:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
+              Text(
+                '🍳 Skills You Can Learn:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10.h),
               ...(section['simpleSkills'] as List).map((skill) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
-                      Text(skill['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Text(skill['skill'], style: GoogleFonts.nunito(fontSize: 14)),
+                      Text(
+                        skill['emoji'],
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        skill['skill'],
+                        style: GoogleFonts.nunito(fontSize: 14),
+                      ),
                     ],
                   ),
                 );
@@ -745,24 +844,32 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('💕 Responsibilities:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
+              Text(
+                '💕 Responsibilities:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10.h),
               ...(section['responsibilities'] as List).map((task) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     children: [
                       Text(task['emoji'], style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(task['task'], style: GoogleFonts.nunito(fontSize: 14))),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Text(
+                          task['task'],
+                          style: GoogleFonts.nunito(fontSize: 14),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -770,36 +877,48 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.purple.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('🐾 Different Pets Need:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
+              Text(
+                '🐾 Different Pets Need:',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10.h),
               ...(section['petTypes'] as List).map((pet) {
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(10),
+                  margin: EdgeInsets.only(bottom: 8.h),
+                  padding: EdgeInsets.all(10.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Row(
                     children: [
                       Text(pet['emoji'], style: const TextStyle(fontSize: 24)),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(pet['pet'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 13)),
-                            Text(pet['need'], style: GoogleFonts.nunito(fontSize: 12)),
+                            Text(
+                              pet['pet'],
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                            Text(
+                              pet['need'],
+                              style: GoogleFonts.nunito(fontSize: 12),
+                            ),
                           ],
                         ),
                       ),
@@ -816,16 +935,13 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
 
   Widget _buildStep(int number, String step, String emoji, Color color) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
           Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
+            width: 30.w,
+            height: 30.h,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             child: Center(
               child: Text(
                 '$number',
@@ -836,9 +952,9 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Text(emoji, style: const TextStyle(fontSize: 22)),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Expanded(child: Text(step, style: GoogleFonts.nunito(fontSize: 14))),
         ],
       ),
@@ -847,7 +963,7 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
 
   Widget _buildNavButtons(Map<String, dynamic> section) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -863,12 +979,12 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
                 backgroundColor: Colors.white,
                 foregroundColor: section['color'],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             )
           else
-            const SizedBox(width: 100),
+            SizedBox(width: 100.w),
           if (currentSection < sections.length - 1)
             ElevatedButton.icon(
               onPressed: () {
@@ -881,7 +997,7 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
                 backgroundColor: Colors.white,
                 foregroundColor: section['color'],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             )
@@ -894,7 +1010,7 @@ class _DailyLifeSkillsPageState extends State<DailyLifeSkillsPage> {
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             ),

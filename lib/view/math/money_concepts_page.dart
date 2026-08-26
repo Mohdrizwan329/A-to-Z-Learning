@@ -1,7 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
+
+import 'package:jiyan_learning/utils/responsive.dart';
 
 class MoneyConceptsPage extends StatefulWidget {
   const MoneyConceptsPage({super.key});
@@ -1490,6 +1494,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
       showQuizResult = false;
     });
   }
+
   void _refreshAll() {
     setState(() {
       // Reset Quiz
@@ -1615,28 +1620,28 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
 
             return Container(
               height: MediaQuery.of(context).size.height * 0.75,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24.r),
+                  topRight: Radius.circular(24.r),
                 ),
               ),
               child: Column(
                 children: [
                   // Handle bar
                   Container(
-                    margin: const EdgeInsets.only(top: 12),
-                    width: 40,
-                    height: 4,
+                    margin: EdgeInsets.only(top: 12.h),
+                    width: 40.w,
+                    height: 4.h,
                     decoration: BoxDecoration(
                       color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(2),
+                      borderRadius: BorderRadius.circular(2.r),
                     ),
                   ),
                   // Title
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     child: Text(
                       "Select Country 🌍",
                       style: TextStyle(
@@ -1648,7 +1653,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                   ),
                   // Search field
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: TextField(
                       autofocus: true,
                       decoration: InputDecoration(
@@ -1660,12 +1665,12 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                         filled: true,
                         fillColor: Colors.grey.shade100,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 12.h,
                         ),
                       ),
                       onChanged: (value) {
@@ -1675,7 +1680,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                       },
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   // Country list
                   Expanded(
                     child: filtered.isEmpty
@@ -1684,7 +1689,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text("🔍", style: TextStyle(fontSize: 48)),
-                                const SizedBox(height: 12),
+                                SizedBox(height: 12.h),
                                 Text(
                                   "No country found",
                                   style: TextStyle(
@@ -1696,7 +1701,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                             ),
                           )
                         : ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
                             itemCount: filtered.length,
                             itemBuilder: (context, index) {
                               final country = filtered[index];
@@ -1728,10 +1733,8 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                   Navigator.pop(context);
                                 },
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 4,
-                                  ),
-                                  padding: const EdgeInsets.all(12),
+                                  margin: EdgeInsets.symmetric(vertical: 4.h),
+                                  padding: EdgeInsets.all(12.r),
                                   decoration: BoxDecoration(
                                     gradient: isSelected
                                         ? LinearGradient(
@@ -1746,7 +1749,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                     color: isSelected
                                         ? null
                                         : Colors.grey.shade50,
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(16.r),
                                     border: isSelected
                                         ? null
                                         : Border.all(
@@ -1760,7 +1763,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                         country['flag'],
                                         style: const TextStyle(fontSize: 32),
                                       ),
-                                      const SizedBox(width: 12),
+                                      SizedBox(width: 12.w),
                                       // Country info
                                       Expanded(
                                         child: Column(
@@ -1798,7 +1801,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                                 "🪙",
                                                 style: TextStyle(fontSize: 16),
                                               ),
-                                              const SizedBox(width: 4),
+                                              SizedBox(width: 4.w),
                                               Text(
                                                 "${(country['coins'] as List).length}",
                                                 style: TextStyle(
@@ -1817,7 +1820,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                                 "💵",
                                                 style: TextStyle(fontSize: 16),
                                               ),
-                                              const SizedBox(width: 4),
+                                              SizedBox(width: 4.w),
                                               Text(
                                                 "${(country['notes'] as List).length}",
                                                 style: TextStyle(
@@ -1832,21 +1835,21 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: 8.w),
                                       // Check icon if selected
                                       if (isSelected)
                                         Container(
-                                          padding: const EdgeInsets.all(4),
+                                          padding: EdgeInsets.all(4.r),
                                           decoration: BoxDecoration(
                                             color: Colors.white.withValues(
                                               alpha: 0.3,
                                             ),
                                             shape: BoxShape.circle,
                                           ),
-                                          child: const Icon(
+                                          child: Icon(
                                             Icons.check,
                                             color: Colors.white,
-                                            size: 18,
+                                            size: 18.r,
                                           ),
                                         ),
                                     ],
@@ -1879,18 +1882,18 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: GestureDetector(
             onTap: () => Get.back(),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_back_ios_new,
                 color: Colors.white,
-                size: 20,
+                size: 20.r,
               ),
             ),
           ),
@@ -1905,7 +1908,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -1924,16 +1927,16 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
         actions: [
           // Refresh button
           Padding(
-            padding: const EdgeInsets.only(right: 8.0),
+            padding: EdgeInsets.only(right: 8.0.w),
             child: GestureDetector(
               onTap: _refreshAll,
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: const Icon(Icons.refresh, color: Colors.white, size: 24),
+                child: Icon(Icons.refresh, color: Colors.white, size: 24.r),
               ),
             ),
           ),
@@ -1941,7 +1944,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(
@@ -1952,7 +1955,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: "Learn"),
             Tab(text: "Count"),
@@ -1963,7 +1966,12 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -1986,468 +1994,527 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
     final learnedCount = learnedCoins.length + learnedNotes.length;
     final progress = totalItems > 0 ? learnedCount / totalItems : 0.0;
 
-    return Column(
-      children: [
-        // Country Dropdown Selector with Search
-        Padding(
-          padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
-          child: GestureDetector(
-            onTap: () => _showCountrySearchBottomSheet(),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    selectedCountry['flag'],
-                    style: const TextStyle(fontSize: 28),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return LayoutBuilder(
+      // Portrait-shaped content: in landscape the body is barely 300pt tall,
+      // which is shorter than this column needs. Scroll when that happens and
+      // stay exactly as before whenever there is room.
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Country Dropdown Selector with Search
+              Padding(
+                padding: EdgeInsets.fromLTRB(12.w, 12.h, 12.w, 8.h),
+                child: GestureDetector(
+                  onTap: () => _showCountrySearchBottomSheet(),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 12.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 10.r,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
                       children: [
                         Text(
-                          selectedCountry['country'],
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF333333),
+                          selectedCountry['flag'],
+                          style: const TextStyle(fontSize: 28),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                selectedCountry['country'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF333333),
+                                ),
+                              ),
+                              Text(
+                                "${selectedCountry['currency']} (${selectedCountry['symbol']})",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          "${selectedCountry['currency']} (${selectedCountry['symbol']})",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
+                        Container(
+                          padding: EdgeInsets.all(8.r),
+                          decoration: BoxDecoration(
+                            color: countryColor.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: countryColor,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: countryColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(Icons.keyboard_arrow_down, color: countryColor),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
 
-        // Progress bar for Learn tab
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "📚 Learned: $learnedCount/$totalItems",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      "${(progress * 100).toInt()}%",
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: LinearProgressIndicator(
-                    value: progress,
-                    backgroundColor: Colors.white.withValues(alpha: 0.3),
-                    valueColor: AlwaysStoppedAnimation<Color>(countryColor),
-                    minHeight: 8,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-
-        // Country Info Header
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [countryColor, countryColor.withValues(alpha: 0.7)],
-            ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: countryColor.withValues(alpha: 0.4),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Text(
-                selectedCountry['flag'],
-                style: const TextStyle(fontSize: 40),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      selectedCountry['country'],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      "${selectedCountry['currency']} (${selectedCountry['symbol']})",
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () => _speakValue(
-                  "${selectedCountry['country']}. Currency is ${selectedCountry['currency']}. Symbol is ${selectedCountry['symbol']}",
-                ),
+              // Progress bar for Learn tab
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
                 child: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 10.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Icon(
-                    Icons.volume_up,
-                    color: Colors.white,
-                    size: 24,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "📚 Learned: $learnedCount/$totalItems",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Text(
+                            "${(progress * 100).toInt()}%",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.h),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          backgroundColor: Colors.white.withValues(alpha: 0.3),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            countryColor,
+                          ),
+                          minHeight: 8.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 8.h),
+
+              // Country Info Header
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                padding: EdgeInsets.all(16.r),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [countryColor, countryColor.withValues(alpha: 0.7)],
+                  ),
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: countryColor.withValues(alpha: 0.4),
+                      blurRadius: 10.r,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      selectedCountry['flag'],
+                      style: const TextStyle(fontSize: 40),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            selectedCountry['country'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "${selectedCountry['currency']} (${selectedCountry['symbol']})",
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => _speakValue(
+                        "${selectedCountry['country']}. Currency is ${selectedCountry['currency']}. Symbol is ${selectedCountry['symbol']}",
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(8.r),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.volume_up,
+                          color: Colors.white,
+                          size: 24.r,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Scrollable Content
+              SizedBox(
+                // A share of the viewport rather than `Expanded`:
+                // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                // above it, and a scrollable cannot report an intrinsic
+                // height - it throws.
+                height: math.max(200.h, constraints.maxHeight * 0.55),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Coins section
+                      _buildSectionTitle(
+                        "${selectedCountry['country']} Coins 🪙",
+                      ),
+                      SizedBox(height: 16.h),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20.r,
+                          crossAxisSpacing: 20.r,
+                          childAspectRatio: 1.5,
+                        ),
+                        itemCount: coins.length,
+                        itemBuilder: (context, index) {
+                          final coin = coins[index];
+                          final coinKey =
+                              "${selectedCountry['code']}_coin_${coin['value']}";
+                          final isLearned = learnedCoins.contains(coinKey);
+                          final gradient =
+                              cardGradients[index % cardGradients.length];
+                          return GestureDetector(
+                            onTap: () {
+                              _speakValue(coin['name']);
+                              setState(() {
+                                learnedCoins.add(coinKey);
+                              });
+                            },
+                            child: AnimatedBuilder(
+                              animation: _floatController,
+                              builder: (context, child) {
+                                final offset = (index % 2 == 0)
+                                    ? _floatAnimation.value * 0.5
+                                    : -_floatAnimation.value * 0.5;
+                                return Transform.translate(
+                                  offset: Offset(0, offset),
+                                  child: child,
+                                );
+                              },
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: gradient,
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: gradient[0].withValues(
+                                            alpha: 0.5,
+                                          ),
+                                          blurRadius: 15.r,
+                                          offset: const Offset(0, 8),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        // Decorative circle
+                                        Positioned(
+                                          top: -15.h,
+                                          right: -15.w,
+                                          child: Container(
+                                            width: 40.w,
+                                            height: 40.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white.withValues(
+                                                alpha: 0.15,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  "🪙",
+                                                  style: TextStyle(
+                                                    fontSize: 35,
+                                                  ),
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8.h),
+                                              Flexible(
+                                                child: Text(
+                                                  coin['value'],
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (isLearned)
+                                    Positioned(
+                                      top: 5.h,
+                                      right: 5.w,
+                                      child: Container(
+                                        padding: EdgeInsets.all(6.r),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.green.withValues(
+                                                alpha: 0.5,
+                                              ),
+                                              blurRadius: 8.r,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                          size: 20.r,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 24.h),
+
+                      // Notes section
+                      _buildSectionTitle(
+                        "${selectedCountry['country']} Notes 💵",
+                      ),
+                      SizedBox(height: 16.h),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20.r,
+                          crossAxisSpacing: 20.r,
+                          childAspectRatio: 2,
+                        ),
+                        itemCount: notes.length,
+                        itemBuilder: (context, index) {
+                          final note = notes[index];
+                          final noteKey =
+                              "${selectedCountry['code']}_note_${note['value']}";
+                          final isLearned = learnedNotes.contains(noteKey);
+                          final gradient =
+                              cardGradients[(index + 3) % cardGradients.length];
+                          return GestureDetector(
+                            onTap: () {
+                              _speakValue(note['name']);
+                              setState(() {
+                                learnedNotes.add(noteKey);
+                              });
+                            },
+                            child: AnimatedBuilder(
+                              animation: _floatController,
+                              builder: (context, child) {
+                                final offset = (index % 2 == 0)
+                                    ? -_floatAnimation.value * 0.5
+                                    : _floatAnimation.value * 0.5;
+                                return Transform.translate(
+                                  offset: Offset(0, offset),
+                                  child: child,
+                                );
+                              },
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: gradient,
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(24.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: gradient[0].withValues(
+                                            alpha: 0.5,
+                                          ),
+                                          blurRadius: 15.r,
+                                          offset: const Offset(0, 8),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        // Decorative circle
+                                        Positioned(
+                                          top: -20.h,
+                                          right: -20.w,
+                                          child: Container(
+                                            width: 70.w,
+                                            height: 70.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white.withValues(
+                                                alpha: 0.12,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        // Second decorative circle
+                                        Positioned(
+                                          bottom: -15.h,
+                                          left: -15.w,
+                                          child: Container(
+                                            width: 50.w,
+                                            height: 50.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white.withValues(
+                                                alpha: 0.08,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          // A four-digit note value plus the emoji is
+                                          // wider than the tile on a small phone, so
+                                          // the amount takes the remaining width.
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "💵",
+                                                style: TextStyle(fontSize: 40),
+                                              ),
+                                              SizedBox(width: 8.w),
+                                              Flexible(
+                                                child: FittedBox(
+                                                  fit: BoxFit.scaleDown,
+                                                  child: Text(
+                                                    note['value'],
+                                                    style: const TextStyle(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (isLearned)
+                                    Positioned(
+                                      top: 8.h,
+                                      right: 8.w,
+                                      child: Container(
+                                        padding: EdgeInsets.all(6.r),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.green.withValues(
+                                                alpha: 0.5,
+                                              ),
+                                              blurRadius: 8.r,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                          size: 20.r,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+                    ],
                   ),
                 ),
               ),
             ],
           ),
         ),
-
-        // Scrollable Content
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Coins section
-                _buildSectionTitle("${selectedCountry['country']} Coins 🪙"),
-                const SizedBox(height: 16),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
-                    childAspectRatio: 1.5,
-                  ),
-                  itemCount: coins.length,
-                  itemBuilder: (context, index) {
-                    final coin = coins[index];
-                    final coinKey =
-                        "${selectedCountry['code']}_coin_${coin['value']}";
-                    final isLearned = learnedCoins.contains(coinKey);
-                    final gradient =
-                        cardGradients[index % cardGradients.length];
-                    return GestureDetector(
-                      onTap: () {
-                        _speakValue(coin['name']);
-                        setState(() {
-                          learnedCoins.add(coinKey);
-                        });
-                      },
-                      child: AnimatedBuilder(
-                        animation: _floatController,
-                        builder: (context, child) {
-                          final offset = (index % 2 == 0)
-                              ? _floatAnimation.value * 0.5
-                              : -_floatAnimation.value * 0.5;
-                          return Transform.translate(
-                            offset: Offset(0, offset),
-                            child: child,
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: gradient,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: gradient[0].withValues(alpha: 0.5),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 8),
-                                  ),
-                                ],
-                              ),
-                              child: Stack(
-                                children: [
-                                  // Decorative circle
-                                  Positioned(
-                                    top: -15,
-                                    right: -15,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white.withValues(
-                                          alpha: 0.15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "🪙",
-                                          style: TextStyle(fontSize: 35),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          coin['value'],
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            if (isLearned)
-                              Positioned(
-                                top: 5,
-                                right: 5,
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.green.withValues(
-                                          alpha: 0.5,
-                                        ),
-                                        blurRadius: 8,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 24),
-
-                // Notes section
-                _buildSectionTitle("${selectedCountry['country']} Notes 💵"),
-                const SizedBox(height: 16),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
-                    childAspectRatio: 2,
-                  ),
-                  itemCount: notes.length,
-                  itemBuilder: (context, index) {
-                    final note = notes[index];
-                    final noteKey =
-                        "${selectedCountry['code']}_note_${note['value']}";
-                    final isLearned = learnedNotes.contains(noteKey);
-                    final gradient =
-                        cardGradients[(index + 3) % cardGradients.length];
-                    return GestureDetector(
-                      onTap: () {
-                        _speakValue(note['name']);
-                        setState(() {
-                          learnedNotes.add(noteKey);
-                        });
-                      },
-                      child: AnimatedBuilder(
-                        animation: _floatController,
-                        builder: (context, child) {
-                          final offset = (index % 2 == 0)
-                              ? -_floatAnimation.value * 0.5
-                              : _floatAnimation.value * 0.5;
-                          return Transform.translate(
-                            offset: Offset(0, offset),
-                            child: child,
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: gradient,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                borderRadius: BorderRadius.circular(24),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: gradient[0].withValues(alpha: 0.5),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 8),
-                                  ),
-                                ],
-                              ),
-                              child: Stack(
-                                children: [
-                                  // Decorative circle
-                                  Positioned(
-                                    top: -20,
-                                    right: -20,
-                                    child: Container(
-                                      width: 70,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white.withValues(
-                                          alpha: 0.12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // Second decorative circle
-                                  Positioned(
-                                    bottom: -15,
-                                    left: -15,
-                                    child: Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white.withValues(
-                                          alpha: 0.08,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "💵",
-                                          style: TextStyle(fontSize: 40),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          note['value'],
-                                          style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            if (isLearned)
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.green.withValues(
-                                          alpha: 0.5,
-                                        ),
-                                        blurRadius: 8,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -2503,21 +2570,21 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
     final progress = countCompleted / totalChallenges;
 
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       child: Column(
         children: [
           // Country Dropdown - Full width like Learn tab
           GestureDetector(
             onTap: () => _showCountrySearchBottomSheet(),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 10,
+                    blurRadius: 10.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -2528,7 +2595,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     selectedCountry['flag'],
                     style: const TextStyle(fontSize: 28),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2552,10 +2619,10 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.r),
                     decoration: BoxDecoration(
                       color: countryColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Icon(Icons.keyboard_arrow_down, color: countryColor),
                   ),
@@ -2563,13 +2630,13 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           // Progress bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Column(
               children: [
@@ -2589,26 +2656,26 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: LinearProgressIndicator(
                     value: progress.clamp(0.0, 1.0),
                     backgroundColor: Colors.white.withValues(alpha: 0.3),
                     valueColor: AlwaysStoppedAnimation<Color>(countryColor),
-                    minHeight: 8,
+                    minHeight: 8.h,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           // Target amount
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Column(
               children: [
@@ -2619,14 +2686,14 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                       selectedCountry['flag'],
                       style: const TextStyle(fontSize: 24),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     const Text(
                       "Make this amount:",
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   "$symbol$targetAmount",
                   style: TextStyle(
@@ -2635,7 +2702,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     color: countryColor,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   "Your total: $symbol$currentTotal",
                   style: TextStyle(
@@ -2646,8 +2713,8 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                   ),
                 ),
                 if (showCountResult)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.h),
                     child: Text(
                       "🎉 Perfect!",
                       style: TextStyle(fontSize: 22, color: Colors.green),
@@ -2656,14 +2723,14 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           // Selected items
           Container(
-            height: 60,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            height: 60.h,
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: selectedItems.isEmpty
                 ? Center(
@@ -2678,17 +2745,17 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     itemBuilder: (context, index) {
                       final item = selectedItems[index];
                       return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 8,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 8.h,
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
                         ),
                         decoration: BoxDecoration(
                           color: item['color'],
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Center(
                           child: Text(
@@ -2703,7 +2770,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     },
                   ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Money options - Coins
           Text(
             "🪙 Coins",
@@ -2713,9 +2780,9 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           SizedBox(
-            height: 80,
+            height: 80.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: dynamicCoinsForGame.length,
@@ -2736,8 +2803,8 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                       );
                     },
                     child: Container(
-                      width: 80,
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                      width: 80.w,
+                      margin: EdgeInsets.symmetric(horizontal: 6.w),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: gradient,
@@ -2748,7 +2815,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                             offset: const Offset(0, 5),
                           ),
                         ],
@@ -2756,11 +2823,11 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                       child: Stack(
                         children: [
                           Positioned(
-                            top: -8,
-                            right: -8,
+                            top: -8.h,
+                            right: -8.w,
                             child: Container(
-                              width: 30,
-                              height: 30,
+                              width: 30.w,
+                              height: 30.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.15),
@@ -2792,7 +2859,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               },
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Money options - Notes
           Text(
             "💵 Notes",
@@ -2802,13 +2869,13 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Expanded(
             child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 10.r,
+                crossAxisSpacing: 10.r,
                 childAspectRatio: 1.2,
               ),
               itemCount: dynamicNotesForGame.length,
@@ -2836,11 +2903,11 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                             offset: const Offset(0, 5),
                           ),
                         ],
@@ -2848,11 +2915,11 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                       child: Stack(
                         children: [
                           Positioned(
-                            top: -10,
-                            right: -10,
+                            top: -10.h,
+                            right: -10.w,
                             child: Container(
-                              width: 35,
-                              height: 35,
+                              width: 35.w,
+                              height: 35.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.1),
@@ -2884,7 +2951,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               },
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Buttons
           Row(
             children: [
@@ -2899,14 +2966,14 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: _generateCountingGame,
@@ -2915,9 +2982,9 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF56D97F),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
                 ),
@@ -2950,21 +3017,21 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
     final progress = (safeIndex + 1) / quizList.length;
 
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       child: Column(
         children: [
           // Country Dropdown - Full width like Learn tab
           GestureDetector(
             onTap: () => _showCountrySearchBottomSheet(),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 10,
+                    blurRadius: 10.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -2975,7 +3042,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     selectedCountry['flag'],
                     style: const TextStyle(fontSize: 28),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2999,10 +3066,10 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.r),
                     decoration: BoxDecoration(
                       color: countryColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Icon(Icons.keyboard_arrow_down, color: countryColor),
                   ),
@@ -3010,13 +3077,13 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           // Progress bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Column(
               children: [
@@ -3036,31 +3103,31 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: LinearProgressIndicator(
                     value: progress,
                     backgroundColor: Colors.white.withValues(alpha: 0.3),
                     valueColor: AlwaysStoppedAnimation<Color>(countryColor),
-                    minHeight: 8,
+                    minHeight: 8.h,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Question
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
             ),
             child: Column(
               children: [
                 Text(quiz['emoji'], style: const TextStyle(fontSize: 40)),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Text(
                   quiz['question'],
                   style: TextStyle(
@@ -3073,14 +3140,14 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           // Options
           Expanded(
             child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
                 childAspectRatio: 2,
               ),
               itemCount: options.length,
@@ -3128,14 +3195,14 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         border: isSelected && !showQuizResult
                             ? Border.all(color: Colors.white, width: 3)
                             : null,
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                             offset: const Offset(0, 5),
                           ),
                         ],
@@ -3144,11 +3211,11 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                         children: [
                           // Decorative circle
                           Positioned(
-                            top: -10,
-                            right: -10,
+                            top: -10.h,
+                            right: -10.w,
                             child: Container(
-                              width: 40,
-                              height: 40,
+                              width: 40.w,
+                              height: 40.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.1),
@@ -3161,20 +3228,20 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                               children: [
                                 if (showQuizResult && isCorrect)
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 8),
+                                    padding: EdgeInsets.only(right: 8.w),
                                     child: Icon(
                                       Icons.check_circle,
                                       color: Colors.white,
-                                      size: 24,
+                                      size: 24.r,
                                     ),
                                   ),
                                 if (showQuizResult && isSelected && !isCorrect)
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 8),
+                                    padding: EdgeInsets.only(right: 8.w),
                                     child: Icon(
                                       Icons.cancel,
                                       color: Colors.white,
-                                      size: 24,
+                                      size: 24.r,
                                     ),
                                   ),
                                 Flexible(
@@ -3199,7 +3266,7 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
               },
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Next button
           if (showQuizResult)
             SizedBox(
@@ -3209,9 +3276,9 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF56D97F),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                 ),
                 child: Text(
@@ -3229,10 +3296,10 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
 
   Widget _buildSectionTitle(String title) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
         title,
@@ -3243,4 +3310,5 @@ class _MoneyConceptsPageState extends State<MoneyConceptsPage>
         ),
       ),
     );
-  }}
+  }
+}

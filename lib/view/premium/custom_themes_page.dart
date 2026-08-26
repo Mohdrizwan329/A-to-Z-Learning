@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class CustomThemesPage extends StatefulWidget {
   const CustomThemesPage({Key? key}) : super(key: key);
 
@@ -122,7 +124,7 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -160,11 +162,11 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
             // Theme Grid
             Expanded(
               child: GridView.builder(
-                padding: const EdgeInsets.all(16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                padding: EdgeInsets.all(16.r),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16.r,
+                  crossAxisSpacing: 16.r,
                   childAspectRatio: 0.85,
                 ),
                 itemCount: themes.length,
@@ -182,15 +184,15 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
 
   Widget _buildCurrentThemePreview(Map<String, dynamic> theme) {
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
+      margin: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 15,
+            blurRadius: 15.r,
             offset: const Offset(0, 8),
           ),
         ],
@@ -200,17 +202,14 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
           Row(
             children: [
               Text(theme['icon'], style: const TextStyle(fontSize: 40)),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
                       'Current Theme',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                     Text(
                       theme['name'],
@@ -224,10 +223,10 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 decoration: BoxDecoration(
                   color: Colors.green,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: const Text(
                   'ACTIVE',
@@ -240,21 +239,17 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           // Color preview
           Row(
             children: [
-              Expanded(
-                child: _buildColorPreview('Primary', theme['primary']),
-              ),
-              const SizedBox(width: 8),
+              Expanded(child: _buildColorPreview('Primary', theme['primary'])),
+              SizedBox(width: 8.w),
               Expanded(
                 child: _buildColorPreview('Secondary', theme['secondary']),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildColorPreview('Accent', theme['accent']),
-              ),
+              SizedBox(width: 8.w),
+              Expanded(child: _buildColorPreview('Accent', theme['accent'])),
             ],
           ),
         ],
@@ -266,19 +261,16 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
     return Column(
       children: [
         Container(
-          height: 40,
+          height: 40.h,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.r),
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 10,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 10, color: Colors.grey.shade600),
         ),
       ],
     );
@@ -296,10 +288,8 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: isSelected
-              ? Border.all(color: primary, width: 3)
-              : null,
+          borderRadius: BorderRadius.circular(20.r),
+          border: isSelected ? Border.all(color: primary, width: 3) : null,
           boxShadow: [
             BoxShadow(
               color: primary.withValues(alpha: 0.3),
@@ -316,16 +306,16 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
               left: 0,
               right: 0,
               child: Container(
-                height: 80,
+                height: 80.h,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [primary, secondary, accent],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
                   ),
                 ),
                 child: Center(
@@ -342,7 +332,7 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
               left: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.r),
                 child: Column(
                   children: [
                     Text(
@@ -354,15 +344,15 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     // Mini color dots
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _buildColorDot(primary),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6.w),
                         _buildColorDot(secondary),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6.w),
                         _buildColorDot(accent),
                       ],
                     ),
@@ -373,19 +363,15 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
             // Selected checkmark
             if (isSelected)
               Positioned(
-                top: 8,
-                right: 8,
+                top: 8.h,
+                right: 8.w,
                 child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: EdgeInsets.all(4.r),
                   decoration: const BoxDecoration(
                     color: Colors.green,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 16,
-                  ),
+                  child: Icon(Icons.check, color: Colors.white, size: 16.r),
                 ),
               ),
           ],
@@ -396,17 +382,14 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
 
   Widget _buildColorDot(Color color) {
     return Container(
-      width: 20,
-      height: 20,
+      width: 20.w,
+      height: 20.h,
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 2),
         boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.5),
-            blurRadius: 4,
-          ),
+          BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 4.r),
         ],
       ),
     );

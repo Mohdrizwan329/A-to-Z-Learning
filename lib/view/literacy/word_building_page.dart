@@ -1,7 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
+
+import 'package:jiyan_learning/utils/responsive.dart';
 
 class WordBuildingPage extends StatefulWidget {
   const WordBuildingPage({super.key});
@@ -19,18 +23,66 @@ class _WordBuildingPageState extends State<WordBuildingPage> {
   bool isCorrect = false;
 
   final List<Map<String, dynamic>> words = [
-    {'word': 'CAT', 'emoji': '🐱', 'letters': ['C', 'A', 'T', 'D', 'O']},
-    {'word': 'DOG', 'emoji': '🐕', 'letters': ['D', 'O', 'G', 'P', 'I']},
-    {'word': 'SUN', 'emoji': '☀️', 'letters': ['S', 'U', 'N', 'A', 'M']},
-    {'word': 'HAT', 'emoji': '🎩', 'letters': ['H', 'A', 'T', 'E', 'R']},
-    {'word': 'BUS', 'emoji': '🚌', 'letters': ['B', 'U', 'S', 'C', 'K']},
-    {'word': 'PEN', 'emoji': '🖊️', 'letters': ['P', 'E', 'N', 'A', 'T']},
-    {'word': 'CUP', 'emoji': '🥤', 'letters': ['C', 'U', 'P', 'O', 'B']},
-    {'word': 'BAT', 'emoji': '🦇', 'letters': ['B', 'A', 'T', 'E', 'N']},
-    {'word': 'BED', 'emoji': '🛏️', 'letters': ['B', 'E', 'D', 'A', 'G']},
-    {'word': 'FAN', 'emoji': '🪭', 'letters': ['F', 'A', 'N', 'U', 'S']},
-    {'word': 'JAM', 'emoji': '🍯', 'letters': ['J', 'A', 'M', 'E', 'P']},
-    {'word': 'MAP', 'emoji': '🗺️', 'letters': ['M', 'A', 'P', 'E', 'T']},
+    {
+      'word': 'CAT',
+      'emoji': '🐱',
+      'letters': ['C', 'A', 'T', 'D', 'O'],
+    },
+    {
+      'word': 'DOG',
+      'emoji': '🐕',
+      'letters': ['D', 'O', 'G', 'P', 'I'],
+    },
+    {
+      'word': 'SUN',
+      'emoji': '☀️',
+      'letters': ['S', 'U', 'N', 'A', 'M'],
+    },
+    {
+      'word': 'HAT',
+      'emoji': '🎩',
+      'letters': ['H', 'A', 'T', 'E', 'R'],
+    },
+    {
+      'word': 'BUS',
+      'emoji': '🚌',
+      'letters': ['B', 'U', 'S', 'C', 'K'],
+    },
+    {
+      'word': 'PEN',
+      'emoji': '🖊️',
+      'letters': ['P', 'E', 'N', 'A', 'T'],
+    },
+    {
+      'word': 'CUP',
+      'emoji': '🥤',
+      'letters': ['C', 'U', 'P', 'O', 'B'],
+    },
+    {
+      'word': 'BAT',
+      'emoji': '🦇',
+      'letters': ['B', 'A', 'T', 'E', 'N'],
+    },
+    {
+      'word': 'BED',
+      'emoji': '🛏️',
+      'letters': ['B', 'E', 'D', 'A', 'G'],
+    },
+    {
+      'word': 'FAN',
+      'emoji': '🪭',
+      'letters': ['F', 'A', 'N', 'U', 'S'],
+    },
+    {
+      'word': 'JAM',
+      'emoji': '🍯',
+      'letters': ['J', 'A', 'M', 'E', 'P'],
+    },
+    {
+      'word': 'MAP',
+      'emoji': '🗺️',
+      'letters': ['M', 'A', 'P', 'E', 'T'],
+    },
   ];
 
   @override
@@ -113,158 +165,201 @@ class _WordBuildingPageState extends State<WordBuildingPage> {
       emoji: '🔨',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          margin: EdgeInsets.only(right: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
-          child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          child: Text(
+            "⭐ $score",
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
       body: SafeArea(
-          child: Column(
-            children: [
-              const Spacer(),
-              // Emoji and hint
-              Text(currentWord['emoji'], style: const TextStyle(fontSize: 80)),
-              const SizedBox(height: 16),
-              Text(
-                "Build the word!",
-                style: TextStyle(fontSize: 18, color: Colors.white.withValues(alpha: 0.8)),
-              ),
-              const SizedBox(height: 24),
-              // Selected letters area
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    currentWord['word'].length,
-                    (index) {
-                      final hasLetter = index < selectedLetters.length;
-                      return GestureDetector(
-                        onTap: hasLetter ? () => _removeLetter(index) : null,
-                        child: Container(
-                          width: 50,
-                          height: 60,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            color: showResult
-                                ? (isCorrect ? Colors.green.shade100 : Colors.red.shade100)
-                                : Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
+        child: LayoutBuilder(
+          // Portrait-shaped content: in landscape the body is barely 300pt tall,
+          // which is shorter than this column needs. Scroll when that happens and
+          // stay exactly as before whenever there is room.
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 24.h),
+                  // Emoji and hint
+                  Text(
+                    currentWord['emoji'],
+                    style: const TextStyle(fontSize: 80),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    "Build the word!",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+                  // Selected letters area
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.w),
+                    padding: EdgeInsets.all(16.r),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(currentWord['word'].length, (
+                        index,
+                      ) {
+                        final hasLetter = index < selectedLetters.length;
+                        return GestureDetector(
+                          onTap: hasLetter ? () => _removeLetter(index) : null,
+                          child: Container(
+                            width: 50.w,
+                            height: 60.h,
+                            margin: EdgeInsets.symmetric(horizontal: 4.w),
+                            decoration: BoxDecoration(
                               color: showResult
-                                  ? (isCorrect ? Colors.green : Colors.red)
-                                  : Colors.grey.shade400,
-                              width: 2,
+                                  ? (isCorrect
+                                        ? Colors.green.shade100
+                                        : Colors.red.shade100)
+                                  : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: showResult
+                                    ? (isCorrect ? Colors.green : Colors.red)
+                                    : Colors.grey.shade400,
+                                width: 2,
+                              ),
                             ),
+                            child: Center(
+                              child: Text(
+                                hasLetter ? selectedLetters[index] : "",
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: showResult
+                                      ? (isCorrect ? Colors.green : Colors.red)
+                                      : Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                  SizedBox(height: 32.h),
+                  // Available letters
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 12.r,
+                    runSpacing: 12.r,
+                    children: letters.map((letter) {
+                      final isUsed =
+                          selectedLetters.contains(letter) &&
+                          selectedLetters.where((l) => l == letter).length >=
+                              letters.where((l) => l == letter).length;
+                      return GestureDetector(
+                        onTap: isUsed ? null : () => _selectLetter(letter),
+                        child: Container(
+                          width: 55.w,
+                          height: 55.h,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: isUsed
+                                  ? [Colors.grey.shade400, Colors.grey.shade500]
+                                  : [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
+                            ),
+                            borderRadius: BorderRadius.circular(15.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.2),
+                                blurRadius: 6.r,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
                           ),
                           child: Center(
                             child: Text(
-                              hasLetter ? selectedLetters[index] : "",
+                              letter,
                               style: TextStyle(
-                                fontSize: 28,
+                                fontSize: 26,
                                 fontWeight: FontWeight.bold,
-                                color: showResult
-                                    ? (isCorrect ? Colors.green : Colors.red)
-                                    : Colors.black87,
+                                color: isUsed
+                                    ? Colors.grey.shade600
+                                    : Colors.white,
                               ),
                             ),
                           ),
                         ),
                       );
-                    },
+                    }).toList(),
                   ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              // Available letters
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 12,
-                runSpacing: 12,
-                children: letters.map((letter) {
-                  final isUsed = selectedLetters.contains(letter) &&
-                      selectedLetters.where((l) => l == letter).length >=
-                          letters.where((l) => l == letter).length;
-                  return GestureDetector(
-                    onTap: isUsed ? null : () => _selectLetter(letter),
-                    child: Container(
-                      width: 55,
-                      height: 55,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: isUsed
-                              ? [Colors.grey.shade400, Colors.grey.shade500]
-                              : [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
+                  SizedBox(height: 24.h),
+                  // Action buttons
+                  if (showResult)
+                    Padding(
+                      padding: EdgeInsets.all(20.r),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: _resetCurrent,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
+                              child: const Text(
+                                "Try Again",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: _nextWord,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF56D97F),
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
+                              child: const Text(
+                                "Next Word",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      child: Center(
-                        child: Text(
-                          letter,
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: isUsed ? Colors.grey.shade600 : Colors.white,
-                          ),
-                        ),
-                      ),
                     ),
-                  );
-                }).toList(),
+                  SizedBox(height: 10.h),
+                ],
               ),
-              const Spacer(),
-              // Action buttons
-              if (showResult)
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _resetCurrent,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: const Text("Try Again", style: TextStyle(fontSize: 18, color: Colors.white)),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _nextWord,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF56D97F),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: const Text("Next Word", style: TextStyle(fontSize: 18, color: Colors.white)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              const SizedBox(height: 10),
-            ],
+            ),
           ),
         ),
+      ),
     );
   }
 }

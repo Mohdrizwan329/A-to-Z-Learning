@@ -6,6 +6,8 @@ import 'package:jiyan_learning/view%20model/qustion%20controller/generic_math_qu
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Generic Math Questions Page that can display any operation type
 /// Usage: GenericMathQuestionsPage(operationType: MathOperationType.addition)
 class GenericMathQuestionsPage extends StatefulWidget {
@@ -51,12 +53,12 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             setState(() {
@@ -71,40 +73,47 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
           // Progress bar with percentage
           Obx(() {
             final total = controller.questions.length;
-            final answered =
-                controller.questions.where((q) => q.isAnswered).length;
+            final answered = controller.questions
+                .where((q) => q.isAnswered)
+                .length;
             final progress = total > 0 ? answered / total : 0.0;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$answered/$total completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$answered/$total completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: AlwaysStoppedAnimation<Color>(
                         progress >= 1.0
@@ -118,60 +127,65 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
             );
           }),
           // Score row
-          Obx(() => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildScoreBadge(
-                        '✅ ${controller.correct}', Colors.green),
-                    const SizedBox(width: 12),
-                    _buildScoreBadge(
-                        '❌ ${controller.incorrect}', Colors.red),
-                    const SizedBox(width: 12),
-                    _buildScoreBadge(
-                      'Batch ${controller.currentBatch.value + 1}/${(controller.questions.length / 10).ceil()}',
-                      Colors.blue,
-                    ),
-                  ],
-                ),
-              )),
-          const SizedBox(height: 4),
+          Obx(
+            () => Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildScoreBadge('✅ ${controller.correct}', Colors.green),
+                  SizedBox(width: 12.w),
+                  _buildScoreBadge('❌ ${controller.incorrect}', Colors.red),
+                  SizedBox(width: 12.w),
+                  _buildScoreBadge(
+                    'Batch ${controller.currentBatch.value + 1}/${(controller.questions.length / 10).ceil()}',
+                    Colors.blue,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 4.h),
           // Grid
           Expanded(
-            child: Obx(() => GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemCount: controller.questions.length,
-                  itemBuilder: (context, index) {
-                    final question = controller.questions[index];
-                    final gradient = AppColors.getGradientForIndex(index);
-                    final isSelected = selectedIndexes.contains(index);
+            child: Obx(
+              () => GridView.builder(
+                padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12.r,
+                  crossAxisSpacing: 12.r,
+                  childAspectRatio: 0.9,
+                ),
+                itemCount: controller.questions.length,
+                itemBuilder: (context, index) {
+                  final question = controller.questions[index];
+                  final gradient = AppColors.getGradientForIndex(index);
+                  final isSelected = selectedIndexes.contains(index);
 
-                    // Locked card
-                    if (!controller.isInCurrentBatch(index) &&
-                        !question.isAnswered) {
-                      return buildFloatingItem(
-                        index: index,
-                        child: _buildLockedCard(),
-                      );
-                    }
-
-                    // Active Card
-                    return buildAnimatedGridItem(
+                  // Locked card
+                  if (!controller.isInCurrentBatch(index) &&
+                      !question.isAnswered) {
+                    return buildFloatingItem(
                       index: index,
-                      isSelected: isSelected,
-                      child: _buildQuestionCard(
-                          question, gradient, isSelected, index),
+                      child: _buildLockedCard(),
                     );
-                  },
-                )),
+                  }
+
+                  // Active Card
+                  return buildAnimatedGridItem(
+                    index: index,
+                    isSelected: isSelected,
+                    child: _buildQuestionCard(
+                      question,
+                      gradient,
+                      isSelected,
+                      index,
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),
@@ -180,10 +194,10 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
 
   Widget _buildScoreBadge(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Text(
@@ -201,11 +215,11 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
-            blurRadius: 6,
+            blurRadius: 6.r,
             offset: Offset(0, 3),
           ),
         ],
@@ -214,8 +228,8 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.lock, color: Colors.grey.shade600, size: 40),
-            SizedBox(height: 8),
+            Icon(Icons.lock, color: Colors.grey.shade600, size: 40.r),
+            SizedBox(height: 8.h),
             Text(
               "Locked",
               style: TextStyle(
@@ -230,13 +244,19 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
     );
   }
 
-  Widget _buildQuestionCard(MathQuestionModel question, List<Color> gradient,
-      bool isSelected, int index) {
+  Widget _buildQuestionCard(
+    MathQuestionModel question,
+    List<Color> gradient,
+    bool isSelected,
+    int index,
+  ) {
     final isAnswered = question.isAnswered;
 
     return GestureDetector(
       onTap: () {
-        TtsService.to.speak('${question.num1} ${controller.symbol} ${question.num2}');
+        TtsService.to.speak(
+          '${question.num1} ${controller.symbol} ${question.num2}',
+        );
         setState(() {
           if (isSelected) {
             selectedIndexes.remove(index);
@@ -251,27 +271,26 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
             colors: isAnswered
                 ? [Color(0xFF56D97F), Color(0xFF81E89E)]
                 : isSelected
-                    ? AppColors.selectedGradient
-                    : gradient,
+                ? AppColors.selectedGradient
+                : gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: AppColors.cardShadow(
             isSelected ? AppColors.selectedGradient[0] : gradient[0],
             isSelected: isSelected,
           ),
-          border:
-              isSelected ? Border.all(color: Colors.white, width: 3) : null,
+          border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
         ),
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -279,11 +298,11 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
               ),
             ),
             Positioned(
-              bottom: -15,
-              left: -15,
+              bottom: -15.h,
+              left: -15.w,
               child: Container(
-                width: 50,
-                height: 50,
+                width: 50.w,
+                height: 50.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.1),
@@ -291,59 +310,71 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(12.r),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Question
-                  Text(
-                    "${question.num1} ${controller.symbol} ${question.num2}",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
+                  // Question. A three-digit pair wraps to two lines on a narrow
+                  // phone, which pushed the Submit button out of the tile.
+                  Flexible(
+                    child: Text(
+                      "${question.num1} ${controller.symbol} ${question.num2}",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
                             color: Colors.black26,
                             offset: Offset(1, 2),
-                            blurRadius: 3),
-                      ],
+                            blurRadius: 3.r,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   // Answer Input or Result
                   if (!isAnswered)
                     SizedBox(
-                      height: 40,
+                      height: 40.h,
                       child: TextField(
                         controller: question.controller,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white.withValues(alpha: 0.9),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                             borderSide: BorderSide.none,
                           ),
                           hintText: "Answer",
                           hintStyle: TextStyle(color: Colors.grey),
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                          ),
                         ),
                       ),
                     ),
 
                   if (isAnswered)
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 8.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Text(
                         question.result,
@@ -356,7 +387,7 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
                       ),
                     ),
 
-                  SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   // Submit Button
                   if (!isAnswered)
@@ -372,30 +403,34 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: gradient[0],
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                          vertical: 8.h,
+                        ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
                         elevation: 4,
                       ),
                       child: Text(
                         "Submit",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
 
-                  if (isAnswered)
-                    Text("✅", style: TextStyle(fontSize: 24)),
+                  if (isAnswered) Text("✅", style: TextStyle(fontSize: 24)),
                 ],
               ),
             ),
             if (isSelected)
               Positioned(
-                  top: 6,
-                  left: 6,
-                  child: Text("⭐", style: TextStyle(fontSize: 14))),
+                top: 6.h,
+                left: 6.w,
+                child: Text("⭐", style: TextStyle(fontSize: 14)),
+              ),
           ],
         ),
       ),
@@ -406,16 +441,18 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         backgroundColor: Colors.white,
         title: Row(
           children: [
             Text("🎉", style: TextStyle(fontSize: 28)),
-            SizedBox(width: 8),
-            Text("Batch Completed!",
-                style:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(width: 8.w),
+            Text(
+              "Batch Completed!",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
         content: Obx(
@@ -428,25 +465,29 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
                   Column(
                     children: [
                       Text("✅", style: TextStyle(fontSize: 32)),
-                      Text("${controller.correct}",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green)),
-                      Text("Correct",
-                          style: TextStyle(color: Colors.grey)),
+                      Text(
+                        "${controller.correct}",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Text("Correct", style: TextStyle(color: Colors.grey)),
                     ],
                   ),
                   Column(
                     children: [
                       Text("❌", style: TextStyle(fontSize: 32)),
-                      Text("${controller.incorrect}",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red)),
-                      Text("Incorrect",
-                          style: TextStyle(color: Colors.grey)),
+                      Text(
+                        "${controller.incorrect}",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                      Text("Incorrect", style: TextStyle(color: Colors.grey)),
                     ],
                   ),
                 ],
@@ -463,13 +504,17 @@ class _GenericMathQuestionsPageState extends State<GenericMathQuestionsPage>
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF56D97F),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              padding:
-                  EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
             ),
-            child: Text("Next 10 Questions ➡️",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "Next 10 Questions ➡️",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

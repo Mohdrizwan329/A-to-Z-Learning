@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class DragDropGamePage extends StatefulWidget {
   const DragDropGamePage({super.key});
 
@@ -1326,13 +1328,15 @@ class _DragDropGamePageState extends State<DragDropGamePage>
   void _showGameComplete() {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.white,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text('🎉', style: TextStyle(fontSize: 70)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               'Congratulations!',
               style: GoogleFonts.baloo2(
@@ -1341,7 +1345,7 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                 color: const Color(0xFF56D97F),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               'You completed all levels!',
               style: GoogleFonts.nunito(
@@ -1350,9 +1354,9 @@ class _DragDropGamePageState extends State<DragDropGamePage>
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Row(
               children: [
                 Expanded(
@@ -1364,9 +1368,9 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey.shade300,
                       foregroundColor: Colors.black87,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text(
@@ -1375,7 +1379,7 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -1388,9 +1392,9 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF56D97F),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text(
@@ -1467,7 +1471,11 @@ class _DragDropGamePageState extends State<DragDropGamePage>
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -1488,7 +1496,7 @@ class _DragDropGamePageState extends State<DragDropGamePage>
         elevation: 8,
         shadowColor: const Color(0xFFFF6B6B).withValues(alpha: 0.3),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
@@ -1497,7 +1505,7 @@ class _DragDropGamePageState extends State<DragDropGamePage>
             boxShadow: [
               BoxShadow(
                 color: Color(0x40FF6B6B),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: Offset(0, 5),
               ),
             ],
@@ -1505,15 +1513,15 @@ class _DragDropGamePageState extends State<DragDropGamePage>
         ),
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -1530,12 +1538,12 @@ class _DragDropGamePageState extends State<DragDropGamePage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetCurrentLevel,
           ),
@@ -1563,57 +1571,82 @@ class _DragDropGamePageState extends State<DragDropGamePage>
             ..._buildFloatingBubbles(),
 
             SafeArea(
-              child: Column(
-                children: [
-                  // Score & Progress
-                  _buildScoreBar(),
-
-                  const SizedBox(height: 12),
-
-                  // Instruction
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
+              child: LayoutBuilder(
+                // Portrait-shaped content: in landscape the body is barely 300pt tall,
+                // which is shorter than this column needs. Scroll when that happens and
+                // stay exactly as before whenever there is room.
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      // A LayoutBuilder can sit inside another scrollable, where
+                      // maxHeight is infinite; a minHeight of infinity
+                      // is not a constraint anything can satisfy.
+                      minHeight: constraints.maxHeight.isFinite
+                          ? constraints.maxHeight
+                          : 0,
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
-                          Icons.lightbulb_outline,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            level.instruction,
-                            style: GoogleFonts.nunito(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        // Score & Progress
+                        _buildScoreBar(),
+
+                        SizedBox(height: 12.h),
+
+                        // Instruction
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.w),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 10.h,
                           ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.lightbulb_outline,
+                                color: Colors.white,
+                                size: 20.r,
+                              ),
+                              SizedBox(width: 8.w),
+                              Flexible(
+                                child: Text(
+                                  level.instruction,
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 20.h),
+
+                        // Drag Items
+                        _buildDragItems(),
+
+                        SizedBox(height: 24.h),
+
+                        // Drop Targets
+                        SizedBox(
+                          // A share of the viewport rather than `Expanded`:
+                          // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                          // above it, and a scrollable cannot report an intrinsic
+                          // height - it throws.
+                          height: max(200.h, constraints.maxHeight * 0.55),
+                          child: _buildDropTargets(),
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Drag Items
-                  _buildDragItems(),
-
-                  const SizedBox(height: 24),
-
-                  // Drop Targets
-                  Expanded(child: _buildDropTargets()),
-                ],
+                ),
               ),
             ),
 
@@ -1639,42 +1672,50 @@ class _DragDropGamePageState extends State<DragDropGamePage>
     final overallPercentage = (overallProgress * 100).toInt();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Column(
         children: [
           // Overall Progress section like other screens
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Progress',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+              Flexible(
+                child: const Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
-              Text(
-                'Level ${_currentLevel + 1} / $totalLevels ($overallPercentage%)',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  'Level ${_currentLevel + 1} / $totalLevels ($overallPercentage%)',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           // Overall progress bar
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: LinearProgressIndicator(
               value: overallProgress,
               backgroundColor: Colors.white.withValues(alpha: 0.2),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 Color(0xFF56D97F),
               ),
-              minHeight: 10,
+              minHeight: 10.h,
             ),
           ),
         ],
@@ -1694,10 +1735,10 @@ class _DragDropGamePageState extends State<DragDropGamePage>
     ];
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
       child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
+        spacing: 12.r,
+        runSpacing: 12.r,
         alignment: WrapAlignment.center,
         children: _currentItems.asMap().entries.map((entry) {
           final index = entry.key;
@@ -1707,25 +1748,29 @@ class _DragDropGamePageState extends State<DragDropGamePage>
 
           if (isMatched) {
             return Container(
-              width: 75,
-              height: 75,
+              width: 75.w,
+              height: 75.h,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF4CAF50), Color(0xFF81C784)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.green.withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              child: const Center(
-                child: Icon(Icons.check_circle, color: Colors.white, size: 36),
+              child: Center(
+                child: Icon(
+                  Icons.check_circle,
+                  color: Colors.white,
+                  size: 36.r,
+                ),
               ),
             );
           }
@@ -1749,19 +1794,19 @@ class _DragDropGamePageState extends State<DragDropGamePage>
               feedback: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: 105,
-                  height: 125,
+                  width: 105.w,
+                  height: 125.h,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: gradient,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     boxShadow: [
                       BoxShadow(
                         color: gradient[0].withValues(alpha: 0.5),
-                        blurRadius: 20,
+                        blurRadius: 20.r,
                         offset: const Offset(0, 10),
                       ),
                     ],
@@ -1770,11 +1815,11 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                     clipBehavior: Clip.none,
                     children: [
                       Positioned(
-                        top: -8,
-                        right: -8,
+                        top: -8.h,
+                        right: -8.w,
                         child: Container(
-                          width: 35,
-                          height: 35,
+                          width: 35.w,
+                          height: 35.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white.withValues(alpha: 0.1),
@@ -1783,8 +1828,8 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                       ),
                       Center(
                         child: Container(
-                          width: 75,
-                          height: 75,
+                          width: 75.w,
+                          height: 75.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
                             shape: BoxShape.circle,
@@ -1802,11 +1847,11 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                 ),
               ),
               childWhenDragging: Container(
-                width: 95,
-                height: 115,
+                width: 95.w,
+                height: 115.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.4),
                     width: 2,
@@ -1814,19 +1859,19 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                 ),
               ),
               child: Container(
-                width: 95,
-                height: 115,
+                width: 95.w,
+                height: 115.h,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 8,
+                      blurRadius: 8.r,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -1836,11 +1881,11 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                   children: [
                     // Decorative circle
                     Positioned(
-                      top: -10,
-                      right: -10,
+                      top: -10.h,
+                      right: -10.w,
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.1),
@@ -1850,8 +1895,8 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                     // Emoji in circular container
                     Center(
                       child: Container(
-                        width: 70,
-                        height: 70,
+                        width: 70.w,
+                        height: 70.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.3),
                           shape: BoxShape.circle,
@@ -1884,10 +1929,10 @@ class _DragDropGamePageState extends State<DragDropGamePage>
     ];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
+        spacing: 12.r,
+        runSpacing: 12.r,
         alignment: WrapAlignment.center,
         children: _shuffledTargets.asMap().entries.map((entry) {
           final index = entry.key;
@@ -1906,11 +1951,8 @@ class _DragDropGamePageState extends State<DragDropGamePage>
 
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                width: 150,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 14,
-                  horizontal: 12,
-                ),
+                width: 150.w,
+                padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
                 decoration: BoxDecoration(
                   gradient: isMatched
                       ? const LinearGradient(
@@ -1932,7 +1974,7 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   border: isHovering && !isMatched
                       ? Border.all(color: const Color(0xFFFFE66D), width: 3)
                       : null,
@@ -1951,11 +1993,11 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                   children: [
                     // Decorative circle
                     Positioned(
-                      top: -15,
-                      right: -15,
+                      top: -15.h,
+                      right: -15.w,
                       child: Container(
-                        width: 35,
-                        height: 35,
+                        width: 35.w,
+                        height: 35.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.1),
@@ -1969,8 +2011,8 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 36,
-                                  height: 36,
+                                  width: 36.w,
+                                  height: 36.h,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withValues(alpha: 0.3),
                                     shape: BoxShape.circle,
@@ -1982,7 +2024,7 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: 8.w),
                                 Flexible(
                                   child: Text(
                                     item.label,
@@ -1994,11 +2036,11 @@ class _DragDropGamePageState extends State<DragDropGamePage>
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const SizedBox(width: 4),
-                                const Icon(
+                                SizedBox(width: 4.w),
+                                Icon(
                                   Icons.check_circle,
                                   color: Colors.white,
-                                  size: 18,
+                                  size: 18.r,
                                 ),
                               ],
                             )

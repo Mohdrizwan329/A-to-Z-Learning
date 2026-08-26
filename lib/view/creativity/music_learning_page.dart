@@ -5,6 +5,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MusicLearningPage extends StatefulWidget {
   const MusicLearningPage({super.key});
 
@@ -12,32 +14,113 @@ class MusicLearningPage extends StatefulWidget {
   State<MusicLearningPage> createState() => _MusicLearningPageState();
 }
 
-class _MusicLearningPageState extends State<MusicLearningPage> with TickerProviderStateMixin {
+class _MusicLearningPageState extends State<MusicLearningPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   final AudioPlayer audioPlayer = AudioPlayer();
   late TabController _tabController;
   int selectedInstrument = -1;
 
   final List<Map<String, dynamic>> instruments = [
-    {'name': 'Piano', 'emoji': '🎹', 'sound': 'A keyboard instrument', 'color': Color(0xFF667EEA)},
-    {'name': 'Guitar', 'emoji': '🎸', 'sound': 'A string instrument', 'color': Color(0xFFFF6B6B)},
-    {'name': 'Drums', 'emoji': '🥁', 'sound': 'A percussion instrument', 'color': Color(0xFFFFAA5A)},
-    {'name': 'Violin', 'emoji': '🎻', 'sound': 'A bowed string instrument', 'color': Color(0xFF4ECDC4)},
-    {'name': 'Flute', 'emoji': '🪈', 'sound': 'A wind instrument', 'color': Color(0xFF56D97F)},
-    {'name': 'Trumpet', 'emoji': '🎺', 'sound': 'A brass instrument', 'color': Color(0xFFA78BFA)},
-    {'name': 'Saxophone', 'emoji': '🎷', 'sound': 'A woodwind instrument', 'color': Color(0xFFFF8E53)},
-    {'name': 'Xylophone', 'emoji': '🎵', 'sound': 'A percussion instrument with bars', 'color': Color(0xFF00CED1)},
+    {
+      'name': 'Piano',
+      'emoji': '🎹',
+      'sound': 'A keyboard instrument',
+      'color': Color(0xFF667EEA),
+    },
+    {
+      'name': 'Guitar',
+      'emoji': '🎸',
+      'sound': 'A string instrument',
+      'color': Color(0xFFFF6B6B),
+    },
+    {
+      'name': 'Drums',
+      'emoji': '🥁',
+      'sound': 'A percussion instrument',
+      'color': Color(0xFFFFAA5A),
+    },
+    {
+      'name': 'Violin',
+      'emoji': '🎻',
+      'sound': 'A bowed string instrument',
+      'color': Color(0xFF4ECDC4),
+    },
+    {
+      'name': 'Flute',
+      'emoji': '🪈',
+      'sound': 'A wind instrument',
+      'color': Color(0xFF56D97F),
+    },
+    {
+      'name': 'Trumpet',
+      'emoji': '🎺',
+      'sound': 'A brass instrument',
+      'color': Color(0xFFA78BFA),
+    },
+    {
+      'name': 'Saxophone',
+      'emoji': '🎷',
+      'sound': 'A woodwind instrument',
+      'color': Color(0xFFFF8E53),
+    },
+    {
+      'name': 'Xylophone',
+      'emoji': '🎵',
+      'sound': 'A percussion instrument with bars',
+      'color': Color(0xFF00CED1),
+    },
   ];
 
   final List<Map<String, dynamic>> musicNotes = [
-    {'note': 'Do', 'symbol': '🎵', 'color': Color(0xFFFF6B6B), 'frequency': 'C'},
-    {'note': 'Re', 'symbol': '🎵', 'color': Color(0xFFFFAA5A), 'frequency': 'D'},
-    {'note': 'Mi', 'symbol': '🎵', 'color': Color(0xFFFFD93D), 'frequency': 'E'},
-    {'note': 'Fa', 'symbol': '🎵', 'color': Color(0xFF56D97F), 'frequency': 'F'},
-    {'note': 'Sol', 'symbol': '🎵', 'color': Color(0xFF4ECDC4), 'frequency': 'G'},
-    {'note': 'La', 'symbol': '🎵', 'color': Color(0xFF667EEA), 'frequency': 'A'},
-    {'note': 'Si', 'symbol': '🎵', 'color': Color(0xFFA78BFA), 'frequency': 'B'},
-    {'note': 'Do\'', 'symbol': '🎵', 'color': Color(0xFFFF6B6B), 'frequency': 'C2'},
+    {
+      'note': 'Do',
+      'symbol': '🎵',
+      'color': Color(0xFFFF6B6B),
+      'frequency': 'C',
+    },
+    {
+      'note': 'Re',
+      'symbol': '🎵',
+      'color': Color(0xFFFFAA5A),
+      'frequency': 'D',
+    },
+    {
+      'note': 'Mi',
+      'symbol': '🎵',
+      'color': Color(0xFFFFD93D),
+      'frequency': 'E',
+    },
+    {
+      'note': 'Fa',
+      'symbol': '🎵',
+      'color': Color(0xFF56D97F),
+      'frequency': 'F',
+    },
+    {
+      'note': 'Sol',
+      'symbol': '🎵',
+      'color': Color(0xFF4ECDC4),
+      'frequency': 'G',
+    },
+    {
+      'note': 'La',
+      'symbol': '🎵',
+      'color': Color(0xFF667EEA),
+      'frequency': 'A',
+    },
+    {
+      'note': 'Si',
+      'symbol': '🎵',
+      'color': Color(0xFFA78BFA),
+      'frequency': 'B',
+    },
+    {
+      'note': 'Do\'',
+      'symbol': '🎵',
+      'color': Color(0xFFFF6B6B),
+      'frequency': 'C2',
+    },
   ];
 
   final List<Map<String, dynamic>> musicFacts = [
@@ -91,12 +174,16 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20.r,
+            ),
           ),
           onPressed: () => Get.back(),
         ),
@@ -110,7 +197,7 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -119,18 +206,22 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
         elevation: 8,
         title: const Text(
           "Music Learning",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -138,12 +229,18 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          labelStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: "Notes"),
             Tab(text: "Instruments"),
@@ -154,7 +251,12 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -174,33 +276,51 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
 
   Widget _buildProgressBar(String progressKey) {
     return Obx(() {
-      final progress = ProgressService.to.getProgressPercentage(progressKey) / 100;
+      final progress =
+          ProgressService.to.getProgressPercentage(progressKey) / 100;
       final progressString = ProgressService.to.getProgressString(progressKey);
       return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+        padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Progress',
-                  style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                // The reader's font size can be 30% larger than this row was drawn for.
+                Flexible(
+                  child: const Text(
+                    'Progress',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                Text(
-                  '$progressString completed',
-                  style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                Flexible(
+                  child: Text(
+                    '$progressString completed',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 10,
+                minHeight: 10.h,
                 backgroundColor: Colors.white.withValues(alpha: 0.2),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  Color(0xFF4CAF50),
+                ),
               ),
             ),
           ],
@@ -216,66 +336,93 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
         Expanded(
           child: Obx(() {
             // Access observable to trigger rebuild
-            final _ = ProgressService.to.completedItems[ProgressService.kMusicNotes];
+            final _ =
+                ProgressService.to.completedItems[ProgressService.kMusicNotes];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: musicNotes.length,
               itemBuilder: (context, index) {
                 final note = musicNotes[index];
                 final Color noteColor = note['color'];
-                final isCompleted = ProgressService.to.isItemCompleted(ProgressService.kMusicNotes, index);
+                final isCompleted = ProgressService.to.isItemCompleted(
+                  ProgressService.kMusicNotes,
+                  index,
+                );
 
                 return GestureDetector(
                   onTap: () {
                     TtsService.to.speak(note['note']);
                     _playNote(note['note']);
-                    ProgressService.to.markItemCompleted(ProgressService.kMusicNotes, index);
+                    ProgressService.to.markItemCompleted(
+                      ProgressService.kMusicNotes,
+                      index,
+                    );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [noteColor, noteColor.withValues(alpha: 0.7)]),
-                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [noteColor, noteColor.withValues(alpha: 0.7)],
+                      ),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: note['color'].withValues(alpha: 0.3),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
                     ),
                     child: Row(
                       children: [
-                        Text(note['symbol'], style: const TextStyle(fontSize: 40)),
-                        const SizedBox(width: 16),
+                        Text(
+                          note['symbol'],
+                          style: const TextStyle(fontSize: 40),
+                        ),
+                        SizedBox(width: 16.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 note['note'],
-                                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 'Note: ${note['frequency']}',
-                                style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 14),
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  fontSize: 14,
+                                ),
                               ),
                             ],
                           ),
                         ),
                         if (isCompleted)
                           Container(
-                            padding: const EdgeInsets.all(4),
+                            padding: EdgeInsets.all(4.r),
                             decoration: const BoxDecoration(
                               color: Colors.green,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.check, color: Colors.white, size: 16),
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16.r,
+                            ),
                           )
                         else
-                          const Icon(Icons.volume_up, color: Colors.white, size: 24),
+                          Icon(
+                            Icons.volume_up,
+                            color: Colors.white,
+                            size: 24.r,
+                          ),
                       ],
                     ),
                   ),
@@ -295,66 +442,97 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
         Expanded(
           child: Obx(() {
             // Access observable to trigger rebuild
-            final _ = ProgressService.to.completedItems[ProgressService.kMusicInstruments];
+            final _ = ProgressService
+                .to
+                .completedItems[ProgressService.kMusicInstruments];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: instruments.length,
               itemBuilder: (context, index) {
                 final instrument = instruments[index];
                 final Color instrumentColor = instrument['color'];
-                final isCompleted = ProgressService.to.isItemCompleted(ProgressService.kMusicInstruments, index);
+                final isCompleted = ProgressService.to.isItemCompleted(
+                  ProgressService.kMusicInstruments,
+                  index,
+                );
 
                 return GestureDetector(
                   onTap: () {
                     TtsService.to.speak(instrument['name']);
                     _speakText("${instrument['name']}. ${instrument['sound']}");
-                    ProgressService.to.markItemCompleted(ProgressService.kMusicInstruments, index);
+                    ProgressService.to.markItemCompleted(
+                      ProgressService.kMusicInstruments,
+                      index,
+                    );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [instrumentColor, instrumentColor.withValues(alpha: 0.7)]),
-                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [
+                          instrumentColor,
+                          instrumentColor.withValues(alpha: 0.7),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: instrumentColor.withValues(alpha: 0.3),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
                     ),
                     child: Row(
                       children: [
-                        Text(instrument['emoji'], style: const TextStyle(fontSize: 40)),
-                        const SizedBox(width: 16),
+                        Text(
+                          instrument['emoji'],
+                          style: const TextStyle(fontSize: 40),
+                        ),
+                        SizedBox(width: 16.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 instrument['name'],
-                                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 instrument['sound'],
-                                style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 14),
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  fontSize: 14,
+                                ),
                               ),
                             ],
                           ),
                         ),
                         if (isCompleted)
                           Container(
-                            padding: const EdgeInsets.all(4),
+                            padding: EdgeInsets.all(4.r),
                             decoration: const BoxDecoration(
                               color: Colors.green,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.check, color: Colors.white, size: 16),
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16.r,
+                            ),
                           )
                         else
-                          const Icon(Icons.volume_up, color: Colors.white, size: 24),
+                          Icon(
+                            Icons.volume_up,
+                            color: Colors.white,
+                            size: 24.r,
+                          ),
                       ],
                     ),
                   ),
@@ -374,9 +552,10 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
         Expanded(
           child: Obx(() {
             // Access observable to trigger rebuild
-            final _ = ProgressService.to.completedItems[ProgressService.kMusicFacts];
+            final _ =
+                ProgressService.to.completedItems[ProgressService.kMusicFacts];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: musicFacts.length,
               itemBuilder: (context, index) {
                 final fact = musicFacts[index];
@@ -389,49 +568,70 @@ class _MusicLearningPageState extends State<MusicLearningPage> with TickerProvid
                   [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
                 ];
                 final gradient = colors[index % colors.length];
-                final isCompleted = ProgressService.to.isItemCompleted(ProgressService.kMusicFacts, index);
+                final isCompleted = ProgressService.to.isItemCompleted(
+                  ProgressService.kMusicFacts,
+                  index,
+                );
 
                 return GestureDetector(
                   onTap: () {
                     TtsService.to.speak(fact['fact']);
                     _speakText(fact['fact']);
-                    ProgressService.to.markItemCompleted(ProgressService.kMusicFacts, index);
+                    ProgressService.to.markItemCompleted(
+                      ProgressService.kMusicFacts,
+                      index,
+                    );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: gradient),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.3),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
                     ),
                     child: Row(
                       children: [
-                        Text(fact['emoji'], style: const TextStyle(fontSize: 40)),
-                        const SizedBox(width: 16),
+                        Text(
+                          fact['emoji'],
+                          style: const TextStyle(fontSize: 40),
+                        ),
+                        SizedBox(width: 16.w),
                         Expanded(
                           child: Text(
                             fact['fact'],
-                            style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                         if (isCompleted)
                           Container(
-                            padding: const EdgeInsets.all(4),
+                            padding: EdgeInsets.all(4.r),
                             decoration: const BoxDecoration(
                               color: Colors.green,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.check, color: Colors.white, size: 16),
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16.r,
+                            ),
                           )
                         else
-                          const Icon(Icons.volume_up, color: Colors.white, size: 24),
+                          Icon(
+                            Icons.volume_up,
+                            color: Colors.white,
+                            size: 24.r,
+                          ),
                       ],
                     ),
                   ),

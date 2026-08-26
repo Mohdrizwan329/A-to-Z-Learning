@@ -3,6 +3,8 @@ import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:painter/painter.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class KidsDrowingScreen extends StatefulWidget {
   const KidsDrowingScreen({super.key});
 
@@ -123,53 +125,58 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: _refreshCanvas,
         ),
       ],
       body: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 90),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 15,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Painter(controller),
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                left: 12.w,
+                right: 12.w,
+                top: 12.h,
+                bottom: 90.h,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15.r,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24.r),
+                child: Painter(controller),
+              ),
+            ),
+            // Grey overlay when menu is open
+            if (isToolMenuOpen || isColorMenuOpen)
+              GestureDetector(
+                onTap: () {
+                  if (isToolMenuOpen) _toggleToolMenu();
+                  if (isColorMenuOpen) _toggleColorMenu();
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  color: Colors.black.withOpacity(0.3),
                 ),
               ),
-              // Grey overlay when menu is open
-              if (isToolMenuOpen || isColorMenuOpen)
-                GestureDetector(
-                  onTap: () {
-                    if (isToolMenuOpen) _toggleToolMenu();
-                    if (isColorMenuOpen) _toggleColorMenu();
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
-                    color: Colors.black.withOpacity(0.3),
-                  ),
-                ),
-              _buildBottomToolBar(),
-            ],
-          ),
+            _buildBottomToolBar(),
+          ],
         ),
+      ),
     );
   }
 
@@ -187,21 +194,24 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
             children: [
               // Color menu popup (left side)
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 20.w),
                 child: SizeTransition(
                   sizeFactor: _colorExpandAnimation,
                   axisAlignment: 1.0,
                   child: Container(
-                    height: 280,
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    height: 280.h,
+                    margin: EdgeInsets.only(bottom: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 8.w,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30.r),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: Offset(0, 4),
                         ),
                       ],
@@ -221,26 +231,32 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                               _toggleColorMenu();
                             },
                             child: Container(
-                              width: 36,
-                              height: 36,
-                              margin: EdgeInsets.symmetric(vertical: 3),
+                              width: 36.w,
+                              height: 36.h,
+                              margin: EdgeInsets.symmetric(vertical: 3.h),
                               decoration: BoxDecoration(
                                 color: color,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: isSelected ? Colors.black : Colors.white,
+                                  color: isSelected
+                                      ? Colors.black
+                                      : Colors.white,
                                   width: isSelected ? 2 : 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: color.withOpacity(0.4),
-                                    blurRadius: 4,
+                                    blurRadius: 4.r,
                                     offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
                               child: isSelected
-                                  ? Icon(Icons.check, color: _getContrastColor(color), size: 18)
+                                  ? Icon(
+                                      Icons.check,
+                                      color: _getContrastColor(color),
+                                      size: 18.r,
+                                    )
                                   : null,
                             ),
                           );
@@ -253,20 +269,20 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
               Spacer(),
               // Tool menu popup (right side)
               Padding(
-                padding: EdgeInsets.only(right: 20),
+                padding: EdgeInsets.only(right: 20.w),
                 child: SizeTransition(
                   sizeFactor: _expandAnimation,
                   axisAlignment: 1.0,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    margin: EdgeInsets.only(bottom: 8.h),
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30.r),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: Offset(0, 4),
                         ),
                       ],
@@ -282,21 +298,27 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                           });
                           _toggleToolMenu();
                         }),
-                        _buildToolOption(Icons.auto_fix_high, Colors.orange, () {
-                          setState(() {
-                            controller.eraseMode = true;
-                            controller.thickness = 20.0;
-                          });
-                          _toggleToolMenu();
-                        }),
+                        _buildToolOption(
+                          Icons.auto_fix_high,
+                          Colors.orange,
+                          () {
+                            setState(() {
+                              controller.eraseMode = true;
+                              controller.thickness = 20.0;
+                            });
+                            _toggleToolMenu();
+                          },
+                        ),
                         _buildToolOption(Icons.add, Colors.green, () {
                           setState(() {
-                            if (controller.thickness < 30) controller.thickness += 3;
+                            if (controller.thickness < 30)
+                              controller.thickness += 3;
                           });
                         }),
                         _buildToolOption(Icons.remove, Colors.red, () {
                           setState(() {
-                            if (controller.thickness > 2) controller.thickness -= 3;
+                            if (controller.thickness > 2)
+                              controller.thickness -= 3;
                           });
                         }),
                       ],
@@ -308,15 +330,15 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
           ),
           // Bottom bar with both buttons
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 12),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            margin: EdgeInsets.symmetric(horizontal: 12.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(30.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.15),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: Offset(0, -2),
                 ),
               ],
@@ -329,12 +351,16 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                   onTap: _toggleColorMenu,
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 250),
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isColorMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
+                            ? [
+                                Color(0xFFFF6B6B),
+                                Color(0xFFFF8E53),
+                                Color(0xFFFFAA5A),
+                              ]
                             : [selectedColor, selectedColor.withOpacity(0.7)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -343,17 +369,22 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                       border: Border.all(color: Colors.white, width: 3),
                       boxShadow: [
                         BoxShadow(
-                          color: (isColorMenuOpen ? Color(0xFFFF6B6B) : selectedColor)
-                              .withOpacity(0.4),
-                          blurRadius: 8,
+                          color:
+                              (isColorMenuOpen
+                                      ? Color(0xFFFF6B6B)
+                                      : selectedColor)
+                                  .withOpacity(0.4),
+                          blurRadius: 8.r,
                           offset: Offset(0, 2),
                         ),
                       ],
                     ),
                     child: Icon(
                       isColorMenuOpen ? Icons.close : Icons.palette,
-                      color: isColorMenuOpen ? Colors.white : _getContrastColor(selectedColor),
-                      size: 24,
+                      color: isColorMenuOpen
+                          ? Colors.white
+                          : _getContrastColor(selectedColor),
+                      size: 24.r,
                     ),
                   ),
                 ),
@@ -362,12 +393,16 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                   onTap: _toggleToolMenu,
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 250),
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isToolMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
+                            ? [
+                                Color(0xFFFF6B6B),
+                                Color(0xFFFF8E53),
+                                Color(0xFFFFAA5A),
+                              ]
                             : [Color(0xFF667EEA), Color(0xFF764BA2)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -375,9 +410,12 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: (isToolMenuOpen ? Color(0xFFFF6B6B) : Color(0xFF667EEA))
-                              .withOpacity(0.4),
-                          blurRadius: 8,
+                          color:
+                              (isToolMenuOpen
+                                      ? Color(0xFFFF6B6B)
+                                      : Color(0xFF667EEA))
+                                  .withOpacity(0.4),
+                          blurRadius: 8.r,
                           offset: Offset(0, 2),
                         ),
                       ],
@@ -385,7 +423,7 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
                     child: Icon(
                       isToolMenuOpen ? Icons.close : Icons.brush,
                       color: Colors.white,
-                      size: 24,
+                      size: 24.r,
                     ),
                   ),
                 ),
@@ -401,14 +439,14 @@ class _KidsDrowingScreenState extends State<KidsDrowingScreen>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 48,
-        height: 48,
-        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        width: 48.w,
+        height: 48.h,
+        margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
         decoration: BoxDecoration(
           color: color.withOpacity(0.15),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: color, size: 24),
+        child: Icon(icon, color: color, size: 24.r),
       ),
     );
   }

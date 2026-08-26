@@ -8,6 +8,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SightWordsDetailPage extends StatefulWidget {
   final int levelIndex;
 
@@ -37,24 +39,21 @@ class _SightWordsDetailPageState extends State<SightWordsDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    final levelName =
-        controller.levels[widget.levelIndex]['name'] as String;
-    final progressKey =
-        SightWordsController.progressKeys[widget.levelIndex];
-    final words =
-        controller.levels[widget.levelIndex]['words'] as List<String>;
+    final levelName = controller.levels[widget.levelIndex]['name'] as String;
+    final progressKey = SightWordsController.progressKeys[widget.levelIndex];
+    final words = controller.levels[widget.levelIndex]['words'] as List<String>;
 
     return GradientScaffold(
       title: levelName,
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             ProgressService.to.resetProgress(progressKey);
@@ -67,39 +66,46 @@ class _SightWordsDetailPageState extends State<SightWordsDetailPage>
           Obx(() {
             final progress =
                 ProgressService.to.getProgressPercentage(progressKey) / 100;
-            final progressString =
-                ProgressService.to.getProgressString(progressKey);
+            final progressString = ProgressService.to.getProgressString(
+              progressKey,
+            );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString learned',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString learned',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -110,17 +116,17 @@ class _SightWordsDetailPageState extends State<SightWordsDetailPage>
               ),
             );
           }),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           // Words grid
           Expanded(
             child: Obx(() {
               ProgressService.to.completedItems[progressKey];
               return GridView.builder(
-                padding: const EdgeInsets.all(12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                padding: EdgeInsets.all(12.r),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10.r,
+                  crossAxisSpacing: 10.r,
                   childAspectRatio: 1.0,
                 ),
                 itemCount: words.length,
@@ -145,11 +151,11 @@ class _SightWordsDetailPageState extends State<SightWordsDetailPage>
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           boxShadow: [
                             BoxShadow(
                               color: gradient[0].withValues(alpha: 0.4),
-                              blurRadius: 8,
+                              blurRadius: 8.r,
                               offset: const Offset(0, 4),
                             ),
                           ],
@@ -158,28 +164,26 @@ class _SightWordsDetailPageState extends State<SightWordsDetailPage>
                           children: [
                             // Decorative circles
                             Positioned(
-                              top: -8,
-                              right: -8,
+                              top: -8.h,
+                              right: -8.w,
                               child: Container(
-                                width: 25,
-                                height: 25,
+                                width: 25.w,
+                                height: 25.h,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      Colors.white.withValues(alpha: 0.15),
+                                  color: Colors.white.withValues(alpha: 0.15),
                                 ),
                               ),
                             ),
                             Positioned(
-                              bottom: -10,
-                              left: -10,
+                              bottom: -10.h,
+                              left: -10.w,
                               child: Container(
-                                width: 30,
-                                height: 30,
+                                width: 30.w,
+                                height: 30.h,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      Colors.white.withValues(alpha: 0.1),
+                                  color: Colors.white.withValues(alpha: 0.1),
                                 ),
                               ),
                             ),
@@ -198,18 +202,18 @@ class _SightWordsDetailPageState extends State<SightWordsDetailPage>
                             // Checkmark for completed
                             if (isLearned)
                               Positioned(
-                                top: 4,
-                                right: 4,
+                                top: 4.h,
+                                right: 4.w,
                                 child: Container(
-                                  padding: const EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(2.r),
                                   decoration: const BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.check,
                                     color: Colors.white,
-                                    size: 12,
+                                    size: 12.r,
                                   ),
                                 ),
                               ),

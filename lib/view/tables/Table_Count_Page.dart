@@ -7,6 +7,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class TableDetailScreen extends StatefulWidget {
   final int number;
 
@@ -42,12 +44,12 @@ class _TableDetailScreenState extends State<TableDetailScreen>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => controller.resetStep(),
         ),
@@ -60,36 +62,42 @@ class _TableDetailScreenState extends State<TableDetailScreen>
             final total = 10;
             final progress = completed / total;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$completed/$total completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$completed/$total completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -102,11 +110,11 @@ class _TableDetailScreenState extends State<TableDetailScreen>
           }),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
                 childAspectRatio: 1.5,
               ),
               itemCount: 10,
@@ -127,7 +135,9 @@ class _TableDetailScreenState extends State<TableDetailScreen>
                       isSelected: isSelected,
                       borderRadius: 20,
                       onTap: () {
-                        TtsService.to.speak('${widget.number} times $multiplier equals $product');
+                        TtsService.to.speak(
+                          '${widget.number} times $multiplier equals $product',
+                        );
                         controller.onBoxTap(index);
                       },
                       pulseAnimation: pulseAnimation,
@@ -142,18 +152,18 @@ class _TableDetailScreenState extends State<TableDetailScreen>
                           // Show checkmark if completed
                           if (isCompleted)
                             Positioned(
-                              bottom: 4,
-                              right: 4,
+                              bottom: 4.h,
+                              right: 4.w,
                               child: Container(
-                                padding: const EdgeInsets.all(2),
+                                padding: EdgeInsets.all(2.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 12,
+                                  size: 12.r,
                                 ),
                               ),
                             ),

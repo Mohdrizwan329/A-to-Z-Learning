@@ -5,6 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MindfulnessPage extends StatefulWidget {
   const MindfulnessPage({super.key});
 
@@ -628,7 +630,8 @@ class _MindfulnessPageState extends State<MindfulnessPage>
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -654,15 +657,15 @@ class _MindfulnessPageState extends State<MindfulnessPage>
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 18,
+              size: 18.r,
             ),
           ),
           onPressed: () {
@@ -680,7 +683,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -699,12 +702,12 @@ class _MindfulnessPageState extends State<MindfulnessPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -712,7 +715,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(
@@ -723,7 +726,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: "Practice"),
             Tab(text: "Imagine"),
@@ -734,7 +737,12 @@ class _MindfulnessPageState extends State<MindfulnessPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -747,7 +755,11 @@ class _MindfulnessPageState extends State<MindfulnessPage>
             // Main content
             TabBarView(
               controller: _tabController,
-              children: [_buildPracticeTab(), _buildImagineTab(), _buildCalmTab()],
+              children: [
+                _buildPracticeTab(),
+                _buildImagineTab(),
+                _buildCalmTab(),
+              ],
             ),
           ],
         ),
@@ -759,36 +771,43 @@ class _MindfulnessPageState extends State<MindfulnessPage>
     final progress = _getProgress(checks);
     final progressString = _getProgressString(checks);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Progress',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+              // The reader's font size can be 30% larger than this row was drawn for.
+              Flexible(
+                child: const Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                '$progressString completed',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  '$progressString completed',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: LinearProgressIndicator(
               value: progress,
-              minHeight: 10,
+              minHeight: 10.h,
               backgroundColor: Colors.white.withValues(alpha: 0.2),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 Color(0xFF4CAF50),
@@ -806,7 +825,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
         _buildProgressBar(exerciseChecks),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             itemCount: mindfulnessExercises.length,
             itemBuilder: (context, index) {
               final exercise = mindfulnessExercises[index];
@@ -817,7 +836,12 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                 animation: _floatAnimation,
                 builder: (context, child) {
                   return Transform.translate(
-                    offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                    offset: Offset(
+                      0,
+                      index.isEven
+                          ? _floatAnimation.value
+                          : -_floatAnimation.value,
+                    ),
                     child: child,
                   );
                 },
@@ -827,8 +851,8 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                     _showExerciseDialog(index);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isChecked
@@ -837,14 +861,15 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: (isChecked
-                                  ? const Color(0xFF56D97F)
-                                  : gradient[0])
-                              .withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          color:
+                              (isChecked
+                                      ? const Color(0xFF56D97F)
+                                      : gradient[0])
+                                  .withValues(alpha: 0.4),
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -852,11 +877,11 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                     child: Row(
                       children: [
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: 50.w,
+                          height: 50.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Center(
                             child: Text(
@@ -865,7 +890,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -878,7 +903,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              SizedBox(height: 2.h),
                               Text(
                                 exercise['description'],
                                 style: TextStyle(
@@ -886,15 +911,15 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                                   fontSize: 12,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.timer,
                                     color: Colors.white70,
-                                    size: 12,
+                                    size: 12.r,
                                   ),
-                                  const SizedBox(width: 4),
+                                  SizedBox(width: 4.w),
                                   Text(
                                     exercise['duration'],
                                     style: const TextStyle(
@@ -907,10 +932,10 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                             ],
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.play_circle_fill,
                           color: Colors.white,
-                          size: 32,
+                          size: 32.r,
                         ),
                       ],
                     ),
@@ -930,7 +955,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
         _buildProgressBar(visualChecks),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             itemCount: calmingVisuals.length,
             itemBuilder: (context, index) {
               final visual = calmingVisuals[index];
@@ -941,7 +966,12 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                 animation: _floatAnimation,
                 builder: (context, child) {
                   return Transform.translate(
-                    offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                    offset: Offset(
+                      0,
+                      index.isEven
+                          ? _floatAnimation.value
+                          : -_floatAnimation.value,
+                    ),
                     child: child,
                   );
                 },
@@ -953,8 +983,8 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isChecked
@@ -963,14 +993,15 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: (isChecked
-                                  ? const Color(0xFF56D97F)
-                                  : gradient[0])
-                              .withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          color:
+                              (isChecked
+                                      ? const Color(0xFF56D97F)
+                                      : gradient[0])
+                                  .withValues(alpha: 0.4),
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -978,11 +1009,11 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                     child: Row(
                       children: [
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: 50.w,
+                          height: 50.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Center(
                             child: Text(
@@ -991,7 +1022,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1004,7 +1035,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 "Tap to imagine",
                                 style: TextStyle(
@@ -1015,10 +1046,10 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                             ],
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.volume_up,
                           color: Colors.white70,
-                          size: 24,
+                          size: 24.r,
                         ),
                       ],
                     ),
@@ -1038,7 +1069,7 @@ class _MindfulnessPageState extends State<MindfulnessPage>
         _buildProgressBar(affirmationChecks),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             itemCount: affirmations.length,
             itemBuilder: (context, index) {
               final affirmation = affirmations[index];
@@ -1049,7 +1080,12 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                 animation: _floatAnimation,
                 builder: (context, child) {
                   return Transform.translate(
-                    offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                    offset: Offset(
+                      0,
+                      index.isEven
+                          ? _floatAnimation.value
+                          : -_floatAnimation.value,
+                    ),
                     child: child,
                   );
                 },
@@ -1061,8 +1097,8 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isChecked
@@ -1071,14 +1107,15 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: (isChecked
-                                  ? const Color(0xFF56D97F)
-                                  : gradient[0])
-                              .withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          color:
+                              (isChecked
+                                      ? const Color(0xFF56D97F)
+                                      : gradient[0])
+                                  .withValues(alpha: 0.4),
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -1095,10 +1132,10 @@ class _MindfulnessPageState extends State<MindfulnessPage>
                             ),
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.volume_up,
                           color: Colors.white70,
-                          size: 24,
+                          size: 24.r,
                         ),
                       ],
                     ),
@@ -1175,17 +1212,17 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(16),
+      insetPadding: EdgeInsets.all(16.r),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.r),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1194,7 +1231,7 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
               widget.exercise['emoji'],
               style: const TextStyle(fontSize: 60),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               widget.exercise['name'],
               style: const TextStyle(
@@ -1203,13 +1240,13 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 children: [
@@ -1220,7 +1257,7 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
                       fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Text(
                     widget.instructions[dialogStep],
                     style: const TextStyle(
@@ -1230,12 +1267,12 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: (dialogStep + 1) / widget.instructions.length,
-                      minHeight: 8,
+                      minHeight: 8.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Colors.white,
@@ -1245,7 +1282,7 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -1253,7 +1290,7 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
                   onPressed: () {
                     widget.speakText(widget.instructions[dialogStep]);
                   },
-                  icon: const Icon(Icons.replay, size: 18),
+                  icon: Icon(Icons.replay, size: 18.r),
                   label: const Text("Listen"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white.withValues(alpha: 0.3),
@@ -1266,7 +1303,7 @@ class _ExerciseDialogState extends State<_ExerciseDialog> {
                     widget.stopTts();
                     Get.back();
                   },
-                  icon: const Icon(Icons.close, size: 18),
+                  icon: Icon(Icons.close, size: 18.r),
                   label: const Text("Close"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

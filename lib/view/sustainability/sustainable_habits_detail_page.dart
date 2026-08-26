@@ -5,6 +5,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SustainableHabitsDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -23,59 +25,167 @@ class _SustainableHabitsDetailPageState
       'title': 'Save Water',
       'emoji': '💧',
       'habits': [
-        {'habit': 'Turn off tap while brushing teeth', 'emoji': '🪥', 'saves': '6 liters per minute!'},
-        {'habit': 'Take shorter showers', 'emoji': '🚿', 'saves': 'Up to 150 liters!'},
-        {'habit': 'Fix leaky taps', 'emoji': '🔧', 'saves': '20 liters per day'},
-        {'habit': 'Use a bucket instead of running water', 'emoji': '🪣', 'saves': 'So much water!'},
-        {'habit': 'Water plants in the evening', 'emoji': '🌱', 'saves': 'Less evaporation'},
-        {'habit': 'Don\'t waste drinking water', 'emoji': '🥛', 'saves': 'Finish your glass'},
+        {
+          'habit': 'Turn off tap while brushing teeth',
+          'emoji': '🪥',
+          'saves': '6 liters per minute!',
+        },
+        {
+          'habit': 'Take shorter showers',
+          'emoji': '🚿',
+          'saves': 'Up to 150 liters!',
+        },
+        {
+          'habit': 'Fix leaky taps',
+          'emoji': '🔧',
+          'saves': '20 liters per day',
+        },
+        {
+          'habit': 'Use a bucket instead of running water',
+          'emoji': '🪣',
+          'saves': 'So much water!',
+        },
+        {
+          'habit': 'Water plants in the evening',
+          'emoji': '🌱',
+          'saves': 'Less evaporation',
+        },
+        {
+          'habit': 'Don\'t waste drinking water',
+          'emoji': '🥛',
+          'saves': 'Finish your glass',
+        },
       ],
     },
     {
       'title': 'Save Energy',
       'emoji': '⚡',
       'habits': [
-        {'habit': 'Turn off lights when leaving a room', 'emoji': '💡', 'saves': 'Electricity'},
-        {'habit': 'Unplug devices when not in use', 'emoji': '🔌', 'saves': 'Standby power'},
-        {'habit': 'Use natural light during day', 'emoji': '☀️', 'saves': 'No need for lights'},
-        {'habit': 'Open windows instead of AC', 'emoji': '🪟', 'saves': 'Cool breeze is free'},
-        {'habit': 'Turn off TV when not watching', 'emoji': '📺', 'saves': 'Energy'},
-        {'habit': 'Use LED bulbs', 'emoji': '💡', 'saves': 'They use less power'},
+        {
+          'habit': 'Turn off lights when leaving a room',
+          'emoji': '💡',
+          'saves': 'Electricity',
+        },
+        {
+          'habit': 'Unplug devices when not in use',
+          'emoji': '🔌',
+          'saves': 'Standby power',
+        },
+        {
+          'habit': 'Use natural light during day',
+          'emoji': '☀️',
+          'saves': 'No need for lights',
+        },
+        {
+          'habit': 'Open windows instead of AC',
+          'emoji': '🪟',
+          'saves': 'Cool breeze is free',
+        },
+        {
+          'habit': 'Turn off TV when not watching',
+          'emoji': '📺',
+          'saves': 'Energy',
+        },
+        {
+          'habit': 'Use LED bulbs',
+          'emoji': '💡',
+          'saves': 'They use less power',
+        },
       ],
     },
     {
       'title': 'Reduce Waste',
       'emoji': '🗑️',
       'habits': [
-        {'habit': 'Carry a reusable water bottle', 'emoji': '🍶', 'saves': 'Plastic bottles'},
-        {'habit': 'Use cloth bags for shopping', 'emoji': '🛍️', 'saves': 'Plastic bags'},
+        {
+          'habit': 'Carry a reusable water bottle',
+          'emoji': '🍶',
+          'saves': 'Plastic bottles',
+        },
+        {
+          'habit': 'Use cloth bags for shopping',
+          'emoji': '🛍️',
+          'saves': 'Plastic bags',
+        },
         {'habit': 'Use both sides of paper', 'emoji': '📄', 'saves': 'Trees'},
-        {'habit': 'Finish your food - no waste', 'emoji': '🍽️', 'saves': 'Food waste'},
-        {'habit': 'Say no to plastic straws', 'emoji': '🥤', 'saves': 'Ocean pollution'},
-        {'habit': 'Reuse gift wrapping paper', 'emoji': '🎁', 'saves': 'Paper waste'},
+        {
+          'habit': 'Finish your food - no waste',
+          'emoji': '🍽️',
+          'saves': 'Food waste',
+        },
+        {
+          'habit': 'Say no to plastic straws',
+          'emoji': '🥤',
+          'saves': 'Ocean pollution',
+        },
+        {
+          'habit': 'Reuse gift wrapping paper',
+          'emoji': '🎁',
+          'saves': 'Paper waste',
+        },
       ],
     },
     {
       'title': 'Go Green',
       'emoji': '🌿',
       'habits': [
-        {'habit': 'Plant a tree or flower', 'emoji': '🌳', 'saves': 'Clean air'},
-        {'habit': 'Take care of plants at home', 'emoji': '🪴', 'saves': 'Fresh oxygen'},
-        {'habit': 'Don\'t pick flowers from gardens', 'emoji': '🌸', 'saves': 'Let them bloom'},
-        {'habit': 'Make compost from food scraps', 'emoji': '🥕', 'saves': 'Natural fertilizer'},
-        {'habit': 'Grow your own vegetables', 'emoji': '🥬', 'saves': 'Fresh and healthy'},
-        {'habit': 'Create a small garden', 'emoji': '🏡', 'saves': 'Green space'},
+        {
+          'habit': 'Plant a tree or flower',
+          'emoji': '🌳',
+          'saves': 'Clean air',
+        },
+        {
+          'habit': 'Take care of plants at home',
+          'emoji': '🪴',
+          'saves': 'Fresh oxygen',
+        },
+        {
+          'habit': 'Don\'t pick flowers from gardens',
+          'emoji': '🌸',
+          'saves': 'Let them bloom',
+        },
+        {
+          'habit': 'Make compost from food scraps',
+          'emoji': '🥕',
+          'saves': 'Natural fertilizer',
+        },
+        {
+          'habit': 'Grow your own vegetables',
+          'emoji': '🥬',
+          'saves': 'Fresh and healthy',
+        },
+        {
+          'habit': 'Create a small garden',
+          'emoji': '🏡',
+          'saves': 'Green space',
+        },
       ],
     },
     {
       'title': 'Clean Travel',
       'emoji': '🚲',
       'habits': [
-        {'habit': 'Walk to nearby places', 'emoji': '🚶', 'saves': 'No pollution + exercise'},
+        {
+          'habit': 'Walk to nearby places',
+          'emoji': '🚶',
+          'saves': 'No pollution + exercise',
+        },
         {'habit': 'Ride a bicycle', 'emoji': '🚲', 'saves': 'Zero emissions'},
-        {'habit': 'Use public transport', 'emoji': '🚌', 'saves': 'Less cars on road'},
-        {'habit': 'Carpool with friends', 'emoji': '🚗', 'saves': 'Share the ride'},
-        {'habit': 'Turn off car engine at signals', 'emoji': '🚦', 'saves': 'Save fuel'},
+        {
+          'habit': 'Use public transport',
+          'emoji': '🚌',
+          'saves': 'Less cars on road',
+        },
+        {
+          'habit': 'Carpool with friends',
+          'emoji': '🚗',
+          'saves': 'Share the ride',
+        },
+        {
+          'habit': 'Turn off car engine at signals',
+          'emoji': '🚦',
+          'saves': 'Save fuel',
+        },
       ],
     },
     {
@@ -83,11 +193,31 @@ class _SustainableHabitsDetailPageState
       'emoji': '🦋',
       'habits': [
         {'habit': 'Never litter', 'emoji': '🚯', 'saves': 'Keep nature clean'},
-        {'habit': 'Pick up trash you see', 'emoji': '🧹', 'saves': 'Be a cleanup hero'},
-        {'habit': 'Don\'t disturb wildlife', 'emoji': '🦊', 'saves': 'Let animals live peacefully'},
-        {'habit': 'Feed birds and animals', 'emoji': '🐦', 'saves': 'Help them survive'},
-        {'habit': 'Use eco-friendly products', 'emoji': '🧴', 'saves': 'Less chemicals'},
-        {'habit': 'Respect all living things', 'emoji': '🌺', 'saves': 'Everything has a purpose'},
+        {
+          'habit': 'Pick up trash you see',
+          'emoji': '🧹',
+          'saves': 'Be a cleanup hero',
+        },
+        {
+          'habit': 'Don\'t disturb wildlife',
+          'emoji': '🦊',
+          'saves': 'Let animals live peacefully',
+        },
+        {
+          'habit': 'Feed birds and animals',
+          'emoji': '🐦',
+          'saves': 'Help them survive',
+        },
+        {
+          'habit': 'Use eco-friendly products',
+          'emoji': '🧴',
+          'saves': 'Less chemicals',
+        },
+        {
+          'habit': 'Respect all living things',
+          'emoji': '🌺',
+          'saves': 'Everything has a purpose',
+        },
       ],
     },
     {
@@ -125,7 +255,7 @@ class _SustainableHabitsDetailPageState
       title: section['title'] ?? '',
       emoji: section['emoji'] ?? '',
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+        padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
         child: widget.sectionIndex == 6
             ? _buildPledgeSection(section)
             : _buildHabitsSection(section),
@@ -133,26 +263,23 @@ class _SustainableHabitsDetailPageState
     );
   }
 
-  Widget _buildGradientItem({
-    required int itemIndex,
-    required Widget child,
-  }) {
+  Widget _buildGradientItem({required int itemIndex, required Widget child}) {
     final gradient = AppColors.getGradientForIndex(itemIndex);
     return buildFloatingItem(
       index: itemIndex,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient.first.withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -172,12 +299,12 @@ class _SustainableHabitsDetailPageState
         return _buildGradientItem(
           itemIndex: idx,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -189,7 +316,7 @@ class _SustainableHabitsDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,15 +329,15 @@ class _SustainableHabitsDetailPageState
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
                           habit['saves'] ?? '',
@@ -244,12 +371,12 @@ class _SustainableHabitsDetailPageState
           return _buildGradientItem(
             itemIndex: idx,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 40.w,
+                    height: 40.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -257,21 +384,16 @@ class _SustainableHabitsDetailPageState
                     child: Center(
                       child: isLast
                           ? const Text('🌟', style: TextStyle(fontSize: 20))
-                          : const Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                          : Icon(Icons.check, color: Colors.white, size: 20.r),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Text(
                       pledge ?? '',
                       style: GoogleFonts.nunito(
                         fontSize: isLast ? 18 : 16,
-                        fontWeight:
-                            isLast ? FontWeight.bold : FontWeight.w600,
+                        fontWeight: isLast ? FontWeight.bold : FontWeight.w600,
                         color: Colors.white,
                       ),
                     ),
@@ -281,7 +403,7 @@ class _SustainableHabitsDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         ElevatedButton.icon(
           onPressed: () {
             Get.snackbar(
@@ -290,8 +412,8 @@ class _SustainableHabitsDetailPageState
               backgroundColor: Colors.green,
               colorText: Colors.white,
               snackPosition: SnackPosition.BOTTOM,
-              margin: const EdgeInsets.all(16),
-              borderRadius: 12,
+              margin: EdgeInsets.all(16.r),
+              borderRadius: 12.r,
             );
           },
           icon: const Text('✋', style: TextStyle(fontSize: 20)),
@@ -302,13 +424,13 @@ class _SustainableHabitsDetailPageState
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: Colors.green,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(25.r),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
       ],
     );
   }

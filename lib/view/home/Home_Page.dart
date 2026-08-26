@@ -13,6 +13,8 @@ import 'package:jiyan_learning/view/home/widgets/app_drawer.dart';
 import 'package:jiyan_learning/view/profiles/notification/notification_list_page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -214,22 +216,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       leading: Builder(
         builder: (context) => IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
-              Icons.menu_rounded,
-              color: Colors.white,
-              size: 22,
-            ),
+            child: Icon(Icons.menu_rounded, color: Colors.white, size: 22.r),
           ),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // Vibrant kid-friendly gradient - Coral to Pink to Orange
           gradient: LinearGradient(
             colors: [
@@ -244,79 +242,86 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
 
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Jiyan ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // The title is a Row of separately styled words, so it cannot
+        // ellipsize; scaling it down keeps the whole title readable on a
+        // narrow phone instead of clipping the last word.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Jiyan ',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'Kids ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 136, 240, 1),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'Kids ',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 136, 240, 1),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'Learning',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'Learning',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 4),
-        ],
+            SizedBox(width: 4.w),
+          ],
+        ),
       ),
       actions: [
         // Notification Button
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
           child: Container(
             // padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.notifications_rounded,
                 color: Colors.white,
-                size: 22,
+                size: 22.r,
               ),
               onPressed: () => Get.to(() => NotificationListPage()),
               padding: EdgeInsets.zero,
@@ -384,8 +389,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   },
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: 120.w,
+                    height: 120.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
@@ -476,28 +481,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppTheme.spacingM,
-            vertical: 8,
+            vertical: 8.h,
           ),
           child: Center(
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(emoji, style: const TextStyle(fontSize: 18)),
-                  const SizedBox(width: 8),
-                  Text(
-                    title,
-                    style: GoogleFonts.baloo2(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  Flexible(
+                    child: Text(
+                      emoji,
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: GoogleFonts.baloo2(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -505,17 +519,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
 
         // Category Items Grid
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: AppTheme.spacingM),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
+            mainAxisSpacing: 16.r,
+            crossAxisSpacing: 16.r,
             childAspectRatio: 1.1,
           ),
           itemCount: items.length,
@@ -525,7 +539,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           },
         ),
 
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
       ],
     );
   }
@@ -553,11 +567,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
                 color: item.gradient[0].withValues(alpha: 0.4),
-                blurRadius: 8,
+                blurRadius: 8.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -566,11 +580,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             children: [
               // Decorative circle
               Positioned(
-                top: -15,
-                right: -15,
+                top: -15.h,
+                right: -15.w,
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white.withValues(alpha: 0.1),
@@ -580,15 +594,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               // Content
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8.r),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Emoji
                       Container(
-                        width: 75,
-                        height: 75,
+                        width: 75.w,
+                        height: 75.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.3),
                           shape: BoxShape.circle,
@@ -600,7 +614,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       // Title
                       Text(
                         item.title,
@@ -632,7 +646,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         vertical: AppTheme.spacingS,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Obx(() {
@@ -640,12 +654,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             final recognizedText = speechService.recognizedText.value;
 
             return Container(
-              height: 56,
+              height: 56.h,
               decoration: BoxDecoration(
                 color: isListening
                     ? const Color(0xFFFF6B6B).withValues(alpha: 0.3)
                     : Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
                   color: isListening
                       ? const Color(0xFFFF6B6B).withValues(alpha: 0.6)
@@ -659,7 +673,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   if (isListening)
                     Positioned.fill(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(18.r),
                         child: _buildWaveAnimation(),
                       ),
                     ),
@@ -669,11 +683,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       // Prefix Icon
                       Padding(
-                        padding: const EdgeInsets.only(left: 16),
+                        padding: EdgeInsets.only(left: 16.w),
                         child: Icon(
                           isListening ? Icons.mic : Icons.search,
                           color: Colors.white,
-                          size: 22,
+                          size: 22.r,
                         ),
                       ),
 
@@ -681,9 +695,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Expanded(
                         child: isListening
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 child: Text(
                                   recognizedText.isEmpty
                                       ? 'Listening...'
@@ -712,9 +724,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     fontSize: 15,
                                   ),
                                   border: InputBorder.none,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 16,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 16.h,
                                   ),
                                 ),
                               ),
@@ -724,8 +736,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       GestureDetector(
                         onTap: _toggleVoiceSearch,
                         child: Container(
-                          margin: const EdgeInsets.all(8),
-                          padding: const EdgeInsets.all(8),
+                          margin: EdgeInsets.all(8.r),
+                          padding: EdgeInsets.all(8.r),
                           decoration: BoxDecoration(
                             gradient: isListening
                                 ? const LinearGradient(
@@ -738,14 +750,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             color: isListening
                                 ? null
                                 : Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                             boxShadow: isListening
                                 ? [
                                     BoxShadow(
                                       color: const Color(
                                         0xFFFF6B6B,
                                       ).withValues(alpha: 0.4),
-                                      blurRadius: 8,
+                                      blurRadius: 8.r,
                                       offset: const Offset(0, 2),
                                     ),
                                   ]
@@ -756,7 +768,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ? Icons.stop_rounded
                                 : Icons.mic_none_rounded,
                             color: Colors.white,
-                            size: 20,
+                            size: 20.r,
                           ),
                         ),
                       ),
@@ -805,8 +817,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFFFF6B6B),
           colorText: Colors.white,
-          margin: const EdgeInsets.all(16),
-          borderRadius: 12,
+          margin: EdgeInsets.all(16.r),
+          borderRadius: 12.r,
           duration: const Duration(seconds: 3),
         );
         return;
@@ -830,8 +842,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFFFF6B6B),
           colorText: Colors.white,
-          margin: const EdgeInsets.all(16),
-          borderRadius: 12,
+          margin: EdgeInsets.all(16.r),
+          borderRadius: 12.r,
         );
       }
     }

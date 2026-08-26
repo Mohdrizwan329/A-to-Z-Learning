@@ -3,6 +3,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PhonicsPage extends StatefulWidget {
   const PhonicsPage({super.key});
 
@@ -10,7 +12,8 @@ class PhonicsPage extends StatefulWidget {
   State<PhonicsPage> createState() => _PhonicsPageState();
 }
 
-class _PhonicsPageState extends State<PhonicsPage> with TickerProviderStateMixin {
+class _PhonicsPageState extends State<PhonicsPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _floatController;
   late Animation<double> _floatAnimation;
@@ -74,7 +77,9 @@ class _PhonicsPageState extends State<PhonicsPage> with TickerProviderStateMixin
   }
 
   Future<void> _speakPhonics(String letter, String word) async {
-    await flutterTts.speak("$letter says ${letter.toLowerCase()}, $letter for $word");
+    await flutterTts.speak(
+      "$letter says ${letter.toLowerCase()}, $letter for $word",
+    );
   }
 
   @override
@@ -90,62 +95,111 @@ class _PhonicsPageState extends State<PhonicsPage> with TickerProviderStateMixin
       title: 'Phonics',
       emoji: '🔤',
       body: GridView.builder(
-          padding: const EdgeInsets.all(12),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 0.85,
-          ),
-          itemCount: phonicsData.length,
-          itemBuilder: (context, index) {
-            final item = phonicsData[index];
-            final gradient = gradients[index % gradients.length];
-            final isSelected = selectedIndex == index;
+        padding: EdgeInsets.all(12.r),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 12.r,
+          crossAxisSpacing: 12.r,
+          childAspectRatio: 0.85,
+        ),
+        itemCount: phonicsData.length,
+        itemBuilder: (context, index) {
+          final item = phonicsData[index];
+          final gradient = gradients[index % gradients.length];
+          final isSelected = selectedIndex == index;
 
-            return AnimatedBuilder(
-              animation: _floatController,
-              builder: (_, child) {
-                final offset = (index % 2 == 0) ? _floatAnimation.value : -_floatAnimation.value;
-                return Transform.translate(offset: Offset(0, offset), child: child);
+          return AnimatedBuilder(
+            animation: _floatController,
+            builder: (_, child) {
+              final offset = (index % 2 == 0)
+                  ? _floatAnimation.value
+                  : -_floatAnimation.value;
+              return Transform.translate(
+                offset: Offset(0, offset),
+                child: child,
+              );
+            },
+            child: GestureDetector(
+              onTap: () {
+                TtsService.to.speak(item['word']);
+                setState(() => selectedIndex = index);
+                _speakPhonics(item['letter'], item['word']);
               },
-              child: GestureDetector(
-                onTap: () {
-                  TtsService.to.speak(item['word']);
-                  setState(() => selectedIndex = index);
-                  _speakPhonics(item['letter'], item['word']);
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: isSelected ? [Color(0xFFFFD700), Color(0xFFFFA500)] : gradient,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: isSelected
+                        ? [Color(0xFFFFD700), Color(0xFFFFA500)]
+                        : gradient,
+                  ),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: isSelected
+                      ? Border.all(color: Colors.white, width: 3)
+                      : null,
+                  boxShadow: [
+                    BoxShadow(
+                      color: (isSelected ? Color(0xFFFFD700) : gradient[0])
+                          .withValues(alpha: 0.4),
+                      blurRadius: isSelected ? 15 : 8,
+                      offset: const Offset(0, 4),
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                    border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
-                    boxShadow: [
-                      BoxShadow(
-                        color: (isSelected ? Color(0xFFFFD700) : gradient[0]).withValues(alpha: 0.4),
-                        blurRadius: isSelected ? 15 : 8,
-                        offset: const Offset(0, 4),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        item['letter'],
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(item['letter'], style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
-                      Text("/${item['sound']}/", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.9))),
-                      const SizedBox(height: 4),
-                      Text(item['emoji'], style: const TextStyle(fontSize: 28)),
-                      Text(item['word'], style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w500)),
-                    ],
-                  ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        "/${item['sound']}/",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Flexible(
+                      child: Text(
+                        item['emoji'],
+                        style: const TextStyle(fontSize: 28),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        item['word'],
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

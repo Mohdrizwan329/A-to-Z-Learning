@@ -4,6 +4,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ConfidenceBuildingPage extends StatefulWidget {
   const ConfidenceBuildingPage({super.key});
 
@@ -451,36 +453,42 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
     final progress = total > 0 ? viewed / total : 0.0;
     final percentage = (progress * 100).round();
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Progress',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+              Flexible(
+                child: const Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                '$viewed / $total ($percentage%)',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  '$viewed / $total ($percentage%)',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: LinearProgressIndicator(
               value: progress,
-              minHeight: 10,
+              minHeight: 10.h,
               backgroundColor: Colors.white.withValues(alpha: 0.2),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 Color(0xFF4CAF50),
@@ -499,29 +507,37 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
       child: Scaffold(
         appBar: AppBar(
           leading: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: GestureDetector(
               onTap: () => Get.back(),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 20.r,
+                ),
               ),
             ),
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -539,23 +555,23 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
           centerTitle: true,
           actions: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0.r),
               child: GestureDetector(
                 onTap: _resetProgress,
                 child: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+                  child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
                 ),
               ),
             ),
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
             indicatorColor: Colors.white,
-            indicatorWeight: 3,
+            indicatorWeight: 3.r,
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
             labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -563,7 +579,7 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
-            labelPadding: EdgeInsets.symmetric(horizontal: 20),
+            labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
             tabs: [
               Tab(text: "Say It!"),
               Tab(text: "Tips"),
@@ -574,7 +590,12 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -602,10 +623,10 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
         _buildProgressBar(_viewedAffirmations.length, affirmations.length),
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 // Main Affirmation Card with float animation
                 AnimatedBuilder(
                   animation: _floatController,
@@ -617,7 +638,9 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                   },
                   child: GestureDetector(
                     onTap: () {
-                      TtsService.to.speak(affirmations[selectedAffirmation]['text']);
+                      TtsService.to.speak(
+                        affirmations[selectedAffirmation]['text'],
+                      );
                       setState(() {
                         _viewedAffirmations.add(selectedAffirmation);
                         _currentAffirmationTapped = true;
@@ -626,18 +649,18 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                     },
                     child: Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(32),
+                      padding: EdgeInsets.all(32.r),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: gradient,
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(24.r),
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 12,
+                            blurRadius: 12.r,
                             offset: const Offset(0, 6),
                           ),
                         ],
@@ -646,11 +669,11 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                         children: [
                           // Decorative circle
                           Positioned(
-                            top: -20,
-                            right: -20,
+                            top: -20.h,
+                            right: -20.w,
                             child: Container(
-                              width: 80,
-                              height: 80,
+                              width: 80.w,
+                              height: 80.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.1),
@@ -661,8 +684,8 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                             children: [
                               // Emoji in circle
                               Container(
-                                width: 80,
-                                height: 80,
+                                width: 80.w,
+                                height: 80.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   shape: BoxShape.circle,
@@ -674,7 +697,7 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
                               Text(
                                 affirmation['text'],
                                 style: const TextStyle(
@@ -684,11 +707,11 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 12),
-                              const Icon(
+                              SizedBox(height: 12.h),
+                              Icon(
                                 Icons.volume_up,
                                 color: Colors.white70,
-                                size: 30,
+                                size: 30.r,
                               ),
                             ],
                           ),
@@ -698,15 +721,15 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                               top: 0,
                               right: 0,
                               child: Container(
-                                padding: const EdgeInsets.all(6),
+                                padding: EdgeInsets.all(6.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 20,
+                                  size: 20.r,
                                 ),
                               ),
                             ),
@@ -715,38 +738,41 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: _previousAffirmation,
-                      icon: const Icon(Icons.arrow_back),
-                      label: const Text("Previous"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white.withValues(alpha: 0.2),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
+                SizedBox(height: 30.h),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: _previousAffirmation,
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text("Previous"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24.w,
+                            vertical: 12.h,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    ElevatedButton.icon(
-                      onPressed: _nextAffirmation,
-                      icon: const Icon(Icons.arrow_forward),
-                      label: const Text("Next"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF56D97F),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
+                      SizedBox(width: 16.w),
+                      ElevatedButton.icon(
+                        onPressed: _nextAffirmation,
+                        icon: const Icon(Icons.arrow_forward),
+                        label: const Text("Next"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF56D97F),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24.w,
+                            vertical: 12.h,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -762,7 +788,7 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
         _buildProgressBar(_viewedTips.length, confidenceTips.length),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             itemCount: confidenceTips.length,
             itemBuilder: (context, index) {
               final tip = confidenceTips[index];
@@ -786,14 +812,14 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
+                    margin: EdgeInsets.only(bottom: 16.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.3),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -803,23 +829,23 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                         Column(
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(16),
+                              padding: EdgeInsets.all(16.r),
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: gradient,
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.r),
+                                  topRight: Radius.circular(20.r),
                                 ),
                               ),
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 50,
-                                    height: 50,
+                                    width: 50.w,
+                                    height: 50.h,
                                     decoration: BoxDecoration(
                                       color: Colors.white.withValues(
                                         alpha: 0.3,
@@ -833,7 +859,7 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 14),
+                                  SizedBox(width: 14.w),
                                   Expanded(
                                     child: Text(
                                       tip['title'],
@@ -852,7 +878,7 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(16),
+                              padding: EdgeInsets.all(16.r),
                               child: Text(
                                 tip['tip'],
                                 style: TextStyle(
@@ -867,18 +893,18 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                         // Tick mark if completed
                         if (isCompleted)
                           Positioned(
-                            top: 10,
-                            right: 10,
+                            top: 10.h,
+                            right: 10.w,
                             child: Container(
-                              padding: const EdgeInsets.all(4),
+                              padding: EdgeInsets.all(4.r),
                               decoration: const BoxDecoration(
                                 color: Colors.green,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.check,
                                 color: Colors.white,
-                                size: 16,
+                                size: 16.r,
                               ),
                             ),
                           ),
@@ -900,17 +926,17 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
         _buildProgressBar(_viewedStatements.length, iCanStatements.length),
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12.r,
+                    crossAxisSpacing: 12.r,
                     childAspectRatio: 1.3,
                   ),
                   itemCount: iCanStatements.length,
@@ -942,11 +968,11 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 8,
+                                blurRadius: 8.r,
                                 offset: const Offset(0, 4),
                               ),
                             ],
@@ -955,11 +981,11 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                             children: [
                               // Decorative circle like home screen
                               Positioned(
-                                top: -15,
-                                right: -15,
+                                top: -15.h,
+                                right: -15.w,
                                 child: Container(
-                                  width: 50,
-                                  height: 50,
+                                  width: 50.w,
+                                  height: 50.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.1),
@@ -972,8 +998,8 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                                   children: [
                                     // Emoji in circle like home screen
                                     Container(
-                                      width: 50,
-                                      height: 50,
+                                      width: 50.w,
+                                      height: 50.h,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withValues(
                                           alpha: 0.3,
@@ -987,10 +1013,10 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    SizedBox(height: 8.h),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w,
                                       ),
                                       child: Text(
                                         statement['statement'],
@@ -1010,18 +1036,18 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                               // Tick mark if completed
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 6,
-                                  right: 6,
+                                  bottom: 6.h,
+                                  right: 6.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(2),
+                                    padding: EdgeInsets.all(2.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 14,
+                                      size: 14.r,
                                     ),
                                   ),
                                 ),
@@ -1032,15 +1058,15 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                     );
                   },
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Column(
-                    children: const [
+                    children: [
                       Text(
                         "🌈 Remember!",
                         style: TextStyle(
@@ -1049,7 +1075,7 @@ class _ConfidenceBuildingPageState extends State<ConfidenceBuildingPage>
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         "You are amazing just the way you are!",
                         style: TextStyle(color: Colors.white70, fontSize: 14),

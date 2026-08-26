@@ -10,6 +10,8 @@ import 'package:jiyan_learning/view/profiles/policy/privacy_policy_page.dart';
 import 'package:jiyan_learning/view/profiles/terms%20&%20condition/terms_conditions_page.dart';
 import 'package:jiyan_learning/view/profiles/support/support_page.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
     super.key,
@@ -242,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // Vibrant kid-friendly gradient - same as Home
           gradient: LinearGradient(
             colors: [
@@ -256,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -271,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -290,7 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         boxShadow: [
           BoxShadow(
             color: AppTheme.accentColor.withValues(alpha: 0.4),
-            blurRadius: 20,
+            blurRadius: 20.r,
             offset: const Offset(0, 10),
           ),
         ],
@@ -299,8 +301,8 @@ class _ProfileScreenState extends State<ProfileScreen>
         children: [
           // Avatar
           Container(
-            width: 80,
-            height: 80,
+            width: 80.w,
+            height: 80.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
@@ -311,14 +313,14 @@ class _ProfileScreenState extends State<ProfileScreen>
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                 ),
               ],
             ),
             child: ClipOval(
               child: Container(
-                width: 80,
-                height: 80,
+                width: 80.w,
+                height: 80.h,
                 color: Colors.white,
                 child: Center(
                   child: Text(
@@ -353,7 +355,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   children: [
                     Icon(
                       Icons.email_outlined,
-                      size: 14,
+                      size: 14.r,
                       color: Colors.white.withValues(alpha: 0.9),
                     ),
                     SizedBox(width: AppTheme.spacingXS),
@@ -374,7 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   children: [
                     Icon(
                       Icons.location_on_outlined,
-                      size: 14,
+                      size: 14.r,
                       color: Colors.white.withValues(alpha: 0.9),
                     ),
                     SizedBox(width: AppTheme.spacingXS),
@@ -427,7 +429,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           boxShadow: [
             BoxShadow(
               color: AppTheme.errorColor.withValues(alpha: 0.4),
-              blurRadius: 16,
+              blurRadius: 16.r,
               offset: const Offset(0, 8),
             ),
           ],
@@ -436,7 +438,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.logout_rounded, color: Colors.white, size: 22),
+              Icon(Icons.logout_rounded, color: Colors.white, size: 22.r),
               SizedBox(width: AppTheme.spacingS),
               Text(
                 'Logout',
@@ -479,10 +481,7 @@ class _ProfileTile extends StatelessWidget {
         final offset = (index % 2 == 0)
             ? floatAnimation.value * 0.5
             : -floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
         margin: EdgeInsets.only(bottom: AppTheme.spacingS),
@@ -492,11 +491,11 @@ class _ProfileTile extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -504,7 +503,7 @@ class _ProfileTile extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             onTap: onTap,
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -514,13 +513,13 @@ class _ProfileTile extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: 48.w,
+                    height: 48.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14.r),
                     ),
-                    child: Icon(icon, color: Colors.white, size: 24),
+                    child: Icon(icon, color: Colors.white, size: 24.r),
                   ),
                   SizedBox(width: AppTheme.spacingM),
                   Expanded(
@@ -534,14 +533,14 @@ class _ProfileTile extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_forward_ios_rounded,
-                      size: 14,
+                      size: 14.r,
                       color: Colors.white,
                     ),
                   ),

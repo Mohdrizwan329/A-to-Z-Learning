@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class WorksheetsPage extends StatefulWidget {
   const WorksheetsPage({Key? key}) : super(key: key);
 
@@ -30,36 +32,132 @@ class _WorksheetsPageState extends State<WorksheetsPage>
 
   final Map<String, List<Map<String, dynamic>>> worksheets = {
     'math': [
-      {'title': 'Addition Practice', 'icon': '➕', 'type': 'addition', 'difficulty': 'Easy'},
-      {'title': 'Subtraction Practice', 'icon': '➖', 'type': 'subtraction', 'difficulty': 'Easy'},
-      {'title': 'Multiplication Practice', 'icon': '✖️', 'type': 'multiplication', 'difficulty': 'Medium'},
-      {'title': 'Division Practice', 'icon': '➗', 'type': 'division', 'difficulty': 'Medium'},
-      {'title': 'Mixed Problems', 'icon': '🔢', 'type': 'mixed', 'difficulty': 'Hard'},
+      {
+        'title': 'Addition Practice',
+        'icon': '➕',
+        'type': 'addition',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Subtraction Practice',
+        'icon': '➖',
+        'type': 'subtraction',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Multiplication Practice',
+        'icon': '✖️',
+        'type': 'multiplication',
+        'difficulty': 'Medium',
+      },
+      {
+        'title': 'Division Practice',
+        'icon': '➗',
+        'type': 'division',
+        'difficulty': 'Medium',
+      },
+      {
+        'title': 'Mixed Problems',
+        'icon': '🔢',
+        'type': 'mixed',
+        'difficulty': 'Hard',
+      },
     ],
     'tracing': [
-      {'title': 'Trace Letters A-Z', 'icon': '🔤', 'type': 'letters', 'difficulty': 'Easy'},
-      {'title': 'Trace Numbers 1-20', 'icon': '🔢', 'type': 'numbers', 'difficulty': 'Easy'},
-      {'title': 'Trace Shapes', 'icon': '⭐', 'type': 'shapes', 'difficulty': 'Easy'},
-      {'title': 'Trace Hindi Letters', 'icon': '🇮🇳', 'type': 'hindi', 'difficulty': 'Medium'},
+      {
+        'title': 'Trace Letters A-Z',
+        'icon': '🔤',
+        'type': 'letters',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Trace Numbers 1-20',
+        'icon': '🔢',
+        'type': 'numbers',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Trace Shapes',
+        'icon': '⭐',
+        'type': 'shapes',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Trace Hindi Letters',
+        'icon': '🇮🇳',
+        'type': 'hindi',
+        'difficulty': 'Medium',
+      },
     ],
     'matching': [
-      {'title': 'Match Animals', 'icon': '🐾', 'type': 'animals', 'difficulty': 'Easy'},
-      {'title': 'Match Colors', 'icon': '🎨', 'type': 'colors', 'difficulty': 'Easy'},
-      {'title': 'Match Fruits', 'icon': '🍎', 'type': 'fruits', 'difficulty': 'Easy'},
-      {'title': 'Match Numbers to Words', 'icon': '1️⃣', 'type': 'numwords', 'difficulty': 'Medium'},
+      {
+        'title': 'Match Animals',
+        'icon': '🐾',
+        'type': 'animals',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Match Colors',
+        'icon': '🎨',
+        'type': 'colors',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Match Fruits',
+        'icon': '🍎',
+        'type': 'fruits',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Match Numbers to Words',
+        'icon': '1️⃣',
+        'type': 'numwords',
+        'difficulty': 'Medium',
+      },
     ],
     'fill': [
-      {'title': 'Fill Missing Numbers', 'icon': '❓', 'type': 'missing_num', 'difficulty': 'Medium'},
-      {'title': 'Fill Missing Letters', 'icon': '🔠', 'type': 'missing_letter', 'difficulty': 'Easy'},
-      {'title': 'Complete the Pattern', 'icon': '🔄', 'type': 'pattern', 'difficulty': 'Hard'},
+      {
+        'title': 'Fill Missing Numbers',
+        'icon': '❓',
+        'type': 'missing_num',
+        'difficulty': 'Medium',
+      },
+      {
+        'title': 'Fill Missing Letters',
+        'icon': '🔠',
+        'type': 'missing_letter',
+        'difficulty': 'Easy',
+      },
+      {
+        'title': 'Complete the Pattern',
+        'icon': '🔄',
+        'type': 'pattern',
+        'difficulty': 'Hard',
+      },
     ],
   };
 
   final Map<String, List<Color>> categoryGradients = {
-    'math': [const Color(0xFFFF6B6B), const Color(0xFFFF8E53), const Color(0xFFFFAA5A)],
-    'tracing': [const Color(0xFF4ECDC4), const Color(0xFF44A08D), const Color(0xFF093028)],
-    'matching': [const Color(0xFFFFAA5A), const Color(0xFFFF8E53), const Color(0xFFFF6B6B)],
-    'fill': [const Color(0xFFA78BFA), const Color(0xFF8B5CF6), const Color(0xFF6366F1)],
+    'math': [
+      const Color(0xFFFF6B6B),
+      const Color(0xFFFF8E53),
+      const Color(0xFFFFAA5A),
+    ],
+    'tracing': [
+      const Color(0xFF4ECDC4),
+      const Color(0xFF44A08D),
+      const Color(0xFF093028),
+    ],
+    'matching': [
+      const Color(0xFFFFAA5A),
+      const Color(0xFFFF8E53),
+      const Color(0xFFFF6B6B),
+    ],
+    'fill': [
+      const Color(0xFFA78BFA),
+      const Color(0xFF8B5CF6),
+      const Color(0xFF6366F1),
+    ],
   };
 
   List<Map<String, dynamic>> get _filteredWorksheets {
@@ -110,26 +208,35 @@ class _WorksheetsPageState extends State<WorksheetsPage>
   Widget build(BuildContext context) {
     if (!_isInitialized) {
       return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.back(),
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -172,14 +279,15 @@ class _WorksheetsPageState extends State<WorksheetsPage>
                     child: filteredWorksheets.isEmpty
                         ? _buildEmptyState()
                         : GridView.builder(
-                            padding: const EdgeInsets.all(16),
+                            padding: EdgeInsets.all(16.r),
                             physics: const BouncingScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 16,
-                              crossAxisSpacing: 16,
-                              childAspectRatio: 0.85,
-                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16.r,
+                                  crossAxisSpacing: 16.r,
+                                  childAspectRatio: 0.85,
+                                ),
                             itemCount: filteredWorksheets.length,
                             itemBuilder: (context, index) {
                               final worksheet = filteredWorksheets[index];
@@ -203,23 +311,23 @@ class _WorksheetsPageState extends State<WorksheetsPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+          child: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 20.r,
+          ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -235,7 +343,7 @@ class _WorksheetsPageState extends State<WorksheetsPage>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -244,7 +352,7 @@ class _WorksheetsPageState extends State<WorksheetsPage>
       bottom: TabBar(
         controller: _tabController,
         indicatorColor: Colors.white,
-        indicatorWeight: 3,
+        indicatorWeight: 3.r,
         indicatorSize: TabBarIndicatorSize.label,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white.withValues(alpha: 0.7),
@@ -256,7 +364,7 @@ class _WorksheetsPageState extends State<WorksheetsPage>
           fontWeight: FontWeight.w500,
           fontSize: 14,
         ),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+        labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
         tabs: _categories.map((category) {
           return Tab(text: category['name']!);
         }).toList(),
@@ -270,8 +378,8 @@ class _WorksheetsPageState extends State<WorksheetsPage>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 120,
-            height: 120,
+            width: 120.w,
+            height: 120.h,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
               shape: BoxShape.circle,
@@ -284,7 +392,7 @@ class _WorksheetsPageState extends State<WorksheetsPage>
               child: Text('🔍', style: TextStyle(fontSize: 60)),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             'No Worksheets Found',
             style: GoogleFonts.baloo2(
@@ -293,7 +401,7 @@ class _WorksheetsPageState extends State<WorksheetsPage>
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             'Try searching something else!',
             style: GoogleFonts.nunito(
@@ -325,12 +433,22 @@ class _WorksheetsPageState extends State<WorksheetsPage>
         difficultyColor = const Color(0xFF4ECDC4);
     }
 
+    // The card is passed as `child` so it is built once, not on every frame of
+    // the float animation. Rebuilding it per frame meant re-resolving its two
+    // GoogleFonts styles 60 times a second, which cost this page 78ms a frame -
+    // about 12fps - while it just sat there.
     return AnimatedBuilder(
       animation: _floatAnimation,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
-          child: GestureDetector(
+      builder: (context, child) => Transform.translate(
+        offset: Offset(
+          0,
+          index.isEven ? _floatAnimation.value : -_floatAnimation.value,
+        ),
+        child: child,
+      ),
+      child: Builder(
+        builder: (context) {
+          return GestureDetector(
             onTap: () {
               TtsService.to.speak(worksheet['title']);
               _openWorksheet(worksheet);
@@ -342,11 +460,11 @@ class _WorksheetsPageState extends State<WorksheetsPage>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradients[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -355,11 +473,11 @@ class _WorksheetsPageState extends State<WorksheetsPage>
                 children: [
                   // Decorative circle
                   Positioned(
-                    top: -15,
-                    right: -15,
+                    top: -15.h,
+                    right: -15.w,
                     child: Container(
-                      width: 50,
-                      height: 50,
+                      width: 50.w,
+                      height: 50.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white.withValues(alpha: 0.1),
@@ -368,14 +486,14 @@ class _WorksheetsPageState extends State<WorksheetsPage>
                   ),
                   // Main content
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Icon container
                         Container(
-                          width: 60,
-                          height: 60,
+                          width: 60.w,
+                          height: 60.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
                             shape: BoxShape.circle,
@@ -387,26 +505,31 @@ class _WorksheetsPageState extends State<WorksheetsPage>
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         // Title
-                        Text(
-                          worksheet['title'],
-                          style: GoogleFonts.nunito(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        Flexible(
+                          child: Text(
+                            worksheet['title'],
+                            style: GoogleFonts.nunito(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         // Difficulty badge
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 4.h,
+                          ),
                           decoration: BoxDecoration(
                             color: difficultyColor.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
                               color: difficultyColor.withValues(alpha: 0.5),
                               width: 1,
@@ -427,9 +550,9 @@ class _WorksheetsPageState extends State<WorksheetsPage>
                 ],
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -466,10 +589,12 @@ class _WorksheetsPageState extends State<WorksheetsPage>
 
   void _openWorksheet(Map<String, dynamic> worksheet) {
     if (_selectedCategory == 'math') {
-      Get.to(() => MathWorksheetScreen(
-        title: worksheet['title'],
-        type: worksheet['type'],
-      ));
+      Get.to(
+        () => MathWorksheetScreen(
+          title: worksheet['title'],
+          type: worksheet['type'],
+        ),
+      );
     } else {
       Get.snackbar(
         '${worksheet['icon']} Opening Worksheet',
@@ -477,8 +602,8 @@ class _WorksheetsPageState extends State<WorksheetsPage>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: categoryGradients[_selectedCategory]![0],
         colorText: Colors.white,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 16,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
         duration: const Duration(seconds: 2),
       );
     }
@@ -490,11 +615,8 @@ class MathWorksheetScreen extends StatefulWidget {
   final String title;
   final String type;
 
-  const MathWorksheetScreen({
-    Key? key,
-    required this.title,
-    required this.type,
-  }) : super(key: key);
+  const MathWorksheetScreen({Key? key, required this.title, required this.type})
+    : super(key: key);
 
   @override
   State<MathWorksheetScreen> createState() => _MathWorksheetScreenState();
@@ -608,19 +730,17 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
 
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         child: Container(
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFFF0F4FF),
-                Color(0xFFE8ECFF),
-                Color(0xFFF5F0FF),
-              ],
+              colors: [Color(0xFFF0F4FF), Color(0xFFE8ECFF), Color(0xFFF5F0FF)],
             ),
           ),
           child: Column(
@@ -629,15 +749,17 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
               // Header
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 24.w),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24.r),
+                  ),
                   gradient: LinearGradient(colors: gradients),
                 ),
                 child: Column(
                   children: [
                     Text(emoji, style: const TextStyle(fontSize: 60)),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       message,
                       style: GoogleFonts.baloo2(
@@ -651,18 +773,18 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
               ),
               // Score section
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20.r),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
                             color: gradients[0].withValues(alpha: 0.2),
-                            blurRadius: 12,
+                            blurRadius: 12.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
@@ -677,7 +799,7 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                               color: Colors.grey.shade700,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           ShaderMask(
                             shaderCallback: (bounds) => LinearGradient(
                               colors: gradients,
@@ -694,14 +816,17 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     Row(
                       children: [
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: Colors.grey.shade300, width: 2),
+                              borderRadius: BorderRadius.circular(16.r),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 2,
+                              ),
                             ),
                             child: TextButton(
                               onPressed: () {
@@ -709,9 +834,9 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                                 Get.back();
                               },
                               style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(14.r),
                                 ),
                               ),
                               child: Text(
@@ -725,16 +850,16 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               gradient: LinearGradient(colors: gradients),
                               boxShadow: [
                                 BoxShadow(
                                   color: gradients[0].withValues(alpha: 0.4),
-                                  blurRadius: 8,
+                                  blurRadius: 8.r,
                                   offset: const Offset(0, 4),
                                 ),
                               ],
@@ -753,16 +878,20 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(14.r),
                                 ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(Icons.refresh_rounded, color: Colors.white, size: 20),
-                                  const SizedBox(width: 8),
+                                  Icon(
+                                    Icons.refresh_rounded,
+                                    color: Colors.white,
+                                    size: 20.r,
+                                  ),
+                                  SizedBox(width: 8.w),
                                   Text(
                                     'Try Again',
                                     style: GoogleFonts.nunito(
@@ -798,12 +927,16 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20.r,
+            ),
           ),
           onPressed: () => Get.back(),
         ),
@@ -841,93 +974,140 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              // Progress indicator
-              Container(
-                margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: LayoutBuilder(
+            // Portrait-shaped content: in landscape the body is barely 300pt
+            // tall, which is shorter than the header and the submit button
+            // together. The page scrolls when that happens.
+            //
+            // The problem list is given a share of the viewport rather than
+            // `Expanded`, because `Expanded` inside a scroll view needs an
+            // `IntrinsicHeight` above it, and measuring the intrinsic height of
+            // a lazy list builds every problem card: that cost this page 79ms a
+            // frame, five times a 60fps budget.
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    _buildStatItem('📝', 'Questions', '${problems.length}'),
+                    // Progress indicator
                     Container(
-                      width: 1,
-                      height: 40,
-                      color: Colors.white.withValues(alpha: 0.3),
-                    ),
-                    _buildStatItem('✅', 'Answered', '${userAnswers.length}'),
-                    Container(
-                      width: 1,
-                      height: 40,
-                      color: Colors.white.withValues(alpha: 0.3),
-                    ),
-                    _buildStatItem('⏳', 'Remaining', '${problems.length - userAnswers.length}'),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: problems.length,
-                  itemBuilder: (context, index) {
-                    return _buildProblemCard(index);
-                  },
-                ),
-              ),
-              if (!isSubmitted)
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Container(
-                    width: double.infinity,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
-                          blurRadius: 12,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: ElevatedButton(
-                      onPressed: _submitAnswers,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                      margin: EdgeInsets.all(16.r),
+                      padding: EdgeInsets.all(16.r),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.3),
                         ),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const Icon(Icons.check_circle_rounded, color: Colors.white),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Submit Answers',
-                            style: GoogleFonts.nunito(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          // Equal shares so the widest label wraps in its own column.
+                          Expanded(
+                            child: _buildStatItem(
+                              '📝',
+                              'Questions',
+                              '${problems.length}',
+                            ),
+                          ),
+                          Container(
+                            width: 1.w,
+                            height: 40.h,
+                            color: Colors.white.withValues(alpha: 0.3),
+                          ),
+                          Expanded(
+                            child: _buildStatItem(
+                              '✅',
+                              'Answered',
+                              '${userAnswers.length}',
+                            ),
+                          ),
+                          Container(
+                            width: 1.w,
+                            height: 40.h,
+                            color: Colors.white.withValues(alpha: 0.3),
+                          ),
+                          Expanded(
+                            child: _buildStatItem(
+                              '⏳',
+                              'Remaining',
+                              '${problems.length - userAnswers.length}',
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      height: math.max(200.h, constraints.maxHeight * 0.55),
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: problems.length,
+                        itemBuilder: (context, index) {
+                          return _buildProblemCard(index);
+                        },
+                      ),
+                    ),
+                    if (!isSubmitted)
+                      Padding(
+                        padding: EdgeInsets.all(16.r),
+                        child: Container(
+                          width: double.infinity,
+                          height: 56.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF4ECDC4,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 12.r,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: ElevatedButton(
+                            onPressed: _submitAnswers,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.check_circle_rounded,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 8.w),
+                                Flexible(
+                                  child: Text(
+                                    'Submit Answers',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-            ],
+              ),
+            ),
           ),
         ),
       ),
@@ -938,7 +1118,7 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
     return Column(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 24)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
           style: GoogleFonts.baloo2(
@@ -960,9 +1140,11 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
 
   Widget _buildProblemCard(int index) {
     final problem = problems[index];
-    final isCorrect = isSubmitted &&
+    final isCorrect =
+        isSubmitted &&
         int.tryParse(userAnswers[index] ?? '') == problem['answer'];
-    final isWrong = isSubmitted &&
+    final isWrong =
+        isSubmitted &&
         int.tryParse(userAnswers[index] ?? '') != problem['answer'];
 
     Color cardColor;
@@ -981,16 +1163,16 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: borderColor, width: 2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
+            blurRadius: 8.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -998,24 +1180,27 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 40.w,
+            height: 40.h,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: isSubmitted
                     ? (isCorrect
-                        ? [const Color(0xFF4ECDC4), const Color(0xFF44A08D)]
-                        : [const Color(0xFFFF6B6B), const Color(0xFFFF8E53)])
+                          ? [const Color(0xFF4ECDC4), const Color(0xFF44A08D)]
+                          : [const Color(0xFFFF6B6B), const Color(0xFFFF8E53)])
                     : [const Color(0xFF667EEA), const Color(0xFF764BA2)],
               ),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: (isSubmitted
-                          ? (isCorrect ? const Color(0xFF4ECDC4) : const Color(0xFFFF6B6B))
-                          : const Color(0xFF667EEA))
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color:
+                      (isSubmitted
+                              ? (isCorrect
+                                    ? const Color(0xFF4ECDC4)
+                                    : const Color(0xFFFF6B6B))
+                              : const Color(0xFF667EEA))
+                          .withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1025,7 +1210,7 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                   ? Icon(
                       isCorrect ? Icons.check : Icons.close,
                       color: Colors.white,
-                      size: 22,
+                      size: 22.r,
                     )
                   : Text(
                       '${index + 1}',
@@ -1037,21 +1222,24 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                     ),
             ),
           ),
-          const SizedBox(width: 16),
-          Text(
-            '${problem['num1']} ${problem['operator']} ${problem['num2']} = ',
-            style: GoogleFonts.baloo2(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          SizedBox(width: 16.w),
+          Flexible(
+            child: Text(
+              '${problem['num1']} ${problem['operator']} ${problem['num2']} = ',
+              style: GoogleFonts.baloo2(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: TextField(
@@ -1070,9 +1258,9 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
                     fontSize: 22,
                   ),
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
                   ),
                 ),
                 onChanged: (value) {
@@ -1088,14 +1276,14 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
             ),
           ),
           if (isWrong) ...[
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
                 '${problem['answer']}',
@@ -1112,4 +1300,3 @@ class _MathWorksheetScreenState extends State<MathWorksheetScreen> {
     );
   }
 }
-

@@ -13,6 +13,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class StemHubPage extends StatefulWidget {
   const StemHubPage({super.key});
 
@@ -76,12 +78,12 @@ class _StemHubPageState extends State<StemHubPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             ProgressService.to.resetProgress(ProgressService.kStemHub);
@@ -98,170 +100,185 @@ class _StemHubPageState extends State<StemHubPage>
             children: [
               // Progress bar
               Obx(() {
-            final progress =
-                ProgressService.to.getProgressPercentage(
+                final progress =
+                    ProgressService.to.getProgressPercentage(
                       ProgressService.kStemHub,
                     ) /
                     100;
-            final progressString = ProgressService.to.getProgressString(
-              ProgressService.kStemHub,
-            );
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                final progressString = ProgressService.to.getProgressString(
+                  ProgressService.kStemHub,
+                );
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
+                  child: Column(
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      SizedBox(height: 8.h),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 10.h,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 10,
-                      backgroundColor: Colors.white.withValues(alpha: 0.2),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Color(0xFF4CAF50),
-                      ),
-                    ),
+                );
+              }),
+              // Grid
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
+                    childAspectRatio: 1.0,
                   ),
-                ],
-              ),
-            );
-          }),
-          // Grid
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1.0,
-              ),
-              itemCount: stemCategories.length,
-              itemBuilder: (context, index) {
-                final category = stemCategories[index];
-                final gradient = AppColors.getGradientForIndex(index);
+                  itemCount: stemCategories.length,
+                  itemBuilder: (context, index) {
+                    final category = stemCategories[index];
+                    final gradient = AppColors.getGradientForIndex(index);
 
-                return Obx(() {
-                  final isSelected = selectedIndex == index;
-                  final isCompleted = ProgressService.to.isItemCompleted(
-                    ProgressService.kStemHub,
-                    index,
-                  );
+                    return Obx(() {
+                      final isSelected = selectedIndex == index;
+                      final isCompleted = ProgressService.to.isItemCompleted(
+                        ProgressService.kStemHub,
+                        index,
+                      );
 
-                  return buildFloatingItem(
-                    index: index,
-                    child: GradientCard(
-                      gradient: gradient,
-                      isSelected: isSelected,
-                      showDecorations: true,
-                      onTap: () {
-                        TtsService.to.speak(category['title']);
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                        // Mark as completed
-                        ProgressService.to.markItemCompleted(
-                          ProgressService.kStemHub,
-                          index,
-                        );
-                        Get.to(category['page']);
-                      },
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 65,
-                                  height: 65,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Colors.white.withValues(alpha: 0.25),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      category['emoji'],
-                                      style: const TextStyle(fontSize: 32),
+                      return buildFloatingItem(
+                        index: index,
+                        child: GradientCard(
+                          gradient: gradient,
+                          isSelected: isSelected,
+                          showDecorations: true,
+                          onTap: () {
+                            TtsService.to.speak(category['title']);
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                            // Mark as completed
+                            ProgressService.to.markItemCompleted(
+                              ProgressService.kStemHub,
+                              index,
+                            );
+                            Get.to(category['page']);
+                          },
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 65.w,
+                                      height: 65.h,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          category['emoji'],
+                                          style: const TextStyle(fontSize: 32),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        category['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        category['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Checkmark if completed
+                              if (isCompleted)
+                                Positioned(
+                                  bottom: 4.h,
+                                  right: 4.w,
+                                  child: Container(
+                                    padding: EdgeInsets.all(2.r),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 12.r,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  category['title'],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  category['subtitle'],
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 11,
-                                    color:
-                                        Colors.white.withValues(alpha: 0.9),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
+                            ],
                           ),
-                          // Checkmark if completed
-                          if (isCompleted)
-                            Positioned(
-                              bottom: 4,
-                              right: 4,
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: const BoxDecoration(
-                                  color: Colors.green,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                  size: 12,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-              },
-            ),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
-          ],
-        ),
         ],
       ),
     );

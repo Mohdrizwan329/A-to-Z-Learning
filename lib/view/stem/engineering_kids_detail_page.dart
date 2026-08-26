@@ -4,6 +4,8 @@ import 'package:jiyan_learning/utils/app_colors.dart';
 import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class EngineeringKidsDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -29,10 +31,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           'icon': '🏗️',
           'text': 'Engineers design buildings, bridges, cars, and more!',
         },
-        {
-          'icon': '💡',
-          'text': 'They use science and math to create solutions',
-        },
+        {'icon': '💡', 'text': 'They use science and math to create solutions'},
         {
           'icon': '🎨',
           'text': 'Engineering combines creativity with knowledge',
@@ -104,12 +103,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           'detail': 'Build your design',
           'emoji': '🔧',
         },
-        {
-          'step': 5,
-          'name': 'Test',
-          'detail': 'Does it work?',
-          'emoji': '🧪',
-        },
+        {'step': 5, 'name': 'Test', 'detail': 'Does it work?', 'emoji': '🧪'},
         {
           'step': 6,
           'name': 'Improve',
@@ -137,11 +131,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
       'emoji': '🗼',
       'challenge': {
         'goal': 'Build the tallest tower that stands on its own',
-        'materials': [
-          'Spaghetti or straws',
-          'Marshmallows or clay',
-          'Tape',
-        ],
+        'materials': ['Spaghetti or straws', 'Marshmallows or clay', 'Tape'],
         'tips': [
           'Wide base = stable tower',
           'Use cross supports for strength',
@@ -183,26 +173,14 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           'emoji': '🔨',
           'how': 'Make things with your hands',
         },
-        {
-          'skill': 'Testing',
-          'emoji': '🧪',
-          'how': 'See if your idea works',
-        },
-        {
-          'skill': 'Improving',
-          'emoji': '📈',
-          'how': 'Make things better',
-        },
+        {'skill': 'Testing', 'emoji': '🧪', 'how': 'See if your idea works'},
+        {'skill': 'Improving', 'emoji': '📈', 'how': 'Make things better'},
         {
           'skill': 'Teamwork',
           'emoji': '🤝',
           'how': 'Work together with others',
         },
-        {
-          'skill': 'Persistence',
-          'emoji': '💪',
-          'how': 'Never give up!',
-        },
+        {'skill': 'Persistence', 'emoji': '💪', 'how': 'Never give up!'},
       ],
     },
   ];
@@ -227,7 +205,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
       title: section['title'] ?? '',
       emoji: section['emoji'] ?? '',
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: _buildSectionContent(section),
       ),
     );
@@ -257,19 +235,19 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
     return buildFloatingItem(
       index: index,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 8,
+              blurRadius: 8.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -277,11 +255,11 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
         child: Stack(
           children: [
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -296,12 +274,11 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
   }
 
   Widget _buildContentSection(Map<String, dynamic> section) {
-    final content =
-        section['content'] as List<Map<String, dynamic>>? ?? [];
+    final content = section['content'] as List<Map<String, dynamic>>? ?? [];
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -311,7 +288,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(content.length, (index) {
           final item = content[index];
           return _buildGradientItem(
@@ -319,8 +296,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -332,7 +309,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     item['text'] ?? '',
@@ -352,12 +329,11 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
   }
 
   Widget _buildTypesSection(Map<String, dynamic> section) {
-    final types =
-        section['types'] as List<Map<String, dynamic>>? ?? [];
+    final types = section['types'] as List<Map<String, dynamic>>? ?? [];
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -367,7 +343,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(types.length, (index) {
           final type = types[index];
           return _buildGradientItem(
@@ -375,8 +351,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -388,7 +364,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,12 +379,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                       ),
                       Row(
                         children: [
-                          const Icon(
-                            Icons.build,
-                            size: 14,
-                            color: Colors.white70,
-                          ),
-                          const SizedBox(width: 4),
+                          Icon(Icons.build, size: 14.r, color: Colors.white70),
+                          SizedBox(width: 4.w),
                           Expanded(
                             child: Text(
                               type['builds'] ?? '',
@@ -432,12 +404,11 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
   }
 
   Widget _buildStepsSection(Map<String, dynamic> section) {
-    final steps =
-        section['steps'] as List<Map<String, dynamic>>? ?? [];
+    final steps = section['steps'] as List<Map<String, dynamic>>? ?? [];
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -447,7 +418,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(steps.length, (index) {
           final step = steps[index];
           return _buildGradientItem(
@@ -455,8 +426,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 45,
-                  height: 45,
+                  width: 45.w,
+                  height: 45.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -472,12 +443,9 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
-                Text(
-                  step['emoji'] ?? '',
-                  style: const TextStyle(fontSize: 28),
-                ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
+                Text(step['emoji'] ?? '', style: const TextStyle(fontSize: 28)),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -509,15 +477,14 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
   }
 
   Widget _buildChallengeSection(Map<String, dynamic> section) {
-    final challenge =
-        section['challenge'] as Map<String, dynamic>? ?? {};
+    final challenge = section['challenge'] as Map<String, dynamic>? ?? {};
     final materials = challenge['materials'] as List? ?? [];
     final tips = challenge['tips'] as List? ?? [];
 
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -527,15 +494,15 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         // Goal card
         _buildGradientItem(
           index: 0,
           child: Row(
             children: [
               Container(
-                width: 55,
-                height: 55,
+                width: 55.w,
+                height: 55.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -544,7 +511,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                   child: Text('🎯', style: TextStyle(fontSize: 28)),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -579,8 +546,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
               Row(
                 children: [
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 45.w,
+                    height: 45.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -589,7 +556,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                       child: Text('🧪', style: TextStyle(fontSize: 24)),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Text(
                     'Materials',
                     style: GoogleFonts.nunito(
@@ -600,19 +567,19 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: 8.r,
+                runSpacing: 8.r,
                 children: materials.map<Widget>((m) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       m ?? '',
@@ -635,8 +602,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 40.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -645,7 +612,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                     child: Text('💡', style: TextStyle(fontSize: 20)),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     tips[index] ?? '',
@@ -665,12 +632,11 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
   }
 
   Widget _buildSkillsSection(Map<String, dynamic> section) {
-    final skills =
-        section['skills'] as List<Map<String, dynamic>>? ?? [];
+    final skills = section['skills'] as List<Map<String, dynamic>>? ?? [];
     return Column(
       children: [
         Text(section['emoji'] ?? '', style: const TextStyle(fontSize: 80)),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(
           section['title'] ?? '',
           style: GoogleFonts.poppins(
@@ -680,7 +646,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
         ...List.generate(skills.length, (index) {
           final skill = skills[index];
           return _buildGradientItem(
@@ -688,8 +654,8 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
             child: Row(
               children: [
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -701,7 +667,7 @@ class _EngineeringKidsDetailPageState extends State<EngineeringKidsDetailPage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

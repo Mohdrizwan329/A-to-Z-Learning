@@ -11,6 +11,8 @@ import 'package:jiyan_learning/view/premium/parent_dashboard_page.dart';
 import 'package:jiyan_learning/view/teacher/reports_page.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
@@ -55,7 +57,10 @@ class AppDrawer extends StatelessWidget {
               // Menu Items
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -108,12 +113,11 @@ class AppDrawer extends StatelessWidget {
                         color: const Color(0xFF6366F1),
                         onTap: () => Get.to(() => const ReportsPage()),
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                     ],
                   ),
                 ),
               ),
-
             ],
           ),
         ),
@@ -121,32 +125,41 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(String name, String email, String? location, String? phone) {
+  Widget _buildHeader(
+    String name,
+    String email,
+    String? location,
+    String? phone,
+  ) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       child: Material(
         color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: Column(
             children: [
               Row(
                 children: [
                   // Avatar
                   Container(
-                    width: 70,
-                    height: 70,
+                    width: 70.w,
+                    height: 70.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: const LinearGradient(
-                        colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                        colors: [
+                          Color(0xFFFF6B6B),
+                          Color(0xFFFF8E53),
+                          Color(0xFFFFAA5A),
+                        ],
                       ),
                       border: Border.all(color: Colors.white, width: 3),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -162,7 +175,7 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: 14.w),
                   // User Info
                   Expanded(
                     child: Column(
@@ -179,15 +192,15 @@ class AppDrawer extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Row(
                           children: [
                             Icon(
                               Icons.email_rounded,
-                              size: 14,
+                              size: 14.r,
                               color: Colors.white.withValues(alpha: 0.7),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Expanded(
                               child: Text(
                                 email.isNotEmpty ? email : 'No email',
@@ -201,18 +214,20 @@ class AppDrawer extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Row(
                           children: [
                             Icon(
                               Icons.location_on_rounded,
-                              size: 14,
+                              size: 14.r,
                               color: Colors.white.withValues(alpha: 0.7),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Expanded(
                               child: Text(
-                                location?.isNotEmpty == true ? location! : 'India',
+                                location?.isNotEmpty == true
+                                    ? location!
+                                    : 'India',
                                 style: GoogleFonts.nunito(
                                   fontSize: 12,
                                   color: Colors.white.withValues(alpha: 0.7),
@@ -242,33 +257,33 @@ class AppDrawer extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8.h),
       child: Material(
         color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           onTap: () {
             Get.back(); // Close drawer
             onTap();
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             child: Row(
               children: [
                 // Icon Container
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Center(
                     child: Text(emoji, style: const TextStyle(fontSize: 22)),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 // Title
                 Expanded(
                   child: Text(
@@ -282,7 +297,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  size: 16,
+                  size: 16.r,
                   color: Colors.white.withValues(alpha: 0.5),
                 ),
               ],
@@ -292,5 +307,4 @@ class AppDrawer extends StatelessWidget {
       ),
     );
   }
-
 }

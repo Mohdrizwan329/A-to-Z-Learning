@@ -8,6 +8,8 @@ import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PlanningSkillsPage extends StatefulWidget {
   const PlanningSkillsPage({super.key});
 
@@ -83,12 +85,12 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             _progress.resetProgress(ProgressService.kPlanningSkills);
@@ -105,7 +107,8 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
               animation: _bubbleController,
               builder: (context, child) {
                 final value = _bubbleController.value;
-                final offset = 20.0 *
+                final offset =
+                    20.0 *
                     ((value * 2 * 3.14159).clamp(0, 6.28) != 0
                         ? (value * 2 * 3.14159).abs() % 1
                         : 0);
@@ -113,8 +116,8 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
                   top: top + offset,
                   left: left,
                   child: Container(
-                    width: 20 + (i % 3) * 15.0,
-                    height: 20 + (i % 3) * 15.0,
+                    width: 20.w + (i % 3) * 15.0,
+                    height: 20.h + (i % 3) * 15.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -133,34 +136,55 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
             children: [
               Obx(() {
                 final progress =
-                    _progress.getProgressPercentage(ProgressService.kPlanningSkills) / 100;
-                final progressString =
-                    _progress.getProgressString(ProgressService.kPlanningSkills);
+                    _progress.getProgressPercentage(
+                      ProgressService.kPlanningSkills,
+                    ) /
+                    100;
+                final progressString = _progress.getProgressString(
+                  ProgressService.kPlanningSkills,
+                );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
@@ -169,12 +193,12 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
               }),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.95,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 14.r,
+                    mainAxisSpacing: 14.r,
                   ),
                   itemCount: sections.length,
                   itemBuilder: (context, index) {
@@ -184,19 +208,27 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
                       index: index,
                       child: Obx(() {
                         final isCompleted = _progress.isItemCompleted(
-                            ProgressService.kPlanningSkills, index);
+                          ProgressService.kPlanningSkills,
+                          index,
+                        );
                         return GradientCard(
                           gradient: gradientColors,
                           onTap: () async {
                             TtsService.to.speak(section['title']);
-                            await Get.to(() => _PlanningSkillsDetailPage(
-                                  sectionIndex: index,
-                                  title: section['title'],
-                                ));
+                            await Get.to(
+                              () => _PlanningSkillsDetailPage(
+                                sectionIndex: index,
+                                title: section['title'],
+                              ),
+                            );
                             if (!_progress.isItemCompleted(
-                                ProgressService.kPlanningSkills, index)) {
+                              ProgressService.kPlanningSkills,
+                              index,
+                            )) {
                               await _progress.markItemCompleted(
-                                  ProgressService.kPlanningSkills, index);
+                                ProgressService.kPlanningSkills,
+                                index,
+                              );
                             }
                             setState(() {});
                           },
@@ -204,42 +236,56 @@ class _PlanningSkillsPageState extends State<PlanningSkillsPage>
                             children: [
                               if (isCompleted)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(Icons.check,
-                                        color: Colors.white, size: 16),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 16.r,
+                                    ),
                                   ),
                                 ),
                               Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(section['icon'],
-                                        size: 48, color: Colors.white),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    Icon(
+                                      section['icon'],
+                                      size: 48.r,
+                                      color: Colors.white,
                                     ),
-                                    const SizedBox(height: 4),
+                                    SizedBox(height: 10.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w,
+                                      ),
                                       child: Text(
                                         section['desc'],
                                         style: GoogleFonts.nunito(
                                           fontSize: 11,
-                                          color: Colors.white.withValues(alpha: 0.9),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
                                         ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
@@ -315,7 +361,8 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
               animation: _bubbleController,
               builder: (context, child) {
                 final value = _bubbleController.value;
-                final offset = 20.0 *
+                final offset =
+                    20.0 *
                     ((value * 2 * 3.14159).clamp(0, 6.28) != 0
                         ? (value * 2 * 3.14159).abs() % 1
                         : 0);
@@ -323,8 +370,8 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
                   top: top + offset,
                   left: left,
                   child: Container(
-                    width: 20 + (i % 3) * 15.0,
-                    height: 20 + (i % 3) * 15.0,
+                    width: 20.w + (i % 3) * 15.0,
+                    height: 20.h + (i % 3) * 15.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -340,7 +387,7 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
             );
           }),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: _buildContent(),
           ),
         ],
@@ -373,16 +420,30 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
   Widget _buildWhatIsPlanning() {
     final concepts = [
-      {'text': 'Planning means thinking before you do something', 'icon': Icons.lightbulb},
-      {'text': 'It helps you decide what to do first, second, third...', 'icon': Icons.format_list_numbered},
-      {'text': 'Good planning helps you finish tasks easily', 'icon': Icons.check_circle},
+      {
+        'text': 'Planning means thinking before you do something',
+        'icon': Icons.lightbulb,
+      },
+      {
+        'text': 'It helps you decide what to do first, second, third...',
+        'icon': Icons.format_list_numbered,
+      },
+      {
+        'text': 'Good planning helps you finish tasks easily',
+        'icon': Icons.check_circle,
+      },
       {'text': 'Everyone can learn to plan better!', 'icon': Icons.star},
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('What is Planning?', 'Learn how to plan like a pro!', Icons.assignment, 0),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'What is Planning?',
+          'Learn how to plan like a pro!',
+          Icons.assignment,
+          0,
+        ),
+        SizedBox(height: 16.h),
         ...concepts.asMap().entries.map((entry) {
           final i = entry.key;
           final c = entry.value;
@@ -390,20 +451,32 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(c['icon'] as IconData, color: Colors.white, size: 32),
-                  const SizedBox(width: 14),
+                  Icon(c['icon'] as IconData, color: Colors.white, size: 32.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(c['text'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      c['text'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -429,8 +502,13 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
     return Column(
       children: [
-        _buildHeaderCard('Plan Your Morning', 'A step-by-step morning routine!', Icons.wb_sunny, 1),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Plan Your Morning',
+          'A step-by-step morning routine!',
+          Icons.wb_sunny,
+          1,
+        ),
+        SizedBox(height: 16.h),
         ...steps.asMap().entries.map((entry) {
           final i = entry.key;
           final s = entry.value;
@@ -438,33 +516,51 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+                borderRadius: BorderRadius.circular(14.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 6.r,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 36,
-                    height: 36,
+                    width: 36.w,
+                    height: 36.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text('${i + 1}',
-                          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                      child: Text(
+                        '${i + 1}',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Icon(s['icon'] as IconData, color: Colors.white, size: 28),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
+                  Icon(s['icon'] as IconData, color: Colors.white, size: 28.r),
+                  SizedBox(width: 12.w),
                   Expanded(
-                    child: Text(s['task'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      s['task'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -490,8 +586,13 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
     return Column(
       children: [
-        _buildHeaderCard('Plan Your Homework', 'Get homework done the smart way!', Icons.menu_book, 2),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Plan Your Homework',
+          'Get homework done the smart way!',
+          Icons.menu_book,
+          2,
+        ),
+        SizedBox(height: 16.h),
         ...steps.asMap().entries.map((entry) {
           final i = entry.key;
           final s = entry.value;
@@ -499,33 +600,51 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+                borderRadius: BorderRadius.circular(14.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 6.r,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 36,
-                    height: 36,
+                    width: 36.w,
+                    height: 36.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: Text('${i + 1}',
-                          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                      child: Text(
+                        '${i + 1}',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Icon(s['icon'] as IconData, color: Colors.white, size: 28),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
+                  Icon(s['icon'] as IconData, color: Colors.white, size: 28.r),
+                  SizedBox(width: 12.w),
                   Expanded(
-                    child: Text(s['task'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      s['task'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -540,18 +659,35 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
   Widget _buildPlanParty() {
     final planning = [
-      {'what': 'When?', 'think': 'Pick a day and time', 'icon': Icons.calendar_month},
+      {
+        'what': 'When?',
+        'think': 'Pick a day and time',
+        'icon': Icons.calendar_month,
+      },
       {'what': 'Where?', 'think': 'At home or a park?', 'icon': Icons.home},
       {'what': 'Who?', 'think': 'Make a guest list', 'icon': Icons.people},
       {'what': 'Food?', 'think': 'Cake, snacks, drinks', 'icon': Icons.cake},
-      {'what': 'Games?', 'think': 'Musical chairs, pass the parcel', 'icon': Icons.sports_esports},
-      {'what': 'Decorations?', 'think': 'Balloons, banners', 'icon': Icons.auto_awesome},
+      {
+        'what': 'Games?',
+        'think': 'Musical chairs, pass the parcel',
+        'icon': Icons.sports_esports,
+      },
+      {
+        'what': 'Decorations?',
+        'think': 'Balloons, banners',
+        'icon': Icons.auto_awesome,
+      },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Plan a Party!', 'Let\'s organize the best party ever!', Icons.celebration, 3),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Plan a Party!',
+          'Let\'s organize the best party ever!',
+          Icons.celebration,
+          3,
+        ),
+        SizedBox(height: 16.h),
         ...planning.asMap().entries.map((entry) {
           final i = entry.key;
           final p = entry.value;
@@ -559,25 +695,42 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(p['icon'] as IconData, color: Colors.white, size: 34),
-                  const SizedBox(width: 14),
+                  Icon(p['icon'] as IconData, color: Colors.white, size: 34.r),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(p['what'] as String,
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17)),
-                        Text(p['think'] as String,
-                            style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
+                        Text(
+                          p['what'] as String,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 17,
+                          ),
+                        ),
+                        Text(
+                          p['think'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            fontSize: 13,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -604,8 +757,13 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
     return Column(
       children: [
-        _buildHeaderCard('Think First!', 'Ask yourself these questions before starting!', Icons.psychology, 4),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Think First!',
+          'Ask yourself these questions before starting!',
+          Icons.psychology,
+          4,
+        ),
+        SizedBox(height: 16.h),
         ...questions.asMap().entries.map((entry) {
           final i = entry.key;
           final q = entry.value;
@@ -613,20 +771,32 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(q['icon'] as IconData, color: Colors.white, size: 32),
-                  const SizedBox(width: 14),
+                  Icon(q['icon'] as IconData, color: Colors.white, size: 32.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(q['q'] as String,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 16)),
+                    child: Text(
+                      q['q'] as String,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -641,25 +811,42 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
   Widget _buildPlanningTools() {
     final tools = [
-      {'name': 'To-Do List', 'icon': Icons.checklist, 'use': 'Write down all tasks'},
-      {'name': 'Calendar', 'icon': Icons.calendar_month, 'use': 'Mark important days'},
-      {'name': 'Checklist', 'icon': Icons.check_box, 'use': 'Tick off completed tasks'},
+      {
+        'name': 'To-Do List',
+        'icon': Icons.checklist,
+        'use': 'Write down all tasks',
+      },
+      {
+        'name': 'Calendar',
+        'icon': Icons.calendar_month,
+        'use': 'Mark important days',
+      },
+      {
+        'name': 'Checklist',
+        'icon': Icons.check_box,
+        'use': 'Tick off completed tasks',
+      },
       {'name': 'Timer', 'icon': Icons.timer, 'use': 'Set time for each task'},
       {'name': 'Chart', 'icon': Icons.bar_chart, 'use': 'Track your progress'},
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Planning Tools', 'Use these tools to plan better!', Icons.construction, 5),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Planning Tools',
+          'Use these tools to plan better!',
+          Icons.construction,
+          5,
+        ),
+        SizedBox(height: 16.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.9,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+            crossAxisSpacing: 12.r,
+            mainAxisSpacing: 12.r,
           ),
           itemCount: tools.length,
           itemBuilder: (context, i) {
@@ -668,23 +855,44 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
             return buildFloatingItem(
               index: i % 8,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors[0].withValues(alpha: 0.3),
+                      blurRadius: 8.r,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(t['icon'] as IconData, color: Colors.white, size: 40),
-                    const SizedBox(height: 10),
-                    Text(t['name'] as String,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14)),
-                    const SizedBox(height: 4),
-                    Text(t['use'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 12),
-                        textAlign: TextAlign.center),
+                    Icon(
+                      t['icon'] as IconData,
+                      color: Colors.white,
+                      size: 40.r,
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      t['name'] as String,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      t['use'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               ),
@@ -704,13 +912,21 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
       {'activity': 'Plan what to pack for a trip', 'icon': Icons.luggage},
       {'activity': 'Plan steps to build a LEGO set', 'icon': Icons.extension},
       {'activity': 'Plan a drawing before starting', 'icon': Icons.palette},
-      {'activity': 'Plan your playtime activities', 'icon': Icons.sports_soccer},
+      {
+        'activity': 'Plan your playtime activities',
+        'icon': Icons.sports_soccer,
+      },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Practice Planning', 'Try these real activities!', Icons.flag, 6),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Practice Planning',
+          'Try these real activities!',
+          Icons.flag,
+          6,
+        ),
+        SizedBox(height: 16.h),
         ...activities.asMap().entries.map((entry) {
           final i = entry.key;
           final a = entry.value;
@@ -718,22 +934,38 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(a['icon'] as IconData, color: Colors.white, size: 30),
-                  const SizedBox(width: 14),
+                  Icon(a['icon'] as IconData, color: Colors.white, size: 30.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(a['activity'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      a['activity'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 18),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white54,
+                    size: 18.r,
+                  ),
                 ],
               ),
             ),
@@ -745,23 +977,49 @@ class _PlanningSkillsDetailPageState extends State<_PlanningSkillsDetailPage>
 
   // ── Shared Helpers ────────────────────────────────────────────────────────
 
-  Widget _buildHeaderCard(String title, String subtitle, IconData icon, int colorIndex) {
+  Widget _buildHeaderCard(
+    String title,
+    String subtitle,
+    IconData icon,
+    int colorIndex,
+  ) {
     final colors = AppColors.getGradientForIndex(colorIndex);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [colors[0], colors[1]]),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.4), blurRadius: 16, offset: const Offset(0, 8))],
+        borderRadius: BorderRadius.circular(24.r),
+        boxShadow: [
+          BoxShadow(
+            color: colors[0].withValues(alpha: 0.4),
+            blurRadius: 16.r,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          Icon(icon, size: 56, color: Colors.white),
-          const SizedBox(height: 12),
-          Text(title, style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-          const SizedBox(height: 6),
-          Text(subtitle, style: GoogleFonts.nunito(fontSize: 14, color: Colors.white.withValues(alpha: 0.9)), textAlign: TextAlign.center),
+          Icon(icon, size: 56.r, color: Colors.white),
+          SizedBox(height: 12.h),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 6.h),
+          Text(
+            subtitle,
+            style: GoogleFonts.nunito(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.9),
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MakerSpacePage extends StatefulWidget {
   const MakerSpacePage({super.key});
 
@@ -27,11 +29,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
         {'name': 'Blocks', 'emoji': '🧱'},
         {'name': 'Books', 'emoji': '📚'},
       ],
-      'tips': [
-        'Start with a wide base',
-        'Stack carefully',
-        'Balance is key!',
-      ],
+      'tips': ['Start with a wide base', 'Stack carefully', 'Balance is key!'],
       'questions': [
         'How tall can you make it?',
         'What shape is strongest?',
@@ -238,7 +236,12 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -258,22 +261,23 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
       ),
     );
   }
+
   Widget _buildChallengesList() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Intro Banner
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 const Text('🚀', style: TextStyle(fontSize: 40)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,7 +303,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Challenges List
           ...challenges.map((challenge) => _buildChallengeCard(challenge)),
         ],
@@ -328,8 +332,8 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -337,11 +341,11 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
               challenge['color'].withValues(alpha: 0.7),
             ],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: challenge['color'].withValues(alpha: 0.4),
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -349,11 +353,11 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
         child: Row(
           children: [
             Container(
-              width: 70,
-              height: 70,
+              width: 70.w,
+              height: 70.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Center(
                 child: Text(
@@ -362,7 +366,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,7 +379,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     challenge['goal'],
                     style: GoogleFonts.nunito(
@@ -383,18 +387,30 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
                       fontSize: 12,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
+                  // Two tags together are wider than the card on a small
+                  // phone, so each is allowed to shrink.
                   Row(
                     children: [
-                      _buildTag(challenge['difficulty'], difficultyColor),
-                      const SizedBox(width: 8),
-                      _buildTag('⏱️ ${challenge['time']}', Colors.white),
+                      Flexible(
+                        child: _buildTag(
+                          challenge['difficulty'],
+                          difficultyColor,
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: _buildTag(
+                          '⏱️ ${challenge['time']}',
+                          Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
+            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20.r),
           ],
         ),
       ),
@@ -403,10 +419,10 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
 
   Widget _buildTag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: color.withValues(alpha: 0.5)),
       ),
       child: Text(
@@ -416,27 +432,31 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
           fontSize: 11,
           fontWeight: FontWeight.bold,
         ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
 
   Widget _buildChallengeDetail() {
-    final challenge = challenges.firstWhere((c) => c['name'] == selectedChallenge);
+    final challenge = challenges.firstWhere(
+      (c) => c['name'] == selectedChallenge,
+    );
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Header Card
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
                   color: challenge['color'].withValues(alpha: 0.4),
-                  blurRadius: 20,
+                  blurRadius: 20.r,
                   offset: const Offset(0, 10),
                 ),
               ],
@@ -444,7 +464,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
             child: Column(
               children: [
                 Text(challenge['emoji'], style: const TextStyle(fontSize: 70)),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Text(
                   challenge['name'],
                   style: GoogleFonts.poppins(
@@ -453,18 +473,18 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
                     color: challenge['color'],
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: challenge['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text('🎯', style: TextStyle(fontSize: 20)),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Flexible(
                         child: Text(
                           challenge['goal'],
@@ -481,14 +501,24 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Materials
           _buildMaterialsSection(challenge),
           // Tips
-          _buildListSection('💡', 'Tips for Success', challenge['tips'], challenge['color']),
+          _buildListSection(
+            '💡',
+            'Tips for Success',
+            challenge['tips'],
+            challenge['color'],
+          ),
           // Think About
-          _buildListSection('🤔', 'Think About...', challenge['questions'], challenge['color']),
-          const SizedBox(height: 20),
+          _buildListSection(
+            '🤔',
+            'Think About...',
+            challenge['questions'],
+            challenge['color'],
+          ),
+          SizedBox(height: 20.h),
           // Start Button
           SizedBox(
             width: double.infinity,
@@ -500,8 +530,8 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: challenge['color'],
                   colorText: Colors.white,
-                  margin: const EdgeInsets.all(16),
-                  borderRadius: 12,
+                  margin: EdgeInsets.all(16.r),
+                  borderRadius: 12.r,
                 );
               },
               icon: const Text('🚀', style: TextStyle(fontSize: 20)),
@@ -515,9 +545,9 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: challenge['color'],
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
               ),
             ),
@@ -529,11 +559,11 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
 
   Widget _buildMaterialsSection(Map<String, dynamic> challenge) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -541,7 +571,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
           Row(
             children: [
               const Text('🧰', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 'Materials (pick any!)',
                 style: GoogleFonts.poppins(
@@ -552,22 +582,25 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 8.r,
+            runSpacing: 8.r,
             children: (challenge['materials'] as List).map<Widget>((material) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: challenge['color'].withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(material['emoji'], style: const TextStyle(fontSize: 18)),
-                    const SizedBox(width: 6),
+                    Text(
+                      material['emoji'],
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(width: 6.w),
                     Text(
                       material['name'],
                       style: GoogleFonts.nunito(
@@ -585,13 +618,18 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
     );
   }
 
-  Widget _buildListSection(String emoji, String title, List<dynamic> items, Color color) {
+  Widget _buildListSection(
+    String emoji,
+    String title,
+    List<dynamic> items,
+    Color color,
+  ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -599,7 +637,7 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
           Row(
             children: [
               Text(emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 title,
                 style: GoogleFonts.poppins(
@@ -610,15 +648,15 @@ class _MakerSpacePageState extends State<MakerSpacePage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           ...items.map<Widget>((item) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: 8.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.check_circle, color: color, size: 20),
-                  const SizedBox(width: 8),
+                  Icon(Icons.check_circle, color: color, size: 20.r),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
                       item,

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MatchingGamePage extends StatefulWidget {
   const MatchingGamePage({super.key});
 
@@ -151,7 +153,10 @@ class _MatchingGamePageState extends State<MatchingGamePage>
 
   void _onLeftTap(String id) {
     if (_currentMatchedIds.contains(id)) return;
-    final leftItem = _currentLeftItems.firstWhere((item) => item['id'] == id, orElse: () => {});
+    final leftItem = _currentLeftItems.firstWhere(
+      (item) => item['id'] == id,
+      orElse: () => {},
+    );
     if (leftItem.containsKey('label')) TtsService.to.speak(leftItem['label']!);
     setState(() {
       _selectedLeft = id;
@@ -199,13 +204,15 @@ class _MatchingGamePageState extends State<MatchingGamePage>
     final tabName = _tabController.index == 0 ? 'Farm Animals' : 'Wild Animals';
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.white,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text("🎉", style: TextStyle(fontSize: 70)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               '$tabName Complete!',
               style: GoogleFonts.baloo2(
@@ -214,18 +221,18 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                 color: const Color(0xFF56D97F),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('⭐', style: TextStyle(fontSize: 24)),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     'Score: $_score points',
                     style: GoogleFonts.nunito(
@@ -237,7 +244,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Row(
               children: [
                 Expanded(
@@ -249,9 +256,9 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey.shade300,
                       foregroundColor: Colors.black87,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text(
@@ -260,7 +267,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -270,9 +277,9 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF56D97F),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     child: Text(
@@ -326,7 +333,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
         elevation: 8,
         shadowColor: const Color(0xFFFF6B6B).withValues(alpha: 0.3),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             // Vibrant kid-friendly gradient - Coral to Pink to Orange (same as Home)
             gradient: LinearGradient(
               colors: [
@@ -340,7 +347,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
             boxShadow: [
               BoxShadow(
                 color: Color(0x40FF6B6B),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: Offset(0, 5),
               ),
             ],
@@ -348,16 +355,16 @@ class _MatchingGamePageState extends State<MatchingGamePage>
         ),
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -374,12 +381,12 @@ class _MatchingGamePageState extends State<MatchingGamePage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetAllGame,
           ),
@@ -393,14 +400,14 @@ class _MatchingGamePageState extends State<MatchingGamePage>
             });
           },
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: 'Farm Animals'),
             Tab(text: 'Wild Animals'),
@@ -431,51 +438,62 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                 children: [
                   // Progress bar
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
                     ),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                const SizedBox(width: 4),
-                                Text(
-                                  'Progress: $_score',
+                            // The score and the counter chip together are wider
+                            // than a small phone, so each shortens rather than
+                            // pushing the other off the row.
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 4.w),
+                                  Flexible(
+                                    child: Text(
+                                      'Progress: $_score',
+                                      style: GoogleFonts.nunito(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 6.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Text(
+                                  '${_currentMatchedIds.length}/${_currentLeftItems.length} matched',
                                   style: GoogleFonts.nunito(
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                '${_currentMatchedIds.length}/${_currentLeftItems.length} matched',
-                                style: GoogleFonts.nunito(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                           child: LinearProgressIndicator(
                             value: _currentLeftItems.isEmpty
                                 ? 0
@@ -487,7 +505,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                             valueColor: const AlwaysStoppedAnimation<Color>(
                               Color(0xFF56D97F),
                             ),
-                            minHeight: 10,
+                            minHeight: 10.h,
                           ),
                         ),
                       ],
@@ -495,7 +513,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                   ),
                   // Instructions
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Text(
                       'Match animals with their sounds!',
                       style: GoogleFonts.nunito(
@@ -505,7 +523,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   // TabBarView for matching content
                   Expanded(
                     child: TabBarView(
@@ -570,7 +588,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
         // Left column - Animals
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             itemCount: leftItems.length,
             itemBuilder: (context, index) {
               final item = leftItems[index];
@@ -592,7 +610,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                 child: GestureDetector(
                   onTap: () => _onLeftTap(item['id']!),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
                     decoration: BoxDecoration(
                       gradient: isMatched
                           ? const LinearGradient(
@@ -605,14 +623,14 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       border: isSelected
                           ? Border.all(color: const Color(0xFFFFE66D), width: 3)
                           : null,
                       boxShadow: [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -621,11 +639,11 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                       children: [
                         // Decorative circle (Home screen style)
                         Positioned(
-                          top: -10,
-                          right: -10,
+                          top: -10.h,
+                          right: -10.w,
                           child: Container(
-                            width: 40,
-                            height: 40,
+                            width: 40.w,
+                            height: 40.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -634,17 +652,17 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                         ),
                         // Content
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 8,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12.h,
+                            horizontal: 8.w,
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               // Circular emoji container (Home screen style)
                               Container(
-                                width: 50,
-                                height: 50,
+                                width: 50.w,
+                                height: 50.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   shape: BoxShape.circle,
@@ -656,26 +674,30 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 6),
-                              // Label
-                              Text(
-                                item['label']!,
-                                style: GoogleFonts.nunito(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                              SizedBox(width: 6.w),
+                              // Label. `overflow` alone does nothing here: the
+                              // text needs a bounded width before it can
+                              // ellipsize, which Flexible gives it.
+                              Flexible(
+                                child: Text(
+                                  item['label']!,
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
                               ),
                               // Checkmark if matched
                               if (isMatched)
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 4),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 4.h),
                                   child: Icon(
                                     Icons.check_circle,
                                     color: Colors.white,
-                                    size: 18,
+                                    size: 18.r,
                                   ),
                                 ),
                             ],
@@ -692,13 +714,13 @@ class _MatchingGamePageState extends State<MatchingGamePage>
 
         // Connection line visual
         SizedBox(
-          width: 24,
+          width: 24.w,
           child: Center(
             child: Container(
-              width: 3,
+              width: 3.w,
               height: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(2.r),
                 gradient: LinearGradient(
                   colors: [
                     Colors.white.withValues(alpha: 0.1),
@@ -716,7 +738,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
         // Right column - Sounds
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             itemCount: rightItems.length,
             itemBuilder: (context, index) {
               final item = rightItems[index];
@@ -739,7 +761,7 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                 child: GestureDetector(
                   onTap: () => _onRightTap(item['id']!),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
                     decoration: BoxDecoration(
                       gradient: isMatched
                           ? const LinearGradient(
@@ -752,14 +774,14 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       border: isSelected
                           ? Border.all(color: const Color(0xFFFFE66D), width: 3)
                           : null,
                       boxShadow: [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -768,11 +790,11 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                       children: [
                         // Decorative circle (Home screen style)
                         Positioned(
-                          top: -10,
-                          right: -10,
+                          top: -10.h,
+                          right: -10.w,
                           child: Container(
-                            width: 40,
-                            height: 40,
+                            width: 40.w,
+                            height: 40.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -781,17 +803,17 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                         ),
                         // Content
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 8,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12.h,
+                            horizontal: 8.w,
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               // Circular emoji container (Home screen style)
                               Container(
-                                width: 50,
-                                height: 50,
+                                width: 50.w,
+                                height: 50.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   shape: BoxShape.circle,
@@ -803,26 +825,28 @@ class _MatchingGamePageState extends State<MatchingGamePage>
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 6),
+                              SizedBox(width: 6.w),
                               // Sound label
-                              Text(
-                                item['sound']!,
-                                style: GoogleFonts.nunito(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                              Flexible(
+                                child: Text(
+                                  item['sound']!,
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
                               ),
                               // Checkmark if matched
                               if (isMatched)
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 4),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 4.h),
                                   child: Icon(
                                     Icons.check_circle,
                                     color: Colors.white,
-                                    size: 18,
+                                    size: 18.r,
                                   ),
                                 ),
                             ],

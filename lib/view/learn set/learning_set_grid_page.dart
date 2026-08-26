@@ -11,6 +11,8 @@ import 'package:jiyan_learning/view/learn%20set/vehicles_learning_page.dart';
 import 'package:jiyan_learning/view/learn%20set/seasons_learning_page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class LearningSetsGridScreen extends StatefulWidget {
   final List<Color>? gradient;
 
@@ -180,36 +182,44 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
             final progress = _overallProgress;
             final progressString = _progressString;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -222,11 +232,11 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
           }),
           Expanded(
             child: GridView.builder(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(12.r),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                mainAxisSpacing: 16.r,
+                crossAxisSpacing: 16.r,
                 childAspectRatio: 1.2,
               ),
               itemCount: learningItems.length,
@@ -264,7 +274,10 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
     final bool hasProgress = _hasProgress(progressKey);
 
     return GestureDetector(
-      onTap: () { TtsService.to.speak(item['label']); Get.to(item['pageBuilder']); },
+      onTap: () {
+        TtsService.to.speak(item['label']);
+        Get.to(item['pageBuilder']);
+      },
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -272,11 +285,11 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: Offset(0, 6),
             ),
           ],
@@ -285,11 +298,11 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
           children: [
             // Decorative circles
             Positioned(
-              top: -20,
-              right: -20,
+              top: -20.h,
+              right: -20.w,
               child: Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -299,15 +312,15 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
             // Content
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 75,
-                      height: 75,
+                      width: 75.w,
+                      height: 75.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -319,23 +332,27 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      item['label'],
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        height: 1.1,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black26,
-                            offset: Offset(1, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
+                    SizedBox(height: 10.h),
+                    Flexible(
+                      child: Text(
+                        item['label'],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          height: 1.1,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black26,
+                              offset: Offset(1, 1),
+                              blurRadius: 2.r,
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -344,19 +361,15 @@ class _LearningSetsGridScreenState extends State<LearningSetsGridScreen>
             // Checkmark badge when has any progress
             if (hasProgress)
               Positioned(
-                top: 8,
-                right: 8,
+                top: 8.h,
+                right: 8.w,
                 child: Container(
-                  padding: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(4.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.check,
-                    color: gradient[0],
-                    size: 16,
-                  ),
+                  child: Icon(Icons.check, color: gradient[0], size: 16.r),
                 ),
               ),
           ],

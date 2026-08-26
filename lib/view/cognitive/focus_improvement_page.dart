@@ -7,6 +7,8 @@ import 'dart:math' as math;
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class FocusImprovementPage extends StatefulWidget {
   const FocusImprovementPage({super.key});
 
@@ -14,7 +16,8 @@ class FocusImprovementPage extends StatefulWidget {
   State<FocusImprovementPage> createState() => _FocusImprovementPageState();
 }
 
-class _FocusImprovementPageState extends State<FocusImprovementPage> with TickerProviderStateMixin {
+class _FocusImprovementPageState extends State<FocusImprovementPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
 
   int currentGame = 0;
@@ -100,7 +103,11 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
       (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _cardAnimController,
-          curve: Interval(index * 0.12, (index * 0.12 + 0.4).clamp(0.0, 1.0), curve: Curves.easeOutBack),
+          curve: Interval(
+            index * 0.12,
+            (index * 0.12 + 0.4).clamp(0.0, 1.0),
+            curve: Curves.easeOutBack,
+          ),
         ),
       ),
     );
@@ -152,7 +159,14 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
   }
 
   void _setupColorFocus() {
-    final colors = [Colors.red, Colors.blue, Colors.green, Colors.yellow, Colors.purple, Colors.orange];
+    final colors = [
+      Colors.red,
+      Colors.blue,
+      Colors.green,
+      Colors.yellow,
+      Colors.purple,
+      Colors.orange,
+    ];
     final random = Random();
     targetColor = colors[random.nextInt(colors.length)];
 
@@ -172,7 +186,10 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     final distractors = ['🌙', '☀️', '🌟', '💫', '✨'];
     final random = Random();
 
-    starGrid = List.generate(16, (_) => distractors[random.nextInt(distractors.length)]);
+    starGrid = List.generate(
+      16,
+      (_) => distractors[random.nextInt(distractors.length)],
+    );
     starIndex = random.nextInt(16);
     starGrid[starIndex] = '⭐';
     starFound = false;
@@ -195,7 +212,11 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
         score += 5;
       });
 
-      int tappedCorrect = colorTapped.asMap().entries.where((e) => e.value && colorGrid[e.key] == targetColor).length;
+      int tappedCorrect = colorTapped
+          .asMap()
+          .entries
+          .where((e) => e.value && colorGrid[e.key] == targetColor)
+          .length;
       if (tappedCorrect == correctColorCount) {
         _speakText('Amazing! You found all colors!');
         _showSuccessDialog('You found all matching colors!');
@@ -235,22 +256,24 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         contentPadding: EdgeInsets.zero,
         content: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF667EEA).withValues(alpha: 0.4),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: const Offset(0, 8),
               ),
             ],
@@ -259,21 +282,45 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 70,
-                height: 70,
+                width: 70.w,
+                height: 70.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Center(child: Text('🎉', style: TextStyle(fontSize: 36))),
+                child: const Center(
+                  child: Text('🎉', style: TextStyle(fontSize: 36)),
+                ),
               ),
-              const SizedBox(height: 12),
-              const Text('Excellent!', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              Text(message, textAlign: TextAlign.center, style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 15)),
-              const SizedBox(height: 8),
-              Text('Score: $score', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
-              const SizedBox(height: 20),
+              SizedBox(height: 12.h),
+              const Text(
+                'Excellent!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.9),
+                  fontSize: 15,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                'Score: $score',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(height: 20.h),
               Row(
                 children: [
                   Expanded(
@@ -283,16 +330,24 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                         setState(() => isPlaying = false);
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
-                        child: const Text('Back', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                        child: const Text(
+                          'Back',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
@@ -300,21 +355,31 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                         _startGame(currentGame);
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                              blurRadius: 8,
+                              color: const Color(
+                                0xFFFF6B6B,
+                              ).withValues(alpha: 0.4),
+                              blurRadius: 8.r,
                               offset: const Offset(0, 3),
                             ),
                           ],
                         ),
-                        child: const Text('Play Again', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                        child: const Text(
+                          'Play Again',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -349,7 +414,7 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: GestureDetector(
             onTap: () {
               if (isPlaying) {
@@ -361,39 +426,51 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 20.r,
+              ),
             ),
           ),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              ),
+            ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Focus Training", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text(
+          "Focus Training",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: () {
               ProgressService.to.resetProgress(ProgressService.kFocusTraining);
@@ -404,7 +481,12 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -469,47 +551,57 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
 
   Widget _buildExerciseList() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Progress bar
           Obx(() {
-            final progress = ProgressService.to
-                    .getProgressPercentage(ProgressService.kFocusTraining) /
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kFocusTraining,
+                ) /
                 100;
-            final progressString = ProgressService.to
-                .getProgressString(ProgressService.kFocusTraining);
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kFocusTraining,
+            );
             return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: EdgeInsets.only(bottom: 16.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -521,23 +613,24 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
             );
           }),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
 
           // Exercise cards with animation - 2 column grid
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
+              mainAxisSpacing: 16.r,
+              crossAxisSpacing: 16.r,
               childAspectRatio: 0.85,
             ),
             itemCount: focusExercises.length,
             itemBuilder: (context, index) {
               final exercise = focusExercises[index];
               final animIndex = index.clamp(0, _cardAnimations.length - 1);
-              final gradient = _exerciseGradients[index % _exerciseGradients.length];
+              final gradient =
+                  _exerciseGradients[index % _exerciseGradients.length];
 
               return AnimatedBuilder(
                 animation: _cardAnimations[animIndex],
@@ -557,7 +650,10 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                     final offset = (index % 2 == 0)
                         ? _floatAnimation.value * 0.5
                         : -_floatAnimation.value * 0.5;
-                    return Transform.translate(offset: Offset(0, offset), child: child);
+                    return Transform.translate(
+                      offset: Offset(0, offset),
+                      child: child,
+                    );
                   },
                   child: GestureDetector(
                     onTap: () {
@@ -575,11 +671,11 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 8,
+                            blurRadius: 8.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
@@ -587,11 +683,11 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                       child: Stack(
                         children: [
                           Positioned(
-                            top: -15,
-                            right: -15,
+                            top: -15.h,
+                            right: -15.w,
                             child: Container(
-                              width: 50,
-                              height: 50,
+                              width: 50.w,
+                              height: 50.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.1),
@@ -599,11 +695,11 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                             ),
                           ),
                           Positioned(
-                            bottom: -10,
-                            left: -10,
+                            bottom: -10.h,
+                            left: -10.w,
                             child: Container(
-                              width: 40,
-                              height: 40,
+                              width: 40.w,
+                              height: 40.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.08),
@@ -611,37 +707,59 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(14),
+                            padding: EdgeInsets.all(14.r),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withValues(alpha: 0.3),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Center(child: Text(exercise['emoji'], style: const TextStyle(fontSize: 30))),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  exercise['name'],
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                                  child: Center(
+                                    child: Text(
+                                      exercise['emoji'],
+                                      style: const TextStyle(fontSize: 30),
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  exercise['description'],
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 11),
+                                SizedBox(height: 10.h),
+                                Flexible(
+                                  child: Text(
+                                    exercise['name'],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0x40000000),
+                                          offset: Offset(1, 1),
+                                          blurRadius: 3.r,
+                                        ),
+                                      ],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Flexible(
+                                  child: Text(
+                                    exercise['description'],
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.85,
+                                      ),
+                                      fontSize: 11,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -655,7 +773,7 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
             },
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Tips section
           TweenAnimationBuilder<double>(
@@ -672,19 +790,35 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
               );
             },
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: Column(
-                children: const [
-                  Text("💡 Focus Tips", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 12),
-                  Text("• Take deep breaths before starting", style: TextStyle(color: Colors.white70, fontSize: 14)),
-                  Text("• Find a quiet place to practice", style: TextStyle(color: Colors.white70, fontSize: 14)),
-                  Text("• Try a little bit every day", style: TextStyle(color: Colors.white70, fontSize: 14)),
+                children: [
+                  Text(
+                    "💡 Focus Tips",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    "• Take deep breaths before starting",
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                  Text(
+                    "• Find a quiet place to practice",
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                  Text(
+                    "• Try a little bit every day",
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
                 ],
               ),
             ),
@@ -721,7 +855,11 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     [Color(0xFFF59E0B), Color(0xFFEF4444)],
   ];
 
-  Widget _buildGameTitleCard({required String emoji, required String title, String? subtitle}) {
+  Widget _buildGameTitleCard({
+    required String emoji,
+    required String title,
+    String? subtitle,
+  }) {
     return AnimatedBuilder(
       animation: _floatController,
       builder: (context, child) {
@@ -731,29 +869,42 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        margin: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
           children: [
-            Text(title, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             if (subtitle != null) ...[
-              const SizedBox(height: 4),
-              Text(subtitle, style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 14)),
+              SizedBox(height: 4.h),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  fontSize: 14,
+                ),
+              ),
             ],
           ],
         ),
@@ -761,7 +912,12 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     );
   }
 
-  Widget _buildGameCard({required Widget child, required List<Color> gradient, VoidCallback? onTap, int index = 0}) {
+  Widget _buildGameCard({
+    required Widget child,
+    required List<Color> gradient,
+    VoidCallback? onTap,
+    int index = 0,
+  }) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 400 + (index * 80)),
@@ -775,7 +931,9 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
       child: AnimatedBuilder(
         animation: _floatController,
         builder: (context, child) {
-          final offset = (index % 2 == 0) ? _floatAnimation.value * 0.5 : -_floatAnimation.value * 0.5;
+          final offset = (index % 2 == 0)
+              ? _floatAnimation.value * 0.5
+              : -_floatAnimation.value * 0.5;
           return Transform.translate(offset: Offset(0, offset), child: child);
         },
         child: GestureDetector(
@@ -787,29 +945,39 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
-                BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4)),
+                BoxShadow(
+                  color: gradient[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
             child: Stack(
               children: [
                 Positioned(
-                  top: -10,
-                  right: -10,
+                  top: -10.h,
+                  right: -10.w,
                   child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.1)),
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.1),
+                    ),
                   ),
                 ),
                 Positioned(
-                  bottom: -8,
-                  left: -8,
+                  bottom: -8.h,
+                  left: -8.w,
                   child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.08)),
+                    width: 30.w,
+                    height: 30.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.08),
+                    ),
                   ),
                 ),
                 Center(child: child),
@@ -825,32 +993,36 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildGameTitleCard(emoji: '🔍', title: '🔍 Find the Different One!'),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
               ),
               itemCount: 9,
               itemBuilder: (context, index) {
-                final gradient = _gameCardGradients[index % _gameCardGradients.length];
+                final gradient =
+                    _gameCardGradients[index % _gameCardGradients.length];
                 return _buildGameCard(
                   index: index,
                   gradient: gradient,
                   onTap: () => _checkFindTheObject(index),
-                  child: Text(gridItems[index], style: const TextStyle(fontSize: 45)),
+                  child: Text(
+                    gridItems[index],
+                    style: const TextStyle(fontSize: 45),
+                  ),
                 );
               },
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );
@@ -860,9 +1032,12 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
-          _buildGameTitleCard(emoji: '🎨', title: '🎨 Tap All Matching Colors!'),
-          const SizedBox(height: 16),
+          SizedBox(height: 20.h),
+          _buildGameTitleCard(
+            emoji: '🎨',
+            title: '🎨 Tap All Matching Colors!',
+          ),
+          SizedBox(height: 16.h),
           AnimatedBuilder(
             animation: _floatController,
             builder: (context, child) {
@@ -872,29 +1047,42 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
               );
             },
             child: Container(
-              width: 80,
-              height: 80,
+              width: 80.w,
+              height: 80.h,
               decoration: BoxDecoration(
                 color: targetColor,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 4),
                 boxShadow: [
-                  BoxShadow(color: targetColor.withValues(alpha: 0.5), blurRadius: 12, spreadRadius: 2),
+                  BoxShadow(
+                    color: targetColor.withValues(alpha: 0.5),
+                    blurRadius: 12.r,
+                    spreadRadius: 2.r,
+                  ),
                 ],
               ),
-              child: const Center(child: Text("Find\nThis", textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+              child: const Center(
+                child: Text(
+                  "Find\nThis",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 10.r,
+                crossAxisSpacing: 10.r,
               ),
               itemCount: 12,
               itemBuilder: (context, index) {
@@ -905,28 +1093,48 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                   builder: (context, value, child) {
                     return Transform.translate(
                       offset: Offset(0, 30 * (1 - value)),
-                      child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
+                      child: Opacity(
+                        opacity: value.clamp(0.0, 1.0),
+                        child: child,
+                      ),
                     );
                   },
                   child: AnimatedBuilder(
                     animation: _floatController,
                     builder: (context, child) {
-                      final offset = (index % 2 == 0) ? _floatAnimation.value * 0.5 : -_floatAnimation.value * 0.5;
-                      return Transform.translate(offset: Offset(0, offset), child: child);
+                      final offset = (index % 2 == 0)
+                          ? _floatAnimation.value * 0.5
+                          : -_floatAnimation.value * 0.5;
+                      return Transform.translate(
+                        offset: Offset(0, offset),
+                        child: child,
+                      );
                     },
                     child: GestureDetector(
                       onTap: () => _checkColorTap(index),
                       child: Container(
                         decoration: BoxDecoration(
                           color: colorGrid[index],
-                          borderRadius: BorderRadius.circular(16),
-                          border: colorTapped[index] ? Border.all(color: Colors.white, width: 3) : null,
+                          borderRadius: BorderRadius.circular(16.r),
+                          border: colorTapped[index]
+                              ? Border.all(color: Colors.white, width: 3)
+                              : null,
                           boxShadow: [
-                            BoxShadow(color: colorGrid[index].withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
+                            BoxShadow(
+                              color: colorGrid[index].withValues(alpha: 0.5),
+                              blurRadius: 10.r,
+                              offset: const Offset(0, 4),
+                            ),
                           ],
                         ),
                         child: colorTapped[index]
-                            ? const Center(child: Icon(Icons.check, color: Colors.white, size: 30))
+                            ? Center(
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 30.r,
+                                ),
+                              )
                             : null,
                       ),
                     ),
@@ -935,7 +1143,7 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
               },
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );
@@ -945,9 +1153,9 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildGameTitleCard(emoji: '🔢', title: '🔢 Tap Numbers in Order!'),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           AnimatedBuilder(
             animation: _floatController,
             builder: (context, child) {
@@ -957,27 +1165,40 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
               );
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [Color(0xFF667EEA), Color(0xFF764BA2)]),
-                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                ),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
-                  BoxShadow(color: const Color(0xFF667EEA).withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 3)),
+                  BoxShadow(
+                    color: const Color(0xFF667EEA).withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 3),
+                  ),
                 ],
               ),
-              child: Text("Find: $nextNumber", style: const TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold)),
+              child: Text(
+                "Find: $nextNumber",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
               ),
               itemCount: 9,
               itemBuilder: (context, index) {
@@ -991,39 +1212,44 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                   onTap: isTapped ? null : () => _checkNumberTap(index),
                   child: Text(
                     '${numberGrid[index]}',
-                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 );
               },
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );
   }
 
-
   Widget _buildSpotTheStarGame() {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildGameTitleCard(
             emoji: '⭐',
             title: '⭐ Spot the Star!',
-            subtitle: starFound ? "Found it! 🎉" : "Find the ⭐ among the shapes",
+            subtitle: starFound
+                ? "Found it! 🎉"
+                : "Find the ⭐ among the shapes",
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 10.r,
+                crossAxisSpacing: 10.r,
               ),
               itemCount: 16,
               itemBuilder: (context, index) {
@@ -1035,12 +1261,15 @@ class _FocusImprovementPageState extends State<FocusImprovementPage> with Ticker
                   index: index,
                   gradient: gradient,
                   onTap: starFound ? null : () => _checkStarTap(index),
-                  child: Text(starGrid[index], style: const TextStyle(fontSize: 28)),
+                  child: Text(
+                    starGrid[index],
+                    style: const TextStyle(fontSize: 28),
+                  ),
                 );
               },
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );

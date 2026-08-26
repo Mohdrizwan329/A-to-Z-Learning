@@ -7,6 +7,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class HindiLettersPage extends StatefulWidget {
   final List<Color>? gradient;
 
@@ -39,12 +41,12 @@ class _HindiLettersPageState extends State<HindiLettersPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => controller.resetSelection(),
         ),
@@ -56,36 +58,43 @@ class _HindiLettersPageState extends State<HindiLettersPage>
             final progress = controller.progressPercentage / 100;
             final progressString = controller.progressString;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -98,11 +107,11 @@ class _HindiLettersPageState extends State<HindiLettersPage>
           }),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              padding: EdgeInsets.all(12.r),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                mainAxisSpacing: 16.r,
+                crossAxisSpacing: 16.r,
                 childAspectRatio: 1,
               ),
               itemCount: controller.letters.length,
@@ -132,18 +141,18 @@ class _HindiLettersPageState extends State<HindiLettersPage>
                           // Show checkmark if completed
                           if (isCompleted)
                             Positioned(
-                              bottom: 6,
-                              right: 6,
+                              bottom: 6.h,
+                              right: 6.w,
                               child: Container(
-                                padding: const EdgeInsets.all(3),
+                                padding: EdgeInsets.all(3.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 14,
+                                  size: 14.r,
                                 ),
                               ),
                             ),
@@ -161,41 +170,44 @@ class _HindiLettersPageState extends State<HindiLettersPage>
   }
 
   Widget _buildCardContent(Map<String, String> item) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Hindi letter
-        GradientCardText(text: item['letter']!, fontSize: 30),
-        // Emoji in circle
-        Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.3),
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(item['emoji']!, style: const TextStyle(fontSize: 36)),
-          ),
-        ),
-        const SizedBox(height: 8),
-        // Meaning badge
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-
-          child: Text(
-            item['meaning']!,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              height: 1.1,
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Hindi letter
+          GradientCardText(text: item['letter']!, fontSize: 30),
+          // Emoji in circle
+          Container(
+            width: 70.w,
+            height: 70.h,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.3),
+              shape: BoxShape.circle,
             ),
-            textAlign: TextAlign.center,
+            child: Center(
+              child: Text(item['emoji']!, style: const TextStyle(fontSize: 36)),
+            ),
           ),
-        ),
-      ],
+          SizedBox(height: 8.h),
+          // Meaning badge
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+
+            child: Text(
+              item['meaning']!,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                height: 1.1,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

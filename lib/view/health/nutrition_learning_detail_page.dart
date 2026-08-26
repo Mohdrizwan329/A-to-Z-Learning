@@ -5,6 +5,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class NutritionLearningDetailPage extends StatefulWidget {
   final int sectionIndex;
 
@@ -23,7 +25,10 @@ class _NutritionLearningDetailPageState
       'title': 'What is Nutrition?',
       'emoji': '🥗',
       'content': [
-        {'icon': '🍎', 'text': 'Nutrition is about eating the right foods to stay healthy'},
+        {
+          'icon': '🍎',
+          'text': 'Nutrition is about eating the right foods to stay healthy',
+        },
         {'icon': '💪', 'text': 'Good food gives us energy to play and learn'},
         {'icon': '🧠', 'text': 'It helps our brain think better'},
         {'icon': '📏', 'text': 'It helps us grow tall and strong'},
@@ -64,19 +69,53 @@ class _NutritionLearningDetailPageState
       'title': 'Important Nutrients',
       'emoji': '💊',
       'nutrients': [
-        {'name': 'Vitamin A', 'emoji': '🥕', 'benefit': 'Good for eyes', 'found': 'Carrots, papaya'},
-        {'name': 'Vitamin C', 'emoji': '🍊', 'benefit': 'Fights cold & flu', 'found': 'Oranges, lemons'},
-        {'name': 'Vitamin D', 'emoji': '☀️', 'benefit': 'Strong bones', 'found': 'Sunlight, milk'},
-        {'name': 'Calcium', 'emoji': '🥛', 'benefit': 'Healthy teeth & bones', 'found': 'Milk, cheese'},
-        {'name': 'Iron', 'emoji': '🥬', 'benefit': 'Makes blood strong', 'found': 'Spinach, dates'},
-        {'name': 'Protein', 'emoji': '🥚', 'benefit': 'Builds muscles', 'found': 'Eggs, dal, nuts'},
+        {
+          'name': 'Vitamin A',
+          'emoji': '🥕',
+          'benefit': 'Good for eyes',
+          'found': 'Carrots, papaya',
+        },
+        {
+          'name': 'Vitamin C',
+          'emoji': '🍊',
+          'benefit': 'Fights cold & flu',
+          'found': 'Oranges, lemons',
+        },
+        {
+          'name': 'Vitamin D',
+          'emoji': '☀️',
+          'benefit': 'Strong bones',
+          'found': 'Sunlight, milk',
+        },
+        {
+          'name': 'Calcium',
+          'emoji': '🥛',
+          'benefit': 'Healthy teeth & bones',
+          'found': 'Milk, cheese',
+        },
+        {
+          'name': 'Iron',
+          'emoji': '🥬',
+          'benefit': 'Makes blood strong',
+          'found': 'Spinach, dates',
+        },
+        {
+          'name': 'Protein',
+          'emoji': '🥚',
+          'benefit': 'Builds muscles',
+          'found': 'Eggs, dal, nuts',
+        },
       ],
     },
     {
       'title': 'My Healthy Plate',
       'emoji': '🍽️',
       'plate': [
-        {'section': 'Half Plate', 'fill': 'Vegetables & Fruits', 'emoji': '🥗🍎'},
+        {
+          'section': 'Half Plate',
+          'fill': 'Vegetables & Fruits',
+          'emoji': '🥗🍎',
+        },
         {'section': 'Quarter', 'fill': 'Grains (Roti/Rice)', 'emoji': '🍚'},
         {'section': 'Quarter', 'fill': 'Protein (Dal/Egg)', 'emoji': '🫘'},
         {'section': 'Side', 'fill': 'Dairy (Milk/Curd)', 'emoji': '🥛'},
@@ -110,14 +149,42 @@ class _NutritionLearningDetailPageState
       'title': 'Healthy Eating Tips',
       'emoji': '⭐',
       'tips': [
-        {'tip': 'Eat breakfast every morning', 'emoji': '🌅', 'why': 'Starts your day with energy'},
-        {'tip': 'Eat 5 fruits and vegetables daily', 'emoji': '🍏', 'why': 'Full of vitamins'},
+        {
+          'tip': 'Eat breakfast every morning',
+          'emoji': '🌅',
+          'why': 'Starts your day with energy',
+        },
+        {
+          'tip': 'Eat 5 fruits and vegetables daily',
+          'emoji': '🍏',
+          'why': 'Full of vitamins',
+        },
         {'tip': 'Chew your food well', 'emoji': '😋', 'why': 'Helps digestion'},
-        {'tip': 'Don\'t skip meals', 'emoji': '⏰', 'why': 'Keeps energy steady'},
-        {'tip': 'Eat slowly, not in a hurry', 'emoji': '🐢', 'why': 'Helps you feel full'},
-        {'tip': 'Limit sweets and chips', 'emoji': '🍫', 'why': 'Too much is unhealthy'},
-        {'tip': 'Try new healthy foods', 'emoji': '🥦', 'why': 'Variety is good'},
-        {'tip': 'Wash hands before eating', 'emoji': '🧼', 'why': 'Keeps germs away'},
+        {
+          'tip': 'Don\'t skip meals',
+          'emoji': '⏰',
+          'why': 'Keeps energy steady',
+        },
+        {
+          'tip': 'Eat slowly, not in a hurry',
+          'emoji': '🐢',
+          'why': 'Helps you feel full',
+        },
+        {
+          'tip': 'Limit sweets and chips',
+          'emoji': '🍫',
+          'why': 'Too much is unhealthy',
+        },
+        {
+          'tip': 'Try new healthy foods',
+          'emoji': '🥦',
+          'why': 'Variety is good',
+        },
+        {
+          'tip': 'Wash hands before eating',
+          'emoji': '🧼',
+          'why': 'Keeps germs away',
+        },
       ],
     },
   ];
@@ -143,7 +210,7 @@ class _NutritionLearningDetailPageState
     return GradientScaffold(
       title: section['title'],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           children: [
             // Main Card
@@ -151,18 +218,18 @@ class _NutritionLearningDetailPageState
               index: 0,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(24.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -173,7 +240,7 @@ class _NutritionLearningDetailPageState
                       section['emoji'],
                       style: const TextStyle(fontSize: 70),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       section['title'],
                       style: GoogleFonts.poppins(
@@ -183,7 +250,7 @@ class _NutritionLearningDetailPageState
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.3),
-                            blurRadius: 4,
+                            blurRadius: 4.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -194,23 +261,18 @@ class _NutritionLearningDetailPageState
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Content based on type
-            if (section.containsKey('content'))
-              _buildContentCards(section),
-            if (section.containsKey('groups'))
-              _buildFoodGroupCards(section),
-            if (section.containsKey('nutrients'))
-              _buildNutrientCards(section),
-            if (section.containsKey('plate'))
-              _buildPlateCards(section),
+            if (section.containsKey('content')) _buildContentCards(section),
+            if (section.containsKey('groups')) _buildFoodGroupCards(section),
+            if (section.containsKey('nutrients')) _buildNutrientCards(section),
+            if (section.containsKey('plate')) _buildPlateCards(section),
             if (section.containsKey('comparison'))
               _buildComparisonCards(section),
             if (section.containsKey('waterFacts'))
               _buildWaterFactCards(section),
-            if (section.containsKey('tips'))
-              _buildTipCards(section),
-            const SizedBox(height: 16),
+            if (section.containsKey('tips')) _buildTipCards(section),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -219,28 +281,30 @@ class _NutritionLearningDetailPageState
 
   Widget _buildContentCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['content'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['content'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final item = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -248,7 +312,7 @@ class _NutritionLearningDetailPageState
             child: Row(
               children: [
                 Text(item['icon'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Text(
                     item['text'],
@@ -259,7 +323,7 @@ class _NutritionLearningDetailPageState
                       shadows: [
                         Shadow(
                           color: Colors.black.withValues(alpha: 0.25),
-                          blurRadius: 3,
+                          blurRadius: 3.r,
                           offset: const Offset(0, 1),
                         ),
                       ],
@@ -276,28 +340,30 @@ class _NutritionLearningDetailPageState
 
   Widget _buildFoodGroupCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['groups'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['groups'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final group = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -306,9 +372,8 @@ class _NutritionLearningDetailPageState
               children: [
                 Row(
                   children: [
-                    Text(group['emoji'],
-                        style: const TextStyle(fontSize: 32)),
-                    const SizedBox(width: 12),
+                    Text(group['emoji'], style: const TextStyle(fontSize: 32)),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,7 +387,7 @@ class _NutritionLearningDetailPageState
                               shadows: [
                                 Shadow(
                                   color: Colors.black.withValues(alpha: 0.25),
-                                  blurRadius: 3,
+                                  blurRadius: 3.r,
                                   offset: const Offset(0, 1),
                                 ),
                               ],
@@ -336,7 +401,7 @@ class _NutritionLearningDetailPageState
                               shadows: [
                                 Shadow(
                                   color: Colors.black.withValues(alpha: 0.2),
-                                  blurRadius: 3,
+                                  blurRadius: 3.r,
                                   offset: const Offset(0, 1),
                                 ),
                               ],
@@ -347,17 +412,19 @@ class _NutritionLearningDetailPageState
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 8.r,
+                  runSpacing: 8.r,
                   children: (group['foods'] as List).map<Widget>((food) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         food,
@@ -367,7 +434,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 2,
+                              blurRadius: 2.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -386,37 +453,38 @@ class _NutritionLearningDetailPageState
 
   Widget _buildNutrientCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['nutrients'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['nutrients'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final nutrient = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Row(
               children: [
-                Text(nutrient['emoji'],
-                    style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                Text(nutrient['emoji'], style: const TextStyle(fontSize: 32)),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,7 +498,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.25),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -444,7 +512,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -459,7 +527,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -478,28 +546,28 @@ class _NutritionLearningDetailPageState
 
   Widget _buildPlateCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['plate'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['plate'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final item = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -507,7 +575,7 @@ class _NutritionLearningDetailPageState
             child: Row(
               children: [
                 Text(item['emoji'], style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,7 +589,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.25),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -535,7 +603,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -560,11 +628,11 @@ class _NutritionLearningDetailPageState
         buildFloatingItem(
           index: 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(12),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(12.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
@@ -604,24 +672,25 @@ class _NutritionLearningDetailPageState
         ...comparisons.asMap().entries.map<Widget>((entry) {
           final idx = entry.key;
           final item = entry.value;
-          final cardGradient =
-              AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+          final cardGradient = AppColors.getGradientForIndex(
+            widget.sectionIndex + idx + 1,
+          );
           return buildFloatingItem(
             index: idx + 2,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: cardGradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: cardGradient[0].withValues(alpha: 0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: const Offset(0, 3),
                   ),
                 ],
@@ -638,7 +707,7 @@ class _NutritionLearningDetailPageState
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.25),
-                            blurRadius: 3,
+                            blurRadius: 3.r,
                             offset: const Offset(0, 1),
                           ),
                         ],
@@ -655,7 +724,7 @@ class _NutritionLearningDetailPageState
                       shadows: [
                         Shadow(
                           color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 3,
+                          blurRadius: 3.r,
                           offset: const Offset(0, 1),
                         ),
                       ],
@@ -671,7 +740,7 @@ class _NutritionLearningDetailPageState
                         shadows: [
                           Shadow(
                             color: Colors.black.withValues(alpha: 0.25),
-                            blurRadius: 3,
+                            blurRadius: 3.r,
                             offset: const Offset(0, 1),
                           ),
                         ],
@@ -690,28 +759,30 @@ class _NutritionLearningDetailPageState
 
   Widget _buildWaterFactCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['waterFacts'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['waterFacts'] as List).asMap().entries.map<Widget>((
+        entry,
+      ) {
         final idx = entry.key;
         final fact = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -719,7 +790,7 @@ class _NutritionLearningDetailPageState
             child: Row(
               children: [
                 Text(fact['emoji'], style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Text(
                     fact['fact'],
@@ -730,7 +801,7 @@ class _NutritionLearningDetailPageState
                       shadows: [
                         Shadow(
                           color: Colors.black.withValues(alpha: 0.25),
-                          blurRadius: 3,
+                          blurRadius: 3.r,
                           offset: const Offset(0, 1),
                         ),
                       ],
@@ -747,28 +818,28 @@ class _NutritionLearningDetailPageState
 
   Widget _buildTipCards(Map<String, dynamic> section) {
     return Column(
-      children:
-          (section['tips'] as List).asMap().entries.map<Widget>((entry) {
+      children: (section['tips'] as List).asMap().entries.map<Widget>((entry) {
         final idx = entry.key;
         final tip = entry.value;
-        final cardGradient =
-            AppColors.getGradientForIndex(widget.sectionIndex + idx + 1);
+        final cardGradient = AppColors.getGradientForIndex(
+          widget.sectionIndex + idx + 1,
+        );
         return buildFloatingItem(
           index: idx + 1,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: cardGradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: cardGradient[0].withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -776,7 +847,7 @@ class _NutritionLearningDetailPageState
             child: Row(
               children: [
                 Text(tip['emoji'], style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -790,7 +861,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.25),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],
@@ -805,7 +876,7 @@ class _NutritionLearningDetailPageState
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 3,
+                              blurRadius: 3.r,
                               offset: const Offset(0, 1),
                             ),
                           ],

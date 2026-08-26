@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AiAwarenessPage extends StatefulWidget {
   const AiAwarenessPage({super.key});
 
@@ -18,14 +20,32 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'title': 'What is AI?',
       'emoji': '🤖',
       'color': Color(0xFF673AB7),
-      'intro': 'AI stands for Artificial Intelligence. It\'s a computer program that can think and learn!',
+      'intro':
+          'AI stands for Artificial Intelligence. It\'s a computer program that can think and learn!',
       'explanation': [
-        {'human': 'Our brain thinks', 'ai': 'AI uses computer programs to think', 'emoji': '🧠'},
-        {'human': 'We learn from experience', 'ai': 'AI learns from lots of data', 'emoji': '📚'},
-        {'human': 'We recognize faces', 'ai': 'AI can recognize faces too!', 'emoji': '👤'},
-        {'human': 'We understand speech', 'ai': 'AI can understand voice commands', 'emoji': '🗣️'},
+        {
+          'human': 'Our brain thinks',
+          'ai': 'AI uses computer programs to think',
+          'emoji': '🧠',
+        },
+        {
+          'human': 'We learn from experience',
+          'ai': 'AI learns from lots of data',
+          'emoji': '📚',
+        },
+        {
+          'human': 'We recognize faces',
+          'ai': 'AI can recognize faces too!',
+          'emoji': '👤',
+        },
+        {
+          'human': 'We understand speech',
+          'ai': 'AI can understand voice commands',
+          'emoji': '🗣️',
+        },
       ],
-      'funFact': 'AI can learn to play games, recognize pictures, and even create art!',
+      'funFact':
+          'AI can learn to play games, recognize pictures, and even create art!',
     },
     {
       'title': 'AI in Daily Life',
@@ -33,12 +53,42 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'color': Color(0xFF2196F3),
       'intro': 'AI is all around us! Here are places you might find AI:',
       'examples': [
-        {'name': 'Voice Assistants', 'emoji': '🔊', 'example': 'Alexa, Siri, Google Assistant', 'does': 'Answers questions, plays music'},
-        {'name': 'Smart TVs', 'emoji': '📺', 'example': 'Netflix, YouTube', 'does': 'Suggests shows you might like'},
-        {'name': 'Games', 'emoji': '🎮', 'example': 'Video game characters', 'does': 'Computer players that play against you'},
-        {'name': 'Cameras', 'emoji': '📷', 'example': 'Phone camera', 'does': 'Recognizes faces, adds filters'},
-        {'name': 'Toys', 'emoji': '🧸', 'example': 'Smart robots, talking toys', 'does': 'Responds to what you say'},
-        {'name': 'Search', 'emoji': '🔍', 'example': 'Google', 'does': 'Finds what you\'re looking for'},
+        {
+          'name': 'Voice Assistants',
+          'emoji': '🔊',
+          'example': 'Alexa, Siri, Google Assistant',
+          'does': 'Answers questions, plays music',
+        },
+        {
+          'name': 'Smart TVs',
+          'emoji': '📺',
+          'example': 'Netflix, YouTube',
+          'does': 'Suggests shows you might like',
+        },
+        {
+          'name': 'Games',
+          'emoji': '🎮',
+          'example': 'Video game characters',
+          'does': 'Computer players that play against you',
+        },
+        {
+          'name': 'Cameras',
+          'emoji': '📷',
+          'example': 'Phone camera',
+          'does': 'Recognizes faces, adds filters',
+        },
+        {
+          'name': 'Toys',
+          'emoji': '🧸',
+          'example': 'Smart robots, talking toys',
+          'does': 'Responds to what you say',
+        },
+        {
+          'name': 'Search',
+          'emoji': '🔍',
+          'example': 'Google',
+          'does': 'Finds what you\'re looking for',
+        },
       ],
     },
     {
@@ -47,15 +97,39 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'color': Color(0xFF4CAF50),
       'intro': 'AI learns by looking at lots and lots of examples!',
       'steps': [
-        {'step': 'Collect Data', 'emoji': '📊', 'desc': 'AI needs lots of pictures, words, or numbers to learn from'},
-        {'step': 'Find Patterns', 'emoji': '🔍', 'desc': 'AI looks for what\'s the same in all examples'},
-        {'step': 'Learn Rules', 'emoji': '📝', 'desc': 'AI figures out rules from the patterns'},
-        {'step': 'Make Predictions', 'emoji': '🎯', 'desc': 'AI uses rules to guess about new things'},
-        {'step': 'Get Better', 'emoji': '📈', 'desc': 'When AI is wrong, it learns and improves'},
+        {
+          'step': 'Collect Data',
+          'emoji': '📊',
+          'desc': 'AI needs lots of pictures, words, or numbers to learn from',
+        },
+        {
+          'step': 'Find Patterns',
+          'emoji': '🔍',
+          'desc': 'AI looks for what\'s the same in all examples',
+        },
+        {
+          'step': 'Learn Rules',
+          'emoji': '📝',
+          'desc': 'AI figures out rules from the patterns',
+        },
+        {
+          'step': 'Make Predictions',
+          'emoji': '🎯',
+          'desc': 'AI uses rules to guess about new things',
+        },
+        {
+          'step': 'Get Better',
+          'emoji': '📈',
+          'desc': 'When AI is wrong, it learns and improves',
+        },
       ],
       'example': {
         'title': 'Example: Teaching AI to recognize cats',
-        'process': ['Show it 1000s of cat photos', 'AI learns: cats have whiskers, pointy ears, fur', 'Now it can spot cats in new photos!'],
+        'process': [
+          'Show it 1000s of cat photos',
+          'AI learns: cats have whiskers, pointy ears, fur',
+          'Now it can spot cats in new photos!',
+        ],
       },
     },
     {
@@ -63,12 +137,56 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'emoji': '✨',
       'color': Color(0xFFFF9800),
       'abilities': [
-        {'can': 'See', 'emoji': '👁️', 'examples': ['Recognize faces', 'Read text in photos', 'Identify objects']},
-        {'can': 'Hear', 'emoji': '👂', 'examples': ['Understand speech', 'Transcribe audio', 'Identify sounds']},
-        {'can': 'Speak', 'emoji': '🗣️', 'examples': ['Read text aloud', 'Answer questions', 'Have conversations']},
-        {'can': 'Create', 'emoji': '🎨', 'examples': ['Make art', 'Write stories', 'Compose music']},
-        {'can': 'Play', 'emoji': '🎮', 'examples': ['Beat you at chess', 'Play video games', 'Solve puzzles']},
-        {'can': 'Help', 'emoji': '🤝', 'examples': ['Answer homework questions', 'Translate languages', 'Find information']},
+        {
+          'can': 'See',
+          'emoji': '👁️',
+          'examples': [
+            'Recognize faces',
+            'Read text in photos',
+            'Identify objects',
+          ],
+        },
+        {
+          'can': 'Hear',
+          'emoji': '👂',
+          'examples': [
+            'Understand speech',
+            'Transcribe audio',
+            'Identify sounds',
+          ],
+        },
+        {
+          'can': 'Speak',
+          'emoji': '🗣️',
+          'examples': [
+            'Read text aloud',
+            'Answer questions',
+            'Have conversations',
+          ],
+        },
+        {
+          'can': 'Create',
+          'emoji': '🎨',
+          'examples': ['Make art', 'Write stories', 'Compose music'],
+        },
+        {
+          'can': 'Play',
+          'emoji': '🎮',
+          'examples': [
+            'Beat you at chess',
+            'Play video games',
+            'Solve puzzles',
+          ],
+        },
+        {
+          'can': 'Help',
+          'emoji': '🤝',
+          'examples': [
+            'Answer homework questions',
+            'Translate languages',
+            'Find information',
+          ],
+        },
       ],
     },
     {
@@ -77,12 +195,36 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'color': Color(0xFFE91E63),
       'intro': 'AI is smart, but it\'s not perfect! Here\'s what AI can\'t do:',
       'limitations': [
-        {'cant': 'Feel emotions', 'emoji': '❤️', 'why': 'AI doesn\'t have real feelings like you do'},
-        {'cant': 'Be creative like humans', 'emoji': '💡', 'why': 'AI copies patterns, it doesn\'t truly imagine'},
-        {'cant': 'Understand everything', 'emoji': '🤔', 'why': 'AI can make mistakes with tricky questions'},
-        {'cant': 'Have opinions', 'emoji': '💭', 'why': 'AI doesn\'t have personal beliefs'},
-        {'cant': 'Replace friends', 'emoji': '👫', 'why': 'Real friendships are special and human'},
-        {'cant': 'Always be right', 'emoji': '❌', 'why': 'AI can make mistakes! Always double-check'},
+        {
+          'cant': 'Feel emotions',
+          'emoji': '❤️',
+          'why': 'AI doesn\'t have real feelings like you do',
+        },
+        {
+          'cant': 'Be creative like humans',
+          'emoji': '💡',
+          'why': 'AI copies patterns, it doesn\'t truly imagine',
+        },
+        {
+          'cant': 'Understand everything',
+          'emoji': '🤔',
+          'why': 'AI can make mistakes with tricky questions',
+        },
+        {
+          'cant': 'Have opinions',
+          'emoji': '💭',
+          'why': 'AI doesn\'t have personal beliefs',
+        },
+        {
+          'cant': 'Replace friends',
+          'emoji': '👫',
+          'why': 'Real friendships are special and human',
+        },
+        {
+          'cant': 'Always be right',
+          'emoji': '❌',
+          'why': 'AI can make mistakes! Always double-check',
+        },
       ],
       'remember': 'AI is a tool to help us, not to replace us!',
     },
@@ -91,12 +233,36 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'emoji': '🛡️',
       'color': Color(0xFF00BCD4),
       'tips': [
-        {'tip': 'Don\'t share personal info with AI', 'emoji': '🔒', 'why': 'Keep your private data safe'},
-        {'tip': 'Ask parents before using AI tools', 'emoji': '👨‍👩‍👧', 'why': 'They can help choose safe apps'},
-        {'tip': 'Don\'t believe everything AI says', 'emoji': '🤨', 'why': 'AI can make mistakes'},
-        {'tip': 'Use AI for learning, not cheating', 'emoji': '📚', 'why': 'Learning yourself is important'},
-        {'tip': 'Remember AI isn\'t a real friend', 'emoji': '🤖', 'why': 'Real relationships matter more'},
-        {'tip': 'Tell an adult if AI shows something bad', 'emoji': '🚨', 'why': 'Get help if you see anything wrong'},
+        {
+          'tip': 'Don\'t share personal info with AI',
+          'emoji': '🔒',
+          'why': 'Keep your private data safe',
+        },
+        {
+          'tip': 'Ask parents before using AI tools',
+          'emoji': '👨‍👩‍👧',
+          'why': 'They can help choose safe apps',
+        },
+        {
+          'tip': 'Don\'t believe everything AI says',
+          'emoji': '🤨',
+          'why': 'AI can make mistakes',
+        },
+        {
+          'tip': 'Use AI for learning, not cheating',
+          'emoji': '📚',
+          'why': 'Learning yourself is important',
+        },
+        {
+          'tip': 'Remember AI isn\'t a real friend',
+          'emoji': '🤖',
+          'why': 'Real relationships matter more',
+        },
+        {
+          'tip': 'Tell an adult if AI shows something bad',
+          'emoji': '🚨',
+          'why': 'Get help if you see anything wrong',
+        },
       ],
     },
     {
@@ -105,12 +271,36 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'color': Color(0xFF9C27B0),
       'intro': 'AI can help make the world better!',
       'goodExamples': [
-        {'use': 'Healthcare', 'emoji': '🏥', 'how': 'AI helps doctors find diseases early'},
-        {'use': 'Environment', 'emoji': '🌍', 'how': 'AI tracks pollution and protects animals'},
-        {'use': 'Education', 'emoji': '📖', 'how': 'AI makes learning more fun and personal'},
-        {'use': 'Accessibility', 'emoji': '♿', 'how': 'AI helps people who can\'t see or hear'},
-        {'use': 'Science', 'emoji': '🔬', 'how': 'AI helps discover new medicines'},
-        {'use': 'Safety', 'emoji': '🚗', 'how': 'AI makes cars and planes safer'},
+        {
+          'use': 'Healthcare',
+          'emoji': '🏥',
+          'how': 'AI helps doctors find diseases early',
+        },
+        {
+          'use': 'Environment',
+          'emoji': '🌍',
+          'how': 'AI tracks pollution and protects animals',
+        },
+        {
+          'use': 'Education',
+          'emoji': '📖',
+          'how': 'AI makes learning more fun and personal',
+        },
+        {
+          'use': 'Accessibility',
+          'emoji': '♿',
+          'how': 'AI helps people who can\'t see or hear',
+        },
+        {
+          'use': 'Science',
+          'emoji': '🔬',
+          'how': 'AI helps discover new medicines',
+        },
+        {
+          'use': 'Safety',
+          'emoji': '🚗',
+          'how': 'AI makes cars and planes safer',
+        },
       ],
     },
     {
@@ -118,11 +308,31 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       'emoji': '🎯',
       'color': Color(0xFFFF5722),
       'quizQuestions': [
-        {'q': 'What does AI stand for?', 'a': 'Artificial Intelligence', 'emoji': '🤖'},
-        {'q': 'Can AI feel real emotions?', 'a': 'No, AI doesn\'t have feelings', 'emoji': '❤️'},
-        {'q': 'How does AI learn?', 'a': 'By looking at lots of examples', 'emoji': '📚'},
-        {'q': 'Should you share personal info with AI?', 'a': 'No! Keep private things private', 'emoji': '🔒'},
-        {'q': 'Is AI always correct?', 'a': 'No, AI can make mistakes', 'emoji': '❌'},
+        {
+          'q': 'What does AI stand for?',
+          'a': 'Artificial Intelligence',
+          'emoji': '🤖',
+        },
+        {
+          'q': 'Can AI feel real emotions?',
+          'a': 'No, AI doesn\'t have feelings',
+          'emoji': '❤️',
+        },
+        {
+          'q': 'How does AI learn?',
+          'a': 'By looking at lots of examples',
+          'emoji': '📚',
+        },
+        {
+          'q': 'Should you share personal info with AI?',
+          'a': 'No! Keep private things private',
+          'emoji': '🔒',
+        },
+        {
+          'q': 'Is AI always correct?',
+          'a': 'No, AI can make mistakes',
+          'emoji': '❌',
+        },
       ],
       'conclusion': 'Great job! You now know the basics of AI!',
     },
@@ -159,7 +369,12 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -171,7 +386,7 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
               _buildProgressDots(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: _buildSectionContent(section),
                 ),
               ),
@@ -182,21 +397,22 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       ),
     );
   }
+
   Widget _buildProgressDots() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(sections.length, (index) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
+            margin: EdgeInsets.symmetric(horizontal: 3.w),
             width: index == currentSection ? 20 : 8,
-            height: 8,
+            height: 8.h,
             decoration: BoxDecoration(
               color: index == currentSection
                   ? Colors.white
                   : Colors.white.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(4.r),
             ),
           );
         }),
@@ -208,14 +424,14 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 20,
+                blurRadius: 20.r,
                 offset: const Offset(0, 10),
               ),
             ],
@@ -223,7 +439,7 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
           child: Column(
             children: [
               Text(section['emoji'], style: const TextStyle(fontSize: 50)),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 section['title'],
                 style: GoogleFonts.poppins(
@@ -234,33 +450,28 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 textAlign: TextAlign.center,
               ),
               if (section.containsKey('intro')) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Text(
                   section['intro'],
-                  style: GoogleFonts.nunito(fontSize: 14, color: Colors.grey.shade700),
+                  style: GoogleFonts.nunito(
+                    fontSize: 14,
+                    color: Colors.grey.shade700,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
             ],
           ),
         ),
-        const SizedBox(height: 20),
-        if (section['title'] == 'What is AI?')
-          _buildWhatIsAI(section),
-        if (section['title'] == 'AI in Daily Life')
-          _buildDailyLife(section),
-        if (section['title'] == 'How AI Learns')
-          _buildHowAILearns(section),
-        if (section['title'] == 'What AI Can Do')
-          _buildWhatAICan(section),
-        if (section['title'] == 'What AI Can\'t Do')
-          _buildWhatAICant(section),
-        if (section['title'] == 'AI Safety Tips')
-          _buildSafetyTips(section),
-        if (section['title'] == 'AI for Good')
-          _buildAIForGood(section),
-        if (section['title'] == 'AI Quiz Time!')
-          _buildQuiz(section),
+        SizedBox(height: 20.h),
+        if (section['title'] == 'What is AI?') _buildWhatIsAI(section),
+        if (section['title'] == 'AI in Daily Life') _buildDailyLife(section),
+        if (section['title'] == 'How AI Learns') _buildHowAILearns(section),
+        if (section['title'] == 'What AI Can Do') _buildWhatAICan(section),
+        if (section['title'] == 'What AI Can\'t Do') _buildWhatAICant(section),
+        if (section['title'] == 'AI Safety Tips') _buildSafetyTips(section),
+        if (section['title'] == 'AI for Good') _buildAIForGood(section),
+        if (section['title'] == 'AI Quiz Time!') _buildQuiz(section),
       ],
     );
   }
@@ -269,10 +480,10 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,19 +492,19 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 '🧠 Human vs AI:',
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               ...(section['explanation'] as List).map((item) {
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.all(12),
+                  margin: EdgeInsets.only(bottom: 10.h),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color: section['color'].withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
                     children: [
                       Text(item['emoji'], style: const TextStyle(fontSize: 24)),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,17 +527,17 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('✨', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['funFact'],
@@ -347,26 +558,29 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return Column(
       children: (section['examples'] as List).map<Widget>((example) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(14),
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(14.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Container(
-                width: 50,
-                height: 50,
+                width: 50.w,
+                height: 50.h,
                 decoration: BoxDecoration(
                   color: section['color'].withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Center(
-                  child: Text(example['emoji'], style: const TextStyle(fontSize: 28)),
+                  child: Text(
+                    example['emoji'],
+                    style: const TextStyle(fontSize: 28),
+                  ),
                 ),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: 14.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,7 +594,10 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                     ),
                     Text(
                       example['example'],
-                      style: GoogleFonts.nunito(fontSize: 12, color: Colors.grey.shade600),
+                      style: GoogleFonts.nunito(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                     Text(
                       '→ ${example['does']}',
@@ -400,21 +617,23 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
-            children: (section['steps'] as List).asMap().entries.map<Widget>((entry) {
+            children: (section['steps'] as List).asMap().entries.map<Widget>((
+              entry,
+            ) {
               final step = entry.value;
               return Container(
-                margin: const EdgeInsets.only(bottom: 10),
+                margin: EdgeInsets.only(bottom: 10.h),
                 child: Row(
                   children: [
                     Container(
-                      width: 35,
-                      height: 35,
+                      width: 35.w,
+                      height: 35.h,
                       decoration: BoxDecoration(
                         color: section['color'],
                         shape: BoxShape.circle,
@@ -429,18 +648,24 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              Text(step['emoji'], style: const TextStyle(fontSize: 18)),
-                              const SizedBox(width: 6),
+                              Text(
+                                step['emoji'],
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              SizedBox(width: 6.w),
                               Text(
                                 step['step'],
-                                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 13),
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
                               ),
                             ],
                           ),
@@ -457,12 +682,12 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
             }).toList(),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.green.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -471,16 +696,26 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 '🐱 ${section['example']['title']}',
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 10),
-              ...(section['example']['process'] as List).asMap().entries.map((entry) {
+              SizedBox(height: 10.h),
+              ...(section['example']['process'] as List).asMap().entries.map((
+                entry,
+              ) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${entry.key + 1}.', style: GoogleFonts.nunito(fontWeight: FontWeight.bold)),
-                      const SizedBox(width: 8),
-                      Expanded(child: Text(entry.value, style: GoogleFonts.nunito(fontSize: 13))),
+                      Text(
+                        '${entry.key + 1}.',
+                        style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          entry.value,
+                          style: GoogleFonts.nunito(fontSize: 13),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -496,11 +731,11 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return Column(
       children: (section['abilities'] as List).map<Widget>((ability) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(14),
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(14.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -508,17 +743,20 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
               Row(
                 children: [
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 45.w,
+                    height: 45.h,
                     decoration: BoxDecoration(
                       color: section['color'].withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Center(
-                      child: Text(ability['emoji'], style: const TextStyle(fontSize: 24)),
+                      child: Text(
+                        ability['emoji'],
+                        style: const TextStyle(fontSize: 24),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Text(
                     'AI Can ${ability['can']}',
                     style: GoogleFonts.poppins(
@@ -528,21 +766,21 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Wrap(
-                spacing: 6,
-                runSpacing: 6,
+                spacing: 6.r,
+                runSpacing: 6.r,
                 children: (ability['examples'] as List).map<Widget>((ex) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
+                    ),
                     decoration: BoxDecoration(
                       color: section['color'].withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    child: Text(
-                      ex,
-                      style: GoogleFonts.nunito(fontSize: 11),
-                    ),
+                    child: Text(ex, style: GoogleFonts.nunito(fontSize: 11)),
                   );
                 }).toList(),
               ),
@@ -558,26 +796,29 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
       children: [
         ...(section['limitations'] as List).map<Widget>((limit) {
           return Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.all(14),
+            margin: EdgeInsets.only(bottom: 10.h),
+            padding: EdgeInsets.all(14.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.95),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Container(
-                  width: 45,
-                  height: 45,
+                  width: 45.w,
+                  height: 45.h,
                   decoration: BoxDecoration(
                     color: Colors.red.shade100,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
-                    child: Text(limit['emoji'], style: const TextStyle(fontSize: 22)),
+                    child: Text(
+                      limit['emoji'],
+                      style: const TextStyle(fontSize: 22),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -601,17 +842,17 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
             ),
           );
         }),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               const Text('💡', style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['remember'],
@@ -632,26 +873,29 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return Column(
       children: (section['tips'] as List).map<Widget>((tip) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(14),
+          margin: EdgeInsets.only(bottom: 10.h),
+          padding: EdgeInsets.all(14.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
               Container(
-                width: 45,
-                height: 45,
+                width: 45.w,
+                height: 45.h,
                 decoration: BoxDecoration(
                   color: section['color'].withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Center(
-                  child: Text(tip['emoji'], style: const TextStyle(fontSize: 22)),
+                  child: Text(
+                    tip['emoji'],
+                    style: const TextStyle(fontSize: 22),
+                  ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -666,7 +910,10 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                     ),
                     Text(
                       tip['why'],
-                      style: GoogleFonts.nunito(fontSize: 12, color: Colors.grey.shade600),
+                      style: GoogleFonts.nunito(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                   ],
                 ),
@@ -682,26 +929,26 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        crossAxisSpacing: 12.r,
+        mainAxisSpacing: 12.r,
       ),
       itemCount: (section['goodExamples'] as List).length,
       itemBuilder: (context, index) {
         final example = section['goodExamples'][index];
         return Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(example['emoji'], style: const TextStyle(fontSize: 32)),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 example['use'],
                 style: GoogleFonts.poppins(
@@ -711,7 +958,7 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Text(
                 example['how'],
                 style: GoogleFonts.nunito(fontSize: 10),
@@ -730,11 +977,11 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
         ...(section['quizQuestions'] as List).asMap().entries.map((entry) {
           final q = entry.value;
           return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.95),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -742,8 +989,8 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 Row(
                   children: [
                     Container(
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       decoration: BoxDecoration(
                         color: section['color'],
                         shape: BoxShape.circle,
@@ -758,28 +1005,31 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: Text(
                         q['q'],
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                     Text(q['emoji'], style: const TextStyle(fontSize: 22)),
                   ],
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   decoration: BoxDecoration(
                     color: Colors.green.shade50,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle, color: Colors.green, size: 18),
-                      const SizedBox(width: 8),
+                      Icon(Icons.check_circle, color: Colors.green, size: 18.r),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: Text(
                           q['a'],
@@ -796,17 +1046,17 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
             ),
           );
         }),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.amber.shade100,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             children: [
               const Text('🎉', style: TextStyle(fontSize: 40)),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 section['conclusion'],
                 style: GoogleFonts.poppins(
@@ -825,7 +1075,7 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
 
   Widget _buildNavButtons(Map<String, dynamic> section) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -841,12 +1091,12 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 backgroundColor: Colors.white,
                 foregroundColor: section['color'],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             )
           else
-            const SizedBox(width: 100),
+            SizedBox(width: 100.w),
           if (currentSection < sections.length - 1)
             ElevatedButton.icon(
               onPressed: () {
@@ -859,7 +1109,7 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 backgroundColor: Colors.white,
                 foregroundColor: section['color'],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             )
@@ -872,7 +1122,7 @@ class _AiAwarenessPageState extends State<AiAwarenessPage> {
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             ),

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
@@ -28,6 +30,7 @@ class _SignupPageState extends State<SignupPage>
     }
     return Get.find<AuthController>();
   }
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   String _selectedCountryCode = '+91';
@@ -64,7 +67,8 @@ class _SignupPageState extends State<SignupPage>
     if (!_formKey.currentState!.validate()) return;
 
     // Full phone number with country code
-    final fullPhoneNumber = '$_selectedCountryCode${_phoneController.text.trim()}';
+    final fullPhoneNumber =
+        '$_selectedCountryCode${_phoneController.text.trim()}';
 
     final success = await _authController.signUp(
       email: _emailController.text.trim(),
@@ -83,8 +87,8 @@ class _SignupPageState extends State<SignupPage>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green[400],
         colorText: Colors.white,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 16,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
         duration: const Duration(seconds: 3),
       );
     } else {
@@ -94,8 +98,8 @@ class _SignupPageState extends State<SignupPage>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red[400],
         colorText: Colors.white,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 16,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
       );
     }
   }
@@ -131,7 +135,12 @@ class _SignupPageState extends State<SignupPage>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -139,10 +148,10 @@ class _SignupPageState extends State<SignupPage>
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Animated mascot
                 AnimatedBuilder(
@@ -154,25 +163,22 @@ class _SignupPageState extends State<SignupPage>
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 15,
+                          blurRadius: 15.r,
                           offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-                    child: const Text(
-                      '📝',
-                      style: TextStyle(fontSize: 50),
-                    ),
+                    child: const Text('📝', style: TextStyle(fontSize: 50)),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
 
                 // Title
                 const Text(
@@ -183,13 +189,15 @@ class _SignupPageState extends State<SignupPage>
                     color: Color(0xFF5D4037),
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: const Text(
                     "Create your child's account",
@@ -200,14 +208,14 @@ class _SignupPageState extends State<SignupPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Form Card
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(25.r),
                     border: Border.all(
                       color: const Color(0xFFFFCC80),
                       width: 3,
@@ -215,7 +223,7 @@ class _SignupPageState extends State<SignupPage>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.08),
-                        blurRadius: 15,
+                        blurRadius: 15.r,
                         offset: const Offset(0, 8),
                       ),
                     ],
@@ -228,7 +236,10 @@ class _SignupPageState extends State<SignupPage>
                         TextFormField(
                           controller: _childNameController,
                           textCapitalization: TextCapitalization.words,
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           readOnly: false,
                           showCursor: true,
@@ -245,7 +256,7 @@ class _SignupPageState extends State<SignupPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14.h),
 
                         // Child Age Field
                         TextFormField(
@@ -255,7 +266,10 @@ class _SignupPageState extends State<SignupPage>
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(2),
                           ],
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           readOnly: false,
                           showCursor: true,
@@ -276,13 +290,16 @@ class _SignupPageState extends State<SignupPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14.h),
 
                         // Email Field
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           readOnly: false,
                           showCursor: true,
@@ -302,13 +319,13 @@ class _SignupPageState extends State<SignupPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14.h),
 
                         // Phone Number Field with Country Code Picker
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.grey[50],
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
                               color: Colors.grey[300]!,
                               width: 2,
@@ -320,7 +337,8 @@ class _SignupPageState extends State<SignupPage>
                               CountryCodePicker(
                                 onChanged: (CountryCode code) {
                                   setState(() {
-                                    _selectedCountryCode = code.dialCode ?? '+91';
+                                    _selectedCountryCode =
+                                        code.dialCode ?? '+91';
                                   });
                                 },
                                 initialSelection: 'IN',
@@ -345,8 +363,8 @@ class _SignupPageState extends State<SignupPage>
                                 flagWidth: 24,
                               ),
                               Container(
-                                width: 1,
-                                height: 30,
+                                width: 1.w,
+                                height: 30.h,
                                 color: Colors.grey[300],
                               ),
                               // Phone Number Input
@@ -358,7 +376,10 @@ class _SignupPageState extends State<SignupPage>
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
                                   ],
-                                  style: const TextStyle(fontSize: 16, color: Colors.black87),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+                                  ),
                                   enableInteractiveSelection: true,
                                   readOnly: false,
                                   showCursor: true,
@@ -372,8 +393,10 @@ class _SignupPageState extends State<SignupPage>
                                     ),
                                     counterText: '',
                                     border: InputBorder.none,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 14),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 14.h,
+                                    ),
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -389,13 +412,16 @@ class _SignupPageState extends State<SignupPage>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14.h),
 
                         // Password Field
                         TextFormField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           readOnly: false,
                           showCursor: true,
@@ -428,13 +454,16 @@ class _SignupPageState extends State<SignupPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14.h),
 
                         // Confirm Password Field
                         TextFormField(
                           controller: _confirmPasswordController,
                           obscureText: _obscureConfirmPassword,
-                          style: const TextStyle(fontSize: 16, color: Colors.black87),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                           enableInteractiveSelection: true,
                           readOnly: false,
                           showCursor: true,
@@ -468,78 +497,88 @@ class _SignupPageState extends State<SignupPage>
                             return null;
                           },
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
 
                         // Signup Button
-                        Obx(() => SizedBox(
-                              width: double.infinity,
-                              height: 54,
-                              child: ElevatedButton(
-                                onPressed: _authController.isLoading.value
-                                    ? null
-                                    : _handleSignup,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF66BB6A),
-                                  foregroundColor: Colors.white,
-                                  elevation: 4,
-                                  shadowColor: const Color(0xFF66BB6A)
-                                      .withValues(alpha: 0.4),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(27),
-                                  ),
+                        Obx(
+                          () => SizedBox(
+                            width: double.infinity,
+                            height: 54.h,
+                            child: ElevatedButton(
+                              onPressed: _authController.isLoading.value
+                                  ? null
+                                  : _handleSignup,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF66BB6A),
+                                foregroundColor: Colors.white,
+                                elevation: 4,
+                                shadowColor: const Color(
+                                  0xFF66BB6A,
+                                ).withValues(alpha: 0.4),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(27.r),
                                 ),
-                                child: _authController.isLoading.value
-                                    ? const SizedBox(
-                                        height: 24,
-                                        width: 24,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 3,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.person_add_rounded,
-                                              size: 24),
-                                          SizedBox(width: 8),
-                                          Text(
-                                            "Sign Up",
-                                            style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.5,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                               ),
-                            )),
+                              child: _authController.isLoading.value
+                                  ? SizedBox(
+                                      height: 24.h,
+                                      width: 24.w,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 3.r,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.person_add_rounded,
+                                          size: 24.r,
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Text(
+                                          "Sign Up",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.5,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Login Link
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 12.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(25.r),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'Already a member? ',
-                        style: TextStyle(
-                          color: Color(0xFF5D4037),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
+                      const Flexible(
+                        child: Text(
+                          'Already a member? ',
+                          style: TextStyle(
+                            color: Color(0xFF5D4037),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       GestureDetector(
@@ -559,7 +598,7 @@ class _SignupPageState extends State<SignupPage>
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
               ],
             ),
           ),
@@ -582,34 +621,34 @@ class _SignupPageState extends State<SignupPage>
         color: Colors.grey[600],
       ),
       prefixIcon: Container(
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(8),
+        margin: EdgeInsets.all(8.r),
+        padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.r),
         ),
-        child: Icon(icon, color: color, size: 20),
+        child: Icon(icon, color: color, size: 20.r),
       ),
       suffixIcon: suffixIcon,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         borderSide: BorderSide(color: color, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         borderSide: const BorderSide(color: Colors.redAccent, width: 2),
       ),
       filled: true,
       fillColor: Colors.grey[50],
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
     );
   }
 }

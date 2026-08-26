@@ -3,6 +3,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class CraftIdeasPage extends StatefulWidget {
   const CraftIdeasPage({super.key});
 
@@ -357,18 +359,18 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
 
   Widget _buildCategoryList() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Category Grid
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
+              mainAxisSpacing: 16.r,
+              crossAxisSpacing: 16.r,
               childAspectRatio: 1.0,
             ),
             itemCount: craftCategories.length,
@@ -390,11 +392,11 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24.r),
                     boxShadow: [
                       BoxShadow(
                         color: category['color'].withValues(alpha: 0.4),
-                        blurRadius: 12,
+                        blurRadius: 12.r,
                         offset: const Offset(0, 6),
                       ),
                     ],
@@ -402,26 +404,38 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        category['emoji'],
-                        style: const TextStyle(fontSize: 45),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        category['name'],
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      Flexible(
+                        child: Text(
+                          category['emoji'],
+                          style: const TextStyle(fontSize: 45),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "${(category['crafts'] as List).length} crafts",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.8),
+                      SizedBox(height: 10.h),
+                      Flexible(
+                        child: Text(
+                          category['name'],
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Flexible(
+                        child: Text(
+                          "${(category['crafts'] as List).length} crafts",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -430,7 +444,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
               );
             },
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
 
           // Tip section
         ],
@@ -446,25 +460,25 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
       children: [
         // Back button and title
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: Row(
             children: [
               GestureDetector(
                 onTap: () => setState(() => selectedCraft = -1),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.arrow_back, color: Colors.white, size: 20),
-                      SizedBox(width: 4),
+                      Icon(Icons.arrow_back, color: Colors.white, size: 20.r),
+                      SizedBox(width: 4.w),
                       Text("Back", style: TextStyle(color: Colors.white)),
                     ],
                   ),
@@ -472,7 +486,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
               ),
               const Spacer(),
               Text(category['emoji'], style: const TextStyle(fontSize: 30)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 category['name'],
                 style: const TextStyle(
@@ -487,7 +501,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
         // Crafts list
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             itemCount: crafts.length,
             itemBuilder: (context, index) {
               final craft = crafts[index];
@@ -501,28 +515,28 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
 
   Widget _buildCraftCard(Map<String, dynamic> craft, Color color) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.3),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tilePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         leading: Container(
-          width: 50,
-          height: 50,
+          width: 50.w,
+          height: 50.h,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [color, color.withValues(alpha: 0.7)],
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Center(
             child: Text(craft['emoji'], style: const TextStyle(fontSize: 28)),
@@ -540,8 +554,8 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
           onTap: () => _speakText(craft['name']),
           child: Row(
             children: [
-              Icon(Icons.volume_up, size: 16, color: Colors.grey.shade600),
-              const SizedBox(width: 4),
+              Icon(Icons.volume_up, size: 16.r, color: Colors.grey.shade600),
+              SizedBox(width: 4.w),
               Text(
                 "Tap to hear",
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
@@ -551,7 +565,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
         ),
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -559,7 +573,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                 Row(
                   children: [
                     const Text("📦", style: TextStyle(fontSize: 20)),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Text(
                       "Materials:",
                       style: TextStyle(
@@ -569,21 +583,21 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 8.r,
+                  runSpacing: 8.r,
                   children: (craft['materials'] as List<String>).map((
                     material,
                   ) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         border: Border.all(color: color.withValues(alpha: 0.3)),
                       ),
                       child: Text(
@@ -593,12 +607,12 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 // Steps
                 Row(
                   children: [
                     const Text("📝", style: TextStyle(fontSize: 20)),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Text(
                       "Steps:",
                       style: TextStyle(
@@ -608,18 +622,18 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ...(craft['steps'] as List<String>).asMap().entries.map((
                   entry,
                 ) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.only(bottom: 8.h),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 24,
-                          height: 24,
+                          width: 24.w,
+                          height: 24.h,
                           decoration: BoxDecoration(
                             color: color,
                             shape: BoxShape.circle,
@@ -635,7 +649,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Text(
                             entry.value,
@@ -649,7 +663,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                     ),
                   );
                 }),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 // Read aloud button
                 Center(
                   child: ElevatedButton.icon(
@@ -667,7 +681,7 @@ class _CraftIdeasPageState extends State<CraftIdeasPage>
                       backgroundColor: color,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                     ),
                   ),

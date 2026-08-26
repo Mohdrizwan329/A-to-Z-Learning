@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class FineMotorSkillsPage extends StatefulWidget {
   const FineMotorSkillsPage({super.key});
 
@@ -118,7 +120,10 @@ class _FineMotorSkillsPageState extends State<FineMotorSkillsPage> {
     final normalizedX = (localPos.dx - 20) / (canvasSize.width - 40);
     final normalizedY = (localPos.dy - 20) / (canvasSize.height - 40);
 
-    if (normalizedX >= 0 && normalizedX <= 1 && normalizedY >= 0 && normalizedY <= 1) {
+    if (normalizedX >= 0 &&
+        normalizedX <= 1 &&
+        normalizedY >= 0 &&
+        normalizedY <= 1) {
       setState(() {
         drawnPoints.add(Offset(normalizedX, normalizedY));
       });
@@ -196,166 +201,226 @@ class _FineMotorSkillsPageState extends State<FineMotorSkillsPage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Fine Motor Skills", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text(
+          "Fine Motor Skills",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            margin: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "⭐ $score",
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              // Exercise info
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
+          child: LayoutBuilder(
+            // Portrait-shaped content: in landscape the body is barely 300pt tall,
+            // which is shorter than this column needs. Scroll when that happens and
+            // stay exactly as before whenever there is room.
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(exercise['emoji'], style: const TextStyle(fontSize: 40)),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: 16.h),
+                    // Exercise info
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.w),
+                      padding: EdgeInsets.all(16.r),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Row(
                         children: [
                           Text(
-                            exercise['title'],
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF764BA2)),
+                            exercise['emoji'],
+                            style: const TextStyle(fontSize: 40),
                           ),
-                          Text(
-                            "Exercise ${currentExercise + 1} of ${exercises.length}",
-                            style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  exercise['title'],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF764BA2),
+                                  ),
+                                ),
+                                Text(
+                                  "Exercise ${currentExercise + 1} of ${exercises.length}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (showResult)
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: accuracy >= 70
+                                    ? Colors.green
+                                    : Colors.orange,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Text(
+                                "${accuracy.toInt()}%",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    // Canvas
+                    SizedBox(
+                      // A share of the viewport rather than `Expanded`:
+                      // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                      // above it, and a scrollable cannot report an intrinsic
+                      // height - it throws.
+                      height: max(200.h, constraints.maxHeight * 0.55),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.2),
+                              blurRadius: 15.r,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.r),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return GestureDetector(
+                                onPanUpdate: (details) =>
+                                    _onPanUpdate(details, constraints.biggest),
+                                onPanEnd: _onPanEnd,
+                                child: CustomPaint(
+                                  size: constraints.biggest,
+                                  painter: MotorSkillsPainter(
+                                    path: exercise['path'] as List<Offset>,
+                                    pathColor: exercise['color'] as Color,
+                                    drawnPoints: drawnPoints,
+                                    exerciseType: exercise['type'] as String,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    // Instructions
+                    Text(
+                      showResult
+                          ? (accuracy >= 70
+                                ? "Great job! 🎉"
+                                : "Keep practicing! 💪")
+                          : "Trace along the pattern with your finger",
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    SizedBox(height: 16.h),
+                    // Buttons
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: _resetExercise,
+                              icon: const Icon(Icons.refresh),
+                              label: const Text("Clear"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: _nextExercise,
+                              icon: const Icon(Icons.arrow_forward),
+                              label: const Text("Next"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF56D97F),
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    if (showResult)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: accuracy >= 70 ? Colors.green : Colors.orange,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          "${accuracy.toInt()}%",
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                      ),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              // Canvas
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return GestureDetector(
-                          onPanUpdate: (details) => _onPanUpdate(details, constraints.biggest),
-                          onPanEnd: _onPanEnd,
-                          child: CustomPaint(
-                            size: constraints.biggest,
-                            painter: MotorSkillsPainter(
-                              path: exercise['path'] as List<Offset>,
-                              pathColor: exercise['color'] as Color,
-                              drawnPoints: drawnPoints,
-                              exerciseType: exercise['type'] as String,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Instructions
-              Text(
-                showResult
-                    ? (accuracy >= 70 ? "Great job! 🎉" : "Keep practicing! 💪")
-                    : "Trace along the pattern with your finger",
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-              // Buttons
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _resetExercise,
-                        icon: const Icon(Icons.refresh),
-                        label: const Text("Clear"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _nextExercise,
-                        icon: const Icon(Icons.arrow_forward),
-                        label: const Text("Next"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF56D97F),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
+            ),
           ),
         ),
       ),
@@ -423,7 +488,11 @@ class MotorSkillsPainter extends CustomPainter {
       final textPainter = TextPainter(
         text: const TextSpan(
           text: 'S',
-          style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         textDirection: TextDirection.ltr,
       );

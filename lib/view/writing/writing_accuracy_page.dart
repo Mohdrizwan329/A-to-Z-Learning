@@ -4,6 +4,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class WritingAccuracyPage extends StatefulWidget {
   const WritingAccuracyPage({super.key});
 
@@ -174,7 +176,9 @@ class _WritingAccuracyPageState extends State<WritingAccuracyPage> {
       if ((p.dy - corner.dy).abs() < 30) horizontalPoints++;
     }
 
-    double ratio = min(verticalPoints, horizontalPoints) / max(verticalPoints, horizontalPoints);
+    double ratio =
+        min(verticalPoints, horizontalPoints) /
+        max(verticalPoints, horizontalPoints);
     return 50 + ratio * 50;
   }
 
@@ -198,7 +202,8 @@ class _WritingAccuracyPageState extends State<WritingAccuracyPage> {
     int leftPoints = validPoints.where((p) => p.dx < bottom!.dx).length;
     int rightPoints = validPoints.where((p) => p.dx > bottom!.dx).length;
 
-    double symmetry = min(leftPoints, rightPoints) / max(leftPoints, rightPoints);
+    double symmetry =
+        min(leftPoints, rightPoints) / max(leftPoints, rightPoints);
     return 40 + symmetry * 60;
   }
 
@@ -319,245 +324,310 @@ class _WritingAccuracyPageState extends State<WritingAccuracyPage> {
             ),
           ),
         ),
-        title: const Text("Writing Accuracy", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text(
+          "Writing Accuracy",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            margin: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Text("⭐ $score", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "⭐ $score",
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              // Challenge info
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
+          child: LayoutBuilder(
+            // Portrait-shaped content: in landscape the body is barely 300pt tall,
+            // which is shorter than this column needs. Scroll when that happens and
+            // stay exactly as before whenever there is room.
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(height: 16.h),
+                    // Challenge info
                     Container(
-                      width: 60,
-                      height: 60,
+                      margin: EdgeInsets.symmetric(horizontal: 20.w),
+                      padding: EdgeInsets.all(16.r),
                       decoration: BoxDecoration(
-                        color: Color(0xFFF3E5F5),
-                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
-                      child: Center(
-                        child: Text(
-                          challenge['char'],
-                          style: const TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF764BA2),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 60.w,
+                            height: 60.h,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF3E5F5),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                challenge['char'],
+                                style: const TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF764BA2),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  challenge['description'],
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF764BA2),
+                                  ),
+                                ),
+                                Text(
+                                  "Challenge ${currentIndex + 1} of ${challenges.length}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (showResult)
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
+                                vertical: 8.h,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: accuracy >= 70
+                                      ? [Colors.green, Colors.green.shade700]
+                                      : accuracy >= 50
+                                      ? [Colors.orange, Colors.orange.shade700]
+                                      : [Colors.red, Colors.red.shade700],
+                                ),
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${accuracy.toInt()}%",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Text(
+                                    accuracy >= 70
+                                        ? "Great!"
+                                        : accuracy >= 50
+                                        ? "Good"
+                                        : "Try Again",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    // Canvas
+                    SizedBox(
+                      // A share of the viewport rather than `Expanded`:
+                      // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                      // above it, and a scrollable cannot report an intrinsic
+                      // height - it throws.
+                      height: max(200.h, constraints.maxHeight * 0.55),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.2),
+                              blurRadius: 15.r,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.r),
+                          child: Stack(
+                            children: [
+                              // Guide character (faded)
+                              Center(
+                                child: Text(
+                                  challenge['char'],
+                                  style: TextStyle(
+                                    fontSize: 280,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.withValues(alpha: 0.1),
+                                  ),
+                                ),
+                              ),
+                              // Drawing canvas
+                              GestureDetector(
+                                onPanUpdate: showResult
+                                    ? null
+                                    : (details) {
+                                        setState(() {
+                                          RenderBox box =
+                                              context.findRenderObject()
+                                                  as RenderBox;
+                                          userPoints.add(
+                                            box.globalToLocal(
+                                              details.globalPosition,
+                                            ),
+                                          );
+                                        });
+                                      },
+                                onPanEnd: showResult
+                                    ? null
+                                    : (details) {
+                                        setState(() => userPoints.add(null));
+                                      },
+                                child: CustomPaint(
+                                  size: Size.infinite,
+                                  painter: AccuracyDrawingPainter(
+                                    points: userPoints,
+                                    isCorrect: showResult && accuracy >= 70,
+                                    showResult: showResult,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: 16.h),
+                    // Stats
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.w),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 10.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
-                            challenge['description'],
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF764BA2),
+                          _buildStat("Attempts", "$attempts"),
+                          _buildStat(
+                            "Points",
+                            "${userPoints.whereType<Offset>().length}",
+                          ),
+                          _buildStat("Best", "${accuracy.toInt()}%"),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    // Action buttons
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: _clearCanvas,
+                              icon: const Icon(Icons.refresh),
+                              label: const Text("Clear"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
                             ),
                           ),
-                          Text(
-                            "Challenge ${currentIndex + 1} of ${challenges.length}",
-                            style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: showResult ? null : _calculateAccuracy,
+                              icon: const Icon(Icons.check),
+                              label: const Text("Check"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF667EEA),
+                                foregroundColor: Colors.white,
+                                disabledBackgroundColor: Colors.grey,
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: _nextChallenge,
+                              icon: const Icon(Icons.arrow_forward),
+                              label: const Text("Next"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF56D97F),
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    if (showResult)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: accuracy >= 70
-                                ? [Colors.green, Colors.green.shade700]
-                                : accuracy >= 50
-                                    ? [Colors.orange, Colors.orange.shade700]
-                                    : [Colors.red, Colors.red.shade700],
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              "${accuracy.toInt()}%",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              accuracy >= 70 ? "Great!" : accuracy >= 50 ? "Good" : "Try Again",
-                              style: const TextStyle(color: Colors.white, fontSize: 10),
-                            ),
-                          ],
-                        ),
-                      ),
+                    SizedBox(height: 16.h),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              // Canvas
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24),
-                    child: Stack(
-                      children: [
-                        // Guide character (faded)
-                        Center(
-                          child: Text(
-                            challenge['char'],
-                            style: TextStyle(
-                              fontSize: 280,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.withValues(alpha: 0.1),
-                            ),
-                          ),
-                        ),
-                        // Drawing canvas
-                        GestureDetector(
-                          onPanUpdate: showResult
-                              ? null
-                              : (details) {
-                                  setState(() {
-                                    RenderBox box = context.findRenderObject() as RenderBox;
-                                    userPoints.add(box.globalToLocal(details.globalPosition));
-                                  });
-                                },
-                          onPanEnd: showResult
-                              ? null
-                              : (details) {
-                                  setState(() => userPoints.add(null));
-                                },
-                          child: CustomPaint(
-                            size: Size.infinite,
-                            painter: AccuracyDrawingPainter(
-                              points: userPoints,
-                              isCorrect: showResult && accuracy >= 70,
-                              showResult: showResult,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Stats
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildStat("Attempts", "$attempts"),
-                    _buildStat("Points", "${userPoints.whereType<Offset>().length}"),
-                    _buildStat("Best", "${accuracy.toInt()}%"),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Action buttons
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _clearCanvas,
-                        icon: const Icon(Icons.refresh),
-                        label: const Text("Clear"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: showResult ? null : _calculateAccuracy,
-                        icon: const Icon(Icons.check),
-                        label: const Text("Check"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF667EEA),
-                          foregroundColor: Colors.white,
-                          disabledBackgroundColor: Colors.grey,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _nextChallenge,
-                        icon: const Icon(Icons.arrow_forward),
-                        label: const Text("Next"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF56D97F),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
+            ),
           ),
         ),
       ),
@@ -567,8 +637,21 @@ class _WritingAccuracyPageState extends State<WritingAccuracyPage> {
   Widget _buildStat(String label, String value) {
     return Column(
       children: [
-        Text(value, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(label, style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.8),
+            fontSize: 12,
+          ),
+        ),
       ],
     );
   }
@@ -588,7 +671,9 @@ class AccuracyDrawingPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = showResult ? (isCorrect ? Colors.green : Colors.orange) : Color(0xFF764BA2)
+      ..color = showResult
+          ? (isCorrect ? Colors.green : Colors.orange)
+          : Color(0xFF764BA2)
       ..strokeWidth = 6
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round

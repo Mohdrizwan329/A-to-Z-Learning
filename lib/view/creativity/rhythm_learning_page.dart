@@ -5,6 +5,8 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'dart:async';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class RhythmLearningPage extends StatefulWidget {
   const RhythmLearningPage({super.key});
 
@@ -12,7 +14,8 @@ class RhythmLearningPage extends StatefulWidget {
   State<RhythmLearningPage> createState() => _RhythmLearningPageState();
 }
 
-class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProviderStateMixin {
+class _RhythmLearningPageState extends State<RhythmLearningPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -71,9 +74,10 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeOut),
-    );
+    _pulseAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.3,
+    ).animate(CurvedAnimation(parent: _pulseController, curve: Curves.easeOut));
   }
 
   Future<void> _initTts() async {
@@ -127,7 +131,6 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
     }
   }
 
-
   void _checkPattern() {
     final pattern = rhythmPatterns[currentPattern]['pattern'] as List<int>;
     bool correct = true;
@@ -146,7 +149,10 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
         score += 10;
         flutterTts.speak("Perfect rhythm!");
         // Mark pattern as completed
-        ProgressService.to.markItemCompleted(ProgressService.kRhythm, currentPattern);
+        ProgressService.to.markItemCompleted(
+          ProgressService.kRhythm,
+          currentPattern,
+        );
       } else {
         flutterTts.speak("Try again!");
       }
@@ -181,37 +187,46 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20.r,
+            ),
           ),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+            gradient: LinearGradient(
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              ),
+            ),
           ),
         ),
         title: const Text(
           "Rhythm Learning",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: () {
               ProgressService.to.resetProgress(ProgressService.kRhythm);
@@ -228,7 +243,12 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -240,34 +260,58 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
               // Progress bar
               Obx(() {
                 // Access observable to trigger rebuild
-                final _ = ProgressService.to.completedItems[ProgressService.kRhythm];
-                final progress = ProgressService.to.getProgressPercentage(ProgressService.kRhythm) / 100;
-                final progressString = ProgressService.to.getProgressString(ProgressService.kRhythm);
+                final _ =
+                    ProgressService.to.completedItems[ProgressService.kRhythm];
+                final progress =
+                    ProgressService.to.getProgressPercentage(
+                      ProgressService.kRhythm,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
+                  ProgressService.kRhythm,
+                );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
@@ -279,27 +323,34 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Pattern number indicator
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 8.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Text(
                           "Pattern ${currentPattern + 1} of ${rhythmPatterns.length}",
-                          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
                       // Pattern display card
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(20),
+                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -309,16 +360,22 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
+                          borderRadius: BorderRadius.circular(24.r),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            width: 1,
+                          ),
                         ),
                         child: Column(
                           children: [
                             const Text(
                               "Follow this pattern",
-                              style: TextStyle(color: Colors.white70, fontSize: 14),
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 14,
+                              ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: List.generate(beats.length, (index) {
@@ -328,38 +385,83 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                                 return AnimatedBuilder(
                                   animation: _pulseController,
                                   builder: (context, child) {
-                                    double scale = isCurrentBeat && isBeat ? _pulseAnimation.value : 1.0;
+                                    double scale = isCurrentBeat && isBeat
+                                        ? _pulseAnimation.value
+                                        : 1.0;
                                     return Transform.scale(
                                       scale: scale,
                                       child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                                        width: 40.w,
+                                        height: 40.h,
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 5.w,
+                                        ),
                                         decoration: BoxDecoration(
                                           gradient: isBeat
                                               ? LinearGradient(
                                                   colors: isCurrentBeat
-                                                      ? [const Color(0xFFFFD700), const Color(0xFFFFA500)]
-                                                      : [const Color(0xFFFF6B6B), const Color(0xFFFF8E53)],
+                                                      ? [
+                                                          const Color(
+                                                            0xFFFFD700,
+                                                          ),
+                                                          const Color(
+                                                            0xFFFFA500,
+                                                          ),
+                                                        ]
+                                                      : [
+                                                          const Color(
+                                                            0xFFFF6B6B,
+                                                          ),
+                                                          const Color(
+                                                            0xFFFF8E53,
+                                                          ),
+                                                        ],
                                                 )
                                               : null,
-                                          color: isBeat ? null : Colors.white.withValues(alpha: 0.2),
+                                          color: isBeat
+                                              ? null
+                                              : Colors.white.withValues(
+                                                  alpha: 0.2,
+                                                ),
                                           shape: BoxShape.circle,
                                           border: isCurrentBeat
-                                              ? Border.all(color: Colors.white, width: 3)
-                                              : Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
-                                          boxShadow: isBeat ? [
-                                            BoxShadow(
-                                              color: (isCurrentBeat ? const Color(0xFFFFD700) : const Color(0xFFFF6B6B)).withValues(alpha: 0.4),
-                                              blurRadius: 8,
-                                              spreadRadius: 2,
-                                            ),
-                                          ] : null,
+                                              ? Border.all(
+                                                  color: Colors.white,
+                                                  width: 3,
+                                                )
+                                              : Border.all(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.3),
+                                                  width: 1,
+                                                ),
+                                          boxShadow: isBeat
+                                              ? [
+                                                  BoxShadow(
+                                                    color:
+                                                        (isCurrentBeat
+                                                                ? const Color(
+                                                                    0xFFFFD700,
+                                                                  )
+                                                                : const Color(
+                                                                    0xFFFF6B6B,
+                                                                  ))
+                                                            .withValues(
+                                                              alpha: 0.4,
+                                                            ),
+                                                    blurRadius: 8.r,
+                                                    spreadRadius: 2.r,
+                                                  ),
+                                                ]
+                                              : null,
                                         ),
                                         child: Center(
                                           child: Icon(
-                                            isBeat ? Icons.music_note : Icons.remove,
-                                            color: isBeat ? Colors.white : Colors.white38,
+                                            isBeat
+                                                ? Icons.music_note
+                                                : Icons.remove,
+                                            color: isBeat
+                                                ? Colors.white
+                                                : Colors.white38,
                                             size: isBeat ? 20 : 16,
                                           ),
                                         ),
@@ -369,23 +471,33 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                                 );
                               }),
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: 20.h),
                             // Play button
                             GestureDetector(
                               onTap: isPlaying ? null : _playPattern,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 32.w,
+                                  vertical: 14.h,
+                                ),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: isPlaying
                                         ? [Colors.grey, Colors.grey.shade600]
-                                        : [const Color(0xFF56D97F), const Color(0xFF11998E)],
+                                        : [
+                                            const Color(0xFF56D97F),
+                                            const Color(0xFF11998E),
+                                          ],
                                   ),
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(30.r),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: (isPlaying ? Colors.grey : const Color(0xFF56D97F)).withValues(alpha: 0.4),
-                                      blurRadius: 10,
+                                      color:
+                                          (isPlaying
+                                                  ? Colors.grey
+                                                  : const Color(0xFF56D97F))
+                                              .withValues(alpha: 0.4),
+                                      blurRadius: 10.r,
                                       offset: const Offset(0, 4),
                                     ),
                                   ],
@@ -393,11 +505,26 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(isPlaying ? Icons.hourglass_top : Icons.play_arrow, color: Colors.white, size: 24),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      isPlaying ? "Playing..." : "Play Pattern",
-                                      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                    Icon(
+                                      isPlaying
+                                          ? Icons.hourglass_top
+                                          : Icons.play_arrow,
+                                      color: Colors.white,
+                                      size: 24.r,
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Flexible(
+                                      child: Text(
+                                        isPlaying
+                                            ? "Playing..."
+                                            : "Play Pattern",
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -407,26 +534,36 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
                       // Your turn section
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(20),
+                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: showResult
                                 ? (isCorrect
-                                    ? [Colors.green.withValues(alpha: 0.3), Colors.green.withValues(alpha: 0.1)]
-                                    : [Colors.orange.withValues(alpha: 0.3), Colors.orange.withValues(alpha: 0.1)])
-                                : [Colors.white.withValues(alpha: 0.15), Colors.white.withValues(alpha: 0.05)],
+                                      ? [
+                                          Colors.green.withValues(alpha: 0.3),
+                                          Colors.green.withValues(alpha: 0.1),
+                                        ]
+                                      : [
+                                          Colors.orange.withValues(alpha: 0.3),
+                                          Colors.orange.withValues(alpha: 0.1),
+                                        ])
+                                : [
+                                    Colors.white.withValues(alpha: 0.15),
+                                    Colors.white.withValues(alpha: 0.05),
+                                  ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(24.r),
                           border: Border.all(
                             color: showResult
-                                ? (isCorrect ? Colors.green : Colors.orange).withValues(alpha: 0.5)
+                                ? (isCorrect ? Colors.green : Colors.orange)
+                                      .withValues(alpha: 0.5)
                                 : Colors.white.withValues(alpha: 0.2),
                             width: 1,
                           ),
@@ -439,34 +576,50 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                                   : "Your turn",
                               style: TextStyle(
                                 color: showResult
-                                    ? (isCorrect ? Colors.greenAccent : Colors.orangeAccent)
+                                    ? (isCorrect
+                                          ? Colors.greenAccent
+                                          : Colors.orangeAccent)
                                     : Colors.white70,
                                 fontSize: 14,
-                                fontWeight: showResult ? FontWeight.bold : FontWeight.normal,
+                                fontWeight: showResult
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: List.generate(beats.length, (index) {
                                 final hasTapped = index < userTaps.length;
-                                final tapped = hasTapped && userTaps[index] == 1;
+                                final tapped =
+                                    hasTapped && userTaps[index] == 1;
 
                                 return Container(
-                                  width: 40,
-                                  height: 40,
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  width: 40.w,
+                                  height: 40.h,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.w),
                                   decoration: BoxDecoration(
                                     gradient: hasTapped && tapped
-                                        ? const LinearGradient(colors: [Color(0xFF56D97F), Color(0xFF11998E)])
+                                        ? const LinearGradient(
+                                            colors: [
+                                              Color(0xFF56D97F),
+                                              Color(0xFF11998E),
+                                            ],
+                                          )
                                         : null,
                                     color: hasTapped
-                                        ? (tapped ? null : Colors.white.withValues(alpha: 0.2))
+                                        ? (tapped
+                                              ? null
+                                              : Colors.white.withValues(
+                                                  alpha: 0.2,
+                                                ))
                                         : Colors.white.withValues(alpha: 0.1),
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       color: hasTapped
-                                          ? (tapped ? Colors.greenAccent : Colors.white30)
+                                          ? (tapped
+                                                ? Colors.greenAccent
+                                                : Colors.white30)
                                           : Colors.white.withValues(alpha: 0.2),
                                       width: hasTapped && tapped ? 2 : 1,
                                     ),
@@ -474,8 +627,12 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                                   child: Center(
                                     child: hasTapped
                                         ? Icon(
-                                            tapped ? Icons.music_note : Icons.remove,
-                                            color: tapped ? Colors.white : Colors.white38,
+                                            tapped
+                                                ? Icons.music_note
+                                                : Icons.remove,
+                                            color: tapped
+                                                ? Colors.white
+                                                : Colors.white38,
                                             size: tapped ? 20 : 16,
                                           )
                                         : const SizedBox(),
@@ -487,7 +644,7 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                         ),
                       ),
 
-                      const SizedBox(height: 30),
+                      SizedBox(height: 30.h),
 
                       // Drum tap area
                       ScaleTransition(
@@ -495,27 +652,41 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                         child: GestureDetector(
                           onTap: () => _onBeatTap(userTaps.length),
                           child: Container(
-                            width: 150,
-                            height: 150,
+                            width: 150.w,
+                            height: 150.h,
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                                colors: [
+                                  Color(0xFFFF6B6B),
+                                  Color(0xFFFF8E53),
+                                  Color(0xFFFFAA5A),
+                                ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFFF6B6B).withValues(alpha: 0.5),
-                                  blurRadius: 25,
-                                  spreadRadius: 5,
+                                  color: const Color(
+                                    0xFFFF6B6B,
+                                  ).withValues(alpha: 0.5),
+                                  blurRadius: 25.r,
+                                  spreadRadius: 5.r,
                                 ),
                               ],
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
-                                Text("TAP", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 2)),
+                                Text(
+                                  "TAP",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 2,
+                                  ),
+                                ),
                                 Text("🥁", style: TextStyle(fontSize: 50)),
                               ],
                             ),
@@ -523,105 +694,153 @@ class _RhythmLearningPageState extends State<RhythmLearningPage> with TickerProv
                         ),
                       ),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Action buttons row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Skip button
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              if (!isPlaying && !showResult) {
-                                setState(() {
-                                  userTaps.add(0);
-                                });
-                                final pattern = rhythmPatterns[currentPattern]['pattern'] as List<int>;
-                                if (userTaps.length == pattern.length) {
-                                  _checkPattern();
+                          Flexible(
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                if (!isPlaying && !showResult) {
+                                  setState(() {
+                                    userTaps.add(0);
+                                  });
+                                  final pattern =
+                                      rhythmPatterns[currentPattern]['pattern']
+                                          as List<int>;
+                                  if (userTaps.length == pattern.length) {
+                                    _checkPattern();
+                                  }
                                 }
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-                              ),
-                              child: Row(
-                                children: const [
-                                  Icon(Icons.skip_next, color: Colors.white, size: 20),
-                                  SizedBox(width: 6),
-                                  Text("Skip Beat", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                                ],
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 24.w,
+                                  vertical: 12.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.3),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.skip_next,
+                                      color: Colors.white,
+                                      size: 20.r,
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Flexible(
+                                      child: Text(
+                                        "Skip Beat",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           // Reset button
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              setState(() {
-                                userTaps.clear();
-                                showResult = false;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-                              ),
-                              child: Row(
-                                children: const [
-                                  Icon(Icons.replay, color: Colors.white, size: 20),
-                                  SizedBox(width: 6),
-                                  Text("Retry", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                                ],
+                          Flexible(
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                setState(() {
+                                  userTaps.clear();
+                                  showResult = false;
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 24.w,
+                                  vertical: 12.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.3),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.replay,
+                                      color: Colors.white,
+                                      size: 20.r,
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    Text(
+                                      "Retry",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // Next button (only when result is shown and correct)
                       if (showResult && isCorrect)
                         GestureDetector(
                           onTap: _nextPattern,
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 20),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            margin: EdgeInsets.symmetric(horizontal: 20.w),
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
+                              gradient: LinearGradient(
                                 colors: [Color(0xFF56D97F), Color(0xFF11998E)],
                               ),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
+                                  color: Color(
+                                    0xFF56D97F,
+                                  ).withValues(alpha: 0.4),
+                                  blurRadius: 10.r,
+                                  offset: Offset(0, 4),
                                 ),
                               ],
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text("Next Pattern", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                                SizedBox(width: 8),
+                              children: [
+                                Text(
+                                  "Next Pattern",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
                                 Icon(Icons.arrow_forward, color: Colors.white),
                               ],
                             ),
                           ),
                         ),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),

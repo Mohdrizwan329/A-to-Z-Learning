@@ -6,6 +6,8 @@ import 'package:get_storage/get_storage.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ActivityBasedLearningPage extends StatefulWidget {
   const ActivityBasedLearningPage({super.key});
 
@@ -1105,18 +1107,18 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
         builder: (context, setDialogState) {
           return Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
             ),
             backgroundColor: Colors.transparent,
             child: Container(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.r),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1129,7 +1131,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   Text(
                     '$tappedCount / $count',
                     style: const TextStyle(
@@ -1138,10 +1140,10 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
+                    spacing: 12.r,
+                    runSpacing: 12.r,
                     alignment: WrapAlignment.center,
                     children: List.generate(count, (index) {
                       final isTapped = index < tappedCount;
@@ -1164,8 +1166,8 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                             : null,
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          width: 55,
-                          height: 55,
+                          width: 55.w,
+                          height: 55.h,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: isTapped
@@ -1190,19 +1192,19 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                       );
                     }),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   if (tappedCount == count)
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text('🎉', style: TextStyle(fontSize: 20)),
-                          SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Text(
                             'Great! +10 points',
                             style: TextStyle(
@@ -1243,18 +1245,18 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
         builder: (context, setDialogState) {
           return Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
             ),
             backgroundColor: Colors.transparent,
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1267,12 +1269,12 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   const Text(
                     'Tap emoji, then tap its name!',
                     style: TextStyle(fontSize: 14, color: Colors.white70),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // Emojis row
                   Row(
@@ -1291,8 +1293,8 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                               },
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          width: 65,
-                          height: 65,
+                          width: 65.w,
+                          height: 65.h,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: isMatched
@@ -1310,7 +1312,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                                             Colors.white.withValues(alpha: 0.1),
                                           ]),
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(
                               color: isSelected
                                   ? Colors.white
@@ -1329,12 +1331,12 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                     }),
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // Names
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: 8.r,
+                    runSpacing: 8.r,
                     alignment: WrapAlignment.center,
                     children: shuffledNames.map((name) {
                       final isMatched = pairs.any(
@@ -1371,9 +1373,9 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                                 }
                               },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 10.h,
                           ),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -1387,7 +1389,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                                       const Color(0xFFFF8E53),
                                     ],
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
                             name,
@@ -1402,20 +1404,20 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                     }).toList(),
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   if (matched.length == pairs.length)
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text('🎉', style: TextStyle(fontSize: 20)),
-                          SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Text(
                             'Perfect! +15 points',
                             style: TextStyle(
@@ -1456,18 +1458,18 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
           final isCorrect = selectedAnswer == correctAnswer;
           return Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
             ),
             backgroundColor: Colors.transparent,
             child: Container(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.r),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1480,12 +1482,12 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   const Text(
                     'What comes next?',
                     style: TextStyle(fontSize: 16, color: Colors.white70),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Pattern display
                   Row(
@@ -1493,17 +1495,17 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                     children: [
                       ...pattern.map(
                         (p) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          padding: EdgeInsets.symmetric(horizontal: 6.w),
                           child: Text(p, style: const TextStyle(fontSize: 32)),
                         ),
                       ),
                       Container(
-                        width: 45,
-                        height: 45,
-                        margin: const EdgeInsets.only(left: 6),
+                        width: 45.w,
+                        height: 45.h,
+                        margin: EdgeInsets.only(left: 6.w),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 2),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Center(
                           child: Text(
@@ -1518,7 +1520,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                     ],
                   ),
 
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30.h),
 
                   // Options
                   Row(
@@ -1543,12 +1545,12 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                               }
                             : null,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          width: 60,
-                          height: 60,
+                          margin: EdgeInsets.symmetric(horizontal: 8.w),
+                          width: 60.w,
+                          height: 60.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(color: Colors.white),
                           ),
                           child: Center(
@@ -1562,14 +1564,14 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                     }).toList(),
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   if (selectedAnswer != null)
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
                         color: isCorrect ? Colors.green : Colors.red,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -1578,7 +1580,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                             isCorrect ? '🎉' : '😢',
                             style: const TextStyle(fontSize: 20),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Text(
                             isCorrect ? 'Correct! +10 points' : 'Try again!',
                             style: const TextStyle(
@@ -1600,7 +1602,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
 
                   // Retry button for wrong answer
                   if (selectedAnswer != null && !isCorrect) ...[
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     TextButton(
                       onPressed: () {
                         setDialogState(() => selectedAnswer = null);
@@ -1625,24 +1627,26 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
     _speak(activity.name);
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: 100.w,
+                height: 100.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -1654,7 +1658,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 activity.name,
                 style: const TextStyle(
@@ -1663,12 +1667,12 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               const Text(
                 'Coming Soon!',
                 style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _buildGradientButton(
                 icon: Icons.check,
                 label: 'OK',
@@ -1691,20 +1695,20 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 20.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: const TextStyle(
@@ -1739,15 +1743,15 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -1773,12 +1777,12 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -1787,11 +1791,11 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: _categories.map((cat) {
             return Tab(
               child: Text(
@@ -1824,36 +1828,44 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
             children: [
               // Progress bar
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
-                        Text(
-                          '$_progressString completed',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w500,
+                        Flexible(
+                          child: Text(
+                            '$_progressString completed',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: _progressPercentage,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -1866,11 +1878,11 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
               // Activities grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: category.activities.length,
@@ -1906,11 +1918,11 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -1918,11 +1930,11 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -1931,16 +1943,16 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
-                                        width: 75,
-                                        height: 75,
+                                        width: 75.w,
+                                        height: 75.h,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withValues(
                                             alpha: 0.3,
@@ -1956,7 +1968,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       Text(
                                         activity.name,
                                         style: const TextStyle(
@@ -1979,10 +1991,10 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                                   ) ==
                                   true)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
@@ -1990,7 +2002,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                                     child: Icon(
                                       Icons.check,
                                       color: gradient[0],
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),
@@ -2011,637 +2023,8 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
 }
 
 // Counting Activity Screen
-class _CountingActivityScreen extends StatefulWidget {
-  final int count;
-  final String item;
-  final Function(int) onComplete;
-
-  const _CountingActivityScreen({
-    required this.count,
-    required this.item,
-    required this.onComplete,
-  });
-
-  @override
-  State<_CountingActivityScreen> createState() =>
-      _CountingActivityScreenState();
-}
-
-class _CountingActivityScreenState extends State<_CountingActivityScreen> {
-  int _tappedCount = 0;
-
-  void _onItemTap() {
-    if (_tappedCount < widget.count) {
-      HapticFeedback.lightImpact();
-      setState(() => _tappedCount++);
-
-      if (_tappedCount == widget.count) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          widget.onComplete(10);
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: Text(
-          'Count to ${widget.count}',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-              Color(0xFFF5576C),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.0, 0.3, 0.7, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Text(
-                '$_tappedCount / ${widget.count}',
-                style: const TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: Center(
-                  child: Wrap(
-                    spacing: 16,
-                    runSpacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: List.generate(widget.count, (index) {
-                      final isTapped = index < _tappedCount;
-                      return GestureDetector(
-                        onTap: !isTapped ? _onItemTap : null,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: 70,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: isTapped
-                                  ? [
-                                      const Color(0xFF4CAF50),
-                                      const Color(0xFF66BB6A),
-                                    ]
-                                  : [
-                                      Colors.white.withValues(alpha: 0.3),
-                                      Colors.white.withValues(alpha: 0.1),
-                                    ],
-                            ),
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              widget.item,
-                              style: TextStyle(fontSize: isTapped ? 36 : 28),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-              ),
-              if (_tappedCount == widget.count)
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('🎉', style: TextStyle(fontSize: 24)),
-                        SizedBox(width: 12),
-                        Text(
-                          'Great Job! +10 points',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 // Matching Activity Screen
-class _MatchingActivityScreen extends StatefulWidget {
-  final List<Map<String, String>> pairs;
-  final Function(int) onComplete;
-
-  const _MatchingActivityScreen({
-    required this.pairs,
-    required this.onComplete,
-  });
-
-  @override
-  State<_MatchingActivityScreen> createState() =>
-      _MatchingActivityScreenState();
-}
-
-class _MatchingActivityScreenState extends State<_MatchingActivityScreen> {
-  int? _selectedEmojiIndex;
-  final Set<int> _matched = {};
-  final Random _random = Random();
-  late List<String> _shuffledNames;
-
-  @override
-  void initState() {
-    super.initState();
-    _shuffledNames = widget.pairs.map((p) => p['name']!).toList()
-      ..shuffle(_random);
-  }
-
-  void _onEmojiTap(int index) {
-    if (_matched.contains(index)) return;
-    HapticFeedback.lightImpact();
-    setState(() => _selectedEmojiIndex = index);
-  }
-
-  void _onNameTap(String name) {
-    if (_selectedEmojiIndex == null) return;
-
-    final selectedPair = widget.pairs[_selectedEmojiIndex!];
-    if (selectedPair['name'] == name) {
-      HapticFeedback.mediumImpact();
-      setState(() {
-        _matched.add(_selectedEmojiIndex!);
-        _selectedEmojiIndex = null;
-      });
-
-      if (_matched.length == widget.pairs.length) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          widget.onComplete(15);
-        });
-      }
-    } else {
-      setState(() => _selectedEmojiIndex = null);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: const Text(
-          'Match the pairs!',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-              Color(0xFFF5576C),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.0, 0.3, 0.7, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                const Text(
-                  'Tap emoji, then tap its name!',
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
-                ),
-                const SizedBox(height: 30),
-
-                // Emojis
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(widget.pairs.length, (index) {
-                    final isMatched = _matched.contains(index);
-                    final isSelected = _selectedEmojiIndex == index;
-                    return GestureDetector(
-                      onTap: () => _onEmojiTap(index),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: isMatched
-                                ? [
-                                    const Color(0xFF4CAF50),
-                                    const Color(0xFF66BB6A),
-                                  ]
-                                : (isSelected
-                                      ? [
-                                          const Color(0xFFFF6B6B),
-                                          const Color(0xFFFF8E53),
-                                        ]
-                                      : [
-                                          Colors.white.withValues(alpha: 0.2),
-                                          Colors.white.withValues(alpha: 0.1),
-                                        ]),
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isSelected
-                                ? Colors.white
-                                : Colors.transparent,
-                            width: 3,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            widget.pairs[index]['emoji']!,
-                            style: const TextStyle(fontSize: 40),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-
-                const SizedBox(height: 40),
-
-                // Names
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.center,
-                  children: _shuffledNames.map((name) {
-                    final isMatched = widget.pairs.any(
-                      (p) =>
-                          p['name'] == name &&
-                          _matched.contains(widget.pairs.indexOf(p)),
-                    );
-                    return GestureDetector(
-                      onTap: isMatched ? null : () => _onNameTap(name),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: isMatched
-                                ? [
-                                    const Color(0xFF4CAF50),
-                                    const Color(0xFF66BB6A),
-                                  ]
-                                : [
-                                    const Color(0xFF667EEA),
-                                    const Color(0xFF764BA2),
-                                  ],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-
-                const Spacer(),
-
-                if (_matched.length == widget.pairs.length)
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('🎉', style: TextStyle(fontSize: 24)),
-                        SizedBox(width: 12),
-                        Text(
-                          'Perfect! +15 points',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 // Pattern Activity Screen
-class _PatternActivityScreen extends StatefulWidget {
-  final List<String> pattern;
-  final String correctAnswer;
-  final Function(int) onComplete;
-
-  const _PatternActivityScreen({
-    required this.pattern,
-    required this.correctAnswer,
-    required this.onComplete,
-  });
-
-  @override
-  State<_PatternActivityScreen> createState() => _PatternActivityScreenState();
-}
-
-class _PatternActivityScreenState extends State<_PatternActivityScreen> {
-  String? _selectedAnswer;
-  late List<String> _options;
-
-  @override
-  void initState() {
-    super.initState();
-    _options = [widget.correctAnswer, '🟢', '🟡']..shuffle();
-  }
-
-  void _checkAnswer(String answer) {
-    HapticFeedback.mediumImpact();
-    setState(() => _selectedAnswer = answer);
-
-    if (answer == widget.correctAnswer) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        widget.onComplete(10);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isCorrect = _selectedAnswer == widget.correctAnswer;
-
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: const Text(
-          'Complete the Pattern',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFFF093FB),
-              Color(0xFFF5576C),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.0, 0.3, 0.7, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const Spacer(),
-              const Text(
-                "What comes next?",
-                style: TextStyle(fontSize: 22, color: Colors.white),
-              ),
-              const SizedBox(height: 30),
-
-              // Pattern display
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ...widget.pattern.map(
-                    (p) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(p, style: const TextStyle(fontSize: 40)),
-                    ),
-                  ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        _selectedAnswer ?? '?',
-                        style: TextStyle(
-                          fontSize: _selectedAnswer != null ? 30 : 24,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 50),
-
-              // Options
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _options.map((option) {
-                  return GestureDetector(
-                    onTap: _selectedAnswer == null
-                        ? () => _checkAnswer(option)
-                        : null,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white),
-                      ),
-                      child: Center(
-                        child: Text(
-                          option,
-                          style: const TextStyle(fontSize: 36),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-
-              const SizedBox(height: 40),
-
-              if (_selectedAnswer != null)
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 40),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: isCorrect ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        isCorrect ? '🎉' : '😢',
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        isCorrect ? 'Correct! +10 points' : 'Try again!',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              const Spacer(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 enum ActivityType {
   counting,
   matching,

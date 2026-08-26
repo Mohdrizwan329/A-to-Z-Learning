@@ -7,6 +7,8 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 import 'package:jiyan_learning/services/firebase_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ParentDashboardPage extends StatefulWidget {
   const ParentDashboardPage({super.key});
 
@@ -84,41 +86,41 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             // Main content
             SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Child Profile Card
                     _buildChildProfileCard(),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     // Quick Stats
                     _buildQuickStats(progressService),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // Learning Activity
                     _buildSectionTitle('Learning Activity', '📈'),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildActivityChart(progressService),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // Strengths & Areas to Improve
                     _buildSectionTitle('Strengths', '💪'),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildStrengthsCard(progressService),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // Recommendations
                     _buildSectionTitle('Recommendations', '💡'),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildRecommendationsCard(progressService),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // Weekly Summary
                     _buildSectionTitle('Weekly Summary', '📅'),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildWeeklySummaryCard(),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // Settings
                     _buildSectionTitle('Parental Controls', '⚙️'),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildParentalControlsCard(),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),
@@ -136,21 +138,21 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new,
             color: Colors.white,
-            size: 18,
+            size: 18.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // Vibrant kid-friendly gradient - Coral to Pink to Orange (same as home)
           gradient: LinearGradient(
             colors: [
@@ -164,46 +166,54 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
         ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Parent ',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Parent ',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            'Dashboard',
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFE66D),
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(1, 2),
-                ),
-              ],
+            Text(
+              'Dashboard',
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFFFE66D),
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.r,
+                    offset: const Offset(1, 2),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -273,14 +283,14 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
           );
         },
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
                 border: Border.all(
                   color: Colors.white.withValues(alpha: 0.3),
                   width: 1.5,
@@ -288,7 +298,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 20,
+                    blurRadius: 20.r,
                     offset: const Offset(0, 10),
                   ),
                 ],
@@ -297,20 +307,20 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                 children: [
                   // Avatar with decorative ring and floating animation
                   Container(
-                    padding: const EdgeInsets.all(4),
+                    padding: EdgeInsets.all(4.r),
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
                         colors: [
                           Color(0xFFFF6B6B),
                           Color(0xFFFFAA5A),
-                          Color(0xFF4ECDC4)
+                          Color(0xFF4ECDC4),
                         ],
                       ),
                     ),
                     child: Container(
-                      width: 70,
-                      height: 70,
+                      width: 70.w,
+                      height: 70.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
@@ -320,7 +330,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +344,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                             shadows: [
                               Shadow(
                                 color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 4,
+                                blurRadius: 4.r,
                                 offset: const Offset(1, 2),
                               ),
                             ],
@@ -348,22 +358,23 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                               color: Colors.white.withValues(alpha: 0.9),
                             ),
                           ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
                           ),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [Color(0xFF56D97F), Color(0xFF44A08D)],
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF56D97F)
-                                    .withValues(alpha: 0.4),
-                                blurRadius: 8,
+                                color: const Color(
+                                  0xFF56D97F,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 8.r,
                                 offset: const Offset(0, 2),
                               ),
                             ],
@@ -392,13 +403,17 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
   Widget _buildQuickStats(ProgressService progressService) {
     return Obx(() {
       final overallProgress = progressService.getOverallProgress();
-      final numbersProgress =
-          progressService.getProgressPercentage(ProgressService.kNumbers);
+      final numbersProgress = progressService.getProgressPercentage(
+        ProgressService.kNumbers,
+      );
       final lettersProgress =
-          (progressService.getProgressPercentage(ProgressService.kCapitalLetters) +
-                  progressService
-                      .getProgressPercentage(ProgressService.kSmallLetters)) /
-              2;
+          (progressService.getProgressPercentage(
+                ProgressService.kCapitalLetters,
+              ) +
+              progressService.getProgressPercentage(
+                ProgressService.kSmallLetters,
+              )) /
+          2;
 
       return Row(
         children: [
@@ -411,7 +426,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               0,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: _buildStatCard(
               'Numbers',
@@ -421,7 +436,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               1,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: _buildStatCard(
               'Letters',
@@ -452,18 +467,18 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
         return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -472,11 +487,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
           children: [
             // Decorative circle (top-right)
             Positioned(
-              top: -15,
-              right: -15,
+              top: -15.h,
+              right: -15.w,
               child: Container(
-                width: 50,
-                height: 50,
+                width: 50.w,
+                height: 50.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.1),
@@ -485,11 +500,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             ),
             // Decorative circle (bottom-left)
             Positioned(
-              bottom: -20,
-              left: -20,
+              bottom: -20.h,
+              left: -20.w,
               child: Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.08),
@@ -498,11 +513,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             ),
             // Small sparkle dots
             Positioned(
-              top: 8,
-              left: 8,
+              top: 8.h,
+              left: 8.w,
               child: Container(
-                width: 6,
-                height: 6,
+                width: 6.w,
+                height: 6.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.5),
@@ -510,11 +525,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               ),
             ),
             Positioned(
-              bottom: 12,
-              right: 12,
+              bottom: 12.h,
+              right: 12.w,
               child: Container(
-                width: 4,
-                height: 4,
+                width: 4.w,
+                height: 4.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.4),
@@ -525,8 +540,8 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               children: [
                 // Emoji container with glow effect
                 Container(
-                  width: 55,
-                  height: 55,
+                  width: 55.w,
+                  height: 55.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
                     shape: BoxShape.circle,
@@ -537,8 +552,8 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.white.withValues(alpha: 0.2),
-                        blurRadius: 10,
-                        spreadRadius: 2,
+                        blurRadius: 10.r,
+                        spreadRadius: 2.r,
                       ),
                     ],
                   ),
@@ -546,7 +561,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     child: Text(emoji, style: const TextStyle(fontSize: 26)),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Text(
                   value,
                   style: GoogleFonts.baloo2(
@@ -556,7 +571,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     shadows: [
                       Shadow(
                         color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 4,
+                        blurRadius: 4.r,
                         offset: const Offset(1, 2),
                       ),
                     ],
@@ -571,7 +586,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     shadows: [
                       Shadow(
                         color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 2,
+                        blurRadius: 2.r,
                         offset: const Offset(0, 1),
                       ),
                     ],
@@ -588,23 +603,26 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
   Widget _buildSectionTitle(String title, String emoji) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(emoji, style: const TextStyle(fontSize: 18)),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: GoogleFonts.baloo2(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          SizedBox(width: 8.w),
+          Flexible(
+            child: Text(
+              title,
+              style: GoogleFonts.baloo2(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -623,234 +641,247 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
       },
       child: Obx(() {
         final categories = [
-        {
-          'key': ProgressService.kNumbers,
-          'label': 'Numbers',
-          'emoji': '🔢',
-          'gradient': const [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
-        },
-        {
-          'key': ProgressService.kCapitalLetters,
-          'label': 'Capital',
-          'emoji': '🅰️',
-          'gradient': const [Color(0xFF4ECDC4), Color(0xFF44A08D)]
-        },
-        {
-          'key': ProgressService.kSmallLetters,
-          'label': 'Small',
-          'emoji': '🔤',
-          'gradient': const [Color(0xFFFFAA5A), Color(0xFFFF8E53)]
-        },
-        {
-          'key': ProgressService.kHindiLetters,
-          'label': 'Hindi',
-          'emoji': '🇮🇳',
-          'gradient': const [Color(0xFFA78BFA), Color(0xFF8B5CF6)]
-        },
-        {
-          'key': ProgressService.kTables,
-          'label': 'Tables',
-          'emoji': '✖️',
-          'gradient': const [Color(0xFF56D97F), Color(0xFF44A08D)]
-        },
-      ];
-
-      return Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
+          {
+            'key': ProgressService.kNumbers,
+            'label': 'Numbers',
+            'emoji': '🔢',
+            'gradient': const [
+              Color(0xFFFF6B6B),
+              Color(0xFFFF8E53),
+              Color(0xFFFFAA5A),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF667EEA).withValues(alpha: 0.4),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            // Decorative elements
-            Positioned(
-              top: -20,
-              right: -20,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.1),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -30,
-              left: -30,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08),
-                ),
-              ),
-            ),
-            // Sparkle dots
-            Positioned(
-              top: 15,
-              left: 20,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.5),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 20,
-              right: 30,
-              child: Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.4),
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: categories.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final cat = entry.value;
-                    final progress = progressService
-                        .getProgressPercentage(cat['key'] as String);
-                    final gradient = cat['gradient'] as List<Color>;
-                    const maxHeight = 100.0;
+          },
+          {
+            'key': ProgressService.kCapitalLetters,
+            'label': 'Capital',
+            'emoji': '🅰️',
+            'gradient': const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+          },
+          {
+            'key': ProgressService.kSmallLetters,
+            'label': 'Small',
+            'emoji': '🔤',
+            'gradient': const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
+          },
+          {
+            'key': ProgressService.kHindiLetters,
+            'label': 'Hindi',
+            'emoji': '🇮🇳',
+            'gradient': const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+          },
+          {
+            'key': ProgressService.kTables,
+            'label': 'Tables',
+            'emoji': '✖️',
+            'gradient': const [Color(0xFF56D97F), Color(0xFF44A08D)],
+          },
+        ];
 
-                    return AnimatedBuilder(
-                      animation: _floatController,
-                      builder: (context, child) {
-                        final offset = (index % 2 == 0)
-                            ? _floatAnimation.value * 0.3
-                            : -_floatAnimation.value * 0.3;
-                        return Transform.translate(
-                            offset: Offset(0, offset), child: child);
-                      },
-                      child: Column(
-                        children: [
-                          // Emoji icon
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                cat['emoji'] as String,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          // Percentage label
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: gradient),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: gradient[0].withValues(alpha: 0.4),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              '${progress.toStringAsFixed(0)}%',
-                              style: GoogleFonts.baloo2(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          // Bar with inner glow
-                          Container(
-                            width: 48,
-                            height:
-                                maxHeight * (progress / 100).clamp(0.08, 1.0),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: gradient,
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.3),
-                                width: 2,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: gradient[0].withValues(alpha: 0.5),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
-                                ),
-                                BoxShadow(
-                                  color: Colors.white.withValues(alpha: 0.1),
-                                  blurRadius: 5,
-                                  spreadRadius: -2,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            cat['label'] as String,
-                            style: GoogleFonts.nunito(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.2),
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
+        return Container(
+          padding: EdgeInsets.all(20.r),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-        ),
-      );
-    }),
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF667EEA).withValues(alpha: 0.4),
+                blurRadius: 15.r,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              // Decorative elements
+              Positioned(
+                top: -20.h,
+                right: -20.w,
+                child: Container(
+                  width: 80.w,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: -30.h,
+                left: -30.w,
+                child: Container(
+                  width: 100.w,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.08),
+                  ),
+                ),
+              ),
+              // Sparkle dots
+              Positioned(
+                top: 15.h,
+                left: 20.w,
+                child: Container(
+                  width: 8.w,
+                  height: 8.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.5),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 20.h,
+                right: 30.w,
+                child: Container(
+                  width: 6.w,
+                  height: 6.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.4),
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: categories.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final cat = entry.value;
+                      final progress = progressService.getProgressPercentage(
+                        cat['key'] as String,
+                      );
+                      final gradient = cat['gradient'] as List<Color>;
+                      const maxHeight = 100.0;
+
+                      // Equal shares: five subject bars together are wider
+                      // than the card on a small phone.
+                      return Expanded(
+                        child: AnimatedBuilder(
+                          animation: _floatController,
+                          builder: (context, child) {
+                            final offset = (index % 2 == 0)
+                                ? _floatAnimation.value * 0.3
+                                : -_floatAnimation.value * 0.3;
+                            return Transform.translate(
+                              offset: Offset(0, offset),
+                              child: child,
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              // Emoji icon
+                              Container(
+                                width: 32.w,
+                                height: 32.h,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.2),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    cat['emoji'] as String,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 6.h),
+                              // Percentage label
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 3.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(colors: gradient),
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: gradient[0].withValues(alpha: 0.4),
+                                      blurRadius: 4.r,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '${progress.toStringAsFixed(0)}%',
+                                  style: GoogleFonts.baloo2(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8.h),
+                              // Bar with inner glow
+                              Container(
+                                width: 48.w,
+                                height:
+                                    maxHeight *
+                                    (progress / 100).clamp(0.08, 1.0),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: gradient,
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.3),
+                                    width: 2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: gradient[0].withValues(alpha: 0.5),
+                                      blurRadius: 10.r,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                    BoxShadow(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.1,
+                                      ),
+                                      blurRadius: 5.r,
+                                      spreadRadius: -2.r,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
+                              Text(
+                                cat['label'] as String,
+                                style: GoogleFonts.nunito(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      blurRadius: 2.r,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -865,168 +896,186 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
       },
       child: Obx(() {
         final categories = {
-        'Numbers':
-            progressService.getProgressPercentage(ProgressService.kNumbers),
-        'Capital Letters': progressService
-            .getProgressPercentage(ProgressService.kCapitalLetters),
-        'Small Letters': progressService
-            .getProgressPercentage(ProgressService.kSmallLetters),
-        'Hindi Letters': progressService
-            .getProgressPercentage(ProgressService.kHindiLetters),
-        'Tables':
-            progressService.getProgressPercentage(ProgressService.kTables),
-      };
-
-      final sorted = categories.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.value));
-
-      final strengths = sorted.take(2).toList();
-      final needsWork = sorted.reversed.take(2).toList();
-
-      return Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF56D97F),
-              Color(0xFF44A08D),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          'Numbers': progressService.getProgressPercentage(
+            ProgressService.kNumbers,
           ),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+          'Capital Letters': progressService.getProgressPercentage(
+            ProgressService.kCapitalLetters,
+          ),
+          'Small Letters': progressService.getProgressPercentage(
+            ProgressService.kSmallLetters,
+          ),
+          'Hindi Letters': progressService.getProgressPercentage(
+            ProgressService.kHindiLetters,
+          ),
+          'Tables': progressService.getProgressPercentage(
+            ProgressService.kTables,
+          ),
+        };
+
+        final sorted = categories.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value));
+
+        final strengths = sorted.take(2).toList();
+        final needsWork = sorted.reversed.take(2).toList();
+
+        return Container(
+          padding: EdgeInsets.all(20.r),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF56D97F), Color(0xFF44A08D)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            // Decorative elements
-            Positioned(
-              top: -25,
-              right: -25,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.1),
-                ),
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF56D97F).withValues(alpha: 0.4),
+                blurRadius: 15.r,
+                offset: const Offset(0, 8),
               ),
-            ),
-            Positioned(
-              bottom: -30,
-              left: -30,
-              child: Container(
-                width: 90,
-                height: 90,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08),
-                ),
-              ),
-            ),
-            // Sparkle dots
-            Positioned(
-              top: 12,
-              left: 15,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                ...strengths.map((e) => _buildProgressItem(
-                      e.key,
-                      e.value,
-                      const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-                      '💪',
-                    )),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 16),
-                  height: 2,
+            ],
+          ),
+          child: Stack(
+            children: [
+              // Decorative elements
+              Positioned(
+                top: -25.h,
+                right: -25.w,
+                child: Container(
+                  width: 80.w,
+                  height: 80.h,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.white.withValues(alpha: 0.5),
-                        Colors.transparent,
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: -30.h,
+                left: -30.w,
+                child: Container(
+                  width: 90.w,
+                  height: 90.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.08),
+                  ),
+                ),
+              ),
+              // Sparkle dots
+              Positioned(
+                top: 12.h,
+                left: 15.w,
+                child: Container(
+                  width: 8.w,
+                  height: 8.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  ...strengths.map(
+                    (e) => _buildProgressItem(e.key, e.value, const [
+                      Color(0xFF4ECDC4),
+                      Color(0xFF44A08D),
+                    ], '💪'),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 16.h),
+                    height: 2.h,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.white.withValues(alpha: 0.5),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
+                      ),
+                      borderRadius: BorderRadius.circular(14.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
+                          blurRadius: 8.r,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: const Text(
+                            '📚',
+                            style: TextStyle(fontSize: 16),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Flexible(
+                          child: Text(
+                            'Areas to Improve',
+                            style: GoogleFonts.baloo2(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
-                    ),
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                  SizedBox(height: 12.h),
+                  ...needsWork.map(
+                    (e) => _buildProgressItem(e.key, e.value, const [
+                      Color(0xFFFF6B6B),
+                      Color(0xFFFF8E53),
+                      Color(0xFFFFAA5A),
+                    ], '📖'),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('📚', style: TextStyle(fontSize: 16)),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Areas to Improve',
-                        style: GoogleFonts.baloo2(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 12),
-                ...needsWork.map((e) => _buildProgressItem(
-                      e.key,
-                      e.value,
-                      const [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                      '📖',
-                    )),
-              ],
-            ),
-          ],
-        ),
-      );
-    }),
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
   Widget _buildProgressItem(
-      String label, double progress, List<Color> gradient, String emoji) {
+    String label,
+    double progress,
+    List<Color> gradient,
+    String emoji,
+  ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: gradient),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             child: Text(emoji, style: const TextStyle(fontSize: 18)),
           ),
-          const SizedBox(width: 14),
+          SizedBox(width: 14.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1039,12 +1088,12 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 Container(
-                  height: 10,
+                  height: 10.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                   child: FractionallySizedBox(
                     alignment: Alignment.centerLeft,
@@ -1052,11 +1101,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(colors: gradient),
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 4,
+                            blurRadius: 4.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -1067,12 +1116,12 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               ],
             ),
           ),
-          const SizedBox(width: 14),
+          SizedBox(width: 14.w),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: gradient),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             child: Text(
               '${progress.toStringAsFixed(0)}%',
@@ -1100,118 +1149,122 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
       child: Obx(() {
         final recommendations = <Map<String, dynamic>>[];
 
-      if (progressService.getProgressPercentage(ProgressService.kNumbers) <
-          50) {
-        recommendations.add({
-          'text': 'Practice counting numbers daily',
-          'icon': '🔢',
-          'gradient': const [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-        });
-      }
-      if (progressService
-              .getProgressPercentage(ProgressService.kCapitalLetters) <
-          50) {
-        recommendations.add({
-          'text': 'Focus on learning capital letters',
-          'icon': '🅰️',
-          'gradient': const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-        });
-      }
-      if (progressService.getProgressPercentage(ProgressService.kTables) < 30) {
-        recommendations.add({
-          'text': 'Start with basic multiplication tables',
-          'icon': '✖️',
-          'gradient': const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
-        });
-      }
-      if (recommendations.isEmpty) {
-        recommendations.add({
-          'text': 'Great progress! Keep up the good work!',
-          'icon': '🌟',
-          'gradient': const [Color(0xFF56D97F), Color(0xFF44A08D)],
-        });
-        recommendations.add({
-          'text': 'Try advanced math games for more challenge',
-          'icon': '🎮',
-          'gradient': const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-        });
-      }
-
-      return Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFA78BFA),
-              Color(0xFF8B5CF6),
+        if (progressService.getProgressPercentage(ProgressService.kNumbers) <
+            50) {
+          recommendations.add({
+            'text': 'Practice counting numbers daily',
+            'icon': '🔢',
+            'gradient': const [
+              Color(0xFFFF6B6B),
+              Color(0xFFFF8E53),
+              Color(0xFFFFAA5A),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          });
+        }
+        if (progressService.getProgressPercentage(
+              ProgressService.kCapitalLetters,
+            ) <
+            50) {
+          recommendations.add({
+            'text': 'Focus on learning capital letters',
+            'icon': '🅰️',
+            'gradient': const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+          });
+        }
+        if (progressService.getProgressPercentage(ProgressService.kTables) <
+            30) {
+          recommendations.add({
+            'text': 'Start with basic multiplication tables',
+            'icon': '✖️',
+            'gradient': const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
+          });
+        }
+        if (recommendations.isEmpty) {
+          recommendations.add({
+            'text': 'Great progress! Keep up the good work!',
+            'icon': '🌟',
+            'gradient': const [Color(0xFF56D97F), Color(0xFF44A08D)],
+          });
+          recommendations.add({
+            'text': 'Try advanced math games for more challenge',
+            'icon': '🎮',
+            'gradient': const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+          });
+        }
+
+        return Container(
+          padding: EdgeInsets.all(20.r),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
+                blurRadius: 15.r,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            // Decorative elements
-            Positioned(
-              top: -25,
-              right: -25,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.1),
+          child: Stack(
+            children: [
+              // Decorative elements
+              Positioned(
+                top: -25.h,
+                right: -25.w,
+                child: Container(
+                  width: 80.w,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: -35,
-              left: -35,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08),
+              Positioned(
+                bottom: -35.h,
+                left: -35.w,
+                child: Container(
+                  width: 100.w,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.08),
+                  ),
                 ),
               ),
-            ),
-            // Sparkle dots
-            Positioned(
-              top: 10,
-              left: 15,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.6),
+              // Sparkle dots
+              Positioned(
+                top: 10.h,
+                left: 15.w,
+                child: Container(
+                  width: 8.w,
+                  height: 8.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
                 ),
               ),
-            ),
-            Column(
-              children: recommendations
-                  .map((r) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+              Column(
+                children: recommendations
+                    .map(
+                      (r) => Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
                         child: Row(
                           children: [
                             // Emoji container with glow
                             Container(
-                              width: 50,
-                              height: 50,
+                              width: 50.w,
+                              height: 50.h,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: r['gradient'] as List<Color>,
                                 ),
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(16.r),
                                 border: Border.all(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   width: 2,
@@ -1220,7 +1273,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                                   BoxShadow(
                                     color: (r['gradient'] as List<Color>)[0]
                                         .withValues(alpha: 0.4),
-                                    blurRadius: 8,
+                                    blurRadius: 8.r,
                                     offset: const Offset(0, 4),
                                   ),
                                 ],
@@ -1232,7 +1285,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 14),
+                            SizedBox(width: 14.w),
                             Expanded(
                               child: Text(
                                 r['text'] as String,
@@ -1242,8 +1295,10 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withValues(alpha: 0.2),
-                                      blurRadius: 2,
+                                      color: Colors.black.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      blurRadius: 2.r,
                                       offset: const Offset(0, 1),
                                     ),
                                   ],
@@ -1251,30 +1306,31 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.all(10.r),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                                 border: Border.all(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   width: 1,
                                 ),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_forward_ios,
-                                size: 16,
+                                size: 16.r,
                                 color: Colors.white,
                               ),
                             ),
                           ],
                         ),
-                      ))
-                  .toList(),
-            ),
-          ],
-        ),
-      );
-    }),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -1288,186 +1344,219 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
         );
       },
       child: Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFFFF6B6B),
-            Color(0xFFFF8E53),
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
+              blurRadius: 15.r,
+              offset: const Offset(0, 8),
+            ),
           ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          // Decorative elements
-          Positioned(
-            top: -30,
-            right: -30,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -40,
-            left: -40,
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.08),
-              ),
-            ),
-          ),
-          // Sparkle dots
-          Positioned(
-            top: 15,
-            left: 20,
-            child: Container(
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.6),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 50,
-            right: 40,
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.5),
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildSummaryItem('Time Spent', '2h 30m', '⏱️',
-                      const [Color(0xFF4ECDC4), Color(0xFF44A08D)]),
-                  _buildSummaryItem('Lessons', '12', '📖',
-                      const [Color(0xFFA78BFA), Color(0xFF8B5CF6)]),
-                  _buildSummaryItem('Streak', '5 days', '🔥',
-                      const [Color(0xFFFFE66D), Color(0xFFFFCA28)]),
-                ],
-              ),
-              const SizedBox(height: 24),
-              // Weekly chart with enhanced styling
-              Container(
-                padding: const EdgeInsets.all(16),
+        child: Stack(
+          children: [
+            // Decorative elements
+            Positioned(
+              top: -30.h,
+              right: -30.w,
+              child: Container(
+                width: 100.w,
+                height: 100.h,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    width: 1,
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.1),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: -40.h,
+              left: -40.w,
+              child: Container(
+                width: 120.w,
+                height: 120.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.08),
+                ),
+              ),
+            ),
+            // Sparkle dots
+            Positioned(
+              top: 15.h,
+              left: 20.w,
+              child: Container(
+                width: 8.w,
+                height: 8.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 50.h,
+              right: 40.w,
+              child: Container(
+                width: 5.w,
+                height: 5.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.5),
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // Equal shares so the widest label wraps in its own column.
+                    Expanded(
+                      child: _buildSummaryItem(
+                        'Time Spent',
+                        '2h 30m',
+                        '⏱️',
+                        const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildSummaryItem('Lessons', '12', '📖', const [
+                        Color(0xFFA78BFA),
+                        Color(0xFF8B5CF6),
+                      ]),
+                    ),
+                    Expanded(
+                      child: _buildSummaryItem('Streak', '5 days', '🔥', const [
+                        Color(0xFFFFE66D),
+                        Color(0xFFFFCA28),
+                      ]),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24.h),
+                // Weekly chart with enhanced styling
+                Container(
+                  padding: EdgeInsets.all(16.r),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(16.r),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                        .asMap()
+                        .entries
+                        .map((entry) {
+                          final isToday =
+                              entry.key == DateTime.now().weekday - 1;
+                          final heights = [0.4, 0.6, 0.8, 0.5, 0.9, 0.3, 0.0];
+                          // Seven day columns are wider than the card on a
+                          // small phone; equal shares keep them inside it.
+                          return Expanded(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 32.w,
+                                  height:
+                                      70.h * heights[entry.key].clamp(0.1, 1.0),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: isToday
+                                          ? const [
+                                              Color(0xFFFFE66D),
+                                              Color(0xFFFFCA28),
+                                            ]
+                                          : const [
+                                              Color(0xFF4ECDC4),
+                                              Color(0xFF44A08D),
+                                            ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    border: Border.all(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      width: 1.5,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            (isToday
+                                                    ? const Color(0xFFFFE66D)
+                                                    : const Color(0xFF4ECDC4))
+                                                .withValues(alpha: 0.5),
+                                        blurRadius: 6.r,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 8.h),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 6.w,
+                                    vertical: 2.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isToday
+                                        ? Colors.white.withValues(alpha: 0.3)
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(6.r),
+                                  ),
+                                  child: Text(
+                                    entry.value,
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 11,
+                                      fontWeight: isToday
+                                          ? FontWeight.bold
+                                          : FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        })
+                        .toList(),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                      .asMap()
-                      .entries
-                      .map((entry) {
-                    final isToday = entry.key == DateTime.now().weekday - 1;
-                    final heights = [0.4, 0.6, 0.8, 0.5, 0.9, 0.3, 0.0];
-                    return Column(
-                      children: [
-                        Container(
-                          width: 32,
-                          height: 70 * heights[entry.key].clamp(0.1, 1.0),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: isToday
-                                  ? const [Color(0xFFFFE66D), Color(0xFFFFCA28)]
-                                  : const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.3),
-                              width: 1.5,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: (isToday
-                                        ? const Color(0xFFFFE66D)
-                                        : const Color(0xFF4ECDC4))
-                                    .withValues(alpha: 0.5),
-                                blurRadius: 6,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isToday
-                                ? Colors.white.withValues(alpha: 0.3)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            entry.value,
-                            style: GoogleFonts.nunito(
-                              fontSize: 11,
-                              fontWeight:
-                                  isToday ? FontWeight.bold : FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 
   Widget _buildSummaryItem(
-      String label, String value, String emoji, List<Color> gradient) {
+    String label,
+    String value,
+    String emoji,
+    List<Color> gradient,
+  ) {
     return Column(
       children: [
         // Emoji container with glow effect
         Container(
-          width: 60,
-          height: 60,
+          width: 60.w,
+          height: 60.h,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: gradient),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(18.r),
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.3),
               width: 2,
@@ -1475,13 +1564,13 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             boxShadow: [
               BoxShadow(
                 color: gradient[0].withValues(alpha: 0.5),
-                blurRadius: 12,
+                blurRadius: 12.r,
                 offset: const Offset(0, 5),
               ),
               BoxShadow(
                 color: Colors.white.withValues(alpha: 0.1),
-                blurRadius: 5,
-                spreadRadius: -2,
+                blurRadius: 5.r,
+                spreadRadius: -2.r,
               ),
             ],
           ),
@@ -1489,7 +1578,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             child: Text(emoji, style: const TextStyle(fontSize: 28)),
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Text(
           value,
           style: GoogleFonts.baloo2(
@@ -1499,7 +1588,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             shadows: [
               Shadow(
                 color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 3,
+                blurRadius: 3.r,
                 offset: const Offset(0, 1),
               ),
             ],
@@ -1514,7 +1603,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             shadows: [
               Shadow(
                 color: Colors.black.withValues(alpha: 0.15),
-                blurRadius: 2,
+                blurRadius: 2.r,
                 offset: const Offset(0, 1),
               ),
             ],
@@ -1534,126 +1623,127 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
         );
       },
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [
-              Color(0xFF4ECDC4),
-              Color(0xFF44A08D),
-            ],
+            colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Stack(
-        children: [
-          // Decorative elements
-          Positioned(
-            top: -30,
-            right: -30,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+          children: [
+            // Decorative elements
+            Positioned(
+              top: -30.h,
+              right: -30.w,
+              child: Container(
+                width: 100.w,
+                height: 100.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.1),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -40,
-            left: -40,
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.08),
+            Positioned(
+              bottom: -40.h,
+              left: -40.w,
+              child: Container(
+                width: 120.w,
+                height: 120.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.08),
+                ),
               ),
             ),
-          ),
-          // Sparkle dots
-          Positioned(
-            top: 15,
-            left: 20,
-            child: Container(
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.6),
+            // Sparkle dots
+            Positioned(
+              top: 15.h,
+              left: 20.w,
+              child: Container(
+                width: 8.w,
+                height: 8.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 30,
-            right: 25,
-            child: Container(
-              width: 6,
-              height: 6,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.5),
+            Positioned(
+              bottom: 30.h,
+              right: 25.w,
+              child: Container(
+                width: 6.w,
+                height: 6.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.5),
+                ),
               ),
             ),
-          ),
-          Column(
-            children: [
-              _buildControlItem(
-                'Screen Time Limit',
-                'Set daily usage limits',
-                Icons.timer_outlined,
-                const [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                _screenTimeEnabled,
-                (v) => setState(() => _screenTimeEnabled = v),
-              ),
-              _buildDivider(),
-              _buildControlItem(
-                'Content Filter',
-                'Age-appropriate content only',
-                Icons.shield_outlined,
-                const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                _contentFilterEnabled,
-                (v) => setState(() => _contentFilterEnabled = v),
-              ),
-              _buildDivider(),
-              _buildControlItem(
-                'Progress Notifications',
-                'Get weekly reports',
-                Icons.notifications_outlined,
-                const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
-                _progressNotificationsEnabled,
-                (v) => setState(() => _progressNotificationsEnabled = v),
-              ),
-              _buildDivider(),
-              _buildControlItem(
-                'Learning Goals',
-                'Set daily learning targets',
-                Icons.flag_outlined,
-                const [Color(0xFF56D97F), Color(0xFF44A08D)],
-                _learningGoalsEnabled,
-                (v) => setState(() => _learningGoalsEnabled = v),
-              ),
-            ],
-          ),
-        ],
+            Column(
+              children: [
+                _buildControlItem(
+                  'Screen Time Limit',
+                  'Set daily usage limits',
+                  Icons.timer_outlined,
+                  const [
+                    Color(0xFFFF6B6B),
+                    Color(0xFFFF8E53),
+                    Color(0xFFFFAA5A),
+                  ],
+                  _screenTimeEnabled,
+                  (v) => setState(() => _screenTimeEnabled = v),
+                ),
+                _buildDivider(),
+                _buildControlItem(
+                  'Content Filter',
+                  'Age-appropriate content only',
+                  Icons.shield_outlined,
+                  const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+                  _contentFilterEnabled,
+                  (v) => setState(() => _contentFilterEnabled = v),
+                ),
+                _buildDivider(),
+                _buildControlItem(
+                  'Progress Notifications',
+                  'Get weekly reports',
+                  Icons.notifications_outlined,
+                  const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
+                  _progressNotificationsEnabled,
+                  (v) => setState(() => _progressNotificationsEnabled = v),
+                ),
+                _buildDivider(),
+                _buildControlItem(
+                  'Learning Goals',
+                  'Set daily learning targets',
+                  Icons.flag_outlined,
+                  const [Color(0xFF56D97F), Color(0xFF44A08D)],
+                  _learningGoalsEnabled,
+                  (v) => setState(() => _learningGoalsEnabled = v),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 
   Widget _buildDivider() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      height: 1,
+      margin: EdgeInsets.symmetric(vertical: 8.h),
+      height: 1.h,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -1675,11 +1765,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
     ValueChanged<bool> onChanged,
   ) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.symmetric(vertical: 6.h),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.2),
           width: 1.5,
@@ -1687,7 +1777,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
+            blurRadius: 8.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -1696,15 +1786,15 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
         children: [
           // Icon container with glow effect and floating animation
           Container(
-            width: 56,
-            height: 56,
+            width: 56.w,
+            height: 56.h,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.4),
                 width: 2.5,
@@ -1712,13 +1802,13 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.5),
-                  blurRadius: 12,
+                  blurRadius: 12.r,
                   offset: const Offset(0, 5),
                 ),
                 BoxShadow(
                   color: Colors.white.withValues(alpha: 0.1),
-                  blurRadius: 6,
-                  spreadRadius: -2,
+                  blurRadius: 6.r,
+                  spreadRadius: -2.r,
                 ),
               ],
             ),
@@ -1728,7 +1818,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       gradient: RadialGradient(
                         colors: [
                           Colors.white.withValues(alpha: 0.2),
@@ -1741,12 +1831,12 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                   ),
                 ),
                 Center(
-                  child: Icon(icon, color: Colors.white, size: 28),
+                  child: Icon(icon, color: Colors.white, size: 28.r),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1760,13 +1850,13 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     shadows: [
                       Shadow(
                         color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 3,
+                        blurRadius: 3.r,
                         offset: const Offset(0, 1),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2.h),
                 Text(
                   subtitle,
                   style: GoogleFonts.nunito(
@@ -1784,11 +1874,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
-              width: 60,
-              height: 34,
-              padding: const EdgeInsets.all(3),
+              width: 60.w,
+              height: 34.h,
+              padding: EdgeInsets.all(3.r),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 gradient: value
                     ? LinearGradient(
                         colors: gradient,
@@ -1807,7 +1897,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                     ? [
                         BoxShadow(
                           color: gradient[0].withValues(alpha: 0.4),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: const Offset(0, 3),
                         ),
                       ]
@@ -1816,18 +1906,17 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
               child: AnimatedAlign(
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.easeInOut,
-                alignment:
-                    value ? Alignment.centerRight : Alignment.centerLeft,
+                alignment: value ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
-                  width: 26,
-                  height: 26,
+                  width: 26.w,
+                  height: 26.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.15),
-                        blurRadius: 4,
+                        blurRadius: 4.r,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -1835,7 +1924,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                   child: value
                       ? Icon(
                           Icons.check_rounded,
-                          size: 16,
+                          size: 16.r,
                           color: gradient[0],
                         )
                       : null,

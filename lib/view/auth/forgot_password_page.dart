@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:jiyan_learning/view/auth/otp_verification_page.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
 
@@ -51,10 +53,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     setState(() => _isLoading = false);
 
     // Full phone number with country code
-    final fullPhoneNumber = '$_selectedCountryCode${_phoneController.text.trim()}';
+    final fullPhoneNumber =
+        '$_selectedCountryCode${_phoneController.text.trim()}';
 
-    Get.to(
-        () => OtpVerificationPage(phoneNumber: fullPhoneNumber));
+    Get.to(() => OtpVerificationPage(phoneNumber: fullPhoneNumber));
   }
 
   @override
@@ -88,7 +90,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -96,7 +103,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.r),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -106,25 +113,30 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                   child: GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 10.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 8,
+                            blurRadius: 8.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.arrow_back_rounded,
-                              size: 20, color: Color(0xFFAB47BC)),
-                          SizedBox(width: 6),
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            size: 20.r,
+                            color: Color(0xFFAB47BC),
+                          ),
+                          SizedBox(width: 6.w),
                           Text(
                             'Back',
                             style: TextStyle(
@@ -138,7 +150,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
 
                 // Animated mascot
                 AnimatedBuilder(
@@ -150,25 +162,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20.r),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 15,
+                          blurRadius: 15.r,
                           offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-                    child: const Text(
-                      '🔐',
-                      style: TextStyle(fontSize: 55),
-                    ),
+                    child: const Text('🔐', style: TextStyle(fontSize: 55)),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Title
                 const Text(
@@ -179,13 +188,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     color: Color(0xFF7B1FA2),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 8.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: const Text(
                     "No worries! We'll help you!",
@@ -196,14 +207,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
 
                 // Form Card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(25.r),
                     border: Border.all(
                       color: const Color(0xFFCE93D8),
                       width: 3,
@@ -211,7 +222,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.08),
-                        blurRadius: 15,
+                        blurRadius: 15.r,
                         offset: const Offset(0, 8),
                       ),
                     ],
@@ -228,13 +239,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
 
                         // Phone Field with Country Code Picker
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.grey[50],
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(
                               color: Colors.grey[300]!,
                               width: 2,
@@ -246,7 +257,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                               CountryCodePicker(
                                 onChanged: (CountryCode code) {
                                   setState(() {
-                                    _selectedCountryCode = code.dialCode ?? '+91';
+                                    _selectedCountryCode =
+                                        code.dialCode ?? '+91';
                                   });
                                 },
                                 initialSelection: 'IN',
@@ -271,8 +283,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                 flagWidth: 28,
                               ),
                               Container(
-                                width: 1,
-                                height: 35,
+                                width: 1.w,
+                                height: 35.h,
                                 color: Colors.grey[300],
                               ),
                               // Phone Number Input
@@ -299,8 +311,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                     ),
                                     border: InputBorder.none,
                                     counterText: '',
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 14),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 14.h,
+                                    ),
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -316,43 +330,48 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24.h),
 
                         // Send OTP Button
                         SizedBox(
                           width: double.infinity,
-                          height: 54,
+                          height: 54.h,
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _sendOtp,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFAB47BC),
                               foregroundColor: Colors.white,
                               elevation: 4,
-                              shadowColor: const Color(0xFFAB47BC)
-                                  .withValues(alpha: 0.4),
+                              shadowColor: const Color(
+                                0xFFAB47BC,
+                              ).withValues(alpha: 0.4),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(27),
+                                borderRadius: BorderRadius.circular(27.r),
                               ),
                             ),
                             child: _isLoading
-                                ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
+                                ? SizedBox(
+                                    height: 24.h,
+                                    width: 24.w,
                                     child: CircularProgressIndicator(
-                                      strokeWidth: 3,
+                                      strokeWidth: 3.r,
                                       color: Colors.white,
                                     ),
                                   )
-                                : const Row(
+                                : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.send_rounded, size: 22),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        'Send Magic Code',
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
+                                      Icon(Icons.send_rounded, size: 22.r),
+                                      SizedBox(width: 8.w),
+                                      Flexible(
+                                        child: Text(
+                                          'Send Magic Code',
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
                                       ),
                                     ],
@@ -365,17 +384,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                 ),
 
                 // Info Text
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Text('💡', style: TextStyle(fontSize: 24)),
-                      SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Text(
                           'We will send a 4-digit code to your phone!',
@@ -390,7 +409,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
               ],
             ),
           ),

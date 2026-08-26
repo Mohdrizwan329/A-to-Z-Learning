@@ -4,6 +4,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ImaginationPage extends StatefulWidget {
   const ImaginationPage({super.key});
 
@@ -11,7 +13,8 @@ class ImaginationPage extends StatefulWidget {
   State<ImaginationPage> createState() => _ImaginationPageState();
 }
 
-class _ImaginationPageState extends State<ImaginationPage> with TickerProviderStateMixin {
+class _ImaginationPageState extends State<ImaginationPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _sparkleController;
   late Animation<double> _sparkleAnimation;
@@ -106,12 +109,36 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
   ];
 
   final List<Map<String, dynamic>> pretendGames = [
-    {'game': 'Pretend to be a chef cooking a feast!', 'emoji': '👨‍🍳', 'color': Color(0xFFFF6B6B)},
-    {'game': 'Pretend to be a doctor helping patients!', 'emoji': '👩‍⚕️', 'color': Color(0xFF4ECDC4)},
-    {'game': 'Pretend to be a pilot flying a plane!', 'emoji': '👨‍✈️', 'color': Color(0xFF667EEA)},
-    {'game': 'Pretend to be a teacher in a classroom!', 'emoji': '👩‍🏫', 'color': Color(0xFF56D97F)},
-    {'game': 'Pretend to be a firefighter saving the day!', 'emoji': '👨‍🚒', 'color': Color(0xFFFFAA5A)},
-    {'game': 'Pretend to be an explorer in a jungle!', 'emoji': '🧭', 'color': Color(0xFFA78BFA)},
+    {
+      'game': 'Pretend to be a chef cooking a feast!',
+      'emoji': '👨‍🍳',
+      'color': Color(0xFFFF6B6B),
+    },
+    {
+      'game': 'Pretend to be a doctor helping patients!',
+      'emoji': '👩‍⚕️',
+      'color': Color(0xFF4ECDC4),
+    },
+    {
+      'game': 'Pretend to be a pilot flying a plane!',
+      'emoji': '👨‍✈️',
+      'color': Color(0xFF667EEA),
+    },
+    {
+      'game': 'Pretend to be a teacher in a classroom!',
+      'emoji': '👩‍🏫',
+      'color': Color(0xFF56D97F),
+    },
+    {
+      'game': 'Pretend to be a firefighter saving the day!',
+      'emoji': '👨‍🚒',
+      'color': Color(0xFFFFAA5A),
+    },
+    {
+      'game': 'Pretend to be an explorer in a jungle!',
+      'emoji': '🧭',
+      'color': Color(0xFFA78BFA),
+    },
   ];
 
   @override
@@ -156,37 +183,62 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
           ),
           elevation: 8,
-          title: const Text("Imagination", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+          title: const Text(
+            "Imagination",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
           centerTitle: true,
-          bottom: const TabBar(
+          bottom: TabBar(
             indicatorColor: Colors.white,
-            indicatorWeight: 3,
-            labelPadding: EdgeInsets.symmetric(horizontal: 20),
+            indicatorWeight: 3.r,
+            labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
             tabs: [
-              Tab(text: "Imagine", icon: Icon(Icons.auto_awesome, size: 20)),
-              Tab(text: "What If?", icon: Icon(Icons.help_outline, size: 20)),
-              Tab(text: "Pretend", icon: Icon(Icons.theater_comedy, size: 20)),
+              Tab(
+                text: "Imagine",
+                icon: Icon(Icons.auto_awesome, size: 20.r),
+              ),
+              Tab(
+                text: "What If?",
+                icon: Icon(Icons.help_outline, size: 20.r),
+              ),
+              Tab(
+                text: "Pretend",
+                icon: Icon(Icons.theater_comedy, size: 20.r),
+              ),
             ],
           ),
         ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+              colors: [
+                Color(0xFF667EEA),
+                Color(0xFF764BA2),
+                Color(0xFFF093FB),
+                Color(0xFFF5576C),
+              ],
               stops: [0.0, 0.3, 0.7, 1.0],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -206,7 +258,7 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
 
   Widget _buildImagineTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Animated header
@@ -219,17 +271,24 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
               );
             },
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           const Text(
             "Let's Use Our Imagination!",
-            style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             "Pick a world to explore",
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14),
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
 
           // Activity cards
           ListView.builder(
@@ -248,17 +307,28 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
+                  margin: EdgeInsets.only(bottom: 12.h),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     gradient: isExpanded
-                        ? LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFFA500)])
-                        : LinearGradient(colors: [activity['color'], activity['color'].withValues(alpha: 0.7)]),
-                    borderRadius: BorderRadius.circular(20),
-                    border: isExpanded ? Border.all(color: Colors.white, width: 2) : null,
+                        ? LinearGradient(
+                            colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                          )
+                        : LinearGradient(
+                            colors: [
+                              activity['color'],
+                              activity['color'].withValues(alpha: 0.7),
+                            ],
+                          ),
+                    borderRadius: BorderRadius.circular(20.r),
+                    border: isExpanded
+                        ? Border.all(color: Colors.white, width: 2)
+                        : null,
                     boxShadow: [
                       BoxShadow(
-                        color: (isExpanded ? Color(0xFFFFD700) : activity['color']).withValues(alpha: 0.4),
+                        color:
+                            (isExpanded ? Color(0xFFFFD700) : activity['color'])
+                                .withValues(alpha: 0.4),
                         blurRadius: isExpanded ? 15 : 8,
                         offset: const Offset(0, 4),
                       ),
@@ -269,19 +339,29 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
                     children: [
                       Row(
                         children: [
-                          Text(activity['emoji'], style: const TextStyle(fontSize: 35)),
-                          const SizedBox(width: 12),
+                          Text(
+                            activity['emoji'],
+                            style: const TextStyle(fontSize: 35),
+                          ),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   activity['title'],
-                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 Text(
                                   activity['description'],
-                                  style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.9)),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                  ),
                                 ),
                               ],
                             ),
@@ -293,35 +373,49 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
                         ],
                       ),
                       if (isExpanded) ...[
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         const Divider(color: Colors.white30),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         const Text(
                           "Think about...",
-                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         ...((activity['prompts'] as List<String>).map((prompt) {
                           return GestureDetector(
                             onTap: () => _speakText(prompt),
                             child: Container(
-                              margin: const EdgeInsets.only(bottom: 8),
-                              padding: const EdgeInsets.all(12),
+                              margin: EdgeInsets.only(bottom: 8.h),
+                              padding: EdgeInsets.all(12.r),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Row(
                                 children: [
-                                  const Text("💭", style: TextStyle(fontSize: 18)),
-                                  const SizedBox(width: 10),
+                                  const Text(
+                                    "💭",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  SizedBox(width: 10.w),
                                   Expanded(
                                     child: Text(
                                       prompt,
-                                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                  const Icon(Icons.volume_up, color: Colors.white70, size: 20),
+                                  Icon(
+                                    Icons.volume_up,
+                                    color: Colors.white70,
+                                    size: 20.r,
+                                  ),
                                 ],
                               ),
                             ),
@@ -341,30 +435,37 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
 
   Widget _buildWhatIfTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🤔", style: TextStyle(fontSize: 60)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           const Text(
             "What If...?",
-            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             "Think about these fun questions!",
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14),
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
 
           // What if cards
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
+              mainAxisSpacing: 12.r,
+              crossAxisSpacing: 12.r,
               childAspectRatio: 0.85,
             ),
             itemCount: whatIfQuestions.length,
@@ -389,11 +490,11 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     boxShadow: [
                       BoxShadow(
                         color: gradient[0].withValues(alpha: 0.4),
-                        blurRadius: 10,
+                        blurRadius: 10.r,
                         offset: const Offset(0, 4),
                       ),
                     ],
@@ -401,18 +502,25 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(question['emoji'], style: const TextStyle(fontSize: 40)),
-                      const SizedBox(height: 12),
+                      Text(
+                        question['emoji'],
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                      SizedBox(height: 12.h),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
                         child: Text(
                           question['question'],
-                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      const Icon(Icons.volume_up, color: Colors.white70, size: 20),
+                      SizedBox(height: 8.h),
+                      Icon(Icons.volume_up, color: Colors.white70, size: 20.r),
                     ],
                   ),
                 ),
@@ -420,21 +528,27 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
             },
           ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
 
           // Random question button
           ElevatedButton.icon(
             onPressed: () {
-              final random = whatIfQuestions[Random().nextInt(whatIfQuestions.length)];
+              final random =
+                  whatIfQuestions[Random().nextInt(whatIfQuestions.length)];
               _speakText(random['question']);
             },
-            icon: const Icon(Icons.shuffle, size: 24),
-            label: const Text("Random Question!", style: TextStyle(fontSize: 16)),
+            icon: Icon(Icons.shuffle, size: 24.r),
+            label: const Text(
+              "Random Question!",
+              style: TextStyle(fontSize: 16),
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFFFFAA5A),
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 14.h),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.r),
+              ),
             ),
           ),
         ],
@@ -444,38 +558,48 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
 
   Widget _buildPretendTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🎭", style: TextStyle(fontSize: 60)),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           const Text(
             "Let's Pretend!",
-            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             "Act out these fun roles!",
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14),
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
 
           // Pretend game cards
           ...pretendGames.map((game) {
             return GestureDetector(
               onTap: () => _speakText(game['game']),
               child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.all(20),
+                margin: EdgeInsets.only(bottom: 16.h),
+                padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [game['color'], game['color'].withValues(alpha: 0.7)],
+                    colors: [
+                      game['color'],
+                      game['color'].withValues(alpha: 0.7),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
                       color: game['color'].withValues(alpha: 0.4),
-                      blurRadius: 10,
+                      blurRadius: 10.r,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -483,44 +607,61 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
                 child: Row(
                   children: [
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(15.r),
                       ),
-                      child: Center(child: Text(game['emoji'], style: const TextStyle(fontSize: 35))),
+                      child: Center(
+                        child: Text(
+                          game['emoji'],
+                          style: const TextStyle(fontSize: 35),
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Expanded(
                       child: Text(
                         game['game'],
-                        style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    const Icon(Icons.play_circle_fill, color: Colors.white, size: 30),
+                    Icon(
+                      Icons.play_circle_fill,
+                      color: Colors.white,
+                      size: 30.r,
+                    ),
                   ],
                 ),
               ),
             );
           }),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Tips section
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               children: [
                 const Text(
                   "🌟 Imagination Tips 🌟",
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 _buildTip("Use your hands to act things out!"),
                 _buildTip("Make funny sounds and voices!"),
                 _buildTip("Use pillows and blankets as props!"),
@@ -535,15 +676,18 @@ class _ImaginationPageState extends State<ImaginationPage> with TickerProviderSt
 
   Widget _buildTip(String tip) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
         children: [
           const Text("✨", style: TextStyle(fontSize: 16)),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.w),
           Expanded(
             child: Text(
               tip,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 14),
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.9),
+                fontSize: 14,
+              ),
             ),
           ),
         ],

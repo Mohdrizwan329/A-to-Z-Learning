@@ -8,6 +8,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MiniProjectsPage extends StatefulWidget {
   const MiniProjectsPage({super.key});
 
@@ -49,7 +51,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
         'Paper sheets',
         'Ruler',
         'Tape (optional)',
-        'Measuring tape'
+        'Measuring tape',
       ],
       'steps': [
         'Fold 3 different airplane designs',
@@ -72,7 +74,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
         'Soil',
         'Seeds',
         'Water',
-        'Sunny spot'
+        'Sunny spot',
       ],
       'steps': [
         'Fill containers with soil',
@@ -95,7 +97,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
         'Vinegar',
         'Food coloring',
         'Container',
-        'Tray'
+        'Tray',
       ],
       'steps': [
         'Place container on tray',
@@ -135,7 +137,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
         'Bottle caps',
         'Toilet paper rolls',
         'Glue',
-        'Paint'
+        'Paint',
       ],
       'steps': [
         'Collect recyclable items',
@@ -158,7 +160,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
         'Sticks',
         'Scissors',
         'Flashlight',
-        'White sheet'
+        'White sheet',
       ],
       'steps': [
         'Draw character shapes on cardboard',
@@ -207,12 +209,12 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             ProgressService.to.resetProgress(ProgressService.kMiniProjects);
@@ -226,43 +228,50 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
           Obx(() {
             final progress =
                 ProgressService.to.getProgressPercentage(
-                      ProgressService.kMiniProjects,
-                    ) /
-                    100;
+                  ProgressService.kMiniProjects,
+                ) /
+                100;
             final progressString = ProgressService.to.getProgressString(
               ProgressService.kMiniProjects,
             );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -285,20 +294,20 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
 
   Widget _buildProjectsList() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Intro
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 const Text('🎨', style: TextStyle(fontSize: 40)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,15 +333,15 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Projects Grid
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
+              mainAxisSpacing: 12.r,
+              crossAxisSpacing: 12.r,
               childAspectRatio: 0.85,
             ),
             itemCount: projects.length,
@@ -371,7 +380,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                               project['emoji'],
                               style: const TextStyle(fontSize: 36),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8.h),
                             Text(
                               project['name'],
                               style: GoogleFonts.poppins(
@@ -383,26 +392,25 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 4),
-                            _buildTag(
-                                project['difficulty'], Colors.white),
+                            SizedBox(height: 4.h),
+                            _buildTag(project['difficulty'], Colors.white),
                           ],
                         ),
                         // Show checkmark if completed
                         if (isCompleted)
                           Positioned(
-                            bottom: 4,
-                            right: 4,
+                            bottom: 4.h,
+                            right: 4.w,
                             child: Container(
-                              padding: const EdgeInsets.all(2),
+                              padding: EdgeInsets.all(2.r),
                               decoration: const BoxDecoration(
                                 color: Colors.green,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.check,
                                 color: Colors.white,
-                                size: 12,
+                                size: 12.r,
                               ),
                             ),
                           ),
@@ -420,10 +428,10 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
 
   Widget _buildTag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(
         text,
@@ -437,13 +445,14 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
   }
 
   Widget _buildProjectDetail() {
-    final projectIndex =
-        projects.indexWhere((p) => p['name'] == selectedProject);
+    final projectIndex = projects.indexWhere(
+      (p) => p['name'] == selectedProject,
+    );
     final project = projects[projectIndex];
     final gradient = AppColors.getGradientForIndex(projectIndex);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Back to list button
@@ -457,18 +466,16 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                 });
               },
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.arrow_back_ios,
-                        color: Colors.white, size: 16),
-                    const SizedBox(width: 4),
+                    Icon(Icons.arrow_back_ios, color: Colors.white, size: 16.r),
+                    SizedBox(width: 4.w),
                     Text(
                       'All Projects',
                       style: GoogleFonts.poppins(
@@ -481,26 +488,25 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Header Card
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 20,
+                  blurRadius: 20.r,
                   offset: const Offset(0, 10),
                 ),
               ],
             ),
             child: Column(
               children: [
-                Text(project['emoji'],
-                    style: const TextStyle(fontSize: 70)),
-                const SizedBox(height: 12),
+                Text(project['emoji'], style: const TextStyle(fontSize: 70)),
+                SizedBox(height: 12.h),
                 Text(
                   project['name'],
                   style: GoogleFonts.poppins(
@@ -509,29 +515,25 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                     color: gradient[0],
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   project['description'],
-                  style: GoogleFonts.nunito(
-                    color: Colors.grey.shade600,
-                  ),
+                  style: GoogleFonts.nunito(color: Colors.grey.shade600),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildDetailTag(
-                        '⏱️ ${project['time']}', gradient[0]),
-                    const SizedBox(width: 8),
-                    _buildDetailTag(
-                        '📊 ${project['difficulty']}', gradient[0]),
+                    _buildDetailTag('⏱️ ${project['time']}', gradient[0]),
+                    SizedBox(width: 8.w),
+                    _buildDetailTag('📊 ${project['difficulty']}', gradient[0]),
                   ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Materials
           _buildSection(
             '🛠️',
@@ -544,16 +546,16 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
           _buildStepsSection(project, gradient[0]),
           // Learning
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.amber.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: Colors.amber, width: 2),
             ),
             child: Row(
               children: [
                 const Text('🧠', style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -567,9 +569,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                       ),
                       Text(
                         project['learning'],
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                        ),
+                        style: GoogleFonts.nunito(color: Colors.white),
                       ),
                     ],
                   ),
@@ -577,7 +577,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Start Button
           SizedBox(
             width: double.infinity,
@@ -594,8 +594,8 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: gradient[0],
                   colorText: Colors.white,
-                  margin: const EdgeInsets.all(16),
-                  borderRadius: 12,
+                  margin: EdgeInsets.all(16.r),
+                  borderRadius: 12.r,
                 );
               },
               icon: const Text('🚀', style: TextStyle(fontSize: 20)),
@@ -609,9 +609,9 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
               style: ElevatedButton.styleFrom(
                 backgroundColor: gradient[0],
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
               ),
             ),
@@ -623,30 +623,31 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
 
   Widget _buildDetailTag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(
         text,
-        style: GoogleFonts.nunito(
-          color: color,
-          fontWeight: FontWeight.bold,
-        ),
+        style: GoogleFonts.nunito(color: color, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget _buildSection(String emoji, String title, List<dynamic> items,
-      Color color,
-      {bool isList = false}) {
+  Widget _buildSection(
+    String emoji,
+    String title,
+    List<dynamic> items,
+    Color color, {
+    bool isList = false,
+  }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -654,7 +655,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
           Row(
             children: [
               Text(emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 title,
                 style: GoogleFonts.poppins(
@@ -665,17 +666,16 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 8.r,
+            runSpacing: 8.r,
             children: items.map<Widget>((item) {
               return Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(color: color.withValues(alpha: 0.3)),
                 ),
                 child: Text(
@@ -695,11 +695,11 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
 
   Widget _buildStepsSection(Map<String, dynamic> project, Color color) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -707,7 +707,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
           Row(
             children: [
               const Text('📝', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 'Steps',
                 style: GoogleFonts.poppins(
@@ -718,16 +718,16 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           ...List.generate((project['steps'] as List).length, (index) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(bottom: 10.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 28,
-                    height: 28,
+                    width: 28.w,
+                    height: 28.h,
                     decoration: BoxDecoration(
                       color: color,
                       shape: BoxShape.circle,
@@ -743,7 +743,7 @@ class _MiniProjectsPageState extends State<MiniProjectsPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       project['steps'][index],

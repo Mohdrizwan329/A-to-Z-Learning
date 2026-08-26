@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class RegionalLanguagesPage extends StatefulWidget {
   const RegionalLanguagesPage({super.key});
 
@@ -23,16 +25,96 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
   int selectedLanguageIndex = 0;
 
   final List<Map<String, dynamic>> indianLanguages = [
-    {'name': 'Hindi', 'script': 'Devanagari', 'emoji': '🇮🇳', 'hello': 'नमस्ते', 'pronunciation': 'Namaste', 'region': 'North India', 'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ']},
-    {'name': 'Tamil', 'script': 'Tamil', 'emoji': '🏛️', 'hello': 'வணக்கம்', 'pronunciation': 'Vanakkam', 'region': 'Tamil Nadu', 'letters': ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ']},
-    {'name': 'Telugu', 'script': 'Telugu', 'emoji': '🎬', 'hello': 'నమస్కారం', 'pronunciation': 'Namaskaram', 'region': 'Andhra Pradesh', 'letters': ['అ', 'ఆ', 'ఇ', 'ఈ', 'ఉ', 'ఊ', 'ఎ', 'ఏ', 'ఐ', 'ఒ']},
-    {'name': 'Kannada', 'script': 'Kannada', 'emoji': '🌴', 'hello': 'ನಮಸ್ಕಾರ', 'pronunciation': 'Namaskara', 'region': 'Karnataka', 'letters': ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಎ', 'ಏ', 'ಐ', 'ಒ']},
-    {'name': 'Malayalam', 'script': 'Malayalam', 'emoji': '🥥', 'hello': 'നമസ്കാരം', 'pronunciation': 'Namaskaram', 'region': 'Kerala', 'letters': ['അ', 'ആ', 'ഇ', 'ഈ', 'ഉ', 'ഊ', 'എ', 'ഏ', 'ഐ', 'ഒ']},
-    {'name': 'Bengali', 'script': 'Bengali', 'emoji': '🐅', 'hello': 'নমস্কার', 'pronunciation': 'Nomoshkar', 'region': 'West Bengal', 'letters': ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'এ', 'ঐ', 'ও', 'ঔ']},
-    {'name': 'Gujarati', 'script': 'Gujarati', 'emoji': '🦁', 'hello': 'નમસ્તે', 'pronunciation': 'Namaste', 'region': 'Gujarat', 'letters': ['અ', 'આ', 'ઇ', 'ઈ', 'ઉ', 'ઊ', 'એ', 'ઐ', 'ઓ', 'ઔ']},
-    {'name': 'Marathi', 'script': 'Devanagari', 'emoji': '🏰', 'hello': 'नमस्कार', 'pronunciation': 'Namaskar', 'region': 'Maharashtra', 'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ']},
-    {'name': 'Punjabi', 'script': 'Gurmukhi', 'emoji': '🌾', 'hello': 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'pronunciation': 'Sat Sri Akal', 'region': 'Punjab', 'letters': ['ੳ', 'ਅ', 'ੲ', 'ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ']},
-    {'name': 'Odia', 'script': 'Odia', 'emoji': '🛕', 'hello': 'ନମସ୍କାର', 'pronunciation': 'Namaskar', 'region': 'Odisha', 'letters': ['ଅ', 'ଆ', 'ଇ', 'ଈ', 'ଉ', 'ଊ', 'ଏ', 'ଐ', 'ଓ', 'ଔ']},
+    {
+      'name': 'Hindi',
+      'script': 'Devanagari',
+      'emoji': '🇮🇳',
+      'hello': 'नमस्ते',
+      'pronunciation': 'Namaste',
+      'region': 'North India',
+      'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'],
+    },
+    {
+      'name': 'Tamil',
+      'script': 'Tamil',
+      'emoji': '🏛️',
+      'hello': 'வணக்கம்',
+      'pronunciation': 'Vanakkam',
+      'region': 'Tamil Nadu',
+      'letters': ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ'],
+    },
+    {
+      'name': 'Telugu',
+      'script': 'Telugu',
+      'emoji': '🎬',
+      'hello': 'నమస్కారం',
+      'pronunciation': 'Namaskaram',
+      'region': 'Andhra Pradesh',
+      'letters': ['అ', 'ఆ', 'ఇ', 'ఈ', 'ఉ', 'ఊ', 'ఎ', 'ఏ', 'ఐ', 'ఒ'],
+    },
+    {
+      'name': 'Kannada',
+      'script': 'Kannada',
+      'emoji': '🌴',
+      'hello': 'ನಮಸ್ಕಾರ',
+      'pronunciation': 'Namaskara',
+      'region': 'Karnataka',
+      'letters': ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಎ', 'ಏ', 'ಐ', 'ಒ'],
+    },
+    {
+      'name': 'Malayalam',
+      'script': 'Malayalam',
+      'emoji': '🥥',
+      'hello': 'നമസ്കാരം',
+      'pronunciation': 'Namaskaram',
+      'region': 'Kerala',
+      'letters': ['അ', 'ആ', 'ഇ', 'ഈ', 'ഉ', 'ഊ', 'എ', 'ഏ', 'ഐ', 'ഒ'],
+    },
+    {
+      'name': 'Bengali',
+      'script': 'Bengali',
+      'emoji': '🐅',
+      'hello': 'নমস্কার',
+      'pronunciation': 'Nomoshkar',
+      'region': 'West Bengal',
+      'letters': ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'এ', 'ঐ', 'ও', 'ঔ'],
+    },
+    {
+      'name': 'Gujarati',
+      'script': 'Gujarati',
+      'emoji': '🦁',
+      'hello': 'નમસ્તે',
+      'pronunciation': 'Namaste',
+      'region': 'Gujarat',
+      'letters': ['અ', 'આ', 'ઇ', 'ઈ', 'ઉ', 'ઊ', 'એ', 'ઐ', 'ઓ', 'ઔ'],
+    },
+    {
+      'name': 'Marathi',
+      'script': 'Devanagari',
+      'emoji': '🏰',
+      'hello': 'नमस्कार',
+      'pronunciation': 'Namaskar',
+      'region': 'Maharashtra',
+      'letters': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'],
+    },
+    {
+      'name': 'Punjabi',
+      'script': 'Gurmukhi',
+      'emoji': '🌾',
+      'hello': 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ',
+      'pronunciation': 'Sat Sri Akal',
+      'region': 'Punjab',
+      'letters': ['ੳ', 'ਅ', 'ੲ', 'ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ'],
+    },
+    {
+      'name': 'Odia',
+      'script': 'Odia',
+      'emoji': '🛕',
+      'hello': 'ନମସ୍କାର',
+      'pronunciation': 'Namaskar',
+      'region': 'Odisha',
+      'letters': ['ଅ', 'ଆ', 'ଇ', 'ଈ', 'ଉ', 'ଊ', 'ଏ', 'ଐ', 'ଓ', 'ଔ'],
+    },
   ];
 
   final List<Map<String, dynamic>> commonWords = [
@@ -47,16 +129,106 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
   ];
 
   final Map<String, List<String>> translations = {
-    'Hindi': ['नमस्ते', 'धन्यवाद', 'पानी', 'खाना', 'माँ', 'पिताजी', 'दोस्त', 'प्यार'],
-    'Tamil': ['வணக்கம்', 'நன்றி', 'தண்ணீர்', 'உணவு', 'அம்மா', 'அப்பா', 'நண்பர்', 'காதல்'],
-    'Telugu': ['నమస్కారం', 'ధన్యవాదాలు', 'నీళ్ళు', 'భోజనం', 'అమ్మ', 'నాన్న', 'స్నేహితుడు', 'ప్రేమ'],
-    'Kannada': ['ನಮಸ್ಕಾರ', 'ಧನ್ಯವಾದ', 'ನೀರು', 'ಊಟ', 'ಅಮ್ಮ', 'ಅಪ್ಪ', 'ಸ್ನೇಹಿತ', 'ಪ್ರೀತಿ'],
-    'Malayalam': ['നമസ്കാരം', 'നന്ദി', 'വെള്ളം', 'ഭക്ഷണം', 'അമ്മ', 'അച്ഛൻ', 'സുഹൃത്ത്', 'സ്നേഹം'],
-    'Bengali': ['নমস্কার', 'ধন্যবাদ', 'জল', 'খাবার', 'মা', 'বাবা', 'বন্ধু', 'ভালোবাসা'],
-    'Gujarati': ['નમસ્તે', 'આભાર', 'પાણી', 'ખોરાક', 'મા', 'પિતા', 'મિત્ર', 'પ્રેમ'],
-    'Marathi': ['नमस्कार', 'धन्यवाद', 'पाणी', 'जेवण', 'आई', 'वडील', 'मित्र', 'प्रेम'],
-    'Punjabi': ['ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'ਧੰਨਵਾਦ', 'ਪਾਣੀ', 'ਭੋਜਨ', 'ਮਾਂ', 'ਪਿਤਾ', 'ਦੋਸਤ', 'ਪਿਆਰ'],
-    'Odia': ['ନମସ୍କାର', 'ଧନ୍ୟବାଦ', 'ପାଣି', 'ଖାଦ୍ୟ', 'ମା', 'ବାପା', 'ବନ୍ଧୁ', 'ପ୍ରେମ'],
+    'Hindi': [
+      'नमस्ते',
+      'धन्यवाद',
+      'पानी',
+      'खाना',
+      'माँ',
+      'पिताजी',
+      'दोस्त',
+      'प्यार',
+    ],
+    'Tamil': [
+      'வணக்கம்',
+      'நன்றி',
+      'தண்ணீர்',
+      'உணவு',
+      'அம்மா',
+      'அப்பா',
+      'நண்பர்',
+      'காதல்',
+    ],
+    'Telugu': [
+      'నమస్కారం',
+      'ధన్యవాదాలు',
+      'నీళ్ళు',
+      'భోజనం',
+      'అమ్మ',
+      'నాన్న',
+      'స్నేహితుడు',
+      'ప్రేమ',
+    ],
+    'Kannada': [
+      'ನಮಸ್ಕಾರ',
+      'ಧನ್ಯವಾದ',
+      'ನೀರು',
+      'ಊಟ',
+      'ಅಮ್ಮ',
+      'ಅಪ್ಪ',
+      'ಸ್ನೇಹಿತ',
+      'ಪ್ರೀತಿ',
+    ],
+    'Malayalam': [
+      'നമസ്കാരം',
+      'നന്ദി',
+      'വെള്ളം',
+      'ഭക്ഷണം',
+      'അമ്മ',
+      'അച്ഛൻ',
+      'സുഹൃത്ത്',
+      'സ്നേഹം',
+    ],
+    'Bengali': [
+      'নমস্কার',
+      'ধন্যবাদ',
+      'জল',
+      'খাবার',
+      'মা',
+      'বাবা',
+      'বন্ধু',
+      'ভালোবাসা',
+    ],
+    'Gujarati': [
+      'નમસ્તે',
+      'આભાર',
+      'પાણી',
+      'ખોરાક',
+      'મા',
+      'પિતા',
+      'મિત્ર',
+      'પ્રેમ',
+    ],
+    'Marathi': [
+      'नमस्कार',
+      'धन्यवाद',
+      'पाणी',
+      'जेवण',
+      'आई',
+      'वडील',
+      'मित्र',
+      'प्रेम',
+    ],
+    'Punjabi': [
+      'ਸਤ ਸ੍ਰੀ ਅਕਾਲ',
+      'ਧੰਨਵਾਦ',
+      'ਪਾਣੀ',
+      'ਭੋਜਨ',
+      'ਮਾਂ',
+      'ਪਿਤਾ',
+      'ਦੋਸਤ',
+      'ਪਿਆਰ',
+    ],
+    'Odia': [
+      'ନମସ୍କାର',
+      'ଧନ୍ୟବାଦ',
+      'ପାଣି',
+      'ଖାଦ୍ୟ',
+      'ମା',
+      'ବାପା',
+      'ବନ୍ଧୁ',
+      'ପ୍ରେମ',
+    ],
   };
 
   final List<Map<String, dynamic>> numbers = [
@@ -74,15 +246,114 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
 
   final Map<String, List<String>> numberTranslations = {
     'Hindi': ['एक', 'दो', 'तीन', 'चार', 'पांच', 'छह', 'सात', 'आठ', 'नौ', 'दस'],
-    'Tamil': ['ஒன்று', 'இரண்டு', 'மூன்று', 'நான்கு', 'ஐந்து', 'ஆறு', 'ஏழு', 'எட்டு', 'ஒன்பது', 'பத்து'],
-    'Telugu': ['ఒకటి', 'రెండు', 'మూడు', 'నాలుగు', 'ఐదు', 'ఆరు', 'ఏడు', 'ఎనిమిది', 'తొమ్మిది', 'పది'],
-    'Kannada': ['ಒಂದು', 'ಎರಡು', 'ಮೂರು', 'ನಾಲ್ಕು', 'ಐದು', 'ಆರು', 'ಏಳು', 'ಎಂಟು', 'ಒಂಬತ್ತು', 'ಹತ್ತು'],
-    'Malayalam': ['ഒന്ന്', 'രണ്ട്', 'മൂന്ന്', 'നാല്', 'അഞ്ച്', 'ആറ്', 'ഏഴ്', 'എട്ട്', 'ഒൻപത്', 'പത്ത്'],
-    'Bengali': ['এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়', 'দশ'],
-    'Gujarati': ['એક', 'બે', 'ત્રણ', 'ચાર', 'પાંચ', 'છ', 'સાત', 'આઠ', 'નવ', 'દસ'],
-    'Marathi': ['एक', 'दोन', 'तीन', 'चार', 'पाच', 'सहा', 'सात', 'आठ', 'नऊ', 'दहा'],
-    'Punjabi': ['ਇੱਕ', 'ਦੋ', 'ਤਿੰਨ', 'ਚਾਰ', 'ਪੰਜ', 'ਛੇ', 'ਸੱਤ', 'ਅੱਠ', 'ਨੌਂ', 'ਦਸ'],
-    'Odia': ['ଏକ', 'ଦୁଇ', 'ତିନି', 'ଚାରି', 'ପାଞ୍ଚ', 'ଛଅ', 'ସାତ', 'ଆଠ', 'ନଅ', 'ଦଶ'],
+    'Tamil': [
+      'ஒன்று',
+      'இரண்டு',
+      'மூன்று',
+      'நான்கு',
+      'ஐந்து',
+      'ஆறு',
+      'ஏழு',
+      'எட்டு',
+      'ஒன்பது',
+      'பத்து',
+    ],
+    'Telugu': [
+      'ఒకటి',
+      'రెండు',
+      'మూడు',
+      'నాలుగు',
+      'ఐదు',
+      'ఆరు',
+      'ఏడు',
+      'ఎనిమిది',
+      'తొమ్మిది',
+      'పది',
+    ],
+    'Kannada': [
+      'ಒಂದು',
+      'ಎರಡು',
+      'ಮೂರು',
+      'ನಾಲ್ಕು',
+      'ಐದು',
+      'ಆರು',
+      'ಏಳು',
+      'ಎಂಟು',
+      'ಒಂಬತ್ತು',
+      'ಹತ್ತು',
+    ],
+    'Malayalam': [
+      'ഒന്ന്',
+      'രണ്ട്',
+      'മൂന്ന്',
+      'നാല്',
+      'അഞ്ച്',
+      'ആറ്',
+      'ഏഴ്',
+      'എട്ട്',
+      'ഒൻപത്',
+      'പത്ത്',
+    ],
+    'Bengali': [
+      'এক',
+      'দুই',
+      'তিন',
+      'চার',
+      'পাঁচ',
+      'ছয়',
+      'সাত',
+      'আট',
+      'নয়',
+      'দশ',
+    ],
+    'Gujarati': [
+      'એક',
+      'બે',
+      'ત્રણ',
+      'ચાર',
+      'પાંચ',
+      'છ',
+      'સાત',
+      'આઠ',
+      'નવ',
+      'દસ',
+    ],
+    'Marathi': [
+      'एक',
+      'दोन',
+      'तीन',
+      'चार',
+      'पाच',
+      'सहा',
+      'सात',
+      'आठ',
+      'नऊ',
+      'दहा',
+    ],
+    'Punjabi': [
+      'ਇੱਕ',
+      'ਦੋ',
+      'ਤਿੰਨ',
+      'ਚਾਰ',
+      'ਪੰਜ',
+      'ਛੇ',
+      'ਸੱਤ',
+      'ਅੱਠ',
+      'ਨੌਂ',
+      'ਦਸ',
+    ],
+    'Odia': [
+      'ଏକ',
+      'ଦୁଇ',
+      'ତିନି',
+      'ଚାରି',
+      'ପାଞ୍ଚ',
+      'ଛଅ',
+      'ସାତ',
+      'ଆଠ',
+      'ନଅ',
+      'ଦଶ',
+    ],
   };
 
   @override
@@ -92,7 +363,10 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
-        ProgressService.to.markItemCompleted(ProgressService.kRegionalLanguages, _tabController.index);
+        ProgressService.to.markItemCompleted(
+          ProgressService.kRegionalLanguages,
+          _tabController.index,
+        );
       }
     });
     ProgressService.to.markItemCompleted(ProgressService.kRegionalLanguages, 0);
@@ -122,27 +396,29 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
       title: 'Indian Languages',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: () async {
-              await ProgressService.to.resetProgress(ProgressService.kRegionalLanguages);
+              await ProgressService.to.resetProgress(
+                ProgressService.kRegionalLanguages,
+              );
               setState(() {});
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
         ),
       ],
       bottom: TabBar(
         controller: _tabController,
         indicatorColor: Colors.white,
-        indicatorWeight: 3,
+        indicatorWeight: 3.r,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white70,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 24),
+        labelPadding: EdgeInsets.symmetric(horizontal: 24.w),
         tabs: const [
           Tab(text: "Languages"),
           Tab(text: "Words"),
@@ -152,26 +428,56 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
       body: Column(
         children: [
           Obx(() {
-            final progress = ProgressService.to.getProgressPercentage(ProgressService.kRegionalLanguages) / 100;
-            final progressString = ProgressService.to.getProgressString(ProgressService.kRegionalLanguages);
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kRegionalLanguages,
+                ) /
+                100;
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kRegionalLanguages,
+            );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Progress', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
-                      Text('$progressString completed', style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500)),
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
-                      value: progress, minHeight: 10,
+                      value: progress,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
-                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
                     ),
                   ),
                 ],
@@ -195,9 +501,12 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
 
   Widget _buildLanguagesTab() {
     return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 0.85,
+      padding: EdgeInsets.all(12.r),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 12.r,
+        crossAxisSpacing: 12.r,
+        childAspectRatio: 0.85,
       ),
       itemCount: indianLanguages.length,
       itemBuilder: (context, index) {
@@ -218,12 +527,42 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(lang['emoji'], style: const TextStyle(fontSize: 36)),
-                  const SizedBox(height: 4),
-                  GradientCardText(text: lang['name'], fontSize: 13),
-                  const SizedBox(height: 4),
-                  Text(lang['hello'], style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
-                  Text('(${lang['pronunciation']})', style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: 0.8))),
+                  Flexible(
+                    child: Text(
+                      lang['emoji'],
+                      style: const TextStyle(fontSize: 36),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Flexible(
+                    child: GradientCardText(text: lang['name'], fontSize: 13),
+                  ),
+                  SizedBox(height: 4.h),
+                  Flexible(
+                    child: Text(
+                      lang['hello'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      '(${lang['pronunciation']})',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -241,12 +580,12 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 4.h),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: DropdownButton<int>(
               value: selectedLanguageIndex,
@@ -261,20 +600,26 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
                   child: Text("${entry.value['emoji']} ${entry.value['name']}"),
                 );
               }).toList(),
-              onChanged: (value) => setState(() => selectedLanguageIndex = value ?? 0),
+              onChanged: (value) =>
+                  setState(() => selectedLanguageIndex = value ?? 0),
             ),
           ),
         ),
         Expanded(
           child: GridView.builder(
-            padding: const EdgeInsets.all(12),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.0,
+            padding: EdgeInsets.all(12.r),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12.r,
+              crossAxisSpacing: 12.r,
+              childAspectRatio: 1.0,
             ),
             itemCount: commonWords.length,
             itemBuilder: (context, index) {
               final word = commonWords[index];
-              final translation = index < wordList.length ? wordList[index] : '';
+              final translation = index < wordList.length
+                  ? wordList[index]
+                  : '';
               final gradient = AppColors.getGradientForIndex(index);
               return buildFloatingItem(
                 index: index,
@@ -287,10 +632,19 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(word['emoji'], style: const TextStyle(fontSize: 30)),
-                        const SizedBox(height: 4),
-                        Text(word['english'], style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.8))),
-                        const SizedBox(height: 4),
+                        Text(
+                          word['emoji'],
+                          style: const TextStyle(fontSize: 30),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          word['english'],
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
                         GradientCardText(text: translation, fontSize: 14),
                       ],
                     ),
@@ -312,12 +666,12 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 4.h),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: DropdownButton<int>(
               value: selectedLanguageIndex,
@@ -332,15 +686,19 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
                   child: Text("${entry.value['emoji']} ${entry.value['name']}"),
                 );
               }).toList(),
-              onChanged: (value) => setState(() => selectedLanguageIndex = value ?? 0),
+              onChanged: (value) =>
+                  setState(() => selectedLanguageIndex = value ?? 0),
             ),
           ),
         ),
         Expanded(
           child: GridView.builder(
-            padding: const EdgeInsets.all(12),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.0,
+            padding: EdgeInsets.all(12.r),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12.r,
+              crossAxisSpacing: 12.r,
+              childAspectRatio: 1.0,
             ),
             itemCount: numbers.length,
             itemBuilder: (context, index) {
@@ -358,11 +716,31 @@ class _RegionalLanguagesPageState extends State<RegionalLanguagesPage>
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(num['number'], style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
-                        const SizedBox(height: 4),
-                        Text(translation, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-                        const SizedBox(height: 2),
-                        Text(num['english'], style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.8))),
+                        Text(
+                          num['number'],
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          translation,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          num['english'],
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.white.withValues(alpha: 0.8),
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -43,14 +45,16 @@ class _SplashScreenState extends State<SplashScreen>
     ];
 
     for (int i = 0; i < 15; i++) {
-      _shapes.add(FloatingShape(
-        x: _random.nextDouble(),
-        y: _random.nextDouble(),
-        size: 20 + _random.nextDouble() * 40,
-        color: colors[_random.nextInt(colors.length)],
-        speed: 0.5 + _random.nextDouble() * 1.5,
-        shape: ShapeType.values[_random.nextInt(ShapeType.values.length)],
-      ));
+      _shapes.add(
+        FloatingShape(
+          x: _random.nextDouble(),
+          y: _random.nextDouble(),
+          size: 20 + _random.nextDouble() * 40,
+          color: colors[_random.nextInt(colors.length)],
+          speed: 0.5 + _random.nextDouble() * 1.5,
+          shape: ShapeType.values[_random.nextInt(ShapeType.values.length)],
+        ),
+      );
     }
   }
 
@@ -84,13 +88,15 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(milliseconds: 800),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
 
-    _titleSlide = Tween<double>(begin: 30, end: 0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+    _titleSlide = Tween<double>(
+      begin: 30,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     // Start animations
     _mascotController.forward();
@@ -141,7 +147,7 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             // Loading indicator at bottom
             Positioned(
-              bottom: 60,
+              bottom: 60.h,
               left: 0,
               right: 0,
               child: _buildLoadingIndicator(),
@@ -157,7 +163,8 @@ class _SplashScreenState extends State<SplashScreen>
       return AnimatedBuilder(
         animation: _floatController,
         builder: (context, child) {
-          final offset = sin(_floatController.value * pi * 2 + shape.x * 10) * 20;
+          final offset =
+              sin(_floatController.value * pi * 2 + shape.x * 10) * 20;
           return Positioned(
             left: shape.x * MediaQuery.of(context).size.width,
             top: shape.y * MediaQuery.of(context).size.height + offset,
@@ -174,10 +181,7 @@ class _SplashScreenState extends State<SplashScreen>
         return Container(
           width: shape.size,
           height: shape.size,
-          decoration: BoxDecoration(
-            color: shape.color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: shape.color, shape: BoxShape.circle),
         );
       case ShapeType.square:
         return Transform.rotate(
@@ -197,11 +201,7 @@ class _SplashScreenState extends State<SplashScreen>
           painter: TrianglePainter(color: shape.color),
         );
       case ShapeType.star:
-        return Icon(
-          Icons.star_rounded,
-          size: shape.size,
-          color: shape.color,
-        );
+        return Icon(Icons.star_rounded, size: shape.size, color: shape.color);
     }
   }
 
@@ -217,8 +217,8 @@ class _SplashScreenState extends State<SplashScreen>
               child: Transform.scale(
                 scale: _mascotScale.value,
                 child: Container(
-                  width: 180,
-                  height: 180,
+                  width: 180.w,
+                  height: 180.h,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -232,8 +232,8 @@ class _SplashScreenState extends State<SplashScreen>
                     boxShadow: [
                       BoxShadow(
                         color: AppTheme.secondaryColor.withValues(alpha: 0.4),
-                        blurRadius: 30,
-                        spreadRadius: 5,
+                        blurRadius: 30.r,
+                        spreadRadius: 5.r,
                       ),
                     ],
                   ),
@@ -241,19 +241,16 @@ class _SplashScreenState extends State<SplashScreen>
                     alignment: Alignment.center,
                     children: [
                       // Cute animal mascot (using emoji for now)
-                      const Text(
-                        '🦁',
-                        style: TextStyle(fontSize: 90),
-                      ),
+                      const Text('🦁', style: TextStyle(fontSize: 90)),
                       // Sparkles around mascot
                       Positioned(
-                        top: 10,
-                        right: 20,
+                        top: 10.h,
+                        right: 20.w,
                         child: _buildSparkle(),
                       ),
                       Positioned(
-                        bottom: 20,
-                        left: 15,
+                        bottom: 20.h,
+                        left: 15.w,
                         child: _buildSparkle(),
                       ),
                     ],
@@ -277,11 +274,7 @@ class _SplashScreenState extends State<SplashScreen>
           opacity: value,
           child: Transform.scale(
             scale: value,
-            child: const Icon(
-              Icons.auto_awesome,
-              color: Colors.white,
-              size: 24,
-            ),
+            child: Icon(Icons.auto_awesome, color: Colors.white, size: 24.r),
           ),
         );
       },
@@ -307,7 +300,7 @@ class _SplashScreenState extends State<SplashScreen>
                   Shadow(
                     color: Colors.black.withValues(alpha: 0.2),
                     offset: const Offset(2, 2),
-                    blurRadius: 4,
+                    blurRadius: 4.r,
                   ),
                 ],
               ),
@@ -346,13 +339,15 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             children: [
               SizedBox(
-                width: 100,
+                width: 100.w,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: LinearProgressIndicator(
                     backgroundColor: Colors.white.withValues(alpha: 0.3),
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                    minHeight: 6,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Colors.white,
+                    ),
+                    minHeight: 6.h,
                   ),
                 ),
               ),

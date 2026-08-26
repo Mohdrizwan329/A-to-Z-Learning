@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/services/learning_outcomes_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class LearningPathPage extends StatefulWidget {
   const LearningPathPage({super.key});
 
@@ -61,7 +63,12 @@ class _LearningPathPageState extends State<LearningPathPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -72,14 +79,14 @@ class _LearningPathPageState extends State<LearningPathPage>
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildNextRecommended(),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       _buildLearningPath(),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       _buildMilestones(),
                     ],
                   ),
@@ -91,26 +98,24 @@ class _LearningPathPageState extends State<LearningPathPage>
       ),
     );
   }
+
   Widget _buildNextRecommended() {
     return Obx(() {
       final next = _service.nextRecommendedOutcome;
       if (next == null) {
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
-          child: const Column(
+          child: Column(
             children: [
               Text('🎉', style: TextStyle(fontSize: 48)),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 'Amazing! All caught up!',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
                 'You\'ve completed all learning outcomes',
@@ -122,22 +127,19 @@ class _LearningPathPageState extends State<LearningPathPage>
       }
 
       return SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.3),
-          end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: _animController,
-          curve: Curves.easeOut,
-        )),
+        position: Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+            .animate(
+              CurvedAnimation(parent: _animController, curve: Curves.easeOut),
+            ),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 20,
+                blurRadius: 20.r,
                 offset: const Offset(0, 10),
               ),
             ],
@@ -148,18 +150,18 @@ class _LearningPathPageState extends State<LearningPathPage>
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.amber.shade100,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Text('⭐', style: TextStyle(fontSize: 14)),
-                        SizedBox(width: 4),
+                        SizedBox(width: 4.w),
                         Text(
                           'Recommended Next',
                           style: TextStyle(
@@ -173,17 +175,17 @@ class _LearningPathPageState extends State<LearningPathPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Row(
                 children: [
                   Container(
-                    width: 64,
-                    height: 64,
+                    width: 64.w,
+                    height: 64.h,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Center(
                       child: Text(
@@ -192,7 +194,7 @@ class _LearningPathPageState extends State<LearningPathPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +207,7 @@ class _LearningPathPageState extends State<LearningPathPage>
                             color: Color(0xFF2D3436),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           next.description,
                           style: TextStyle(
@@ -218,7 +220,7 @@ class _LearningPathPageState extends State<LearningPathPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Row(
                 children: [
                   Expanded(
@@ -228,51 +230,60 @@ class _LearningPathPageState extends State<LearningPathPage>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Progress',
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 12,
+                            Flexible(
+                              child: Text(
+                                'Progress',
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 12,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Text(
-                              '${next.progressPercentage.round()}%',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF667EEA),
+                            Flexible(
+                              child: Text(
+                                '${next.progressPercentage.round()}%',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF667EEA),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6.h),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4.r),
                           child: LinearProgressIndicator(
                             value: next.progressPercentage / 100,
                             backgroundColor: Colors.grey.shade200,
                             valueColor: const AlwaysStoppedAnimation<Color>(
                               Color(0xFF667EEA),
                             ),
-                            minHeight: 8,
+                            minHeight: 8.h,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   ElevatedButton(
-                    onPressed: () { TtsService.to.speak(next.title); _navigateToModule(next.moduleId); },
+                    onPressed: () {
+                      TtsService.to.speak(next.title);
+                      _navigateToModule(next.moduleId);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF11998E),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24.w,
+                        vertical: 12.h,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Text(
                           'Start',
@@ -281,8 +292,12 @@ class _LearningPathPageState extends State<LearningPathPage>
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 4),
-                        Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 18.r,
+                        ),
                       ],
                     ),
                   ),
@@ -300,18 +315,18 @@ class _LearningPathPageState extends State<LearningPathPage>
       final path = _service.recommendedPath;
 
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.95),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
                 Text('📍', style: TextStyle(fontSize: 24)),
-                SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Text(
                   'Your Path',
                   style: TextStyle(
@@ -322,11 +337,11 @@ class _LearningPathPageState extends State<LearningPathPage>
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             if (path.isEmpty)
-              const Center(
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.r),
                   child: Text('Complete all outcomes to finish your path!'),
                 ),
               )
@@ -346,53 +361,64 @@ class _LearningPathPageState extends State<LearningPathPage>
                     Column(
                       children: [
                         Container(
-                          width: 32,
-                          height: 32,
+                          width: 32.w,
+                          height: 32.h,
                           decoration: BoxDecoration(
                             color: isFirst
                                 ? const Color(0xFF11998E)
                                 : (outcome.isCompleted
-                                    ? Colors.green
-                                    : Colors.grey.shade300),
+                                      ? Colors.green
+                                      : Colors.grey.shade300),
                             shape: BoxShape.circle,
                           ),
                           child: Center(
                             child: isFirst
-                                ? const Icon(Icons.flag, color: Colors.white, size: 16)
+                                ? Icon(
+                                    Icons.flag,
+                                    color: Colors.white,
+                                    size: 16.r,
+                                  )
                                 : (outcome.isCompleted
-                                    ? const Icon(Icons.check, color: Colors.white, size: 16)
-                                    : Text(
-                                        '${index + 1}',
-                                        style: const TextStyle(
+                                      ? Icon(
+                                          Icons.check,
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )),
+                                          size: 16.r,
+                                        )
+                                      : Text(
+                                          '${index + 1}',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
                           ),
                         ),
                         if (!isLast)
                           Container(
-                            width: 2,
-                            height: 40,
+                            width: 2.w,
+                            height: 40.h,
                             color: outcome.isCompleted
                                 ? Colors.green
                                 : Colors.grey.shade300,
                           ),
                       ],
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     // Content
                     Expanded(
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(12),
+                        margin: EdgeInsets.only(bottom: 12.h),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: isFirst
                               ? const Color(0xFF11998E).withValues(alpha: 0.1)
                               : Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           border: isFirst
-                              ? Border.all(color: const Color(0xFF11998E), width: 2)
+                              ? Border.all(
+                                  color: const Color(0xFF11998E),
+                                  width: 2,
+                                )
                               : null,
                         ),
                         child: Row(
@@ -401,7 +427,7 @@ class _LearningPathPageState extends State<LearningPathPage>
                               _getModuleEmoji(outcome.moduleId),
                               style: const TextStyle(fontSize: 24),
                             ),
-                            const SizedBox(width: 12),
+                            SizedBox(width: 12.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,9 +452,15 @@ class _LearningPathPageState extends State<LearningPathPage>
                               ),
                             ),
                             if (outcome.isCompleted)
-                              const Icon(Icons.check_circle, color: Colors.green)
+                              const Icon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                              )
                             else if (isFirst)
-                              const Icon(Icons.play_circle_fill, color: Color(0xFF11998E)),
+                              const Icon(
+                                Icons.play_circle_fill,
+                                color: Color(0xFF11998E),
+                              ),
                           ],
                         ),
                       ),
@@ -453,10 +485,10 @@ class _LearningPathPageState extends State<LearningPathPage>
       });
 
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.95),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -464,41 +496,56 @@ class _LearningPathPageState extends State<LearningPathPage>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
-                  children: [
-                    Text('🏆', style: TextStyle(fontSize: 24)),
-                    SizedBox(width: 8),
-                    Text(
-                      'Milestones',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF2D3436),
+                Flexible(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '🏆',
+                          style: TextStyle(fontSize: 24),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: Text(
+                          'Milestones',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2D3436),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.shade100,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '${_service.unlockedMilestonesCount}/${allMilestones.length}',
-                    style: const TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.shade100,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text(
+                      '${_service.unlockedMilestonesCount}/${allMilestones.length}',
+                      style: const TextStyle(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            ...allMilestones.take(5).map((milestone) => _buildMilestoneItem(milestone)),
+            SizedBox(height: 16.h),
+            ...allMilestones
+                .take(5)
+                .map((milestone) => _buildMilestoneItem(milestone)),
             if (allMilestones.length > 5)
               TextButton(
                 onPressed: () => _showAllMilestones(allMilestones),
@@ -515,13 +562,13 @@ class _LearningPathPageState extends State<LearningPathPage>
 
   Widget _buildMilestoneItem(LearningMilestone milestone) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: milestone.isUnlocked
             ? Colors.amber.shade50
             : Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: milestone.isUnlocked
             ? Border.all(color: Colors.amber, width: 2)
             : null,
@@ -529,13 +576,13 @@ class _LearningPathPageState extends State<LearningPathPage>
       child: Row(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 44.w,
+            height: 44.h,
             decoration: BoxDecoration(
               color: milestone.isUnlocked
                   ? Colors.amber.shade200
                   : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
               child: Text(
@@ -547,7 +594,7 @@ class _LearningPathPageState extends State<LearningPathPage>
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -566,34 +613,31 @@ class _LearningPathPageState extends State<LearningPathPage>
                       ),
                     ),
                     if (milestone.isUnlocked)
-                      const Icon(Icons.verified, color: Colors.amber, size: 20),
+                      Icon(Icons.verified, color: Colors.amber, size: 20.r),
                   ],
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2.h),
                 Text(
                   milestone.description,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 Row(
                   children: [
                     Expanded(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(4.r),
                         child: LinearProgressIndicator(
                           value: milestone.progressPercentage / 100,
                           backgroundColor: Colors.grey.shade200,
                           valueColor: AlwaysStoppedAnimation<Color>(
                             milestone.isUnlocked ? Colors.amber : Colors.grey,
                           ),
-                          minHeight: 4,
+                          minHeight: 4.h,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Text(
                       '${milestone.currentOutcomes}/${milestone.requiredOutcomes}',
                       style: TextStyle(
@@ -619,34 +663,31 @@ class _LearningPathPageState extends State<LearningPathPage>
       builder: (context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.75,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           ),
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
+                margin: EdgeInsets.only(top: 12.h),
+                width: 40.w,
+                height: 4.h,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(16),
+              Padding(
+                padding: EdgeInsets.all(16.r),
                 child: Text(
                   '🏆 All Milestones',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   itemCount: allMilestones.length,
                   itemBuilder: (context, index) {
                     return _buildMilestoneItem(allMilestones[index]);

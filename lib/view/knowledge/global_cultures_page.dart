@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class GlobalCulturesPage extends StatefulWidget {
   const GlobalCulturesPage({super.key});
 
@@ -21,16 +23,126 @@ class _GlobalCulturesPageState extends State<GlobalCulturesPage>
   final FlutterTts flutterTts = FlutterTts();
 
   final List<Map<String, dynamic>> cultures = [
-    {'name': 'Indian Culture', 'emoji': '🇮🇳', 'greeting': 'Namaste!', 'greetingPronunciation': 'nah-mah-stay', 'food': ['Curry', 'Biryani', 'Samosa', 'Naan'], 'festival': 'Diwali - Festival of Lights', 'clothing': 'Saree & Kurta', 'music': 'Classical & Bollywood', 'funFact': 'India has 22 official languages!', 'dance': 'Bharatanatyam, Kathak'},
-    {'name': 'Japanese Culture', 'emoji': '🇯🇵', 'greeting': 'Konnichiwa!', 'greetingPronunciation': 'kon-nee-chee-wah', 'food': ['Sushi', 'Ramen', 'Tempura', 'Mochi'], 'festival': 'Hanami - Cherry Blossom Festival', 'clothing': 'Kimono', 'music': 'Traditional & J-Pop', 'funFact': 'Bowing is a common greeting in Japan!', 'dance': 'Kabuki, Bon Odori'},
-    {'name': 'Mexican Culture', 'emoji': '🇲🇽', 'greeting': 'Hola!', 'greetingPronunciation': 'oh-lah', 'food': ['Tacos', 'Burritos', 'Quesadilla', 'Churros'], 'festival': 'Dia de los Muertos', 'clothing': 'Sombrero & Serape', 'music': 'Mariachi', 'funFact': 'Mexico gave the world chocolate!', 'dance': 'Jarabe Tapatio'},
-    {'name': 'Chinese Culture', 'emoji': '🇨🇳', 'greeting': 'Ni hao!', 'greetingPronunciation': 'nee-how', 'food': ['Dumplings', 'Noodles', 'Dim Sum', 'Rice'], 'festival': 'Chinese New Year', 'clothing': 'Cheongsam & Hanfu', 'music': 'Traditional Chinese Opera', 'funFact': 'Dragons are symbols of good luck!', 'dance': 'Dragon Dance, Lion Dance'},
-    {'name': 'African Culture', 'emoji': '🌍', 'greeting': 'Jambo!', 'greetingPronunciation': 'jahm-boh', 'food': ['Jollof Rice', 'Fufu', 'Injera', 'Bobotie'], 'festival': 'Kwanzaa - Harvest Festival', 'clothing': 'Dashiki & Kente cloth', 'music': 'Drums & Afrobeats', 'funFact': 'Africa has over 2,000 languages!', 'dance': 'Traditional Tribal Dances'},
-    {'name': 'French Culture', 'emoji': '🇫🇷', 'greeting': 'Bonjour!', 'greetingPronunciation': 'bohn-zhoor', 'food': ['Croissant', 'Baguette', 'Crepes', 'Macarons'], 'festival': 'Bastille Day', 'clothing': 'Beret & Fashion', 'music': 'Classical & Chanson', 'funFact': 'French is spoken on 5 continents!', 'dance': 'Ballet, Can-can'},
-    {'name': 'Brazilian Culture', 'emoji': '🇧🇷', 'greeting': 'Ola!', 'greetingPronunciation': 'oh-lah', 'food': ['Feijoada', 'Pao de Queijo', 'Acai', 'Brigadeiro'], 'festival': 'Carnival - Street Festival', 'clothing': 'Carnival Costumes', 'music': 'Samba & Bossa Nova', 'funFact': 'Brazil is the largest country in South America!', 'dance': 'Samba, Capoeira'},
-    {'name': 'American Culture', 'emoji': '🇺🇸', 'greeting': 'Hello!', 'greetingPronunciation': 'heh-loh', 'food': ['Hamburger', 'Hot Dog', 'Apple Pie', 'BBQ'], 'festival': 'Thanksgiving', 'clothing': 'Casual & Diverse', 'music': 'Jazz, Rock, Hip-hop', 'funFact': 'Baseball is called America\'s pastime!', 'dance': 'Hip-hop, Line Dancing'},
-    {'name': 'Australian Culture', 'emoji': '🇦🇺', 'greeting': 'G\'day mate!', 'greetingPronunciation': 'guh-day mayt', 'food': ['Vegemite', 'Meat Pie', 'Lamingtons', 'BBQ'], 'festival': 'Australia Day', 'clothing': 'Casual & Akubra Hat', 'music': 'Didgeridoo & Rock', 'funFact': 'Aboriginal culture is 65,000 years old!', 'dance': 'Aboriginal Corroboree'},
-    {'name': 'Italian Culture', 'emoji': '🇮🇹', 'greeting': 'Ciao!', 'greetingPronunciation': 'chow', 'food': ['Pizza', 'Pasta', 'Gelato', 'Risotto'], 'festival': 'Venice Carnival', 'clothing': 'Fashion Capital Style', 'music': 'Opera & Folk', 'funFact': 'Italy has 55 UNESCO World Heritage Sites!', 'dance': 'Tarantella'},
+    {
+      'name': 'Indian Culture',
+      'emoji': '🇮🇳',
+      'greeting': 'Namaste!',
+      'greetingPronunciation': 'nah-mah-stay',
+      'food': ['Curry', 'Biryani', 'Samosa', 'Naan'],
+      'festival': 'Diwali - Festival of Lights',
+      'clothing': 'Saree & Kurta',
+      'music': 'Classical & Bollywood',
+      'funFact': 'India has 22 official languages!',
+      'dance': 'Bharatanatyam, Kathak',
+    },
+    {
+      'name': 'Japanese Culture',
+      'emoji': '🇯🇵',
+      'greeting': 'Konnichiwa!',
+      'greetingPronunciation': 'kon-nee-chee-wah',
+      'food': ['Sushi', 'Ramen', 'Tempura', 'Mochi'],
+      'festival': 'Hanami - Cherry Blossom Festival',
+      'clothing': 'Kimono',
+      'music': 'Traditional & J-Pop',
+      'funFact': 'Bowing is a common greeting in Japan!',
+      'dance': 'Kabuki, Bon Odori',
+    },
+    {
+      'name': 'Mexican Culture',
+      'emoji': '🇲🇽',
+      'greeting': 'Hola!',
+      'greetingPronunciation': 'oh-lah',
+      'food': ['Tacos', 'Burritos', 'Quesadilla', 'Churros'],
+      'festival': 'Dia de los Muertos',
+      'clothing': 'Sombrero & Serape',
+      'music': 'Mariachi',
+      'funFact': 'Mexico gave the world chocolate!',
+      'dance': 'Jarabe Tapatio',
+    },
+    {
+      'name': 'Chinese Culture',
+      'emoji': '🇨🇳',
+      'greeting': 'Ni hao!',
+      'greetingPronunciation': 'nee-how',
+      'food': ['Dumplings', 'Noodles', 'Dim Sum', 'Rice'],
+      'festival': 'Chinese New Year',
+      'clothing': 'Cheongsam & Hanfu',
+      'music': 'Traditional Chinese Opera',
+      'funFact': 'Dragons are symbols of good luck!',
+      'dance': 'Dragon Dance, Lion Dance',
+    },
+    {
+      'name': 'African Culture',
+      'emoji': '🌍',
+      'greeting': 'Jambo!',
+      'greetingPronunciation': 'jahm-boh',
+      'food': ['Jollof Rice', 'Fufu', 'Injera', 'Bobotie'],
+      'festival': 'Kwanzaa - Harvest Festival',
+      'clothing': 'Dashiki & Kente cloth',
+      'music': 'Drums & Afrobeats',
+      'funFact': 'Africa has over 2,000 languages!',
+      'dance': 'Traditional Tribal Dances',
+    },
+    {
+      'name': 'French Culture',
+      'emoji': '🇫🇷',
+      'greeting': 'Bonjour!',
+      'greetingPronunciation': 'bohn-zhoor',
+      'food': ['Croissant', 'Baguette', 'Crepes', 'Macarons'],
+      'festival': 'Bastille Day',
+      'clothing': 'Beret & Fashion',
+      'music': 'Classical & Chanson',
+      'funFact': 'French is spoken on 5 continents!',
+      'dance': 'Ballet, Can-can',
+    },
+    {
+      'name': 'Brazilian Culture',
+      'emoji': '🇧🇷',
+      'greeting': 'Ola!',
+      'greetingPronunciation': 'oh-lah',
+      'food': ['Feijoada', 'Pao de Queijo', 'Acai', 'Brigadeiro'],
+      'festival': 'Carnival - Street Festival',
+      'clothing': 'Carnival Costumes',
+      'music': 'Samba & Bossa Nova',
+      'funFact': 'Brazil is the largest country in South America!',
+      'dance': 'Samba, Capoeira',
+    },
+    {
+      'name': 'American Culture',
+      'emoji': '🇺🇸',
+      'greeting': 'Hello!',
+      'greetingPronunciation': 'heh-loh',
+      'food': ['Hamburger', 'Hot Dog', 'Apple Pie', 'BBQ'],
+      'festival': 'Thanksgiving',
+      'clothing': 'Casual & Diverse',
+      'music': 'Jazz, Rock, Hip-hop',
+      'funFact': 'Baseball is called America\'s pastime!',
+      'dance': 'Hip-hop, Line Dancing',
+    },
+    {
+      'name': 'Australian Culture',
+      'emoji': '🇦🇺',
+      'greeting': 'G\'day mate!',
+      'greetingPronunciation': 'guh-day mayt',
+      'food': ['Vegemite', 'Meat Pie', 'Lamingtons', 'BBQ'],
+      'festival': 'Australia Day',
+      'clothing': 'Casual & Akubra Hat',
+      'music': 'Didgeridoo & Rock',
+      'funFact': 'Aboriginal culture is 65,000 years old!',
+      'dance': 'Aboriginal Corroboree',
+    },
+    {
+      'name': 'Italian Culture',
+      'emoji': '🇮🇹',
+      'greeting': 'Ciao!',
+      'greetingPronunciation': 'chow',
+      'food': ['Pizza', 'Pasta', 'Gelato', 'Risotto'],
+      'festival': 'Venice Carnival',
+      'clothing': 'Fashion Capital Style',
+      'music': 'Opera & Folk',
+      'funFact': 'Italy has 55 UNESCO World Heritage Sites!',
+      'dance': 'Tarantella',
+    },
   ];
 
   @override
@@ -62,43 +174,75 @@ class _GlobalCulturesPageState extends State<GlobalCulturesPage>
       title: 'Global Cultures',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: () async {
-              await ProgressService.to.resetProgress(ProgressService.kGlobalCultures);
+              await ProgressService.to.resetProgress(
+                ProgressService.kGlobalCultures,
+              );
               setState(() {});
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
         ),
       ],
       body: Column(
         children: [
           Obx(() {
-            final progress = ProgressService.to.getProgressPercentage(ProgressService.kGlobalCultures) / 100;
-            final progressString = ProgressService.to.getProgressString(ProgressService.kGlobalCultures);
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kGlobalCultures,
+                ) /
+                100;
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kGlobalCultures,
+            );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Progress', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
-                      Text('$progressString completed', style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500)),
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
-                      value: progress, minHeight: 10,
+                      value: progress,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
-                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFF4CAF50),
+                      ),
                     ),
                   ),
                 ],
@@ -107,9 +251,12 @@ class _GlobalCulturesPageState extends State<GlobalCulturesPage>
           }),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, mainAxisSpacing: 16, crossAxisSpacing: 16, childAspectRatio: 1.0,
+              padding: EdgeInsets.all(12.r),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16.r,
+                crossAxisSpacing: 16.r,
+                childAspectRatio: 1.0,
               ),
               itemCount: cultures.length,
               itemBuilder: (context, index) {
@@ -122,16 +269,27 @@ class _GlobalCulturesPageState extends State<GlobalCulturesPage>
                     isSelected: false,
                     onTap: () {
                       TtsService.to.speak(culture['name']);
-                      ProgressService.to.markItemCompleted(ProgressService.kGlobalCultures, index);
-                      Get.to(() => CultureDetailPage(culture: culture, speakText: _speakText));
+                      ProgressService.to.markItemCompleted(
+                        ProgressService.kGlobalCultures,
+                        index,
+                      );
+                      Get.to(
+                        () => CultureDetailPage(
+                          culture: culture,
+                          speakText: _speakText,
+                        ),
+                      );
                     },
                     pulseAnimation: pulseAnimation,
                     child: Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(culture['emoji'], style: const TextStyle(fontSize: 48)),
-                          const SizedBox(height: 8),
+                          Text(
+                            culture['emoji'],
+                            style: const TextStyle(fontSize: 48),
+                          ),
+                          SizedBox(height: 8.h),
                           GradientCardText(
                             text: culture['name'].replaceAll(' Culture', ''),
                             fontSize: 13,
@@ -154,7 +312,11 @@ class CultureDetailPage extends StatefulWidget {
   final Map<String, dynamic> culture;
   final void Function(String) speakText;
 
-  const CultureDetailPage({super.key, required this.culture, required this.speakText});
+  const CultureDetailPage({
+    super.key,
+    required this.culture,
+    required this.speakText,
+  });
 
   @override
   State<CultureDetailPage> createState() => _CultureDetailPageState();
@@ -179,7 +341,11 @@ class _CultureDetailPageState extends State<CultureDetailPage>
     final c = widget.culture;
     final foodStr = (c['food'] as List).join(', ');
     final items = [
-      {'emoji': '👋', 'label': 'Greeting', 'value': '${c['greeting']} (${c['greetingPronunciation']})'},
+      {
+        'emoji': '👋',
+        'label': 'Greeting',
+        'value': '${c['greeting']} (${c['greetingPronunciation']})',
+      },
       {'emoji': '🍽️', 'label': 'Food', 'value': foodStr},
       {'emoji': '🎉', 'label': 'Festival', 'value': c['festival']},
       {'emoji': '👗', 'label': 'Clothing', 'value': c['clothing']},
@@ -191,9 +357,12 @@ class _CultureDetailPageState extends State<CultureDetailPage>
     return GradientScaffold(
       title: c['name'],
       body: GridView.builder(
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.0,
+        padding: EdgeInsets.all(12.r),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 12.r,
+          crossAxisSpacing: 12.r,
+          childAspectRatio: 1.0,
         ),
         itemCount: items.length,
         itemBuilder: (context, index) {
@@ -204,21 +373,47 @@ class _CultureDetailPageState extends State<CultureDetailPage>
             child: GradientCard(
               gradient: gradient,
               isSelected: false,
-              onTap: () => widget.speakText("${item['label']}. ${item['value']}"),
+              onTap: () =>
+                  widget.speakText("${item['label']}. ${item['value']}"),
               pulseAnimation: pulseAnimation,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 50, height: 50,
-                      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
-                      child: Center(child: Text(item['emoji']!, style: const TextStyle(fontSize: 24))),
+                      width: 50.w,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          item['emoji']!,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 6),
-                    Text(item['label']!, style: const TextStyle(fontSize: 11, color: Colors.white70, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 4),
-                    GradientCardText(text: item['value']!, fontSize: 11),
+                    SizedBox(height: 6.h),
+                    Text(
+                      item['label']!,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    // A fact or a story is prose, not a single value: it
+                    // takes what room the square tile has left and shortens
+                    // rather than overflowing it.
+                    Flexible(
+                      child: GradientCardText(
+                        text: item['value']!,
+                        fontSize: 11,
+                        maxLines: 4,
+                      ),
+                    ),
                   ],
                 ),
               ),

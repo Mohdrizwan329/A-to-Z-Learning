@@ -4,6 +4,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AnimatedVideosPage extends StatefulWidget {
   const AnimatedVideosPage({super.key});
 
@@ -312,15 +314,15 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () {
@@ -350,12 +352,12 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: () {
               _stopAnimation();
@@ -376,7 +378,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           isScrollable: true,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
@@ -388,7 +390,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: "ABC"),
             Tab(text: "123"),
@@ -400,7 +402,12 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -426,36 +433,43 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
           ProgressService.to.getProgressPercentage(progressKey) / 100;
       final progressString = ProgressService.to.getProgressString(progressKey);
       return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+        padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Progress',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                // The reader's font size can be 30% larger than this row was drawn for.
+                Flexible(
+                  child: const Text(
+                    'Progress',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text(
-                  '$progressString completed',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w500,
+                Flexible(
+                  child: Text(
+                    '$progressString completed',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 10,
+                minHeight: 10.h,
                 backgroundColor: Colors.white.withValues(alpha: 0.2),
                 valueColor: const AlwaysStoppedAnimation<Color>(
                   Color(0xFF4CAF50),
@@ -477,7 +491,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
             final _ =
                 ProgressService.to.completedItems[ProgressService.kAnimatedABC];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: alphabetVideos.length,
               itemBuilder: (context, index) {
                 final video = alphabetVideos[index];
@@ -495,8 +509,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -506,11 +520,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: video['color'].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -519,11 +533,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                       children: [
                         // Decorative circle
                         Positioned(
-                          top: -15,
-                          right: -15,
+                          top: -15.h,
+                          right: -15.w,
                           child: Container(
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -533,11 +547,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         Row(
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 60.w,
+                              height: 60.h,
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.3),
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(15.r),
                               ),
                               child: Center(
                                 child: Text(
@@ -550,7 +564,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            SizedBox(width: 16.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,7 +577,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                       color: Colors.white,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4.h),
                                   Text(
                                     "${video['emoji']} Tap to animate!",
                                     style: TextStyle(
@@ -578,28 +592,28 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                             ),
                             if (isCompleted)
                               Container(
-                                padding: const EdgeInsets.all(6),
+                                padding: EdgeInsets.all(6.r),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.green,
-                                  size: 18,
+                                  size: 18.r,
                                 ),
                               )
                             else
                               Container(
-                                padding: const EdgeInsets.all(10),
+                                padding: EdgeInsets.all(10.r),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.play_circle_filled,
                                   color: Colors.white,
-                                  size: 30,
+                                  size: 30.r,
                                 ),
                               ),
                           ],
@@ -626,7 +640,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 .to
                 .completedItems[ProgressService.kAnimatedNumbers];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: numberVideos.length,
               itemBuilder: (context, index) {
                 final video = numberVideos[index];
@@ -644,8 +658,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -655,11 +669,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: video['color'].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -668,11 +682,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                       children: [
                         // Decorative circle
                         Positioned(
-                          top: -15,
-                          right: -15,
+                          top: -15.h,
+                          right: -15.w,
                           child: Container(
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -682,8 +696,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         Row(
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 60.w,
+                              height: 60.h,
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.3),
                                 shape: BoxShape.circle,
@@ -699,7 +713,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            SizedBox(width: 16.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -712,7 +726,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                       color: Colors.white,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4.h),
                                   Text(
                                     video['example'],
                                     style: TextStyle(
@@ -727,28 +741,28 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                             ),
                             if (isCompleted)
                               Container(
-                                padding: const EdgeInsets.all(6),
+                                padding: EdgeInsets.all(6.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.green,
-                                  size: 18,
+                                  size: 18.r,
                                 ),
                               )
                             else
                               Container(
-                                padding: const EdgeInsets.all(10),
+                                padding: EdgeInsets.all(10.r),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.play_circle_filled,
                                   color: Colors.white,
-                                  size: 30,
+                                  size: 30.r,
                                 ),
                               ),
                           ],
@@ -775,7 +789,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 .to
                 .completedItems[ProgressService.kAnimatedRhymes];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: rhymeVideos.length,
               itemBuilder: (context, index) {
                 final rhyme = rhymeVideos[index];
@@ -793,8 +807,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 16.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -804,11 +818,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: rhyme['color'].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -817,11 +831,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                       children: [
                         // Decorative circle
                         Positioned(
-                          top: -15,
-                          right: -15,
+                          top: -15.h,
+                          right: -15.w,
                           child: Container(
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -834,8 +848,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                             Row(
                               children: [
                                 Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withValues(alpha: 0.3),
                                     shape: BoxShape.circle,
@@ -847,7 +861,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                SizedBox(width: 16.w),
                                 Expanded(
                                   child: Text(
                                     rhyme['title'],
@@ -860,49 +874,49 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                 ),
                                 if (isCompleted)
                                   Container(
-                                    padding: const EdgeInsets.all(6),
+                                    padding: EdgeInsets.all(6.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.green,
-                                      size: 18,
+                                      size: 18.r,
                                     ),
                                   )
                                 else
                                   Container(
-                                    padding: const EdgeInsets.all(10),
+                                    padding: EdgeInsets.all(10.r),
                                     decoration: BoxDecoration(
                                       color: Colors.white.withValues(
                                         alpha: 0.2,
                                       ),
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.play_circle_filled,
                                       color: Colors.white,
-                                      size: 30,
+                                      size: 30.r,
                                     ),
                                   ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
+                              spacing: 8.r,
+                              runSpacing: 8.r,
                               children: (rhyme['actions'] as List<String>).map((
                                 action,
                               ) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 6.h,
                                   ),
                                   decoration: BoxDecoration(
                                     color: Colors.white.withValues(alpha: 0.2),
-                                    borderRadius: BorderRadius.circular(15),
+                                    borderRadius: BorderRadius.circular(15.r),
                                   ),
                                   child: Text(
                                     action,
@@ -938,7 +952,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 .to
                 .completedItems[ProgressService.kAnimatedStories];
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               itemCount: storyVideos.length,
               itemBuilder: (context, index) {
                 final story = storyVideos[index];
@@ -956,8 +970,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.only(bottom: 16.h),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -967,11 +981,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
                           color: story['color'].withValues(alpha: 0.4),
-                          blurRadius: 8,
+                          blurRadius: 8.r,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -980,11 +994,11 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                       children: [
                         // Decorative circle
                         Positioned(
-                          top: -15,
-                          right: -15,
+                          top: -15.h,
+                          right: -15.w,
                           child: Container(
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.1),
@@ -994,8 +1008,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                         Row(
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 60.w,
+                              height: 60.h,
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.3),
                                 shape: BoxShape.circle,
@@ -1007,7 +1021,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            SizedBox(width: 16.w),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1020,7 +1034,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4.h),
                                   Text(
                                     "${(story['scenes'] as List).length} scenes • Tap to watch",
                                     style: TextStyle(
@@ -1035,28 +1049,28 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                             ),
                             if (isCompleted)
                               Container(
-                                padding: const EdgeInsets.all(6),
+                                padding: EdgeInsets.all(6.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.green,
-                                  size: 18,
+                                  size: 18.r,
                                 ),
                               )
                             else
                               Container(
-                                padding: const EdgeInsets.all(10),
+                                padding: EdgeInsets.all(10.r),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.play_circle_filled,
                                   color: Colors.white,
-                                  size: 30,
+                                  size: 30.r,
                                 ),
                               ),
                           ],
@@ -1080,17 +1094,17 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
     Get.dialog(
       Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(16),
+        insetPadding: EdgeInsets.all(16.r),
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1109,15 +1123,15 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                       child: Transform.scale(
                         scale: _scaleAnimation.value,
                         child: Container(
-                          width: 100,
-                          height: 100,
+                          width: 100.w,
+                          height: 100.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(25.r),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 20,
+                                blurRadius: 20.r,
                                 offset: const Offset(0, 10),
                               ),
                             ],
@@ -1138,9 +1152,9 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                   );
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(video['emoji'], style: const TextStyle(fontSize: 50)),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 "${video['letter']} for ${video['word']}",
                 style: const TextStyle(
@@ -1149,12 +1163,12 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Text(
                   video['fact'],
@@ -1162,7 +1176,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -1170,7 +1184,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     onPressed: () => _speakText(
                       "${video['letter']} for ${video['word']}. ${video['fact']}",
                     ),
-                    icon: const Icon(Icons.replay, size: 18),
+                    icon: Icon(Icons.replay, size: 18.r),
                     label: const Text("Listen"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white.withValues(alpha: 0.3),
@@ -1183,7 +1197,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                       flutterTts.stop();
                       Get.back();
                     },
-                    icon: const Icon(Icons.close, size: 18),
+                    icon: Icon(Icons.close, size: 18.r),
                     label: const Text("Close"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -1209,44 +1223,44 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
     Get.bottomSheet(
       Container(
         height: MediaQuery.of(Get.context!).size.height * 0.7,
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
+        padding: EdgeInsets.all(24.r),
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
+            topLeft: Radius.circular(24.r),
+            topRight: Radius.circular(24.r),
           ),
         ),
         child: Column(
           children: [
             Container(
-              width: 50,
-              height: 5,
+              width: 50.w,
+              height: 5.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             AnimatedBuilder(
               animation: _scaleController,
               builder: (context, child) {
                 return Transform.scale(
                   scale: _scaleAnimation.value,
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: 120.w,
+                    height: 120.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 20,
+                          blurRadius: 20.r,
                         ),
                       ],
                     ),
@@ -1264,7 +1278,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 );
               },
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Text(
               video['word'],
               style: const TextStyle(
@@ -1273,12 +1287,12 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
                 video['example'],
@@ -1329,32 +1343,32 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
     Get.bottomSheet(
       Container(
         height: MediaQuery.of(Get.context!).size.height * 0.85,
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
+        padding: EdgeInsets.all(24.r),
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
+            topLeft: Radius.circular(24.r),
+            topRight: Radius.circular(24.r),
           ),
         ),
         child: Column(
           children: [
             Container(
-              width: 50,
-              height: 5,
+              width: 50.w,
+              height: 5.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Container(
-              width: 80,
-              height: 80,
+              width: 80.w,
+              height: 80.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
@@ -1366,7 +1380,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               rhyme['title'],
               style: const TextStyle(
@@ -1375,13 +1389,13 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: SingleChildScrollView(
                   child: Text(
@@ -1396,7 +1410,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             const Text(
               "Actions",
               style: TextStyle(
@@ -1405,18 +1419,18 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Wrap(
-              spacing: 10,
+              spacing: 10.r,
               children: (rhyme['actions'] as List<String>).map((action) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -1434,7 +1448,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                 );
               }).toList(),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -1478,29 +1492,33 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
         builder: (context, setModalState) {
           return Container(
             height: MediaQuery.of(context).size.height * 0.75,
-            padding: const EdgeInsets.all(24),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.all(24.r),
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24),
-                topRight: Radius.circular(24),
+                topLeft: Radius.circular(24.r),
+                topRight: Radius.circular(24.r),
               ),
             ),
             child: Column(
               children: [
                 Container(
-                  width: 50,
-                  height: 5,
+                  width: 50.w,
+                  height: 5.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
                   story['title'],
                   style: const TextStyle(
@@ -1509,24 +1527,24 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(scenes.length, (i) {
                     return Container(
-                      width: 30,
-                      height: 6,
-                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      width: 30.w,
+                      height: 6.h,
+                      margin: EdgeInsets.symmetric(horizontal: 3.w),
                       decoration: BoxDecoration(
                         color: i <= currentSceneIndex
                             ? Colors.white
                             : Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(3),
+                        borderRadius: BorderRadius.circular(3.r),
                       ),
                     );
                   }),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
                 TweenAnimationBuilder<double>(
                   key: ValueKey(currentSceneIndex),
                   tween: Tween(begin: 0.5, end: 1.0),
@@ -1538,8 +1556,8 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     );
                   },
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: 120.w,
+                    height: 120.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -1552,12 +1570,12 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     scenes[currentSceneIndex]['text'],
@@ -1592,7 +1610,7 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                           color: currentSceneIndex > 0
                               ? Colors.white
                               : Colors.white.withValues(alpha: 0.3),
-                          size: 24,
+                          size: 24.r,
                         ),
                       ),
                     ),
@@ -1625,13 +1643,13 @@ class _AnimatedVideosPageState extends State<AnimatedVideosPage>
                           color: currentSceneIndex < scenes.length - 1
                               ? Colors.white
                               : Colors.white.withValues(alpha: 0.3),
-                          size: 24,
+                          size: 24.r,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 ElevatedButton.icon(
                   onPressed: () {
                     flutterTts.stop();

@@ -3,14 +3,18 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ConversationPracticePage extends StatefulWidget {
   const ConversationPracticePage({super.key});
 
   @override
-  State<ConversationPracticePage> createState() => _ConversationPracticePageState();
+  State<ConversationPracticePage> createState() =>
+      _ConversationPracticePageState();
 }
 
-class _ConversationPracticePageState extends State<ConversationPracticePage> with TickerProviderStateMixin {
+class _ConversationPracticePageState extends State<ConversationPracticePage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
   int currentDialogueIndex = 0;
@@ -19,26 +23,98 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
 
   final List<Map<String, dynamic>> greetings = [
     {'phrase': 'Hello!', 'emoji': '👋', 'response': 'Hello! How are you?'},
-    {'phrase': 'Good morning!', 'emoji': '🌅', 'response': 'Good morning! Did you sleep well?'},
-    {'phrase': 'Good afternoon!', 'emoji': '☀️', 'response': 'Good afternoon! How is your day?'},
-    {'phrase': 'Good evening!', 'emoji': '🌆', 'response': 'Good evening! Nice to see you!'},
-    {'phrase': 'Good night!', 'emoji': '🌙', 'response': 'Good night! Sweet dreams!'},
-    {'phrase': 'How are you?', 'emoji': '🙂', 'response': 'I am fine, thank you!'},
-    {'phrase': 'Nice to meet you!', 'emoji': '🤝', 'response': 'Nice to meet you too!'},
-    {'phrase': 'Goodbye!', 'emoji': '👋', 'response': 'Goodbye! See you later!'},
-    {'phrase': 'See you later!', 'emoji': '✌️', 'response': 'See you! Take care!'},
+    {
+      'phrase': 'Good morning!',
+      'emoji': '🌅',
+      'response': 'Good morning! Did you sleep well?',
+    },
+    {
+      'phrase': 'Good afternoon!',
+      'emoji': '☀️',
+      'response': 'Good afternoon! How is your day?',
+    },
+    {
+      'phrase': 'Good evening!',
+      'emoji': '🌆',
+      'response': 'Good evening! Nice to see you!',
+    },
+    {
+      'phrase': 'Good night!',
+      'emoji': '🌙',
+      'response': 'Good night! Sweet dreams!',
+    },
+    {
+      'phrase': 'How are you?',
+      'emoji': '🙂',
+      'response': 'I am fine, thank you!',
+    },
+    {
+      'phrase': 'Nice to meet you!',
+      'emoji': '🤝',
+      'response': 'Nice to meet you too!',
+    },
+    {
+      'phrase': 'Goodbye!',
+      'emoji': '👋',
+      'response': 'Goodbye! See you later!',
+    },
+    {
+      'phrase': 'See you later!',
+      'emoji': '✌️',
+      'response': 'See you! Take care!',
+    },
     {'phrase': 'Thank you!', 'emoji': '🙏', 'response': 'You are welcome!'},
   ];
 
   final List<Map<String, dynamic>> politeExpressions = [
-    {'phrase': 'Please', 'emoji': '🙏', 'usage': 'Use when asking for something', 'example': 'Can I have some water, please?'},
-    {'phrase': 'Thank you', 'emoji': '💝', 'usage': 'Use to show gratitude', 'example': 'Thank you for helping me!'},
-    {'phrase': 'You\'re welcome', 'emoji': '😊', 'usage': 'Reply to thank you', 'example': 'You\'re welcome! Anytime!'},
-    {'phrase': 'Excuse me', 'emoji': '🙋', 'usage': 'To get attention politely', 'example': 'Excuse me, where is the library?'},
-    {'phrase': 'I\'m sorry', 'emoji': '😔', 'usage': 'When you make a mistake', 'example': 'I\'m sorry I broke your pencil.'},
-    {'phrase': 'May I?', 'emoji': '❓', 'usage': 'Asking for permission', 'example': 'May I go to the bathroom?'},
-    {'phrase': 'Pardon me', 'emoji': '👂', 'usage': 'When you didn\'t hear', 'example': 'Pardon me? Can you repeat that?'},
-    {'phrase': 'After you', 'emoji': '🚪', 'usage': 'Being polite at doors', 'example': 'After you! Please go first.'},
+    {
+      'phrase': 'Please',
+      'emoji': '🙏',
+      'usage': 'Use when asking for something',
+      'example': 'Can I have some water, please?',
+    },
+    {
+      'phrase': 'Thank you',
+      'emoji': '💝',
+      'usage': 'Use to show gratitude',
+      'example': 'Thank you for helping me!',
+    },
+    {
+      'phrase': 'You\'re welcome',
+      'emoji': '😊',
+      'usage': 'Reply to thank you',
+      'example': 'You\'re welcome! Anytime!',
+    },
+    {
+      'phrase': 'Excuse me',
+      'emoji': '🙋',
+      'usage': 'To get attention politely',
+      'example': 'Excuse me, where is the library?',
+    },
+    {
+      'phrase': 'I\'m sorry',
+      'emoji': '😔',
+      'usage': 'When you make a mistake',
+      'example': 'I\'m sorry I broke your pencil.',
+    },
+    {
+      'phrase': 'May I?',
+      'emoji': '❓',
+      'usage': 'Asking for permission',
+      'example': 'May I go to the bathroom?',
+    },
+    {
+      'phrase': 'Pardon me',
+      'emoji': '👂',
+      'usage': 'When you didn\'t hear',
+      'example': 'Pardon me? Can you repeat that?',
+    },
+    {
+      'phrase': 'After you',
+      'emoji': '🚪',
+      'usage': 'Being polite at doors',
+      'example': 'After you! Please go first.',
+    },
   ];
 
   final List<Map<String, dynamic>> dialogues = [
@@ -49,8 +125,14 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
       'characters': ['Shopkeeper', 'Child'],
       'lines': [
         {'speaker': 'Shopkeeper', 'text': 'Hello! How can I help you?'},
-        {'speaker': 'Child', 'text': 'Hello! I would like to buy an apple, please.'},
-        {'speaker': 'Shopkeeper', 'text': 'Sure! Here you go. That will be 10 rupees.'},
+        {
+          'speaker': 'Child',
+          'text': 'Hello! I would like to buy an apple, please.',
+        },
+        {
+          'speaker': 'Shopkeeper',
+          'text': 'Sure! Here you go. That will be 10 rupees.',
+        },
         {'speaker': 'Child', 'text': 'Here is the money. Thank you!'},
         {'speaker': 'Shopkeeper', 'text': 'You\'re welcome! Have a nice day!'},
         {'speaker': 'Child', 'text': 'You too! Goodbye!'},
@@ -63,8 +145,14 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
       'characters': ['You', 'New Friend'],
       'lines': [
         {'speaker': 'You', 'text': 'Hi! My name is Rahul. What\'s your name?'},
-        {'speaker': 'New Friend', 'text': 'Hello Rahul! I am Priya. Nice to meet you!'},
-        {'speaker': 'You', 'text': 'Nice to meet you too! Do you want to play?'},
+        {
+          'speaker': 'New Friend',
+          'text': 'Hello Rahul! I am Priya. Nice to meet you!',
+        },
+        {
+          'speaker': 'You',
+          'text': 'Nice to meet you too! Do you want to play?',
+        },
         {'speaker': 'New Friend', 'text': 'Yes! What game should we play?'},
         {'speaker': 'You', 'text': 'Let\'s play catch! Do you like catch?'},
         {'speaker': 'New Friend', 'text': 'I love catch! Let\'s go!'},
@@ -110,10 +198,16 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
         {'speaker': 'Friend', 'text': 'Hi! This is Arjun speaking.'},
         {'speaker': 'You', 'text': 'Hi Arjun! This is Riya. How are you?'},
         {'speaker': 'Friend', 'text': 'I am good! What\'s up?'},
-        {'speaker': 'You', 'text': 'Would you like to come to my birthday party?'},
+        {
+          'speaker': 'You',
+          'text': 'Would you like to come to my birthday party?',
+        },
         {'speaker': 'Friend', 'text': 'Yes! I would love to! When is it?'},
         {'speaker': 'You', 'text': 'It\'s on Saturday at 4 PM.'},
-        {'speaker': 'Friend', 'text': 'Great! I will be there. Thank you for inviting me!'},
+        {
+          'speaker': 'Friend',
+          'text': 'Great! I will be there. Thank you for inviting me!',
+        },
       ],
     },
   ];
@@ -180,7 +274,7 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -188,31 +282,52 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                blurRadius: 10.r,
+                offset: Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Conversation", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text(
+          "Conversation",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-          tabs: const [
-            Tab(text: "Greetings", icon: Icon(Icons.waving_hand, size: 20)),
-            Tab(text: "Polite", icon: Icon(Icons.favorite, size: 20)),
-            Tab(text: "Dialogues", icon: Icon(Icons.chat, size: 20)),
+          indicatorWeight: 3.r,
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
+          tabs: [
+            Tab(
+              text: "Greetings",
+              icon: Icon(Icons.waving_hand, size: 20.r),
+            ),
+            Tab(
+              text: "Polite",
+              icon: Icon(Icons.favorite, size: 20.r),
+            ),
+            Tab(
+              text: "Dialogues",
+              icon: Icon(Icons.chat, size: 20.r),
+            ),
           ],
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -232,18 +347,31 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
 
   Widget _buildGreetingsTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: greetings.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("👋", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Daily Greetings", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Tap to hear and practice!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "Daily Greetings",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Tap to hear and practice!",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
@@ -255,23 +383,36 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
             _speakText("${greeting['phrase']} ${greeting['response']}");
           },
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               children: [
                 Text(greeting['emoji'], style: const TextStyle(fontSize: 30)),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(greeting['phrase'], style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF667EEA))),
-                      const SizedBox(height: 4),
-                      Text("→ ${greeting['response']}", style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+                      Text(
+                        greeting['phrase'],
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF667EEA),
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "→ ${greeting['response']}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -286,24 +427,44 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
 
   Widget _buildPoliteTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: politeExpressions.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("🙏", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Polite Words", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Learn to speak kindly!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "Polite Words",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Learn to speak kindly!",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
 
         final expression = politeExpressions[index - 1];
-        final colors = [Color(0xFF4ECDC4), Color(0xFFFF6B6B), Color(0xFF667EEA), Color(0xFFFFAA5A), Color(0xFFA78BFA), Color(0xFF56D97F)];
+        final colors = [
+          Color(0xFF4ECDC4),
+          Color(0xFFFF6B6B),
+          Color(0xFF667EEA),
+          Color(0xFFFFAA5A),
+          Color(0xFFA78BFA),
+          Color(0xFF56D97F),
+        ];
         final color = colors[(index - 1) % colors.length];
 
         return GestureDetector(
@@ -312,54 +473,80 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
             _speakText("${expression['phrase']}. ${expression['example']}");
           },
           child: Container(
-            margin: const EdgeInsets.only(bottom: 16),
+            margin: EdgeInsets.only(bottom: 16.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [color, color.withValues(alpha: 0.7)]),
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                    gradient: LinearGradient(
+                      colors: [color, color.withValues(alpha: 0.7)],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.r),
+                      topRight: Radius.circular(20.r),
+                    ),
                   ),
                   child: Row(
                     children: [
-                      Text(expression['emoji'], style: const TextStyle(fontSize: 30)),
-                      const SizedBox(width: 12),
+                      Text(
+                        expression['emoji'],
+                        style: const TextStyle(fontSize: 30),
+                      ),
+                      SizedBox(width: 12.w),
                       Expanded(
-                        child: Text(expression['phrase'], style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                        child: Text(
+                          expression['phrase'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                       const Icon(Icons.volume_up, color: Colors.white70),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           const Text("📝", style: TextStyle(fontSize: 16)),
-                          const SizedBox(width: 8),
-                          Text(expression['usage'], style: TextStyle(color: Colors.grey.shade700)),
+                          SizedBox(width: 8.w),
+                          Text(
+                            expression['usage'],
+                            style: TextStyle(color: Colors.grey.shade700),
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: color.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                         child: Row(
                           children: [
                             const Text("💬", style: TextStyle(fontSize: 16)),
-                            const SizedBox(width: 8),
-                            Expanded(child: Text("\"${expression['example']}\"", style: TextStyle(color: color, fontStyle: FontStyle.italic))),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Text(
+                                "\"${expression['example']}\"",
+                                style: TextStyle(
+                                  color: color,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -376,63 +563,107 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
 
   Widget _buildDialoguesTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: dialogues.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("🎭", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Practice Dialogues", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Listen to real conversations!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "Practice Dialogues",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Listen to real conversations!",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
 
         final dialogue = dialogues[index - 1];
-        final isCurrentlyPlaying = isPlaying && currentDialogueIndex == index - 1;
+        final isCurrentlyPlaying =
+            isPlaying && currentDialogueIndex == index - 1;
 
         return Container(
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: EdgeInsets.only(bottom: 16.h),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
-              BoxShadow(color: dialogue['color'].withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4)),
+              BoxShadow(
+                color: dialogue['color'].withValues(alpha: 0.3),
+                blurRadius: 10.r,
+                offset: const Offset(0, 4),
+              ),
             ],
           ),
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [dialogue['color'], dialogue['color'].withValues(alpha: 0.7)]),
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  gradient: LinearGradient(
+                    colors: [
+                      dialogue['color'],
+                      dialogue['color'].withValues(alpha: 0.7),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    Text(dialogue['emoji'], style: const TextStyle(fontSize: 35)),
-                    const SizedBox(width: 12),
+                    Text(
+                      dialogue['emoji'],
+                      style: const TextStyle(fontSize: 35),
+                    ),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(dialogue['title'], style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                          Text("${(dialogue['lines'] as List).length} lines", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
+                          Text(
+                            dialogue['title'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "${(dialogue['lines'] as List).length} lines",
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.8),
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
                         TtsService.to.speak(dialogue['title']);
-                        isCurrentlyPlaying ? _stopDialogue() : _playDialogue(index - 1);
+                        isCurrentlyPlaying
+                            ? _stopDialogue()
+                            : _playDialogue(index - 1);
                       },
                       child: Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
@@ -440,7 +671,7 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
                         child: Icon(
                           isCurrentlyPlaying ? Icons.stop : Icons.play_arrow,
                           color: Colors.white,
-                          size: 30,
+                          size: 30.r,
                         ),
                       ),
                     ),
@@ -448,43 +679,69 @@ class _ConversationPracticePageState extends State<ConversationPracticePage> wit
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
-                  children: (dialogue['lines'] as List<Map<String, dynamic>>).asMap().entries.map((entry) {
-                    final lineIndex = entry.key;
-                    final line = entry.value;
-                    final isCurrentLine = isCurrentlyPlaying && lineIndex == currentLineIndex;
+                  children: (dialogue['lines'] as List<Map<String, dynamic>>)
+                      .asMap()
+                      .entries
+                      .map((entry) {
+                        final lineIndex = entry.key;
+                        final line = entry.value;
+                        final isCurrentLine =
+                            isCurrentlyPlaying && lineIndex == currentLineIndex;
 
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: isCurrentLine ? dialogue['color'].withValues(alpha: 0.2) : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                        border: isCurrentLine ? Border.all(color: dialogue['color'], width: 2) : null,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: dialogue['color'],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(line['speaker'], style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8.h),
+                          padding: EdgeInsets.all(12.r),
+                          decoration: BoxDecoration(
+                            color: isCurrentLine
+                                ? dialogue['color'].withValues(alpha: 0.2)
+                                : Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: isCurrentLine
+                                ? Border.all(color: dialogue['color'], width: 2)
+                                : null,
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              line['text'],
-                              style: TextStyle(color: isCurrentLine ? dialogue['color'] : Colors.grey.shade700, fontWeight: isCurrentLine ? FontWeight.bold : FontWeight.normal),
-                            ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 4.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: dialogue['color'],
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Text(
+                                  line['speaker'],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              Expanded(
+                                child: Text(
+                                  line['text'],
+                                  style: TextStyle(
+                                    color: isCurrentLine
+                                        ? dialogue['color']
+                                        : Colors.grey.shade700,
+                                    fontWeight: isCurrentLine
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      })
+                      .toList(),
                 ),
               ),
             ],

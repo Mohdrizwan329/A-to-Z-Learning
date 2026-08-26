@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Screen Time Service - Manages daily usage limits and parental controls
 class ScreenTimeService extends GetxService {
   static ScreenTimeService get to => Get.find<ScreenTimeService>();
@@ -47,9 +49,13 @@ class ScreenTimeService extends GetxService {
 
   void _loadSettings() {
     screenTimeLimitMinutes.value = _storage.read<int>(kScreenTimeLimit) ?? 60;
-    isScreenTimeEnabled.value = _storage.read<bool>(kScreenTimeEnabled) ?? false;
-    isParentalLockEnabled.value = _storage.read<bool>(kParentalLockEnabled) ?? false;
-    lockedFeatures.value = List<String>.from(_storage.read<List<dynamic>>(kLockedFeatures) ?? []);
+    isScreenTimeEnabled.value =
+        _storage.read<bool>(kScreenTimeEnabled) ?? false;
+    isParentalLockEnabled.value =
+        _storage.read<bool>(kParentalLockEnabled) ?? false;
+    lockedFeatures.value = List<String>.from(
+      _storage.read<List<dynamic>>(kLockedFeatures) ?? [],
+    );
     isBreakReminderEnabled.value = _storage.read<bool>(kBreakReminder) ?? true;
     breakIntervalMinutes.value = _storage.read<int>(kBreakInterval) ?? 20;
 
@@ -69,7 +75,9 @@ class ScreenTimeService extends GetxService {
     // Load usage history
     final history = _storage.read<Map<String, dynamic>>(kUsageHistory);
     if (history != null) {
-      usageHistory.value = Map<String, int>.from(history.map((k, v) => MapEntry(k, v as int)));
+      usageHistory.value = Map<String, int>.from(
+        history.map((k, v) => MapEntry(k, v as int)),
+      );
     }
 
     _checkLimitReached();
@@ -88,11 +96,15 @@ class ScreenTimeService extends GetxService {
     });
 
     // Break reminders
-    _reminderTimer = Timer.periodic(Duration(minutes: breakIntervalMinutes.value), (_) {
-      if (isBreakReminderEnabled.value && currentSessionMinutes.value >= breakIntervalMinutes.value) {
-        _showBreakReminder();
-      }
-    });
+    _reminderTimer = Timer.periodic(
+      Duration(minutes: breakIntervalMinutes.value),
+      (_) {
+        if (isBreakReminderEnabled.value &&
+            currentSessionMinutes.value >= breakIntervalMinutes.value) {
+          _showBreakReminder();
+        }
+      },
+    );
   }
 
   String _getTodayString() {
@@ -114,7 +126,8 @@ class ScreenTimeService extends GetxService {
   }
 
   void _checkLimitReached() {
-    if (isScreenTimeEnabled.value && todayUsageMinutes.value >= screenTimeLimitMinutes.value) {
+    if (isScreenTimeEnabled.value &&
+        todayUsageMinutes.value >= screenTimeLimitMinutes.value) {
       isLimitReached.value = true;
     } else {
       isLimitReached.value = false;
@@ -126,46 +139,48 @@ class ScreenTimeService extends GetxService {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Get.isDialogOpen != true) {
         Get.dialog(
-        AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text("👀", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 16),
-              const Text(
-                'Time for a Break!',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4ECDC4),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'You\'ve been learning for ${currentSessionMinutes.value} minutes.\nRest your eyes for a bit!',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  currentSessionMinutes.value = 0;
-                  Get.back();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4ECDC4),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("👀", style: TextStyle(fontSize: 50)),
+                SizedBox(height: 16.h),
+                const Text(
+                  'Time for a Break!',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4ECDC4),
                   ),
                 ),
-                child: const Text('I\'ll Take a Break'),
-              ),
-            ],
+                SizedBox(height: 12.h),
+                Text(
+                  'You\'ve been learning for ${currentSessionMinutes.value} minutes.\nRest your eyes for a bit!',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 20.h),
+                ElevatedButton(
+                  onPressed: () {
+                    currentSessionMinutes.value = 0;
+                    Get.back();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4ECDC4),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                  ),
+                  child: const Text('I\'ll Take a Break'),
+                ),
+              ],
+            ),
           ),
-        ),
-        barrierDismissible: true,
+          barrierDismissible: true,
         );
       }
     });
@@ -256,7 +271,8 @@ class ScreenTimeService extends GetxService {
     // Restart reminder timer with new interval
     _reminderTimer?.cancel();
     _reminderTimer = Timer.periodic(Duration(minutes: minutes), (_) {
-      if (isBreakReminderEnabled.value && currentSessionMinutes.value >= minutes) {
+      if (isBreakReminderEnabled.value &&
+          currentSessionMinutes.value >= minutes) {
         _showBreakReminder();
       }
     });
@@ -265,12 +281,19 @@ class ScreenTimeService extends GetxService {
   // Analytics
   int get remainingMinutes {
     if (!isScreenTimeEnabled.value) return 999;
-    return (screenTimeLimitMinutes.value - todayUsageMinutes.value).clamp(0, 999);
+    return (screenTimeLimitMinutes.value - todayUsageMinutes.value).clamp(
+      0,
+      999,
+    );
   }
 
   double get usagePercentage {
-    if (!isScreenTimeEnabled.value || screenTimeLimitMinutes.value == 0) return 0;
-    return (todayUsageMinutes.value / screenTimeLimitMinutes.value * 100).clamp(0, 100);
+    if (!isScreenTimeEnabled.value || screenTimeLimitMinutes.value == 0)
+      return 0;
+    return (todayUsageMinutes.value / screenTimeLimitMinutes.value * 100).clamp(
+      0,
+      100,
+    );
   }
 
   int get weeklyAverageMinutes {

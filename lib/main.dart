@@ -25,6 +25,7 @@ import 'package:jiyan_learning/services/multi_profile_service.dart';
 import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/services/ad_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
+import 'package:jiyan_learning/utils/responsive.dart';
 import 'package:jiyan_learning/widgets/global_ad_shell.dart';
 
 Future<void> main() async {
@@ -101,13 +102,19 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       getPages: AppPages.routes,
+      // Mouse and trackpad drag-scrolling, which desktop and web lack by default.
+      scrollBehavior: const AppScrollBehavior(),
       // Keeps the app-wide banner in step with navigation, so it can stay off
       // the splash, the auth flow and the pages selling the ad-free upgrade.
       routingCallback: GlobalAdShell.onRouteChanged,
-      // Mounts one banner below every screen. Currently a no-op: the shell's
-      // adsEnabled switch is off, so nothing is added to any layout yet.
-      builder: (context, child) =>
-          GlobalAdShell(child: child ?? const SizedBox.shrink()),
+      // Keeps R in step with the live MediaQuery on every rotation and window
+      // resize, clamps system font scaling, and centres the layout instead of
+      // stretching it on tablets, desktop and the web.
+      builder: (context, child) => ResponsiveShell(
+        // Sits inside ResponsiveShell so the banner is laid out against the
+        // clamped MediaQuery the rest of the app sees.
+        child: GlobalAdShell(child: child ?? const SizedBox.shrink()),
+      ),
     );
   }
 }

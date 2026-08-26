@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SupportScreen extends StatefulWidget {
   const SupportScreen({Key? key}) : super(key: key);
 
@@ -215,34 +217,30 @@ class _SupportScreenState extends State<SupportScreen>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -257,7 +255,7 @@ class _SupportScreenState extends State<SupportScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -276,11 +274,11 @@ class _SupportScreenState extends State<SupportScreen>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -288,25 +286,25 @@ class _SupportScreenState extends State<SupportScreen>
       child: Row(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 44.w,
+            height: 44.h,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
-              Icons.quiz_rounded,
-              color: Colors.white,
-              size: 24,
-            ),
+            child: Icon(Icons.quiz_rounded, color: Colors.white, size: 24.r),
           ),
           SizedBox(width: AppTheme.spacingS),
-          Text(
-            'Frequently Asked Questions',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          // The heading is wider than a small phone next to its icon, so it
+          // takes the remaining width and wraps rather than overflowing.
+          Expanded(
+            child: Text(
+              'Frequently Asked Questions',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -324,95 +322,88 @@ class _SupportScreenState extends State<SupportScreen>
         final offset = (index % 2 == 0)
             ? _floatAnimation.value * 0.5
             : -_floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
-      margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: gradientList,
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: gradientList[0].withValues(alpha: 0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+        margin: EdgeInsets.only(bottom: AppTheme.spacingS),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientList,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
-      ),
-      child: Theme(
-        data: ThemeData(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          tilePadding: EdgeInsets.symmetric(
-            horizontal: AppTheme.spacingM,
-            vertical: AppTheme.spacingS,
-          ),
-          childrenPadding: EdgeInsets.only(
-            left: AppTheme.spacingM,
-            right: AppTheme.spacingM,
-            bottom: AppTheme.spacingM,
-          ),
-          leading: Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              faq['icon'],
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-          iconColor: Colors.white,
-          collapsedIconColor: Colors.white.withValues(alpha: 0.8),
-          title: Text(
-            faq['question'],
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
-          children: [
-            Container(
-              padding: EdgeInsets.all(AppTheme.spacingM),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.lightbulb_outline_rounded,
-                    color: Colors.white.withValues(alpha: 0.9),
-                    size: 20,
-                  ),
-                  SizedBox(width: AppTheme.spacingS),
-                  Expanded(
-                    child: Text(
-                      faq['answer'],
-                      style: GoogleFonts.nunito(
-                        fontSize: 14,
-                        color: Colors.white.withValues(alpha: 0.95),
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: gradientList[0].withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
-      ),
+        child: Theme(
+          data: ThemeData(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            tilePadding: EdgeInsets.symmetric(
+              horizontal: AppTheme.spacingM,
+              vertical: AppTheme.spacingS,
+            ),
+            childrenPadding: EdgeInsets.only(
+              left: AppTheme.spacingM,
+              right: AppTheme.spacingM,
+              bottom: AppTheme.spacingM,
+            ),
+            leading: Container(
+              width: 48.w,
+              height: 48.h,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+              child: Icon(faq['icon'], color: Colors.white, size: 24.r),
+            ),
+            iconColor: Colors.white,
+            collapsedIconColor: Colors.white.withValues(alpha: 0.8),
+            title: Text(
+              faq['question'],
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            children: [
+              Container(
+                padding: EdgeInsets.all(AppTheme.spacingM),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.lightbulb_outline_rounded,
+                      color: Colors.white.withValues(alpha: 0.9),
+                      size: 20.r,
+                    ),
+                    SizedBox(width: AppTheme.spacingS),
+                    Expanded(
+                      child: Text(
+                        faq['answer'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.95),
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

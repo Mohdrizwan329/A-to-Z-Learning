@@ -6,6 +6,8 @@ import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ImageDrowingScreen extends StatefulWidget {
   final String imagePath;
 
@@ -122,60 +124,68 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: _refreshCanvas,
         ),
       ],
       body: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 90),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 15,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: _buildColoringCanvas(),
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                left: 12.w,
+                right: 12.w,
+                top: 12.h,
+                bottom: 90.h,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15.r,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24.r),
+                child: _buildColoringCanvas(),
+              ),
+            ),
+            // Grey overlay when menu is open
+            if (isToolMenuOpen || isColorMenuOpen)
+              GestureDetector(
+                onTap: () {
+                  if (isToolMenuOpen) _toggleToolMenu();
+                  if (isColorMenuOpen) _toggleColorMenu();
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  color: Colors.black.withOpacity(0.3),
                 ),
               ),
-              // Grey overlay when menu is open
-              if (isToolMenuOpen || isColorMenuOpen)
-                GestureDetector(
-                  onTap: () {
-                    if (isToolMenuOpen) _toggleToolMenu();
-                    if (isColorMenuOpen) _toggleColorMenu();
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
-                    color: Colors.black.withOpacity(0.3),
-                  ),
-                ),
-              _buildBottomToolBar(),
-            ],
-          ),
+            _buildBottomToolBar(),
+          ],
         ),
+      ),
     );
   }
 
   Widget _buildColoringCanvas() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final filledSvgPath = widget.imagePath.replaceAll('.svg', '_filled.svg');
+        final filledSvgPath = widget.imagePath.replaceAll(
+          '.svg',
+          '_filled.svg',
+        );
 
         return GestureDetector(
           onPanStart: (details) {
@@ -232,10 +242,7 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
               // SVG outline on top
               IgnorePointer(
                 child: widget.imagePath.endsWith('.svg')
-                    ? SvgPicture.asset(
-                        widget.imagePath,
-                        fit: BoxFit.contain,
-                      )
+                    ? SvgPicture.asset(widget.imagePath, fit: BoxFit.contain)
                     : Image.asset(widget.imagePath, fit: BoxFit.contain),
               ),
             ],
@@ -259,21 +266,24 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
             children: [
               // Color menu popup (left side)
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 20.w),
                 child: SizeTransition(
                   sizeFactor: _colorExpandAnimation,
                   axisAlignment: 1.0,
                   child: Container(
-                    height: 280,
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    height: 280.h,
+                    margin: EdgeInsets.only(bottom: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 8.w,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30.r),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: Offset(0, 4),
                         ),
                       ],
@@ -292,26 +302,32 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                               _toggleColorMenu();
                             },
                             child: Container(
-                              width: 36,
-                              height: 36,
-                              margin: EdgeInsets.symmetric(vertical: 3),
+                              width: 36.w,
+                              height: 36.h,
+                              margin: EdgeInsets.symmetric(vertical: 3.h),
                               decoration: BoxDecoration(
                                 color: color,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: isSelected ? Colors.black : Colors.white,
+                                  color: isSelected
+                                      ? Colors.black
+                                      : Colors.white,
                                   width: isSelected ? 2 : 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: color.withOpacity(0.4),
-                                    blurRadius: 4,
+                                    blurRadius: 4.r,
                                     offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
                               child: isSelected
-                                  ? Icon(Icons.check, color: _getContrastColor(color), size: 18)
+                                  ? Icon(
+                                      Icons.check,
+                                      color: _getContrastColor(color),
+                                      size: 18.r,
+                                    )
                                   : null,
                             ),
                           );
@@ -324,20 +340,20 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
               Spacer(),
               // Tool menu popup (right side)
               Padding(
-                padding: EdgeInsets.only(right: 20),
+                padding: EdgeInsets.only(right: 20.w),
                 child: SizeTransition(
                   sizeFactor: _expandAnimation,
                   axisAlignment: 1.0,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    margin: EdgeInsets.only(bottom: 8.h),
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30.r),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: Offset(0, 4),
                         ),
                       ],
@@ -351,12 +367,16 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                           });
                           _toggleToolMenu();
                         }),
-                        _buildToolOption(Icons.auto_fix_high, Colors.orange, () {
-                          setState(() {
-                            isErasing = true;
-                          });
-                          _toggleToolMenu();
-                        }),
+                        _buildToolOption(
+                          Icons.auto_fix_high,
+                          Colors.orange,
+                          () {
+                            setState(() {
+                              isErasing = true;
+                            });
+                            _toggleToolMenu();
+                          },
+                        ),
                         _buildToolOption(Icons.add, Colors.green, () {
                           setState(() {
                             if (brushSize < 50) brushSize += 5;
@@ -376,15 +396,15 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
           ),
           // Bottom bar with buttons
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 12),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            margin: EdgeInsets.symmetric(horizontal: 12.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(30.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.15),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: Offset(0, -2),
                 ),
               ],
@@ -397,12 +417,16 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                   onTap: _toggleColorMenu,
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 250),
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isColorMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
+                            ? [
+                                Color(0xFFFF6B6B),
+                                Color(0xFFFF8E53),
+                                Color(0xFFFFAA5A),
+                              ]
                             : [selectedColor, selectedColor.withOpacity(0.7)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -411,17 +435,22 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                       border: Border.all(color: Colors.white, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: (isColorMenuOpen ? Color(0xFFFF6B6B) : selectedColor)
-                              .withOpacity(0.4),
-                          blurRadius: 6,
+                          color:
+                              (isColorMenuOpen
+                                      ? Color(0xFFFF6B6B)
+                                      : selectedColor)
+                                  .withOpacity(0.4),
+                          blurRadius: 6.r,
                           offset: Offset(0, 2),
                         ),
                       ],
                     ),
                     child: Icon(
                       isColorMenuOpen ? Icons.close : Icons.palette,
-                      color: isColorMenuOpen ? Colors.white : _getContrastColor(selectedColor),
-                      size: 24,
+                      color: isColorMenuOpen
+                          ? Colors.white
+                          : _getContrastColor(selectedColor),
+                      size: 24.r,
                     ),
                   ),
                 ),
@@ -430,12 +459,16 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                   onTap: _toggleToolMenu,
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 250),
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: isToolMenuOpen
-                            ? [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)]
+                            ? [
+                                Color(0xFFFF6B6B),
+                                Color(0xFFFF8E53),
+                                Color(0xFFFFAA5A),
+                              ]
                             : [Color(0xFF667EEA), Color(0xFF764BA2)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -443,9 +476,12 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: (isToolMenuOpen ? Color(0xFFFF6B6B) : Color(0xFF667EEA))
-                              .withOpacity(0.4),
-                          blurRadius: 6,
+                          color:
+                              (isToolMenuOpen
+                                      ? Color(0xFFFF6B6B)
+                                      : Color(0xFF667EEA))
+                                  .withOpacity(0.4),
+                          blurRadius: 6.r,
                           offset: Offset(0, 2),
                         ),
                       ],
@@ -453,7 +489,7 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
                     child: Icon(
                       isToolMenuOpen ? Icons.close : Icons.brush,
                       color: Colors.white,
-                      size: 24,
+                      size: 24.r,
                     ),
                   ),
                 ),
@@ -469,14 +505,14 @@ class _ImageDrowingScreenState extends State<ImageDrowingScreen>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 48,
-        height: 48,
-        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        width: 48.w,
+        height: 48.h,
+        margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
         decoration: BoxDecoration(
           color: color.withOpacity(0.15),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: color, size: 24),
+        child: Icon(icon, color: color, size: 24.r),
       ),
     );
   }
@@ -549,10 +585,7 @@ class MaskPainter extends CustomPainter {
   final String svgMaskPath;
   final Size canvasSize;
 
-  MaskPainter({
-    required this.svgMaskPath,
-    required this.canvasSize,
-  });
+  MaskPainter({required this.svgMaskPath, required this.canvasSize});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -561,19 +594,29 @@ class MaskPainter extends CustomPainter {
 
     // Calculate centered position for the shape (matching BoxFit.contain)
     const double svgSize = 200.0; // SVG viewBox size
-    final double scale = (size.width < size.height ? size.width : size.height) / svgSize;
+    final double scale =
+        (size.width < size.height ? size.width : size.height) / svgSize;
     final double offsetX = (size.width - svgSize * scale) / 2;
     final double offsetY = (size.height - svgSize * scale) / 2;
 
     // Create the shape path based on SVG name
-    final Path shapePath = _createShapePath(svgMaskPath, scale, offsetX, offsetY);
+    final Path shapePath = _createShapePath(
+      svgMaskPath,
+      scale,
+      offsetX,
+      offsetY,
+    );
 
     // Create outer rectangle path
     final Path outerPath = Path()
       ..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
 
     // Combine paths - outer minus shape (creates hole in the middle)
-    final Path maskPath = Path.combine(PathOperation.difference, outerPath, shapePath);
+    final Path maskPath = Path.combine(
+      PathOperation.difference,
+      outerPath,
+      shapePath,
+    );
 
     // Draw white mask (covers everything except shape area)
     final paint = Paint()
@@ -583,7 +626,12 @@ class MaskPainter extends CustomPainter {
     canvas.drawPath(maskPath, paint);
   }
 
-  Path _createShapePath(String svgPath, double scale, double offsetX, double offsetY) {
+  Path _createShapePath(
+    String svgPath,
+    double scale,
+    double offsetX,
+    double offsetY,
+  ) {
     final Path path = Path();
 
     // Extract shape name from path
@@ -724,70 +772,90 @@ class MaskPainter extends CustomPainter {
 
   void _addElephantPath(Path path, double scale, double ox, double oy) {
     // Elephant body
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 110 * scale),
-      width: 120 * scale,
-      height: 80 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 110 * scale),
+        width: 120 * scale,
+        height: 80 * scale,
+      ),
+    );
     // Head
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 155 * scale, oy + 80 * scale),
-      width: 50 * scale,
-      height: 50 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 155 * scale, oy + 80 * scale),
+        width: 50 * scale,
+        height: 50 * scale,
+      ),
+    );
     // Ear
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 175 * scale, oy + 70 * scale),
-      width: 30 * scale,
-      height: 40 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 175 * scale, oy + 70 * scale),
+        width: 30 * scale,
+        height: 40 * scale,
+      ),
+    );
   }
 
   void _addButterflyPath(Path path, double scale, double ox, double oy) {
     // Wings
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 60 * scale, oy + 80 * scale),
-      width: 70 * scale,
-      height: 90 * scale,
-    ));
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 140 * scale, oy + 80 * scale),
-      width: 70 * scale,
-      height: 90 * scale,
-    ));
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 60 * scale, oy + 140 * scale),
-      width: 50 * scale,
-      height: 60 * scale,
-    ));
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 140 * scale, oy + 140 * scale),
-      width: 50 * scale,
-      height: 60 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 60 * scale, oy + 80 * scale),
+        width: 70 * scale,
+        height: 90 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 140 * scale, oy + 80 * scale),
+        width: 70 * scale,
+        height: 90 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 60 * scale, oy + 140 * scale),
+        width: 50 * scale,
+        height: 60 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 140 * scale, oy + 140 * scale),
+        width: 50 * scale,
+        height: 60 * scale,
+      ),
+    );
     // Body
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 100 * scale),
-      width: 20 * scale,
-      height: 100 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 20 * scale,
+        height: 100 * scale,
+      ),
+    );
   }
 
   void _addFishPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 100 * scale),
-      width: 140 * scale,
-      height: 80 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 140 * scale,
+        height: 80 * scale,
+      ),
+    );
   }
 
   void _addCatPath(Path path, double scale, double ox, double oy) {
     // Head
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 100 * scale),
-      width: 120 * scale,
-      height: 100 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 120 * scale,
+        height: 100 * scale,
+      ),
+    );
     // Ears
     path.moveTo(ox + 50 * scale, oy + 60 * scale);
     path.lineTo(ox + 35 * scale, oy + 20 * scale);
@@ -802,14 +870,20 @@ class MaskPainter extends CustomPainter {
   void _addHeartPath(Path path, double scale, double ox, double oy) {
     path.moveTo(ox + 100 * scale, oy + 170 * scale);
     path.cubicTo(
-      ox + 30 * scale, oy + 120 * scale,
-      ox + 30 * scale, oy + 50 * scale,
-      ox + 100 * scale, oy + 70 * scale,
+      ox + 30 * scale,
+      oy + 120 * scale,
+      ox + 30 * scale,
+      oy + 50 * scale,
+      ox + 100 * scale,
+      oy + 70 * scale,
     );
     path.cubicTo(
-      ox + 170 * scale, oy + 50 * scale,
-      ox + 170 * scale, oy + 120 * scale,
-      ox + 100 * scale, oy + 170 * scale,
+      ox + 170 * scale,
+      oy + 50 * scale,
+      ox + 170 * scale,
+      oy + 120 * scale,
+      ox + 100 * scale,
+      oy + 170 * scale,
     );
   }
 
@@ -831,107 +905,309 @@ class MaskPainter extends CustomPainter {
     // Petals
     for (int i = 0; i < 8; i++) {
       final angle = i * 3.14159 / 4;
-      path.addOval(Rect.fromCenter(
-        center: Offset(
-          ox + 100 * scale + 45 * scale * (angle == 0 ? 1 : (angle.abs() < 2 ? (1 - angle.abs() / 2) : -1 + (angle.abs() - 2) / 2)),
-          oy + 100 * scale + 45 * scale * (i < 4 ? (i - 2).abs() - 1 : (i - 6).abs() - 1),
+      path.addOval(
+        Rect.fromCenter(
+          center: Offset(
+            ox +
+                100 * scale +
+                45 *
+                    scale *
+                    (angle == 0
+                        ? 1
+                        : (angle.abs() < 2
+                              ? (1 - angle.abs() / 2)
+                              : -1 + (angle.abs() - 2) / 2)),
+            oy +
+                100 * scale +
+                45 * scale * (i < 4 ? (i - 2).abs() - 1 : (i - 6).abs() - 1),
+          ),
+          width: 40 * scale,
+          height: 40 * scale,
         ),
-        width: 40 * scale,
-        height: 40 * scale,
-      ));
+      );
     }
     // Center
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 100 * scale),
-      width: 50 * scale,
-      height: 50 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 50 * scale,
+        height: 50 * scale,
+      ),
+    );
   }
 
   void _addSunPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 100 * scale),
-      width: 100 * scale,
-      height: 100 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 100 * scale,
+        height: 100 * scale,
+      ),
+    );
   }
 
   // Animals
   void _addDogPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 100 * scale, height: 90 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 45 * scale, oy + 70 * scale), width: 40 * scale, height: 50 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 155 * scale, oy + 70 * scale), width: 40 * scale, height: 50 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 100 * scale,
+        height: 90 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 45 * scale, oy + 70 * scale),
+        width: 40 * scale,
+        height: 50 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 155 * scale, oy + 70 * scale),
+        width: 40 * scale,
+        height: 50 * scale,
+      ),
+    );
   }
 
   void _addBirdPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 80 * scale, height: 60 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 150 * scale, oy + 85 * scale), width: 40 * scale, height: 35 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 80 * scale,
+        height: 60 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 150 * scale, oy + 85 * scale),
+        width: 40 * scale,
+        height: 35 * scale,
+      ),
+    );
   }
 
   void _addLionPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 140 * scale, height: 140 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 140 * scale,
+        height: 140 * scale,
+      ),
+    );
   }
 
   void _addRabbitPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 120 * scale), width: 80 * scale, height: 70 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 70 * scale), width: 60 * scale, height: 50 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 75 * scale, oy + 30 * scale), width: 20 * scale, height: 50 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 125 * scale, oy + 30 * scale), width: 20 * scale, height: 50 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 120 * scale),
+        width: 80 * scale,
+        height: 70 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 70 * scale),
+        width: 60 * scale,
+        height: 50 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 75 * scale, oy + 30 * scale),
+        width: 20 * scale,
+        height: 50 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 125 * scale, oy + 30 * scale),
+        width: 20 * scale,
+        height: 50 * scale,
+      ),
+    );
   }
 
   void _addBearPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 60 * scale, oy + 50 * scale), width: 50 * scale, height: 50 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 140 * scale, oy + 50 * scale), width: 50 * scale, height: 50 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 120 * scale, height: 100 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 60 * scale, oy + 50 * scale),
+        width: 50 * scale,
+        height: 50 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 140 * scale, oy + 50 * scale),
+        width: 50 * scale,
+        height: 50 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 120 * scale,
+        height: 100 * scale,
+      ),
+    );
   }
 
   void _addTurtlePath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 110 * scale), width: 140 * scale, height: 100 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 160 * scale, oy + 80 * scale), width: 36 * scale, height: 36 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 110 * scale),
+        width: 140 * scale,
+        height: 100 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 160 * scale, oy + 80 * scale),
+        width: 36 * scale,
+        height: 36 * scale,
+      ),
+    );
   }
 
   void _addFrogPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 120 * scale), width: 130 * scale, height: 90 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 60 * scale, oy + 70 * scale), width: 50 * scale, height: 50 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 140 * scale, oy + 70 * scale), width: 50 * scale, height: 50 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 120 * scale),
+        width: 130 * scale,
+        height: 90 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 60 * scale, oy + 70 * scale),
+        width: 50 * scale,
+        height: 50 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 140 * scale, oy + 70 * scale),
+        width: 50 * scale,
+        height: 50 * scale,
+      ),
+    );
   }
 
   void _addOwlPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 110 * scale), width: 110 * scale, height: 130 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 110 * scale),
+        width: 110 * scale,
+        height: 130 * scale,
+      ),
+    );
   }
 
   void _addPenguinPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 120 * scale), width: 100 * scale, height: 130 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 55 * scale), width: 70 * scale, height: 70 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 120 * scale),
+        width: 100 * scale,
+        height: 130 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 55 * scale),
+        width: 70 * scale,
+        height: 70 * scale,
+      ),
+    );
   }
 
   void _addDolphinPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 110 * scale), width: 150 * scale, height: 70 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 110 * scale),
+        width: 150 * scale,
+        height: 70 * scale,
+      ),
+    );
   }
 
   void _addUnicornPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 130 * scale), width: 120 * scale, height: 80 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 145 * scale, oy + 85 * scale), width: 60 * scale, height: 60 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 130 * scale),
+        width: 120 * scale,
+        height: 80 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 145 * scale, oy + 85 * scale),
+        width: 60 * scale,
+        height: 60 * scale,
+      ),
+    );
   }
 
   // Nature
   void _addTreePath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 70 * scale), width: 120 * scale, height: 100 * scale));
-    path.addRect(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 150 * scale), width: 30 * scale, height: 60 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 70 * scale),
+        width: 120 * scale,
+        height: 100 * scale,
+      ),
+    );
+    path.addRect(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 150 * scale),
+        width: 30 * scale,
+        height: 60 * scale,
+      ),
+    );
   }
 
   void _addMoonPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 120 * scale, height: 120 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 120 * scale,
+        height: 120 * scale,
+      ),
+    );
   }
 
   void _addRainbowPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 120 * scale), width: 160 * scale, height: 100 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 120 * scale),
+        width: 160 * scale,
+        height: 100 * scale,
+      ),
+    );
   }
 
   void _addCloudPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 70 * scale, oy + 110 * scale), width: 80 * scale, height: 60 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 120 * scale, oy + 100 * scale), width: 90 * scale, height: 70 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 160 * scale, oy + 115 * scale), width: 60 * scale, height: 50 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 70 * scale, oy + 110 * scale),
+        width: 80 * scale,
+        height: 60 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 120 * scale, oy + 100 * scale),
+        width: 90 * scale,
+        height: 70 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 160 * scale, oy + 115 * scale),
+        width: 60 * scale,
+        height: 50 * scale,
+      ),
+    );
   }
 
   void _addMountainPath(Path path, double scale, double ox, double oy) {
@@ -946,23 +1222,70 @@ class MaskPainter extends CustomPainter {
   }
 
   void _addMushroomPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 70 * scale), width: 140 * scale, height: 80 * scale));
-    path.addRect(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 145 * scale), width: 50 * scale, height: 70 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 70 * scale),
+        width: 140 * scale,
+        height: 80 * scale,
+      ),
+    );
+    path.addRect(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 145 * scale),
+        width: 50 * scale,
+        height: 70 * scale,
+      ),
+    );
   }
 
   void _addLeafPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 100 * scale, height: 140 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 100 * scale,
+        height: 140 * scale,
+      ),
+    );
   }
 
   void _addCactusPath(Path path, double scale, double ox, double oy) {
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 115 * scale), width: 40 * scale, height: 130 * scale), Radius.circular(20 * scale)));
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ox + 60 * scale, oy + 125 * scale), width: 40 * scale, height: 50 * scale), Radius.circular(15 * scale)));
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ox + 140 * scale, oy + 100 * scale), width: 40 * scale, height: 45 * scale), Radius.circular(15 * scale)));
+    path.addRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(ox + 100 * scale, oy + 115 * scale),
+          width: 40 * scale,
+          height: 130 * scale,
+        ),
+        Radius.circular(20.r * scale),
+      ),
+    );
+    path.addRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(ox + 60 * scale, oy + 125 * scale),
+          width: 40 * scale,
+          height: 50 * scale,
+        ),
+        Radius.circular(15.r * scale),
+      ),
+    );
+    path.addRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(ox + 140 * scale, oy + 100 * scale),
+          width: 40 * scale,
+          height: 45 * scale,
+        ),
+        Radius.circular(15.r * scale),
+      ),
+    );
   }
 
   // Objects
   void _addHousePath(Path path, double scale, double ox, double oy) {
-    path.addRect(Rect.fromLTWH(ox + 40 * scale, oy + 90 * scale, 120 * scale, 90 * scale));
+    path.addRect(
+      Rect.fromLTWH(ox + 40 * scale, oy + 90 * scale, 120 * scale, 90 * scale),
+    );
     path.moveTo(ox + 30 * scale, oy + 95 * scale);
     path.lineTo(ox + 100 * scale, oy + 30 * scale);
     path.lineTo(ox + 170 * scale, oy + 95 * scale);
@@ -970,18 +1293,38 @@ class MaskPainter extends CustomPainter {
   }
 
   void _addCarPath(Path path, double scale, double ox, double oy) {
-    path.addRect(Rect.fromLTWH(ox + 30 * scale, oy + 90 * scale, 140 * scale, 40 * scale));
+    path.addRect(
+      Rect.fromLTWH(ox + 30 * scale, oy + 90 * scale, 140 * scale, 40 * scale),
+    );
     path.moveTo(ox + 50 * scale, oy + 90 * scale);
     path.lineTo(ox + 70 * scale, oy + 60 * scale);
     path.lineTo(ox + 140 * scale, oy + 60 * scale);
     path.lineTo(ox + 160 * scale, oy + 90 * scale);
     path.close();
-    path.addOval(Rect.fromCenter(center: Offset(ox + 60 * scale, oy + 130 * scale), width: 40 * scale, height: 40 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 150 * scale, oy + 130 * scale), width: 40 * scale, height: 40 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 60 * scale, oy + 130 * scale),
+        width: 40 * scale,
+        height: 40 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 150 * scale, oy + 130 * scale),
+        width: 40 * scale,
+        height: 40 * scale,
+      ),
+    );
   }
 
   void _addRocketPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 90 * scale), width: 60 * scale, height: 120 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 90 * scale),
+        width: 60 * scale,
+        height: 120 * scale,
+      ),
+    );
     path.moveTo(ox + 70 * scale, oy + 140 * scale);
     path.lineTo(ox + 100 * scale, oy + 180 * scale);
     path.lineTo(ox + 130 * scale, oy + 140 * scale);
@@ -989,7 +1332,13 @@ class MaskPainter extends CustomPainter {
   }
 
   void _addAirplanePath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 100 * scale), width: 140 * scale, height: 40 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 140 * scale,
+        height: 40 * scale,
+      ),
+    );
     path.moveTo(ox + 70 * scale, oy + 100 * scale);
     path.lineTo(ox + 30 * scale, oy + 70 * scale);
     path.lineTo(ox + 30 * scale, oy + 130 * scale);
@@ -1002,7 +1351,9 @@ class MaskPainter extends CustomPainter {
     path.lineTo(ox + 150 * scale, oy + 160 * scale);
     path.lineTo(ox + 170 * scale, oy + 130 * scale);
     path.close();
-    path.addRect(Rect.fromLTWH(ox + 90 * scale, oy + 70 * scale, 8 * scale, 60 * scale));
+    path.addRect(
+      Rect.fromLTWH(ox + 90 * scale, oy + 70 * scale, 8 * scale, 60 * scale),
+    );
     path.moveTo(ox + 98 * scale, oy + 75 * scale);
     path.lineTo(ox + 150 * scale, oy + 100 * scale);
     path.lineTo(ox + 98 * scale, oy + 130 * scale);
@@ -1010,12 +1361,22 @@ class MaskPainter extends CustomPainter {
   }
 
   void _addBalloonPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 80 * scale), width: 90 * scale, height: 110 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 80 * scale),
+        width: 90 * scale,
+        height: 110 * scale,
+      ),
+    );
   }
 
   void _addGiftPath(Path path, double scale, double ox, double oy) {
-    path.addRect(Rect.fromLTWH(ox + 40 * scale, oy + 80 * scale, 120 * scale, 100 * scale));
-    path.addRect(Rect.fromLTWH(ox + 35 * scale, oy + 60 * scale, 130 * scale, 25 * scale));
+    path.addRect(
+      Rect.fromLTWH(ox + 40 * scale, oy + 80 * scale, 120 * scale, 100 * scale),
+    );
+    path.addRect(
+      Rect.fromLTWH(ox + 35 * scale, oy + 60 * scale, 130 * scale, 25 * scale),
+    );
   }
 
   void _addCrownPath(Path path, double scale, double ox, double oy) {
@@ -1031,13 +1392,37 @@ class MaskPainter extends CustomPainter {
 
   // Food
   void _addApplePath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 110 * scale), width: 100 * scale, height: 110 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 110 * scale),
+        width: 100 * scale,
+        height: 110 * scale,
+      ),
+    );
   }
 
   void _addIcecreamPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 60 * scale), width: 80 * scale, height: 60 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 65 * scale, oy + 85 * scale), width: 50 * scale, height: 40 * scale));
-    path.addOval(Rect.fromCenter(center: Offset(ox + 135 * scale, oy + 85 * scale), width: 50 * scale, height: 40 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 60 * scale),
+        width: 80 * scale,
+        height: 60 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 65 * scale, oy + 85 * scale),
+        width: 50 * scale,
+        height: 40 * scale,
+      ),
+    );
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 135 * scale, oy + 85 * scale),
+        width: 50 * scale,
+        height: 40 * scale,
+      ),
+    );
     path.moveTo(ox + 55 * scale, oy + 100 * scale);
     path.lineTo(ox + 100 * scale, oy + 190 * scale);
     path.lineTo(ox + 145 * scale, oy + 100 * scale);
@@ -1050,7 +1435,13 @@ class MaskPainter extends CustomPainter {
     path.lineTo(ox + 145 * scale, oy + 180 * scale);
     path.lineTo(ox + 140 * scale, oy + 100 * scale);
     path.close();
-    path.addOval(Rect.fromCenter(center: Offset(ox + 100 * scale, oy + 65 * scale), width: 80 * scale, height: 60 * scale));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 65 * scale),
+        width: 80 * scale,
+        height: 60 * scale,
+      ),
+    );
   }
 
   void _addPizzaPath(Path path, double scale, double ox, double oy) {
@@ -1062,16 +1453,23 @@ class MaskPainter extends CustomPainter {
 
   void _addWatermelonPath(Path path, double scale, double ox, double oy) {
     path.moveTo(ox + 30 * scale, oy + 120 * scale);
-    path.quadraticBezierTo(ox + 100 * scale, oy + 20 * scale, ox + 170 * scale, oy + 120 * scale);
+    path.quadraticBezierTo(
+      ox + 100 * scale,
+      oy + 20 * scale,
+      ox + 170 * scale,
+      oy + 120 * scale,
+    );
     path.close();
   }
 
   void _addDefaultPath(Path path, double scale, double ox, double oy) {
-    path.addOval(Rect.fromCenter(
-      center: Offset(ox + 100 * scale, oy + 100 * scale),
-      width: 140 * scale,
-      height: 140 * scale,
-    ));
+    path.addOval(
+      Rect.fromCenter(
+        center: Offset(ox + 100 * scale, oy + 100 * scale),
+        width: 140 * scale,
+        height: 140 * scale,
+      ),
+    );
   }
 
   @override
@@ -1087,7 +1485,8 @@ class DrowingScreen extends StatefulWidget {
   State<DrowingScreen> createState() => _DrowingScreenState();
 }
 
-class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateMixin {
+class _DrowingScreenState extends State<DrowingScreen>
+    with TickerProviderStateMixin {
   // Home screen style animations
   late AnimationController _floatController;
   late AnimationController _bubbleController;
@@ -1129,7 +1528,8 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -1153,7 +1553,11 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
   final List<Map<String, dynamic>> images = const [
     // Animals (15)
     {"name": "Elephant", "path": "assets/coloring/elephant.svg", "emoji": "🐘"},
-    {"name": "Butterfly", "path": "assets/coloring/butterfly.svg", "emoji": "🦋"},
+    {
+      "name": "Butterfly",
+      "path": "assets/coloring/butterfly.svg",
+      "emoji": "🦋",
+    },
     {"name": "Fish", "path": "assets/coloring/fish.svg", "emoji": "🐟"},
     {"name": "Cat", "path": "assets/coloring/cat.svg", "emoji": "🐱"},
     {"name": "Dog", "path": "assets/coloring/dog.svg", "emoji": "🐕"},
@@ -1191,10 +1595,18 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
     {"name": "Crown", "path": "assets/coloring/crown.svg", "emoji": "👑"},
     // Food (5)
     {"name": "Apple", "path": "assets/coloring/apple.svg", "emoji": "🍎"},
-    {"name": "Ice Cream", "path": "assets/coloring/icecream.svg", "emoji": "🍦"},
+    {
+      "name": "Ice Cream",
+      "path": "assets/coloring/icecream.svg",
+      "emoji": "🍦",
+    },
     {"name": "Cupcake", "path": "assets/coloring/cupcake.svg", "emoji": "🧁"},
     {"name": "Pizza", "path": "assets/coloring/pizza.svg", "emoji": "🍕"},
-    {"name": "Watermelon", "path": "assets/coloring/watermelon.svg", "emoji": "��"},
+    {
+      "name": "Watermelon",
+      "path": "assets/coloring/watermelon.svg",
+      "emoji": "��",
+    },
   ];
 
   final List<List<Color>> cardGradients = const [
@@ -1218,12 +1630,12 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () async {
             await ProgressService.to.resetProgress(ProgressService.kColoring);
@@ -1249,36 +1661,43 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
                   ProgressService.kColoring,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
@@ -1291,27 +1710,39 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
               }),
               Expanded(
                 child: GridView.builder(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: SizeConfig.getProportionateScreenWidth(10),
-                    mainAxisSpacing: SizeConfig.getProportionateScreenHeight(10),
+                    crossAxisSpacing: SizeConfig.getProportionateScreenWidth(
+                      10,
+                    ),
+                    mainAxisSpacing: SizeConfig.getProportionateScreenHeight(
+                      10,
+                    ),
                     childAspectRatio: 0.85,
                   ),
                   itemCount: images.length,
                   itemBuilder: (context, index) {
                     final image = images[index];
-                    final gradient = cardGradients[index % cardGradients.length];
+                    final gradient =
+                        cardGradients[index % cardGradients.length];
                     return AnimatedBuilder(
                       animation: _floatAnimation,
                       builder: (context, child) {
                         return Transform.translate(
-                          offset: Offset(0, index.isEven ? _floatAnimation.value : -_floatAnimation.value),
+                          offset: Offset(
+                            0,
+                            index.isEven
+                                ? _floatAnimation.value
+                                : -_floatAnimation.value,
+                          ),
                           child: child,
                         );
                       },
                       child: GestureDetector(
-                        onTap: () => Get.to(() => ImageDrowingScreen(imagePath: image["path"]!)),
+                        onTap: () => Get.to(
+                          () => ImageDrowingScreen(imagePath: image["path"]!),
+                        ),
                         child: Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -1319,11 +1750,11 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 8,
+                                blurRadius: 8.r,
                                 offset: const Offset(0, 4),
                               ),
                             ],
@@ -1331,11 +1762,11 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -10,
-                                right: -10,
+                                top: -10.h,
+                                right: -10.w,
                                 child: Container(
-                                  width: 40,
-                                  height: 40,
+                                  width: 40.w,
+                                  height: 40.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -1343,11 +1774,11 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
                                 ),
                               ),
                               Positioned(
-                                bottom: -15,
-                                left: -15,
+                                bottom: -15.h,
+                                left: -15.w,
                                 child: Container(
-                                  width: 50,
-                                  height: 50,
+                                  width: 50.w,
+                                  height: 50.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.1),
@@ -1356,36 +1787,48 @@ class _DrowingScreenState extends State<DrowingScreen> with TickerProviderStateM
                               ),
                               Center(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w,
+                                    vertical: 4.h,
+                                  ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        width: 50,
-                                        height: 50,
+                                        width: 50.w,
+                                        height: 50.h,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withValues(alpha: 0.3),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.3,
+                                          ),
                                           shape: BoxShape.circle,
                                         ),
                                         child: Center(
                                           child: Text(
                                             image['emoji'] ?? "🎨",
-                                            style: const TextStyle(fontSize: 28),
+                                            style: const TextStyle(
+                                              fontSize: 28,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: 6.h),
                                       Text(
                                         image["name"]!,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                           height: 1.1,
                                           shadows: [
-                                            Shadow(color: Colors.black26, offset: Offset(1, 1), blurRadius: 2),
+                                            Shadow(
+                                              color: Colors.black26,
+                                              offset: Offset(1, 1),
+                                              blurRadius: 2.r,
+                                            ),
                                           ],
                                         ),
                                         textAlign: TextAlign.center,

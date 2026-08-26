@@ -7,6 +7,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Generic Learning Page that can display any learning set
 /// Usage: GenericLearningPage(type: 'animals') or GenericLearningPage(type: 'fruits')
 class GenericLearningPage extends StatefulWidget {
@@ -50,12 +52,12 @@ class _GenericLearningPageState extends State<GenericLearningPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             setState(() {
@@ -71,36 +73,43 @@ class _GenericLearningPageState extends State<GenericLearningPage>
             final progress = controller.progressPercentage / 100;
             final progressString = controller.progressString;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -117,11 +126,11 @@ class _GenericLearningPageState extends State<GenericLearningPage>
               final completedCount = controller.completedCount;
               return GridView.builder(
                 key: ValueKey(completedCount),
-                padding: const EdgeInsets.all(12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                padding: EdgeInsets.all(12.r),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16.r,
+                  crossAxisSpacing: 16.r,
                   childAspectRatio: 1.2,
                 ),
                 itemCount: controller.items.length,
@@ -151,18 +160,18 @@ class _GenericLearningPageState extends State<GenericLearningPage>
                           // Show checkmark if completed
                           if (isCompleted)
                             Positioned(
-                              bottom: 4,
-                              right: 4,
+                              bottom: 4.h,
+                              right: 4.w,
                               child: Container(
-                                padding: const EdgeInsets.all(2),
+                                padding: EdgeInsets.all(2.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 12,
+                                  size: 12.r,
                                 ),
                               ),
                             ),
@@ -186,8 +195,8 @@ class _GenericLearningPageState extends State<GenericLearningPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 75,
-            height: 75,
+            width: 75.w,
+            height: 75.h,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.3),
               shape: BoxShape.circle,
@@ -199,16 +208,22 @@ class _GenericLearningPageState extends State<GenericLearningPage>
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            item['name'] ?? '',
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              height: 1.1,
+          SizedBox(height: 10.h),
+          // Capped to two lines: a long word wraps and pushes the pair past
+          // the tile's fixed aspect-ratio height.
+          Flexible(
+            child: Text(
+              item['name'] ?? '',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                height: 1.1,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            textAlign: TextAlign.center,
           ),
         ],
       ),

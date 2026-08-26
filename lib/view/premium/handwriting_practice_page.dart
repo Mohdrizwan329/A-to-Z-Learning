@@ -1,12 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
+
+import 'package:jiyan_learning/utils/responsive.dart';
 
 class HandwritingPracticePage extends StatefulWidget {
   const HandwritingPracticePage({Key? key}) : super(key: key);
 
   @override
-  State<HandwritingPracticePage> createState() => _HandwritingPracticePageState();
+  State<HandwritingPracticePage> createState() =>
+      _HandwritingPracticePageState();
 }
 
 class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
@@ -21,11 +26,56 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
     'capital': List.generate(26, (i) => String.fromCharCode(65 + i)),
     'small': List.generate(26, (i) => String.fromCharCode(97 + i)),
     'numbers': List.generate(10, (i) => '$i'),
-    'hindi': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः',
-              'क', 'ख', 'ग', 'घ', 'ङ', 'च', 'छ', 'ज', 'झ', 'ञ',
-              'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न',
-              'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व',
-              'श', 'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'],
+    'hindi': [
+      'अ',
+      'आ',
+      'इ',
+      'ई',
+      'उ',
+      'ऊ',
+      'ए',
+      'ऐ',
+      'ओ',
+      'औ',
+      'अं',
+      'अः',
+      'क',
+      'ख',
+      'ग',
+      'घ',
+      'ङ',
+      'च',
+      'छ',
+      'ज',
+      'झ',
+      'ञ',
+      'ट',
+      'ठ',
+      'ड',
+      'ढ',
+      'ण',
+      'त',
+      'थ',
+      'द',
+      'ध',
+      'न',
+      'प',
+      'फ',
+      'ब',
+      'भ',
+      'म',
+      'य',
+      'र',
+      'ल',
+      'व',
+      'श',
+      'ष',
+      'स',
+      'ह',
+      'क्ष',
+      'त्र',
+      'ज्ञ',
+    ],
   };
 
   final List<Map<String, dynamic>> _penColors = [
@@ -82,7 +132,7 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -116,25 +166,49 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Column(
-          children: [
-            // Category Selection
-            _buildCategorySelector(),
-            // Character Display
-            _buildCharacterDisplay(),
-            // Drawing Canvas
-            Expanded(child: _buildDrawingCanvas()),
-            // Controls
-            _buildControls(),
-            // Pen Settings
-            _buildPenSettings(),
-          ],
+        // With the keyboard up the body loses about 300pt, which is less than
+        // the selector, controls and pen settings need together. The page
+        // scrolls when that happens and is unchanged when there is room.
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight.isFinite
+                    ? constraints.maxHeight
+                    : 0,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Category Selection
+                  _buildCategorySelector(),
+                  // Character Display
+                  _buildCharacterDisplay(),
+                  // Drawing Canvas. A share of the viewport rather than
+                  // `Expanded`, which cannot be laid out inside a scroll view.
+                  SizedBox(
+                    height: max(220.h, constraints.maxHeight * 0.4),
+                    child: _buildDrawingCanvas(),
+                  ),
+                  // Controls
+                  _buildControls(),
+                  // Pen Settings
+                  _buildPenSettings(),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -149,53 +223,71 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: categories.map((cat) {
           final isSelected = _selectedCategory == cat['id'];
-          return GestureDetector(
-            onTap: () {
-              TtsService.to.speak(cat['name'] as String);
-              setState(() {
-                _selectedCategory = cat['id'] as String;
-                _currentIndex = 0;
-                _points = [];
-              });
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                gradient: isSelected
-                    ? const LinearGradient(
-                        colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-                      )
-                    : null,
-                color: isSelected ? null : Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: isSelected
-                        ? const Color(0xFF667EEA).withValues(alpha: 0.4)
-                        : Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Text(cat['icon'] as String, style: const TextStyle(fontSize: 16)),
-                  const SizedBox(width: 6),
-                  Text(
-                    cat['name'] as String,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: isSelected ? Colors.white : Colors.grey.shade700,
+          // Expanded, so each chip is measured against a real width. A Row
+          // measures an inflexible child with unbounded width, and each chip
+          // holds a Flexible caption, which cannot be laid out that way.
+          return Expanded(
+            child: GestureDetector(
+              onTap: () {
+                TtsService.to.speak(cat['name'] as String);
+                setState(() {
+                  _selectedCategory = cat['id'] as String;
+                  _currentIndex = 0;
+                  _points = [];
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  gradient: isSelected
+                      ? const LinearGradient(
+                          colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                        )
+                      : null,
+                  color: isSelected ? null : Colors.white,
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isSelected
+                          ? const Color(0xFF667EEA).withValues(alpha: 0.4)
+                          : Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 8.r,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        cat['icon'] as String,
+                        style: const TextStyle(fontSize: 16),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                    SizedBox(width: 6.w),
+                    Flexible(
+                      child: Text(
+                        cat['name'] as String,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: isSelected
+                              ? Colors.white
+                              : Colors.grey.shade700,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -206,15 +298,15 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
 
   Widget _buildCharacterDisplay() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -223,65 +315,72 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Previous Button
-          IconButton(
-            onPressed: _currentIndex > 0 ? _prevChar : null,
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: _currentIndex > 0 ? const Color(0xFF667EEA) : Colors.grey.shade300,
+          Flexible(
+            child: IconButton(
+              onPressed: _currentIndex > 0 ? _prevChar : null,
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: _currentIndex > 0
+                    ? const Color(0xFF667EEA)
+                    : Colors.grey.shade300,
+              ),
             ),
           ),
           // Character
-          Column(
-            children: [
-              Text(
-                'Practice Writing',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
+          Flexible(
+            child: Column(
+              children: [
+                Text(
+                  'Practice Writing',
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                SizedBox(height: 4.h),
+                Container(
+                  width: 80.w,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                    ),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Text(
-                    _currentChar,
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: Center(
+                    child: Text(
+                      _currentChar,
+                      style: const TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${_currentIndex + 1} / ${_categories[_selectedCategory]!.length}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
+                SizedBox(height: 8.h),
+                Text(
+                  '${_currentIndex + 1} / ${_categories[_selectedCategory]!.length}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           // Next Button
-          IconButton(
-            onPressed: _currentIndex < _categories[_selectedCategory]!.length - 1
-                ? _nextChar
-                : null,
-            icon: Icon(
-              Icons.arrow_forward_ios,
-              color: _currentIndex < _categories[_selectedCategory]!.length - 1
-                  ? const Color(0xFF667EEA)
-                  : Colors.grey.shade300,
+          Flexible(
+            child: IconButton(
+              onPressed:
+                  _currentIndex < _categories[_selectedCategory]!.length - 1
+                  ? _nextChar
+                  : null,
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                color:
+                    _currentIndex < _categories[_selectedCategory]!.length - 1
+                    ? const Color(0xFF667EEA)
+                    : Colors.grey.shade300,
+              ),
             ),
           ),
         ],
@@ -291,28 +390,25 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
 
   Widget _buildDrawingCanvas() {
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: Colors.grey.shade300, width: 2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 15,
+            blurRadius: 15.r,
             offset: const Offset(0, 8),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18.r),
         child: Stack(
           children: [
             // Guide lines
-            CustomPaint(
-              size: Size.infinite,
-              painter: GuideLinesPainter(),
-            ),
+            CustomPaint(size: Size.infinite, painter: GuideLinesPainter()),
             // Guide character (watermark)
             if (_showGuide)
               Center(
@@ -359,61 +455,67 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
 
   Widget _buildControls() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // Clear Button
-          _buildControlButton(
-            icon: Icons.refresh,
-            label: 'Clear',
-            color: Colors.red,
-            onTap: _clearCanvas,
+          Expanded(
+            child: _buildControlButton(
+              icon: Icons.refresh,
+              label: 'Clear',
+              color: Colors.red,
+              onTap: _clearCanvas,
+            ),
           ),
           // Undo Button
-          _buildControlButton(
-            icon: Icons.undo,
-            label: 'Undo',
-            color: Colors.orange,
-            onTap: () {
-              if (_points.isNotEmpty) {
-                setState(() {
-                  // Remove last stroke
-                  int lastNull = _points.lastIndexOf(null);
-                  if (lastNull == -1) {
-                    _points = [];
-                  } else {
-                    _points = _points.sublist(0, lastNull);
-                  }
-                });
-              }
-            },
+          Expanded(
+            child: _buildControlButton(
+              icon: Icons.undo,
+              label: 'Undo',
+              color: Colors.orange,
+              onTap: () {
+                if (_points.isNotEmpty) {
+                  setState(() {
+                    // Remove last stroke
+                    int lastNull = _points.lastIndexOf(null);
+                    if (lastNull == -1) {
+                      _points = [];
+                    } else {
+                      _points = _points.sublist(0, lastNull);
+                    }
+                  });
+                }
+              },
+            ),
           ),
           // Done Button
-          _buildControlButton(
-            icon: Icons.check_circle,
-            label: 'Done',
-            color: Colors.green,
-            onTap: () {
-              if (_points.isNotEmpty) {
-                Get.snackbar(
-                  'Great Job! 🎉',
-                  'You practiced writing "$_currentChar"',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.green,
-                  colorText: Colors.white,
-                );
-                _nextChar();
-              } else {
-                Get.snackbar(
-                  'Try Writing!',
-                  'Practice writing the character first',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.orange,
-                  colorText: Colors.white,
-                );
-              }
-            },
+          Expanded(
+            child: _buildControlButton(
+              icon: Icons.check_circle,
+              label: 'Done',
+              color: Colors.green,
+              onTap: () {
+                if (_points.isNotEmpty) {
+                  Get.snackbar(
+                    'Great Job! 🎉',
+                    'You practiced writing "$_currentChar"',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.green,
+                    colorText: Colors.white,
+                  );
+                  _nextChar();
+                } else {
+                  Get.snackbar(
+                    'Try Writing!',
+                    'Practice writing the character first',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.orange,
+                    colorText: Colors.white,
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -429,21 +531,22 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           border: Border.all(color: color, width: 2),
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 22),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: color,
+            Icon(icon, color: color, size: 22.r),
+            SizedBox(width: 8.w),
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
@@ -454,15 +557,15 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
 
   Widget _buildPenSettings() {
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 8,
+            blurRadius: 8.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -473,9 +576,13 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Pen Color:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Flexible(
+                child: const Text(
+                  'Pen Color:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
               Row(
                 children: _penColors.map((pc) {
@@ -488,19 +595,21 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
                       });
                     },
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: 32,
-                      height: 32,
+                      margin: EdgeInsets.symmetric(horizontal: 4.w),
+                      width: 32.w,
+                      height: 32.h,
                       decoration: BoxDecoration(
                         color: color,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: isSelected ? Colors.black : Colors.grey.shade300,
+                          color: isSelected
+                              ? Colors.black
+                              : Colors.grey.shade300,
                           width: isSelected ? 3 : 1,
                         ),
                       ),
                       child: isSelected
-                          ? const Icon(Icons.check, color: Colors.white, size: 18)
+                          ? Icon(Icons.check, color: Colors.white, size: 18.r)
                           : null,
                     ),
                   );
@@ -508,7 +617,7 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Pen Size
           Row(
             children: [
@@ -531,8 +640,8 @@ class _HandwritingPracticePageState extends State<HandwritingPracticePage> {
                 ),
               ),
               Container(
-                width: 30,
-                height: 30,
+                width: 30.w,
+                height: 30.h,
                 decoration: BoxDecoration(
                   color: _penColor,
                   shape: BoxShape.circle,
@@ -608,7 +717,12 @@ class GuideLinesPainter extends CustomPainter {
       final y = lineSpacing * i;
       if (i == 2) {
         // Center line - dashed
-        _drawDashedLine(canvas, Offset(0, y), Offset(size.width, y), dashedPaint);
+        _drawDashedLine(
+          canvas,
+          Offset(0, y),
+          Offset(size.width, y),
+          dashedPaint,
+        );
       } else {
         canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
       }

@@ -5,6 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class MontessoriLearningPage extends StatefulWidget {
   const MontessoriLearningPage({super.key});
 
@@ -26,130 +28,630 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
       name: 'Practical Life',
       emoji: '🧹',
       materials: [
-        MontessoriMaterial('Pouring', '🫖', 'Practice pouring water carefully', 'Develops concentration and motor skills'),
-        MontessoriMaterial('Spooning', '🥄', 'Transfer beans with a spoon', 'Builds hand-eye coordination'),
-        MontessoriMaterial('Buttoning', '🔘', 'Practice buttoning and unbuttoning', 'Develops fine motor skills'),
-        MontessoriMaterial('Folding', '🧺', 'Learn to fold clothes neatly', 'Teaches order and sequence'),
-        MontessoriMaterial('Polishing', '✨', 'Polish objects until they shine', 'Builds focus and patience'),
-        MontessoriMaterial('Sweeping', '🧹', 'Practice sweeping with a small broom', 'Develops coordination'),
-        MontessoriMaterial('Zipping', '🔐', 'Practice using zippers', 'Strengthens finger muscles'),
-        MontessoriMaterial('Lacing', '👟', 'Thread laces through holes', 'Prepares for shoe tying'),
-        MontessoriMaterial('Cutting', '✂️', 'Cut paper along lines', 'Develops scissor skills'),
-        MontessoriMaterial('Washing Hands', '🧼', 'Learn proper hand washing', 'Teaches hygiene routine'),
-        MontessoriMaterial('Table Setting', '🍽️', 'Arrange plates and utensils', 'Learns social customs'),
-        MontessoriMaterial('Watering Plants', '🌿', 'Care for plants with water', 'Teaches responsibility'),
-        MontessoriMaterial('Sorting', '📦', 'Organize objects by category', 'Develops classification skills'),
-        MontessoriMaterial('Opening Jars', '🫙', 'Practice twisting lids open', 'Builds wrist strength'),
-        MontessoriMaterial('Using Tongs', '🥢', 'Transfer objects with tongs', 'Refines grip control'),
-        MontessoriMaterial('Sewing Cards', '🧵', 'Thread yarn through card holes', 'Prepares for sewing'),
-        MontessoriMaterial('Dusting', '🪶', 'Clean surfaces with a duster', 'Teaches care of environment'),
-        MontessoriMaterial('Spreading', '🧈', 'Spread butter on bread', 'Develops food preparation skills'),
-        MontessoriMaterial('Peeling', '🍌', 'Peel fruits independently', 'Encourages self-sufficiency'),
-        MontessoriMaterial('Dressing Frames', '👔', 'Practice clothing fasteners', 'Promotes independence'),
+        MontessoriMaterial(
+          'Pouring',
+          '🫖',
+          'Practice pouring water carefully',
+          'Develops concentration and motor skills',
+        ),
+        MontessoriMaterial(
+          'Spooning',
+          '🥄',
+          'Transfer beans with a spoon',
+          'Builds hand-eye coordination',
+        ),
+        MontessoriMaterial(
+          'Buttoning',
+          '🔘',
+          'Practice buttoning and unbuttoning',
+          'Develops fine motor skills',
+        ),
+        MontessoriMaterial(
+          'Folding',
+          '🧺',
+          'Learn to fold clothes neatly',
+          'Teaches order and sequence',
+        ),
+        MontessoriMaterial(
+          'Polishing',
+          '✨',
+          'Polish objects until they shine',
+          'Builds focus and patience',
+        ),
+        MontessoriMaterial(
+          'Sweeping',
+          '🧹',
+          'Practice sweeping with a small broom',
+          'Develops coordination',
+        ),
+        MontessoriMaterial(
+          'Zipping',
+          '🔐',
+          'Practice using zippers',
+          'Strengthens finger muscles',
+        ),
+        MontessoriMaterial(
+          'Lacing',
+          '👟',
+          'Thread laces through holes',
+          'Prepares for shoe tying',
+        ),
+        MontessoriMaterial(
+          'Cutting',
+          '✂️',
+          'Cut paper along lines',
+          'Develops scissor skills',
+        ),
+        MontessoriMaterial(
+          'Washing Hands',
+          '🧼',
+          'Learn proper hand washing',
+          'Teaches hygiene routine',
+        ),
+        MontessoriMaterial(
+          'Table Setting',
+          '🍽️',
+          'Arrange plates and utensils',
+          'Learns social customs',
+        ),
+        MontessoriMaterial(
+          'Watering Plants',
+          '🌿',
+          'Care for plants with water',
+          'Teaches responsibility',
+        ),
+        MontessoriMaterial(
+          'Sorting',
+          '📦',
+          'Organize objects by category',
+          'Develops classification skills',
+        ),
+        MontessoriMaterial(
+          'Opening Jars',
+          '🫙',
+          'Practice twisting lids open',
+          'Builds wrist strength',
+        ),
+        MontessoriMaterial(
+          'Using Tongs',
+          '🥢',
+          'Transfer objects with tongs',
+          'Refines grip control',
+        ),
+        MontessoriMaterial(
+          'Sewing Cards',
+          '🧵',
+          'Thread yarn through card holes',
+          'Prepares for sewing',
+        ),
+        MontessoriMaterial(
+          'Dusting',
+          '🪶',
+          'Clean surfaces with a duster',
+          'Teaches care of environment',
+        ),
+        MontessoriMaterial(
+          'Spreading',
+          '🧈',
+          'Spread butter on bread',
+          'Develops food preparation skills',
+        ),
+        MontessoriMaterial(
+          'Peeling',
+          '🍌',
+          'Peel fruits independently',
+          'Encourages self-sufficiency',
+        ),
+        MontessoriMaterial(
+          'Dressing Frames',
+          '👔',
+          'Practice clothing fasteners',
+          'Promotes independence',
+        ),
       ],
     ),
     MontessoriArea(
       name: 'Sensorial',
       emoji: '👁️',
       materials: [
-        MontessoriMaterial('Pink Tower', '🏗️', 'Stack cubes from large to small', 'Teaches size discrimination'),
-        MontessoriMaterial('Color Tablets', '🎨', 'Match and grade colors', 'Refines color perception'),
-        MontessoriMaterial('Sound Cylinders', '🔊', 'Match cylinders by sound', 'Develops auditory sense'),
-        MontessoriMaterial('Geometric Solids', '🔷', 'Explore 3D shapes by touch', 'Introduces geometry concepts'),
-        MontessoriMaterial('Smelling Bottles', '👃', 'Match scents together', 'Refines olfactory sense'),
-        MontessoriMaterial('Touch Boards', '✋', 'Feel different textures', 'Develops tactile sense'),
-        MontessoriMaterial('Brown Stair', '🪜', 'Arrange prisms by thickness', 'Teaches dimension concepts'),
-        MontessoriMaterial('Red Rods', '📏', 'Order rods by length', 'Develops visual sense of length'),
-        MontessoriMaterial('Cylinder Blocks', '🎯', 'Fit cylinders in correct holes', 'Refines visual discrimination'),
-        MontessoriMaterial('Knobless Cylinders', '🔴', 'Grade cylinders without knobs', 'Develops logical thinking'),
-        MontessoriMaterial('Binomial Cube', '🧊', 'Build cube following pattern', 'Prepares for algebra'),
-        MontessoriMaterial('Trinomial Cube', '📦', 'Assemble complex cube pattern', 'Advanced spatial awareness'),
-        MontessoriMaterial('Tasting Bottles', '👅', 'Identify tastes sweet and sour', 'Refines gustatory sense'),
-        MontessoriMaterial('Baric Tablets', '⚖️', 'Compare weights of tablets', 'Develops sense of weight'),
-        MontessoriMaterial('Thermic Tablets', '🌡️', 'Feel temperature differences', 'Develops thermal sense'),
-        MontessoriMaterial('Fabric Box', '🧣', 'Match fabrics by texture', 'Refines tactile discrimination'),
-        MontessoriMaterial('Mystery Bag', '🎒', 'Identify objects by touch', 'Develops stereognostic sense'),
-        MontessoriMaterial('Constructive Triangles', '📐', 'Build shapes from triangles', 'Explores geometry'),
-        MontessoriMaterial('Color Box 3', '🌈', 'Grade nine colors by shade', 'Advanced color discrimination'),
-        MontessoriMaterial('Geometric Cabinet', '🔲', 'Match shapes to insets', 'Learns geometric forms'),
+        MontessoriMaterial(
+          'Pink Tower',
+          '🏗️',
+          'Stack cubes from large to small',
+          'Teaches size discrimination',
+        ),
+        MontessoriMaterial(
+          'Color Tablets',
+          '🎨',
+          'Match and grade colors',
+          'Refines color perception',
+        ),
+        MontessoriMaterial(
+          'Sound Cylinders',
+          '🔊',
+          'Match cylinders by sound',
+          'Develops auditory sense',
+        ),
+        MontessoriMaterial(
+          'Geometric Solids',
+          '🔷',
+          'Explore 3D shapes by touch',
+          'Introduces geometry concepts',
+        ),
+        MontessoriMaterial(
+          'Smelling Bottles',
+          '👃',
+          'Match scents together',
+          'Refines olfactory sense',
+        ),
+        MontessoriMaterial(
+          'Touch Boards',
+          '✋',
+          'Feel different textures',
+          'Develops tactile sense',
+        ),
+        MontessoriMaterial(
+          'Brown Stair',
+          '🪜',
+          'Arrange prisms by thickness',
+          'Teaches dimension concepts',
+        ),
+        MontessoriMaterial(
+          'Red Rods',
+          '📏',
+          'Order rods by length',
+          'Develops visual sense of length',
+        ),
+        MontessoriMaterial(
+          'Cylinder Blocks',
+          '🎯',
+          'Fit cylinders in correct holes',
+          'Refines visual discrimination',
+        ),
+        MontessoriMaterial(
+          'Knobless Cylinders',
+          '🔴',
+          'Grade cylinders without knobs',
+          'Develops logical thinking',
+        ),
+        MontessoriMaterial(
+          'Binomial Cube',
+          '🧊',
+          'Build cube following pattern',
+          'Prepares for algebra',
+        ),
+        MontessoriMaterial(
+          'Trinomial Cube',
+          '📦',
+          'Assemble complex cube pattern',
+          'Advanced spatial awareness',
+        ),
+        MontessoriMaterial(
+          'Tasting Bottles',
+          '👅',
+          'Identify tastes sweet and sour',
+          'Refines gustatory sense',
+        ),
+        MontessoriMaterial(
+          'Baric Tablets',
+          '⚖️',
+          'Compare weights of tablets',
+          'Develops sense of weight',
+        ),
+        MontessoriMaterial(
+          'Thermic Tablets',
+          '🌡️',
+          'Feel temperature differences',
+          'Develops thermal sense',
+        ),
+        MontessoriMaterial(
+          'Fabric Box',
+          '🧣',
+          'Match fabrics by texture',
+          'Refines tactile discrimination',
+        ),
+        MontessoriMaterial(
+          'Mystery Bag',
+          '🎒',
+          'Identify objects by touch',
+          'Develops stereognostic sense',
+        ),
+        MontessoriMaterial(
+          'Constructive Triangles',
+          '📐',
+          'Build shapes from triangles',
+          'Explores geometry',
+        ),
+        MontessoriMaterial(
+          'Color Box 3',
+          '🌈',
+          'Grade nine colors by shade',
+          'Advanced color discrimination',
+        ),
+        MontessoriMaterial(
+          'Geometric Cabinet',
+          '🔲',
+          'Match shapes to insets',
+          'Learns geometric forms',
+        ),
       ],
     ),
     MontessoriArea(
       name: 'Language',
       emoji: '📖',
       materials: [
-        MontessoriMaterial('Sandpaper Letters', '🔤', 'Trace letters with your finger', 'Learns letter shapes through touch'),
-        MontessoriMaterial('Moveable Alphabet', '🔡', 'Build words with letter tiles', 'Develops spelling and reading'),
-        MontessoriMaterial('Object Box', '📦', 'Match objects to sounds', 'Phonemic awareness'),
-        MontessoriMaterial('Picture Cards', '🖼️', 'Match words to pictures', 'Builds vocabulary'),
-        MontessoriMaterial('Story Sequence', '📚', 'Arrange pictures in order', 'Develops narrative skills'),
-        MontessoriMaterial('Rhyming Pairs', '🎵', 'Find words that rhyme', 'Phonological awareness'),
-        MontessoriMaterial('I Spy Game', '👀', 'Find objects by beginning sound', 'Develops phonemic awareness'),
-        MontessoriMaterial('Metal Insets', '✏️', 'Trace shapes for writing prep', 'Develops pencil control'),
-        MontessoriMaterial('Classified Cards', '🃏', 'Sort cards into categories', 'Builds vocabulary and classification'),
-        MontessoriMaterial('Phonogram Cards', '📝', 'Learn letter combinations', 'Understands phonograms'),
-        MontessoriMaterial('Word Building', '🏗️', 'Create words from letter tiles', 'Develops encoding skills'),
-        MontessoriMaterial('Reading Cards', '📖', 'Read simple word cards', 'Practices decoding'),
-        MontessoriMaterial('Command Cards', '📋', 'Read and follow instructions', 'Comprehension skills'),
-        MontessoriMaterial('Sentence Building', '📝', 'Arrange words into sentences', 'Grammar introduction'),
-        MontessoriMaterial('Grammar Symbols', '🔶', 'Learn parts of speech', 'Grammar foundations'),
-        MontessoriMaterial('Noun Classification', '📂', 'Sort nouns by type', 'Develops categorization'),
-        MontessoriMaterial('Verb Games', '🏃', 'Act out action words', 'Understands verbs'),
-        MontessoriMaterial('Adjective Games', '🎨', 'Describe objects with words', 'Expands descriptive vocabulary'),
-        MontessoriMaterial('Storytelling Cards', '📕', 'Create stories from pictures', 'Develops creative expression'),
-        MontessoriMaterial('Poetry Reading', '🎭', 'Listen to and recite poems', 'Appreciates language rhythm'),
+        MontessoriMaterial(
+          'Sandpaper Letters',
+          '🔤',
+          'Trace letters with your finger',
+          'Learns letter shapes through touch',
+        ),
+        MontessoriMaterial(
+          'Moveable Alphabet',
+          '🔡',
+          'Build words with letter tiles',
+          'Develops spelling and reading',
+        ),
+        MontessoriMaterial(
+          'Object Box',
+          '📦',
+          'Match objects to sounds',
+          'Phonemic awareness',
+        ),
+        MontessoriMaterial(
+          'Picture Cards',
+          '🖼️',
+          'Match words to pictures',
+          'Builds vocabulary',
+        ),
+        MontessoriMaterial(
+          'Story Sequence',
+          '📚',
+          'Arrange pictures in order',
+          'Develops narrative skills',
+        ),
+        MontessoriMaterial(
+          'Rhyming Pairs',
+          '🎵',
+          'Find words that rhyme',
+          'Phonological awareness',
+        ),
+        MontessoriMaterial(
+          'I Spy Game',
+          '👀',
+          'Find objects by beginning sound',
+          'Develops phonemic awareness',
+        ),
+        MontessoriMaterial(
+          'Metal Insets',
+          '✏️',
+          'Trace shapes for writing prep',
+          'Develops pencil control',
+        ),
+        MontessoriMaterial(
+          'Classified Cards',
+          '🃏',
+          'Sort cards into categories',
+          'Builds vocabulary and classification',
+        ),
+        MontessoriMaterial(
+          'Phonogram Cards',
+          '📝',
+          'Learn letter combinations',
+          'Understands phonograms',
+        ),
+        MontessoriMaterial(
+          'Word Building',
+          '🏗️',
+          'Create words from letter tiles',
+          'Develops encoding skills',
+        ),
+        MontessoriMaterial(
+          'Reading Cards',
+          '📖',
+          'Read simple word cards',
+          'Practices decoding',
+        ),
+        MontessoriMaterial(
+          'Command Cards',
+          '📋',
+          'Read and follow instructions',
+          'Comprehension skills',
+        ),
+        MontessoriMaterial(
+          'Sentence Building',
+          '📝',
+          'Arrange words into sentences',
+          'Grammar introduction',
+        ),
+        MontessoriMaterial(
+          'Grammar Symbols',
+          '🔶',
+          'Learn parts of speech',
+          'Grammar foundations',
+        ),
+        MontessoriMaterial(
+          'Noun Classification',
+          '📂',
+          'Sort nouns by type',
+          'Develops categorization',
+        ),
+        MontessoriMaterial(
+          'Verb Games',
+          '🏃',
+          'Act out action words',
+          'Understands verbs',
+        ),
+        MontessoriMaterial(
+          'Adjective Games',
+          '🎨',
+          'Describe objects with words',
+          'Expands descriptive vocabulary',
+        ),
+        MontessoriMaterial(
+          'Storytelling Cards',
+          '📕',
+          'Create stories from pictures',
+          'Develops creative expression',
+        ),
+        MontessoriMaterial(
+          'Poetry Reading',
+          '🎭',
+          'Listen to and recite poems',
+          'Appreciates language rhythm',
+        ),
       ],
     ),
     MontessoriArea(
       name: 'Mathematics',
       emoji: '🔢',
       materials: [
-        MontessoriMaterial('Number Rods', '📏', 'Count and compare rods', 'Introduces numbers 1-10'),
-        MontessoriMaterial('Spindle Box', '🎯', 'Match spindles to numbers', 'Concept of quantity'),
-        MontessoriMaterial('Golden Beads', '🔶', 'Learn place value with beads', 'Decimal system basics'),
-        MontessoriMaterial('Teen Boards', '🔟', 'Build numbers 11-19', 'Understanding teen numbers'),
-        MontessoriMaterial('Addition Strip', '➕', 'Practice addition facts', 'Mental math skills'),
-        MontessoriMaterial('Bead Chains', '📿', 'Count and skip count', 'Number sequences'),
-        MontessoriMaterial('Sandpaper Numbers', '🔢', 'Trace numbers with finger', 'Learns number symbols'),
-        MontessoriMaterial('Cards and Counters', '🃏', 'Match quantities to numbers', 'One-to-one correspondence'),
-        MontessoriMaterial('Hundred Board', '💯', 'Arrange numbers to 100', 'Number sequence to 100'),
-        MontessoriMaterial('Ten Boards', '🔟', 'Build numbers 10-90', 'Understanding tens'),
-        MontessoriMaterial('Subtraction Strip', '➖', 'Practice subtraction facts', 'Subtraction concepts'),
-        MontessoriMaterial('Multiplication Board', '✖️', 'Learn multiplication facts', 'Multiplication basics'),
-        MontessoriMaterial('Division Board', '➗', 'Practice division with beads', 'Division introduction'),
-        MontessoriMaterial('Stamp Game', '📮', 'Do operations with stamps', 'Four operations practice'),
-        MontessoriMaterial('Dot Game', '⚫', 'Practice place value addition', 'Large number operations'),
-        MontessoriMaterial('Bead Frame', '🧮', 'Calculate on bead abacus', 'Mental calculation'),
-        MontessoriMaterial('Fraction Circles', '🥧', 'Explore fraction pieces', 'Fraction introduction'),
-        MontessoriMaterial('Fraction Skittles', '🎳', 'Compare fraction sizes', 'Fraction equivalence'),
-        MontessoriMaterial('Geometry Sticks', '📐', 'Build geometric shapes', 'Geometry exploration'),
-        MontessoriMaterial('Checkerboard', '♟️', 'Multiply large numbers', 'Advanced multiplication'),
+        MontessoriMaterial(
+          'Number Rods',
+          '📏',
+          'Count and compare rods',
+          'Introduces numbers 1-10',
+        ),
+        MontessoriMaterial(
+          'Spindle Box',
+          '🎯',
+          'Match spindles to numbers',
+          'Concept of quantity',
+        ),
+        MontessoriMaterial(
+          'Golden Beads',
+          '🔶',
+          'Learn place value with beads',
+          'Decimal system basics',
+        ),
+        MontessoriMaterial(
+          'Teen Boards',
+          '🔟',
+          'Build numbers 11-19',
+          'Understanding teen numbers',
+        ),
+        MontessoriMaterial(
+          'Addition Strip',
+          '➕',
+          'Practice addition facts',
+          'Mental math skills',
+        ),
+        MontessoriMaterial(
+          'Bead Chains',
+          '📿',
+          'Count and skip count',
+          'Number sequences',
+        ),
+        MontessoriMaterial(
+          'Sandpaper Numbers',
+          '🔢',
+          'Trace numbers with finger',
+          'Learns number symbols',
+        ),
+        MontessoriMaterial(
+          'Cards and Counters',
+          '🃏',
+          'Match quantities to numbers',
+          'One-to-one correspondence',
+        ),
+        MontessoriMaterial(
+          'Hundred Board',
+          '💯',
+          'Arrange numbers to 100',
+          'Number sequence to 100',
+        ),
+        MontessoriMaterial(
+          'Ten Boards',
+          '🔟',
+          'Build numbers 10-90',
+          'Understanding tens',
+        ),
+        MontessoriMaterial(
+          'Subtraction Strip',
+          '➖',
+          'Practice subtraction facts',
+          'Subtraction concepts',
+        ),
+        MontessoriMaterial(
+          'Multiplication Board',
+          '✖️',
+          'Learn multiplication facts',
+          'Multiplication basics',
+        ),
+        MontessoriMaterial(
+          'Division Board',
+          '➗',
+          'Practice division with beads',
+          'Division introduction',
+        ),
+        MontessoriMaterial(
+          'Stamp Game',
+          '📮',
+          'Do operations with stamps',
+          'Four operations practice',
+        ),
+        MontessoriMaterial(
+          'Dot Game',
+          '⚫',
+          'Practice place value addition',
+          'Large number operations',
+        ),
+        MontessoriMaterial(
+          'Bead Frame',
+          '🧮',
+          'Calculate on bead abacus',
+          'Mental calculation',
+        ),
+        MontessoriMaterial(
+          'Fraction Circles',
+          '🥧',
+          'Explore fraction pieces',
+          'Fraction introduction',
+        ),
+        MontessoriMaterial(
+          'Fraction Skittles',
+          '🎳',
+          'Compare fraction sizes',
+          'Fraction equivalence',
+        ),
+        MontessoriMaterial(
+          'Geometry Sticks',
+          '📐',
+          'Build geometric shapes',
+          'Geometry exploration',
+        ),
+        MontessoriMaterial(
+          'Checkerboard',
+          '♟️',
+          'Multiply large numbers',
+          'Advanced multiplication',
+        ),
       ],
     ),
     MontessoriArea(
       name: 'Culture',
       emoji: '🌍',
       materials: [
-        MontessoriMaterial('Puzzle Maps', '🗺️', 'Learn continents and countries', 'Geographic awareness'),
-        MontessoriMaterial('Land & Water', '🏔️', 'Explore landforms and water forms', 'Physical geography'),
-        MontessoriMaterial('Animal Cards', '🦁', 'Classify animals by type', 'Zoology introduction'),
-        MontessoriMaterial('Plant Parts', '🌱', 'Learn parts of plants', 'Botany basics'),
-        MontessoriMaterial('Timeline', '📅', 'Sequence historical events', 'Sense of time'),
-        MontessoriMaterial('Flags', '🏳️', 'Match flags to countries', 'Cultural awareness'),
-        MontessoriMaterial('Globe', '🌐', 'Explore Earth as a sphere', 'Understands world geography'),
-        MontessoriMaterial('Continent Box', '📦', 'Explore items from each continent', 'Cultural exploration'),
-        MontessoriMaterial('Solar System', '🪐', 'Learn about planets', 'Astronomy basics'),
-        MontessoriMaterial('Weather Chart', '🌤️', 'Track daily weather', 'Meteorology introduction'),
-        MontessoriMaterial('Life Cycles', '🦋', 'Study animal life stages', 'Biology concepts'),
-        MontessoriMaterial('Leaf Shapes', '🍃', 'Classify leaves by shape', 'Botany classification'),
-        MontessoriMaterial('Rock Collection', '🪨', 'Identify different rocks', 'Geology introduction'),
-        MontessoriMaterial('Magnet Experiments', '🧲', 'Explore magnetic properties', 'Physics basics'),
-        MontessoriMaterial('Sink or Float', '🚢', 'Test object buoyancy', 'Scientific method'),
-        MontessoriMaterial('Music Bells', '🔔', 'Learn musical notes', 'Music appreciation'),
-        MontessoriMaterial('Art Appreciation', '🎨', 'Study famous artworks', 'Art history basics'),
-        MontessoriMaterial('Cultural Celebrations', '🎉', 'Learn about world holidays', 'Cultural diversity'),
-        MontessoriMaterial('Clock Work', '🕐', 'Learn to tell time', 'Time concepts'),
-        MontessoriMaterial('Calendar Work', '📆', 'Understand days and months', 'Time organization'),
+        MontessoriMaterial(
+          'Puzzle Maps',
+          '🗺️',
+          'Learn continents and countries',
+          'Geographic awareness',
+        ),
+        MontessoriMaterial(
+          'Land & Water',
+          '🏔️',
+          'Explore landforms and water forms',
+          'Physical geography',
+        ),
+        MontessoriMaterial(
+          'Animal Cards',
+          '🦁',
+          'Classify animals by type',
+          'Zoology introduction',
+        ),
+        MontessoriMaterial(
+          'Plant Parts',
+          '🌱',
+          'Learn parts of plants',
+          'Botany basics',
+        ),
+        MontessoriMaterial(
+          'Timeline',
+          '📅',
+          'Sequence historical events',
+          'Sense of time',
+        ),
+        MontessoriMaterial(
+          'Flags',
+          '🏳️',
+          'Match flags to countries',
+          'Cultural awareness',
+        ),
+        MontessoriMaterial(
+          'Globe',
+          '🌐',
+          'Explore Earth as a sphere',
+          'Understands world geography',
+        ),
+        MontessoriMaterial(
+          'Continent Box',
+          '📦',
+          'Explore items from each continent',
+          'Cultural exploration',
+        ),
+        MontessoriMaterial(
+          'Solar System',
+          '🪐',
+          'Learn about planets',
+          'Astronomy basics',
+        ),
+        MontessoriMaterial(
+          'Weather Chart',
+          '🌤️',
+          'Track daily weather',
+          'Meteorology introduction',
+        ),
+        MontessoriMaterial(
+          'Life Cycles',
+          '🦋',
+          'Study animal life stages',
+          'Biology concepts',
+        ),
+        MontessoriMaterial(
+          'Leaf Shapes',
+          '🍃',
+          'Classify leaves by shape',
+          'Botany classification',
+        ),
+        MontessoriMaterial(
+          'Rock Collection',
+          '🪨',
+          'Identify different rocks',
+          'Geology introduction',
+        ),
+        MontessoriMaterial(
+          'Magnet Experiments',
+          '🧲',
+          'Explore magnetic properties',
+          'Physics basics',
+        ),
+        MontessoriMaterial(
+          'Sink or Float',
+          '🚢',
+          'Test object buoyancy',
+          'Scientific method',
+        ),
+        MontessoriMaterial(
+          'Music Bells',
+          '🔔',
+          'Learn musical notes',
+          'Music appreciation',
+        ),
+        MontessoriMaterial(
+          'Art Appreciation',
+          '🎨',
+          'Study famous artworks',
+          'Art history basics',
+        ),
+        MontessoriMaterial(
+          'Cultural Celebrations',
+          '🎉',
+          'Learn about world holidays',
+          'Cultural diversity',
+        ),
+        MontessoriMaterial(
+          'Clock Work',
+          '🕐',
+          'Learn to tell time',
+          'Time concepts',
+        ),
+        MontessoriMaterial(
+          'Calendar Work',
+          '📆',
+          'Understand days and months',
+          'Time organization',
+        ),
       ],
     ),
   ];
@@ -196,7 +698,10 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
       setState(() {
         _visitedItems[areaIndex]!.add(itemIndex);
       });
-      _box.write('montessori_progress_$areaIndex', _visitedItems[areaIndex]!.toList());
+      _box.write(
+        'montessori_progress_$areaIndex',
+        _visitedItems[areaIndex]!.toList(),
+      );
     }
   }
 
@@ -253,33 +758,38 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
   void _showItemDetail(MontessoriMaterial material) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Text(material.emoji, style: const TextStyle(fontSize: 60)),
+                  child: Text(
+                    material.emoji,
+                    style: const TextStyle(fontSize: 60),
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 material.name,
                 style: const TextStyle(
@@ -288,12 +798,12 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Column(
                   children: [
@@ -302,17 +812,21 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
                         color: Colors.amber.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.lightbulb_outline, color: Colors.amber, size: 20),
-                          const SizedBox(width: 8),
+                          Icon(
+                            Icons.lightbulb_outline,
+                            color: Colors.amber,
+                            size: 20.r,
+                          ),
+                          SizedBox(width: 8.w),
                           Expanded(
                             child: Text(
                               material.benefit,
@@ -329,7 +843,7 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -337,7 +851,9 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                     icon: Icons.volume_up,
                     label: 'Listen',
                     gradient: const [Color(0xFF667EEA), Color(0xFF764BA2)],
-                    onTap: () => _speak('${material.name}. ${material.description}. ${material.benefit}'),
+                    onTap: () => _speak(
+                      '${material.name}. ${material.description}. ${material.benefit}',
+                    ),
                   ),
                   _buildGradientButton(
                     icon: Icons.close,
@@ -363,20 +879,20 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 20.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: const TextStyle(
@@ -411,15 +927,15 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -445,16 +961,12 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -463,14 +975,20 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: _areas.map((a) {
             return Tab(
-              child: Text(a.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(
+                a.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             );
           }).toList(),
         ),
@@ -494,18 +1012,22 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
             children: [
               // Progress bar
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        // The reader's font size can be 30% larger than this row was drawn for.
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -518,12 +1040,12 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: _progressPercentage,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -536,11 +1058,11 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
               // Materials grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: area.materials.length,
@@ -576,11 +1098,11 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -588,11 +1110,11 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -601,26 +1123,32 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                  ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
-                                        width: 75,
-                                        height: 75,
+                                        width: 75.w,
+                                        height: 75.h,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withValues(alpha: 0.3),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.3,
+                                          ),
                                           shape: BoxShape.circle,
                                         ),
                                         child: Center(
                                           child: Text(
                                             material.emoji,
-                                            style: const TextStyle(fontSize: 42),
+                                            style: const TextStyle(
+                                              fontSize: 42,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       Text(
                                         material.name,
                                         style: const TextStyle(
@@ -638,12 +1166,15 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                                 ),
                               ),
                               // Checkmark badge when visited
-                              if (_visitedItems[_currentArea]?.contains(index) == true)
+                              if (_visitedItems[_currentArea]?.contains(
+                                    index,
+                                  ) ==
+                                  true)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
@@ -651,7 +1182,7 @@ class _MontessoriLearningPageState extends State<MontessoriLearningPage>
                                     child: Icon(
                                       Icons.check,
                                       color: gradient[0],
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),

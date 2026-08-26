@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class OfflineLearningPage extends StatefulWidget {
   const OfflineLearningPage({Key? key}) : super(key: key);
 
@@ -1280,19 +1282,17 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
 
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         child: Container(
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFFFFF5F5),
-                Color(0xFFFFE5E5),
-                Color(0xFFFFF0F0),
-              ],
+              colors: [Color(0xFFFFF5F5), Color(0xFFFFE5E5), Color(0xFFFFF0F0)],
             ),
           ),
           child: Column(
@@ -1301,9 +1301,11 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
               // Header with gradient
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24.r),
+                  ),
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -1318,7 +1320,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                   children: [
                     // Delete icon with animation effect
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.r),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
@@ -1329,18 +1331,18 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.delete_forever_rounded,
                         color: Colors.white,
-                        size: 40,
+                        size: 40.r,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(
                       'Delete Content?',
                       style: GoogleFonts.baloo2(
@@ -1355,23 +1357,25 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
 
               // Content section
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24.r),
                 child: Column(
                   children: [
                     // Content info card
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.r),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
                           color: const Color(0xFFFF6B6B).withValues(alpha: 0.2),
                           width: 1.5,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFFF6B6B).withValues(alpha: 0.1),
-                            blurRadius: 8,
+                            color: const Color(
+                              0xFFFF6B6B,
+                            ).withValues(alpha: 0.1),
+                            blurRadius: 8.r,
                             offset: const Offset(0, 2),
                           ),
                         ],
@@ -1379,19 +1383,23 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: EdgeInsets.all(10.r),
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                                colors: [
+                                  Color(0xFFFF6B6B),
+                                  Color(0xFFFF8E53),
+                                  Color(0xFFFFAA5A),
+                                ],
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(
                               content['icon'] ?? '📦',
                               style: const TextStyle(fontSize: 24),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1418,7 +1426,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
 
                     // Warning message
                     Text(
@@ -1431,7 +1439,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
 
                     // Action buttons
                     Row(
@@ -1440,7 +1448,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               border: Border.all(
                                 color: Colors.grey.shade300,
                                 width: 2,
@@ -1449,9 +1457,9 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                             child: TextButton(
                               onPressed: () => Get.back(),
                               style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(14.r),
                                 ),
                               ),
                               child: Text(
@@ -1466,20 +1474,26 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                           ),
                         ),
 
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
 
                         // Delete button
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               gradient: const LinearGradient(
-                                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+                                colors: [
+                                  Color(0xFFFF6B6B),
+                                  Color(0xFFFF8E53),
+                                  Color(0xFFFFAA5A),
+                                ],
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                                  blurRadius: 8,
+                                  color: const Color(
+                                    0xFFFF6B6B,
+                                  ).withValues(alpha: 0.4),
+                                  blurRadius: 8.r,
                                   offset: const Offset(0, 4),
                                 ),
                               ],
@@ -1492,20 +1506,20 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: EdgeInsets.symmetric(vertical: 14.h),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(14.r),
                                 ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.delete_rounded,
                                     color: Colors.white,
-                                    size: 20,
+                                    size: 20.r,
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: 8.w),
                                   Text(
                                     'Delete',
                                     style: GoogleFonts.nunito(
@@ -1586,34 +1600,30 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 18,
+              size: 18.r,
             ),
           ),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xFFFF6B6B),
-                Color(0xFFFF8E53),
-                Color(0xFFFFAA5A),
-              ],
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
                 color: Color(0x40FF6B6B),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: Offset(0, 5),
               ),
             ],
@@ -1628,7 +1638,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
             shadows: [
               Shadow(
                 color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 4,
+                blurRadius: 4.r,
                 offset: const Offset(1, 2),
               ),
             ],
@@ -1644,20 +1654,20 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
               return GestureDetector(
                 onTap: _downloadAll,
                 child: Container(
-                  margin: const EdgeInsets.only(right: 12),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+                  margin: EdgeInsets.only(right: 12.w),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.download, color: Colors.white, size: 18),
-                      const SizedBox(width: 4),
+                      Icon(Icons.download, color: Colors.white, size: 18.r),
+                      SizedBox(width: 4.w),
                       Text(
                         'All',
                         style: GoogleFonts.nunito(
@@ -1706,7 +1716,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                     child: categories.isEmpty
                         ? _buildEmptyState()
                         : ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                             itemCount: categories.length,
                             itemBuilder: (context, index) {
                               final category = categories[index];
@@ -1737,18 +1747,18 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
 
   Widget _buildSearchBar() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Obx(() {
         final isListening = speechService.isListening.value;
         final recognizedText = speechService.recognizedText.value;
 
         return Container(
-          height: 56,
+          height: 56.h,
           decoration: BoxDecoration(
             color: isListening
                 ? const Color(0xFFFF6B6B).withValues(alpha: 0.3)
                 : Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             border: Border.all(
               color: isListening
                   ? const Color(0xFFFF6B6B).withValues(alpha: 0.6)
@@ -1761,24 +1771,24 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
               if (isListening)
                 Positioned.fill(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(18.r),
                     child: _buildWaveAnimation(),
                   ),
                 ),
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 16),
+                    padding: EdgeInsets.only(left: 16.w),
                     child: Icon(
                       isListening ? Icons.mic : Icons.search,
                       color: Colors.white,
-                      size: 22,
+                      size: 22.r,
                     ),
                   ),
                   Expanded(
                     child: isListening
                         ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
                             child: Text(
                               recognizedText.isEmpty
                                   ? 'Listening...'
@@ -1811,9 +1821,9 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                                 fontSize: 15,
                               ),
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 16,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 16.h,
                               ),
                             ),
                           ),
@@ -1827,43 +1837,41 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                         });
                       },
                       child: Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.all(8),
+                        margin: EdgeInsets.all(8.r),
+                        padding: EdgeInsets.all(8.r),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.close,
                           color: Colors.white,
-                          size: 18,
+                          size: 18.r,
                         ),
                       ),
                     ),
                   GestureDetector(
                     onTap: _toggleVoiceSearch,
                     child: Container(
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.all(8),
+                      margin: EdgeInsets.all(8.r),
+                      padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
                         gradient: isListening
                             ? const LinearGradient(
-                                colors: [
-                                  Color(0xFFFF6B6B),
-                                  Color(0xFFFF8E53),
-                                ],
+                                colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
                               )
                             : null,
                         color: isListening
                             ? null
                             : Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         boxShadow: isListening
                             ? [
                                 BoxShadow(
-                                  color: const Color(0xFFFF6B6B)
-                                      .withValues(alpha: 0.4),
-                                  blurRadius: 8,
+                                  color: const Color(
+                                    0xFFFF6B6B,
+                                  ).withValues(alpha: 0.4),
+                                  blurRadius: 8.r,
                                   offset: const Offset(0, 2),
                                 ),
                               ]
@@ -1874,7 +1882,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                             ? Icons.stop_rounded
                             : Icons.mic_none_rounded,
                         color: Colors.white,
-                        size: 20,
+                        size: 20.r,
                       ),
                     ),
                   ),
@@ -1911,8 +1919,8 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 120,
-            height: 120,
+            width: 120.w,
+            height: 120.h,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
               shape: BoxShape.circle,
@@ -1925,7 +1933,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
               child: Text('🔍', style: TextStyle(fontSize: 60)),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             'No Content Found',
             style: GoogleFonts.baloo2(
@@ -1934,7 +1942,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             'Try searching something else!',
             style: GoogleFonts.nunito(
@@ -1950,8 +1958,8 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
   Widget _buildStorageInfoCard() {
     return Obx(() {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -1961,7 +1969,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.3),
             width: 1.5,
@@ -1970,21 +1978,21 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
         child: Row(
           children: [
             Container(
-              width: 56,
-              height: 56,
+              width: 56.w,
+              height: 56.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   Icons.cloud_download_rounded,
                   color: Colors.white,
-                  size: 28,
+                  size: 28.r,
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1997,7 +2005,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     '$totalDownloaded of ${offlineCategories.length} categories',
                     style: GoogleFonts.nunito(
@@ -2005,27 +2013,27 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       color: Colors.white.withValues(alpha: 0.8),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(6.r),
                     child: LinearProgressIndicator(
                       value: totalDownloaded / offlineCategories.length,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Colors.white,
                       ),
-                      minHeight: 8,
+                      minHeight: 8.h,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Text(
                 '$totalSize MB',
@@ -2053,21 +2061,21 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       final progress = downloadProgress[id] ?? 0.0;
 
       return Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: EdgeInsets.only(bottom: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: isDownloaded
               ? Border.all(color: const Color(0xFFFFD700), width: 3)
               : null,
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -2076,11 +2084,11 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
           children: [
             // Decorative circles
             Positioned(
-              top: -15,
-              right: -15,
+              top: -15.h,
+              right: -15.w,
               child: Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.1),
@@ -2088,11 +2096,11 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
               ),
             ),
             Positioned(
-              bottom: -20,
-              left: -20,
+              bottom: -20.h,
+              left: -20.w,
               child: Container(
-                width: 80,
-                height: 80,
+                width: 80.w,
+                height: 80.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.08),
@@ -2101,16 +2109,16 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
             ),
             // Content
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
                   // Icon
                   Container(
-                    width: 64,
-                    height: 64,
+                    width: 64.w,
+                    height: 64.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       border: Border.all(
                         color: Colors.white.withValues(alpha: 0.5),
                         width: 2,
@@ -2123,7 +2131,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   // Info
                   Expanded(
                     child: Column(
@@ -2140,8 +2148,10 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withValues(alpha: 0.2),
-                                      blurRadius: 2,
+                                      color: Colors.black.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      blurRadius: 2.r,
                                       offset: const Offset(1, 1),
                                     ),
                                   ],
@@ -2150,9 +2160,9 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                             ),
                             if (isDownloaded)
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 4.h,
                                 ),
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
@@ -2161,17 +2171,17 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                                       Color(0xFFFFA500),
                                     ],
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Icon(
                                       Icons.check_circle,
                                       color: Colors.white,
-                                      size: 12,
+                                      size: 12.r,
                                     ),
-                                    SizedBox(width: 4),
+                                    SizedBox(width: 4.w),
                                     Text(
                                       'SAVED',
                                       style: TextStyle(
@@ -2185,7 +2195,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                               ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           '${category['items']} items • ${category['size']}',
                           style: GoogleFonts.nunito(
@@ -2194,19 +2204,21 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                           ),
                         ),
                         if (isDownloading) ...[
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(4.r),
                             child: LinearProgressIndicator(
                               value: progress,
-                              backgroundColor: Colors.white.withValues(alpha: 0.3),
+                              backgroundColor: Colors.white.withValues(
+                                alpha: 0.3,
+                              ),
                               valueColor: const AlwaysStoppedAnimation<Color>(
                                 Colors.white,
                               ),
-                              minHeight: 6,
+                              minHeight: 6.h,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4.h),
                           Text(
                             'Downloading... ${(progress * 100).toInt()}%',
                             style: GoogleFonts.nunito(
@@ -2219,22 +2231,22 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   // Action Button
                   if (isDownloading)
                     Container(
-                      width: 40,
-                      height: 40,
+                      width: 40.w,
+                      height: 40.h,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
-                      child: const Center(
+                      child: Center(
                         child: SizedBox(
-                          width: 20,
-                          height: 20,
+                          width: 20.w,
+                          height: 20.h,
                           child: CircularProgressIndicator(
-                            strokeWidth: 2,
+                            strokeWidth: 2.r,
                             valueColor: AlwaysStoppedAnimation<Color>(
                               Colors.white,
                             ),
@@ -2246,17 +2258,17 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                     GestureDetector(
                       onTap: () => _deleteContent(id),
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.delete_outline,
                             color: Colors.white,
-                            size: 22,
+                            size: 22.r,
                           ),
                         ),
                       ),
@@ -2265,21 +2277,21 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                     GestureDetector(
                       onTap: () => _downloadContent(id),
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           border: Border.all(
                             color: Colors.white.withValues(alpha: 0.5),
                             width: 2,
                           ),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.download_rounded,
                             color: Colors.white,
-                            size: 22,
+                            size: 22.r,
                           ),
                         ),
                       ),
@@ -2314,17 +2326,21 @@ class _WavePainter extends CustomPainter {
     path.moveTo(0, size.height);
 
     for (double x = 0; x <= size.width; x++) {
-      final y = size.height / 2 +
+      final y =
+          size.height / 2 +
           waveHeight *
               (0.5 *
                       (1 +
                           math.sin(
-                              2 * math.pi * (x / waveLength + animationValue))) +
+                            2 * math.pi * (x / waveLength + animationValue),
+                          )) +
                   0.3 *
                       (1 +
-                          math.sin(2 *
-                              math.pi *
-                              (x / waveLength * 2 + animationValue * 1.5))));
+                          math.sin(
+                            2 *
+                                math.pi *
+                                (x / waveLength * 2 + animationValue * 1.5),
+                          )));
       path.lineTo(x, y);
     }
 
@@ -2341,21 +2357,26 @@ class _WavePainter extends CustomPainter {
     path2.moveTo(0, size.height);
 
     for (double x = 0; x <= size.width; x++) {
-      final y = size.height / 2 +
+      final y =
+          size.height / 2 +
           waveHeight *
               0.7 *
               (0.5 *
                       (1 +
-                          math.sin(2 *
-                              math.pi *
-                              (x / waveLength + animationValue + 0.5))) +
+                          math.sin(
+                            2 *
+                                math.pi *
+                                (x / waveLength + animationValue + 0.5),
+                          )) +
                   0.3 *
                       (1 +
-                          math.sin(2 *
-                              math.pi *
-                              (x / waveLength * 2 +
-                                  animationValue * 1.5 +
-                                  0.3))));
+                          math.sin(
+                            2 *
+                                math.pi *
+                                (x / waveLength * 2 +
+                                    animationValue * 1.5 +
+                                    0.3),
+                          )));
       path2.lineTo(x, y);
     }
 

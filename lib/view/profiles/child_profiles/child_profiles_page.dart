@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/services/multi_profile_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ChildProfilesPage extends StatelessWidget {
   const ChildProfilesPage({super.key});
 
@@ -26,7 +28,7 @@ class ChildProfilesPage extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -46,7 +48,12 @@ class ChildProfilesPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -58,8 +65,8 @@ class ChildProfilesPage extends StatelessWidget {
             Obx(() {
               final currentProfile = profileService.currentProfile.value;
               return Container(
-                margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(20),
+                margin: EdgeInsets.all(16.r),
+                padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -69,21 +76,23 @@ class ChildProfilesPage extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Row(
                   children: [
                     Container(
-                      width: 70,
-                      height: 70,
+                      width: 70.w,
+                      height: 70.h,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                           ),
                         ],
                       ),
@@ -94,7 +103,7 @@ class ChildProfilesPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,11 +135,13 @@ class ChildProfilesPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: const Text(
                         'ACTIVE',
@@ -148,7 +159,7 @@ class ChildProfilesPage extends StatelessWidget {
 
             // Profiles Grid Header
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -160,31 +171,34 @@ class ChildProfilesPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  Obx(() => Text(
-                        '${profileService.profiles.length}/${MultiProfileService.maxProfiles}',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                        ),
-                      )),
+                  Obx(
+                    () => Text(
+                      '${profileService.profiles.length}/${MultiProfileService.maxProfiles}',
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
             // Profiles List
             Expanded(
               child: Obx(() {
                 final profiles = profileService.profiles;
-                final canAddMore = profiles.length < MultiProfileService.maxProfiles;
+                final canAddMore =
+                    profiles.length < MultiProfileService.maxProfiles;
 
                 return GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(16.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 0.85,
                   ),
                   itemCount: profiles.length + (canAddMore ? 1 : 0),
@@ -192,12 +206,15 @@ class ChildProfilesPage extends StatelessWidget {
                     if (index == profiles.length && canAddMore) {
                       // Add new profile card
                       return _buildAddProfileCard(
-                          context, profileService, nameController);
+                        context,
+                        profileService,
+                        nameController,
+                      );
                     }
 
                     final profile = profiles[index];
-                    final isActive = profileService.currentProfile.value?.id ==
-                        profile.id;
+                    final isActive =
+                        profileService.currentProfile.value?.id == profile.id;
 
                     return _buildProfileCard(
                       context,
@@ -235,12 +252,12 @@ class ChildProfilesPage extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: isActive ? Border.all(color: Colors.green, width: 3) : null,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
@@ -248,13 +265,13 @@ class ChildProfilesPage extends StatelessWidget {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 70,
-                    height: 70,
+                    width: 70.w,
+                    height: 70.h,
                     decoration: BoxDecoration(
                       color: Colors.purple.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
@@ -266,7 +283,7 @@ class ChildProfilesPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Text(
                     profile.name,
                     style: const TextStyle(
@@ -276,13 +293,10 @@ class ChildProfilesPage extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     '${profile.age} years old',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   if (profile.grade != null)
                     Text(
@@ -298,19 +312,15 @@ class ChildProfilesPage extends StatelessWidget {
             ),
             if (isActive)
               Positioned(
-                top: 8,
-                right: 8,
+                top: 8.h,
+                right: 8.w,
                 child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: EdgeInsets.all(4.r),
                   decoration: const BoxDecoration(
                     color: Colors.green,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 16,
-                  ),
+                  child: Icon(Icons.check, color: Colors.white, size: 16.r),
                 ),
               ),
           ],
@@ -325,11 +335,12 @@ class ChildProfilesPage extends StatelessWidget {
     TextEditingController nameController,
   ) {
     return GestureDetector(
-      onTap: () => _showAddProfileDialog(context, profileService, nameController),
+      onTap: () =>
+          _showAddProfileDialog(context, profileService, nameController),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.5),
             width: 2,
@@ -340,19 +351,15 @@ class ChildProfilesPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 60,
-              height: 60,
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 32,
-              ),
+              child: Icon(Icons.add, color: Colors.white, size: 32.r),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             const Text(
               'Add Profile',
               style: TextStyle(
@@ -384,12 +391,13 @@ class ChildProfilesPage extends StatelessWidget {
       StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
             title: Row(
-              children: const [
+              children: [
                 Text("➕", style: TextStyle(fontSize: 24)),
-                SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Text('Add Child Profile'),
               ],
             ),
@@ -403,31 +411,33 @@ class ChildProfilesPage extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Child\'s Name',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       prefixIcon: const Icon(Icons.person),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
 
                   // Age selector
-                  const Text('Age',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
+                  const Text(
+                    'Age',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8.h),
                   Wrap(
-                    spacing: 8,
+                    spacing: 8.r,
                     children: List.generate(10, (index) {
                       final age = index + 3;
                       return GestureDetector(
                         onTap: () => setState(() => selectedAge = age),
                         child: Container(
-                          width: 40,
-                          height: 40,
+                          width: 40.w,
+                          height: 40.h,
                           decoration: BoxDecoration(
                             color: selectedAge == age
                                 ? Colors.purple
                                 : Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: Center(
                             child: Text(
@@ -444,59 +454,70 @@ class ChildProfilesPage extends StatelessWidget {
                       );
                     }),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
 
                   // Avatar selector
-                  const Text('Avatar',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
+                  const Text(
+                    'Avatar',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8.h),
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: 8.r,
+                    runSpacing: 8.r,
                     children: emojis.map((emoji) {
                       return GestureDetector(
                         onTap: () => setState(() => selectedEmoji = emoji),
                         child: Container(
-                          width: 45,
-                          height: 45,
+                          width: 45.w,
+                          height: 45.h,
                           decoration: BoxDecoration(
                             color: selectedEmoji == emoji
                                 ? Colors.purple.withValues(alpha: 0.2)
                                 : Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                             border: selectedEmoji == emoji
                                 ? Border.all(color: Colors.purple, width: 2)
                                 : null,
                           ),
                           child: Center(
-                            child: Text(emoji,
-                                style: const TextStyle(fontSize: 24)),
+                            child: Text(
+                              emoji,
+                              style: const TextStyle(fontSize: 24),
+                            ),
                           ),
                         ),
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
 
                   // Grade selector
-                  const Text('Grade (Optional)',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
+                  const Text(
+                    'Grade (Optional)',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8.h),
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: 8.r,
+                    runSpacing: 8.r,
                     children: grades.map((grade) {
                       return GestureDetector(
-                        onTap: () => setState(() => selectedGrade =
-                            selectedGrade == grade ? null : grade),
+                        onTap: () => setState(
+                          () => selectedGrade = selectedGrade == grade
+                              ? null
+                              : grade,
+                        ),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 8.h,
+                          ),
                           decoration: BoxDecoration(
                             color: selectedGrade == grade
                                 ? Colors.purple
                                 : Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
                             grade,
@@ -523,8 +544,11 @@ class ChildProfilesPage extends StatelessWidget {
                 onPressed: () async {
                   final name = nameController.text.trim();
                   if (name.isEmpty) {
-                    Get.snackbar('Error', 'Please enter a name',
-                        snackPosition: SnackPosition.BOTTOM);
+                    Get.snackbar(
+                      'Error',
+                      'Please enter a name',
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
                     return;
                   }
 
@@ -540,14 +564,11 @@ class ChildProfilesPage extends StatelessWidget {
                     result.success ? 'Success!' : 'Error',
                     result.message,
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor:
-                        result.success ? Colors.green : Colors.red,
+                    backgroundColor: result.success ? Colors.green : Colors.red,
                     colorText: Colors.white,
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
                 child: const Text('Create'),
               ),
             ],
@@ -564,23 +585,21 @@ class ChildProfilesPage extends StatelessWidget {
   ) {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         title: Row(
           children: [
             Text(profile.avatarEmoji, style: const TextStyle(fontSize: 32)),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text('Switch to ${profile.name}?'),
-            ),
+            SizedBox(width: 12.w),
+            Expanded(child: Text('Switch to ${profile.name}?')),
           ],
         ),
-        content:
-            const Text('This will load their progress and customizations.'),
+        content: const Text(
+          'This will load their progress and customizations.',
+        ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () async {
               await profileService.switchProfile(profile.id);
@@ -593,9 +612,7 @@ class ChildProfilesPage extends StatelessWidget {
                 colorText: Colors.white,
               );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
             child: const Text('Switch'),
           ),
         ],
@@ -611,27 +628,27 @@ class ChildProfilesPage extends StatelessWidget {
   ) {
     Get.bottomSheet(
       Container(
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
+        padding: EdgeInsets.all(16.r),
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 40,
-              height: 4,
+              width: 40.w,
+              height: 4.h,
               decoration: BoxDecoration(
                 color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(2.r),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Row(
               children: [
                 Text(profile.avatarEmoji, style: const TextStyle(fontSize: 32)),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(
                   profile.name,
                   style: const TextStyle(
@@ -641,14 +658,18 @@ class ChildProfilesPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             ListTile(
               leading: const Icon(Icons.edit, color: Colors.blue),
               title: const Text('Edit Profile'),
               onTap: () {
                 Get.back();
                 _showEditProfileDialog(
-                    context, profile, profileService, nameController);
+                  context,
+                  profile,
+                  profileService,
+                  nameController,
+                );
               },
             ),
             if (profileService.profiles.length > 1)
@@ -660,7 +681,7 @@ class ChildProfilesPage extends StatelessWidget {
                   _showDeleteProfileDialog(context, profile, profileService);
                 },
               ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
           ],
         ),
       ),
@@ -676,22 +697,21 @@ class ChildProfilesPage extends StatelessWidget {
     nameController.text = profile.name;
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         title: const Text('Edit Profile'),
         content: TextField(
           controller: nameController,
           decoration: InputDecoration(
             labelText: 'Name',
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () async {
               final name = nameController.text.trim();
@@ -699,8 +719,11 @@ class ChildProfilesPage extends StatelessWidget {
                 final updatedProfile = profile.copyWith(name: name);
                 await profileService.updateProfile(updatedProfile);
                 Get.back();
-                Get.snackbar('Updated!', 'Profile name changed',
-                    snackPosition: SnackPosition.BOTTOM);
+                Get.snackbar(
+                  'Updated!',
+                  'Profile name changed',
+                  snackPosition: SnackPosition.BOTTOM,
+                );
               }
             },
             child: const Text('Save'),
@@ -717,11 +740,13 @@ class ChildProfilesPage extends StatelessWidget {
   ) {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         title: Row(
           children: [
             const Icon(Icons.warning, color: Colors.red),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             const Text('Delete Profile?'),
           ],
         ),
@@ -729,10 +754,7 @@ class ChildProfilesPage extends StatelessWidget {
           'Are you sure you want to delete ${profile.name}\'s profile? This will remove all their progress and cannot be undone.',
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () async {
               final success = await profileService.deleteProfile(profile.id);
@@ -745,9 +767,7 @@ class ChildProfilesPage extends StatelessWidget {
                 colorText: Colors.white,
               );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Delete'),
           ),
         ],

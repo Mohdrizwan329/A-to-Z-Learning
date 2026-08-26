@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class RightsDutiesPage extends StatefulWidget {
   const RightsDutiesPage({super.key});
 
@@ -43,12 +45,12 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => controller.resetProgress(),
         ),
@@ -56,18 +58,15 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
       bottom: TabBar(
         controller: _tabController,
         indicatorColor: Colors.white,
-        indicatorWeight: 3,
+        indicatorWeight: 3.r,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white70,
-        labelStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+        labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         unselectedLabelStyle: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+        labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
         tabs: const [
           Tab(text: 'My Rights'),
           Tab(text: 'My Duties'),
@@ -98,39 +97,47 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
         Obx(() {
           final progress =
               ProgressService.to.getProgressPercentage(progressKey) / 100;
-          final progressString =
-              ProgressService.to.getProgressString(progressKey);
+          final progressString = ProgressService.to.getProgressString(
+            progressKey,
+          );
           return Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+            padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Progress',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                    // The reader's font size can be 30% larger than this row was drawn for.
+                    Flexible(
+                      child: const Text(
+                        'Progress',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text(
-                      '$progressString completed',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white70,
-                        fontWeight: FontWeight.w500,
+                    Flexible(
+                      child: Text(
+                        '$progressString completed',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: LinearProgressIndicator(
                     value: progress,
-                    minHeight: 10,
+                    minHeight: 10.h,
                     backgroundColor: Colors.white.withValues(alpha: 0.2),
                     valueColor: const AlwaysStoppedAnimation<Color>(
                       Color(0xFF4CAF50),
@@ -149,7 +156,7 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
   Widget _buildRightsList() {
     return ListView.builder(
       key: const ValueKey('rights'),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: controller.rights.length,
       itemBuilder: (context, index) {
         final right = controller.rights[index];
@@ -181,7 +188,7 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
   Widget _buildDutiesList() {
     return ListView.builder(
       key: const ValueKey('duties'),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: controller.duties.length,
       itemBuilder: (context, index) {
         final duty = controller.duties[index];
@@ -220,18 +227,18 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
     required VoidCallback onExpand,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: gradient,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: gradient[0].withValues(alpha: 0.4),
-            blurRadius: 8,
+            blurRadius: 8.r,
             offset: const Offset(0, 4),
           ),
         ],
@@ -240,11 +247,11 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
         children: [
           // Decorative circles
           Positioned(
-            top: -10,
-            right: -10,
+            top: -10.h,
+            right: -10.w,
             child: Container(
-              width: 40,
-              height: 40,
+              width: 40.w,
+              height: 40.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.15),
@@ -252,11 +259,11 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
             ),
           ),
           Positioned(
-            bottom: -15,
-            left: -15,
+            bottom: -15.h,
+            left: -15.w,
             child: Container(
-              width: 50,
-              height: 50,
+              width: 50.w,
+              height: 50.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withValues(alpha: 0.1),
@@ -265,25 +272,33 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
           ),
           // Content
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              data: Theme.of(
+                context,
+              ).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
                 onExpansionChanged: (expanded) {
                   if (expanded) onExpand();
                 },
-                tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                tilePadding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 8.h,
+                ),
                 iconColor: Colors.white,
                 collapsedIconColor: Colors.white70,
                 leading: Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15.r),
                   ),
                   child: Center(
-                    child: Text(item['emoji'], style: const TextStyle(fontSize: 28)),
+                    child: Text(
+                      item['emoji'],
+                      style: const TextStyle(fontSize: 28),
+                    ),
                   ),
                 ),
                 title: Text(
@@ -303,16 +318,19 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
                 ),
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(16),
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: EdgeInsets.all(16.r),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Row(
                       children: [
                         Text(detailEmoji, style: const TextStyle(fontSize: 24)),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +356,7 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                 ],
               ),
             ),
@@ -346,19 +364,15 @@ class _RightsDutiesPageState extends State<RightsDutiesPage>
           // Checkmark for completed
           if (isCompleted)
             Positioned(
-              top: 8,
-              right: 40,
+              top: 8.h,
+              right: 40.w,
               child: Container(
-                padding: const EdgeInsets.all(2),
+                padding: EdgeInsets.all(2.r),
                 decoration: const BoxDecoration(
                   color: Colors.green,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 14,
-                ),
+                child: Icon(Icons.check, color: Colors.white, size: 14.r),
               ),
             ),
         ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jiyan_learning/services/ad_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Full-width Banner Ad Widget
 class AdsScreen extends StatefulWidget {
   final EdgeInsetsGeometry? margin;
@@ -128,7 +130,7 @@ class _AdsScreenState extends State<AdsScreen> {
       return Container(
         margin: widget.margin ?? EdgeInsets.zero,
         width: double.infinity,
-        height: 60,
+        height: 60.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(loadingRadius),
           gradient: LinearGradient(
@@ -160,9 +162,9 @@ class _AdsScreenState extends State<AdsScreen> {
     try {
       return Container(
         margin: widget.margin ?? EdgeInsets.zero,
-        height: 60,
+        height: 60.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           gradient: const LinearGradient(
             colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
             begin: Alignment.topLeft,
@@ -171,24 +173,24 @@ class _AdsScreenState extends State<AdsScreen> {
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF667EEA).withValues(alpha: 0.3),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
         ),
         child: Container(
-          margin: const EdgeInsets.all(2),
+          margin: EdgeInsets.all(2.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
             child: OverflowBox(
               alignment: Alignment.topCenter,
               maxHeight: 100,
               child: SizedBox(
-                height: 56,
+                height: 56.h,
                 child: FittedBox(
                   fit: BoxFit.cover,
                   clipBehavior: Clip.hardEdge,

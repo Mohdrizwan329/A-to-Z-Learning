@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PuzzleGamePage extends StatefulWidget {
   const PuzzleGamePage({super.key});
 
@@ -444,12 +446,14 @@ class _PuzzleGamePageState extends State<PuzzleGamePage>
   void _showWinDialog() {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text("🏆", style: TextStyle(fontSize: 60)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             const Text(
               'Puzzle Master!',
               style: TextStyle(
@@ -458,9 +462,9 @@ class _PuzzleGamePageState extends State<PuzzleGamePage>
                 color: Color(0xFFA78BFA),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text('Score: $_score points', style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 24),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -529,12 +533,12 @@ class _PuzzleGamePageState extends State<PuzzleGamePage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: _resetAllProgress,
         ),
@@ -545,462 +549,546 @@ class _PuzzleGamePageState extends State<PuzzleGamePage>
           ..._buildFloatingBubbles(),
 
           // Main content
-          Column(
-        children: [
-          // Progress bar with percentage
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Puzzle ${_currentPuzzleIndex + 1}/${_puzzles.length}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'Score: $_score',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white70,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+          LayoutBuilder(
+            // Portrait-shaped content: in landscape, and with the keyboard up,
+            // the body is shorter than this column needs. Scroll when that
+            // happens and stay exactly as before whenever there is room.
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight.isFinite
+                      ? constraints.maxHeight
+                      : 0,
                 ),
-                const SizedBox(height: 8),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: LinearProgressIndicator(
-                    value: (_currentPuzzleIndex + 1) / _puzzles.length,
-                    minHeight: 10,
-                    backgroundColor: Colors.white.withValues(alpha: 0.2),
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      Color(0xFF4CAF50),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const Spacer(),
-
-          // Emoji and hint card - with float animation
-          AnimatedBuilder(
-            animation: _floatAnimation,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(0, _floatAnimation.value),
-                child: child,
-              );
-            },
-            child: Container(
-              padding: const EdgeInsets.all(30),
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  // Decorative circle
-                  Positioned(
-                    top: -15,
-                    right: -15,
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.1),
-                      ),
-                    ),
-                  ),
-                  Column(
+                child: IntrinsicHeight(
+                  child: Column(
                     children: [
-                      Container(
-                        width: 130,
-                        height: 130,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          shape: BoxShape.circle,
+                      // Progress bar with percentage
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    'Puzzle ${_currentPuzzleIndex + 1}/${_puzzles.length}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    'Score: $_score',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.h),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: LinearProgressIndicator(
+                                value:
+                                    (_currentPuzzleIndex + 1) / _puzzles.length,
+                                minHeight: 10.h,
+                                backgroundColor: Colors.white.withValues(
+                                  alpha: 0.2,
+                                ),
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF4CAF50),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        child: Center(
-                          child: Text(
-                            puzzle['emoji'],
-                            style: const TextStyle(fontSize: 70),
+                      ),
+
+                      const Spacer(),
+
+                      // Emoji and hint card - with float animation
+                      AnimatedBuilder(
+                        animation: _floatAnimation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(0, _floatAnimation.value),
+                            child: child,
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(30.r),
+                          margin: EdgeInsets.symmetric(horizontal: 24.w),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(20.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFFA78BFA,
+                                ).withValues(alpha: 0.4),
+                                blurRadius: 8.r,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              // Decorative circle
+                              Positioned(
+                                top: -15.h,
+                                right: -15.w,
+                                child: Container(
+                                  width: 60.w,
+                                  height: 60.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white.withValues(alpha: 0.1),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    width: 130.w,
+                                    height: 130.h,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        puzzle['emoji'],
+                                        style: const TextStyle(fontSize: 70),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  Text(
+                                    'Spell this word!',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  if (_isCorrect) ...[
+                                    SizedBox(height: 12.h),
+                                    const Text(
+                                      '✓ Correct!',
+                                      style: TextStyle(
+                                        color: Color(0xFFFFE66D),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Spell this word!',
-                        style: GoogleFonts.nunito(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+
+                      const Spacer(),
+
+                      // Selected letters (answer slots) - increased size
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Wrap(
+                          spacing: 10.r,
+                          runSpacing: 10.r,
+                          alignment: WrapAlignment.center,
+                          children: List.generate(_selectedLetters.length, (
+                            index,
+                          ) {
+                            return GestureDetector(
+                              onTap: () => _onSelectedTap(index),
+                              child: Container(
+                                width: 48.w,
+                                height: 58.h,
+                                decoration: BoxDecoration(
+                                  gradient: _selectedLetters[index] != null
+                                      ? (_isCorrect
+                                            ? const LinearGradient(
+                                                colors: [
+                                                  Color(0xFF56D97F),
+                                                  Color(0xFF4ECDC4),
+                                                ],
+                                              )
+                                            : const LinearGradient(
+                                                colors: [
+                                                  Colors.white,
+                                                  Colors.white,
+                                                ],
+                                              ))
+                                      : null,
+                                  color: _selectedLetters[index] == null
+                                      ? Colors.white.withValues(alpha: 0.3)
+                                      : null,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    _selectedLetters[index] ?? '',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: _isCorrect
+                                          ? Colors.white
+                                          : const Color(0xFFA78BFA),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
                         ),
                       ),
-                      if (_isCorrect) ...[
-                        const SizedBox(height: 12),
-                        const Text(
-                          '✓ Correct!',
-                          style: TextStyle(
-                            color: Color(0xFFFFE66D),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
 
-          const SizedBox(height: 24),
+                      const Spacer(),
 
-          // Selected letters (answer slots) - increased size
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: List.generate(_selectedLetters.length, (index) {
-                return GestureDetector(
-                  onTap: () => _onSelectedTap(index),
-                  child: Container(
-                    width: 48,
-                    height: 58,
-                    decoration: BoxDecoration(
-                      gradient: _selectedLetters[index] != null
-                          ? (_isCorrect
-                                ? const LinearGradient(
-                                    colors: [
-                                      Color(0xFF56D97F),
-                                      Color(0xFF4ECDC4),
+                      // Shuffled letters to choose from - styled like home screen cards (increased size)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Wrap(
+                          spacing: 12.r,
+                          runSpacing: 12.r,
+                          alignment: WrapAlignment.center,
+                          children: List.generate(_shuffledLetters.length, (
+                            index,
+                          ) {
+                            if (_shuffledLetters[index].isEmpty) {
+                              return SizedBox(width: 55.w, height: 65.h);
+                            }
+                            return AnimatedBuilder(
+                              animation: _floatAnimation,
+                              builder: (context, child) {
+                                final offset = index % 2 == 0
+                                    ? _floatAnimation.value
+                                    : -_floatAnimation.value;
+                                return Transform.translate(
+                                  offset: Offset(0, offset),
+                                  child: child,
+                                );
+                              },
+                              child: GestureDetector(
+                                onTap: () => _onLetterTap(index),
+                                child: Container(
+                                  width: 55.w,
+                                  height: 65.h,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFFA78BFA),
+                                        Color(0xFF8B5CF6),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(
+                                          0xFFA78BFA,
+                                        ).withValues(alpha: 0.4),
+                                        blurRadius: 8.r,
+                                        offset: const Offset(0, 4),
+                                      ),
                                     ],
-                                  )
-                                : const LinearGradient(
-                                    colors: [Colors.white, Colors.white],
-                                  ))
-                          : null,
-                      color: _selectedLetters[index] == null
-                          ? Colors.white.withValues(alpha: 0.3)
-                          : null,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: Center(
-                      child: Text(
-                        _selectedLetters[index] ?? '',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: _isCorrect
-                              ? Colors.white
-                              : const Color(0xFFA78BFA),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      // Decorative circle
+                                      Positioned(
+                                        top: -8.h,
+                                        right: -8.w,
+                                        child: Container(
+                                          width: 20.w,
+                                          height: 20.h,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white.withValues(
+                                              alpha: 0.1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Container(
+                                          width: 42.w,
+                                          height: 42.h,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withValues(
+                                              alpha: 0.3,
+                                            ),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              _shuffledLetters[index],
+                                              style: GoogleFonts.nunito(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ),
 
-          const SizedBox(height: 24),
+                      SizedBox(height: 20.h),
 
-          // Shuffled letters to choose from - styled like home screen cards (increased size)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              alignment: WrapAlignment.center,
-              children: List.generate(_shuffledLetters.length, (index) {
-                if (_shuffledLetters[index].isEmpty) {
-                  return const SizedBox(width: 55, height: 65);
-                }
-                return AnimatedBuilder(
-                  animation: _floatAnimation,
-                  builder: (context, child) {
-                    final offset = index % 2 == 0
-                        ? _floatAnimation.value
-                        : -_floatAnimation.value;
-                    return Transform.translate(
-                      offset: Offset(0, offset),
-                      child: child,
-                    );
-                  },
-                  child: GestureDetector(
-                    onTap: () => _onLetterTap(index),
-                    child: Container(
-                      width: 55,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          // Decorative circle
-                          Positioned(
-                            top: -8,
-                            right: -8,
+                      // Clear button (shown when wrong answer)
+                      if (_isWrong)
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16.h),
+                          child: GestureDetector(
+                            onTap: _resetCurrentPuzzle,
                             child: Container(
-                              width: 20,
-                              height: 20,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30.w,
+                                vertical: 14.h,
+                              ),
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white.withValues(alpha: 0.1),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFFF6B6B),
+                                    Color(0xFFFF8E53),
+                                    Color(0xFFFFAA5A),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(16.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(
+                                      0xFFFF6B6B,
+                                    ).withValues(alpha: 0.4),
+                                    blurRadius: 8.r,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.refresh,
+                                    color: Colors.white,
+                                    size: 20.r,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Text(
+                                    'Clear & Try Again',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          Center(
-                            child: Container(
-                              width: 42,
-                              height: 42,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.3),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  _shuffledLetters[index],
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                        ),
+
+                      // Next and Previous buttons
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Previous button
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: _currentPuzzleIndex > 0
+                                    ? _goToPrevious
+                                    : null,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 12.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    gradient: _currentPuzzleIndex > 0
+                                        ? const LinearGradient(
+                                            colors: [
+                                              Color(0xFFFF6B6B),
+                                              Color(0xFFFF8E53),
+                                              Color(0xFFFFAA5A),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          )
+                                        : null,
+                                    color: _currentPuzzleIndex > 0
+                                        ? null
+                                        : Colors.white.withValues(alpha: 0.2),
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    boxShadow: _currentPuzzleIndex > 0
+                                        ? [
+                                            BoxShadow(
+                                              color: const Color(
+                                                0xFFFF6B6B,
+                                              ).withValues(alpha: 0.4),
+                                              blurRadius: 8.r,
+                                              offset: const Offset(0, 4),
+                                            ),
+                                          ]
+                                        : null,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.arrow_back_ios,
+                                        color: _currentPuzzleIndex > 0
+                                            ? Colors.white
+                                            : Colors.white54,
+                                        size: 18.r,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Flexible(
+                                        child: Text(
+                                          'Previous',
+                                          style: GoogleFonts.nunito(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: _currentPuzzleIndex > 0
+                                                ? Colors.white
+                                                : Colors.white54,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Clear button (shown when wrong answer)
-          if (_isWrong)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: GestureDetector(
-                onTap: _resetCurrentPuzzle,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.refresh, color: Colors.white, size: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Clear & Try Again',
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                            // Next button (only enabled when correct)
+                            Flexible(
+                              child: GestureDetector(
+                                onTap:
+                                    (_isCorrect &&
+                                        _currentPuzzleIndex <
+                                            _puzzles.length - 1)
+                                    ? _goToNext
+                                    : null,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 12.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    gradient:
+                                        (_isCorrect &&
+                                            _currentPuzzleIndex <
+                                                _puzzles.length - 1)
+                                        ? const LinearGradient(
+                                            colors: [
+                                              Color(0xFF56D97F),
+                                              Color(0xFF4ECDC4),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          )
+                                        : null,
+                                    color:
+                                        (_isCorrect &&
+                                            _currentPuzzleIndex <
+                                                _puzzles.length - 1)
+                                        ? null
+                                        : Colors.white.withValues(alpha: 0.2),
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    boxShadow:
+                                        (_isCorrect &&
+                                            _currentPuzzleIndex <
+                                                _puzzles.length - 1)
+                                        ? [
+                                            BoxShadow(
+                                              color: const Color(
+                                                0xFF56D97F,
+                                              ).withValues(alpha: 0.4),
+                                              blurRadius: 8.r,
+                                              offset: const Offset(0, 4),
+                                            ),
+                                          ]
+                                        : null,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          'Next',
+                                          style: GoogleFonts.nunito(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                (_isCorrect &&
+                                                    _currentPuzzleIndex <
+                                                        _puzzles.length - 1)
+                                                ? Colors.white
+                                                : Colors.white54,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color:
+                                            (_isCorrect &&
+                                                _currentPuzzleIndex <
+                                                    _puzzles.length - 1)
+                                            ? Colors.white
+                                            : Colors.white54,
+                                        size: 18.r,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+
+                      const Spacer(),
                     ],
                   ),
                 ),
               ),
             ),
-
-          // Next and Previous buttons
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Previous button
-                GestureDetector(
-                  onTap: _currentPuzzleIndex > 0 ? _goToPrevious : null,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: _currentPuzzleIndex > 0
-                          ? const LinearGradient(
-                              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                          : null,
-                      color: _currentPuzzleIndex > 0
-                          ? null
-                          : Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: _currentPuzzleIndex > 0
-                          ? [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFFFF6B6B,
-                                ).withValues(alpha: 0.4),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: _currentPuzzleIndex > 0
-                              ? Colors.white
-                              : Colors.white54,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Previous',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: _currentPuzzleIndex > 0
-                                ? Colors.white
-                                : Colors.white54,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Next button (only enabled when correct)
-                GestureDetector(
-                  onTap:
-                      (_isCorrect && _currentPuzzleIndex < _puzzles.length - 1)
-                      ? _goToNext
-                      : null,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient:
-                          (_isCorrect &&
-                              _currentPuzzleIndex < _puzzles.length - 1)
-                          ? const LinearGradient(
-                              colors: [Color(0xFF56D97F), Color(0xFF4ECDC4)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                          : null,
-                      color:
-                          (_isCorrect &&
-                              _currentPuzzleIndex < _puzzles.length - 1)
-                          ? null
-                          : Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow:
-                          (_isCorrect &&
-                              _currentPuzzleIndex < _puzzles.length - 1)
-                          ? [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFF56D97F,
-                                ).withValues(alpha: 0.4),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Next',
-                          style: GoogleFonts.nunito(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color:
-                                (_isCorrect &&
-                                    _currentPuzzleIndex < _puzzles.length - 1)
-                                ? Colors.white
-                                : Colors.white54,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color:
-                              (_isCorrect &&
-                                  _currentPuzzleIndex < _puzzles.length - 1)
-                              ? Colors.white
-                              : Colors.white54,
-                          size: 18,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
-
-          const Spacer(),
-        ],
-      ),
         ],
       ),
     );

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Kids-friendly theme configuration for the entire app
 /// Figma-style Design System with Glassmorphism
 class AppTheme {
@@ -65,7 +67,12 @@ class AppTheme {
   // ============== GRADIENTS ==============
 
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+    colors: [
+      Color(0xFF667EEA),
+      Color(0xFF764BA2),
+      Color(0xFFF093FB),
+      Color(0xFFF5576C),
+    ],
     stops: [0.0, 0.3, 0.7, 1.0],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -84,7 +91,12 @@ class AppTheme {
   );
 
   static const LinearGradient screenGradient = LinearGradient(
-    colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+    colors: [
+      Color(0xFF667EEA),
+      Color(0xFF764BA2),
+      Color(0xFFF093FB),
+      Color(0xFFF5576C),
+    ],
     stops: [0.0, 0.3, 0.7, 1.0],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -204,7 +216,7 @@ class AppTheme {
   static List<BoxShadow> get softShadow => [
     BoxShadow(
       color: Colors.black.withValues(alpha: 0.08),
-      blurRadius: 20,
+      blurRadius: 20.r,
       offset: const Offset(0, 8),
       spreadRadius: 0,
     ),
@@ -213,7 +225,7 @@ class AppTheme {
   static List<BoxShadow> get mediumShadow => [
     BoxShadow(
       color: Colors.black.withValues(alpha: 0.12),
-      blurRadius: 24,
+      blurRadius: 24.r,
       offset: const Offset(0, 12),
       spreadRadius: 0,
     ),
@@ -222,7 +234,7 @@ class AppTheme {
   static List<BoxShadow> colorShadow(Color color) => [
     BoxShadow(
       color: color.withValues(alpha: 0.3),
-      blurRadius: 20,
+      blurRadius: 20.r,
       offset: const Offset(0, 8),
       spreadRadius: 0,
     ),
@@ -233,14 +245,11 @@ class AppTheme {
   static BoxDecoration get glassDecoration => BoxDecoration(
     color: Colors.white.withValues(alpha: 0.2),
     borderRadius: BorderRadius.circular(radiusLarge),
-    border: Border.all(
-      color: Colors.white.withValues(alpha: 0.3),
-      width: 1.5,
-    ),
+    border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1.5),
     boxShadow: [
       BoxShadow(
         color: Colors.black.withValues(alpha: 0.1),
-        blurRadius: 20,
+        blurRadius: 20.r,
         offset: const Offset(0, 10),
       ),
     ],
@@ -252,25 +261,19 @@ class AppTheme {
   }) => BoxDecoration(
     color: (backgroundColor ?? Colors.white).withValues(alpha: 0.85),
     borderRadius: BorderRadius.circular(radius),
-    border: Border.all(
-      color: Colors.white.withValues(alpha: 0.5),
-      width: 1,
-    ),
+    border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1),
     boxShadow: softShadow,
   );
 
-  static BoxDecoration get screenBackground => const BoxDecoration(
-    gradient: screenGradient,
-  );
+  static BoxDecoration get screenBackground =>
+      const BoxDecoration(gradient: screenGradient);
 
-  static BoxDecoration cardDecoration({
-    Color? color,
-    double radius = 20,
-  }) => BoxDecoration(
-    color: color ?? cardBackground,
-    borderRadius: BorderRadius.circular(radius),
-    boxShadow: softShadow,
-  );
+  static BoxDecoration cardDecoration({Color? color, double radius = 20}) =>
+      BoxDecoration(
+        color: color ?? cardBackground,
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: softShadow,
+      );
 
   static BoxDecoration gradientCardDecoration({
     required LinearGradient gradient,
@@ -287,7 +290,10 @@ class AppTheme {
     backgroundColor: primaryColor,
     foregroundColor: textWhite,
     minimumSize: const Size(double.infinity, buttonHeight),
-    padding: const EdgeInsets.symmetric(horizontal: spacingL, vertical: spacingM),
+    padding: const EdgeInsets.symmetric(
+      horizontal: spacingL,
+      vertical: spacingM,
+    ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radiusMedium),
     ),
@@ -299,7 +305,10 @@ class AppTheme {
     backgroundColor: secondaryColor,
     foregroundColor: textPrimary,
     minimumSize: const Size(double.infinity, buttonHeight),
-    padding: const EdgeInsets.symmetric(horizontal: spacingL, vertical: spacingM),
+    padding: const EdgeInsets.symmetric(
+      horizontal: spacingL,
+      vertical: spacingM,
+    ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radiusMedium),
     ),
@@ -310,7 +319,10 @@ class AppTheme {
     backgroundColor: accentColor,
     foregroundColor: textWhite,
     minimumSize: const Size(double.infinity, buttonHeight),
-    padding: const EdgeInsets.symmetric(horizontal: spacingL, vertical: spacingM),
+    padding: const EdgeInsets.symmetric(
+      horizontal: spacingL,
+      vertical: spacingM,
+    ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radiusMedium),
     ),
@@ -320,7 +332,10 @@ class AppTheme {
   static ButtonStyle get outlineButtonStyle => OutlinedButton.styleFrom(
     foregroundColor: primaryColor,
     minimumSize: const Size(double.infinity, buttonHeight),
-    padding: const EdgeInsets.symmetric(horizontal: spacingL, vertical: spacingM),
+    padding: const EdgeInsets.symmetric(
+      horizontal: spacingL,
+      vertical: spacingM,
+    ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radiusMedium),
     ),
@@ -330,7 +345,10 @@ class AppTheme {
   static ButtonStyle get ghostButtonStyle => TextButton.styleFrom(
     foregroundColor: primaryColor,
     minimumSize: const Size(minTouchTarget, minTouchTarget),
-    padding: const EdgeInsets.symmetric(horizontal: spacingM, vertical: spacingS),
+    padding: const EdgeInsets.symmetric(
+      horizontal: spacingM,
+      vertical: spacingS,
+    ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radiusMedium),
     ),
@@ -456,12 +474,10 @@ class AppTheme {
       titleTextStyle: headingSmall,
       contentTextStyle: bodyMedium,
     ),
-    bottomSheetTheme: const BottomSheetThemeData(
+    bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: cardBackground,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(24),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
       ),
     ),
   );
@@ -526,7 +542,7 @@ class AppTheme {
   static Widget glassContainer({
     required Widget child,
     double radius = 20,
-    EdgeInsets padding = const EdgeInsets.all(16),
+    EdgeInsets? padding,
     EdgeInsets margin = EdgeInsets.zero,
   }) {
     return Container(
@@ -536,7 +552,7 @@ class AppTheme {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            padding: padding,
+            padding: padding ?? EdgeInsets.all(16.r),
             decoration: glassDecoration,
             child: child,
           ),
@@ -587,41 +603,59 @@ class AppTheme {
           ? GestureDetector(
               onTap: onBack,
               child: Container(
-                margin: const EdgeInsets.all(8),
+                margin: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(radiusMedium),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_back_ios_new,
                   color: Colors.white,
-                  size: 20,
+                  size: 20.r,
                 ),
               ),
             )
           : null,
       flexibleSpace: Container(
-        decoration: BoxDecoration(gradient: gradient ?? const LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)])),
+        decoration: BoxDecoration(
+          gradient:
+              gradient ??
+              const LinearGradient(
+                colors: [
+                  Color(0xFFFF6B6B),
+                  Color(0xFFFF8E53),
+                  Color(0xFFFFAA5A),
+                ],
+              ),
+        ),
       ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (emoji != null) ...[
-            Text(emoji, style: const TextStyle(fontSize: 24)),
-            const SizedBox(width: spacingS),
-          ] else if (icon != null) ...[
-            Icon(icon, color: Colors.white, size: 24),
-            const SizedBox(width: spacingS),
-          ],
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+      title: FittedBox(
+        // An AppBar title is width-capped by the leading and action slots.
+        // This one is a Row of separately styled pieces, so it cannot
+        // ellipsize; scaling it down keeps all of it readable on a narrow
+        // phone instead of clipping the tail.
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (emoji != null) ...[
+              Text(emoji, style: const TextStyle(fontSize: 24)),
+              const SizedBox(width: spacingS),
+            ] else if (icon != null) ...[
+              Icon(icon, color: Colors.white, size: 24.r),
+              const SizedBox(width: spacingS),
+            ],
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       centerTitle: true,
       actions: actions,
@@ -662,7 +696,7 @@ class AppTheme {
                 overflow: TextOverflow.ellipsis,
               ),
               if (subtitle != null) ...[
-                const SizedBox(height: 2),
+                SizedBox(height: 2.h),
                 Text(
                   subtitle,
                   style: GoogleFonts.nunito(

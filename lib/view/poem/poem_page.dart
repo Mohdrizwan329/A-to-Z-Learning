@@ -7,6 +7,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PoemListPage extends StatefulWidget {
   const PoemListPage({super.key});
 
@@ -110,11 +112,11 @@ class _PoemListPageState extends State<PoemListPage>
       title: 'Nursery Rhymes',
       emoji: '📝',
       body: GridView.builder(
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        padding: EdgeInsets.all(12.r),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
+          mainAxisSpacing: 16.r,
+          crossAxisSpacing: 16.r,
           childAspectRatio: 0.85,
         ),
         itemCount: poems.length,
@@ -133,7 +135,11 @@ class _PoemListPageState extends State<PoemListPage>
   }
 
   Widget _buildPoemCard(
-      Poem poem, String emoji, List<Color> gradient, int index) {
+    Poem poem,
+    String emoji,
+    List<Color> gradient,
+    int index,
+  ) {
     return GestureDetector(
       onTap: () {
         TtsService.to.speak(poem.title);
@@ -148,11 +154,11 @@ class _PoemListPageState extends State<PoemListPage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: gradient[0].withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -160,11 +166,11 @@ class _PoemListPageState extends State<PoemListPage>
         child: Stack(
           children: [
             Positioned(
-              top: -20,
-              right: -20,
+              top: -20.h,
+              right: -20.w,
               child: Container(
-                width: 80,
-                height: 80,
+                width: 80.w,
+                height: 80.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.1),
@@ -172,11 +178,11 @@ class _PoemListPageState extends State<PoemListPage>
               ),
             ),
             Positioned(
-              bottom: -30,
-              left: -30,
+              bottom: -30.h,
+              left: -30.w,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 100.w,
+                height: 100.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.1),
@@ -184,13 +190,13 @@ class _PoemListPageState extends State<PoemListPage>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 70,
-                    height: 70,
+                    width: 70.w,
+                    height: 70.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       shape: BoxShape.circle,
@@ -199,39 +205,46 @@ class _PoemListPageState extends State<PoemListPage>
                       child: Text(emoji, style: const TextStyle(fontSize: 36)),
                     ),
                   ),
-                  const SizedBox(height: 14),
-                  Text(
-                    poem.title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withValues(alpha: 0.26),
-                          offset: const Offset(1, 1),
-                          blurRadius: 2,
-                        ),
-                      ],
+                  SizedBox(height: 14.h),
+                  Flexible(
+                    child: Text(
+                      poem.title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withValues(alpha: 0.26),
+                            offset: const Offset(1, 1),
+                            blurRadius: 2.r,
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 4.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.play_circle_fill,
-                            color: Colors.white, size: 16),
-                        SizedBox(width: 4),
+                        Icon(
+                          Icons.play_circle_fill,
+                          color: Colors.white,
+                          size: 16.r,
+                        ),
+                        SizedBox(width: 4.w),
                         Text(
                           'Play',
                           style: TextStyle(
@@ -247,22 +260,23 @@ class _PoemListPageState extends State<PoemListPage>
               ),
             ),
             Positioned(
-              top: 8,
-              right: 8,
+              top: 8.h,
+              right: 8.w,
               child: Obx(() {
                 final _ =
                     ProgressService.to.completedItems[ProgressService.kPoems];
-                final isCompleted =
-                    ProgressService.to.isItemCompleted(ProgressService.kPoems, index);
+                final isCompleted = ProgressService.to.isItemCompleted(
+                  ProgressService.kPoems,
+                  index,
+                );
                 if (isCompleted) {
                   return Container(
-                    padding: const EdgeInsets.all(4),
+                    padding: EdgeInsets.all(4.r),
                     decoration: const BoxDecoration(
                       color: Colors.green,
                       shape: BoxShape.circle,
                     ),
-                    child:
-                        const Icon(Icons.check, color: Colors.white, size: 16),
+                    child: Icon(Icons.check, color: Colors.white, size: 16.r),
                   );
                 }
                 return const SizedBox.shrink();
@@ -325,12 +339,12 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             controller.startSpeakingLines(
@@ -361,16 +375,16 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                 child: Icon(
                   Icons.star,
                   color: Colors.white.withValues(alpha: 0.3),
-                  size: 8 + (index % 3) * 4,
+                  size: 8.r + (index % 3) * 4,
                 ),
               );
             }),
             Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 400),
+                constraints: BoxConstraints(maxHeight: 400.h),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   itemCount: controller.lines.length,
                   itemBuilder: (context, index) {
                     final line = controller.lines[index];
@@ -379,7 +393,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                     if (!isHighlighted) {
                       return Center(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
                             line,
                             style: const TextStyle(
@@ -395,7 +409,7 @@ class _PoemDetailPageState extends State<PoemDetailPage> {
                       final words = line.split(' ');
                       return Center(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(

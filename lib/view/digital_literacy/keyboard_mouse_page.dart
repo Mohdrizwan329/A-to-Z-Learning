@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class KeyboardMousePage extends StatefulWidget {
   const KeyboardMousePage({super.key});
 
@@ -30,31 +32,31 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
       'intro':
           'The keyboard is how we type letters, numbers, and commands into the computer!',
       'keyAreas': [
-        {'name': 'Letter Keys', 'emoji': '🔤', 'desc': 'A to Z - for typing words'},
+        {
+          'name': 'Letter Keys',
+          'emoji': '🔤',
+          'desc': 'A to Z - for typing words',
+        },
         {
           'name': 'Number Keys',
           'emoji': '🔢',
-          'desc': '0 to 9 - for typing numbers'
+          'desc': '0 to 9 - for typing numbers',
         },
         {
           'name': 'Space Bar',
           'emoji': '➖',
-          'desc': 'The long key at bottom - adds spaces'
+          'desc': 'The long key at bottom - adds spaces',
         },
         {
           'name': 'Enter/Return',
           'emoji': '↵',
-          'desc': 'Start a new line or confirm'
+          'desc': 'Start a new line or confirm',
         },
-        {
-          'name': 'Backspace',
-          'emoji': '⌫',
-          'desc': 'Delete letters you typed'
-        },
+        {'name': 'Backspace', 'emoji': '⌫', 'desc': 'Delete letters you typed'},
         {
           'name': 'Arrow Keys',
           'emoji': '⬆️⬇️⬅️➡️',
-          'desc': 'Move around the screen'
+          'desc': 'Move around the screen',
         },
       ],
     },
@@ -68,37 +70,37 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
           'key': 'Shift',
           'emoji': '⬆️',
           'does': 'Makes CAPITAL letters',
-          'tip': 'Hold while typing'
+          'tip': 'Hold while typing',
         },
         {
           'key': 'Caps Lock',
           'emoji': '🔒',
           'does': 'ALL CAPS mode',
-          'tip': 'Press once to turn on/off'
+          'tip': 'Press once to turn on/off',
         },
         {
           'key': 'Tab',
           'emoji': '↹',
           'does': 'Moves to next space',
-          'tip': 'Creates big space'
+          'tip': 'Creates big space',
         },
         {
           'key': 'Ctrl/Cmd',
           'emoji': '⌃',
           'does': 'Special commands',
-          'tip': 'Hold with other keys'
+          'tip': 'Hold with other keys',
         },
         {
           'key': 'Alt/Option',
           'emoji': '⌥',
           'does': 'Extra functions',
-          'tip': 'Use with other keys'
+          'tip': 'Use with other keys',
         },
         {
           'key': 'Escape (Esc)',
           'emoji': '⎋',
           'does': 'Cancel or exit',
-          'tip': 'Top left corner'
+          'tip': 'Top left corner',
         },
       ],
     },
@@ -150,19 +152,18 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
       'emoji': '🖱️',
       'subtitle': 'Mouse Basics',
       'color': Color(0xFFE91E63),
-      'intro':
-          'The mouse lets you point and click on things on the screen!',
+      'intro': 'The mouse lets you point and click on things on the screen!',
       'parts': [
         {'part': 'Left Button', 'emoji': '👆', 'use': 'Click to select things'},
         {
           'part': 'Right Button',
           'emoji': '📋',
-          'use': 'Shows more options (menu)'
+          'use': 'Shows more options (menu)',
         },
         {
           'part': 'Scroll Wheel',
           'emoji': '🔄',
-          'use': 'Roll to move up and down'
+          'use': 'Roll to move up and down',
         },
       ],
       'types': [
@@ -182,37 +183,37 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
           'action': 'Click',
           'emoji': '👆',
           'how': 'Press left button once',
-          'when': 'Select something'
+          'when': 'Select something',
         },
         {
           'action': 'Double Click',
           'emoji': '👆👆',
           'how': 'Press left button twice fast',
-          'when': 'Open files and programs'
+          'when': 'Open files and programs',
         },
         {
           'action': 'Right Click',
           'emoji': '📋',
           'how': 'Press right button once',
-          'when': 'See more options'
+          'when': 'See more options',
         },
         {
           'action': 'Drag',
           'emoji': '↔️',
           'how': 'Hold left button and move',
-          'when': 'Move things around'
+          'when': 'Move things around',
         },
         {
           'action': 'Scroll',
           'emoji': '⬆️⬇️',
           'how': 'Roll the wheel',
-          'when': 'Move page up or down'
+          'when': 'Move page up or down',
         },
         {
           'action': 'Hover',
           'emoji': '✨',
           'how': 'Move mouse without clicking',
-          'when': 'See more info'
+          'when': 'See more info',
         },
       ],
     },
@@ -255,17 +256,17 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
         {
           'name': 'Typing Games',
           'emoji': '🎮',
-          'desc': 'Fun way to practice typing'
+          'desc': 'Fun way to practice typing',
         },
         {
           'name': 'Paint Programs',
           'emoji': '🎨',
-          'desc': 'Practice mouse control'
+          'desc': 'Practice mouse control',
         },
         {
           'name': 'Puzzle Games',
           'emoji': '🧩',
-          'desc': 'Click and drag practice'
+          'desc': 'Click and drag practice',
         },
       ],
     },
@@ -295,16 +296,15 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
-            ProgressService.to
-                .resetProgress(ProgressService.kKeyboardMouse);
+            ProgressService.to.resetProgress(ProgressService.kKeyboardMouse);
             setState(() {});
           },
         ),
@@ -318,48 +318,52 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
               Obx(() {
                 final progress =
                     ProgressService.to.getProgressPercentage(
-                          ProgressService.kKeyboardMouse,
-                        ) /
-                        100;
-                final progressString =
-                    ProgressService.to.getProgressString(
+                      ProgressService.kKeyboardMouse,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
                   ProgressService.kKeyboardMouse,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
-                          backgroundColor:
-                              Colors.white.withValues(alpha: 0.2),
-                          valueColor:
-                              const AlwaysStoppedAnimation<Color>(
+                          minHeight: 10.h,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
                           ),
                         ),
@@ -371,24 +375,21 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
               // Grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: sections.length,
                   itemBuilder: (context, index) {
                     final section = sections[index];
-                    final gradient =
-                        AppColors.getGradientForIndex(index);
+                    final gradient = AppColors.getGradientForIndex(index);
 
                     return Obx(() {
                       final isSelected = selectedIndex == index;
-                      final isCompleted =
-                          ProgressService.to.isItemCompleted(
+                      final isCompleted = ProgressService.to.isItemCompleted(
                         ProgressService.kKeyboardMouse,
                         index,
                       );
@@ -408,74 +409,82 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
                               ProgressService.kKeyboardMouse,
                               index,
                             );
-                            Get.to(() => _KeyboardMouseDetailPage(
-                                  section: section,
-                                  sectionIndex: index,
-                                ));
+                            Get.to(
+                              () => _KeyboardMouseDetailPage(
+                                section: section,
+                                sectionIndex: index,
+                              ),
+                            );
                           },
                           child: Stack(
                             children: [
                               Center(
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 65,
-                                      height: 65,
+                                      width: 65.w,
+                                      height: 65.h,
                                       decoration: BoxDecoration(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.25),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
                                         child: Text(
                                           section['emoji'],
-                                          style: const TextStyle(
-                                              fontSize: 32),
+                                          style: const TextStyle(fontSize: 32),
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      section['subtitle'],
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 11,
-                                        color: Colors.white
-                                            .withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w600,
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
                               ),
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 4,
-                                  right: 4,
+                                  bottom: 4.h,
+                                  right: 4.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(2),
+                                    padding: EdgeInsets.all(2.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 12,
+                                      size: 12.r,
                                     ),
                                   ),
                                 ),
@@ -505,8 +514,7 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
       return AnimatedBuilder(
         animation: _bubbleController,
         builder: (context, child) {
-          final progress =
-              (_bubbleController.value + delay) % 1.0;
+          final progress = (_bubbleController.value + delay) % 1.0;
           final yOffset = -progress * 200;
           final opacity = (1 - progress) * 0.15;
 
@@ -521,8 +529,7 @@ class _KeyboardMousePageState extends State<KeyboardMousePage>
                 gradient: RadialGradient(
                   colors: [
                     Colors.white.withValues(alpha: opacity),
-                    Colors.white
-                        .withValues(alpha: opacity * 0.3),
+                    Colors.white.withValues(alpha: opacity * 0.3),
                   ],
                 ),
               ),
@@ -549,8 +556,7 @@ class _KeyboardMouseDetailPage extends StatefulWidget {
       _KeyboardMouseDetailPageState();
 }
 
-class _KeyboardMouseDetailPageState
-    extends State<_KeyboardMouseDetailPage>
+class _KeyboardMouseDetailPageState extends State<_KeyboardMouseDetailPage>
     with TickerProviderStateMixin, GridAnimationsMixin {
   Map<String, dynamic> get section => widget.section;
   int get sectionIndex => widget.sectionIndex;
@@ -581,28 +587,30 @@ class _KeyboardMouseDetailPageState
         children: [
           ..._buildFloatingBubbles(),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 // Header card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 20,
+                        blurRadius: 20.r,
                         offset: const Offset(0, 10),
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
-                      Text(section['emoji'],
-                          style: const TextStyle(fontSize: 50)),
-                      const SizedBox(height: 12),
+                      Text(
+                        section['emoji'],
+                        style: const TextStyle(fontSize: 50),
+                      ),
+                      SizedBox(height: 12.h),
                       Text(
                         section['title'],
                         style: GoogleFonts.poppins(
@@ -613,7 +621,7 @@ class _KeyboardMouseDetailPageState
                         textAlign: TextAlign.center,
                       ),
                       if (section.containsKey('intro')) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         Text(
                           section['intro'],
                           style: GoogleFonts.nunito(
@@ -626,7 +634,7 @@ class _KeyboardMouseDetailPageState
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildContent(),
               ],
             ),
@@ -661,26 +669,25 @@ class _KeyboardMouseDetailPageState
 
   Widget _buildKeyboardIntro() {
     return Column(
-      children:
-          List.generate((section['keyAreas'] as List).length, (index) {
+      children: List.generate((section['keyAreas'] as List).length, (index) {
         final area = section['keyAreas'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -688,18 +695,20 @@ class _KeyboardMouseDetailPageState
             child: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Center(
-                    child: Text(area['emoji'],
-                        style: const TextStyle(fontSize: 24)),
+                    child: Text(
+                      area['emoji'],
+                      style: const TextStyle(fontSize: 24),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -731,26 +740,25 @@ class _KeyboardMouseDetailPageState
 
   Widget _buildSpecialKeys() {
     return Column(
-      children:
-          List.generate((section['keys'] as List).length, (index) {
+      children: List.generate((section['keys'] as List).length, (index) {
         final key = section['keys'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -758,18 +766,20 @@ class _KeyboardMouseDetailPageState
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 8.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
                     key['emoji'],
                     style: const TextStyle(fontSize: 20),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -810,26 +820,25 @@ class _KeyboardMouseDetailPageState
   Widget _buildShortcuts() {
     return Column(
       children: [
-        ...List.generate(
-            (section['shortcuts'] as List).length, (index) {
+        ...List.generate((section['shortcuts'] as List).length, (index) {
           final shortcut = section['shortcuts'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -837,11 +846,13 @@ class _KeyboardMouseDetailPageState
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 6.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Text(
                       shortcut['keys'],
@@ -852,10 +863,9 @@ class _KeyboardMouseDetailPageState
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Text(shortcut['emoji'],
-                      style: const TextStyle(fontSize: 22)),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 12.w),
+                  Text(shortcut['emoji'], style: const TextStyle(fontSize: 22)),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
                       shortcut['action'],
@@ -870,22 +880,21 @@ class _KeyboardMouseDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
             children: [
               const Text('🍎', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: Text(
                   section['note'],
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w600),
+                  style: GoogleFonts.nunito(fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -902,19 +911,20 @@ class _KeyboardMouseDetailPageState
         buildFloatingItem(
           index: 0,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(0),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(0)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    0,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -928,22 +938,19 @@ class _KeyboardMouseDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Wrap(
-                  spacing: 8,
-                  children: (section['homeRow'] as List)
-                      .map<Widget>((key) {
+                  spacing: 8.r,
+                  children: (section['homeRow'] as List).map<Widget>((key) {
                     return Container(
-                      width: 35,
-                      height: 35,
+                      width: 35.w,
+                      height: 35.h,
                       decoration: BoxDecoration(
-                        color:
-                            Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(6.r),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black
-                                .withValues(alpha: 0.2),
+                            color: Colors.black.withValues(alpha: 0.2),
                             offset: const Offset(0, 3),
                           ),
                         ],
@@ -960,7 +967,7 @@ class _KeyboardMouseDetailPageState
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   'Rest your fingers here!',
                   style: GoogleFonts.nunito(
@@ -972,38 +979,35 @@ class _KeyboardMouseDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         // Posture tips
-        ...List.generate(
-            (section['fingerTips'] as List).length, (index) {
+        ...List.generate((section['fingerTips'] as List).length, (index) {
           final tip = section['fingerTips'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 1);
+          final gradient = AppColors.getGradientForIndex(index + 1);
           return buildFloatingItem(
             index: index + 1,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(tip['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(tip['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       tip['tip'],
@@ -1027,26 +1031,25 @@ class _KeyboardMouseDetailPageState
     return Column(
       children: [
         // Mouse parts
-        ...List.generate(
-            (section['parts'] as List).length, (index) {
+        ...List.generate((section['parts'] as List).length, (index) {
           final part = section['parts'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: index,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1054,20 +1057,20 @@ class _KeyboardMouseDetailPageState
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.25),
+                      color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
                     ),
-                    child: Text(part['emoji'],
-                        style: const TextStyle(fontSize: 24)),
+                    child: Text(
+                      part['emoji'],
+                      style: const TextStyle(fontSize: 24),
+                    ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           part['part'],
@@ -1091,24 +1094,25 @@ class _KeyboardMouseDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         // Mouse types
         buildFloatingItem(
           index: 3,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(3),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(3)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    3,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1123,26 +1127,29 @@ class _KeyboardMouseDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceAround,
-                  children: (section['types'] as List)
-                      .map<Widget>((type) {
-                    return Column(
-                      children: [
-                        Text(type['emoji'],
-                            style:
-                                const TextStyle(fontSize: 28)),
-                        Text(
-                          type['type'],
-                          style: GoogleFonts.nunito(
-                            fontSize: 10,
-                            color: Colors.white,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: (section['types'] as List).map<Widget>((type) {
+                    // Equal shares: four device names side by side are wider
+                    // than the card on a small phone.
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            type['emoji'],
+                            style: const TextStyle(fontSize: 28),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                          Text(
+                            type['type'],
+                            style: GoogleFonts.nunito(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     );
                   }).toList(),
                 ),
@@ -1156,26 +1163,25 @@ class _KeyboardMouseDetailPageState
 
   Widget _buildMouseActions() {
     return Column(
-      children: List.generate(
-          (section['actions'] as List).length, (index) {
+      children: List.generate((section['actions'] as List).length, (index) {
         final action = section['actions'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1186,20 +1192,20 @@ class _KeyboardMouseDetailPageState
                 Row(
                   children: [
                     Container(
-                      width: 45,
-                      height: 45,
+                      width: 45.w,
+                      height: 45.h,
                       decoration: BoxDecoration(
-                        color: Colors.white
-                            .withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white.withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Center(
-                        child: Text(action['emoji'],
-                            style:
-                                const TextStyle(fontSize: 22)),
+                        child: Text(
+                          action['emoji'],
+                          style: const TextStyle(fontSize: 22),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Text(
                       action['action'],
                       style: GoogleFonts.poppins(
@@ -1210,18 +1216,16 @@ class _KeyboardMouseDetailPageState
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   decoration: BoxDecoration(
-                    color:
-                        Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -1244,7 +1248,7 @@ class _KeyboardMouseDetailPageState
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Row(
                         children: [
                           Text(
@@ -1279,26 +1283,25 @@ class _KeyboardMouseDetailPageState
 
   Widget _buildCursor() {
     return Column(
-      children: List.generate(
-          (section['cursorTypes'] as List).length, (index) {
+      children: List.generate((section['cursorTypes'] as List).length, (index) {
         final cursor = section['cursorTypes'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1306,12 +1309,11 @@ class _KeyboardMouseDetailPageState
             child: Row(
               children: [
                 Container(
-                  width: 45,
-                  height: 45,
+                  width: 45.w,
+                  height: 45.h,
                   decoration: BoxDecoration(
-                    color:
-                        Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Center(
                     child: Text(
@@ -1320,11 +1322,10 @@ class _KeyboardMouseDetailPageState
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         cursor['shape'].split(' ').first,
@@ -1360,19 +1361,20 @@ class _KeyboardMouseDetailPageState
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(0),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(0)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    0,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1387,17 +1389,18 @@ class _KeyboardMouseDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 10),
-                ...(section['keyboardPractice'] as List)
-                    .map((tip) {
+                SizedBox(height: 10.h),
+                ...(section['keyboardPractice'] as List).map((tip) {
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
-                        const Icon(Icons.check_circle,
-                            color: Colors.white70, size: 18),
-                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.white70,
+                          size: 18.r,
+                        ),
+                        SizedBox(width: 8.w),
                         Text(
                           tip,
                           style: GoogleFonts.nunito(
@@ -1413,24 +1416,25 @@ class _KeyboardMouseDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         // Mouse Practice
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(1),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(1)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    1,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1445,17 +1449,18 @@ class _KeyboardMouseDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 10),
-                ...(section['mousePractice'] as List)
-                    .map((tip) {
+                SizedBox(height: 10.h),
+                ...(section['mousePractice'] as List).map((tip) {
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
-                        const Icon(Icons.check_circle,
-                            color: Colors.white70, size: 18),
-                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.white70,
+                          size: 18.r,
+                        ),
+                        SizedBox(width: 8.w),
                         Text(
                           tip,
                           style: GoogleFonts.nunito(
@@ -1471,42 +1476,38 @@ class _KeyboardMouseDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         // Fun Games
-        ...List.generate(
-            (section['games'] as List).length, (index) {
+        ...List.generate((section['games'] as List).length, (index) {
           final game = section['games'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 2);
+          final gradient = AppColors.getGradientForIndex(index + 2);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(game['emoji'],
-                      style: const TextStyle(fontSize: 28)),
-                  const SizedBox(width: 12),
+                  Text(game['emoji'], style: const TextStyle(fontSize: 28)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           game['name'],
@@ -1546,8 +1547,7 @@ class _KeyboardMouseDetailPageState
       return AnimatedBuilder(
         animation: _bubbleController,
         builder: (context, child) {
-          final progress =
-              (_bubbleController.value + delay) % 1.0;
+          final progress = (_bubbleController.value + delay) % 1.0;
           final yOffset = -progress * 200;
           final opacity = (1 - progress) * 0.15;
 
@@ -1562,8 +1562,7 @@ class _KeyboardMouseDetailPageState
                 gradient: RadialGradient(
                   colors: [
                     Colors.white.withValues(alpha: opacity),
-                    Colors.white
-                        .withValues(alpha: opacity * 0.3),
+                    Colors.white.withValues(alpha: opacity * 0.3),
                   ],
                 ),
               ),

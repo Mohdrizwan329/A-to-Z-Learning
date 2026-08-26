@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class InternetSafetyPage extends StatefulWidget {
   const InternetSafetyPage({super.key});
 
@@ -63,29 +65,12 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
       'emoji': '🔐',
       'subtitle': 'Be Secure',
       'color': Color(0xFF9C27B0),
-      'intro':
-          'A password is like a key to your online house. Make it strong!',
+      'intro': 'A password is like a key to your online house. Make it strong!',
       'goodPassword': [
-        {
-          'rule': 'Use letters AND numbers',
-          'example': 'Cat123',
-          'emoji': '🔤'
-        },
-        {
-          'rule': 'Add special characters',
-          'example': 'Cat@123!',
-          'emoji': '✨'
-        },
-        {
-          'rule': 'Make it long',
-          'example': '8+ characters',
-          'emoji': '📏'
-        },
-        {
-          'rule': 'Mix UPPER and lower',
-          'example': 'CaT@123!',
-          'emoji': '🔠'
-        },
+        {'rule': 'Use letters AND numbers', 'example': 'Cat123', 'emoji': '🔤'},
+        {'rule': 'Add special characters', 'example': 'Cat@123!', 'emoji': '✨'},
+        {'rule': 'Make it long', 'example': '8+ characters', 'emoji': '📏'},
+        {'rule': 'Mix UPPER and lower', 'example': 'CaT@123!', 'emoji': '🔠'},
       ],
       'badPassword': ['123456', 'password', 'your name', 'your birthday'],
       'remember': 'Never tell anyone your password except parents!',
@@ -101,10 +86,7 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
         {'rule': 'Never meet online friends in person', 'emoji': '👋❌'},
         {'rule': 'Tell parents if someone bothers you', 'emoji': '👨‍👩‍👧'},
         {'rule': 'Block people who are mean', 'emoji': '🛑'},
-        {
-          'rule': 'Don\'t accept friend requests from strangers',
-          'emoji': '❌'
-        },
+        {'rule': 'Don\'t accept friend requests from strangers', 'emoji': '❌'},
       ],
       'remember':
           'Online friends should stay online. Real friends you meet in real life!',
@@ -175,18 +157,14 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
       'emoji': '🌟',
       'subtitle': 'Be Responsible',
       'color': Color(0xFF673AB7),
-      'intro':
-          'A good digital citizen uses the internet safely and kindly!',
+      'intro': 'A good digital citizen uses the internet safely and kindly!',
       'pledges': [
         {'pledge': 'I will be kind online', 'emoji': '💕'},
         {'pledge': 'I will protect my information', 'emoji': '🔒'},
-        {
-          'pledge': 'I will tell adults if I see something bad',
-          'emoji': '🗣️'
-        },
+        {'pledge': 'I will tell adults if I see something bad', 'emoji': '🗣️'},
         {
           'pledge': 'I will not share others\' photos without asking',
-          'emoji': '📷'
+          'emoji': '📷',
         },
         {'pledge': 'I will balance my screen time', 'emoji': '⚖️'},
         {'pledge': 'I will think before I post', 'emoji': '🤔'},
@@ -218,17 +196,15 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child:
-                const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
-            ProgressService.to
-                .resetProgress(ProgressService.kInternetSafety);
+            ProgressService.to.resetProgress(ProgressService.kInternetSafety);
             setState(() {});
           },
         ),
@@ -242,49 +218,52 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
               Obx(() {
                 final progress =
                     ProgressService.to.getProgressPercentage(
-                          ProgressService.kInternetSafety,
-                        ) /
-                        100;
-                final progressString =
-                    ProgressService.to.getProgressString(
+                      ProgressService.kInternetSafety,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
                   ProgressService.kInternetSafety,
                 );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
-                          backgroundColor:
-                              Colors.white.withValues(alpha: 0.2),
-                          valueColor:
-                              const AlwaysStoppedAnimation<Color>(
+                          minHeight: 10.h,
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF4CAF50),
                           ),
                         ),
@@ -296,24 +275,21 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
               // Grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: sections.length,
                   itemBuilder: (context, index) {
                     final section = sections[index];
-                    final gradient =
-                        AppColors.getGradientForIndex(index);
+                    final gradient = AppColors.getGradientForIndex(index);
 
                     return Obx(() {
                       final isSelected = selectedIndex == index;
-                      final isCompleted =
-                          ProgressService.to.isItemCompleted(
+                      final isCompleted = ProgressService.to.isItemCompleted(
                         ProgressService.kInternetSafety,
                         index,
                       );
@@ -333,77 +309,82 @@ class _InternetSafetyPageState extends State<InternetSafetyPage>
                               ProgressService.kInternetSafety,
                               index,
                             );
-                            Get.to(() => _InternetSafetyDetailPage(
-                                  section: section,
-                                  sectionIndex: index,
-                                ));
+                            Get.to(
+                              () => _InternetSafetyDetailPage(
+                                section: section,
+                                sectionIndex: index,
+                              ),
+                            );
                           },
                           child: Stack(
                             children: [
                               Center(
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 65,
-                                      height: 65,
+                                      width: 65.w,
+                                      height: 65.h,
                                       decoration: BoxDecoration(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.25),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
                                         child: Text(
                                           section['emoji'],
-                                          style: const TextStyle(
-                                              fontSize: 32),
+                                          style: const TextStyle(fontSize: 32),
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow:
-                                          TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      section['subtitle'],
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 11,
-                                        color: Colors.white
-                                            .withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w600,
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
                               ),
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 4,
-                                  right: 4,
+                                  bottom: 4.h,
+                                  right: 4.w,
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.all(2),
-                                    decoration:
-                                        const BoxDecoration(
+                                    padding: EdgeInsets.all(2.r),
+                                    decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: 12,
+                                      size: 12.r,
                                     ),
                                   ),
                                 ),
@@ -475,8 +456,7 @@ class _InternetSafetyDetailPage extends StatefulWidget {
       _InternetSafetyDetailPageState();
 }
 
-class _InternetSafetyDetailPageState
-    extends State<_InternetSafetyDetailPage>
+class _InternetSafetyDetailPageState extends State<_InternetSafetyDetailPage>
     with TickerProviderStateMixin, GridAnimationsMixin {
   Map<String, dynamic> get section => widget.section;
   int get sectionIndex => widget.sectionIndex;
@@ -507,28 +487,30 @@ class _InternetSafetyDetailPageState
         children: [
           ..._buildFloatingBubbles(),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 // Header card
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 20,
+                        blurRadius: 20.r,
                         offset: const Offset(0, 10),
                       ),
                     ],
                   ),
                   child: Column(
                     children: [
-                      Text(section['emoji'],
-                          style: const TextStyle(fontSize: 50)),
-                      const SizedBox(height: 12),
+                      Text(
+                        section['emoji'],
+                        style: const TextStyle(fontSize: 50),
+                      ),
+                      SizedBox(height: 12.h),
                       Text(
                         section['title'],
                         style: GoogleFonts.poppins(
@@ -539,7 +521,7 @@ class _InternetSafetyDetailPageState
                         textAlign: TextAlign.center,
                       ),
                       if (section.containsKey('content')) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         Text(
                           section['content'],
                           style: GoogleFonts.nunito(
@@ -550,7 +532,7 @@ class _InternetSafetyDetailPageState
                         ),
                       ],
                       if (section.containsKey('intro')) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         Text(
                           section['intro'],
                           style: GoogleFonts.nunito(
@@ -563,7 +545,7 @@ class _InternetSafetyDetailPageState
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildContent(),
               ],
             ),
@@ -604,31 +586,36 @@ class _InternetSafetyDetailPageState
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(0),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(0)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    0,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: (section['visualItems'] as List)
-                  .map<Widget>((item) {
+              children: (section['visualItems'] as List).map<Widget>((item) {
                 return Column(
                   children: [
-                    Text(item['emoji'],
-                        style: const TextStyle(fontSize: 36)),
+                    Flexible(
+                      child: Text(
+                        item['emoji'],
+                        style: const TextStyle(fontSize: 36),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     if ((item['label'] as String).isNotEmpty)
                       Text(
                         item['label'],
@@ -643,44 +630,43 @@ class _InternetSafetyDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         // Good things
-        ...List.generate(
-            (section['goodThings'] as List).length, (index) {
+        ...List.generate((section['goodThings'] as List).length, (index) {
           final thing = section['goodThings'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 1);
+          final gradient = AppColors.getGradientForIndex(index + 1);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle,
-                      color: Colors.white70, size: 22),
-                  const SizedBox(width: 12),
-                  Text(
-                    thing,
-                    style: GoogleFonts.nunito(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                  Icon(Icons.check_circle, color: Colors.white70, size: 22.r),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Text(
+                      thing,
+                      style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -700,28 +686,26 @@ class _InternetSafetyDetailPageState
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFFF5252), Color(0xFFFF1744)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color:
-                      Color(0xFFFF5252).withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: Color(0xFFFF5252).withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Row(
               children: [
-                const Text('🚨',
-                    style: TextStyle(fontSize: 24)),
-                const SizedBox(width: 8),
+                const Text('🚨', style: TextStyle(fontSize: 24)),
+                SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
                     section['warning'],
@@ -735,37 +719,35 @@ class _InternetSafetyDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         // Never share items
-        ...List.generate(
-            (section['neverShare'] as List).length, (index) {
+        ...List.generate((section['neverShare'] as List).length, (index) {
           final item = section['neverShare'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       item['item'],
@@ -776,32 +758,28 @@ class _InternetSafetyDetailPageState
                       ),
                     ),
                   ),
-                  const Icon(Icons.close,
-                      color: Colors.white70),
+                  const Icon(Icons.close, color: Colors.white70),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Tip
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
-              const Text('💡',
-                  style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
+              const Text('💡', style: TextStyle(fontSize: 24)),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['tip'],
-                  style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: GoogleFonts.nunito(fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -816,39 +794,36 @@ class _InternetSafetyDetailPageState
     return Column(
       children: [
         // Good password tips
-        ...List.generate(
-            (section['goodPassword'] as List).length, (index) {
+        ...List.generate((section['goodPassword'] as List).length, (index) {
           final item = section['goodPassword'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           item['rule'],
@@ -872,24 +847,23 @@ class _InternetSafetyDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Bad passwords
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFFF5252), Color(0xFFFF1744)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color:
-                      Color(0xFFFF5252).withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: Color(0xFFFF5252).withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -904,19 +878,19 @@ class _InternetSafetyDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: (section['badPassword'] as List)
-                      .map<Widget>((bad) {
+                  spacing: 8.r,
+                  runSpacing: 8.r,
+                  children: (section['badPassword'] as List).map<Widget>((bad) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.white
-                            .withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white.withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         bad,
@@ -932,24 +906,22 @@ class _InternetSafetyDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         // Remember
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
             children: [
-              const Text('🔑',
-                  style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 10),
+              const Text('🔑', style: TextStyle(fontSize: 24)),
+              SizedBox(width: 10.w),
               Expanded(
                 child: Text(
                   section['remember'],
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.bold),
+                  style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -967,28 +939,26 @@ class _InternetSafetyDetailPageState
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFFF9800), Color(0xFFFF5722)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color:
-                      Color(0xFFFF9800).withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: Color(0xFFFF9800).withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Row(
               children: [
-                const Text('⚠️',
-                    style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 12),
+                const Text('⚠️', style: TextStyle(fontSize: 28)),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     section['message'],
@@ -1002,28 +972,27 @@ class _InternetSafetyDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         // Rules
-        ...List.generate(
-            (section['rules'] as List).length, (index) {
+        ...List.generate((section['rules'] as List).length, (index) {
           final rule = section['rules'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1031,19 +1000,20 @@ class _InternetSafetyDetailPageState
               child: Row(
                 children: [
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 45.w,
+                    height: 45.h,
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Center(
-                      child: Text(rule['emoji'],
-                          style: const TextStyle(fontSize: 22)),
+                      child: Text(
+                        rule['emoji'],
+                        style: const TextStyle(fontSize: 22),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       rule['rule'],
@@ -1059,25 +1029,22 @@ class _InternetSafetyDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Remember
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
-              const Text('💭',
-                  style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
+              const Text('💭', style: TextStyle(fontSize: 24)),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['remember'],
-                  style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -1092,35 +1059,33 @@ class _InternetSafetyDetailPageState
     return Column(
       children: [
         // Safe signals
-        ...List.generate(
-            (section['safeSignals'] as List).length, (index) {
+        ...List.generate((section['safeSignals'] as List).length, (index) {
           final item = section['safeSignals'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       '✅ ${item['signal']}',
@@ -1136,38 +1101,35 @@ class _InternetSafetyDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Danger signs
-        ...List.generate(
-            (section['dangerSigns'] as List).length, (index) {
+        ...List.generate((section['dangerSigns'] as List).length, (index) {
           final item = section['dangerSigns'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 4);
+          final gradient = AppColors.getGradientForIndex(index + 4);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       '❌ ${item['sign']}',
@@ -1195,19 +1157,20 @@ class _InternetSafetyDetailPageState
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(0),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(0)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    0,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1222,16 +1185,14 @@ class _InternetSafetyDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ...(section['whatItIs'] as List).map((item) {
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
-                        const Icon(Icons.remove,
-                            size: 16, color: Colors.white70),
-                        const SizedBox(width: 8),
+                        Icon(Icons.remove, size: 16.r, color: Colors.white70),
+                        SizedBox(width: 8.w),
                         Text(
                           item,
                           style: GoogleFonts.nunito(
@@ -1247,38 +1208,35 @@ class _InternetSafetyDetailPageState
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         // What to do
-        ...List.generate(
-            (section['whatToDo'] as List).length, (index) {
+        ...List.generate((section['whatToDo'] as List).length, (index) {
           final item = section['whatToDo'][index];
-          final gradient =
-              AppColors.getGradientForIndex(index + 1);
+          final gradient = AppColors.getGradientForIndex(index + 1);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Text(item['emoji'],
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                  SizedBox(width: 12.w),
                   Text(
                     item['action'],
                     style: GoogleFonts.nunito(
@@ -1292,25 +1250,22 @@ class _InternetSafetyDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Golden rule
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.amber,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Row(
             children: [
-              const Text('💝',
-                  style: TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
+              const Text('💝', style: TextStyle(fontSize: 28)),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Text(
                   section['golden'],
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -1325,26 +1280,25 @@ class _InternetSafetyDetailPageState
     return Column(
       children: [
         // Balance activities
-        ...List.generate(
-            (section['balance'] as List).length, (index) {
+        ...List.generate((section['balance'] as List).length, (index) {
           final item = section['balance'][index];
           final gradient = AppColors.getGradientForIndex(index);
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
                     color: gradient[0].withValues(alpha: 0.4),
-                    blurRadius: 8,
+                    blurRadius: 8.r,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -1352,22 +1306,25 @@ class _InternetSafetyDetailPageState
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
-                      color:
-                          Colors.white.withValues(alpha: 0.25),
+                      color: Colors.white.withValues(alpha: 0.25),
                       shape: BoxShape.circle,
                     ),
-                    child: Text(item['emoji'],
-                        style: const TextStyle(fontSize: 24)),
+                    child: Text(
+                      item['emoji'],
+                      style: const TextStyle(fontSize: 24),
+                    ),
                   ),
-                  const SizedBox(width: 14),
-                  Text(
-                    item['activity'],
-                    style: GoogleFonts.nunito(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                  SizedBox(width: 14.w),
+                  Expanded(
+                    child: Text(
+                      item['activity'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -1375,24 +1332,25 @@ class _InternetSafetyDetailPageState
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Tips
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.getGradientForIndex(6),
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.getGradientForIndex(6)[0]
-                      .withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  color: AppColors.getGradientForIndex(
+                    6,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
@@ -1407,16 +1365,18 @@ class _InternetSafetyDetailPageState
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 ...(section['tips'] as List).map((tip) {
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
                     child: Row(
                       children: [
-                        const Icon(Icons.check_circle,
-                            size: 18, color: Colors.white70),
-                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.check_circle,
+                          size: 18.r,
+                          color: Colors.white70,
+                        ),
+                        SizedBox(width: 8.w),
                         Expanded(
                           child: Text(
                             tip,
@@ -1440,35 +1400,33 @@ class _InternetSafetyDetailPageState
 
   Widget _buildDigitalCitizen() {
     return Column(
-      children: List.generate(
-          (section['pledges'] as List).length, (index) {
+      children: List.generate((section['pledges'] as List).length, (index) {
         final item = section['pledges'][index];
         final gradient = AppColors.getGradientForIndex(index);
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: gradient,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: gradient[0].withValues(alpha: 0.4),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Row(
               children: [
-                Text(item['emoji'],
-                    style: const TextStyle(fontSize: 24)),
-                const SizedBox(width: 12),
+                Text(item['emoji'], style: const TextStyle(fontSize: 24)),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     item['pledge'],
@@ -1479,8 +1437,7 @@ class _InternetSafetyDetailPageState
                     ),
                   ),
                 ),
-                const Icon(Icons.check_circle,
-                    color: Colors.white70),
+                const Icon(Icons.check_circle, color: Colors.white70),
               ],
             ),
           ),

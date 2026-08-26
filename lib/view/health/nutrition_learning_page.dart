@@ -9,6 +9,8 @@ import 'package:jiyan_learning/utils/grid_animations_mixin.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class NutritionLearningPage extends StatefulWidget {
   const NutritionLearningPage({super.key});
 
@@ -18,8 +20,9 @@ class NutritionLearningPage extends StatefulWidget {
 
 class _NutritionLearningPageState extends State<NutritionLearningPage>
     with TickerProviderStateMixin, GridAnimationsMixin {
-  final NutritionLearningController controller =
-      Get.put(NutritionLearningController());
+  final NutritionLearningController controller = Get.put(
+    NutritionLearningController(),
+  );
 
   @override
   void initState() {
@@ -40,12 +43,12 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => controller.resetExpanded(),
         ),
@@ -62,36 +65,43 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
               ProgressService.kNutritionLearning,
             );
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -104,11 +114,11 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
           }),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                mainAxisSpacing: 16.r,
+                crossAxisSpacing: 16.r,
                 childAspectRatio: 1.1,
               ),
               itemCount: controller.sections.length,
@@ -126,9 +136,8 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
                         TtsService.to.speak(section['title']);
                         controller.toggleExpanded(index);
                         Get.to(
-                          () => NutritionLearningDetailPage(
-                            sectionIndex: index,
-                          ),
+                          () =>
+                              NutritionLearningDetailPage(sectionIndex: index),
                         );
                       },
                       child: Container(
@@ -138,11 +147,11 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                           boxShadow: [
                             BoxShadow(
                               color: gradient[0].withValues(alpha: 0.4),
-                              blurRadius: 8,
+                              blurRadius: 8.r,
                               offset: const Offset(0, 4),
                             ),
                           ],
@@ -150,11 +159,11 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
                         child: Stack(
                           children: [
                             Positioned(
-                              top: -15,
-                              right: -15,
+                              top: -15.h,
+                              right: -15.w,
                               child: Container(
-                                width: 50,
-                                height: 50,
+                                width: 50.w,
+                                height: 50.h,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white.withValues(alpha: 0.1),
@@ -163,13 +172,13 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
                             ),
                             Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: EdgeInsets.all(8.r),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 75,
-                                      height: 75,
+                                      width: 75.w,
+                                      height: 75.h,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withValues(
                                           alpha: 0.3,
@@ -183,7 +192,7 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    SizedBox(height: 8.h),
                                     Text(
                                       section['title'],
                                       style: GoogleFonts.nunito(
@@ -202,18 +211,18 @@ class _NutritionLearningPageState extends State<NutritionLearningPage>
                             ),
                             if (isCompleted)
                               Positioned(
-                                bottom: 4,
-                                right: 4,
+                                bottom: 4.h,
+                                right: 4.w,
                                 child: Container(
-                                  padding: const EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(2.r),
                                   decoration: const BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.check,
                                     color: Colors.white,
-                                    size: 12,
+                                    size: 12.r,
                                   ),
                                 ),
                               ),

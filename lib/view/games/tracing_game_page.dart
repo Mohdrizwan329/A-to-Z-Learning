@@ -2,6 +2,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class TracingGamePage extends StatefulWidget {
   const TracingGamePage({super.key});
 
@@ -226,7 +228,8 @@ class _TracingGamePageState extends State<TracingGamePage>
         animation: _bubbleController,
         builder: (context, child) {
           final progress = (_bubbleController.value + index * 0.15) % 1.0;
-          final top = startTop - (progress * MediaQuery.of(context).size.height * 0.5);
+          final top =
+              startTop - (progress * MediaQuery.of(context).size.height * 0.5);
           final opacity = (1 - progress).clamp(0.0, 0.15);
 
           return Positioned(
@@ -308,15 +311,15 @@ class _TracingGamePageState extends State<TracingGamePage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Navigator.pop(context),
@@ -342,12 +345,12 @@ class _TracingGamePageState extends State<TracingGamePage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetAll,
           ),
@@ -355,7 +358,7 @@ class _TracingGamePageState extends State<TracingGamePage>
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(
@@ -368,7 +371,7 @@ class _TracingGamePageState extends State<TracingGamePage>
             fontWeight: FontWeight.w500,
             color: Colors.white70,
           ),
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: 'A-Z'),
             Tab(text: 'a-z'),
@@ -396,395 +399,467 @@ class _TracingGamePageState extends State<TracingGamePage>
             // Floating bubbles background
             ..._buildFloatingBubbles(),
             SafeArea(
-              child: Column(
-            children: [
-              // Progress bar
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: LayoutBuilder(
+                // Portrait-shaped content: in landscape the body is barely 300pt tall,
+                // which is shorter than this column needs. Scroll when that happens and
+                // stay exactly as before whenever there is room.
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      // A LayoutBuilder can sit inside another scrollable, where
+                      // maxHeight is infinite; a minHeight of infinity
+                      // is not a constraint anything can satisfy.
+                      minHeight: constraints.maxHeight.isFinite
+                          ? constraints.maxHeight
+                          : 0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          _currentModeName,
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 14,
+                        // Progress bar
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 8.h,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    _currentModeName,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${_completedItems.length}/${_currentList.length} completed',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8.h),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: LinearProgressIndicator(
+                                  value: _currentList.isEmpty
+                                      ? 0
+                                      : _completedItems.length /
+                                            _currentList.length,
+                                  backgroundColor: Colors.white.withValues(
+                                    alpha: 0.2,
+                                  ),
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                        Color(0xFF56D97F),
+                                      ),
+                                  minHeight: 10.h,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          '${_completedItems.length}/${_currentList.length} completed',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+
+                        // Progress indicator
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 8.h,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 6.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                child: Text(
+                                  '${_currentIndex + 1} / ${_currentList.length}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '✓ ${_completedItems.length}',
+                                style: const TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+
+                        // Tracing Canvas. Flexible so the canvas gives up the last
+                        // few pixels on a short screen instead of the whole column
+                        // overflowing; it keeps its full height wherever there is
+                        // room.
+                        Flexible(
+                          child: Container(
+                            height: 320.h,
+                            margin: EdgeInsets.symmetric(horizontal: 16.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  blurRadius: 15.r,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(24.r),
+                              child: Stack(
+                                children: [
+                                  // Background letter/number to trace
+                                  Center(
+                                    child: Text(
+                                      _currentList[_currentIndex],
+                                      style: TextStyle(
+                                        fontSize: 250,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Dotted guide (simplified)
+                                  Center(
+                                    child: Text(
+                                      _currentList[_currentIndex],
+                                      style: TextStyle(
+                                        fontSize: 250,
+                                        fontWeight: FontWeight.bold,
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 3
+                                          ..color = Colors.grey.withValues(
+                                            alpha: 0.4,
+                                          ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Drawing canvas with letter clipping
+                                  GestureDetector(
+                                    onPanStart: _onPanStart,
+                                    onPanUpdate: _onPanUpdate,
+                                    onPanEnd: _onPanEnd,
+                                    child: CustomPaint(
+                                      size: Size.infinite,
+                                      painter: TracingPainter(
+                                        points: _points,
+                                        letter: _currentList[_currentIndex],
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Completed indicator
+                                  if (_completedItems.contains(_currentIndex))
+                                    Positioned(
+                                      top: 16.h,
+                                      right: 16.w,
+                                      child: Container(
+                                        padding: EdgeInsets.all(12.r),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.green,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                          size: 32.r,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: 40.h),
+
+                        // Controls
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Flexible(
+                                child: // Previous Button
+                                GestureDetector(
+                                  onTap: _currentIndex > 0
+                                      ? _previousItem
+                                      : null,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                      vertical: 12.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: _currentIndex > 0
+                                            ? [
+                                                const Color(0xFF667EEA),
+                                                const Color(0xFF764BA2),
+                                              ]
+                                            : [
+                                                Colors.grey.shade400,
+                                                Colors.grey.shade500,
+                                              ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(25.r),
+                                      boxShadow: _currentIndex > 0
+                                          ? [
+                                              BoxShadow(
+                                                color: const Color(
+                                                  0xFF667EEA,
+                                                ).withValues(alpha: 0.4),
+                                                blurRadius: 8.r,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ]
+                                          : null,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.arrow_back,
+                                          color: Colors.white,
+                                          size: 18.r,
+                                        ),
+                                        SizedBox(width: 6.w),
+                                        Flexible(
+                                          child: Text(
+                                            'Prev',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Flexible(
+                                child: // Clear Button
+                                GestureDetector(
+                                  onTap: _clearDrawing,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                      vertical: 12.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFFFF6B6B),
+                                          Color(0xFFFF8E53),
+                                          Color(0xFFFFAA5A),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(25.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xFFFF6B6B,
+                                          ).withValues(alpha: 0.4),
+                                          blurRadius: 8.r,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.refresh,
+                                          color: Colors.white,
+                                          size: 18.r,
+                                        ),
+                                        SizedBox(width: 6.w),
+                                        Flexible(
+                                          child: Text(
+                                            'Clear',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Flexible(
+                                child: // Next Button
+                                GestureDetector(
+                                  onTap: _currentIndex < _currentList.length - 1
+                                      ? _nextItem
+                                      : null,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                      vertical: 12.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors:
+                                            _currentIndex <
+                                                _currentList.length - 1
+                                            ? [
+                                                const Color(0xFF56D97F),
+                                                const Color(0xFF4ECDC4),
+                                              ]
+                                            : [
+                                                Colors.grey.shade400,
+                                                Colors.grey.shade500,
+                                              ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(25.r),
+                                      boxShadow:
+                                          _currentIndex <
+                                              _currentList.length - 1
+                                          ? [
+                                              BoxShadow(
+                                                color: const Color(
+                                                  0xFF56D97F,
+                                                ).withValues(alpha: 0.4),
+                                                blurRadius: 8.r,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ]
+                                          : null,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            'Next',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        SizedBox(width: 6.w),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          color: Colors.white,
+                                          size: 18.r,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 50.h),
+
+                        // Letter/Number selection row
+                        SizedBox(
+                          height: 100.h,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            itemCount: _currentList.length,
+                            itemBuilder: (context, index) {
+                              final isSelected = index == _currentIndex;
+                              final isCompleted = _completedItems.contains(
+                                index,
+                              );
+
+                              return GestureDetector(
+                                onTap: () {
+                                  TtsService.to.speak(_currentList[index]);
+                                  setState(() {
+                                    _currentIndex = index;
+                                    _points = [];
+                                  });
+                                },
+                                child: Container(
+                                  width: 85.w,
+                                  height: 85.h,
+                                  margin: EdgeInsets.symmetric(horizontal: 8.w),
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? const Color(0xFFFF6B6B)
+                                        : isCompleted
+                                        ? Colors.green
+                                        : Colors.white.withValues(alpha: 0.2),
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border: isSelected
+                                        ? Border.all(
+                                            color: Colors.white,
+                                            width: 2,
+                                          )
+                                        : null,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      _currentList[index],
+                                      style: TextStyle(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.bold,
+                                        color: isSelected || isCompleted
+                                            ? Colors.white
+                                            : Colors.white70,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+                        SizedBox(height: 16.h),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: LinearProgressIndicator(
-                        value: _currentList.isEmpty
-                            ? 0
-                            : _completedItems.length / _currentList.length,
-                        backgroundColor: Colors.white.withValues(alpha: 0.2),
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF56D97F),
-                        ),
-                        minHeight: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Progress indicator
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        '${_currentIndex + 1} / ${_currentList.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      '✓ ${_completedItems.length}',
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Tracing Canvas
-              Container(
-                height: 320,
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 15,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Stack(
-                    children: [
-                      // Background letter/number to trace
-                      Center(
-                        child: Text(
-                          _currentList[_currentIndex],
-                          style: TextStyle(
-                            fontSize: 250,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey.withValues(alpha: 0.2),
-                          ),
-                        ),
-                      ),
-
-                      // Dotted guide (simplified)
-                      Center(
-                        child: Text(
-                          _currentList[_currentIndex],
-                          style: TextStyle(
-                            fontSize: 250,
-                            fontWeight: FontWeight.bold,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 3
-                              ..color = Colors.grey.withValues(alpha: 0.4),
-                          ),
-                        ),
-                      ),
-
-                      // Drawing canvas with letter clipping
-                      GestureDetector(
-                        onPanStart: _onPanStart,
-                        onPanUpdate: _onPanUpdate,
-                        onPanEnd: _onPanEnd,
-                        child: CustomPaint(
-                          size: Size.infinite,
-                          painter: TracingPainter(
-                            points: _points,
-                            letter: _currentList[_currentIndex],
-                          ),
-                        ),
-                      ),
-
-                      // Completed indicator
-                      if (_completedItems.contains(_currentIndex))
-                        Positioned(
-                          top: 16,
-                          right: 16,
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: const BoxDecoration(
-                              color: Colors.green,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 32,
-                            ),
-                          ),
-                        ),
-                    ],
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 40),
-
-              // Controls
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // Previous Button
-                    GestureDetector(
-                      onTap: _currentIndex > 0 ? _previousItem : null,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: _currentIndex > 0
-                                ? [
-                                    const Color(0xFF667EEA),
-                                    const Color(0xFF764BA2),
-                                  ]
-                                : [Colors.grey.shade400, Colors.grey.shade500],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: _currentIndex > 0
-                              ? [
-                                  BoxShadow(
-                                    color: const Color(
-                                      0xFF667EEA,
-                                    ).withValues(alpha: 0.4),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ]
-                              : null,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Prev',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // Clear Button
-                    GestureDetector(
-                      onTap: _clearDrawing,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(
-                                0xFFFF6B6B,
-                              ).withValues(alpha: 0.4),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.refresh, color: Colors.white, size: 18),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Clear',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // Next Button
-                    GestureDetector(
-                      onTap: _currentIndex < _currentList.length - 1
-                          ? _nextItem
-                          : null,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: _currentIndex < _currentList.length - 1
-                                ? [
-                                    const Color(0xFF56D97F),
-                                    const Color(0xFF4ECDC4),
-                                  ]
-                                : [Colors.grey.shade400, Colors.grey.shade500],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: _currentIndex < _currentList.length - 1
-                              ? [
-                                  BoxShadow(
-                                    color: const Color(
-                                      0xFF56D97F,
-                                    ).withValues(alpha: 0.4),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ]
-                              : null,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 50),
-
-              // Letter/Number selection row
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: _currentList.length,
-                  itemBuilder: (context, index) {
-                    final isSelected = index == _currentIndex;
-                    final isCompleted = _completedItems.contains(index);
-
-                    return GestureDetector(
-                      onTap: () {
-                        TtsService.to.speak(_currentList[index]);
-                        setState(() {
-                          _currentIndex = index;
-                          _points = [];
-                        });
-                      },
-                      child: Container(
-                        width: 85,
-                        height: 85,
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color(0xFFFF6B6B)
-                              : isCompleted
-                              ? Colors.green
-                              : Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
-                          border: isSelected
-                              ? Border.all(color: Colors.white, width: 2)
-                              : null,
-                        ),
-                        child: Center(
-                          child: Text(
-                            _currentList[index],
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: isSelected || isCompleted
-                                  ? Colors.white
-                                  : Colors.white70,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 16),
-                ],
               ),
             ),
           ],

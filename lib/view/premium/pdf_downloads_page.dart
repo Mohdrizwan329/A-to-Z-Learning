@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PdfDownloadsPage extends StatelessWidget {
   const PdfDownloadsPage({Key? key}) : super(key: key);
 
@@ -77,7 +79,7 @@ class PdfDownloadsPage extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -97,14 +99,19 @@ class PdfDownloadsPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           itemCount: pdfCategories.length,
           itemBuilder: (context, index) {
             final category = pdfCategories[index];
@@ -120,14 +127,14 @@ class PdfDownloadsPage extends StatelessWidget {
     final pdfs = category['pdfs'] as List<Map<String, dynamic>>;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.3),
-            blurRadius: 15,
+            blurRadius: 15.r,
             offset: const Offset(0, 8),
           ),
         ],
@@ -135,14 +142,14 @@ class PdfDownloadsPage extends StatelessWidget {
       child: Theme(
         data: ThemeData().copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          childrenPadding: const EdgeInsets.only(bottom: 16),
+          tilePadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+          childrenPadding: EdgeInsets.only(bottom: 16.h),
           leading: Container(
-            width: 50,
-            height: 50,
+            width: 50.w,
+            height: 50.h,
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
               child: Text(
@@ -174,30 +181,26 @@ class PdfDownloadsPage extends StatelessWidget {
     final RxBool isDownloaded = false.obs;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
       child: Container(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           color: Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(color: Colors.grey.shade200),
         ),
         child: Row(
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 40.w,
+              height: 40.h,
               decoration: BoxDecoration(
                 color: Colors.red.shade50,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
               ),
-              child: const Icon(
-                Icons.picture_as_pdf,
-                color: Colors.red,
-                size: 24,
-              ),
+              child: Icon(Icons.picture_as_pdf, color: Colors.red, size: 24.r),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,10 +222,10 @@ class PdfDownloadsPage extends StatelessWidget {
             Obx(() {
               if (isDownloading.value) {
                 return SizedBox(
-                  width: 24,
-                  height: 24,
+                  width: 24.w,
+                  height: 24.h,
                   child: CircularProgressIndicator(
-                    strokeWidth: 2,
+                    strokeWidth: 2.r,
                     valueColor: AlwaysStoppedAnimation<Color>(color),
                   ),
                 );
@@ -236,11 +239,7 @@ class PdfDownloadsPage extends StatelessWidget {
                       onPressed: () => _viewPdf(pdf['name']),
                       tooltip: 'View',
                     ),
-                    const Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 24,
-                    ),
+                    Icon(Icons.check_circle, color: Colors.green, size: 24.r),
                   ],
                 );
               }
@@ -270,14 +269,16 @@ class PdfDownloadsPage extends StatelessWidget {
   void _viewPdf(String pdfName) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.picture_as_pdf, size: 60, color: Colors.red),
-              const SizedBox(height: 16),
+              Icon(Icons.picture_as_pdf, size: 60.r, color: Colors.red),
+              SizedBox(height: 16.h),
               Text(
                 pdfName,
                 style: const TextStyle(
@@ -286,12 +287,12 @@ class PdfDownloadsPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Container(
-                height: 200,
+                height: 200.h,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Center(
                   child: Column(
@@ -299,10 +300,10 @@ class PdfDownloadsPage extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.description,
-                        size: 50,
+                        size: 50.r,
                         color: Colors.grey.shade400,
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         'PDF Preview',
                         style: TextStyle(color: Colors.grey.shade600),
@@ -311,7 +312,7 @@ class PdfDownloadsPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Row(
                 children: [
                   Expanded(
@@ -320,7 +321,7 @@ class PdfDownloadsPage extends StatelessWidget {
                       child: const Text('Close'),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {

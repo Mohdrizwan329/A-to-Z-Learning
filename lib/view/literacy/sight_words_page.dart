@@ -10,6 +10,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SightWordsPage extends StatefulWidget {
   const SightWordsPage({super.key});
 
@@ -81,12 +83,12 @@ class _SightWordsPageState extends State<SightWordsPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             controller.resetProgress();
@@ -108,39 +110,46 @@ class _SightWordsPageState extends State<SightWordsPage>
                 levelsCompleted++;
               }
             }
-            final progress =
-                totalLevels > 0 ? levelsCompleted / totalLevels : 0.0;
+            final progress = totalLevels > 0
+                ? levelsCompleted / totalLevels
+                : 0.0;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$levelsCompleted/$totalLevels completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$levelsCompleted/$totalLevels completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -154,11 +163,11 @@ class _SightWordsPageState extends State<SightWordsPage>
           // Level cards grid (2x2)
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              padding: EdgeInsets.fromLTRB(12.w, 12.h, 12.w, 12.h),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                mainAxisSpacing: 16.r,
+                crossAxisSpacing: 16.r,
                 childAspectRatio: 1.0,
               ),
               itemCount: levelCards.length,
@@ -171,10 +180,10 @@ class _SightWordsPageState extends State<SightWordsPage>
 
                 return Obx(() {
                   final isSelected = selectedIndex == index;
-                  final completed =
-                      ProgressService.to.getCompletedCount(progressKey);
-                  final total =
-                      ProgressService.to.getTotalCount(progressKey);
+                  final completed = ProgressService.to.getCompletedCount(
+                    progressKey,
+                  );
+                  final total = ProgressService.to.getTotalCount(progressKey);
 
                   return buildFloatingItem(
                     index: index,
@@ -188,9 +197,9 @@ class _SightWordsPageState extends State<SightWordsPage>
                           selectedIndex = index;
                         });
                         controller.selectLevel(levelIndex);
-                        Get.to(() => SightWordsDetailPage(
-                              levelIndex: levelIndex,
-                            ));
+                        Get.to(
+                          () => SightWordsDetailPage(levelIndex: levelIndex),
+                        );
                       },
                       child: Stack(
                         children: [
@@ -199,11 +208,10 @@ class _SightWordsPageState extends State<SightWordsPage>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 65,
-                                  height: 65,
+                                  width: 65.w,
+                                  height: 65.h,
                                   decoration: BoxDecoration(
-                                    color:
-                                        Colors.white.withValues(alpha: 0.25),
+                                    color: Colors.white.withValues(alpha: 0.25),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
@@ -213,30 +221,40 @@ class _SightWordsPageState extends State<SightWordsPage>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  card['name'],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                SizedBox(height: 8.h),
+                                // `maxLines` alone was not enough: the text
+                                // still claimed its full two lines. Flexible
+                                // lets the tile shorten it when it must.
+                                Flexible(
+                                  child: Text(
+                                    card['name'],
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  card['subtitle'],
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 11,
-                                    color:
-                                        Colors.white.withValues(alpha: 0.9),
-                                    fontWeight: FontWeight.w600,
+                                SizedBox(height: 2.h),
+                                Flexible(
+                                  child: Text(
+                                    card['subtitle'],
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 11,
+                                      color: Colors.white.withValues(
+                                        alpha: 0.9,
+                                      ),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4.h),
                                 Text(
                                   '$completed/$total',
                                   style: GoogleFonts.poppins(
@@ -251,18 +269,18 @@ class _SightWordsPageState extends State<SightWordsPage>
                           // Checkmark if all completed
                           if (completed >= total)
                             Positioned(
-                              bottom: 4,
-                              right: 4,
+                              bottom: 4.h,
+                              right: 4.w,
                               child: Container(
-                                padding: const EdgeInsets.all(2),
+                                padding: EdgeInsets.all(2.r),
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.check,
                                   color: Colors.white,
-                                  size: 12,
+                                  size: 12.r,
                                 ),
                               ),
                             ),

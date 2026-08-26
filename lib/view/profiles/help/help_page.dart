@@ -6,6 +6,8 @@ import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view%20model/setting%20controller/help_controller.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
 
@@ -170,34 +172,30 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -212,7 +210,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -227,74 +225,71 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
       animation: _floatAnimation,
       builder: (context, child) {
         final offset = _floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(AppTheme.spacingL),
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.support_agent_rounded,
-                  color: Colors.white,
-                  size: 32,
-                ),
-              ),
-            ),
-            SizedBox(width: AppTheme.spacingM),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'We\'re Here to Help!',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Parents, share your feedback to help us make learning better for your child.',
-                    style: GoogleFonts.nunito(
-                      fontSize: 14,
-                      color: Colors.white.withValues(alpha: 0.9),
-                      height: 1.3,
-                    ),
-                  ),
-                ],
-              ),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
-      ),
+        child: Padding(
+          padding: EdgeInsets.all(AppTheme.spacingL),
+          child: Row(
+            children: [
+              Container(
+                width: 60.w,
+                height: 60.h,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.support_agent_rounded,
+                    color: Colors.white,
+                    size: 32.r,
+                  ),
+                ),
+              ),
+              SizedBox(width: AppTheme.spacingM),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'We\'re Here to Help!',
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      'Parents, share your feedback to help us make learning better for your child.',
+                      style: GoogleFonts.nunito(
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -304,126 +299,127 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
       animation: _floatAnimation,
       builder: (context, child) {
         final offset = -_floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(AppTheme.spacingL),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(AppTheme.spacingL),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 40.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Icon(
+                        Icons.message_rounded,
+                        color: Colors.white,
+                        size: 22.r,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.message_rounded,
-                      color: Colors.white,
-                      size: 22,
+                    SizedBox(width: AppTheme.spacingS),
+                    Flexible(
+                      child: Text(
+                        'Send us a Message',
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: AppTheme.spacingS),
-                  Text(
-                    'Send us a Message',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: AppTheme.spacingM),
+                  ],
+                ),
+                SizedBox(height: AppTheme.spacingM),
 
-              // Name Field
-              _buildFieldLabel('Your Name', Icons.person_outline_rounded),
-              SizedBox(height: AppTheme.spacingS),
-              _buildTextField(
-                hint: 'Enter your name',
-                initialValue: controller.name.value,
-                onSaved: (v) => controller.name.value = v ?? '',
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: AppTheme.spacingM),
-
-              // Phone Field
-              _buildFieldLabel('Phone Number', Icons.phone_outlined),
-              SizedBox(height: AppTheme.spacingS),
-              _buildTextField(
-                hint: 'Enter phone number',
-                keyboardType: TextInputType.phone,
-                initialValue: controller.phone.value,
-                onSaved: (v) => controller.phone.value = v ?? '',
-              ),
-              SizedBox(height: AppTheme.spacingM),
-
-              // Email Field
-              _buildFieldLabel('Email Address', Icons.email_outlined),
-              SizedBox(height: AppTheme.spacingS),
-              _buildTextField(
-                hint: 'Enter email address',
-                keyboardType: TextInputType.emailAddress,
-                initialValue: controller.email.value,
-                onSaved: (v) => controller.email.value = v ?? '',
-                validator: (v) {
-                  if (v != null && v.isNotEmpty) {
-                    final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
-                    if (!emailRegex.hasMatch(v)) {
-                      return 'Please enter a valid email';
+                // Name Field
+                _buildFieldLabel('Your Name', Icons.person_outline_rounded),
+                SizedBox(height: AppTheme.spacingS),
+                _buildTextField(
+                  hint: 'Enter your name',
+                  initialValue: controller.name.value,
+                  onSaved: (v) => controller.name.value = v ?? '',
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return 'Please enter your name';
                     }
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: AppTheme.spacingM),
+                    return null;
+                  },
+                ),
+                SizedBox(height: AppTheme.spacingM),
 
-              // Message Field
-              _buildFieldLabel('Your Message', Icons.edit_note_rounded),
-              SizedBox(height: AppTheme.spacingS),
-              _buildTextField(
-                hint: 'Type your message here...',
-                maxLines: 4,
-                initialValue: controller.message.value,
-                onSaved: (v) => controller.message.value = v ?? '',
-              ),
-              SizedBox(height: AppTheme.spacingL),
+                // Phone Field
+                _buildFieldLabel('Phone Number', Icons.phone_outlined),
+                SizedBox(height: AppTheme.spacingS),
+                _buildTextField(
+                  hint: 'Enter phone number',
+                  keyboardType: TextInputType.phone,
+                  initialValue: controller.phone.value,
+                  onSaved: (v) => controller.phone.value = v ?? '',
+                ),
+                SizedBox(height: AppTheme.spacingM),
 
-              // Submit Button
-              _buildSubmitButton(),
-            ],
+                // Email Field
+                _buildFieldLabel('Email Address', Icons.email_outlined),
+                SizedBox(height: AppTheme.spacingS),
+                _buildTextField(
+                  hint: 'Enter email address',
+                  keyboardType: TextInputType.emailAddress,
+                  initialValue: controller.email.value,
+                  onSaved: (v) => controller.email.value = v ?? '',
+                  validator: (v) {
+                    if (v != null && v.isNotEmpty) {
+                      final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
+                      if (!emailRegex.hasMatch(v)) {
+                        return 'Please enter a valid email';
+                      }
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: AppTheme.spacingM),
+
+                // Message Field
+                _buildFieldLabel('Your Message', Icons.edit_note_rounded),
+                SizedBox(height: AppTheme.spacingS),
+                _buildTextField(
+                  hint: 'Type your message here...',
+                  maxLines: 4,
+                  initialValue: controller.message.value,
+                  onSaved: (v) => controller.message.value = v ?? '',
+                ),
+                SizedBox(height: AppTheme.spacingL),
+
+                // Submit Button
+                _buildSubmitButton(),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -432,27 +428,30 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
           ),
-          child: Icon(icon, color: Colors.white, size: 18),
+          child: Icon(icon, color: Colors.white, size: 18.r),
         ),
         SizedBox(width: AppTheme.spacingS),
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              ),
-            ],
+        Flexible(
+          child: Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 2.r,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -474,7 +473,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
       ),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.3),
           width: 1,
@@ -506,7 +505,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
           ),
           border: InputBorder.none,
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
         ),
       ),
     );
@@ -523,8 +522,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: const Color(0xFF4ECDC4),
             colorText: Colors.white,
-            borderRadius: 16,
-            margin: const EdgeInsets.all(16),
+            borderRadius: 16.r,
+            margin: EdgeInsets.all(16.r),
           );
         }
       },
@@ -537,11 +536,11 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-              blurRadius: 12,
+              blurRadius: 12.r,
               offset: const Offset(0, 6),
             ),
           ],
@@ -550,14 +549,17 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.send_rounded, color: Colors.white, size: 22),
+              Icon(Icons.send_rounded, color: Colors.white, size: 22.r),
               SizedBox(width: AppTheme.spacingS),
-              Text(
-                'Send Message',
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              Flexible(
+                child: Text(
+                  'Send Message',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

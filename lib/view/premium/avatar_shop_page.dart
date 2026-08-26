@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/services/avatar_coins_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AvatarShopPage extends StatefulWidget {
   const AvatarShopPage({super.key});
 
@@ -55,28 +57,29 @@ class _AvatarShopPageState extends State<AvatarShopPage>
         centerTitle: true,
         actions: [
           // Coin display
-          Obx(() => Container(
-                margin: const EdgeInsets.only(right: 16),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    const Text("🪙", style: TextStyle(fontSize: 16)),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${_avatarService.totalCoins.value}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+          Obx(
+            () => Container(
+              margin: EdgeInsets.only(right: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Row(
+                children: [
+                  const Text("🪙", style: TextStyle(fontSize: 16)),
+                  SizedBox(width: 4.w),
+                  Text(
+                    '${_avatarService.totalCoins.value}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
         bottom: TabBar(
           controller: _tabController,
@@ -84,7 +87,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: const [
             Tab(text: '👤 Avatars'),
             Tab(text: '👕 Outfits'),
@@ -96,7 +99,12 @@ class _AvatarShopPageState extends State<AvatarShopPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -106,30 +114,33 @@ class _AvatarShopPageState extends State<AvatarShopPage>
           children: [
             // Current Avatar Preview
             Container(
-              margin: const EdgeInsets.all(16),
-              padding: const EdgeInsets.all(20),
+              margin: EdgeInsets.all(16.r),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Obx(() {
-                final avatar = AvatarCoinsService.avatars[_avatarService.selectedAvatar.value];
-                final outfit = AvatarCoinsService.outfits[_avatarService.selectedOutfit.value];
-                final accessory = AvatarCoinsService.accessories[_avatarService.selectedAccessory.value];
+                final avatar = AvatarCoinsService
+                    .avatars[_avatarService.selectedAvatar.value];
+                final outfit = AvatarCoinsService
+                    .outfits[_avatarService.selectedOutfit.value];
+                final accessory = AvatarCoinsService
+                    .accessories[_avatarService.selectedAccessory.value];
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Avatar display
                     Container(
-                      width: 80,
-                      height: 80,
+                      width: 80.w,
+                      height: 80.h,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                           ),
                         ],
                       ),
@@ -140,7 +151,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -186,7 +197,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
             Obx(() {
               if (_avatarService.canClaimBonus.value) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: ElevatedButton.icon(
                     onPressed: () {
                       _avatarService.claimDailyBonus();
@@ -205,7 +216,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                       foregroundColor: Colors.white,
                       minimumSize: const Size(double.infinity, 45),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                   ),
@@ -214,17 +225,29 @@ class _AvatarShopPageState extends State<AvatarShopPage>
               return const SizedBox.shrink();
             }),
 
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
 
             // Shop Items
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildShopGrid(AvatarCoinsService.avatars.values.toList(), 'avatar'),
-                  _buildShopGrid(AvatarCoinsService.outfits.values.toList(), 'outfit'),
-                  _buildShopGrid(AvatarCoinsService.accessories.values.toList(), 'accessory'),
-                  _buildShopGrid(AvatarCoinsService.backgrounds.values.toList(), 'background'),
+                  _buildShopGrid(
+                    AvatarCoinsService.avatars.values.toList(),
+                    'avatar',
+                  ),
+                  _buildShopGrid(
+                    AvatarCoinsService.outfits.values.toList(),
+                    'outfit',
+                  ),
+                  _buildShopGrid(
+                    AvatarCoinsService.accessories.values.toList(),
+                    'accessory',
+                  ),
+                  _buildShopGrid(
+                    AvatarCoinsService.backgrounds.values.toList(),
+                    'background',
+                  ),
                 ],
               ),
             ),
@@ -236,11 +259,11 @@ class _AvatarShopPageState extends State<AvatarShopPage>
 
   Widget _buildShopGrid(List<ShopItem> items, String type) {
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(16.r),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
+        mainAxisSpacing: 16.r,
+        crossAxisSpacing: 16.r,
         childAspectRatio: 0.9,
       ),
       itemCount: items.length,
@@ -265,14 +288,14 @@ class _AvatarShopPageState extends State<AvatarShopPage>
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             border: isEquipped
                 ? Border.all(color: Colors.amber, width: 3)
                 : null,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -281,14 +304,14 @@ class _AvatarShopPageState extends State<AvatarShopPage>
             children: [
               // Item content
               Padding(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.r),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Emoji
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                       decoration: BoxDecoration(
                         color: _getCategoryColor(type).withValues(alpha: 0.2),
                         shape: BoxShape.circle,
@@ -300,26 +323,30 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     // Name
-                    Text(
-                      item.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                    Flexible(
+                      child: Text(
+                        item.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     // Category badge
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 2.h,
+                      ),
                       decoration: BoxDecoration(
                         color: _getCategoryColor(type),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Text(
                         type.toUpperCase(),
@@ -330,15 +357,17 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     // Price or status
                     if (isOwned)
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
                           color: isEquipped ? Colors.amber : Colors.green,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
                           isEquipped ? 'EQUIPPED' : 'OWNED',
@@ -351,11 +380,13 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                       )
                     else if (item.price == 0)
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: const Text(
                           'FREE',
@@ -368,17 +399,19 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                       )
                     else
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
                           color: canAfford ? Colors.amber : Colors.grey,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Text("🪙", style: TextStyle(fontSize: 12)),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Text(
                               '${item.price}',
                               style: const TextStyle(
@@ -398,14 +431,10 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.lock,
-                        color: Colors.white,
-                        size: 32,
-                      ),
+                    child: Center(
+                      child: Icon(Icons.lock, color: Colors.white, size: 32.r),
                     ),
                   ),
                 ),
@@ -476,11 +505,13 @@ class _AvatarShopPageState extends State<AvatarShopPage>
   void _showPurchaseDialog(ShopItem item) {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         title: Row(
           children: [
             Text(item.emoji, style: const TextStyle(fontSize: 32)),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Expanded(
               child: Text(
                 item.price == 0 ? 'Get ${item.name}?' : 'Buy ${item.name}?',
@@ -492,14 +523,16 @@ class _AvatarShopPageState extends State<AvatarShopPage>
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(item.description ?? 'A cool ${item.category} for your avatar!'),
-            const SizedBox(height: 16),
+            Text(
+              item.description ?? 'A cool ${item.category} for your avatar!',
+            ),
+            SizedBox(height: 16.h),
             if (item.price > 0)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("🪙", style: TextStyle(fontSize: 24)),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     '${item.price}',
                     style: const TextStyle(
@@ -522,10 +555,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               final result = _avatarService.purchaseItem(item);
@@ -548,9 +578,7 @@ class _AvatarShopPageState extends State<AvatarShopPage>
                 );
               }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
             child: Text(item.price == 0 ? 'Get' : 'Buy'),
           ),
         ],

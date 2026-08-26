@@ -7,6 +7,8 @@ import 'dart:math' as math;
 import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AttentionTrainingPage extends StatefulWidget {
   const AttentionTrainingPage({super.key});
 
@@ -14,7 +16,8 @@ class AttentionTrainingPage extends StatefulWidget {
   State<AttentionTrainingPage> createState() => _AttentionTrainingPageState();
 }
 
-class _AttentionTrainingPageState extends State<AttentionTrainingPage> with TickerProviderStateMixin {
+class _AttentionTrainingPageState extends State<AttentionTrainingPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late AnimationController _bounceController;
 
@@ -81,7 +84,12 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
   int showingIndex = -1;
   bool showingSequence = false;
   bool inputPhase = false;
-  final List<Color> availableColors = [Colors.red, Colors.blue, Colors.green, Colors.yellow];
+  final List<Color> availableColors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+  ];
 
   // Sustained Focus game
   List<String> streamItems = [];
@@ -125,7 +133,11 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
       (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _cardAnimController,
-          curve: Interval(index * 0.12, (index * 0.12 + 0.4).clamp(0.0, 1.0), curve: Curves.easeOutBack),
+          curve: Interval(
+            index * 0.12,
+            (index * 0.12 + 0.4).clamp(0.0, 1.0),
+            curve: Curves.easeOutBack,
+          ),
         ),
       ),
     );
@@ -181,7 +193,9 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     });
 
     for (int i = 0; i < ballPath.length; i++) {
-      await Future.delayed(Duration(milliseconds: 600 - (level * 50).clamp(0, 300)));
+      await Future.delayed(
+        Duration(milliseconds: 600 - (level * 50).clamp(0, 300)),
+      );
       if (!isPlaying) return;
       if (!mounted) return;
       setState(() => currentBallPosition = ballPath[i]);
@@ -224,7 +238,9 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     for (int i = 0; i < correctSoundCount; i++) {
       if (!isPlaying) return;
       _speakText('beep');
-      await Future.delayed(Duration(milliseconds: 800 - (level * 50).clamp(0, 400)));
+      await Future.delayed(
+        Duration(milliseconds: 800 - (level * 50).clamp(0, 400)),
+      );
     }
 
     await Future.delayed(const Duration(milliseconds: 500));
@@ -264,16 +280,19 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     });
 
     quickTapTimer?.cancel();
-    quickTapTimer = Timer(Duration(milliseconds: 2000 - (level * 200).clamp(0, 1000)), () {
-      if (!mounted) return;
-      if (isPlaying) {
-        setState(() {
-          quickTapRounds++;
-          targetPosition = -1;
-        });
-        Future.delayed(const Duration(milliseconds: 300), _showNextTarget);
-      }
-    });
+    quickTapTimer = Timer(
+      Duration(milliseconds: 2000 - (level * 200).clamp(0, 1000)),
+      () {
+        if (!mounted) return;
+        if (isPlaying) {
+          setState(() {
+            quickTapRounds++;
+            targetPosition = -1;
+          });
+          Future.delayed(const Duration(milliseconds: 300), _showNextTarget);
+        }
+      },
+    );
   }
 
   void _tapTarget(int position) {
@@ -293,7 +312,10 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
   void _setupRememberOrder() async {
     final random = Random();
     int sequenceLength = 2 + level;
-    colorSequence = List.generate(sequenceLength, (_) => availableColors[random.nextInt(4)]);
+    colorSequence = List.generate(
+      sequenceLength,
+      (_) => availableColors[random.nextInt(4)],
+    );
     userSequence = [];
 
     setState(() {
@@ -307,7 +329,9 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
       if (!isPlaying) return;
       if (!mounted) return;
       setState(() => showingIndex = i);
-      await Future.delayed(Duration(milliseconds: 800 - (level * 50).clamp(0, 400)));
+      await Future.delayed(
+        Duration(milliseconds: 800 - (level * 50).clamp(0, 400)),
+      );
       if (!mounted) return;
       setState(() => showingIndex = -1);
       await Future.delayed(const Duration(milliseconds: 200));
@@ -355,23 +379,29 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
 
     _speakText('Tap when you see the star!');
 
-    streamTimer = Timer.periodic(Duration(milliseconds: 1200 - (level * 100).clamp(0, 600)), (timer) {
-      if (!mounted) { timer.cancel(); return; }
-      if (!isPlaying || currentStreamIndex >= streamItems.length) {
-        timer.cancel();
-        if (isPlaying) {
-          int totalStars = streamItems.where((e) => e == '⭐').length;
-          _showSuccess('You caught $starCount out of $totalStars stars!');
+    streamTimer = Timer.periodic(
+      Duration(milliseconds: 1200 - (level * 100).clamp(0, 600)),
+      (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
         }
-        return;
-      }
+        if (!isPlaying || currentStreamIndex >= streamItems.length) {
+          timer.cancel();
+          if (isPlaying) {
+            int totalStars = streamItems.where((e) => e == '⭐').length;
+            _showSuccess('You caught $starCount out of $totalStars stars!');
+          }
+          return;
+        }
 
-      if (streamItems[currentStreamIndex] == '⭐') {
-        missedStars++;
-      }
+        if (streamItems[currentStreamIndex] == '⭐') {
+          missedStars++;
+        }
 
-      setState(() => currentStreamIndex++);
-    });
+        setState(() => currentStreamIndex++);
+      },
+    );
   }
 
   void _tapStream() {
@@ -388,22 +418,24 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         contentPadding: EdgeInsets.zero,
         content: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF667EEA).withValues(alpha: 0.4),
-                blurRadius: 15,
+                blurRadius: 15.r,
                 offset: const Offset(0, 8),
               ),
             ],
@@ -412,21 +444,45 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 70,
-                height: 70,
+                width: 70.w,
+                height: 70.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Center(child: Text('🎉', style: TextStyle(fontSize: 36))),
+                child: const Center(
+                  child: Text('🎉', style: TextStyle(fontSize: 36)),
+                ),
               ),
-              const SizedBox(height: 12),
-              const Text('Great Job!', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              Text(message, textAlign: TextAlign.center, style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 15)),
-              const SizedBox(height: 8),
-              Text('Score: $score', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
-              const SizedBox(height: 20),
+              SizedBox(height: 12.h),
+              const Text(
+                'Great Job!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.9),
+                  fontSize: 15,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                'Score: $score',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(height: 20.h),
               Row(
                 children: [
                   Expanded(
@@ -436,16 +492,24 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                         _stopExercise();
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
-                        child: const Text('Back', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                        child: const Text(
+                          'Back',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
@@ -453,21 +517,31 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                         _startExercise(currentExercise);
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                              blurRadius: 8,
+                              color: const Color(
+                                0xFFFF6B6B,
+                              ).withValues(alpha: 0.4),
+                              blurRadius: 8.r,
                               offset: const Offset(0, 3),
                             ),
                           ],
                         ),
-                        child: const Text('Play Again', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
+                        child: const Text(
+                          'Play Again',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -514,7 +588,7 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: GestureDetector(
             onTap: () {
               if (isPlaying) {
@@ -526,42 +600,56 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 20.r,
+              ),
             ),
           ),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              ),
+            ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Attention Training", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text(
+          "Attention Training",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: () {
-              ProgressService.to.resetProgress(ProgressService.kAttentionTraining);
+              ProgressService.to.resetProgress(
+                ProgressService.kAttentionTraining,
+              );
             },
           ),
         ],
@@ -569,7 +657,12 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -579,7 +672,9 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
           children: [
             ..._buildFloatingBubbles(),
             Positioned.fill(
-              child: currentExercise == -1 ? _buildExerciseList() : _buildExerciseScreen(),
+              child: currentExercise == -1
+                  ? _buildExerciseList()
+                  : _buildExerciseScreen(),
             ),
           ],
         ),
@@ -634,47 +729,57 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
 
   Widget _buildExerciseList() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           // Progress bar
           Obx(() {
-            final progress = ProgressService.to
-                    .getProgressPercentage(ProgressService.kAttentionTraining) /
+            final progress =
+                ProgressService.to.getProgressPercentage(
+                  ProgressService.kAttentionTraining,
+                ) /
                 100;
-            final progressString = ProgressService.to
-                .getProgressString(ProgressService.kAttentionTraining);
+            final progressString = ProgressService.to.getProgressString(
+              ProgressService.kAttentionTraining,
+            );
             return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: EdgeInsets.only(bottom: 16.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        '$progressString completed',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
+                      Flexible(
+                        child: Text(
+                          '$progressString completed',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -686,23 +791,24 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             );
           }),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
 
           // Exercise cards with animation - 2 column grid
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
+              mainAxisSpacing: 16.r,
+              crossAxisSpacing: 16.r,
               childAspectRatio: 0.85,
             ),
             itemCount: exercises.length,
             itemBuilder: (context, index) {
               final exercise = exercises[index];
               final animIndex = index.clamp(0, _cardAnimations.length - 1);
-              final gradient = _exerciseGradients[index % _exerciseGradients.length];
+              final gradient =
+                  _exerciseGradients[index % _exerciseGradients.length];
 
               return AnimatedBuilder(
                 animation: _cardAnimations[animIndex],
@@ -722,7 +828,10 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                     final offset = (index % 2 == 0)
                         ? _floatAnimation.value * 0.5
                         : -_floatAnimation.value * 0.5;
-                    return Transform.translate(offset: Offset(0, offset), child: child);
+                    return Transform.translate(
+                      offset: Offset(0, offset),
+                      child: child,
+                    );
                   },
                   child: GestureDetector(
                     onTap: () {
@@ -740,11 +849,11 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
                             color: gradient[0].withValues(alpha: 0.4),
-                            blurRadius: 8,
+                            blurRadius: 8.r,
                             offset: const Offset(0, 4),
                           ),
                         ],
@@ -752,11 +861,11 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                       child: Stack(
                         children: [
                           Positioned(
-                            top: -15,
-                            right: -15,
+                            top: -15.h,
+                            right: -15.w,
                             child: Container(
-                              width: 50,
-                              height: 50,
+                              width: 50.w,
+                              height: 50.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.1),
@@ -764,11 +873,11 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                             ),
                           ),
                           Positioned(
-                            bottom: -10,
-                            left: -10,
+                            bottom: -10.h,
+                            left: -10.w,
                             child: Container(
-                              width: 40,
-                              height: 40,
+                              width: 40.w,
+                              height: 40.h,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white.withValues(alpha: 0.08),
@@ -776,37 +885,59 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(14),
+                            padding: EdgeInsets.all(14.r),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withValues(alpha: 0.3),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Center(child: Text(exercise['emoji'], style: const TextStyle(fontSize: 30))),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  exercise['name'],
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                                  child: Center(
+                                    child: Text(
+                                      exercise['emoji'],
+                                      style: const TextStyle(fontSize: 30),
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  exercise['description'],
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 11),
+                                SizedBox(height: 10.h),
+                                Flexible(
+                                  child: Text(
+                                    exercise['name'],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0x40000000),
+                                          offset: Offset(1, 1),
+                                          blurRadius: 3.r,
+                                        ),
+                                      ],
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Flexible(
+                                  child: Text(
+                                    exercise['description'],
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.85,
+                                      ),
+                                      fontSize: 11,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -820,7 +951,7 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             },
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Progress info
           TweenAnimationBuilder<double>(
@@ -837,10 +968,10 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
               );
             },
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: Row(
@@ -862,9 +993,22 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return Column(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 24)),
-        const SizedBox(height: 4),
-        Text(value, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(label, style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
+        SizedBox(height: 4.h),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.8),
+            fontSize: 12,
+          ),
+        ),
       ],
     );
   }
@@ -898,7 +1042,12 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     [Color(0xFFF59E0B), Color(0xFFEF4444)],
   ];
 
-  Widget _buildGameCard({required Widget child, required List<Color> gradient, VoidCallback? onTap, int index = 0}) {
+  Widget _buildGameCard({
+    required Widget child,
+    required List<Color> gradient,
+    VoidCallback? onTap,
+    int index = 0,
+  }) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 400 + (index * 80)),
@@ -912,7 +1061,9 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
       child: AnimatedBuilder(
         animation: _floatController,
         builder: (context, child) {
-          final offset = (index % 2 == 0) ? _floatAnimation.value * 0.5 : -_floatAnimation.value * 0.5;
+          final offset = (index % 2 == 0)
+              ? _floatAnimation.value * 0.5
+              : -_floatAnimation.value * 0.5;
           return Transform.translate(offset: Offset(0, offset), child: child);
         },
         child: GestureDetector(
@@ -924,29 +1075,39 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
-                BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4)),
+                BoxShadow(
+                  color: gradient[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
             child: Stack(
               children: [
                 Positioned(
-                  top: -10,
-                  right: -10,
+                  top: -10.h,
+                  right: -10.w,
                   child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.1)),
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.1),
+                    ),
                   ),
                 ),
                 Positioned(
-                  bottom: -8,
-                  left: -8,
+                  bottom: -8.h,
+                  left: -8.w,
                   child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.08)),
+                    width: 30.w,
+                    height: 30.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.08),
+                    ),
                   ),
                 ),
                 Center(child: child),
@@ -968,29 +1129,42 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        margin: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-              blurRadius: 10,
+              blurRadius: 10.r,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
           children: [
-            Text(title, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             if (subtitle != null) ...[
-              const SizedBox(height: 4),
-              Text(subtitle, style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 14)),
+              SizedBox(height: 4.h),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  fontSize: 14,
+                ),
+              ),
             ],
           ],
         ),
@@ -1002,20 +1176,24 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildGameTitleCard(
-            title: showingPath ? "Watch the ball! 👀" : waitingForAnswer ? "Where did it stop? 🤔" : "Get ready...",
+            title: showingPath
+                ? "Watch the ball! 👀"
+                : waitingForAnswer
+                ? "Where did it stop? 🤔"
+                : "Get ready...",
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
               ),
               itemCount: 9,
               itemBuilder: (context, index) {
@@ -1026,13 +1204,17 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                 return _buildGameCard(
                   index: index,
                   gradient: gradient,
-                  onTap: waitingForAnswer ? () => _checkBallAnswer(index) : null,
-                  child: hasBall ? const Text("🔴", style: TextStyle(fontSize: 40)) : const SizedBox(),
+                  onTap: waitingForAnswer
+                      ? () => _checkBallAnswer(index)
+                      : null,
+                  child: hasBall
+                      ? const Text("🔴", style: TextStyle(fontSize: 40))
+                      : const SizedBox(),
                 );
               },
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );
@@ -1042,7 +1224,7 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
           AnimatedBuilder(
             animation: _floatController,
             builder: (context, child) {
@@ -1053,31 +1235,36 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             },
             child: const Text("👂", style: TextStyle(fontSize: 80)),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           _buildGameTitleCard(title: "How many beeps?"),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Wrap(
-            spacing: 12,
-            runSpacing: 12,
+            spacing: 12.r,
+            runSpacing: 12.r,
             alignment: WrapAlignment.center,
             children: List.generate(8, (i) {
-              final gradient = _gameCardGradients[i % _gameCardGradients.length];
+              final gradient =
+                  _gameCardGradients[i % _gameCardGradients.length];
               return SizedBox(
-                width: 65,
-                height: 65,
+                width: 65.w,
+                height: 65.h,
                 child: _buildGameCard(
                   index: i,
                   gradient: gradient,
                   onTap: () => _checkSoundCount(i + 1),
                   child: Text(
                     '${i + 1}',
-                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               );
             }),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: 40.h),
         ],
       ),
     );
@@ -1087,21 +1274,21 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildGameTitleCard(
             title: "Quick Tap! Round ${quickTapRounds + 1}/10",
             subtitle: "Score: $quickTapScore",
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: 12.r,
+                crossAxisSpacing: 12.r,
               ),
               itemCount: 9,
               itemBuilder: (context, index) {
@@ -1113,12 +1300,14 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                   index: index,
                   gradient: gradient,
                   onTap: isTarget ? () => _tapTarget(index) : null,
-                  child: isTarget ? const Text("👆", style: TextStyle(fontSize: 40)) : const SizedBox(),
+                  child: isTarget
+                      ? const Text("👆", style: TextStyle(fontSize: 40))
+                      : const SizedBox(),
                 );
               },
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );
@@ -1128,11 +1317,15 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildGameTitleCard(
-            title: showingSequence ? "Watch the colors! 👀" : inputPhase ? "Tap in order! (${userSequence.length}/${colorSequence.length})" : "Get ready...",
+            title: showingSequence
+                ? "Watch the colors! 👀"
+                : inputPhase
+                ? "Tap in order! (${userSequence.length}/${colorSequence.length})"
+                : "Get ready...",
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           if (showingSequence && showingIndex >= 0)
             AnimatedBuilder(
               animation: _floatController,
@@ -1143,52 +1336,64 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                 );
               },
               child: Container(
-                width: 120,
-                height: 120,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color: colorSequence[showingIndex],
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: colorSequence[showingIndex].withValues(alpha: 0.5), blurRadius: 20, spreadRadius: 5),
+                    BoxShadow(
+                      color: colorSequence[showingIndex].withValues(alpha: 0.5),
+                      blurRadius: 20.r,
+                      spreadRadius: 5.r,
+                    ),
                   ],
                 ),
               ),
             ),
           if (inputPhase) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: userSequence.map((color) {
                 return Container(
-                  width: 35,
-                  height: 35,
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  width: 35.w,
+                  height: 35.h,
+                  margin: EdgeInsets.symmetric(horizontal: 5.w),
                   decoration: BoxDecoration(
                     color: color,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
                     boxShadow: [
-                      BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 6, offset: const Offset(0, 2)),
+                      BoxShadow(
+                        color: color.withValues(alpha: 0.4),
+                        blurRadius: 6.r,
+                        offset: const Offset(0, 2),
+                      ),
                     ],
                   ),
                 );
               }).toList(),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
             Wrap(
-              spacing: 16,
+              spacing: 16.r,
               children: availableColors.map((color) {
                 return GestureDetector(
                   onTap: () => _tapColor(color),
                   child: Container(
-                    width: 75,
-                    height: 75,
+                    width: 75.w,
+                    height: 75.h,
                     decoration: BoxDecoration(
                       color: color,
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 3),
                       boxShadow: [
-                        BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4)),
+                        BoxShadow(
+                          color: color.withValues(alpha: 0.5),
+                          blurRadius: 10.r,
+                          offset: const Offset(0, 4),
+                        ),
                       ],
                     ),
                   ),
@@ -1196,7 +1401,7 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
               }).toList(),
             ),
           ],
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
         ],
       ),
     );
@@ -1206,12 +1411,12 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
           _buildGameTitleCard(
             title: "Stars caught: $starCount ⭐",
             subtitle: "${currentStreamIndex}/${streamItems.length}",
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: 40.h),
           AnimatedBuilder(
             animation: _floatController,
             builder: (context, child) {
@@ -1223,8 +1428,8 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
             child: GestureDetector(
               onTap: _tapStream,
               child: Container(
-                width: 150,
-                height: 150,
+                width: 150.w,
+                height: 150.h,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [Color(0xFFFFAA5A), Color(0xFFFF6B6B)],
@@ -1233,28 +1438,41 @@ class _AttentionTrainingPageState extends State<AttentionTrainingPage> with Tick
                   ),
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: const Color(0xFFFFAA5A).withValues(alpha: 0.4), blurRadius: 15, spreadRadius: 3),
+                    BoxShadow(
+                      color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
+                      blurRadius: 15.r,
+                      spreadRadius: 3.r,
+                    ),
                   ],
                 ),
                 child: Center(
                   child: Text(
-                    currentStreamIndex < streamItems.length ? streamItems[currentStreamIndex] : "✅",
+                    currentStreamIndex < streamItems.length
+                        ? streamItems[currentStreamIndex]
+                        : "✅",
                     style: const TextStyle(fontSize: 60),
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            child: const Text("Tap when you see ⭐", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500)),
+            child: const Text(
+              "Tap when you see ⭐",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: 40.h),
         ],
       ),
     );

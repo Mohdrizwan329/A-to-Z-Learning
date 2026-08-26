@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 /// Reusable gradient card widget for grid items
 /// Used across alphabet, numbers, tables, learning pages
 class GradientCard extends StatelessWidget {
@@ -48,11 +50,11 @@ class GradientCard extends StatelessWidget {
           // Decorative circles
           if (showDecorations) ...[
             Positioned(
-              top: -10,
-              right: -10,
+              top: -10.h,
+              right: -10.w,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 40.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
@@ -60,11 +62,11 @@ class GradientCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: -15,
-              left: -15,
+              bottom: -15.h,
+              left: -15.w,
               child: Container(
-                width: 50,
-                height: 50,
+                width: 50.w,
+                height: 50.h,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.1),
@@ -74,14 +76,14 @@ class GradientCard extends StatelessWidget {
           ],
           // Main content
           Padding(
-            padding: padding ?? const EdgeInsets.all(8),
+            padding: padding ?? EdgeInsets.all(8.r),
             child: Center(child: child),
           ),
           // Selected star indicator
           if (isSelected && showSelectedStar)
-            const Positioned(
-              top: 4,
-              left: 4,
+            Positioned(
+              top: 4.h,
+              left: 4.w,
               child: Text("⭐", style: TextStyle(fontSize: 14)),
             ),
         ],
@@ -114,6 +116,10 @@ class GradientCardText extends StatelessWidget {
   final Color color;
   final List<Shadow>? shadows;
 
+  /// Line cap for the cards that show prose rather than a number. Left null by
+  /// default so the big single-value cards are unaffected.
+  final int? maxLines;
+
   const GradientCardText({
     super.key,
     required this.text,
@@ -121,12 +127,15 @@ class GradientCardText extends StatelessWidget {
     this.fontWeight = FontWeight.bold,
     this.color = Colors.white,
     this.shadows,
+    this.maxLines,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: maxLines,
+      overflow: maxLines == null ? null : TextOverflow.ellipsis,
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight,
@@ -137,114 +146,10 @@ class GradientCardText extends StatelessWidget {
               Shadow(
                 color: Colors.black.withValues(alpha: 0.3),
                 offset: const Offset(2, 2),
-                blurRadius: 4,
+                blurRadius: 4.r,
               ),
             ],
       ),
-    );
-  }
-}
-
-/// Image content for gradient card (animals, fruits, etc.)
-class GradientCardImage extends StatelessWidget {
-  final String imagePath;
-  final String? label;
-  final double imageSize;
-  final double labelFontSize;
-
-  const GradientCardImage({
-    super.key,
-    required this.imagePath,
-    this.label,
-    this.imageSize = 60,
-    this.labelFontSize = 14,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          imagePath,
-          width: imageSize,
-          height: imageSize,
-          fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => Icon(
-            Icons.image_not_supported,
-            size: imageSize * 0.6,
-            color: Colors.white54,
-          ),
-        ),
-        if (label != null) ...[
-          const SizedBox(height: 8),
-          Text(
-            label!,
-            style: TextStyle(
-              fontSize: labelFontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  offset: const Offset(1, 1),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-/// Emoji content for gradient card
-class GradientCardEmoji extends StatelessWidget {
-  final String emoji;
-  final String? label;
-  final double emojiSize;
-  final double labelFontSize;
-
-  const GradientCardEmoji({
-    super.key,
-    required this.emoji,
-    this.label,
-    this.emojiSize = 40,
-    this.labelFontSize = 14,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(emoji, style: TextStyle(fontSize: emojiSize)),
-        if (label != null) ...[
-          const SizedBox(height: 4),
-          Text(
-            label!,
-            style: TextStyle(
-              fontSize: labelFontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  offset: const Offset(1, 1),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ],
     );
   }
 }

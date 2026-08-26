@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class DeviceOptimizationPage extends StatefulWidget {
   const DeviceOptimizationPage({super.key});
 
@@ -99,355 +101,404 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
       title: 'Device Settings',
       emoji: '⚡',
       body: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // Device Info Card
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  const Text("📱", style: TextStyle(fontSize: 40)),
-                  const SizedBox(height: 8),
-                  Text(
-                    isTablet ? "Tablet Detected" : "Phone Detected",
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "Screen: ${screenWidth.toInt()} x ${MediaQuery.of(context).size.height.toInt()}",
-                    style: TextStyle(color: Colors.grey.shade600),
-                  ),
-                  const SizedBox(height: 16),
-                  if (isTablet && displayMode != 'tablet')
-                    ElevatedButton.icon(
-                      onPressed: _enableTabletMode,
-                      icon: const Icon(Icons.tablet),
-                      label: const Text("Enable Tablet Mode"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF667EEA),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      ),
-                    ),
-                ],
-              ),
+        padding: EdgeInsets.all(16.r),
+        children: [
+          // Device Info Card
+          Container(
+            padding: EdgeInsets.all(20.r),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.r),
             ),
-            const SizedBox(height: 20),
-
-            // Quick Optimize Section
-            _buildSectionHeader("🚀", "Quick Optimize"),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  _buildSwitchTile(
-                    icon: "📱",
-                    title: "Low-End Device Mode",
-                    subtitle: "Optimize for slower devices",
-                    value: lowEndMode,
-                    onChanged: _enableLowEndMode,
-                    color: Color(0xFFFF6B6B),
+            child: Column(
+              children: [
+                const Text("📱", style: TextStyle(fontSize: 40)),
+                SizedBox(height: 8.h),
+                Text(
+                  isTablet ? "Tablet Detected" : "Phone Detected",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF56D97F).withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  "Screen: ${screenWidth.toInt()} x ${MediaQuery.of(context).size.height.toInt()}",
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+                SizedBox(height: 16.h),
+                if (isTablet && displayMode != 'tablet')
+                  ElevatedButton.icon(
+                    onPressed: _enableTabletMode,
+                    icon: const Icon(Icons.tablet),
+                    label: const Text("Enable Tablet Mode"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF667EEA),
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24.w,
+                        vertical: 12.h,
                       ),
-                      child: const Center(child: Text("✨", style: TextStyle(fontSize: 22))),
-                    ),
-                    title: const Text("Auto Optimize", style: TextStyle(fontWeight: FontWeight.w600)),
-                    subtitle: const Text("Detect and apply best settings"),
-                    trailing: ElevatedButton(
-                      onPressed: _autoOptimize,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF56D97F),
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text("Optimize"),
                     ),
                   ),
-                ],
-              ),
+              ],
             ),
-            const SizedBox(height: 20),
+          ),
+          SizedBox(height: 20.h),
 
-            // Performance Settings
-            _buildSectionHeader("⚡", "Performance"),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  _buildSwitchTile(
-                    icon: "🎬",
-                    title: "Reduced Animations",
-                    subtitle: "Faster transitions, less battery",
-                    value: reducedAnimations,
-                    onChanged: (v) {
-                      setState(() => reducedAnimations = v);
-                      _saveSetting('reducedAnimations', v);
-                    },
-                    color: Color(0xFF667EEA),
-                  ),
-                  const Divider(height: 1),
-                  _buildSwitchTile(
-                    icon: "🖼️",
-                    title: "Low Quality Images",
-                    subtitle: "Use compressed images to save memory",
-                    value: lowQualityImages,
-                    onChanged: (v) {
-                      setState(() => lowQualityImages = v);
-                      _saveSetting('lowQualityImages', v);
-                    },
-                    color: Color(0xFFFFAA5A),
-                  ),
-                  const Divider(height: 1),
-                  _buildSwitchTile(
-                    icon: "💾",
-                    title: "Cache Content",
-                    subtitle: "Store data for faster loading",
-                    value: cacheContent,
-                    onChanged: (v) {
-                      setState(() => cacheContent = v);
-                      _saveSetting('cacheContent', v);
-                    },
-                    color: Color(0xFF4ECDC4),
-                  ),
-                  const Divider(height: 1),
-                  _buildSwitchTile(
-                    icon: "📥",
-                    title: "Preload Content",
-                    subtitle: "Load next lessons in background",
-                    value: preloadContent,
-                    onChanged: (v) {
-                      setState(() => preloadContent = v);
-                      _saveSetting('preloadContent', v);
-                    },
-                    color: Color(0xFFA78BFA),
-                  ),
-                ],
-              ),
+          // Quick Optimize Section
+          _buildSectionHeader("🚀", "Quick Optimize"),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            const SizedBox(height: 20),
-
-            // Display Settings
-            _buildSectionHeader("📺", "Display & Layout"),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF667EEA).withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(child: Text("📱", style: TextStyle(fontSize: 22))),
+            child: Column(
+              children: [
+                _buildSwitchTile(
+                  icon: "📱",
+                  title: "Low-End Device Mode",
+                  subtitle: "Optimize for slower devices",
+                  value: lowEndMode,
+                  onChanged: _enableLowEndMode,
+                  color: Color(0xFFFF6B6B),
+                ),
+                Divider(height: 1.h),
+                ListTile(
+                  leading: Container(
+                    width: 45.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF56D97F).withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    title: const Text("Display Mode", style: TextStyle(fontWeight: FontWeight.w600)),
-                    subtitle: Text(_getDisplayModeText()),
-                    trailing: DropdownButton<String>(
-                      value: displayMode,
-                      underline: const SizedBox(),
-                      items: const [
-                        DropdownMenuItem(value: 'auto', child: Text("Auto")),
-                        DropdownMenuItem(value: 'phone', child: Text("Phone")),
-                        DropdownMenuItem(value: 'tablet', child: Text("Tablet")),
-                      ],
+                    child: const Center(
+                      child: Text("✨", style: TextStyle(fontSize: 22)),
+                    ),
+                  ),
+                  title: const Text(
+                    "Auto Optimize",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: const Text("Detect and apply best settings"),
+                  trailing: ElevatedButton(
+                    onPressed: _autoOptimize,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF56D97F),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text("Optimize"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20.h),
+
+          // Performance Settings
+          _buildSectionHeader("⚡", "Performance"),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: Column(
+              children: [
+                _buildSwitchTile(
+                  icon: "🎬",
+                  title: "Reduced Animations",
+                  subtitle: "Faster transitions, less battery",
+                  value: reducedAnimations,
+                  onChanged: (v) {
+                    setState(() => reducedAnimations = v);
+                    _saveSetting('reducedAnimations', v);
+                  },
+                  color: Color(0xFF667EEA),
+                ),
+                Divider(height: 1.h),
+                _buildSwitchTile(
+                  icon: "🖼️",
+                  title: "Low Quality Images",
+                  subtitle: "Use compressed images to save memory",
+                  value: lowQualityImages,
+                  onChanged: (v) {
+                    setState(() => lowQualityImages = v);
+                    _saveSetting('lowQualityImages', v);
+                  },
+                  color: Color(0xFFFFAA5A),
+                ),
+                Divider(height: 1.h),
+                _buildSwitchTile(
+                  icon: "💾",
+                  title: "Cache Content",
+                  subtitle: "Store data for faster loading",
+                  value: cacheContent,
+                  onChanged: (v) {
+                    setState(() => cacheContent = v);
+                    _saveSetting('cacheContent', v);
+                  },
+                  color: Color(0xFF4ECDC4),
+                ),
+                Divider(height: 1.h),
+                _buildSwitchTile(
+                  icon: "📥",
+                  title: "Preload Content",
+                  subtitle: "Load next lessons in background",
+                  value: preloadContent,
+                  onChanged: (v) {
+                    setState(() => preloadContent = v);
+                    _saveSetting('preloadContent', v);
+                  },
+                  color: Color(0xFFA78BFA),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20.h),
+
+          // Display Settings
+          _buildSectionHeader("📺", "Display & Layout"),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Container(
+                    width: 45.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF667EEA).withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: const Center(
+                      child: Text("📱", style: TextStyle(fontSize: 22)),
+                    ),
+                  ),
+                  title: const Text(
+                    "Display Mode",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(_getDisplayModeText()),
+                  trailing: DropdownButton<String>(
+                    value: displayMode,
+                    underline: const SizedBox(),
+                    items: const [
+                      DropdownMenuItem(value: 'auto', child: Text("Auto")),
+                      DropdownMenuItem(value: 'phone', child: Text("Phone")),
+                      DropdownMenuItem(value: 'tablet', child: Text("Tablet")),
+                    ],
+                    onChanged: (v) {
+                      setState(() => displayMode = v ?? 'auto');
+                      _saveSetting('displayMode', displayMode);
+                    },
+                  ),
+                ),
+                Divider(height: 1.h),
+                _buildSwitchTile(
+                  icon: "🔄",
+                  title: "Landscape Support",
+                  subtitle: "Allow rotation on tablets",
+                  value: landscapeSupport,
+                  onChanged: (v) {
+                    setState(() => landscapeSupport = v);
+                    _saveSetting('landscapeSupport', v);
+                  },
+                  color: Color(0xFF56D97F),
+                ),
+                Divider(height: 1.h),
+                _buildSwitchTile(
+                  icon: "🔍",
+                  title: "Large UI Elements",
+                  subtitle: "Bigger buttons and text for tablets",
+                  value: largeUI,
+                  onChanged: (v) {
+                    setState(() => largeUI = v);
+                    _saveSetting('largeUI', v);
+                  },
+                  color: Color(0xFFFF6B6B),
+                ),
+                Divider(height: 1.h),
+                ListTile(
+                  leading: Container(
+                    width: 45.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFD93D).withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: const Center(
+                      child: Text("📏", style: TextStyle(fontSize: 22)),
+                    ),
+                  ),
+                  title: const Text(
+                    "UI Scale",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text("${(uiScale * 100).toInt()}%"),
+                  trailing: SizedBox(
+                    width: 150.w,
+                    child: Slider(
+                      value: uiScale,
+                      min: 0.8,
+                      max: 1.5,
+                      divisions: 7,
+                      activeColor: Color(0xFFFFD93D),
                       onChanged: (v) {
-                        setState(() => displayMode = v ?? 'auto');
-                        _saveSetting('displayMode', displayMode);
+                        setState(() => uiScale = v);
+                        _saveSetting('uiScale', v);
                       },
                     ),
                   ),
-                  const Divider(height: 1),
-                  _buildSwitchTile(
-                    icon: "🔄",
-                    title: "Landscape Support",
-                    subtitle: "Allow rotation on tablets",
-                    value: landscapeSupport,
-                    onChanged: (v) {
-                      setState(() => landscapeSupport = v);
-                      _saveSetting('landscapeSupport', v);
-                    },
-                    color: Color(0xFF56D97F),
-                  ),
-                  const Divider(height: 1),
-                  _buildSwitchTile(
-                    icon: "🔍",
-                    title: "Large UI Elements",
-                    subtitle: "Bigger buttons and text for tablets",
-                    value: largeUI,
-                    onChanged: (v) {
-                      setState(() => largeUI = v);
-                      _saveSetting('largeUI', v);
-                    },
-                    color: Color(0xFFFF6B6B),
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFD93D).withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(child: Text("📏", style: TextStyle(fontSize: 22))),
-                    ),
-                    title: const Text("UI Scale", style: TextStyle(fontWeight: FontWeight.w600)),
-                    subtitle: Text("${(uiScale * 100).toInt()}%"),
-                    trailing: SizedBox(
-                      width: 150,
-                      child: Slider(
-                        value: uiScale,
-                        min: 0.8,
-                        max: 1.5,
-                        divisions: 7,
-                        activeColor: Color(0xFFFFD93D),
-                        onChanged: (v) {
-                          setState(() => uiScale = v);
-                          _saveSetting('uiScale', v);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
+          ),
+          SizedBox(height: 20.h),
 
-            // Memory Settings
-            _buildSectionHeader("💾", "Memory & Storage"),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  _buildSwitchTile(
-                    icon: "🧹",
-                    title: "Auto Clean Cache",
-                    subtitle: "Remove old cached data automatically",
-                    value: autoCleanCache,
-                    onChanged: (v) {
-                      setState(() => autoCleanCache = v);
-                      _saveSetting('autoCleanCache', v);
-                    },
-                    color: Color(0xFF4ECDC4),
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFA78BFA).withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(child: Text("📦", style: TextStyle(fontSize: 22))),
-                    ),
-                    title: const Text("Cache Size Limit", style: TextStyle(fontWeight: FontWeight.w600)),
-                    subtitle: Text("$cacheSize MB"),
-                    trailing: SizedBox(
-                      width: 150,
-                      child: Slider(
-                        value: cacheSize.toDouble(),
-                        min: 50,
-                        max: 500,
-                        divisions: 9,
-                        activeColor: Color(0xFFA78BFA),
-                        onChanged: (v) {
-                          setState(() => cacheSize = v.toInt());
-                          _saveSetting('cacheSize', cacheSize);
-                        },
-                      ),
-                    ),
-                  ),
-                  const Divider(height: 1),
-                  _buildSwitchTile(
-                    icon: "🔄",
-                    title: "Background Sync",
-                    subtitle: "Sync progress when app is idle",
-                    value: backgroundSync,
-                    onChanged: (v) {
-                      setState(() => backgroundSync = v);
-                      _saveSetting('backgroundSync', v);
-                    },
-                    color: Color(0xFF667EEA),
-                  ),
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFF6B6B).withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(child: Text("🗑️", style: TextStyle(fontSize: 22))),
-                    ),
-                    title: const Text("Clear Cache Now", style: TextStyle(fontWeight: FontWeight.w600)),
-                    subtitle: const Text("Free up storage space"),
-                    trailing: ElevatedButton(
-                      onPressed: _clearCache,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFF6B6B),
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text("Clear"),
-                    ),
-                  ),
-                ],
-              ),
+          // Memory Settings
+          _buildSectionHeader("💾", "Memory & Storage"),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            const SizedBox(height: 20),
+            child: Column(
+              children: [
+                _buildSwitchTile(
+                  icon: "🧹",
+                  title: "Auto Clean Cache",
+                  subtitle: "Remove old cached data automatically",
+                  value: autoCleanCache,
+                  onChanged: (v) {
+                    setState(() => autoCleanCache = v);
+                    _saveSetting('autoCleanCache', v);
+                  },
+                  color: Color(0xFF4ECDC4),
+                ),
+                Divider(height: 1.h),
+                ListTile(
+                  leading: Container(
+                    width: 45.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFA78BFA).withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: const Center(
+                      child: Text("📦", style: TextStyle(fontSize: 22)),
+                    ),
+                  ),
+                  title: const Text(
+                    "Cache Size Limit",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text("$cacheSize MB"),
+                  trailing: SizedBox(
+                    width: 150.w,
+                    child: Slider(
+                      value: cacheSize.toDouble(),
+                      min: 50,
+                      max: 500,
+                      divisions: 9,
+                      activeColor: Color(0xFFA78BFA),
+                      onChanged: (v) {
+                        setState(() => cacheSize = v.toInt());
+                        _saveSetting('cacheSize', cacheSize);
+                      },
+                    ),
+                  ),
+                ),
+                Divider(height: 1.h),
+                _buildSwitchTile(
+                  icon: "🔄",
+                  title: "Background Sync",
+                  subtitle: "Sync progress when app is idle",
+                  value: backgroundSync,
+                  onChanged: (v) {
+                    setState(() => backgroundSync = v);
+                    _saveSetting('backgroundSync', v);
+                  },
+                  color: Color(0xFF667EEA),
+                ),
+                Divider(height: 1.h),
+                ListTile(
+                  leading: Container(
+                    width: 45.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFF6B6B).withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: const Center(
+                      child: Text("🗑️", style: TextStyle(fontSize: 22)),
+                    ),
+                  ),
+                  title: const Text(
+                    "Clear Cache Now",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: const Text("Free up storage space"),
+                  trailing: ElevatedButton(
+                    onPressed: _clearCache,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFFF6B6B),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text("Clear"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20.h),
 
-            // Reset Button
-            ElevatedButton.icon(
-              onPressed: _resetToDefaults,
-              icon: const Icon(Icons.refresh),
-              label: const Text("Reset to Defaults"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withValues(alpha: 0.2),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          // Reset Button
+          ElevatedButton.icon(
+            onPressed: _resetToDefaults,
+            icon: const Icon(Icons.refresh),
+            label: const Text("Reset to Defaults"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white.withValues(alpha: 0.2),
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(vertical: 16.h),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
               ),
             ),
-            const SizedBox(height: 20),
-          ],
-        ),
+          ),
+          SizedBox(height: 20.h),
+        ],
+      ),
     );
   }
 
   Widget _buildSectionHeader(String emoji, String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12.h),
       child: Row(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 24)),
-          const SizedBox(width: 8),
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+          Flexible(
+            child: Text(
+              emoji,
+              style: const TextStyle(fontSize: 24),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Flexible(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );
@@ -463,16 +514,19 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
   }) {
     return ListTile(
       leading: Container(
-        width: 45,
-        height: 45,
+        width: 45.w,
+        height: 45.h,
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(child: Text(icon, style: const TextStyle(fontSize: 22))),
       ),
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-      subtitle: Text(subtitle, style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+      ),
       trailing: Switch(
         value: value,
         onChanged: onChanged,
@@ -536,8 +590,8 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Color(0xFF56D97F),
       colorText: Colors.white,
-      margin: const EdgeInsets.all(16),
-      borderRadius: 12,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 12.r,
     );
   }
 
@@ -545,12 +599,11 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
     Get.dialog(
       AlertDialog(
         title: const Text("Clear Cache?"),
-        content: const Text("This will remove all cached content. Downloaded offline content will not be affected."),
+        content: const Text(
+          "This will remove all cached content. Downloaded offline content will not be affected.",
+        ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text("Cancel"),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text("Cancel")),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -560,8 +613,8 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Color(0xFF56D97F),
                 colorText: Colors.white,
-                margin: const EdgeInsets.all(16),
-                borderRadius: 12,
+                margin: EdgeInsets.all(16.r),
+                borderRadius: 12.r,
               );
             },
             style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFFF6B6B)),
@@ -576,12 +629,11 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
     Get.dialog(
       AlertDialog(
         title: const Text("Reset Settings?"),
-        content: const Text("This will reset all device optimization settings to defaults."),
+        content: const Text(
+          "This will reset all device optimization settings to defaults.",
+        ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text("Cancel"),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text("Cancel")),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -619,8 +671,8 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Color(0xFF667EEA),
                 colorText: Colors.white,
-                margin: const EdgeInsets.all(16),
-                borderRadius: 12,
+                margin: EdgeInsets.all(16.r),
+                borderRadius: 12.r,
               );
             },
             child: const Text("Reset"),

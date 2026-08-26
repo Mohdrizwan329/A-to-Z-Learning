@@ -6,6 +6,8 @@ import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
 
@@ -15,9 +17,11 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     with TickerProviderStateMixin {
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
@@ -148,96 +152,102 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                         );
                       },
                       child: Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.5),
-                            width: 3,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 15,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 100.w,
+                              height: 100.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF667EEA),
+                                    Color(0xFF764BA2),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.5),
+                                  width: 3,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.2),
+                                    blurRadius: 15.r,
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.lock_outline_rounded,
+                                  size: 48.r,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: AppTheme.spacingM),
+                            Text(
+                              'Create a strong password',
+                              style: GoogleFonts.nunito(
+                                fontSize: 14,
+                                color: Colors.white.withValues(alpha: 0.8),
+                              ),
                             ),
                           ],
                         ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.lock_outline_rounded,
-                            size: 48,
-                            color: Colors.white,
-                          ),
-                        ),
                       ),
-                      SizedBox(height: AppTheme.spacingM),
-                      Text(
-                        'Create a strong password',
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.8),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ),
-                SizedBox(height: AppTheme.spacingL),
+                    ),
+                    SizedBox(height: AppTheme.spacingL),
 
-                // Form Fields
-                // Current Password
-                _buildFieldLabel('Current Password', Icons.lock_outline),
-                SizedBox(height: AppTheme.spacingS),
-                _buildPasswordField(
-                  controller: _currentPasswordController,
-                  hint: 'Enter current password',
-                  obscureText: _obscureCurrentPassword,
-                  onToggleVisibility: () {
-                    setState(() {
-                      _obscureCurrentPassword = !_obscureCurrentPassword;
-                    });
-                  },
-                ),
-                SizedBox(height: AppTheme.spacingM),
+                    // Form Fields
+                    // Current Password
+                    _buildFieldLabel('Current Password', Icons.lock_outline),
+                    SizedBox(height: AppTheme.spacingS),
+                    _buildPasswordField(
+                      controller: _currentPasswordController,
+                      hint: 'Enter current password',
+                      obscureText: _obscureCurrentPassword,
+                      onToggleVisibility: () {
+                        setState(() {
+                          _obscureCurrentPassword = !_obscureCurrentPassword;
+                        });
+                      },
+                    ),
+                    SizedBox(height: AppTheme.spacingM),
 
-                // New Password
-                _buildFieldLabel('New Password', Icons.lock_reset_rounded),
-                SizedBox(height: AppTheme.spacingS),
-                _buildPasswordField(
-                  controller: _newPasswordController,
-                  hint: 'Enter new password',
-                  obscureText: _obscureNewPassword,
-                  onToggleVisibility: () {
-                    setState(() {
-                      _obscureNewPassword = !_obscureNewPassword;
-                    });
-                  },
-                ),
-                SizedBox(height: AppTheme.spacingM),
+                    // New Password
+                    _buildFieldLabel('New Password', Icons.lock_reset_rounded),
+                    SizedBox(height: AppTheme.spacingS),
+                    _buildPasswordField(
+                      controller: _newPasswordController,
+                      hint: 'Enter new password',
+                      obscureText: _obscureNewPassword,
+                      onToggleVisibility: () {
+                        setState(() {
+                          _obscureNewPassword = !_obscureNewPassword;
+                        });
+                      },
+                    ),
+                    SizedBox(height: AppTheme.spacingM),
 
-                // Confirm New Password
-                _buildFieldLabel('Confirm New Password', Icons.check_circle_outline_rounded),
-                SizedBox(height: AppTheme.spacingS),
-                _buildPasswordField(
-                  controller: _confirmPasswordController,
-                  hint: 'Confirm new password',
-                  obscureText: _obscureConfirmPassword,
-                  onToggleVisibility: () {
-                    setState(() {
-                      _obscureConfirmPassword = !_obscureConfirmPassword;
-                    });
-                  },
-                ),
-                SizedBox(height: AppTheme.spacingXL),
+                    // Confirm New Password
+                    _buildFieldLabel(
+                      'Confirm New Password',
+                      Icons.check_circle_outline_rounded,
+                    ),
+                    SizedBox(height: AppTheme.spacingS),
+                    _buildPasswordField(
+                      controller: _confirmPasswordController,
+                      hint: 'Confirm new password',
+                      obscureText: _obscureConfirmPassword,
+                      onToggleVisibility: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
+                    SizedBox(height: AppTheme.spacingXL),
 
                     // Update Button
                     _buildUpdateButton(),
@@ -259,34 +269,30 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -301,7 +307,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -315,27 +321,31 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
           ),
-          child: Icon(icon, color: Colors.white, size: 18),
+          child: Icon(icon, color: Colors.white, size: 18.r),
         ),
         SizedBox(width: AppTheme.spacingS),
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              ),
-            ],
+        // Takes the width left beside the icon so a long field name wraps
+        // instead of running off the form.
+        Expanded(
+          child: Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 2.r,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -355,7 +365,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
       ),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.3),
           width: 1,
@@ -380,13 +390,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           ),
           border: InputBorder.none,
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
           suffixIcon: GestureDetector(
             onTap: onToggleVisibility,
             child: Icon(
-              obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+              obscureText
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
               color: Colors.white.withValues(alpha: 0.7),
-              size: 20,
+              size: 20.r,
             ),
           ),
         ),
@@ -410,32 +422,39 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
-              blurRadius: 16,
+              blurRadius: 16.r,
               offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Center(
           child: _isLoading
-              ? const SizedBox(
-                  width: 24,
-                  height: 24,
+              ? SizedBox(
+                  width: 24.w,
+                  height: 24.h,
                   child: CircularProgressIndicator(
                     color: Colors.white,
-                    strokeWidth: 2.5,
+                    strokeWidth: 2.5.r,
                   ),
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.security_rounded, color: Colors.white, size: 22),
+                    Icon(
+                      Icons.security_rounded,
+                      color: Colors.white,
+                      size: 22.r,
+                    ),
                     SizedBox(width: AppTheme.spacingS),
-                    Text(
-                      'Update Password',
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Flexible(
+                      child: Text(
+                        'Update Password',
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
@@ -450,15 +469,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     final newPassword = _newPasswordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
 
-    if (currentPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+    if (currentPassword.isEmpty ||
+        newPassword.isEmpty ||
+        confirmPassword.isEmpty) {
       Get.snackbar(
         'Error',
         'Please fill all fields',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
       return;
     }
@@ -470,8 +491,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
       return;
     }
@@ -483,8 +504,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
       return;
     }
@@ -497,8 +518,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
       return;
     }
@@ -520,8 +541,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFF4ECDC4),
           colorText: Colors.white,
-          borderRadius: 16,
-          margin: const EdgeInsets.all(16),
+          borderRadius: 16.r,
+          margin: EdgeInsets.all(16.r),
         );
         Get.back();
       } else {
@@ -533,8 +554,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: const Color(0xFFFF6B6B),
           colorText: Colors.white,
-          borderRadius: 16,
-          margin: const EdgeInsets.all(16),
+          borderRadius: 16.r,
+          margin: EdgeInsets.all(16.r),
         );
       }
     } catch (e) {
@@ -544,8 +565,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFFF6B6B),
         colorText: Colors.white,
-        borderRadius: 16,
-        margin: const EdgeInsets.all(16),
+        borderRadius: 16.r,
+        margin: EdgeInsets.all(16.r),
       );
     } finally {
       if (mounted) {

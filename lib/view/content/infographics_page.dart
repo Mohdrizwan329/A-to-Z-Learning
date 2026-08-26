@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class InfographicsPage extends StatefulWidget {
   const InfographicsPage({super.key});
 
@@ -10,7 +12,8 @@ class InfographicsPage extends StatefulWidget {
   State<InfographicsPage> createState() => _InfographicsPageState();
 }
 
-class _InfographicsPageState extends State<InfographicsPage> with TickerProviderStateMixin {
+class _InfographicsPageState extends State<InfographicsPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
 
@@ -20,15 +23,60 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
       'emoji': '🧒',
       'color': Color(0xFF4ECDC4),
       'parts': [
-        {'name': 'Head', 'emoji': '🧠', 'fact': 'Brain lives here! It helps you think.', 'position': Offset(0.5, 0.1)},
-        {'name': 'Eyes', 'emoji': '👀', 'fact': 'Two eyes help you see the world!', 'position': Offset(0.5, 0.15)},
-        {'name': 'Ears', 'emoji': '👂', 'fact': 'Ears help you hear sounds!', 'position': Offset(0.3, 0.15)},
-        {'name': 'Nose', 'emoji': '👃', 'fact': 'Nose helps you smell flowers!', 'position': Offset(0.5, 0.2)},
-        {'name': 'Mouth', 'emoji': '👄', 'fact': 'Mouth helps you eat and talk!', 'position': Offset(0.5, 0.25)},
-        {'name': 'Hands', 'emoji': '🖐️', 'fact': 'Hands help you hold and write!', 'position': Offset(0.2, 0.5)},
-        {'name': 'Heart', 'emoji': '❤️', 'fact': 'Heart pumps blood in your body!', 'position': Offset(0.5, 0.4)},
-        {'name': 'Legs', 'emoji': '🦵', 'fact': 'Legs help you walk and run!', 'position': Offset(0.5, 0.75)},
-        {'name': 'Feet', 'emoji': '🦶', 'fact': 'Feet help you stand and balance!', 'position': Offset(0.5, 0.9)},
+        {
+          'name': 'Head',
+          'emoji': '🧠',
+          'fact': 'Brain lives here! It helps you think.',
+          'position': Offset(0.5, 0.1),
+        },
+        {
+          'name': 'Eyes',
+          'emoji': '👀',
+          'fact': 'Two eyes help you see the world!',
+          'position': Offset(0.5, 0.15),
+        },
+        {
+          'name': 'Ears',
+          'emoji': '👂',
+          'fact': 'Ears help you hear sounds!',
+          'position': Offset(0.3, 0.15),
+        },
+        {
+          'name': 'Nose',
+          'emoji': '👃',
+          'fact': 'Nose helps you smell flowers!',
+          'position': Offset(0.5, 0.2),
+        },
+        {
+          'name': 'Mouth',
+          'emoji': '👄',
+          'fact': 'Mouth helps you eat and talk!',
+          'position': Offset(0.5, 0.25),
+        },
+        {
+          'name': 'Hands',
+          'emoji': '🖐️',
+          'fact': 'Hands help you hold and write!',
+          'position': Offset(0.2, 0.5),
+        },
+        {
+          'name': 'Heart',
+          'emoji': '❤️',
+          'fact': 'Heart pumps blood in your body!',
+          'position': Offset(0.5, 0.4),
+        },
+        {
+          'name': 'Legs',
+          'emoji': '🦵',
+          'fact': 'Legs help you walk and run!',
+          'position': Offset(0.5, 0.75),
+        },
+        {
+          'name': 'Feet',
+          'emoji': '🦶',
+          'fact': 'Feet help you stand and balance!',
+          'position': Offset(0.5, 0.9),
+        },
       ],
     },
   ];
@@ -39,15 +87,69 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
       'emoji': '🌞',
       'color': Color(0xFFFFD93D),
       'planets': [
-        {'name': 'Sun', 'emoji': '☀️', 'fact': 'The Sun is a giant ball of fire!', 'color': Color(0xFFFFD93D), 'size': 80.0},
-        {'name': 'Mercury', 'emoji': '🪨', 'fact': 'Smallest and closest to Sun!', 'color': Color(0xFF9E9E9E), 'size': 20.0},
-        {'name': 'Venus', 'emoji': '🌕', 'fact': 'Hottest planet! Very cloudy.', 'color': Color(0xFFFFB74D), 'size': 30.0},
-        {'name': 'Earth', 'emoji': '🌍', 'fact': 'Our home! Has water and life.', 'color': Color(0xFF4CAF50), 'size': 32.0},
-        {'name': 'Mars', 'emoji': '🔴', 'fact': 'The Red Planet! Has mountains.', 'color': Color(0xFFE53935), 'size': 28.0},
-        {'name': 'Jupiter', 'emoji': '🟤', 'fact': 'Biggest planet! Has many moons.', 'color': Color(0xFFFF8A65), 'size': 55.0},
-        {'name': 'Saturn', 'emoji': '🪐', 'fact': 'Has beautiful rings around it!', 'color': Color(0xFFFFCC80), 'size': 50.0},
-        {'name': 'Uranus', 'emoji': '🔵', 'fact': 'Tilted planet! Very cold.', 'color': Color(0xFF4DD0E1), 'size': 40.0},
-        {'name': 'Neptune', 'emoji': '🔵', 'fact': 'Farthest planet! Very windy.', 'color': Color(0xFF1E88E5), 'size': 38.0},
+        {
+          'name': 'Sun',
+          'emoji': '☀️',
+          'fact': 'The Sun is a giant ball of fire!',
+          'color': Color(0xFFFFD93D),
+          'size': 80.0,
+        },
+        {
+          'name': 'Mercury',
+          'emoji': '🪨',
+          'fact': 'Smallest and closest to Sun!',
+          'color': Color(0xFF9E9E9E),
+          'size': 20.0,
+        },
+        {
+          'name': 'Venus',
+          'emoji': '🌕',
+          'fact': 'Hottest planet! Very cloudy.',
+          'color': Color(0xFFFFB74D),
+          'size': 30.0,
+        },
+        {
+          'name': 'Earth',
+          'emoji': '🌍',
+          'fact': 'Our home! Has water and life.',
+          'color': Color(0xFF4CAF50),
+          'size': 32.0,
+        },
+        {
+          'name': 'Mars',
+          'emoji': '🔴',
+          'fact': 'The Red Planet! Has mountains.',
+          'color': Color(0xFFE53935),
+          'size': 28.0,
+        },
+        {
+          'name': 'Jupiter',
+          'emoji': '🟤',
+          'fact': 'Biggest planet! Has many moons.',
+          'color': Color(0xFFFF8A65),
+          'size': 55.0,
+        },
+        {
+          'name': 'Saturn',
+          'emoji': '🪐',
+          'fact': 'Has beautiful rings around it!',
+          'color': Color(0xFFFFCC80),
+          'size': 50.0,
+        },
+        {
+          'name': 'Uranus',
+          'emoji': '🔵',
+          'fact': 'Tilted planet! Very cold.',
+          'color': Color(0xFF4DD0E1),
+          'size': 40.0,
+        },
+        {
+          'name': 'Neptune',
+          'emoji': '🔵',
+          'fact': 'Farthest planet! Very windy.',
+          'color': Color(0xFF1E88E5),
+          'size': 38.0,
+        },
       ],
     },
   ];
@@ -110,7 +212,13 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
         {
           'name': 'Ocean',
           'emoji': '🌊',
-          'animals': ['🐋 Whale', '🐬 Dolphin', '🦈 Shark', '🐙 Octopus', '🐠 Fish'],
+          'animals': [
+            '🐋 Whale',
+            '🐬 Dolphin',
+            '🦈 Shark',
+            '🐙 Octopus',
+            '🐠 Fish',
+          ],
           'color': Color(0xFF1565C0),
           'fact': 'Oceans are home to many sea creatures!',
         },
@@ -145,12 +253,42 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
       'emoji': '🌤️',
       'color': Color(0xFF64B5F6),
       'weathers': [
-        {'name': 'Sunny', 'emoji': '☀️', 'description': 'Bright and warm! Great for playing outside.', 'color': Color(0xFFFFD93D)},
-        {'name': 'Rainy', 'emoji': '🌧️', 'description': 'Water falls from clouds. Use umbrella!', 'color': Color(0xFF64B5F6)},
-        {'name': 'Cloudy', 'emoji': '☁️', 'description': 'Sky is covered with clouds. No sun today.', 'color': Color(0xFF90A4AE)},
-        {'name': 'Snowy', 'emoji': '❄️', 'description': 'Cold and white! Build a snowman.', 'color': Color(0xFFE1F5FE)},
-        {'name': 'Windy', 'emoji': '💨', 'description': 'Air moves fast! Hold your hat.', 'color': Color(0xFFB0BEC5)},
-        {'name': 'Stormy', 'emoji': '⛈️', 'description': 'Thunder and lightning! Stay inside.', 'color': Color(0xFF5C6BC0)},
+        {
+          'name': 'Sunny',
+          'emoji': '☀️',
+          'description': 'Bright and warm! Great for playing outside.',
+          'color': Color(0xFFFFD93D),
+        },
+        {
+          'name': 'Rainy',
+          'emoji': '🌧️',
+          'description': 'Water falls from clouds. Use umbrella!',
+          'color': Color(0xFF64B5F6),
+        },
+        {
+          'name': 'Cloudy',
+          'emoji': '☁️',
+          'description': 'Sky is covered with clouds. No sun today.',
+          'color': Color(0xFF90A4AE),
+        },
+        {
+          'name': 'Snowy',
+          'emoji': '❄️',
+          'description': 'Cold and white! Build a snowman.',
+          'color': Color(0xFFE1F5FE),
+        },
+        {
+          'name': 'Windy',
+          'emoji': '💨',
+          'description': 'Air moves fast! Hold your hat.',
+          'color': Color(0xFFB0BEC5),
+        },
+        {
+          'name': 'Stormy',
+          'emoji': '⛈️',
+          'description': 'Thunder and lightning! Stay inside.',
+          'color': Color(0xFF5C6BC0),
+        },
       ],
     },
   ];
@@ -165,7 +303,11 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
           'name': 'Butterfly',
           'stages': [
             {'stage': 'Egg', 'emoji': '🥚', 'desc': 'Tiny egg on a leaf'},
-            {'stage': 'Caterpillar', 'emoji': '🐛', 'desc': 'Eats lots of leaves'},
+            {
+              'stage': 'Caterpillar',
+              'emoji': '🐛',
+              'desc': 'Eats lots of leaves',
+            },
             {'stage': 'Chrysalis', 'emoji': '🫛', 'desc': 'Transforms inside'},
             {'stage': 'Butterfly', 'emoji': '🦋', 'desc': 'Beautiful wings!'},
           ],
@@ -231,7 +373,7 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -239,35 +381,65 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                blurRadius: 10.r,
+                offset: Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Infographics", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text(
+          "Infographics",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-          tabs: const [
-            Tab(text: "Body", icon: Icon(Icons.accessibility_new, size: 18)),
-            Tab(text: "Space", icon: Icon(Icons.rocket_launch, size: 18)),
-            Tab(text: "Food", icon: Icon(Icons.restaurant, size: 18)),
-            Tab(text: "Animals", icon: Icon(Icons.pets, size: 18)),
-            Tab(text: "Weather", icon: Icon(Icons.wb_sunny, size: 18)),
-            Tab(text: "Life Cycle", icon: Icon(Icons.loop, size: 18)),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
+          tabs: [
+            Tab(
+              text: "Body",
+              icon: Icon(Icons.accessibility_new, size: 18.r),
+            ),
+            Tab(
+              text: "Space",
+              icon: Icon(Icons.rocket_launch, size: 18.r),
+            ),
+            Tab(
+              text: "Food",
+              icon: Icon(Icons.restaurant, size: 18.r),
+            ),
+            Tab(
+              text: "Animals",
+              icon: Icon(Icons.pets, size: 18.r),
+            ),
+            Tab(
+              text: "Weather",
+              icon: Icon(Icons.wb_sunny, size: 18.r),
+            ),
+            Tab(
+              text: "Life Cycle",
+              icon: Icon(Icons.loop, size: 18.r),
+            ),
           ],
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -291,36 +463,70 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   Widget _buildBodyPartsInfographic() {
     final data = bodyPartsInfographics[0];
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🧒", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("Tap each part to learn!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 20),
+          SizedBox(height: 8.h),
+          Text(
+            data['title'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "Tap each part to learn!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 20.h),
           ...(data['parts'] as List<Map<String, dynamic>>).map((part) {
             return GestureDetector(
-              onTap: () { TtsService.to.speak(part['name']); _showPartDetails(part, data['color']); },
+              onTap: () {
+                TtsService.to.speak(part['name']);
+                _showPartDetails(part, data['color']);
+              },
               child: Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.all(16),
+                margin: EdgeInsets.only(bottom: 12.h),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: data['color'].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: data['color'].withValues(alpha: 0.3),
+                      blurRadius: 8.r,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
                     Text(part['emoji'], style: const TextStyle(fontSize: 35)),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(part['name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          Text(part['fact'], style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+                          Text(
+                            part['name'],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            part['fact'],
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -338,32 +544,53 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   Widget _buildSolarSystemInfographic() {
     final data = solarSystemInfographics[0];
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🌞", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("Explore our solar system!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 20),
+          SizedBox(height: 8.h),
+          Text(
+            data['title'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "Explore our solar system!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 20.h),
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             decoration: BoxDecoration(
               color: const Color(0xFF1A1A2E),
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
             ),
             child: Column(
-              children: (data['planets'] as List<Map<String, dynamic>>).map((planet) {
+              children: (data['planets'] as List<Map<String, dynamic>>).map((
+                planet,
+              ) {
                 return GestureDetector(
-                  onTap: () { TtsService.to.speak(planet['name']); _showPlanetDetails(planet); },
+                  onTap: () {
+                    TtsService.to.speak(planet['name']);
+                    _showPlanetDetails(planet);
+                  },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    padding: EdgeInsets.all(12.r),
                     decoration: BoxDecoration(
                       color: planet['color'].withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: planet['color'].withValues(alpha: 0.5), width: 2),
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(
+                        color: planet['color'].withValues(alpha: 0.5),
+                        width: 2,
+                      ),
                     ),
                     child: Row(
                       children: [
@@ -373,20 +600,41 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
                           decoration: BoxDecoration(
                             color: planet['color'],
                             shape: BoxShape.circle,
-                            boxShadow: [BoxShadow(color: planet['color'].withValues(alpha: 0.5), blurRadius: 10)],
+                            boxShadow: [
+                              BoxShadow(
+                                color: planet['color'].withValues(alpha: 0.5),
+                                blurRadius: 10.r,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(width: 16.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(planet['name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-                              Text(planet['fact'], style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.7))),
+                              Text(
+                                planet['name'],
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                planet['fact'],
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white.withValues(alpha: 0.7),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        Text(planet['emoji'], style: const TextStyle(fontSize: 24)),
+                        Text(
+                          planet['emoji'],
+                          style: const TextStyle(fontSize: 24),
+                        ),
                       ],
                     ),
                   ),
@@ -402,34 +650,69 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   Widget _buildFoodPyramidInfographic() {
     final data = foodPyramidInfographics[0];
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🥗", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("Eat healthy, stay healthy!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 20),
-          ...(data['levels'] as List<Map<String, dynamic>>).reversed.map((level) {
+          SizedBox(height: 8.h),
+          Text(
+            data['title'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "Eat healthy, stay healthy!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 20.h),
+          ...(data['levels'] as List<Map<String, dynamic>>).reversed.map((
+            level,
+          ) {
             return GestureDetector(
-              onTap: () { TtsService.to.speak(level['name']); _showFoodLevelDetails(level); },
+              onTap: () {
+                TtsService.to.speak(level['name']);
+                _showFoodLevelDetails(level);
+              },
               child: Container(
-                margin: const EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: 8.h),
                 child: ClipPath(
                   clipper: TrapezoidClipper(),
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: level['color'],
+                    padding: EdgeInsets.symmetric(
+                      vertical: 20.h,
+                      horizontal: 16.w,
                     ),
+                    decoration: BoxDecoration(color: level['color']),
                     child: Column(
                       children: [
-                        Text(level['emoji'], style: const TextStyle(fontSize: 30)),
-                        const SizedBox(height: 4),
-                        Text(level['name'], style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(level['advice'], style: const TextStyle(color: Colors.white70, fontSize: 11)),
+                        Text(
+                          level['emoji'],
+                          style: const TextStyle(fontSize: 30),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          level['name'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          level['advice'],
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 11,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -445,43 +728,84 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   Widget _buildAnimalHabitatsInfographic() {
     final data = animalHabitats[0];
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🏠", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("Discover animal homes!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 20),
+          SizedBox(height: 8.h),
+          Text(
+            data['title'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "Discover animal homes!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 20.h),
           ...(data['habitats'] as List<Map<String, dynamic>>).map((habitat) {
             return GestureDetector(
-              onTap: () { TtsService.to.speak(habitat['name']); _showHabitatDetails(habitat); },
+              onTap: () {
+                TtsService.to.speak(habitat['name']);
+                _showHabitatDetails(habitat);
+              },
               child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: EdgeInsets.only(bottom: 16.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(color: habitat['color'].withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: habitat['color'].withValues(alpha: 0.3),
+                      blurRadius: 10.r,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.r),
                       decoration: BoxDecoration(
                         color: habitat['color'],
-                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.r),
+                          topRight: Radius.circular(20.r),
+                        ),
                       ),
                       child: Row(
                         children: [
-                          Text(habitat['emoji'], style: const TextStyle(fontSize: 35)),
-                          const SizedBox(width: 12),
+                          Text(
+                            habitat['emoji'],
+                            style: const TextStyle(fontSize: 35),
+                          ),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(habitat['name'], style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                                Text(habitat['fact'], style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                                Text(
+                                  habitat['name'],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  habitat['fact'],
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -489,18 +813,29 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12.r),
                       child: Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: (habitat['animals'] as List<String>).map((animal) {
+                        spacing: 8.r,
+                        runSpacing: 8.r,
+                        children: (habitat['animals'] as List<String>).map((
+                          animal,
+                        ) {
                           return Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 6.h,
+                            ),
                             decoration: BoxDecoration(
                               color: habitat['color'].withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
-                            child: Text(animal, style: TextStyle(fontSize: 14, color: habitat['color'])),
+                            child: Text(
+                              animal,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: habitat['color'],
+                              ),
+                            ),
                           );
                         }).toList(),
                       ),
@@ -518,22 +853,35 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   Widget _buildWeatherInfographic() {
     final data = weatherInfographics[0];
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🌤️", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("Learn about weather!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 20),
+          SizedBox(height: 8.h),
+          Text(
+            data['title'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "Learn about weather!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 20.h),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
+              crossAxisSpacing: 12.r,
+              mainAxisSpacing: 12.r,
               childAspectRatio: 0.9,
             ),
             itemCount: (data['weathers'] as List).length,
@@ -545,20 +893,42 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
                   _speakText("${weather['name']}. ${weather['description']}");
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [BoxShadow(color: weather['color'].withValues(alpha: 0.3), blurRadius: 10)],
+                    borderRadius: BorderRadius.circular(20.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: weather['color'].withValues(alpha: 0.3),
+                        blurRadius: 10.r,
+                      ),
+                    ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(weather['emoji'], style: const TextStyle(fontSize: 45)),
-                      const SizedBox(height: 8),
-                      Text(weather['name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: weather['color'])),
-                      const SizedBox(height: 6),
-                      Text(weather['description'], style: TextStyle(fontSize: 11, color: Colors.grey.shade600), textAlign: TextAlign.center),
+                      Text(
+                        weather['emoji'],
+                        style: const TextStyle(fontSize: 45),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        weather['name'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: weather['color'],
+                        ),
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        weather['description'],
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey.shade600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
                 ),
@@ -573,62 +943,120 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   Widget _buildLifecycleInfographic() {
     final data = lifecycleInfographics[0];
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("🔄", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          Text(data['title'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("See how things grow!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 20),
+          SizedBox(height: 8.h),
+          Text(
+            data['title'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "See how things grow!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 20.h),
           ...(data['cycles'] as List<Map<String, dynamic>>).map((cycle) {
             return GestureDetector(
-              onTap: () { TtsService.to.speak(cycle['name']); _showLifecycleDetails(cycle); },
+              onTap: () {
+                TtsService.to.speak(cycle['name']);
+                _showLifecycleDetails(cycle);
+              },
               child: Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                padding: const EdgeInsets.all(20),
+                margin: EdgeInsets.only(bottom: 20.h),
+                padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [BoxShadow(color: cycle['color'].withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 6))],
+                  borderRadius: BorderRadius.circular(24.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: cycle['color'].withValues(alpha: 0.3),
+                      blurRadius: 12.r,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
-                    Text("${cycle['name']} Life Cycle", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: cycle['color'])),
-                    const SizedBox(height: 16),
+                    Text(
+                      "${cycle['name']} Life Cycle",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: cycle['color'],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: (cycle['stages'] as List<Map<String, dynamic>>).asMap().entries.map((entry) {
-                        final stage = entry.value;
-                        final isLast = entry.key == (cycle['stages'] as List).length - 1;
-                        return Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: cycle['color'].withValues(alpha: 0.1),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: cycle['color'], width: 2),
-                                      ),
-                                      child: Center(child: Text(stage['emoji'], style: const TextStyle(fontSize: 22))),
+                      children: (cycle['stages'] as List<Map<String, dynamic>>)
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                            final stage = entry.value;
+                            final isLast =
+                                entry.key ==
+                                (cycle['stages'] as List).length - 1;
+                            return Expanded(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: 50.w,
+                                          height: 50.h,
+                                          decoration: BoxDecoration(
+                                            color: cycle['color'].withValues(
+                                              alpha: 0.1,
+                                            ),
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: cycle['color'],
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              stage['emoji'],
+                                              style: const TextStyle(
+                                                fontSize: 22,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 6.h),
+                                        Text(
+                                          stage['stage'],
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600,
+                                            color: cycle['color'],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 6),
-                                    Text(stage['stage'], style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: cycle['color'])),
-                                  ],
-                                ),
+                                  ),
+                                  if (!isLast)
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      size: 16.r,
+                                      color: cycle['color'],
+                                    ),
+                                ],
                               ),
-                              if (!isLast)
-                                Icon(Icons.arrow_forward, size: 16, color: cycle['color']),
-                            ],
-                          ),
-                        );
-                      }).toList(),
+                            );
+                          })
+                          .toList(),
                     ),
                   ],
                 ),
@@ -656,28 +1084,47 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
     _speakText("${planet['name']}. ${planet['fact']}");
     Get.bottomSheet(
       Container(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.r),
         decoration: BoxDecoration(
           color: const Color(0xFF1A1A2E),
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24.r),
+            topRight: Radius.circular(24.r),
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 100,
-              height: 100,
+              width: 100.w,
+              height: 100.h,
               decoration: BoxDecoration(
                 color: planet['color'],
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: planet['color'].withValues(alpha: 0.5), blurRadius: 30)],
+                boxShadow: [
+                  BoxShadow(
+                    color: planet['color'].withValues(alpha: 0.5),
+                    blurRadius: 30.r,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            Text(planet['name'], style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: planet['color'])),
-            const SizedBox(height: 12),
-            Text(planet['fact'], style: const TextStyle(fontSize: 16, color: Colors.white70), textAlign: TextAlign.center),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
+            Text(
+              planet['name'],
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: planet['color'],
+              ),
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              planet['fact'],
+              style: const TextStyle(fontSize: 16, color: Colors.white70),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.h),
             ElevatedButton(
               onPressed: () => Get.back(),
               style: ElevatedButton.styleFrom(backgroundColor: planet['color']),
@@ -690,15 +1137,21 @@ class _InfographicsPageState extends State<InfographicsPage> with TickerProvider
   }
 
   void _showFoodLevelDetails(Map<String, dynamic> level) {
-    _speakText("${level['name']}. ${level['advice']}. Foods include: ${(level['items'] as List).join(', ')}");
+    _speakText(
+      "${level['name']}. ${level['advice']}. Foods include: ${(level['items'] as List).join(', ')}",
+    );
   }
 
   void _showHabitatDetails(Map<String, dynamic> habitat) {
-    _speakText("${habitat['name']}. ${habitat['fact']}. Animals here are: ${(habitat['animals'] as List).join(', ')}");
+    _speakText(
+      "${habitat['name']}. ${habitat['fact']}. Animals here are: ${(habitat['animals'] as List).join(', ')}",
+    );
   }
 
   void _showLifecycleDetails(Map<String, dynamic> cycle) {
-    final stages = (cycle['stages'] as List<Map<String, dynamic>>).map((s) => "${s['stage']}: ${s['desc']}").join('. ');
+    final stages = (cycle['stages'] as List<Map<String, dynamic>>)
+        .map((s) => "${s['stage']}: ${s['desc']}")
+        .join('. ');
     _speakText("${cycle['name']} life cycle. $stages");
   }
 }

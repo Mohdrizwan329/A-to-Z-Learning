@@ -5,6 +5,8 @@ import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/widgets/common_app_bar.dart';
 import 'dart:math' as math;
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AgeSelectionPage extends StatefulWidget {
   final bool isInitialSetup;
 
@@ -66,7 +68,11 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
       appBar: CommonAppBar(
         title: 'Select your Age Group',
         showBackButton: !widget.isInitialSetup,
-        gradientColors: const [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+        gradientColors: const [
+          Color(0xFFFF6B6B),
+          Color(0xFFFF8E53),
+          Color(0xFFFFAA5A),
+        ],
       ),
       body: Stack(
         children: [
@@ -80,12 +86,12 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
           SafeArea(
             child: Column(
               children: [
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Age Group Cards
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Column(
@@ -119,7 +125,12 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
       height: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+          colors: [
+            Color(0xFF667EEA),
+            Color(0xFF764BA2),
+            Color(0xFFF093FB),
+            Color(0xFFF5576C),
+          ],
           stops: [0.0, 0.3, 0.7, 1.0],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -132,8 +143,8 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
     return [
       // Bottom left cloud
       Positioned(
-        bottom: 150,
-        left: 15,
+        bottom: 150.h,
+        left: 15.w,
         child: AnimatedBuilder(
           animation: _floatAnimation,
           builder: (context, child) {
@@ -152,8 +163,8 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
       ),
       // Sparkles
       Positioned(
-        top: 200,
-        right: 50,
+        top: 200.h,
+        right: 50.w,
         child: AnimatedBuilder(
           animation: _sparkleController,
           builder: (context, child) {
@@ -166,8 +177,8 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
         ),
       ),
       Positioned(
-        bottom: 250,
-        right: 25,
+        bottom: 250.h,
+        right: 25.w,
         child: AnimatedBuilder(
           animation: _sparkleController,
           builder: (context, child) {
@@ -184,7 +195,7 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
 
   Widget _buildContinueButton(AgeContentService ageContentService) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
+      padding: EdgeInsets.fromLTRB(24.w, 10.h, 24.w, 10.h),
       child: Obx(() {
         final hasSelected = ageContentService.hasSelectedAge.value;
         return TweenAnimationBuilder<double>(
@@ -204,7 +215,7 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: double.infinity,
-              height: 60,
+              height: 60.h,
               decoration: BoxDecoration(
                 gradient: hasSelected
                     ? const LinearGradient(
@@ -212,12 +223,12 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
                       )
                     : null,
                 color: hasSelected ? null : Colors.white.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 boxShadow: hasSelected
                     ? [
                         BoxShadow(
                           color: const Color(0xFF56D97F).withValues(alpha: 0.5),
-                          blurRadius: 20,
+                          blurRadius: 20.r,
                           offset: const Offset(0, 8),
                         ),
                       ]
@@ -226,12 +237,15 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    hasSelected ? "Let's Start! " : 'Select Age Group',
-                    style: GoogleFonts.fredoka(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: hasSelected ? Colors.white : Colors.white70,
+                  Flexible(
+                    child: Text(
+                      hasSelected ? "Let's Start! " : 'Select Age Group',
+                      style: GoogleFonts.fredoka(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: hasSelected ? Colors.white : Colors.white70,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   if (hasSelected)
@@ -334,8 +348,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
             scale: _scaleController,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              margin: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? LinearGradient(
@@ -348,7 +362,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                       )
                     : null,
                 color: isSelected ? null : Colors.white,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
                 border: isSelected
                     ? Border.all(color: Colors.white, width: 3)
                     : null,
@@ -366,7 +380,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                 children: [
                   // Fun character/emoji container
                   _buildCharacterContainer(cardData, isSelected),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
 
                   // Content
                   Expanded(
@@ -376,26 +390,32 @@ class _FunAgeCardState extends State<_FunAgeCard>
                         // Age label with fun badge
                         Row(
                           children: [
-                            Text(
-                              cardData['title'] as String,
-                              style: GoogleFonts.fredoka(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: isSelected
-                                    ? Colors.white
-                                    : cardData['color'] as Color,
+                            // Flexible so a long name shortens instead of
+                            // pushing the "Selected" badge off a narrow screen.
+                            Flexible(
+                              child: Text(
+                                cardData['title'] as String,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.fredoka(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : cardData['color'] as Color,
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8.w),
                             if (isSelected)
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 2,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 2.h,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
                                 child: const Text(
                                   '✓ Selected',
@@ -408,7 +428,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                               ),
                           ],
                         ),
-                        const SizedBox(height: 1),
+                        SizedBox(height: 1.h),
 
                         // Subtitle
                         Text(
@@ -421,7 +441,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                                 : Colors.grey.shade700,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(height: 2.h),
 
                         // Fun description with emojis
                         Row(
@@ -430,7 +450,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                               cardData['funIcon'] as String,
                               style: const TextStyle(fontSize: 14),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Expanded(
                               child: Text(
                                 cardData['description'] as String,
@@ -467,8 +487,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
   ) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      width: 60,
-      height: 60,
+      width: 60.w,
+      height: 60.h,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isSelected
@@ -483,7 +503,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
           color: isSelected
               ? Colors.white.withValues(alpha: 0.5)
@@ -503,10 +523,10 @@ class _FunAgeCardState extends State<_FunAgeCard>
             bottom: 0,
             right: 0,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
               decoration: BoxDecoration(
                 color: isSelected ? Colors.white : cardData['color'] as Color,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
               ),
               child: Text(
                 cardData['ageRange'] as String,
@@ -529,8 +549,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
   ) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      width: 36,
-      height: 36,
+      width: 36.w,
+      height: 36.h,
       decoration: BoxDecoration(
         color: isSelected ? Colors.white : Colors.grey.shade100,
         shape: BoxShape.circle,
@@ -541,8 +561,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
             ? [
                 BoxShadow(
                   color: Colors.white.withValues(alpha: 0.5),
-                  blurRadius: 10,
-                  spreadRadius: 2,
+                  blurRadius: 10.r,
+                  spreadRadius: 2.r,
                 ),
               ]
             : null,
@@ -551,12 +571,12 @@ class _FunAgeCardState extends State<_FunAgeCard>
           ? Icon(
               Icons.check_rounded,
               color: cardData['color'] as Color,
-              size: 22,
+              size: 22.r,
             )
           : Icon(
               Icons.arrow_forward_ios_rounded,
               color: Colors.grey.shade400,
-              size: 16,
+              size: 16.r,
             ),
     );
   }
@@ -654,7 +674,7 @@ class _AgeInputPageState extends State<AgeInputPage>
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -671,231 +691,265 @@ class _AgeInputPageState extends State<AgeInputPage>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
+          child: LayoutBuilder(
+            // Portrait-shaped content: in landscape the body is barely 300pt tall,
+            // which is shorter than this column needs. Scroll when that happens and
+            // stay exactly as before whenever there is room.
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 40.h),
 
-              // Title with bouncing cake
-              AnimatedBuilder(
-                animation: _bounceController,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(0, -_bounceController.value * 10),
-                    child: const Text('🎂', style: TextStyle(fontSize: 70)),
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "How old are you?",
-                style: GoogleFonts.fredoka(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  "We'll make learning perfect for you!",
-                  style: GoogleFonts.nunito(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 50),
-
-              // Age selector wheel
-              Expanded(
-                child: Center(
-                  child: SizedBox(
-                    height: 220,
-                    child: ListWheelScrollView.useDelegate(
-                      itemExtent: 90,
-                      perspective: 0.003,
-                      diameterRatio: 1.2,
-                      physics: const FixedExtentScrollPhysics(),
-                      onSelectedItemChanged: (index) {
-                        setState(() {
-                          selectedAge = index + 2;
-                        });
+                    // Title with bouncing cake
+                    AnimatedBuilder(
+                      animation: _bounceController,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(0, -_bounceController.value * 10),
+                          child: const Text(
+                            '🎂',
+                            style: TextStyle(fontSize: 70),
+                          ),
+                        );
                       },
-                      childDelegate: ListWheelChildBuilderDelegate(
-                        childCount: 11, // Ages 2-12
-                        builder: (context, index) {
-                          final age = index + 2;
-                          final isSelected = age == selectedAge;
-                          final emoji = _getAgeEmoji(age);
-                          return Center(
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 50,
-                                vertical: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: isSelected
-                                    ? const LinearGradient(
-                                        colors: [
-                                          Color(0xFF56D97F),
-                                          Color(0xFF10B981),
-                                        ],
-                                      )
-                                    : null,
-                                color: isSelected
-                                    ? null
-                                    : Colors.white.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(25),
-                                boxShadow: isSelected
-                                    ? [
-                                        BoxShadow(
-                                          color: const Color(
-                                            0xFF56D97F,
-                                          ).withValues(alpha: 0.5),
-                                          blurRadius: 20,
-                                          offset: const Offset(0, 5),
-                                        ),
-                                      ]
-                                    : null,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    emoji,
-                                    style: TextStyle(
-                                      fontSize: isSelected ? 32 : 24,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    '$age years',
-                                    style: GoogleFonts.fredoka(
-                                      fontSize: isSelected ? 28 : 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: isSelected
-                                          ? Colors.white
-                                          : Colors.white70,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      "How old are you?",
+                      style: GoogleFonts.fredoka(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-                ),
-              ),
+                    SizedBox(height: 8.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Text(
+                        "We'll make learning perfect for you!",
+                        style: GoogleFonts.nunito(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
 
-              // Age group preview card
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.3),
-                    width: 2,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AgeContentService.getAgeGroupFromAge(selectedAge).emoji,
-                      style: const TextStyle(fontSize: 36),
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Your Learning Level:',
-                          style: GoogleFonts.nunito(
-                            color: Colors.white70,
-                            fontSize: 12,
+                    SizedBox(height: 50.h),
+
+                    // Age selector wheel
+                    SizedBox(
+                      // A share of the viewport rather than `Expanded`:
+                      // `Expanded` inside a scroll view needs an `IntrinsicHeight`
+                      // above it, and a scrollable cannot report an intrinsic
+                      // height - it throws.
+                      height: math.max(200.h, constraints.maxHeight * 0.55),
+                      child: Center(
+                        child: SizedBox(
+                          height: 220.h,
+                          child: ListWheelScrollView.useDelegate(
+                            itemExtent: 90,
+                            perspective: 0.003,
+                            diameterRatio: 1.2,
+                            physics: const FixedExtentScrollPhysics(),
+                            onSelectedItemChanged: (index) {
+                              setState(() {
+                                selectedAge = index + 2;
+                              });
+                            },
+                            childDelegate: ListWheelChildBuilderDelegate(
+                              childCount: 11, // Ages 2-12
+                              builder: (context, index) {
+                                final age = index + 2;
+                                final isSelected = age == selectedAge;
+                                final emoji = _getAgeEmoji(age);
+                                return Center(
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 50.w,
+                                      vertical: 16.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: isSelected
+                                          ? const LinearGradient(
+                                              colors: [
+                                                Color(0xFF56D97F),
+                                                Color(0xFF10B981),
+                                              ],
+                                            )
+                                          : null,
+                                      color: isSelected
+                                          ? null
+                                          : Colors.white.withValues(
+                                              alpha: 0.15,
+                                            ),
+                                      borderRadius: BorderRadius.circular(25.r),
+                                      boxShadow: isSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: const Color(
+                                                  0xFF56D97F,
+                                                ).withValues(alpha: 0.5),
+                                                blurRadius: 20.r,
+                                                offset: const Offset(0, 5),
+                                              ),
+                                            ]
+                                          : null,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          emoji,
+                                          style: TextStyle(
+                                            fontSize: isSelected ? 32 : 24,
+                                          ),
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        Text(
+                                          '$age years',
+                                          style: GoogleFonts.fredoka(
+                                            fontSize: isSelected ? 28 : 22,
+                                            fontWeight: FontWeight.bold,
+                                            color: isSelected
+                                                ? Colors.white
+                                                : Colors.white70,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                        Text(
-                          AgeContentService.getAgeGroupFromAge(
-                            selectedAge,
-                          ).displayName,
-                          style: GoogleFonts.fredoka(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    // Age group preview card
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 24.w),
+                      padding: EdgeInsets.all(20.r),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(24.r),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.3),
+                          width: 2,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AgeContentService.getAgeGroupFromAge(
+                              selectedAge,
+                            ).emoji,
+                            style: const TextStyle(fontSize: 36),
+                          ),
+                          SizedBox(width: 16.w),
+                          // Takes the width left beside the emoji so the level name
+                          // wraps instead of running off the card.
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Your Learning Level:',
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white70,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  AgeContentService.getAgeGroupFromAge(
+                                    selectedAge,
+                                  ).displayName,
+                                  style: GoogleFonts.fredoka(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 24.h),
+
+                    // Continue button
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: GestureDetector(
+                        onTap: _onContinue,
+                        child: Container(
+                          width: double.infinity,
+                          height: 60.h,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF56D97F), Color(0xFF10B981)],
+                            ),
+                            borderRadius: BorderRadius.circular(20.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF56D97F,
+                                ).withValues(alpha: 0.5),
+                                blurRadius: 20.r,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Let's Go! ",
+                                style: GoogleFonts.fredoka(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Text('🚀', style: TextStyle(fontSize: 24)),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
+
+                    SizedBox(height: 40.h),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 24),
-
-              // Continue button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: GestureDetector(
-                  onTap: _onContinue,
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF56D97F), Color(0xFF10B981)],
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF56D97F).withValues(alpha: 0.5),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Let's Go! ",
-                          style: GoogleFonts.fredoka(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const Text('🚀', style: TextStyle(fontSize: 24)),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 40),
-            ],
+            ),
           ),
         ),
       ),
@@ -938,8 +992,8 @@ class _AgeInputPageState extends State<AgeInputPage>
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: const Color(0xFF56D97F),
       duration: const Duration(seconds: 2),
-      margin: const EdgeInsets.all(16),
-      borderRadius: 16,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 16.r,
     );
 
     await Future.delayed(const Duration(milliseconds: 500));

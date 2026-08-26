@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:jiyan_learning/services/premium_service.dart';
 import 'package:jiyan_learning/view/premium/premium_features_screen.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class PremiumPlansPage extends StatelessWidget {
   const PremiumPlansPage({Key? key}) : super(key: key);
 
@@ -59,12 +61,16 @@ class PremiumPlansPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18),
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 18.r,
+            ),
           ),
           onPressed: () => Get.back(),
         ),
@@ -78,43 +84,59 @@ class PremiumPlansPage extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+        title: FittedBox(
+          // The title is a Row of separately styled words, so it cannot
+          // ellipsize; scaling it down keeps the whole title readable on a
+          // narrow phone instead of clipping the last word.
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(8.r),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Icon(
+                  Icons.workspace_premium,
+                  color: Colors.white,
+                  size: 28.r,
+                ),
               ),
-              child: const Icon(Icons.workspace_premium, color: Colors.white, size: 28),
-            ),
-            const SizedBox(width: 12),
-            const Text(
-              "Premium Plans",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 1,
+              SizedBox(width: 12.w),
+              const Text(
+                "Premium Plans",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: 1,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         centerTitle: true,
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -123,7 +145,7 @@ class PremiumPlansPage extends StatelessWidget {
         child: SafeArea(
           top: false,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 // Premium status banner
@@ -131,18 +153,18 @@ class PremiumPlansPage extends StatelessWidget {
                   final premiumService = PremiumService.to;
                   if (premiumService.isPremium.value) {
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      padding: const EdgeInsets.all(16),
+                      margin: EdgeInsets.only(bottom: 16.h),
+                      padding: EdgeInsets.all(16.r),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: Row(
                         children: [
                           const Text("👑", style: TextStyle(fontSize: 30)),
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +189,8 @@ class PremiumPlansPage extends StatelessWidget {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () => Get.to(() => const PremiumFeaturesScreen()),
+                            onPressed: () =>
+                                Get.to(() => const PremiumFeaturesScreen()),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.brown.shade800,
                               foregroundColor: Colors.white,
@@ -183,22 +206,22 @@ class PremiumPlansPage extends StatelessWidget {
 
                 // Header
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12.r),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
                         ),
                         child: const Text("✨", style: TextStyle(fontSize: 28)),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       const Expanded(
                         child: Text(
                           'Unlock unlimited learning for your child!',
@@ -212,14 +235,14 @@ class PremiumPlansPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Premium benefits preview
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Column(
                     children: [
@@ -231,10 +254,10 @@ class PremiumPlansPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
+                        spacing: 8.r,
+                        runSpacing: 8.r,
                         alignment: WrapAlignment.center,
                         children: [
                           _buildFeatureChip('🧮 Advanced Math'),
@@ -248,23 +271,23 @@ class PremiumPlansPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 // Plan cards
                 ...plans.map((plan) => _buildPlanCard(plan)),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Coming soon note
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Row(
                     children: [
                       const Text("🚀", style: TextStyle(fontSize: 24)),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       const Expanded(
                         child: Text(
                           'In-App Purchase coming soon! Stay tuned for easy subscription options.',
@@ -284,10 +307,10 @@ class PremiumPlansPage extends StatelessWidget {
 
   Widget _buildFeatureChip(String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
         label,
@@ -305,15 +328,15 @@ class PremiumPlansPage extends StatelessWidget {
     final color = plan['color'] as Color;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: isPopular ? Border.all(color: color, width: 2) : null,
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.3),
-            blurRadius: 15,
+            blurRadius: 15.r,
             offset: const Offset(0, 8),
           ),
         ],
@@ -323,14 +346,14 @@ class PremiumPlansPage extends StatelessWidget {
           if (isPopular)
             Positioned(
               top: 0,
-              right: 20,
+              right: 20.w,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12.r),
+                    bottomRight: Radius.circular(12.r),
                   ),
                 ),
                 child: const Text(
@@ -344,23 +367,26 @@ class PremiumPlansPage extends StatelessWidget {
               ),
             ),
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: Center(
-                        child: Text(plan['icon'], style: const TextStyle(fontSize: 30)),
+                        child: Text(
+                          plan['icon'],
+                          style: const TextStyle(fontSize: 30),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,26 +412,31 @@ class PremiumPlansPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                ...((plan['features'] as List<String>).map((feature) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Icon(Icons.check_circle, color: color, size: 20),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          feature,
-                          style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
+                SizedBox(height: 16.h),
+                ...((plan['features'] as List<String>).map(
+                  (feature) => Padding(
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    child: Row(
+                      children: [
+                        Icon(Icons.check_circle, color: color, size: 20.r),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: Text(
+                            feature,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade700,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ))),
-                const SizedBox(height: 16),
+                )),
+                SizedBox(height: 16.h),
                 SizedBox(
                   width: double.infinity,
-                  height: 50,
+                  height: 50.h,
                   child: ElevatedButton(
                     onPressed: () => _showComingSoonDialog(plan['title']),
                     style: ElevatedButton.styleFrom(
@@ -413,12 +444,15 @@ class PremiumPlansPage extends StatelessWidget {
                       foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                       ),
                     ),
                     child: const Text(
                       'Coming Soon',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -433,12 +467,14 @@ class PremiumPlansPage extends StatelessWidget {
   void _showComingSoonDialog(String planTitle) {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text("🚀", style: TextStyle(fontSize: 50)),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             const Text(
               'Coming Soon!',
               style: TextStyle(
@@ -447,13 +483,13 @@ class PremiumPlansPage extends StatelessWidget {
                 color: Color(0xFFFFAA5A),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Text(
               'In-App Purchase for $planTitle plan will be available soon. We\'re working hard to bring you the best experience!',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -462,7 +498,7 @@ class PremiumPlansPage extends StatelessWidget {
                   backgroundColor: const Color(0xFFFFAA5A),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
                 child: const Text('OK'),

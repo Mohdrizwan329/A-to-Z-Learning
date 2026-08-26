@@ -4,6 +4,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:math' as math;
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class SelfAwarenessPage extends StatefulWidget {
   const SelfAwarenessPage({super.key});
 
@@ -11,7 +13,8 @@ class SelfAwarenessPage extends StatefulWidget {
   State<SelfAwarenessPage> createState() => _SelfAwarenessPageState();
 }
 
-class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProviderStateMixin {
+class _SelfAwarenessPageState extends State<SelfAwarenessPage>
+    with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
 
@@ -65,14 +68,54 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
   ];
 
   final List<Map<String, dynamic>> bodyAwareness = [
-    {'part': 'Head', 'emoji': '🧠', 'function': 'Helps you think and learn!', 'color': Color(0xFFA78BFA)},
-    {'part': 'Eyes', 'emoji': '👀', 'function': 'Help you see beautiful things!', 'color': Color(0xFF4ECDC4)},
-    {'part': 'Ears', 'emoji': '👂', 'function': 'Help you hear sounds and music!', 'color': Color(0xFFFFAA5A)},
-    {'part': 'Nose', 'emoji': '👃', 'function': 'Helps you smell and breathe!', 'color': Color(0xFF56D97F)},
-    {'part': 'Mouth', 'emoji': '👄', 'function': 'Helps you talk, eat, and smile!', 'color': Color(0xFFFF6B6B)},
-    {'part': 'Hands', 'emoji': '🤲', 'function': 'Help you hold, draw, and hug!', 'color': Color(0xFF667EEA)},
-    {'part': 'Legs', 'emoji': '🦵', 'function': 'Help you walk, run, and jump!', 'color': Color(0xFFFFD93D)},
-    {'part': 'Heart', 'emoji': '❤️', 'function': 'Pumps blood and helps you feel love!', 'color': Color(0xFFFF8E53)},
+    {
+      'part': 'Head',
+      'emoji': '🧠',
+      'function': 'Helps you think and learn!',
+      'color': Color(0xFFA78BFA),
+    },
+    {
+      'part': 'Eyes',
+      'emoji': '👀',
+      'function': 'Help you see beautiful things!',
+      'color': Color(0xFF4ECDC4),
+    },
+    {
+      'part': 'Ears',
+      'emoji': '👂',
+      'function': 'Help you hear sounds and music!',
+      'color': Color(0xFFFFAA5A),
+    },
+    {
+      'part': 'Nose',
+      'emoji': '👃',
+      'function': 'Helps you smell and breathe!',
+      'color': Color(0xFF56D97F),
+    },
+    {
+      'part': 'Mouth',
+      'emoji': '👄',
+      'function': 'Helps you talk, eat, and smile!',
+      'color': Color(0xFFFF6B6B),
+    },
+    {
+      'part': 'Hands',
+      'emoji': '🤲',
+      'function': 'Help you hold, draw, and hug!',
+      'color': Color(0xFF667EEA),
+    },
+    {
+      'part': 'Legs',
+      'emoji': '🦵',
+      'function': 'Help you walk, run, and jump!',
+      'color': Color(0xFFFFD93D),
+    },
+    {
+      'part': 'Heart',
+      'emoji': '❤️',
+      'function': 'Pumps blood and helps you feel love!',
+      'color': Color(0xFFFF8E53),
+    },
   ];
 
   final List<Map<String, dynamic>> iAmQuestions = [
@@ -116,7 +159,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
       (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _cardAnimController,
-          curve: Interval(index * 0.1, (index * 0.1 + 0.4).clamp(0.0, 1.0), curve: Curves.easeOutBack),
+          curve: Interval(
+            index * 0.1,
+            (index * 0.1 + 0.4).clamp(0.0, 1.0),
+            curve: Curves.easeOutBack,
+          ),
         ),
       ),
     );
@@ -125,7 +172,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
       (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _cardAnimController,
-          curve: Interval(index * 0.12, (index * 0.12 + 0.4).clamp(0.0, 1.0), curve: Curves.easeOutBack),
+          curve: Interval(
+            index * 0.12,
+            (index * 0.12 + 0.4).clamp(0.0, 1.0),
+            curve: Curves.easeOutBack,
+          ),
         ),
       ),
     );
@@ -162,15 +213,19 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: GestureDetector(
             onTap: () => Get.back(),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 20.r,
+              ),
             ),
           ),
         ),
@@ -184,27 +239,40 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 10,
+                blurRadius: 10.r,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
         ),
         elevation: 8,
-        title: const Text("Know Yourself", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text(
+          "Know Yourself",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           isScrollable: true,
           tabAlignment: TabAlignment.center,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 44),
+          labelPadding: EdgeInsets.symmetric(horizontal: 44.w),
           dividerColor: Colors.transparent,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          labelStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          labelStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
           tabs: const [
             Tab(text: "About Me"),
             Tab(text: "My Body"),
@@ -215,7 +283,12 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -277,15 +350,28 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
 
   Widget _buildAboutMeTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
           const Text("👤", style: TextStyle(fontSize: 50)),
-          const SizedBox(height: 8),
-          const Text("All About Me!", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text("Discover your favorites!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-          const SizedBox(height: 24),
+          SizedBox(height: 8.h),
+          const Text(
+            "All About Me!",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            "Discover your favorites!",
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 24.h),
 
           // Favorite Color
           _buildPreferenceSection(
@@ -339,24 +425,52 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
             sectionIndex: 3,
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Summary Card
-          if (favoriteColor != null || favoriteAnimal != null || favoriteFood != null || favoriteActivity != null)
+          if (favoriteColor != null ||
+              favoriteAnimal != null ||
+              favoriteFood != null ||
+              favoriteActivity != null)
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFFA500)]),
-                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                ),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Column(
                 children: [
-                  const Text("📋 My Profile", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 12),
-                  if (favoriteColor != null) Text("Color: $favoriteColor", style: const TextStyle(color: Colors.white)),
-                  if (favoriteAnimal != null) Text("Animal: $favoriteAnimal", style: const TextStyle(color: Colors.white)),
-                  if (favoriteFood != null) Text("Food: $favoriteFood", style: const TextStyle(color: Colors.white)),
-                  if (favoriteActivity != null) Text("Activity: $favoriteActivity", style: const TextStyle(color: Colors.white)),
+                  const Text(
+                    "📋 My Profile",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
+                  if (favoriteColor != null)
+                    Text(
+                      "Color: $favoriteColor",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  if (favoriteAnimal != null)
+                    Text(
+                      "Animal: $favoriteAnimal",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  if (favoriteFood != null)
+                    Text(
+                      "Food: $favoriteFood",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  if (favoriteActivity != null)
+                    Text(
+                      "Activity: $favoriteActivity",
+                      style: const TextStyle(color: Colors.white),
+                    ),
                 ],
               ),
             ),
@@ -383,10 +497,7 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(0, 30 * (1 - value)),
-          child: Opacity(
-            opacity: value.clamp(0.0, 1.0),
-            child: child,
-          ),
+          child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
         );
       },
       child: AnimatedBuilder(
@@ -398,18 +509,18 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
           return Transform.translate(offset: Offset(0, offset), child: child);
         },
         child: Container(
-          margin: const EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.only(bottom: 20.h),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: gradient,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             boxShadow: [
               BoxShadow(
                 color: gradient[0].withValues(alpha: 0.4),
-                blurRadius: 8,
+                blurRadius: 8.r,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -417,11 +528,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
           child: Stack(
             children: [
               Positioned(
-                top: -15,
-                right: -15,
+                top: -15.h,
+                right: -15.w,
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: 50.w,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white.withValues(alpha: 0.1),
@@ -429,11 +540,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                 ),
               ),
               Positioned(
-                bottom: -10,
-                left: -10,
+                bottom: -10.h,
+                left: -10.w,
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: 40.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white.withValues(alpha: 0.08),
@@ -441,37 +552,52 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Container(
-                          width: 45,
-                          height: 45,
+                          width: 45.w,
+                          height: 45.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
                             shape: BoxShape.circle,
                           ),
-                          child: Center(child: Text(emoji, style: const TextStyle(fontSize: 22))),
+                          child: Center(
+                            child: Text(
+                              emoji,
+                              style: const TextStyle(fontSize: 22),
+                            ),
+                          ),
                         ),
-                        const SizedBox(width: 10),
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                        SizedBox(width: 10.w),
+                        // Takes the width left beside the emoji, so a longer
+                        // heading wraps instead of running off the card.
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  color: Color(0x40000000),
+                                  offset: Offset(1, 1),
+                                  blurRadius: 3.r,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14.h),
                     Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
+                      spacing: 10.r,
+                      runSpacing: 10.r,
                       children: items.map((item) {
                         final isSelected = selectedValue == item[nameKey];
                         return GestureDetector(
@@ -482,26 +608,48 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                           },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 8.h,
+                            ),
                             decoration: BoxDecoration(
-                              color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.25),
-                              borderRadius: BorderRadius.circular(20),
-                              border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors.white.withValues(alpha: 0.25),
+                              borderRadius: BorderRadius.circular(20.r),
+                              border: isSelected
+                                  ? Border.all(color: Colors.white, width: 2)
+                                  : null,
                               boxShadow: isSelected
-                                  ? [BoxShadow(color: Colors.white.withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 3))]
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.4,
+                                        ),
+                                        blurRadius: 8.r,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ]
                                   : [],
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(item[displayKey], style: const TextStyle(fontSize: 20)),
-                                const SizedBox(width: 6),
+                                Text(
+                                  item[displayKey],
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                SizedBox(width: 6.w),
                                 Text(
                                   item[nameKey],
                                   style: TextStyle(
                                     fontSize: 13,
-                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                    color: isSelected ? gradient[0] : Colors.white,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.w500,
+                                    color: isSelected
+                                        ? gradient[0]
+                                        : Colors.white,
                                   ),
                                 ),
                               ],
@@ -522,18 +670,31 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
 
   Widget _buildBodyTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: bodyAwareness.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("🧍", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("My Amazing Body", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Learn what each part does!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "My Amazing Body",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Learn what each part does!",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
@@ -558,10 +719,7 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
             final value = _bodyCardAnimations[animIndex].value;
             return Transform.translate(
               offset: Offset(0, 30 * (1 - value)),
-              child: Opacity(
-                opacity: value.clamp(0.0, 1.0),
-                child: child,
-              ),
+              child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
             );
           },
           child: AnimatedBuilder(
@@ -570,23 +728,26 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
               final offset = ((index - 1) % 2 == 0)
                   ? _floatAnimation.value * 0.5
                   : -_floatAnimation.value * 0.5;
-              return Transform.translate(offset: Offset(0, offset), child: child);
+              return Transform.translate(
+                offset: Offset(0, offset),
+                child: child,
+              );
             },
             child: GestureDetector(
               onTap: () => _speakText("${part['part']}. ${part['function']}"),
               child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: EdgeInsets.only(bottom: 16.h),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
                       color: gradient[0].withValues(alpha: 0.4),
-                      blurRadius: 8,
+                      blurRadius: 8.r,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -594,11 +755,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                 child: Stack(
                   children: [
                     Positioned(
-                      top: -15,
-                      right: -15,
+                      top: -15.h,
+                      right: -15.w,
                       child: Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.1),
@@ -606,11 +767,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                       ),
                     ),
                     Positioned(
-                      bottom: -10,
-                      left: -10,
+                      bottom: -10.h,
+                      left: -10.w,
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.08),
@@ -618,44 +779,65 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.r),
                       child: Row(
                         children: [
                           Container(
-                            width: 60,
-                            height: 60,
+                            width: 60.w,
+                            height: 60.h,
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.3),
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text(part['emoji'], style: const TextStyle(fontSize: 30))),
+                            child: Center(
+                              child: Text(
+                                part['emoji'],
+                                style: const TextStyle(fontSize: 30),
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: 14),
+                          SizedBox(width: 14.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   part['part'],
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                    shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                                    shadows: [
+                                      Shadow(
+                                        color: Color(0x40000000),
+                                        offset: Offset(1, 1),
+                                        blurRadius: 3.r,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(part['function'], style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.85))),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  part['function'],
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white.withValues(alpha: 0.85),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.all(6),
+                            padding: EdgeInsets.all(6.r),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.volume_up, color: Colors.white, size: 20),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: 20.r,
+                            ),
                           ),
                         ],
                       ),
@@ -672,18 +854,31 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
 
   Widget _buildQuestionsTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: iAmQuestions.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("🤔", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Think About...", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Questions to explore yourself!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 20),
+              SizedBox(height: 8.h),
+              const Text(
+                "Think About...",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Questions to explore yourself!",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 20.h),
             ],
           );
         }
@@ -698,7 +893,10 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
           [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
         ];
         final gradient = gradientColors[(index - 1) % gradientColors.length];
-        final animIndex = (index - 1).clamp(0, _questionCardAnimations.length - 1);
+        final animIndex = (index - 1).clamp(
+          0,
+          _questionCardAnimations.length - 1,
+        );
 
         return AnimatedBuilder(
           animation: _questionCardAnimations[animIndex],
@@ -706,10 +904,7 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
             final value = _questionCardAnimations[animIndex].value;
             return Transform.scale(
               scale: 0.8 + (0.2 * value),
-              child: Opacity(
-                opacity: value.clamp(0.0, 1.0),
-                child: child,
-              ),
+              child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
             );
           },
           child: AnimatedBuilder(
@@ -718,31 +913,38 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
               final offset = ((index - 1) % 2 == 0)
                   ? _floatAnimation.value * 0.5
                   : -_floatAnimation.value * 0.5;
-              return Transform.translate(offset: Offset(0, offset), child: child);
+              return Transform.translate(
+                offset: Offset(0, offset),
+                child: child,
+              );
             },
             child: GestureDetector(
               onTap: () => _speakText(question['question']),
               child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: EdgeInsets.only(bottom: 16.h),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradient,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
-                    BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4)),
+                    BoxShadow(
+                      color: gradient[0].withValues(alpha: 0.4),
+                      blurRadius: 8.r,
+                      offset: const Offset(0, 4),
+                    ),
                   ],
                 ),
                 child: Stack(
                   children: [
                     Positioned(
-                      top: -15,
-                      right: -15,
+                      top: -15.h,
+                      right: -15.w,
                       child: Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.1),
@@ -750,11 +952,11 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                       ),
                     ),
                     Positioned(
-                      bottom: -10,
-                      left: -10,
+                      bottom: -10.h,
+                      left: -10.w,
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withValues(alpha: 0.08),
@@ -762,37 +964,52 @@ class _SelfAwarenessPageState extends State<SelfAwarenessPage> with TickerProvid
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20.r),
                       child: Row(
                         children: [
                           Container(
-                            width: 65,
-                            height: 65,
+                            width: 65.w,
+                            height: 65.h,
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.3),
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text(question['emoji'], style: const TextStyle(fontSize: 32))),
+                            child: Center(
+                              child: Text(
+                                question['emoji'],
+                                style: const TextStyle(fontSize: 32),
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                           Expanded(
                             child: Text(
                               question['question'],
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                shadows: [Shadow(color: Color(0x40000000), offset: Offset(1, 1), blurRadius: 3)],
+                                shadows: [
+                                  Shadow(
+                                    color: Color(0x40000000),
+                                    offset: Offset(1, 1),
+                                    blurRadius: 3.r,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.all(6),
+                            padding: EdgeInsets.all(6.r),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.volume_up, color: Colors.white, size: 20),
+                            child: Icon(
+                              Icons.volume_up,
+                              color: Colors.white,
+                              size: 20.r,
+                            ),
                           ),
                         ],
                       ),

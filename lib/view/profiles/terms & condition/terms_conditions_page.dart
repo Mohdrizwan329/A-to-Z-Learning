@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class TermsConditionsScreen extends StatefulWidget {
   const TermsConditionsScreen({super.key});
 
@@ -84,61 +86,71 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen>
   static const List<Map<String, dynamic>> _termsSections = [
     {
       "title": "Age Requirements",
-      "body": "This app is designed for children ages 3-12 years. Children must use the app under parental supervision.",
+      "body":
+          "This app is designed for children ages 3-12 years. Children must use the app under parental supervision.",
       "icon": Icons.child_care_rounded,
       "gradient": [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
     },
     {
       "title": "Educational Content",
-      "body": "All content is designed for educational purposes only. We provide accurate and age-appropriate learning materials.",
+      "body":
+          "All content is designed for educational purposes only. We provide accurate and age-appropriate learning materials.",
       "icon": Icons.school_rounded,
       "gradient": [Color(0xFF4ECDC4), Color(0xFF44A08D)],
     },
     {
       "title": "User Account",
-      "body": "Parents can create accounts for their children. Keep login credentials secure. One account per child is recommended.",
+      "body":
+          "Parents can create accounts for their children. Keep login credentials secure. One account per child is recommended.",
       "icon": Icons.account_circle_rounded,
       "gradient": [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
     },
     {
       "title": "Subscription & Payments",
-      "body": "Basic features are free. Premium features require subscription. Parents must authorize all purchases.",
+      "body":
+          "Basic features are free. Premium features require subscription. Parents must authorize all purchases.",
       "icon": Icons.payment_rounded,
       "gradient": [Color(0xFF667EEA), Color(0xFF764BA2)],
     },
     {
       "title": "Child Safety",
-      "body": "No direct communication between users. No personal information sharing. All content is reviewed for child safety.",
+      "body":
+          "No direct communication between users. No personal information sharing. All content is reviewed for child safety.",
       "icon": Icons.security_rounded,
       "gradient": [Color(0xFF56D97F), Color(0xFF7BE495)],
     },
     {
       "title": "Acceptable Use",
-      "body": "Use the app only for learning purposes. Do not attempt to modify or hack the app. Report any issues through Help section.",
+      "body":
+          "Use the app only for learning purposes. Do not attempt to modify or hack the app. Report any issues through Help section.",
       "icon": Icons.thumb_up_rounded,
       "gradient": [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
     },
     {
       "title": "Intellectual Property",
-      "body": "All content and designs are owned by Learning For Kids. Users may not copy or distribute app content.",
+      "body":
+          "All content and designs are owned by Learning For Kids. Users may not copy or distribute app content.",
       "icon": Icons.copyright_rounded,
       "gradient": [Color(0xFF45B7D1), Color(0xFF7DD3E8)],
     },
     {
       "title": "Updates & Changes",
-      "body": "We regularly update content to improve learning. App features may change with updates. We notify users of significant changes.",
+      "body":
+          "We regularly update content to improve learning. App features may change with updates. We notify users of significant changes.",
       "icon": Icons.system_update_rounded,
       "gradient": [Color(0xFFEC407A), Color(0xFFF48FB1)],
     },
     {
       "title": "Limitation of Liability",
-      "body": "The app is provided 'as is' for educational purposes. Technical issues will be resolved as quickly as possible.",
+      "body":
+          "The app is provided 'as is' for educational purposes. Technical issues will be resolved as quickly as possible.",
       "icon": Icons.gavel_rounded,
       "gradient": [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
     },
     {
       "title": "Contact Us",
-      "body": "For questions about these terms, contact us through the app or email: support@learningforkids.com",
+      "body":
+          "For questions about these terms, contact us through the app or email: support@learningforkids.com",
       "icon": Icons.contact_support_rounded,
       "gradient": [Color(0xFF4ECDC4), Color(0xFF44A08D)],
     },
@@ -211,34 +223,30 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen>
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.r),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
-            size: 20,
+            size: 20.r,
           ),
         ),
         onPressed: () => Get.back(),
       ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF6B6B),
-              Color(0xFFFF8E53),
-              Color(0xFFFFAA5A),
-            ],
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
               color: Color(0x40FF6B6B),
-              blurRadius: 15,
+              blurRadius: 15.r,
               offset: Offset(0, 5),
             ),
           ],
@@ -253,7 +261,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen>
           shadows: [
             Shadow(
               color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(1, 2),
             ),
           ],
@@ -273,80 +281,73 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen>
         final offset = (index % 2 == 0)
             ? _floatAnimation.value * 0.5
             : -_floatAnimation.value * 0.5;
-        return Transform.translate(
-          offset: Offset(0, offset),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, offset), child: child);
       },
       child: Container(
-      margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: gradientList,
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        margin: EdgeInsets.only(bottom: AppTheme.spacingS),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientList,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: gradientList[0].withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: gradientList[0].withValues(alpha: 0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppTheme.spacingM,
-            vertical: AppTheme.spacingL,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(14),
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppTheme.spacingM,
+              vertical: AppTheme.spacingL,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 56.w,
+                  height: 56.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  child: Icon(item['icon'], color: Colors.white, size: 28.r),
                 ),
-                child: Icon(
-                  item['icon'],
-                  color: Colors.white,
-                  size: 28,
-                ),
-              ),
-              SizedBox(width: AppTheme.spacingM),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${index + 1}. ${item['title']}',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                SizedBox(width: AppTheme.spacingM),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${index + 1}. ${item['title']}',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      item['body'],
-                      style: GoogleFonts.nunito(
-                        fontSize: 14,
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.4,
+                      SizedBox(height: 6.h),
+                      Text(
+                        item['body'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          height: 1.4,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }

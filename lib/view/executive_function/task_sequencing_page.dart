@@ -8,6 +8,8 @@ import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class TaskSequencingPage extends StatefulWidget {
   const TaskSequencingPage({super.key});
 
@@ -83,12 +85,12 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             _progress.resetProgress(ProgressService.kTaskSequencing);
@@ -105,7 +107,8 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
               animation: _bubbleController,
               builder: (context, child) {
                 final value = _bubbleController.value;
-                final offset = 20.0 *
+                final offset =
+                    20.0 *
                     ((value * 2 * 3.14159).clamp(0, 6.28) != 0
                         ? (value * 2 * 3.14159).abs() % 1
                         : 0);
@@ -113,8 +116,8 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
                   top: top + offset,
                   left: left,
                   child: Container(
-                    width: 20 + (i % 3) * 15.0,
-                    height: 20 + (i % 3) * 15.0,
+                    width: 20.w + (i % 3) * 15.0,
+                    height: 20.h + (i % 3) * 15.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -133,34 +136,55 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
             children: [
               Obx(() {
                 final progress =
-                    _progress.getProgressPercentage(ProgressService.kTaskSequencing) / 100;
-                final progressString =
-                    _progress.getProgressString(ProgressService.kTaskSequencing);
+                    _progress.getProgressPercentage(
+                      ProgressService.kTaskSequencing,
+                    ) /
+                    100;
+                final progressString = _progress.getProgressString(
+                  ProgressService.kTaskSequencing,
+                );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
@@ -169,12 +193,12 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
               }),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.95,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 14.r,
+                    mainAxisSpacing: 14.r,
                   ),
                   itemCount: sections.length,
                   itemBuilder: (context, index) {
@@ -184,19 +208,27 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
                       index: index,
                       child: Obx(() {
                         final isCompleted = _progress.isItemCompleted(
-                            ProgressService.kTaskSequencing, index);
+                          ProgressService.kTaskSequencing,
+                          index,
+                        );
                         return GradientCard(
                           gradient: gradientColors,
                           onTap: () async {
                             TtsService.to.speak(section['title']);
-                            await Get.to(() => _TaskSequencingDetailPage(
-                                  sectionIndex: index,
-                                  title: section['title'],
-                                ));
+                            await Get.to(
+                              () => _TaskSequencingDetailPage(
+                                sectionIndex: index,
+                                title: section['title'],
+                              ),
+                            );
                             if (!_progress.isItemCompleted(
-                                ProgressService.kTaskSequencing, index)) {
+                              ProgressService.kTaskSequencing,
+                              index,
+                            )) {
                               await _progress.markItemCompleted(
-                                  ProgressService.kTaskSequencing, index);
+                                ProgressService.kTaskSequencing,
+                                index,
+                              );
                             }
                             setState(() {});
                           },
@@ -204,42 +236,56 @@ class _TaskSequencingPageState extends State<TaskSequencingPage>
                             children: [
                               if (isCompleted)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(Icons.check,
-                                        color: Colors.white, size: 16),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 16.r,
+                                    ),
                                   ),
                                 ),
                               Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(section['icon'],
-                                        size: 48, color: Colors.white),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    Icon(
+                                      section['icon'],
+                                      size: 48.r,
+                                      color: Colors.white,
                                     ),
-                                    const SizedBox(height: 4),
+                                    SizedBox(height: 10.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w,
+                                      ),
                                       child: Text(
                                         section['desc'],
                                         style: GoogleFonts.nunito(
                                           fontSize: 11,
-                                          color: Colors.white.withValues(alpha: 0.9),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
                                         ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
@@ -315,7 +361,8 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
               animation: _bubbleController,
               builder: (context, child) {
                 final value = _bubbleController.value;
-                final offset = 20.0 *
+                final offset =
+                    20.0 *
                     ((value * 2 * 3.14159).clamp(0, 6.28) != 0
                         ? (value * 2 * 3.14159).abs() % 1
                         : 0);
@@ -323,8 +370,8 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
                   top: top + offset,
                   left: left,
                   child: Container(
-                    width: 20 + (i % 3) * 15.0,
-                    height: 20 + (i % 3) * 15.0,
+                    width: 20.w + (i % 3) * 15.0,
+                    height: 20.h + (i % 3) * 15.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -340,7 +387,7 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
             );
           }),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: _buildContent(),
           ),
         ],
@@ -373,16 +420,27 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
 
   Widget _buildWhatIsSequencing() {
     final concepts = [
-      {'text': 'Sequencing means putting things in the right order', 'icon': Icons.format_list_numbered},
-      {'text': 'First, Then, Next, Last - that\'s a sequence!', 'icon': Icons.swap_vert},
+      {
+        'text': 'Sequencing means putting things in the right order',
+        'icon': Icons.format_list_numbered,
+      },
+      {
+        'text': 'First, Then, Next, Last - that\'s a sequence!',
+        'icon': Icons.swap_vert,
+      },
       {'text': 'It helps us do tasks step by step', 'icon': Icons.checklist},
       {'text': 'Everything has a sequence - even stories!', 'icon': Icons.star},
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('What is Sequencing?', 'Learn about the order of things!', Icons.format_list_numbered, 0),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'What is Sequencing?',
+          'Learn about the order of things!',
+          Icons.format_list_numbered,
+          0,
+        ),
+        SizedBox(height: 16.h),
         ...concepts.asMap().entries.map((entry) {
           final i = entry.key;
           final c = entry.value;
@@ -390,20 +448,32 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(c['icon'] as IconData, color: Colors.white, size: 32),
-                  const SizedBox(width: 14),
+                  Icon(c['icon'] as IconData, color: Colors.white, size: 32.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(c['text'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      c['text'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -418,17 +488,42 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
 
   Widget _buildMakingSandwich() {
     final steps = [
-      {'order': 'First', 'action': 'Get bread, butter, and filling', 'icon': Icons.shopping_basket},
-      {'order': 'Then', 'action': 'Put two slices of bread on plate', 'icon': Icons.dinner_dining},
-      {'order': 'Next', 'action': 'Spread butter on bread', 'icon': Icons.palette_outlined},
-      {'order': 'After that', 'action': 'Add the filling you like', 'icon': Icons.add_circle_outline},
-      {'order': 'Finally', 'action': 'Put the other bread on top', 'icon': Icons.lunch_dining},
+      {
+        'order': 'First',
+        'action': 'Get bread, butter, and filling',
+        'icon': Icons.shopping_basket,
+      },
+      {
+        'order': 'Then',
+        'action': 'Put two slices of bread on plate',
+        'icon': Icons.dinner_dining,
+      },
+      {
+        'order': 'Next',
+        'action': 'Spread butter on bread',
+        'icon': Icons.palette_outlined,
+      },
+      {
+        'order': 'After that',
+        'action': 'Add the filling you like',
+        'icon': Icons.add_circle_outline,
+      },
+      {
+        'order': 'Finally',
+        'action': 'Put the other bread on top',
+        'icon': Icons.lunch_dining,
+      },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Making a Sandwich', 'Follow the steps to make a yummy sandwich!', Icons.lunch_dining, 1),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Making a Sandwich',
+          'Follow the steps to make a yummy sandwich!',
+          Icons.lunch_dining,
+          1,
+        ),
+        SizedBox(height: 16.h),
         ...steps.asMap().entries.map((entry) {
           final i = entry.key;
           final s = entry.value;
@@ -439,38 +534,67 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
               buildFloatingItem(
                 index: i % 8,
                 child: Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: EdgeInsets.all(14.r),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+                    borderRadius: BorderRadius.circular(14.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colors[0].withValues(alpha: 0.3),
+                        blurRadius: 6.r,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
                   ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
-                        child: Text(s['order'] as String,
-                            style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                        child: Text(
+                          s['order'] as String,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 12),
-                      Icon(s['icon'] as IconData, color: Colors.white, size: 28),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
+                      Icon(
+                        s['icon'] as IconData,
+                        color: Colors.white,
+                        size: 28.r,
+                      ),
+                      SizedBox(width: 12.w),
                       Expanded(
-                        child: Text(s['action'] as String,
-                            style: GoogleFonts.nunito(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          s['action'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
               if (!isLast)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Icon(Icons.arrow_downward, color: Colors.white54, size: 22),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
+                  child: Icon(
+                    Icons.arrow_downward,
+                    color: Colors.white54,
+                    size: 22.r,
+                  ),
                 ),
             ],
           );
@@ -484,17 +608,38 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
   Widget _buildPlantingSeed() {
     final steps = [
       {'order': 'First', 'action': 'Get a pot and soil', 'icon': Icons.yard},
-      {'order': 'Then', 'action': 'Fill the pot with soil', 'icon': Icons.landscape},
-      {'order': 'Next', 'action': 'Make a small hole', 'icon': Icons.circle_outlined},
-      {'order': 'After that', 'action': 'Put the seed in the hole', 'icon': Icons.grain},
+      {
+        'order': 'Then',
+        'action': 'Fill the pot with soil',
+        'icon': Icons.landscape,
+      },
+      {
+        'order': 'Next',
+        'action': 'Make a small hole',
+        'icon': Icons.circle_outlined,
+      },
+      {
+        'order': 'After that',
+        'action': 'Put the seed in the hole',
+        'icon': Icons.grain,
+      },
       {'order': 'Then', 'action': 'Cover with soil', 'icon': Icons.layers},
-      {'order': 'Finally', 'action': 'Water the plant', 'icon': Icons.water_drop},
+      {
+        'order': 'Finally',
+        'action': 'Water the plant',
+        'icon': Icons.water_drop,
+      },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Planting a Seed', 'Grow a plant step by step!', Icons.eco, 2),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Planting a Seed',
+          'Grow a plant step by step!',
+          Icons.eco,
+          2,
+        ),
+        SizedBox(height: 16.h),
         ...steps.asMap().entries.map((entry) {
           final i = entry.key;
           final s = entry.value;
@@ -505,38 +650,67 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
               buildFloatingItem(
                 index: i % 8,
                 child: Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: EdgeInsets.all(14.r),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 6, offset: const Offset(0, 3))],
+                    borderRadius: BorderRadius.circular(14.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colors[0].withValues(alpha: 0.3),
+                        blurRadius: 6.r,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
                   ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
-                        child: Text(s['order'] as String,
-                            style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                        child: Text(
+                          s['order'] as String,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 12),
-                      Icon(s['icon'] as IconData, color: Colors.white, size: 28),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
+                      Icon(
+                        s['icon'] as IconData,
+                        color: Colors.white,
+                        size: 28.r,
+                      ),
+                      SizedBox(width: 12.w),
                       Expanded(
-                        child: Text(s['action'] as String,
-                            style: GoogleFonts.nunito(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          s['action'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
               if (!isLast)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Icon(Icons.arrow_downward, color: Colors.white54, size: 22),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
+                  child: Icon(
+                    Icons.arrow_downward,
+                    color: Colors.white54,
+                    size: 22.r,
+                  ),
                 ),
             ],
           );
@@ -549,17 +723,47 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
 
   Widget _buildStorySequence() {
     final parts = [
-      {'part': 'Beginning', 'what': 'Who? Where? When?', 'example': 'Once upon a time, a little girl lived in a village...', 'icon': Icons.wb_sunny},
-      {'part': 'Middle', 'what': 'What happened?', 'example': 'One day, she found a magic lamp...', 'icon': Icons.auto_awesome},
-      {'part': 'Problem', 'what': 'What went wrong?', 'example': 'But a giant came and took it away...', 'icon': Icons.warning_amber},
-      {'part': 'Solution', 'what': 'How was it fixed?', 'example': 'She was brave and tricked the giant...', 'icon': Icons.lightbulb},
-      {'part': 'End', 'what': 'How did it finish?', 'example': 'And she lived happily ever after!', 'icon': Icons.celebration},
+      {
+        'part': 'Beginning',
+        'what': 'Who? Where? When?',
+        'example': 'Once upon a time, a little girl lived in a village...',
+        'icon': Icons.wb_sunny,
+      },
+      {
+        'part': 'Middle',
+        'what': 'What happened?',
+        'example': 'One day, she found a magic lamp...',
+        'icon': Icons.auto_awesome,
+      },
+      {
+        'part': 'Problem',
+        'what': 'What went wrong?',
+        'example': 'But a giant came and took it away...',
+        'icon': Icons.warning_amber,
+      },
+      {
+        'part': 'Solution',
+        'what': 'How was it fixed?',
+        'example': 'She was brave and tricked the giant...',
+        'icon': Icons.lightbulb,
+      },
+      {
+        'part': 'End',
+        'what': 'How did it finish?',
+        'example': 'And she lived happily ever after!',
+        'icon': Icons.celebration,
+      },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Story Sequence', 'Every story has a beginning, middle & end!', Icons.auto_stories, 3),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Story Sequence',
+          'Every story has a beginning, middle & end!',
+          Icons.auto_stories,
+          3,
+        ),
+        SizedBox(height: 16.h),
         ...parts.asMap().entries.map((entry) {
           final i = entry.key;
           final p = entry.value;
@@ -567,37 +771,65 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(p['icon'] as IconData, color: Colors.white, size: 28),
-                      const SizedBox(width: 10),
-                      Text(p['part'] as String,
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
+                      Icon(
+                        p['icon'] as IconData,
+                        color: Colors.white,
+                        size: 28.r,
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        p['part'] as String,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  Text(p['what'] as String,
-                      style: GoogleFonts.nunito(fontWeight: FontWeight.bold, color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
+                  Text(
+                    p['what'] as String,
+                    style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontSize: 13,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
-                    child: Text(p['example'] as String,
-                        style: GoogleFonts.nunito(fontStyle: FontStyle.italic, color: Colors.white, fontSize: 13)),
+                    child: Text(
+                      p['example'] as String,
+                      style: GoogleFonts.nunito(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -615,19 +847,38 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
       {
         'name': 'Getting Ready for Bed',
         'icon': Icons.bedtime,
-        'steps': ['Finish dinner', 'Brush teeth', 'Put on pajamas', 'Read a story', 'Say goodnight', 'Sleep'],
+        'steps': [
+          'Finish dinner',
+          'Brush teeth',
+          'Put on pajamas',
+          'Read a story',
+          'Say goodnight',
+          'Sleep',
+        ],
       },
       {
         'name': 'Going to School',
         'icon': Icons.school,
-        'steps': ['Wake up', 'Get ready', 'Eat breakfast', 'Take bag', 'Leave home', 'Reach school'],
+        'steps': [
+          'Wake up',
+          'Get ready',
+          'Eat breakfast',
+          'Take bag',
+          'Leave home',
+          'Reach school',
+        ],
       },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Daily Routines', 'Order your daily tasks!', Icons.schedule, 4),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Daily Routines',
+          'Order your daily tasks!',
+          Icons.schedule,
+          4,
+        ),
+        SizedBox(height: 16.h),
         ...routines.asMap().entries.map((entry) {
           final i = entry.key;
           final r = entry.value;
@@ -635,48 +886,83 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
           return buildFloatingItem(
             index: i,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 16.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(20.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(r['icon'] as IconData, color: Colors.white, size: 28),
-                      const SizedBox(width: 10),
-                      Text(r['name'] as String,
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16)),
+                      Icon(
+                        r['icon'] as IconData,
+                        color: Colors.white,
+                        size: 28.r,
+                      ),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Text(
+                          r['name'] as String,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: (r['steps'] as List).asMap().entries.map<Widget>((stepEntry) {
+                    spacing: 8.r,
+                    runSpacing: 8.r,
+                    children: (r['steps'] as List).asMap().entries.map<Widget>((
+                      stepEntry,
+                    ) {
                       final idx = stepEntry.key;
                       final step = stepEntry.value;
                       final isLastStep = idx == (r['steps'] as List).length - 1;
                       return Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(20),
+                          Flexible(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 8.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Text(
+                                '${idx + 1}. $step',
+                                style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
-                            child: Text('${idx + 1}. $step',
-                                style: GoogleFonts.nunito(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 12)),
                           ),
                           if (!isLastStep)
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4),
-                              child: Icon(Icons.arrow_forward, size: 16, color: Colors.white54),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              child: Icon(
+                                Icons.arrow_forward,
+                                size: 16.r,
+                                color: Colors.white54,
+                              ),
                             ),
                         ],
                       );
@@ -695,18 +981,35 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
 
   Widget _buildSequenceWords() {
     final words = [
-      {'word': 'First', 'meaning': 'The very beginning', 'icon': Icons.looks_one},
+      {
+        'word': 'First',
+        'meaning': 'The very beginning',
+        'icon': Icons.looks_one,
+      },
       {'word': 'Then', 'meaning': 'After that', 'icon': Icons.looks_two},
       {'word': 'Next', 'meaning': 'What comes after', 'icon': Icons.looks_3},
-      {'word': 'After that', 'meaning': 'Following the last step', 'icon': Icons.looks_4},
-      {'word': 'Finally', 'meaning': 'The very last thing', 'icon': Icons.looks_5},
+      {
+        'word': 'After that',
+        'meaning': 'Following the last step',
+        'icon': Icons.looks_4,
+      },
+      {
+        'word': 'Finally',
+        'meaning': 'The very last thing',
+        'icon': Icons.looks_5,
+      },
       {'word': 'Last', 'meaning': 'At the end', 'icon': Icons.last_page},
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Sequence Words', 'Words that show the order of things!', Icons.abc, 5),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Sequence Words',
+          'Words that show the order of things!',
+          Icons.abc,
+          5,
+        ),
+        SizedBox(height: 16.h),
         ...words.asMap().entries.map((entry) {
           final i = entry.key;
           final w = entry.value;
@@ -714,25 +1017,42 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(w['icon'] as IconData, color: Colors.white, size: 32),
-                  const SizedBox(width: 14),
+                  Icon(w['icon'] as IconData, color: Colors.white, size: 32.r),
+                  SizedBox(width: 14.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(w['word'] as String,
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17)),
-                        Text(w['meaning'] as String,
-                            style: GoogleFonts.nunito(color: Colors.white.withValues(alpha: 0.9), fontSize: 13)),
+                        Text(
+                          w['word'] as String,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 17,
+                          ),
+                        ),
+                        Text(
+                          w['meaning'] as String,
+                          style: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            fontSize: 13,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -749,17 +1069,37 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
 
   Widget _buildPracticeTime() {
     final challenges = [
-      {'challenge': 'Put these in order: eat → cook → buy groceries', 'icon': Icons.shopping_cart},
-      {'challenge': 'What comes first: dress → shower → dry?', 'icon': Icons.shower},
-      {'challenge': 'Order the day: lunch → breakfast → dinner', 'icon': Icons.restaurant},
-      {'challenge': 'Arrange: teenager → baby → adult → child', 'icon': Icons.people},
-      {'challenge': 'Sequence: caterpillar → egg → butterfly → cocoon', 'icon': Icons.flutter_dash},
+      {
+        'challenge': 'Put these in order: eat → cook → buy groceries',
+        'icon': Icons.shopping_cart,
+      },
+      {
+        'challenge': 'What comes first: dress → shower → dry?',
+        'icon': Icons.shower,
+      },
+      {
+        'challenge': 'Order the day: lunch → breakfast → dinner',
+        'icon': Icons.restaurant,
+      },
+      {
+        'challenge': 'Arrange: teenager → baby → adult → child',
+        'icon': Icons.people,
+      },
+      {
+        'challenge': 'Sequence: caterpillar → egg → butterfly → cocoon',
+        'icon': Icons.flutter_dash,
+      },
     ];
 
     return Column(
       children: [
-        _buildHeaderCard('Practice Time!', 'Test your sequencing skills!', Icons.quiz, 6),
-        const SizedBox(height: 16),
+        _buildHeaderCard(
+          'Practice Time!',
+          'Test your sequencing skills!',
+          Icons.quiz,
+          6,
+        ),
+        SizedBox(height: 16.h),
         ...challenges.asMap().entries.map((entry) {
           final i = entry.key;
           final c = entry.value;
@@ -767,47 +1107,80 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
           return buildFloatingItem(
             index: i % 8,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [colors[0], colors[1]]),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: colors[0].withValues(alpha: 0.3),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  Icon(c['icon'] as IconData, color: Colors.white, size: 30),
-                  const SizedBox(width: 14),
+                  Icon(c['icon'] as IconData, color: Colors.white, size: 30.r),
+                  SizedBox(width: 14.w),
                   Expanded(
-                    child: Text(c['challenge'] as String,
-                        style: GoogleFonts.nunito(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      c['challenge'] as String,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  const Icon(Icons.lightbulb_outline, color: Colors.white54, size: 22),
+                  Icon(
+                    Icons.lightbulb_outline,
+                    color: Colors.white54,
+                    size: 22.r,
+                  ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [const Color(0xFF7E57C2), const Color(0xFF5C6BC0)],
             ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: const Color(0xFF7E57C2).withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 5))],
+            borderRadius: BorderRadius.circular(20.r),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF7E57C2).withValues(alpha: 0.3),
+                blurRadius: 10.r,
+                offset: const Offset(0, 5),
+              ),
+            ],
           ),
           child: Column(
             children: [
-              const Icon(Icons.tips_and_updates, color: Colors.white, size: 40),
-              const SizedBox(height: 10),
-              Text('Great Job!',
-                  style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-              const SizedBox(height: 6),
-              Text('Sequencing helps you organize tasks and tell better stories!',
-                  style: GoogleFonts.nunito(fontSize: 14, color: Colors.white.withValues(alpha: 0.9)),
-                  textAlign: TextAlign.center),
+              Icon(Icons.tips_and_updates, color: Colors.white, size: 40.r),
+              SizedBox(height: 10.h),
+              Text(
+                'Great Job!',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 6.h),
+              Text(
+                'Sequencing helps you organize tasks and tell better stories!',
+                style: GoogleFonts.nunito(
+                  fontSize: 14,
+                  color: Colors.white.withValues(alpha: 0.9),
+                ),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
@@ -817,23 +1190,49 @@ class _TaskSequencingDetailPageState extends State<_TaskSequencingDetailPage>
 
   // ── Shared Helpers ────────────────────────────────────────────────────────
 
-  Widget _buildHeaderCard(String title, String subtitle, IconData icon, int colorIndex) {
+  Widget _buildHeaderCard(
+    String title,
+    String subtitle,
+    IconData icon,
+    int colorIndex,
+  ) {
     final colors = AppColors.getGradientForIndex(colorIndex);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [colors[0], colors[1]]),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: colors[0].withValues(alpha: 0.4), blurRadius: 16, offset: const Offset(0, 8))],
+        borderRadius: BorderRadius.circular(24.r),
+        boxShadow: [
+          BoxShadow(
+            color: colors[0].withValues(alpha: 0.4),
+            blurRadius: 16.r,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          Icon(icon, size: 56, color: Colors.white),
-          const SizedBox(height: 12),
-          Text(title, style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-          const SizedBox(height: 6),
-          Text(subtitle, style: GoogleFonts.nunito(fontSize: 14, color: Colors.white.withValues(alpha: 0.9)), textAlign: TextAlign.center),
+          Icon(icon, size: 56.r, color: Colors.white),
+          SizedBox(height: 12.h),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 6.h),
+          Text(
+            subtitle,
+            style: GoogleFonts.nunito(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.9),
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

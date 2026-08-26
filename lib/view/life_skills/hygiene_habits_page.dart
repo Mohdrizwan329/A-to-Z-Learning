@@ -9,6 +9,8 @@ import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class HygieneHabitsPage extends StatefulWidget {
   const HygieneHabitsPage({super.key});
 
@@ -29,11 +31,31 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
       'color': Color(0xFF4CAF50),
       'intro': 'Good hygiene keeps you healthy and happy!',
       'reasons': [
-        {'reason': 'Prevents sickness', 'emoji': '🦠', 'detail': 'Germs can\'t make you sick'},
-        {'reason': 'Keeps you fresh', 'emoji': '🌸', 'detail': 'You smell and feel clean'},
-        {'reason': 'Healthy teeth', 'emoji': '😁', 'detail': 'No cavities or toothaches'},
-        {'reason': 'Makes friends happy', 'emoji': '👫', 'detail': 'Everyone likes clean friends'},
-        {'reason': 'Builds good habits', 'emoji': '⭐', 'detail': 'Habits last a lifetime'},
+        {
+          'reason': 'Prevents sickness',
+          'emoji': '🦠',
+          'detail': 'Germs can\'t make you sick',
+        },
+        {
+          'reason': 'Keeps you fresh',
+          'emoji': '🌸',
+          'detail': 'You smell and feel clean',
+        },
+        {
+          'reason': 'Healthy teeth',
+          'emoji': '😁',
+          'detail': 'No cavities or toothaches',
+        },
+        {
+          'reason': 'Makes friends happy',
+          'emoji': '👫',
+          'detail': 'Everyone likes clean friends',
+        },
+        {
+          'reason': 'Builds good habits',
+          'emoji': '⭐',
+          'detail': 'Habits last a lifetime',
+        },
       ],
     },
     {
@@ -48,7 +70,10 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
         {'step': 'Rub hands together - make bubbles!', 'emoji': '🫧'},
         {'step': 'Scrub between fingers', 'emoji': '🤞'},
         {'step': 'Clean under fingernails', 'emoji': '💅'},
-        {'step': 'Wash for 20 seconds (sing Happy Birthday twice!)', 'emoji': '🎵'},
+        {
+          'step': 'Wash for 20 seconds (sing Happy Birthday twice!)',
+          'emoji': '🎵',
+        },
         {'step': 'Rinse with water', 'emoji': '💦'},
         {'step': 'Dry with clean towel', 'emoji': '🧻'},
       ],
@@ -95,7 +120,11 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
         {'part': 'Face', 'emoji': '😊', 'how': 'Wash gently with water'},
         {'part': 'Ears', 'emoji': '👂', 'how': 'Clean behind and around ears'},
         {'part': 'Neck', 'emoji': '🦒', 'how': 'Wash all around'},
-        {'part': 'Arms & Underarms', 'emoji': '💪', 'how': 'Don\'t forget underarms!'},
+        {
+          'part': 'Arms & Underarms',
+          'emoji': '💪',
+          'how': 'Don\'t forget underarms!',
+        },
         {'part': 'Body', 'emoji': '🧍', 'how': 'Soap up everywhere'},
         {'part': 'Legs & Feet', 'emoji': '🦶', 'how': 'Scrub between toes'},
       ],
@@ -113,11 +142,31 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
       'color': Color(0xFFE91E63),
       'intro': 'Clean, trimmed nails look great and stay healthy!',
       'tips': [
-        {'tip': 'Trim nails regularly', 'emoji': '✂️', 'why': 'Prevents dirt buildup'},
-        {'tip': 'Keep nails clean', 'emoji': '🧼', 'why': 'Germs hide under dirty nails'},
-        {'tip': 'Don\'t bite nails', 'emoji': '🚫', 'why': 'Germs go in your mouth'},
-        {'tip': 'Cut straight across', 'emoji': '➡️', 'why': 'Prevents ingrown nails'},
-        {'tip': 'Clean under nails', 'emoji': '🪥', 'why': 'Removes hidden dirt'},
+        {
+          'tip': 'Trim nails regularly',
+          'emoji': '✂️',
+          'why': 'Prevents dirt buildup',
+        },
+        {
+          'tip': 'Keep nails clean',
+          'emoji': '🧼',
+          'why': 'Germs hide under dirty nails',
+        },
+        {
+          'tip': 'Don\'t bite nails',
+          'emoji': '🚫',
+          'why': 'Germs go in your mouth',
+        },
+        {
+          'tip': 'Cut straight across',
+          'emoji': '➡️',
+          'why': 'Prevents ingrown nails',
+        },
+        {
+          'tip': 'Clean under nails',
+          'emoji': '🪥',
+          'why': 'Removes hidden dirt',
+        },
       ],
     },
     {
@@ -127,11 +176,19 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
       'color': Color(0xFFFF9800),
       'intro': 'Healthy hair starts with good care!',
       'routine': [
-        {'task': 'Wash hair regularly', 'emoji': '🚿', 'how': '2-3 times a week'},
+        {
+          'task': 'Wash hair regularly',
+          'emoji': '🚿',
+          'how': '2-3 times a week',
+        },
         {'task': 'Use shampoo', 'emoji': '🧴', 'how': 'Rub into scalp gently'},
         {'task': 'Rinse well', 'emoji': '💧', 'how': 'No shampoo left behind'},
         {'task': 'Comb gently', 'emoji': '🪮', 'how': 'Start from ends'},
-        {'task': 'Get regular haircuts', 'emoji': '✂️', 'how': 'Every few months'},
+        {
+          'task': 'Get regular haircuts',
+          'emoji': '✂️',
+          'how': 'Every few months',
+        },
       ],
       'problems': [
         {'problem': 'Tangles', 'solution': 'Use conditioner, comb gently'},
@@ -146,15 +203,35 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
       'color': Color(0xFF795548),
       'intro': 'Stop germs from spreading to others!',
       'rightWay': [
-        {'do': 'Cover mouth and nose with elbow', 'emoji': '💪', 'why': 'Germs stay on your arm'},
+        {
+          'do': 'Cover mouth and nose with elbow',
+          'emoji': '💪',
+          'why': 'Germs stay on your arm',
+        },
         {'do': 'Use a tissue', 'emoji': '🧻', 'why': 'Catches the germs'},
-        {'do': 'Throw tissue away', 'emoji': '🗑️', 'why': 'Don\'t keep germy tissues'},
+        {
+          'do': 'Throw tissue away',
+          'emoji': '🗑️',
+          'why': 'Don\'t keep germy tissues',
+        },
         {'do': 'Wash hands after', 'emoji': '🧼', 'why': 'Removes any germs'},
       ],
       'wrongWay': [
-        {'dont': 'Sneeze into hands', 'emoji': '✋❌', 'why': 'Spreads germs when you touch things'},
-        {'dont': 'Sneeze into the air', 'emoji': '💨❌', 'why': 'Germs fly everywhere'},
-        {'dont': 'Wipe nose on sleeve', 'emoji': '👕❌', 'why': 'Makes clothes germy'},
+        {
+          'dont': 'Sneeze into hands',
+          'emoji': '✋❌',
+          'why': 'Spreads germs when you touch things',
+        },
+        {
+          'dont': 'Sneeze into the air',
+          'emoji': '💨❌',
+          'why': 'Germs fly everywhere',
+        },
+        {
+          'dont': 'Wipe nose on sleeve',
+          'emoji': '👕❌',
+          'why': 'Makes clothes germy',
+        },
       ],
     },
     {
@@ -208,12 +285,12 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () {
             ProgressService.to.resetProgress(ProgressService.kHygieneHabits);
@@ -228,34 +305,55 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
             children: [
               Obx(() {
                 final progress =
-                    ProgressService.to.getProgressPercentage(ProgressService.kHygieneHabits) / 100;
-                final progressString =
-                    ProgressService.to.getProgressString(ProgressService.kHygieneHabits);
+                    ProgressService.to.getProgressPercentage(
+                      ProgressService.kHygieneHabits,
+                    ) /
+                    100;
+                final progressString = ProgressService.to.getProgressString(
+                  ProgressService.kHygieneHabits,
+                );
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Progress',
-                            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600),
+                          // The reader's font size can be 30% larger than this row was drawn for.
+                          Flexible(
+                            child: const Text(
+                              'Progress',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          Text(
-                            '$progressString completed',
-                            style: const TextStyle(fontSize: 14, color: Colors.white70, fontWeight: FontWeight.w500),
+                          Flexible(
+                            child: Text(
+                              '$progressString completed',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: LinearProgressIndicator(
                           value: progress,
-                          minHeight: 10,
+                          minHeight: 10.h,
                           backgroundColor: Colors.white.withValues(alpha: 0.2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFF4CAF50),
+                          ),
                         ),
                       ),
                     ],
@@ -264,11 +362,11 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
               }),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.0,
                   ),
                   itemCount: sections.length,
@@ -279,7 +377,9 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
                     return Obx(() {
                       final isSelected = selectedIndex == index;
                       final isCompleted = ProgressService.to.isItemCompleted(
-                        ProgressService.kHygieneHabits, index);
+                        ProgressService.kHygieneHabits,
+                        index,
+                      );
 
                       return buildFloatingItem(
                         index: index,
@@ -290,8 +390,16 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
                           onTap: () {
                             TtsService.to.speak(section['title']);
                             setState(() => selectedIndex = index);
-                            ProgressService.to.markItemCompleted(ProgressService.kHygieneHabits, index);
-                            Get.to(() => _HygieneDetailPage(section: section, sectionIndex: index));
+                            ProgressService.to.markItemCompleted(
+                              ProgressService.kHygieneHabits,
+                              index,
+                            );
+                            Get.to(
+                              () => _HygieneDetailPage(
+                                section: section,
+                                sectionIndex: index,
+                              ),
+                            );
                           },
                           child: Stack(
                             children: [
@@ -300,41 +408,69 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 65, height: 65,
+                                      width: 65.w,
+                                      height: 65.h,
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.25),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
-                                        child: Text(section['emoji'], style: const TextStyle(fontSize: 32)),
+                                        child: Text(
+                                          section['emoji'],
+                                          style: const TextStyle(fontSize: 32),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      section['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white,
+                                    SizedBox(height: 8.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      section['subtitle'],
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 11, color: Colors.white.withValues(alpha: 0.9), fontWeight: FontWeight.w600,
+                                    SizedBox(height: 2.h),
+                                    Flexible(
+                                      child: Text(
+                                        section['subtitle'],
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 11,
+                                          color: Colors.white.withValues(
+                                            alpha: 0.9,
+                                          ),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
                               ),
                               if (isCompleted)
                                 Positioned(
-                                  bottom: 4, right: 4,
+                                  bottom: 4.h,
+                                  right: 4.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
-                                    child: const Icon(Icons.check, color: Colors.white, size: 12),
+                                    padding: EdgeInsets.all(2.r),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 12.r,
+                                    ),
                                   ),
                                 ),
                             ],
@@ -366,15 +502,19 @@ class _HygieneHabitsPageState extends State<HygieneHabitsPage>
           final yOffset = -progress * 200;
           final opacity = (1 - progress) * 0.15;
           return Positioned(
-            left: left, top: top + yOffset,
+            left: left,
+            top: top + yOffset,
             child: Container(
-              width: size, height: size,
+              width: size,
+              height: size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: RadialGradient(colors: [
-                  Colors.white.withValues(alpha: opacity),
-                  Colors.white.withValues(alpha: opacity * 0.3),
-                ]),
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
               ),
             ),
           );
@@ -405,7 +545,10 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
   void initState() {
     super.initState();
     initGridAnimations(this);
-    _bubbleController = AnimationController(vsync: this, duration: const Duration(seconds: 8))..repeat();
+    _bubbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
   }
 
   @override
@@ -423,26 +566,51 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
         children: [
           ..._buildFloatingBubbles(),
           SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24.r),
                   decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(24),
-                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10))],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 20.r,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
                   ),
                   child: Column(
                     children: [
-                      Text(section['emoji'], style: const TextStyle(fontSize: 50)),
-                      const SizedBox(height: 12),
-                      Text(section['title'], style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold, color: section['color']), textAlign: TextAlign.center),
-                      const SizedBox(height: 8),
-                      Text(section['intro'], style: GoogleFonts.nunito(fontSize: 14, color: Colors.grey.shade700), textAlign: TextAlign.center),
+                      Text(
+                        section['emoji'],
+                        style: const TextStyle(fontSize: 50),
+                      ),
+                      SizedBox(height: 12.h),
+                      Text(
+                        section['title'],
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: section['color'],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        section['intro'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          color: Colors.grey.shade700,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildContent(),
               ],
             ),
@@ -454,15 +622,24 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
 
   Widget _buildContent() {
     switch (sectionIndex) {
-      case 0: return _buildWhyMatters();
-      case 1: return _buildHandWashing();
-      case 2: return _buildTeethBrushing();
-      case 3: return _buildBathing();
-      case 4: return _buildNailCare();
-      case 5: return _buildHairCare();
-      case 6: return _buildCoughsCovering();
-      case 7: return _buildDailyChecklist();
-      default: return const SizedBox.shrink();
+      case 0:
+        return _buildWhyMatters();
+      case 1:
+        return _buildHandWashing();
+      case 2:
+        return _buildTeethBrushing();
+      case 3:
+        return _buildBathing();
+      case 4:
+        return _buildNailCare();
+      case 5:
+        return _buildHairCare();
+      case 6:
+        return _buildCoughsCovering();
+      case 7:
+        return _buildDailyChecklist();
+      default:
+        return const SizedBox.shrink();
     }
   }
 
@@ -474,27 +651,58 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+              gradient: LinearGradient(
+                colors: gradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: gradient[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Row(
               children: [
                 Container(
-                  width: 50, height: 50,
-                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), borderRadius: BorderRadius.circular(12)),
-                  child: Center(child: Text(reason['emoji'], style: const TextStyle(fontSize: 26))),
+                  width: 50.w,
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      reason['emoji'],
+                      style: const TextStyle(fontSize: 26),
+                    ),
+                  ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(reason['reason'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
-                      Text(reason['detail'], style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70)),
+                      Text(
+                        reason['reason'],
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        reason['detail'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 12,
+                          color: Colors.white70,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -516,51 +724,115 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 28, height: 28,
-                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
-                    child: Center(child: Text('${index + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
+                    width: 28.w,
+                    height: 28.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Text(step['emoji'], style: const TextStyle(fontSize: 20)),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(step['step'], style: GoogleFonts.nunito(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600))),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Text(
+                      step['step'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: AppColors.getGradientForIndex(8), begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: AppColors.getGradientForIndex(8)[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+              gradient: LinearGradient(
+                colors: AppColors.getGradientForIndex(8),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.getGradientForIndex(
+                    8,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('🕐 When to Wash:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
-                const SizedBox(height: 10),
+                Text(
+                  '🕐 When to Wash:',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 10.h),
                 Wrap(
-                  spacing: 8, runSpacing: 8,
+                  spacing: 8.r,
+                  runSpacing: 8.r,
                   children: (section['whenToWash'] as List).map<Widget>((when) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20)),
-                      child: Text(when, style: GoogleFonts.nunito(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600)),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Text(
+                        when,
+                        style: GoogleFonts.nunito(
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     );
                   }).toList(),
                 ),
@@ -582,52 +854,112 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 28, height: 28,
-                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), shape: BoxShape.circle),
-                    child: Center(child: Text('${index + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
+                    width: 28.w,
+                    height: 28.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Text(step['emoji'], style: const TextStyle(fontSize: 20)),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(step['step'], style: GoogleFonts.nunito(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600))),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Text(
+                      step['step'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: AppColors.getGradientForIndex(8), begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: AppColors.getGradientForIndex(8)[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+              gradient: LinearGradient(
+                colors: AppColors.getGradientForIndex(8),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.getGradientForIndex(
+                    8,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('💡 Tips:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
-                const SizedBox(height: 8),
+                Text(
+                  '💡 Tips:',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
                 ...(section['tips'] as List).map((tip) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(children: [
-                      const Icon(Icons.star, color: Colors.white70, size: 18),
-                      const SizedBox(width: 8),
-                      Expanded(child: Text(tip, style: GoogleFonts.nunito(fontSize: 13, color: Colors.white))),
-                    ]),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
+                    child: Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.white70, size: 18.r),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            tip,
+                            style: GoogleFonts.nunito(
+                              fontSize: 13,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }),
               ],
@@ -648,23 +980,46 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Text(part['emoji'], style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(part['part'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13)),
-                        Text(part['how'], style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70)),
+                        Text(
+                          part['part'],
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+                        Text(
+                          part['how'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 12,
+                            color: Colors.white70,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -673,29 +1028,59 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         buildFloatingItem(
           index: cardIndex++,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: AppColors.getGradientForIndex(7), begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: AppColors.getGradientForIndex(7)[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+              gradient: LinearGradient(
+                colors: AppColors.getGradientForIndex(7),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.getGradientForIndex(
+                    7,
+                  )[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('✨ After Bath:', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
-                const SizedBox(height: 8),
+                Text(
+                  '✨ After Bath:',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
                 ...(section['afterBath'] as List).map((task) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(children: [
-                      const Icon(Icons.check_circle, color: Colors.white70, size: 18),
-                      const SizedBox(width: 8),
-                      Text(task, style: GoogleFonts.nunito(fontSize: 13, color: Colors.white)),
-                    ]),
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.white70,
+                          size: 18.r,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          task,
+                          style: GoogleFonts.nunito(
+                            fontSize: 13,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }),
               ],
@@ -714,27 +1099,59 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
         return buildFloatingItem(
           index: index,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+              gradient: LinearGradient(
+                colors: gradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: gradient[0].withValues(alpha: 0.4),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Row(
               children: [
                 Container(
-                  width: 45, height: 45,
-                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), borderRadius: BorderRadius.circular(10)),
-                  child: Center(child: Text(tip['emoji'], style: const TextStyle(fontSize: 22))),
+                  width: 45.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      tip['emoji'],
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                  ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(tip['tip'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13)),
-                      Text(tip['why'], style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70)),
+                      Text(
+                        tip['tip'],
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                      ),
+                      Text(
+                        tip['why'],
+                        style: GoogleFonts.nunito(
+                          fontSize: 12,
+                          color: Colors.white70,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -756,23 +1173,46 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Text(task['emoji'], style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(task['task'], style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13)),
-                        Text(task['how'], style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70)),
+                        Text(
+                          task['task'],
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+                        Text(
+                          task['how'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 12,
+                            color: Colors.white70,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -781,7 +1221,7 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Problems
         ...List.generate((section['problems'] as List).length, (index) {
           final prob = section['problems'][index];
@@ -789,22 +1229,53 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), borderRadius: BorderRadius.circular(8)),
-                    child: Text(prob['problem'], style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      prob['problem'],
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(child: Text(prob['solution'], style: GoogleFonts.nunito(fontSize: 12, color: Colors.white))),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      prob['solution'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -825,23 +1296,46 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Text(item['emoji'], style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('✅ ${item['do']}', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
-                        Text(item['why'], style: GoogleFonts.nunito(fontSize: 11, color: Colors.white70)),
+                        Text(
+                          '✅ ${item['do']}',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          item['why'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 11,
+                            color: Colors.white70,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -850,7 +1344,7 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
             ),
           );
         }),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         // Wrong way
         ...List.generate((section['wrongWay'] as List).length, (index) {
           final item = section['wrongWay'][index];
@@ -858,23 +1352,46 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           return buildFloatingItem(
             index: cardIndex++,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradient[0].withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   Text(item['emoji'], style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('❌ ${item['dont']}', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
-                        Text(item['why'], style: GoogleFonts.nunito(fontSize: 11, color: Colors.white70)),
+                        Text(
+                          '❌ ${item['dont']}',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          item['why'],
+                          style: GoogleFonts.nunito(
+                            fontSize: 11,
+                            color: Colors.white70,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -891,45 +1408,97 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
     int cardIndex = 0;
     return Column(
       children: [
-        _buildChecklistCard('🌅 Morning', section['morning'] as List, cardIndex, 0),
-        const SizedBox(height: 12),
-        _buildChecklistCard('🍽️ After Meals', section['afterMeals'] as List, cardIndex + 1, 1),
-        const SizedBox(height: 12),
-        _buildChecklistCard('🌙 Evening', section['evening'] as List, cardIndex + 2, 2),
+        _buildChecklistCard(
+          '🌅 Morning',
+          section['morning'] as List,
+          cardIndex,
+          0,
+        ),
+        SizedBox(height: 12.h),
+        _buildChecklistCard(
+          '🍽️ After Meals',
+          section['afterMeals'] as List,
+          cardIndex + 1,
+          1,
+        ),
+        SizedBox(height: 12.h),
+        _buildChecklistCard(
+          '🌙 Evening',
+          section['evening'] as List,
+          cardIndex + 2,
+          2,
+        ),
       ],
     );
   }
 
-  Widget _buildChecklistCard(String title, List tasks, int floatIndex, int gradientIndex) {
+  Widget _buildChecklistCard(
+    String title,
+    List tasks,
+    int floatIndex,
+    int gradientIndex,
+  ) {
     final gradient = AppColors.getGradientForIndex(gradientIndex);
     return buildFloatingItem(
       index: floatIndex,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: gradient[0].withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
+          gradient: LinearGradient(
+            colors: gradient,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: gradient[0].withValues(alpha: 0.4),
+              blurRadius: 8.r,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white)),
-            const SizedBox(height: 10),
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 10.h),
             ...tasks.map((task) {
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(children: [
-                  Container(
-                    width: 22, height: 22,
-                    decoration: BoxDecoration(border: Border.all(color: Colors.white70, width: 2), borderRadius: BorderRadius.circular(4)),
-                    child: const Icon(Icons.check, size: 14, color: Colors.white70),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(task['emoji'], style: const TextStyle(fontSize: 18)),
-                  const SizedBox(width: 8),
-                  Text(task['task'], style: GoogleFonts.nunito(fontSize: 14, color: Colors.white)),
-                ]),
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 22.w,
+                      height: 22.h,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white70, width: 2),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Icon(
+                        Icons.check,
+                        size: 14.r,
+                        color: Colors.white70,
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    Text(task['emoji'], style: const TextStyle(fontSize: 18)),
+                    SizedBox(width: 8.w),
+                    Text(
+                      task['task'],
+                      style: GoogleFonts.nunito(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }),
           ],
@@ -952,15 +1521,19 @@ class _HygieneDetailPageState extends State<_HygieneDetailPage>
           final yOffset = -progress * 200;
           final opacity = (1 - progress) * 0.15;
           return Positioned(
-            left: left, top: top + yOffset,
+            left: left,
+            top: top + yOffset,
             child: Container(
-              width: size, height: size,
+              width: size,
+              height: size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: RadialGradient(colors: [
-                  Colors.white.withValues(alpha: opacity),
-                  Colors.white.withValues(alpha: opacity * 0.3),
-                ]),
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: opacity),
+                    Colors.white.withValues(alpha: opacity * 0.3),
+                  ],
+                ),
               ),
             ),
           );

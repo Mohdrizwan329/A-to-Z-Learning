@@ -5,6 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class AdhdSupportPage extends StatefulWidget {
   const AdhdSupportPage({super.key});
 
@@ -12,7 +14,8 @@ class AdhdSupportPage extends StatefulWidget {
   State<AdhdSupportPage> createState() => _AdhdSupportPageState();
 }
 
-class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderStateMixin {
+class _AdhdSupportPageState extends State<AdhdSupportPage>
+    with TickerProviderStateMixin {
   final GetStorage _storage = GetStorage();
   final FlutterTts flutterTts = FlutterTts();
   late TabController _tabController;
@@ -35,11 +38,41 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   // Focus tasks
   final List<Map<String, dynamic>> focusTasks = [
-    {'task': 'Learn 5 Numbers', 'emoji': '🔢', 'duration': 3, 'completed': false, 'points': 10},
-    {'task': 'Practice 5 Letters', 'emoji': '🔤', 'duration': 3, 'completed': false, 'points': 10},
-    {'task': 'Watch 1 Story', 'emoji': '📖', 'duration': 2, 'completed': false, 'points': 5},
-    {'task': 'Play 1 Game', 'emoji': '🎮', 'duration': 3, 'completed': false, 'points': 10},
-    {'task': 'Draw Something', 'emoji': '🎨', 'duration': 5, 'completed': false, 'points': 15},
+    {
+      'task': 'Learn 5 Numbers',
+      'emoji': '🔢',
+      'duration': 3,
+      'completed': false,
+      'points': 10,
+    },
+    {
+      'task': 'Practice 5 Letters',
+      'emoji': '🔤',
+      'duration': 3,
+      'completed': false,
+      'points': 10,
+    },
+    {
+      'task': 'Watch 1 Story',
+      'emoji': '📖',
+      'duration': 2,
+      'completed': false,
+      'points': 5,
+    },
+    {
+      'task': 'Play 1 Game',
+      'emoji': '🎮',
+      'duration': 3,
+      'completed': false,
+      'points': 10,
+    },
+    {
+      'task': 'Draw Something',
+      'emoji': '🎨',
+      'duration': 5,
+      'completed': false,
+      'points': 15,
+    },
   ];
 
   // Rewards
@@ -53,14 +86,46 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   // Focus tips
   final List<Map<String, dynamic>> focusTips = [
-    {'tip': 'Find a quiet spot to learn', 'emoji': '🤫', 'color': Color(0xFF4ECDC4)},
-    {'tip': 'Put away toys before starting', 'emoji': '🧸', 'color': Color(0xFFFFAA5A)},
-    {'tip': 'Take deep breaths when distracted', 'emoji': '🌬️', 'color': Color(0xFF667EEA)},
-    {'tip': 'Look at one thing at a time', 'emoji': '👀', 'color': Color(0xFF56D97F)},
-    {'tip': 'Wiggle your body, then sit still', 'emoji': '💪', 'color': Color(0xFFA78BFA)},
-    {'tip': 'Drink water to stay fresh', 'emoji': '💧', 'color': Color(0xFF4ECDC4)},
-    {'tip': 'Say "I can do this!" out loud', 'emoji': '🗣️', 'color': Color(0xFFFF6B6B)},
-    {'tip': 'Finish one task before starting another', 'emoji': '✅', 'color': Color(0xFFFFD93D)},
+    {
+      'tip': 'Find a quiet spot to learn',
+      'emoji': '🤫',
+      'color': Color(0xFF4ECDC4),
+    },
+    {
+      'tip': 'Put away toys before starting',
+      'emoji': '🧸',
+      'color': Color(0xFFFFAA5A),
+    },
+    {
+      'tip': 'Take deep breaths when distracted',
+      'emoji': '🌬️',
+      'color': Color(0xFF667EEA),
+    },
+    {
+      'tip': 'Look at one thing at a time',
+      'emoji': '👀',
+      'color': Color(0xFF56D97F),
+    },
+    {
+      'tip': 'Wiggle your body, then sit still',
+      'emoji': '💪',
+      'color': Color(0xFFA78BFA),
+    },
+    {
+      'tip': 'Drink water to stay fresh',
+      'emoji': '💧',
+      'color': Color(0xFF4ECDC4),
+    },
+    {
+      'tip': 'Say "I can do this!" out loud',
+      'emoji': '🗣️',
+      'color': Color(0xFFFF6B6B),
+    },
+    {
+      'tip': 'Finish one task before starting another',
+      'emoji': '✅',
+      'color': Color(0xFFFFD93D),
+    },
   ];
 
   @override
@@ -128,7 +193,10 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
   void _runTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) { timer.cancel(); return; }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
       if (remainingSeconds > 0) {
         setState(() => remainingSeconds--);
       } else {
@@ -164,13 +232,15 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
     Get.dialog(
       AlertDialog(
         title: Row(
-          children: const [
+          children: [
             Text("🎉", style: TextStyle(fontSize: 30)),
-            SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Text("Great Focus!"),
           ],
         ),
-        content: const Text("You focused really well! Take a short break to rest your brain."),
+        content: const Text(
+          "You focused really well! Take a short break to rest your brain.",
+        ),
         actions: [
           TextButton(
             onPressed: () {
@@ -185,7 +255,10 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
               _startFocusTimer();
             },
             style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF667EEA)),
-            child: const Text("Keep Going!", style: TextStyle(color: Colors.white)),
+            child: const Text(
+              "Keep Going!",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -203,37 +276,62 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              ),
+            ),
           ),
         ),
-        title: const Text("Focus Helper", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text(
+          "Focus Helper",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-          tabs: const [
-            Tab(text: "Timer", icon: Icon(Icons.timer, size: 18)),
-            Tab(text: "Tasks", icon: Icon(Icons.checklist, size: 18)),
-            Tab(text: "Tips", icon: Icon(Icons.lightbulb, size: 18)),
-            Tab(text: "Settings", icon: Icon(Icons.settings, size: 18)),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
+          tabs: [
+            Tab(
+              text: "Timer",
+              icon: Icon(Icons.timer, size: 18.r),
+            ),
+            Tab(
+              text: "Tasks",
+              icon: Icon(Icons.checklist, size: 18.r),
+            ),
+            Tab(
+              text: "Tips",
+              icon: Icon(Icons.lightbulb, size: 18.r),
+            ),
+            Tab(
+              text: "Settings",
+              icon: Icon(Icons.settings, size: 18.r),
+            ),
           ],
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2), Color(0xFFF093FB), Color(0xFFF5576C)],
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+              Color(0xFFF093FB),
+              Color(0xFFF5576C),
+            ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -254,21 +352,23 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   Widget _buildTimerTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           // Timer Display
           Container(
-            padding: const EdgeInsets.all(32),
+            padding: EdgeInsets.all(32.r),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(100),
+              borderRadius: BorderRadius.circular(100.r),
               boxShadow: [
                 BoxShadow(
-                  color: isBreakTime ? Color(0xFF56D97F).withValues(alpha: 0.3) : Color(0xFFFF6B6B).withValues(alpha: 0.3),
-                  blurRadius: 20,
-                  spreadRadius: 5,
+                  color: isBreakTime
+                      ? Color(0xFF56D97F).withValues(alpha: 0.3)
+                      : Color(0xFFFF6B6B).withValues(alpha: 0.3),
+                  blurRadius: 20.r,
+                  spreadRadius: 5.r,
                 ),
               ],
             ),
@@ -276,22 +376,34 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
               children: [
                 Text(
                   isBreakTime ? "🧘 Break Time" : "🎯 Focus Time",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isBreakTime ? Color(0xFF56D97F) : Color(0xFFFF6B6B)),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: isBreakTime ? Color(0xFF56D97F) : Color(0xFFFF6B6B),
+                  ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
-                  remainingSeconds > 0 ? _formatTime(remainingSeconds) : _formatTime(focusDuration * 60),
-                  style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold, color: isBreakTime ? Color(0xFF56D97F) : Color(0xFF667EEA)),
+                  remainingSeconds > 0
+                      ? _formatTime(remainingSeconds)
+                      : _formatTime(focusDuration * 60),
+                  style: TextStyle(
+                    fontSize: 60,
+                    fontWeight: FontWeight.bold,
+                    color: isBreakTime ? Color(0xFF56D97F) : Color(0xFF667EEA),
+                  ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
-                  isTimerRunning ? (isBreakTime ? "Relax and recharge!" : "Stay focused!") : "Ready to start?",
+                  isTimerRunning
+                      ? (isBreakTime ? "Relax and recharge!" : "Stay focused!")
+                      : "Ready to start?",
                   style: TextStyle(color: Colors.grey.shade600),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
 
           // Timer Controls
           Row(
@@ -305,7 +417,10 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF56D97F),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.w,
+                      vertical: 14.h,
+                    ),
                   ),
                 ),
               ] else ...[
@@ -316,10 +431,13 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFFAA5A),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.w,
+                      vertical: 14.h,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 ElevatedButton.icon(
                   onPressed: _resetTimer,
                   icon: const Icon(Icons.refresh),
@@ -327,52 +445,77 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFF6B6B),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.w,
+                      vertical: 14.h,
+                    ),
                   ),
                 ),
               ],
             ],
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
 
           // Quick Actions
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               children: [
-                const Text("⏱️ Quick Timer", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 12),
+                const Text(
+                  "⏱️ Quick Timer",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildQuickTimeButton("5 min", 5),
-                    _buildQuickTimeButton("10 min", 10),
-                    _buildQuickTimeButton("15 min", 15),
-                    _buildQuickTimeButton("20 min", 20),
+                    // Four chips are wider than a small phone; equal shares let
+                    // each shrink rather than the row running off the card.
+                    Expanded(child: _buildQuickTimeButton("5 min", 5)),
+                    Expanded(child: _buildQuickTimeButton("10 min", 10)),
+                    Expanded(child: _buildQuickTimeButton("15 min", 15)),
+                    Expanded(child: _buildQuickTimeButton("20 min", 20)),
                   ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
 
           // Points Display
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.r),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [Color(0xFFFFD93D), Color(0xFFFF8E53)]),
-              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                colors: [Color(0xFFFFD93D), Color(0xFFFF8E53)],
+              ),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("⭐", style: TextStyle(fontSize: 30)),
-                const SizedBox(width: 12),
-                Text("$earnedPoints Points Earned!", style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                SizedBox(width: 12.w),
+                // Takes the width left beside the star so the count wraps
+                // rather than running off the card.
+                Flexible(
+                  child: Text(
+                    "$earnedPoints Points Earned!",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -389,14 +532,19 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
         _saveSetting('adhd_focus_duration', minutes);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(12),
+          color: isSelected
+              ? Colors.white
+              : Colors.white.withValues(alpha: 0.3),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Text(
           label,
-          style: TextStyle(color: isSelected ? Color(0xFF667EEA) : Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: isSelected ? Color(0xFF667EEA) : Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -404,56 +552,90 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   Widget _buildTasksTab() {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       children: [
-        const Text("📋", style: TextStyle(fontSize: 50), textAlign: TextAlign.center),
-        const SizedBox(height: 8),
-        const Text("Bite-Size Tasks", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-        const SizedBox(height: 4),
-        Text("Small tasks are easier to finish!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center),
-        const SizedBox(height: 24),
+        const Text(
+          "📋",
+          style: TextStyle(fontSize: 50),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 8.h),
+        const Text(
+          "Bite-Size Tasks",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 4.h),
+        Text(
+          "Small tasks are easier to finish!",
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.8),
+            fontSize: 14,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 24.h),
 
         ...focusTasks.asMap().entries.map((entry) {
           final index = entry.key;
           final task = entry.value;
           return Container(
-            margin: const EdgeInsets.only(bottom: 12),
+            margin: EdgeInsets.only(bottom: 12.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: task['completed'] ? Border.all(color: Color(0xFF56D97F), width: 2) : null,
+              borderRadius: BorderRadius.circular(16.r),
+              border: task['completed']
+                  ? Border.all(color: Color(0xFF56D97F), width: 2)
+                  : null,
             ),
             child: ListTile(
-              contentPadding: const EdgeInsets.all(16),
+              contentPadding: EdgeInsets.all(16.r),
               leading: Container(
-                width: 55,
-                height: 55,
+                width: 55.w,
+                height: 55.h,
                 decoration: BoxDecoration(
-                  color: task['completed'] ? Color(0xFF56D97F).withValues(alpha: 0.2) : Color(0xFF667EEA).withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(14),
+                  color: task['completed']
+                      ? Color(0xFF56D97F).withValues(alpha: 0.2)
+                      : Color(0xFF667EEA).withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Center(
                   child: task['completed']
-                      ? const Icon(Icons.check, color: Color(0xFF56D97F), size: 30)
-                      : Text(task['emoji'], style: const TextStyle(fontSize: 28)),
+                      ? Icon(Icons.check, color: Color(0xFF56D97F), size: 30.r)
+                      : Text(
+                          task['emoji'],
+                          style: const TextStyle(fontSize: 28),
+                        ),
                 ),
               ),
               title: Text(
                 task['task'],
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  decoration: task['completed'] ? TextDecoration.lineThrough : null,
+                  decoration: task['completed']
+                      ? TextDecoration.lineThrough
+                      : null,
                 ),
               ),
               subtitle: Row(
                 children: [
-                  const Icon(Icons.timer, size: 14, color: Colors.grey),
-                  const SizedBox(width: 4),
-                  Text("${task['duration']} min", style: TextStyle(color: Colors.grey.shade600)),
-                  const SizedBox(width: 12),
+                  Icon(Icons.timer, size: 14.r, color: Colors.grey),
+                  SizedBox(width: 4.w),
+                  Text(
+                    "${task['duration']} min",
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                  SizedBox(width: 12.w),
                   const Text("⭐", style: TextStyle(fontSize: 12)),
-                  const SizedBox(width: 4),
-                  Text("+${task['points']} pts", style: TextStyle(color: Color(0xFFFFAA5A))),
+                  SizedBox(width: 4.w),
+                  Text(
+                    "+${task['points']} pts",
+                    style: TextStyle(color: Color(0xFFFFAA5A)),
+                  ),
                 ],
               ),
               trailing: ElevatedButton(
@@ -466,13 +648,17 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                           earnedPoints += task['points'] as int;
                         });
                         _saveSetting('adhd_earned_points', earnedPoints);
-                        _speakText("Awesome! You earned ${task['points']} points!");
+                        _speakText(
+                          "Awesome! You earned ${task['points']} points!",
+                        );
                         if (rewardAfterTask) {
                           _showRewardAnimation(task['points']);
                         }
                       },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: task['completed'] ? Colors.grey : Color(0xFF56D97F),
+                  backgroundColor: task['completed']
+                      ? Colors.grey
+                      : Color(0xFF56D97F),
                   foregroundColor: Colors.white,
                 ),
                 child: Text(task['completed'] ? "Done!" : "Complete"),
@@ -481,7 +667,7 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
           );
         }),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         // Reset Tasks Button
         ElevatedButton.icon(
@@ -497,7 +683,7 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white.withValues(alpha: 0.2),
             foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding: EdgeInsets.symmetric(vertical: 14.h),
           ),
         ),
       ],
@@ -506,18 +692,31 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   Widget _buildTipsTab() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       itemCount: focusTips.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return Column(
             children: [
               const Text("💡", style: TextStyle(fontSize: 50)),
-              const SizedBox(height: 8),
-              const Text("Focus Tips", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text("Helpful ideas to stay focused!", style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-              const SizedBox(height: 24),
+              SizedBox(height: 8.h),
+              const Text(
+                "Focus Tips",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                "Helpful ideas to stay focused!",
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 24.h),
             ],
           );
         }
@@ -526,21 +725,34 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
         return GestureDetector(
           onTap: () => _speakText(tip['tip']),
           child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(20),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.all(20.r),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [tip['color'], tip['color'].withValues(alpha: 0.7)]),
-              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                colors: [tip['color'], tip['color'].withValues(alpha: 0.7)],
+              ),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
-                BoxShadow(color: tip['color'].withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
+                BoxShadow(
+                  color: tip['color'].withValues(alpha: 0.3),
+                  blurRadius: 8.r,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
             child: Row(
               children: [
                 Text(tip['emoji'], style: const TextStyle(fontSize: 35)),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
-                  child: Text(tip['tip'], style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500)),
+                  child: Text(
+                    tip['tip'],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
                 const Icon(Icons.volume_up, color: Colors.white70),
               ],
@@ -553,28 +765,43 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   Widget _buildSettingsTab() {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       children: [
-        const Text("⚙️", style: TextStyle(fontSize: 50), textAlign: TextAlign.center),
-        const SizedBox(height: 8),
-        const Text("Focus Settings", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-        const SizedBox(height: 24),
+        const Text(
+          "⚙️",
+          style: TextStyle(fontSize: 50),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 8.h),
+        const Text(
+          "Focus Settings",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 24.h),
 
         // Timer Settings
         _buildSectionHeader("⏱️", "Timer Settings"),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             children: [
               ListTile(
                 leading: _buildIcon("🎯"),
-                title: const Text("Focus Duration", style: TextStyle(fontWeight: FontWeight.w600)),
+                title: const Text(
+                  "Focus Duration",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
                 subtitle: Text("$focusDuration minutes"),
                 trailing: SizedBox(
-                  width: 150,
+                  width: 150.w,
                   child: Slider(
                     value: focusDuration.toDouble(),
                     min: 5,
@@ -588,13 +815,16 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                   ),
                 ),
               ),
-              const Divider(height: 1),
+              Divider(height: 1.h),
               ListTile(
                 leading: _buildIcon("🧘"),
-                title: const Text("Break Duration", style: TextStyle(fontWeight: FontWeight.w600)),
+                title: const Text(
+                  "Break Duration",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
                 subtitle: Text("$breakDuration minutes"),
                 trailing: SizedBox(
-                  width: 150,
+                  width: 150.w,
                   child: Slider(
                     value: breakDuration.toDouble(),
                     min: 1,
@@ -608,60 +838,97 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
                   ),
                 ),
               ),
-              const Divider(height: 1),
-              _buildSwitchTile("⏰", "Show Timer", "Display countdown on screen", timerVisible, (v) {
-                setState(() => timerVisible = v);
-                _saveSetting('adhd_timer_visible', v);
-              }),
+              Divider(height: 1.h),
+              _buildSwitchTile(
+                "⏰",
+                "Show Timer",
+                "Display countdown on screen",
+                timerVisible,
+                (v) {
+                  setState(() => timerVisible = v);
+                  _saveSetting('adhd_timer_visible', v);
+                },
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         // Learning Settings
         _buildSectionHeader("📚", "Learning Help"),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           child: Column(
             children: [
-              _buildSwitchTile("🔔", "Break Reminders", "Remind to take breaks", breakReminders, (v) {
-                setState(() => breakReminders = v);
-                _saveSetting('adhd_break_reminders', v);
-              }),
-              const Divider(height: 1),
-              _buildSwitchTile("📋", "Task Breakdown", "Show small, easy tasks", taskBreakdown, (v) {
-                setState(() => taskBreakdown = v);
-                _saveSetting('adhd_task_breakdown', v);
-              }),
-              const Divider(height: 1),
-              _buildSwitchTile("🎁", "Reward After Task", "Celebrate completions", rewardAfterTask, (v) {
-                setState(() => rewardAfterTask = v);
-                _saveSetting('adhd_reward_after_task', v);
-              }),
-              const Divider(height: 1),
-              _buildSwitchTile("🎯", "Minimal Distractions", "Simpler interface", minimalDistractions, (v) {
-                setState(() => minimalDistractions = v);
-                _saveSetting('adhd_minimal_distractions', v);
-              }),
+              _buildSwitchTile(
+                "🔔",
+                "Break Reminders",
+                "Remind to take breaks",
+                breakReminders,
+                (v) {
+                  setState(() => breakReminders = v);
+                  _saveSetting('adhd_break_reminders', v);
+                },
+              ),
+              Divider(height: 1.h),
+              _buildSwitchTile(
+                "📋",
+                "Task Breakdown",
+                "Show small, easy tasks",
+                taskBreakdown,
+                (v) {
+                  setState(() => taskBreakdown = v);
+                  _saveSetting('adhd_task_breakdown', v);
+                },
+              ),
+              Divider(height: 1.h),
+              _buildSwitchTile(
+                "🎁",
+                "Reward After Task",
+                "Celebrate completions",
+                rewardAfterTask,
+                (v) {
+                  setState(() => rewardAfterTask = v);
+                  _saveSetting('adhd_reward_after_task', v);
+                },
+              ),
+              Divider(height: 1.h),
+              _buildSwitchTile(
+                "🎯",
+                "Minimal Distractions",
+                "Simpler interface",
+                minimalDistractions,
+                (v) {
+                  setState(() => minimalDistractions = v);
+                  _saveSetting('adhd_minimal_distractions', v);
+                },
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
       ],
     );
   }
 
   Widget _buildSectionHeader(String emoji, String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12.h),
       child: Row(
         children: [
           Text(emoji, style: const TextStyle(fontSize: 24)),
-          const SizedBox(width: 8),
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+          SizedBox(width: 8.w),
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
@@ -669,21 +936,30 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
 
   Widget _buildIcon(String emoji) {
     return Container(
-      width: 45,
-      height: 45,
+      width: 45.w,
+      height: 45.h,
       decoration: BoxDecoration(
         color: Color(0xFF667EEA).withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Center(child: Text(emoji, style: const TextStyle(fontSize: 22))),
     );
   }
 
-  Widget _buildSwitchTile(String icon, String title, String subtitle, bool value, Function(bool) onChanged) {
+  Widget _buildSwitchTile(
+    String icon,
+    String title,
+    String subtitle,
+    bool value,
+    Function(bool) onChanged,
+  ) {
     return ListTile(
       leading: _buildIcon(icon),
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-      subtitle: Text(subtitle, style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+      ),
       trailing: Switch(
         value: value,
         onChanged: onChanged,
@@ -699,11 +975,11 @@ class _AdhdSupportPageState extends State<AdhdSupportPage> with TickerProviderSt
       snackPosition: SnackPosition.TOP,
       backgroundColor: Color(0xFF56D97F),
       colorText: Colors.white,
-      margin: const EdgeInsets.all(16),
-      borderRadius: 12,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 12.r,
       duration: const Duration(seconds: 3),
-      icon: const Padding(
-        padding: EdgeInsets.all(12),
+      icon: Padding(
+        padding: EdgeInsets.all(12.r),
         child: Text("⭐", style: TextStyle(fontSize: 30)),
       ),
     );

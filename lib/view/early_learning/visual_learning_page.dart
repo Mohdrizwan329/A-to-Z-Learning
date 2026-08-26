@@ -5,6 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 class VisualLearningPage extends StatefulWidget {
   const VisualLearningPage({super.key});
 
@@ -27,26 +29,66 @@ class _VisualLearningPageState extends State<VisualLearningPage>
       emoji: '🎨',
       gradient: [Colors.red, Colors.orange],
       items: [
-        VisualItem('Red', '🔴', Colors.red, ['Apple', 'Fire truck', 'Strawberry']),
+        VisualItem('Red', '🔴', Colors.red, [
+          'Apple',
+          'Fire truck',
+          'Strawberry',
+        ]),
         VisualItem('Blue', '🔵', Colors.blue, ['Sky', 'Ocean', 'Blueberry']),
         VisualItem('Yellow', '🟡', Colors.yellow, ['Sun', 'Banana', 'Lemon']),
         VisualItem('Green', '🟢', Colors.green, ['Grass', 'Tree', 'Frog']),
-        VisualItem('Orange', '🟠', Colors.orange, ['Orange', 'Carrot', 'Pumpkin']),
-        VisualItem('Purple', '🟣', Colors.purple, ['Grapes', 'Eggplant', 'Lavender']),
-        VisualItem('Pink', '🩷', Colors.pink, ['Flamingo', 'Rose', 'Cotton candy']),
+        VisualItem('Orange', '🟠', Colors.orange, [
+          'Orange',
+          'Carrot',
+          'Pumpkin',
+        ]),
+        VisualItem('Purple', '🟣', Colors.purple, [
+          'Grapes',
+          'Eggplant',
+          'Lavender',
+        ]),
+        VisualItem('Pink', '🩷', Colors.pink, [
+          'Flamingo',
+          'Rose',
+          'Cotton candy',
+        ]),
         VisualItem('Brown', '🟤', Colors.brown, ['Chocolate', 'Bear', 'Wood']),
         VisualItem('Black', '⚫', Colors.black, ['Night sky', 'Crow', 'Tire']),
         VisualItem('White', '⚪', Colors.white, ['Snow', 'Cloud', 'Milk']),
         VisualItem('Gray', '🩶', Colors.grey, ['Elephant', 'Rock', 'Mouse']),
         VisualItem('Cyan', '🩵', Colors.cyan, ['Pool water', 'Ice', 'Glacier']),
-        VisualItem('Magenta', '💜', Colors.pinkAccent, ['Flower', 'Butterfly', 'Gem']),
+        VisualItem('Magenta', '💜', Colors.pinkAccent, [
+          'Flower',
+          'Butterfly',
+          'Gem',
+        ]),
         VisualItem('Gold', '🥇', Colors.amber, ['Medal', 'Crown', 'Coin']),
-        VisualItem('Silver', '🥈', Colors.blueGrey, ['Spoon', 'Mirror', 'Ring']),
-        VisualItem('Turquoise', '💎', Colors.teal, ['Ocean', 'Peacock', 'Jewel']),
-        VisualItem('Coral', '🪸', Colors.deepOrange, ['Reef', 'Sunset', 'Salmon']),
+        VisualItem('Silver', '🥈', Colors.blueGrey, [
+          'Spoon',
+          'Mirror',
+          'Ring',
+        ]),
+        VisualItem('Turquoise', '💎', Colors.teal, [
+          'Ocean',
+          'Peacock',
+          'Jewel',
+        ]),
+        VisualItem('Coral', '🪸', Colors.deepOrange, [
+          'Reef',
+          'Sunset',
+          'Salmon',
+        ]),
         VisualItem('Navy', '🫐', Colors.indigo, ['Sailor', 'Whale', 'Jeans']),
-        VisualItem('Lime', '🍈', Colors.lime, ['Lime fruit', 'Tennis ball', 'Parrot']),
-        VisualItem('Maroon', '🍷', Colors.brown, ['Wine', 'Autumn leaf', 'Cherry']),
+        VisualItem('Lime', '🍈', Colors.lime, [
+          'Lime fruit',
+          'Tennis ball',
+          'Parrot',
+        ]),
+        VisualItem('Maroon', '🍷', Colors.brown, [
+          'Wine',
+          'Autumn leaf',
+          'Cherry',
+        ]),
       ],
     ),
     VisualSection(
@@ -56,23 +98,75 @@ class _VisualLearningPageState extends State<VisualLearningPage>
       items: [
         VisualItem('Circle', '⭕', Colors.red, ['Ball', 'Wheel', 'Cookie']),
         VisualItem('Square', '🟧', Colors.orange, ['Window', 'Box', 'Tile']),
-        VisualItem('Triangle', '🔺', Colors.green, ['Roof', 'Pizza slice', 'Pyramid']),
+        VisualItem('Triangle', '🔺', Colors.green, [
+          'Roof',
+          'Pizza slice',
+          'Pyramid',
+        ]),
         VisualItem('Rectangle', '🟦', Colors.blue, ['Door', 'Book', 'Phone']),
-        VisualItem('Star', '⭐', Colors.yellow, ['Night star', 'Sheriff badge', 'Starfish']),
-        VisualItem('Heart', '❤️', Colors.pink, ['Love symbol', 'Valentine', 'Card']),
-        VisualItem('Diamond', '💎', Colors.cyan, ['Gem', 'Kite', 'Playing card']),
+        VisualItem('Star', '⭐', Colors.yellow, [
+          'Night star',
+          'Sheriff badge',
+          'Starfish',
+        ]),
+        VisualItem('Heart', '❤️', Colors.pink, [
+          'Love symbol',
+          'Valentine',
+          'Card',
+        ]),
+        VisualItem('Diamond', '💎', Colors.cyan, [
+          'Gem',
+          'Kite',
+          'Playing card',
+        ]),
         VisualItem('Oval', '🥚', Colors.white, ['Egg', 'Mirror', 'Face']),
-        VisualItem('Pentagon', '⬠', Colors.purple, ['Building', 'Home plate', 'Sign']),
-        VisualItem('Hexagon', '⬡', Colors.amber, ['Honeycomb', 'Bolt', 'Snowflake']),
-        VisualItem('Octagon', '🛑', Colors.red, ['Stop sign', 'Window', 'Table']),
-        VisualItem('Crescent', '🌙', Colors.yellow, ['Moon', 'Croissant', 'Banana']),
-        VisualItem('Arrow', '➡️', Colors.blue, ['Sign', 'Compass', 'Direction']),
-        VisualItem('Cross', '✝️', Colors.brown, ['Plus sign', 'Hospital', 'Treasure map']),
+        VisualItem('Pentagon', '⬠', Colors.purple, [
+          'Building',
+          'Home plate',
+          'Sign',
+        ]),
+        VisualItem('Hexagon', '⬡', Colors.amber, [
+          'Honeycomb',
+          'Bolt',
+          'Snowflake',
+        ]),
+        VisualItem('Octagon', '🛑', Colors.red, [
+          'Stop sign',
+          'Window',
+          'Table',
+        ]),
+        VisualItem('Crescent', '🌙', Colors.yellow, [
+          'Moon',
+          'Croissant',
+          'Banana',
+        ]),
+        VisualItem('Arrow', '➡️', Colors.blue, [
+          'Sign',
+          'Compass',
+          'Direction',
+        ]),
+        VisualItem('Cross', '✝️', Colors.brown, [
+          'Plus sign',
+          'Hospital',
+          'Treasure map',
+        ]),
         VisualItem('Cube', '🧊', Colors.lightBlue, ['Ice', 'Dice', 'Box']),
-        VisualItem('Sphere', '🔮', Colors.purple, ['Crystal ball', 'Globe', 'Marble']),
+        VisualItem('Sphere', '🔮', Colors.purple, [
+          'Crystal ball',
+          'Globe',
+          'Marble',
+        ]),
         VisualItem('Cylinder', '🥫', Colors.red, ['Can', 'Pillar', 'Log']),
-        VisualItem('Cone', '🍦', Colors.brown, ['Ice cream', 'Party hat', 'Traffic cone']),
-        VisualItem('Pyramid', '🔺', Colors.amber, ['Egypt', 'Tent', 'Mountain']),
+        VisualItem('Cone', '🍦', Colors.brown, [
+          'Ice cream',
+          'Party hat',
+          'Traffic cone',
+        ]),
+        VisualItem('Pyramid', '🔺', Colors.amber, [
+          'Egypt',
+          'Tent',
+          'Mountain',
+        ]),
         VisualItem('Spiral', '🌀', Colors.blue, ['Shell', 'Spring', 'Galaxy']),
       ],
     ),
@@ -81,26 +175,82 @@ class _VisualLearningPageState extends State<VisualLearningPage>
       emoji: '🔳',
       gradient: [Colors.purple, Colors.pink],
       items: [
-        VisualItem('Stripes', '🦓', Colors.black, ['Zebra', 'Candy cane', 'Flag']),
+        VisualItem('Stripes', '🦓', Colors.black, [
+          'Zebra',
+          'Candy cane',
+          'Flag',
+        ]),
         VisualItem('Dots', '🐞', Colors.red, ['Ladybug', 'Polka dots', 'Dice']),
-        VisualItem('Zigzag', '⚡', Colors.yellow, ['Lightning', 'Mountains', 'Waves']),
-        VisualItem('Checks', '🏁', Colors.grey, ['Chess board', 'Tablecloth', 'Race flag']),
-        VisualItem('Spiral', '🌀', Colors.blue, ['Snail shell', 'Tornado', 'Lollipop']),
-        VisualItem('Rainbow', '🌈', Colors.purple, ['After rain', 'Prism', 'Art']),
+        VisualItem('Zigzag', '⚡', Colors.yellow, [
+          'Lightning',
+          'Mountains',
+          'Waves',
+        ]),
+        VisualItem('Checks', '🏁', Colors.grey, [
+          'Chess board',
+          'Tablecloth',
+          'Race flag',
+        ]),
+        VisualItem('Spiral', '🌀', Colors.blue, [
+          'Snail shell',
+          'Tornado',
+          'Lollipop',
+        ]),
+        VisualItem('Rainbow', '🌈', Colors.purple, [
+          'After rain',
+          'Prism',
+          'Art',
+        ]),
         VisualItem('Plaid', '🧣', Colors.red, ['Scarf', 'Blanket', 'Shirt']),
-        VisualItem('Floral', '🌸', Colors.pink, ['Dress', 'Wallpaper', 'Garden']),
-        VisualItem('Camouflage', '🪖', Colors.green, ['Army', 'Jungle', 'Hunting']),
+        VisualItem('Floral', '🌸', Colors.pink, [
+          'Dress',
+          'Wallpaper',
+          'Garden',
+        ]),
+        VisualItem('Camouflage', '🪖', Colors.green, [
+          'Army',
+          'Jungle',
+          'Hunting',
+        ]),
         VisualItem('Paisley', '🥒', Colors.teal, ['Bandana', 'Tie', 'Fabric']),
-        VisualItem('Geometric', '🔷', Colors.blue, ['Tiles', 'Art', 'Building']),
-        VisualItem('Animal Print', '🐆', Colors.orange, ['Leopard', 'Tiger', 'Giraffe']),
+        VisualItem('Geometric', '🔷', Colors.blue, [
+          'Tiles',
+          'Art',
+          'Building',
+        ]),
+        VisualItem('Animal Print', '🐆', Colors.orange, [
+          'Leopard',
+          'Tiger',
+          'Giraffe',
+        ]),
         VisualItem('Waves', '🌊', Colors.blue, ['Ocean', 'Hair', 'Sound']),
-        VisualItem('Stars', '✨', Colors.yellow, ['Night sky', 'Decoration', 'Magic']),
-        VisualItem('Hearts', '💕', Colors.pink, ['Valentine', 'Love', 'Decoration']),
-        VisualItem('Bubbles', '🫧', Colors.lightBlue, ['Soap', 'Fizz', 'Water']),
-        VisualItem('Grid', '🔲', Colors.grey, ['Graph paper', 'Window', 'Game board']),
+        VisualItem('Stars', '✨', Colors.yellow, [
+          'Night sky',
+          'Decoration',
+          'Magic',
+        ]),
+        VisualItem('Hearts', '💕', Colors.pink, [
+          'Valentine',
+          'Love',
+          'Decoration',
+        ]),
+        VisualItem('Bubbles', '🫧', Colors.lightBlue, [
+          'Soap',
+          'Fizz',
+          'Water',
+        ]),
+        VisualItem('Grid', '🔲', Colors.grey, [
+          'Graph paper',
+          'Window',
+          'Game board',
+        ]),
         VisualItem('Mosaic', '🎨', Colors.purple, ['Art', 'Tiles', 'Church']),
         VisualItem('Marble', '🪨', Colors.grey, ['Stone', 'Counter', 'Statue']),
-        VisualItem('Tie Dye', '👕', Colors.purple, ['T-shirt', 'Festival', 'Art']),
+        VisualItem('Tie Dye', '👕', Colors.purple, [
+          'T-shirt',
+          'Festival',
+          'Art',
+        ]),
       ],
     ),
     VisualSection(
@@ -113,19 +263,39 @@ class _VisualLearningPageState extends State<VisualLearningPage>
         VisualItem('Tall', '🦒', Colors.orange, ['Giraffe', 'Tower', 'Tree']),
         VisualItem('Short', '🐁', Colors.grey, ['Mouse', 'Cup', 'Stool']),
         VisualItem('Wide', '🌊', Colors.blue, ['Ocean', 'Road', 'Field']),
-        VisualItem('Narrow', '🚪', Colors.brown, ['Door crack', 'Alley', 'Ribbon']),
-        VisualItem('Huge', '🦣', Colors.brown, ['Mammoth', 'Whale', 'Dinosaur']),
+        VisualItem('Narrow', '🚪', Colors.brown, [
+          'Door crack',
+          'Alley',
+          'Ribbon',
+        ]),
+        VisualItem('Huge', '🦣', Colors.brown, [
+          'Mammoth',
+          'Whale',
+          'Dinosaur',
+        ]),
         VisualItem('Tiny', '🔬', Colors.grey, ['Germ', 'Atom', 'Dust']),
         VisualItem('Long', '🐍', Colors.green, ['Snake', 'Train', 'River']),
         VisualItem('Thick', '📚', Colors.brown, ['Book', 'Tree trunk', 'Rope']),
         VisualItem('Thin', '📄', Colors.white, ['Paper', 'String', 'Wire']),
         VisualItem('Deep', '🌊', Colors.indigo, ['Ocean', 'Cave', 'Well']),
-        VisualItem('Shallow', '🏖️', Colors.cyan, ['Puddle', 'Pool edge', 'Stream']),
+        VisualItem('Shallow', '🏖️', Colors.cyan, [
+          'Puddle',
+          'Pool edge',
+          'Stream',
+        ]),
         VisualItem('Heavy', '🏋️', Colors.grey, ['Weights', 'Rock', 'Truck']),
-        VisualItem('Light', '🪶', Colors.white, ['Feather', 'Balloon', 'Cloud']),
+        VisualItem('Light', '🪶', Colors.white, [
+          'Feather',
+          'Balloon',
+          'Cloud',
+        ]),
         VisualItem('Giant', '🗿', Colors.grey, ['Statue', 'Building', 'Whale']),
         VisualItem('Mini', '🧸', Colors.brown, ['Toy', 'Model', 'Baby shoe']),
-        VisualItem('Massive', '🏔️', Colors.grey, ['Mountain', 'Ship', 'Planet']),
+        VisualItem('Massive', '🏔️', Colors.grey, [
+          'Mountain',
+          'Ship',
+          'Planet',
+        ]),
         VisualItem('Petite', '🌸', Colors.pink, ['Flower', 'Fairy', 'Gem']),
         VisualItem('Medium', '🐕', Colors.brown, ['Dog', 'Chair', 'Ball']),
       ],
@@ -174,7 +344,10 @@ class _VisualLearningPageState extends State<VisualLearningPage>
       setState(() {
         _visitedItems[sectionIndex]!.add(itemIndex);
       });
-      _box.write('visual_progress_$sectionIndex', _visitedItems[sectionIndex]!.toList());
+      _box.write(
+        'visual_progress_$sectionIndex',
+        _visitedItems[sectionIndex]!.toList(),
+      );
     }
   }
 
@@ -231,24 +404,26 @@ class _VisualLearningPageState extends State<VisualLearningPage>
   void _showItemDetail(VisualItem item) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         backgroundColor: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -257,7 +432,7 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                   child: Text(item.emoji, style: const TextStyle(fontSize: 60)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 item.name,
                 style: const TextStyle(
@@ -266,28 +441,25 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               const Text(
                 'Examples:',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.white70),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: 8.r,
+                runSpacing: 8.r,
                 alignment: WrapAlignment.center,
                 children: item.examples.map((example) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Text(
                       example,
@@ -299,7 +471,7 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -307,7 +479,9 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                     icon: Icons.volume_up,
                     label: 'Listen',
                     gradient: const [Color(0xFF667EEA), Color(0xFF764BA2)],
-                    onTap: () => _speak('${item.name}. Examples: ${item.examples.join(", ")}'),
+                    onTap: () => _speak(
+                      '${item.name}. Examples: ${item.examples.join(", ")}',
+                    ),
                   ),
                   _buildGradientButton(
                     icon: Icons.close,
@@ -333,20 +507,20 @@ class _VisualLearningPageState extends State<VisualLearningPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
+            Icon(icon, color: Colors.white, size: 20.r),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: const TextStyle(
@@ -380,15 +554,15 @@ class _VisualLearningPageState extends State<VisualLearningPage>
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 20,
+              size: 20.r,
             ),
           ),
           onPressed: () => Get.back(),
@@ -414,16 +588,12 @@ class _VisualLearningPageState extends State<VisualLearningPage>
         actions: [
           IconButton(
             icon: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.r),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
             ),
             onPressed: _resetProgress,
           ),
@@ -432,14 +602,20 @@ class _VisualLearningPageState extends State<VisualLearningPage>
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
-          indicatorWeight: 3,
+          indicatorWeight: 3.r,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabAlignment: TabAlignment.start,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
           tabs: _sections.map((sec) {
             return Tab(
-              child: Text(sec.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(
+                sec.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             );
           }).toList(),
         ),
@@ -463,18 +639,22 @@ class _VisualLearningPageState extends State<VisualLearningPage>
             children: [
               // Progress bar
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        // The reader's font size can be 30% larger than this row was drawn for.
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -487,12 +667,12 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: _progressPercentage,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -505,11 +685,11 @@ class _VisualLearningPageState extends State<VisualLearningPage>
               // Visual items grid
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: EdgeInsets.all(12.r),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16.r,
+                    crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
                   itemCount: section.items.length,
@@ -544,11 +724,11 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                             boxShadow: [
                               BoxShadow(
                                 color: gradient[0].withValues(alpha: 0.4),
-                                blurRadius: 12,
+                                blurRadius: 12.r,
                                 offset: const Offset(0, 6),
                               ),
                             ],
@@ -556,11 +736,11 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                           child: Stack(
                             children: [
                               Positioned(
-                                top: -20,
-                                right: -20,
+                                top: -20.h,
+                                right: -20.w,
                                 child: Container(
-                                  width: 60,
-                                  height: 60,
+                                  width: 60.w,
+                                  height: 60.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.white.withValues(alpha: 0.15),
@@ -569,27 +749,34 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                  ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        width: 75,
-                                        height: 75,
+                                        width: 75.w,
+                                        height: 75.h,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withValues(alpha: 0.3),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.3,
+                                          ),
                                           shape: BoxShape.circle,
                                         ),
                                         child: Center(
                                           child: Text(
                                             item.emoji,
-                                            style: const TextStyle(fontSize: 42),
+                                            style: const TextStyle(
+                                              fontSize: 42,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       Text(
                                         item.name,
                                         style: const TextStyle(
@@ -607,12 +794,15 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                                 ),
                               ),
                               // Checkmark badge when visited
-                              if (_visitedItems[_currentSection]?.contains(index) == true)
+                              if (_visitedItems[_currentSection]?.contains(
+                                    index,
+                                  ) ==
+                                  true)
                                 Positioned(
-                                  top: 8,
-                                  right: 8,
+                                  top: 8.h,
+                                  right: 8.w,
                                   child: Container(
-                                    padding: const EdgeInsets.all(4),
+                                    padding: EdgeInsets.all(4.r),
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
@@ -620,7 +810,7 @@ class _VisualLearningPageState extends State<VisualLearningPage>
                                     child: Icon(
                                       Icons.check,
                                       color: gradient[0],
-                                      size: 16,
+                                      size: 16.r,
                                     ),
                                   ),
                                 ),

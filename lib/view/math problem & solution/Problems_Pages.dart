@@ -8,6 +8,8 @@ import 'package:jiyan_learning/widgets/gradient_card.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
+import 'package:jiyan_learning/utils/responsive.dart';
+
 //////////////////////////////////////////////////////////
 //                MAIN MATH GRID SCREEN
 //////////////////////////////////////////////////////////
@@ -64,10 +66,10 @@ class _MathGridScreenState extends State<MathGridScreen>
       emoji: '🔢',
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 12),
+          margin: EdgeInsets.only(right: 12.w),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: IconButton(
             onPressed: () async {
@@ -85,7 +87,7 @@ class _MathGridScreenState extends State<MathGridScreen>
               );
               setState(() {});
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            icon: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
         ),
       ],
@@ -125,18 +127,22 @@ class _MathGridScreenState extends State<MathGridScreen>
             const totalAll = 4;
             final progress = totalDone / totalAll;
             return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Progress',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                      // The reader's font size can be 30% larger than this row was drawn for.
+                      Flexible(
+                        child: const Text(
+                          'Progress',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
@@ -149,12 +155,12 @@ class _MathGridScreenState extends State<MathGridScreen>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 10,
+                      minHeight: 10.h,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF4CAF50),
@@ -167,11 +173,11 @@ class _MathGridScreenState extends State<MathGridScreen>
           }),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(12),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              padding: EdgeInsets.all(12.r),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                mainAxisSpacing: 16.r,
+                crossAxisSpacing: 16.r,
                 childAspectRatio: 1.0,
               ),
               itemCount: mathOperations.length,
@@ -184,7 +190,10 @@ class _MathGridScreenState extends State<MathGridScreen>
                   child: GradientCard(
                     gradient: gradient,
                     isSelected: false,
-                    onTap: () { TtsService.to.speak(item['label']); Get.to(item['page']); },
+                    onTap: () {
+                      TtsService.to.speak(item['label']);
+                      Get.to(item['page']);
+                    },
                     pulseAnimation: pulseAnimation,
                     child: Stack(
                       children: [
@@ -193,8 +202,8 @@ class _MathGridScreenState extends State<MathGridScreen>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: 75,
-                                height: 75,
+                                width: 75.w,
+                                height: 75.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.3),
                                   shape: BoxShape.circle,
@@ -206,7 +215,7 @@ class _MathGridScreenState extends State<MathGridScreen>
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10.h),
                               GradientCardText(
                                 text: item['label'],
                                 fontSize: 14,
@@ -282,12 +291,12 @@ class _MathGridTemplateState extends State<MathGridTemplate>
       actions: [
         IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+            child: Icon(Icons.refresh, color: Colors.white, size: 20.r),
           ),
           onPressed: () => controller.resetAll(),
         ),
@@ -306,36 +315,42 @@ class _MathGridTemplateState extends State<MathGridTemplate>
                 widget.progressKey!,
               );
               return Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 4.h),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Progress',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        Flexible(
+                          child: const Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Text(
-                          '$progressString completed',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w500,
+                        Flexible(
+                          child: Text(
+                            '$progressString completed',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: progress,
-                        minHeight: 10,
+                        minHeight: 10.h,
                         backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF4CAF50),
@@ -351,11 +366,11 @@ class _MathGridTemplateState extends State<MathGridTemplate>
             child: Obx(() {
               final problemsList = controller.problems;
               return GridView.builder(
-                padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12.r,
+                  crossAxisSpacing: 12.r,
                   childAspectRatio: 1.0,
                 ),
                 itemCount: problemsList.length,
@@ -388,15 +403,15 @@ class _MathGridTemplateState extends State<MathGridTemplate>
                                 bottom: 0,
                                 right: 0,
                                 child: Container(
-                                  padding: const EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(2.r),
                                   decoration: const BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.check,
                                     color: Colors.white,
-                                    size: 12,
+                                    size: 12.r,
                                   ),
                                 ),
                               ),
