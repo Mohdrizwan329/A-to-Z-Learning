@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 import 'package:jiyan_learning/view/auth/forgot_password_page.dart';
 import 'package:jiyan_learning/view/auth/signup_page.dart';
-import 'package:jiyan_learning/view/main_navigation_screen.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -17,8 +17,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -36,25 +35,8 @@ class _LoginPageState extends State<LoginPage>
   bool _usePhoneLogin = false;
   String _selectedCountryDialCode = '91';
 
-  late AnimationController _animController;
-  late Animation<double> _floatAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
-
-    _floatAnimation = Tween<double>(begin: 0, end: 12).animate(
-      CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
-    );
-  }
-
   @override
   void dispose() {
-    _animController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
@@ -72,10 +54,111 @@ class _LoginPageState extends State<LoginPage>
     );
 
     if (success) {
-      Get.offAll(() => MainNavigationScreen());
+      await _openApp();
     } else {
       _showError();
     }
+  }
+
+  Future<void> _handleGoogleLogin() async {
+    final success = await _authController.signInWithGoogle();
+    if (!mounted) return;
+
+    if (success) {
+      await _openApp();
+    } else if (_authController.errorMessage.value.isNotEmpty) {
+      // An empty message means the user simply closed the account chooser,
+      // which is not something to complain about.
+      _showError();
+    }
+  }
+
+  Widget _buildGoogleButton() {
+    return Column(
+      children: [
+        SizedBox(height: 18.h),
+        Row(
+          children: [
+            Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Text(
+                'or',
+                style: GoogleFonts.nunito(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+            Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+          ],
+        ),
+        SizedBox(height: 14.h),
+        Obx(
+          () => GestureDetector(
+            onTap: _authController.isLoading.value ? null : _handleGoogleLogin,
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 14.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.06),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Google's four colours, without shipping their asset.
+                  Container(
+                    width: 22.w,
+                    height: 22.h,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: SweepGradient(
+                        colors: [
+                          Color(0xFF4285F4),
+                          Color(0xFF34A853),
+                          Color(0xFFFBBC05),
+                          Color(0xFFEA4335),
+                          Color(0xFF4285F4),
+                        ],
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'G',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Text(
+                    'Continue with Google',
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF3C4043),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Future<void> _handleSendOtp() async {
@@ -122,10 +205,34 @@ class _LoginPageState extends State<LoginPage>
     );
 
     if (success) {
-      Get.offAll(() => MainNavigationScreen());
+      await _openApp();
     } else {
       _showError();
     }
+  }
+
+  /// Where a successful login lands: the age question, and the app after it.
+  ///
+  /// Asked on every login, not just the first -- a phone is shared, and the
+  /// parent says who is using it this time. The age on the account, where
+  /// there is one, arrives already chosen so the parent only has to confirm.
+  Future<void> _openApp() async {
+    final age = Get.isRegistered<AgeContentService>()
+        ? Get.find<AgeContentService>()
+        : null;
+
+    if (age != null && !age.hasSelectedAge.value) {
+      // The record is read on the auth stream, which may not have come back
+      // yet; asking for it here means the age is in hand before the question
+      // is put on screen.
+      await _authController.fetchUserData();
+      final childAge = _authController.userModel?.childAge;
+      if (childAge != null) {
+        await age.setChildAge(childAge);
+      }
+    }
+
+    Get.offAllNamed('/age-selection');
   }
 
   void _showError() {
@@ -187,44 +294,6 @@ class _LoginPageState extends State<LoginPage>
               children: [
                 SizedBox(height: 40.h),
 
-                // Animated cute animal mascot
-                AnimatedBuilder(
-                  animation: _floatAnimation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(0, -_floatAnimation.value),
-                      child: child,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(20.r),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 20.r,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: const Text('👋', style: TextStyle(fontSize: 60)),
-                  ),
-                ),
-                SizedBox(height: 16.h),
-
-                // Welcome text
-                const Text(
-                  'Welcome Back!',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E7D32),
-                    letterSpacing: 1,
-                  ),
-                ),
-                SizedBox(height: 8.h),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.w,
@@ -873,6 +942,9 @@ class _LoginPageState extends State<LoginPage>
                                   ),
                           ),
                         ],
+
+                        // Google, under whichever login form is showing.
+                        _buildGoogleButton(),
                       ],
                     ),
                   ),

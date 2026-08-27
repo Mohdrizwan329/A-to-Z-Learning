@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The mark drawn on the Android 12+ splash.
+     The launcher icon is drawn full-bleed there, which makes it noticeably
+     larger than the logo the Flutter splash shows a moment later, so the two
+     screens read as different. Inset here so both land at roughly the same
+     size and the handover is a straight swap. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@mipmap/ic_launcher"
+    android:inset="14%" />

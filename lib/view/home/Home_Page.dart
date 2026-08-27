@@ -10,7 +10,6 @@ import 'package:jiyan_learning/services/progress_service.dart';
 import 'package:jiyan_learning/services/age_content_service.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 import 'package:jiyan_learning/view/home/widgets/app_drawer.dart';
-import 'package:jiyan_learning/view/profiles/notification/notification_list_page.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
@@ -308,27 +307,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
       actions: [
-        // Notification Button
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-          child: Container(
-            // padding: const EdgeInsets.all(8),
+        IconButton(
+          tooltip: 'Calendar',
+          icon: Container(
+            padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: IconButton(
-              icon: Icon(
-                Icons.notifications_rounded,
-                color: Colors.white,
-                size: 22.r,
-              ),
-              onPressed: () => Get.to(() => NotificationListPage()),
-              padding: EdgeInsets.zero,
+            child: Icon(
+              Icons.calendar_month_rounded,
+              color: Colors.white,
+              size: 22.r,
             ),
           ),
+          onPressed: _showCalendar,
         ),
+        SizedBox(width: 4.w),
       ],
+    );
+  }
+
+  /// Opens a month calendar over the home screen.
+  void _showCalendar() {
+    showDialog<void>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.5),
+      builder: (context) => _CalendarDialog(),
     );
   }
 
@@ -923,5 +928,164 @@ class _WavePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _WavePainter oldDelegate) {
     return oldDelegate.animationValue != animationValue;
+  }
+}
+
+/// The month calendar behind the home screen's calendar button.
+///
+/// Built on Flutter's own [CalendarDatePicker] so month navigation, leap
+/// years and locale-correct weekday order come for free -- with the app's
+/// colours applied over it and today preselected.
+class _CalendarDialog extends StatefulWidget {
+  @override
+  State<_CalendarDialog> createState() => _CalendarDialogState();
+}
+
+class _CalendarDialogState extends State<_CalendarDialog> {
+  late DateTime _selected;
+  late final DateTime _today;
+
+  @override
+  void initState() {
+    super.initState();
+    _today = DateTime.now();
+    _selected = _today;
+  }
+
+  String get _selectedLabel {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December',
+    ];
+    const weekdays = [
+      'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+      'Friday', 'Saturday', 'Sunday',
+    ];
+    final weekday = weekdays[_selected.weekday - 1];
+    return '$weekday, ${_selected.day} ${months[_selected.month - 1]} '
+        '${_selected.year}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.all(20.r),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.25),
+              blurRadius: 24.r,
+              offset: const Offset(0, 12),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header, in the app bar's own gradient.
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 16.h,
+              ),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFF6B6B),
+                    Color(0xFFFF8E53),
+                    Color(0xFFFFAA5A),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(24.r),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calendar_month_rounded,
+                    color: Colors.white,
+                    size: 24.r,
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      _selectedLabel,
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: const Color(0xFFFF6B6B),
+                  onPrimary: Colors.white,
+                  onSurface: const Color(0xFF3E2723),
+                ),
+              ),
+              child: SizedBox(
+                // CalendarDatePicker wants a bounded height, and a six-row
+                // month needs more than the five-row default leaves it.
+                height: 340.h,
+                child: CalendarDatePicker(
+                  initialDate: _selected,
+                  // A decade either side: enough to look back over the
+                  // child's year and ahead at a school term.
+                  firstDate: DateTime(_today.year - 10),
+                  lastDate: DateTime(_today.year + 10),
+                  onDateChanged: (date) => setState(() => _selected = date),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => setState(() => _selected = _today),
+                    child: Text(
+                      'Today',
+                      style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFFF6B6B),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(
+                      'Close',
+                      style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF757575),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

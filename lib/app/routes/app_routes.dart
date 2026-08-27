@@ -12,8 +12,6 @@ import 'package:jiyan_learning/view/math%20problem%20&%20solution/Problems_Pages
 import 'package:jiyan_learning/view/auth/login_page.dart';
 import 'package:jiyan_learning/view/auth/signup_page.dart';
 import 'package:jiyan_learning/view/auth/forgot_password_page.dart';
-import 'package:jiyan_learning/view/premium/premium_features_screen.dart';
-import 'package:jiyan_learning/view/premium/premium_plans_page.dart';
 import 'package:jiyan_learning/view/games/games_hub_page.dart';
 import 'package:jiyan_learning/view/quiz/quiz_page.dart';
 import 'package:jiyan_learning/view/quiz/quiz_hub_page.dart';
@@ -93,7 +91,6 @@ abstract class Routes {
   static const parentDashboard = '/parent-dashboard';
   static const leaderboard = '/leaderboard';
   static const avatarShop = '/avatar-shop';
-  static const premiumFeatures = '/premium-features';
 
   // Profile
   static const profile = '/profile';
@@ -110,7 +107,6 @@ abstract class Routes {
   static const notifications = '/notifications';
 
   // Payment
-  static const premium = '/premium';
 }
 
 /// GetX Route Pages
@@ -162,7 +158,6 @@ class AppPages {
     GetPage(name: Routes.parentDashboard, page: () => const ParentDashboardPage()),
     GetPage(name: Routes.leaderboard, page: () => const LeaderboardPage()),
     GetPage(name: Routes.avatarShop, page: () => const AvatarShopPage()),
-    GetPage(name: Routes.premiumFeatures, page: () => const PremiumFeaturesScreen()),
 
     // Profile Routes (ProfileScreen accessed via MainNavigationScreen)
     GetPage(name: Routes.childProfiles, page: () => const ChildProfilesPage()),
@@ -178,6 +173,5 @@ class AppPages {
     GetPage(name: Routes.notifications, page: () => NotificationListPage()),
 
     // Payment Routes
-    GetPage(name: Routes.premium, page: () => const PremiumPlansPage()),
   ];
 }

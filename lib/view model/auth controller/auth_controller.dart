@@ -20,6 +20,9 @@ class AuthController extends GetxController {
   // Getters
   User? get firebaseUser => _firebaseUser.value;
   UserModel? get userModel => _userModel.value;
+  /// The account record as an observable, for screens that open before the
+  /// Firestore read has landed and have to fill themselves in when it does.
+  Rx<UserModel?> get userModelRx => _userModel;
   bool get isLoggedIn => FirebaseService.isAvailable && _firebaseUser.value != null;
   String get userId => _firebaseUser.value?.uid ?? '';
 
@@ -43,6 +46,22 @@ class AuthController extends GetxController {
     }
   }
 
+  /// Resolves once Firebase has restored whatever session was saved on disk.
+  ///
+  /// The auth stream is what tells us there is a signed-in user, and it fires
+  /// after startup -- deciding which screen to open before it has would send a
+  /// signed-in user to the login screen.
+  Future<void> ensureAuthResolved() async {
+    if (!FirebaseService.isAvailable) return;
+    if (_firebaseUser.value != null) return;
+    try {
+      await _firebaseService.authStateChanges.first
+          .timeout(const Duration(seconds: 3));
+    } catch (_) {
+      // Nothing came back in time; treat it as signed out.
+    }
+  }
+
   /// Fetch user data from Firestore
   Future<void> fetchUserData() async {
     if (_firebaseUser.value == null) return;
@@ -62,6 +81,8 @@ class AuthController extends GetxController {
     String? childName,
     int? childAge,
     String? phoneNumber,
+    String? location,
+    String? photoBase64,
   }) async {
     try {
       isLoading.value = true;
@@ -73,6 +94,8 @@ class AuthController extends GetxController {
         childName: childName,
         childAge: childAge,
         phoneNumber: phoneNumber,
+        location: location,
+        photoBase64: photoBase64,
       );
 
       return true;
@@ -81,6 +104,34 @@ class AuthController extends GetxController {
       return false;
     } catch (e) {
       errorMessage.value = 'An error occurred. Please try again.';
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Sign in with a Google account.
+  ///
+  /// False means either the user backed out of the account chooser or the
+  /// sign-in failed; [errorMessage] is set only in the second case.
+  Future<bool> signInWithGoogle() async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      final result = await _firebaseService.signInWithGoogle();
+      if (result == null) return false;
+
+      // The auth stream will fire too, but reading it back now means the
+      // caller can navigate with the profile already in hand.
+      await fetchUserData();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      errorMessage.value = _getErrorMessage(e.code);
+      return false;
+    } catch (e) {
+      errorMessage.value = 'Google sign-in failed. Please try again.';
+      debugPrint('Google sign-in error: $e');
       return false;
     } finally {
       isLoading.value = false;
@@ -205,6 +256,9 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     try {
       isLoading.value = true;
+      // Both, so a Google user is really signed out and not silently signed
+      // straight back in on the next attempt.
+      await _firebaseService.signOutGoogle();
       await _firebaseService.signOut();
     } catch (e) {
       errorMessage.value = 'Failed to sign out. Please try again.';
@@ -248,6 +302,8 @@ class AuthController extends GetxController {
     String? parentEmail,
     String? parentPhone,
     String? location,
+    /// Base64 of the profile picture, or '' to take the existing one away.
+    String? photoBase64,
   }) async {
     if (!isLoggedIn) return false;
 
@@ -265,6 +321,7 @@ class AuthController extends GetxController {
         parentEmail: parentEmail,
         parentPhone: parentPhone,
         location: location,
+        photoBase64: photoBase64,
       );
 
       debugPrint('Profile updated successfully, fetching user data...');

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/offline_content_service.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
@@ -15,10 +16,13 @@ class OfflineLearningPage extends StatefulWidget {
 
 class _OfflineLearningPageState extends State<OfflineLearningPage>
     with TickerProviderStateMixin {
-  final RxMap<String, bool> downloadedContent = <String, bool>{}.obs;
-  final RxMap<String, double> downloadProgress = <String, double>{}.obs;
+  late final OfflineContentService offline;
   final TextEditingController _searchController = TextEditingController();
   late final SpeechRecognitionService speechService;
+
+  /// Whether a category is ready to use with no network. Reads through to the
+  /// service, so it survives a restart instead of resetting to nothing.
+  RxMap<String, OfflineEntry> get _entries => offline.entries;
   String _searchQuery = '';
   AnimationController? _waveController;
 
@@ -47,8 +51,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn counting numbers',
       'icon': '🔢',
       'color': const Color(0xFFFF6B6B),
-      'size': '15 MB',
-      'items': 100,
     },
     {
       'id': 'tables',
@@ -56,8 +58,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Multiplication tables 2-20',
       'icon': '✖️',
       'color': const Color(0xFFFFAA5A),
-      'size': '10 MB',
-      'items': 20,
     },
     {
       'id': 'math_problems',
@@ -65,8 +65,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Addition, subtraction & more',
       'icon': '🧮',
       'color': const Color(0xFF4CAF50),
-      'size': '18 MB',
-      'items': 200,
     },
     {
       'id': 'math_questions',
@@ -74,8 +72,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Practice math questions',
       'icon': '❓',
       'color': const Color(0xFF2196F3),
-      'size': '12 MB',
-      'items': 150,
     },
 
     // ========== ALPHABETS & LETTERS ==========
@@ -85,8 +81,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn A-Z uppercase',
       'icon': '🅰️',
       'color': const Color(0xFF4ECDC4),
-      'size': '12 MB',
-      'items': 26,
     },
     {
       'id': 'small_letters',
@@ -94,8 +88,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn a-z lowercase',
       'icon': '🔤',
       'color': const Color(0xFF9C27B0),
-      'size': '12 MB',
-      'items': 26,
     },
     {
       'id': 'hindi_letters',
@@ -103,8 +95,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn Hindi alphabets',
       'icon': '🇮🇳',
       'color': const Color(0xFFA78BFA),
-      'size': '25 MB',
-      'items': 49,
     },
     {
       'id': 'alphabet_words',
@@ -112,8 +102,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Words with each letter',
       'icon': '📖',
       'color': const Color(0xFFE91E63),
-      'size': '30 MB',
-      'items': 260,
     },
 
     // ========== LEARNING SETS ==========
@@ -123,8 +111,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn animal names & sounds',
       'icon': '🦁',
       'color': const Color(0xFF56D97F),
-      'size': '35 MB',
-      'items': 50,
     },
     {
       'id': 'birds',
@@ -132,8 +118,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn bird names & sounds',
       'icon': '🐦',
       'color': const Color(0xFFFF6EB4),
-      'size': '28 MB',
-      'items': 40,
     },
     {
       'id': 'fruits',
@@ -141,8 +125,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn fruit names',
       'icon': '🍎',
       'color': const Color(0xFF00CED1),
-      'size': '20 MB',
-      'items': 30,
     },
     {
       'id': 'vegetables',
@@ -150,8 +132,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn vegetable names',
       'icon': '🥕',
       'color': const Color(0xFF8BC34A),
-      'size': '18 MB',
-      'items': 25,
     },
     {
       'id': 'flowers',
@@ -159,8 +139,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn flower names',
       'icon': '🌸',
       'color': const Color(0xFFFF69B4),
-      'size': '15 MB',
-      'items': 20,
     },
     {
       'id': 'colors',
@@ -168,8 +146,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn color names',
       'icon': '🎨',
       'color': const Color(0xFFE040FB),
-      'size': '10 MB',
-      'items': 15,
     },
     {
       'id': 'shapes',
@@ -177,8 +153,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn shape names',
       'icon': '🔷',
       'color': const Color(0xFF3F51B5),
-      'size': '12 MB',
-      'items': 20,
     },
     {
       'id': 'bodyparts',
@@ -186,8 +160,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn body part names',
       'icon': '👋',
       'color': const Color(0xFF9C27B0),
-      'size': '18 MB',
-      'items': 25,
     },
     {
       'id': 'vehicles',
@@ -195,8 +167,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn vehicle names',
       'icon': '🚗',
       'color': const Color(0xFF795548),
-      'size': '22 MB',
-      'items': 35,
     },
     {
       'id': 'months',
@@ -204,8 +174,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn month names',
       'icon': '📅',
       'color': const Color(0xFF607D8B),
-      'size': '8 MB',
-      'items': 12,
     },
     {
       'id': 'weekdays',
@@ -213,8 +181,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn days of the week',
       'icon': '📆',
       'color': const Color(0xFF00BCD4),
-      'size': '5 MB',
-      'items': 7,
     },
     {
       'id': 'seasons',
@@ -222,8 +188,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about seasons',
       'icon': '🌤️',
       'color': const Color(0xFFFFEB3B),
-      'size': '15 MB',
-      'items': 4,
     },
 
     // ========== CREATIVE & FUN ==========
@@ -233,8 +197,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Fun poems for kids',
       'icon': '📝',
       'color': const Color(0xFF7C4DFF),
-      'size': '40 MB',
-      'items': 30,
     },
     {
       'id': 'stories',
@@ -242,8 +204,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Moral stories for kids',
       'icon': '📚',
       'color': const Color(0xFFFF7043),
-      'size': '50 MB',
-      'items': 25,
     },
     {
       'id': 'rhymes',
@@ -251,8 +211,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Classic nursery rhymes',
       'icon': '🎵',
       'color': const Color(0xFFE91E63),
-      'size': '60 MB',
-      'items': 20,
     },
     {
       'id': 'gk',
@@ -260,8 +218,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Fun facts for kids',
       'icon': '🧠',
       'color': const Color(0xFF673AB7),
-      'size': '25 MB',
-      'items': 100,
     },
 
     // ========== DRAWING & ART ==========
@@ -271,8 +227,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to draw',
       'icon': '✏️',
       'color': const Color(0xFFFF5722),
-      'size': '30 MB',
-      'items': 50,
     },
     {
       'id': 'drawing_images',
@@ -280,8 +234,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Coloring templates',
       'icon': '🖼️',
       'color': const Color(0xFF009688),
-      'size': '45 MB',
-      'items': 100,
     },
     {
       'id': 'coloring',
@@ -289,8 +241,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Fun coloring activities',
       'icon': '🖍️',
       'color': const Color(0xFFFF4081),
-      'size': '35 MB',
-      'items': 80,
     },
 
     // ========== EARLY LEARNING ==========
@@ -300,8 +250,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Touch, see, hear activities',
       'icon': '👋',
       'color': const Color(0xFFFFB74D),
-      'size': '20 MB',
-      'items': 30,
     },
     {
       'id': 'visual',
@@ -309,8 +257,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Picture-based learning',
       'icon': '👁️',
       'color': const Color(0xFF42A5F5),
-      'size': '40 MB',
-      'items': 50,
     },
     {
       'id': 'audio',
@@ -318,8 +264,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Sound-based activities',
       'icon': '🔊',
       'color': const Color(0xFF66BB6A),
-      'size': '55 MB',
-      'items': 40,
     },
     {
       'id': 'kinesthetic',
@@ -327,8 +271,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Movement activities',
       'icon': '🤸',
       'color': const Color(0xFFAB47BC),
-      'size': '25 MB',
-      'items': 25,
     },
     {
       'id': 'play_based',
@@ -336,8 +278,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn through play',
       'icon': '🎮',
       'color': const Color(0xFFFF7043),
-      'size': '35 MB',
-      'items': 45,
     },
     {
       'id': 'exploratory',
@@ -345,8 +285,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Discover & explore',
       'icon': '🔭',
       'color': const Color(0xFF5C6BC0),
-      'size': '30 MB',
-      'items': 35,
     },
     {
       'id': 'discovery',
@@ -354,8 +292,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Find new things',
       'icon': '🔍',
       'color': const Color(0xFF26A69A),
-      'size': '28 MB',
-      'items': 40,
     },
     {
       'id': 'montessori',
@@ -363,8 +299,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Montessori activities',
       'icon': '🎓',
       'color': const Color(0xFFEF5350),
-      'size': '32 MB',
-      'items': 50,
     },
     {
       'id': 'activity_based',
@@ -372,8 +306,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Hands-on activities',
       'icon': '🎯',
       'color': const Color(0xFF7E57C2),
-      'size': '38 MB',
-      'items': 60,
     },
     {
       'id': 'experiential',
@@ -381,8 +313,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn by experience',
       'icon': '🎪',
       'color': const Color(0xFFEC407A),
-      'size': '42 MB',
-      'items': 45,
     },
 
     // ========== LITERACY & READING ==========
@@ -392,8 +322,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Letter sounds & blending',
       'icon': '🔤',
       'color': const Color(0xFF29B6F6),
-      'size': '35 MB',
-      'items': 100,
     },
     {
       'id': 'sight_words',
@@ -401,8 +329,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Common words to recognize',
       'icon': '👀',
       'color': const Color(0xFF26C6DA),
-      'size': '20 MB',
-      'items': 200,
     },
     {
       'id': 'reading_basics',
@@ -410,8 +336,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to read',
       'icon': '📖',
       'color': const Color(0xFF9CCC65),
-      'size': '45 MB',
-      'items': 80,
     },
     {
       'id': 'vocabulary',
@@ -419,8 +343,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'New words daily',
       'icon': '📚',
       'color': const Color(0xFFFFCA28),
-      'size': '30 MB',
-      'items': 500,
     },
     {
       'id': 'spelling',
@@ -428,8 +350,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to spell correctly',
       'icon': '✍️',
       'color': const Color(0xFF8D6E63),
-      'size': '22 MB',
-      'items': 300,
     },
     {
       'id': 'grammar',
@@ -437,8 +357,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Basic grammar rules',
       'icon': '📝',
       'color': const Color(0xFF78909C),
-      'size': '25 MB',
-      'items': 100,
     },
     {
       'id': 'comprehension',
@@ -446,8 +364,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Understand what you read',
       'icon': '🧩',
       'color': const Color(0xFFBA68C8),
-      'size': '40 MB',
-      'items': 75,
     },
 
     // ========== WRITING SKILLS ==========
@@ -457,8 +373,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Trace letters & numbers',
       'icon': '✏️',
       'color': const Color(0xFF4DB6AC),
-      'size': '18 MB',
-      'items': 62,
     },
     {
       'id': 'handwriting',
@@ -466,8 +380,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Improve handwriting',
       'icon': '✒️',
       'color': const Color(0xFF7986CB),
-      'size': '25 MB',
-      'items': 100,
     },
     {
       'id': 'creative_writing',
@@ -475,8 +387,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Write your own stories',
       'icon': '📝',
       'color': const Color(0xFFFFB300),
-      'size': '15 MB',
-      'items': 50,
     },
     {
       'id': 'sentence_building',
@@ -484,8 +394,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Make sentences',
       'icon': '🔗',
       'color': const Color(0xFF00897B),
-      'size': '20 MB',
-      'items': 150,
     },
 
     // ========== GAMES & INTERACTIVE ==========
@@ -495,8 +403,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Match pairs & memory',
       'icon': '🃏',
       'color': const Color(0xFFE57373),
-      'size': '25 MB',
-      'items': 30,
     },
     {
       'id': 'puzzle_games',
@@ -504,8 +410,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Fun puzzles for kids',
       'icon': '🧩',
       'color': const Color(0xFF64B5F6),
-      'size': '35 MB',
-      'items': 50,
     },
     {
       'id': 'tracing_games',
@@ -513,8 +417,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Trace & learn',
       'icon': '✍️',
       'color': const Color(0xFF81C784),
-      'size': '20 MB',
-      'items': 40,
     },
     {
       'id': 'quiz_games',
@@ -522,8 +424,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Test your knowledge',
       'icon': '❔',
       'color': const Color(0xFFFFD54F),
-      'size': '15 MB',
-      'items': 200,
     },
     {
       'id': 'word_games',
@@ -531,8 +431,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Fun with words',
       'icon': '🔠',
       'color': const Color(0xFF4FC3F7),
-      'size': '18 MB',
-      'items': 100,
     },
     {
       'id': 'counting_games',
@@ -540,8 +438,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to count',
       'icon': '🔢',
       'color': const Color(0xFFA1887F),
-      'size': '22 MB',
-      'items': 50,
     },
     {
       'id': 'sorting_games',
@@ -549,8 +445,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Sort & categorize',
       'icon': '📊',
       'color': const Color(0xFF90A4AE),
-      'size': '20 MB',
-      'items': 40,
     },
     {
       'id': 'pattern_games',
@@ -558,8 +452,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Find patterns',
       'icon': '🔲',
       'color': const Color(0xFFCE93D8),
-      'size': '15 MB',
-      'items': 35,
     },
     {
       'id': 'music_games',
@@ -567,8 +459,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn with music',
       'icon': '🎵',
       'color': const Color(0xFFE91E63),
-      'size': '45 MB',
-      'items': 30,
     },
 
     // ========== SCIENCE & KNOWLEDGE ==========
@@ -578,8 +468,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Basic science concepts',
       'icon': '🔬',
       'color': const Color(0xFF00ACC1),
-      'size': '35 MB',
-      'items': 80,
     },
     {
       'id': 'nature',
@@ -587,8 +475,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about nature',
       'icon': '🌿',
       'color': const Color(0xFF43A047),
-      'size': '40 MB',
-      'items': 60,
     },
     {
       'id': 'space',
@@ -596,8 +482,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Explore the universe',
       'icon': '🚀',
       'color': const Color(0xFF1E88E5),
-      'size': '30 MB',
-      'items': 50,
     },
     {
       'id': 'human_body',
@@ -605,8 +489,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about our body',
       'icon': '🫀',
       'color': const Color(0xFFE53935),
-      'size': '25 MB',
-      'items': 40,
     },
     {
       'id': 'weather',
@@ -614,8 +496,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about weather',
       'icon': '🌦️',
       'color': const Color(0xFF039BE5),
-      'size': '18 MB',
-      'items': 25,
     },
     {
       'id': 'plants',
@@ -623,8 +503,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about plants',
       'icon': '🌳',
       'color': const Color(0xFF7CB342),
-      'size': '28 MB',
-      'items': 45,
     },
 
     // ========== STEM & PROJECTS ==========
@@ -634,8 +512,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Science, Tech, Engineering, Math',
       'icon': '🔧',
       'color': const Color(0xFF5E35B1),
-      'size': '40 MB',
-      'items': 60,
     },
     {
       'id': 'mini_projects',
@@ -643,8 +519,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Fun DIY projects',
       'icon': '🔬',
       'color': const Color(0xFF00897B),
-      'size': '35 MB',
-      'items': 40,
     },
     {
       'id': 'experiments',
@@ -652,8 +526,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Safe experiments at home',
       'icon': '🧪',
       'color': const Color(0xFF8E24AA),
-      'size': '30 MB',
-      'items': 50,
     },
     {
       'id': 'diy_learning',
@@ -661,8 +533,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Do it yourself activities',
       'icon': '🛠️',
       'color': const Color(0xFFF4511E),
-      'size': '28 MB',
-      'items': 45,
     },
     {
       'id': 'coding_basics',
@@ -670,8 +540,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Introduction to coding',
       'icon': '💻',
       'color': const Color(0xFF1976D2),
-      'size': '25 MB',
-      'items': 30,
     },
     {
       'id': 'robotics_intro',
@@ -679,8 +547,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about robots',
       'icon': '🤖',
       'color': const Color(0xFF546E7A),
-      'size': '22 MB',
-      'items': 25,
     },
 
     // ========== LIFE SKILLS ==========
@@ -690,8 +556,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Morning & evening habits',
       'icon': '🏠',
       'color': const Color(0xFF8D6E63),
-      'size': '15 MB',
-      'items': 30,
     },
     {
       'id': 'hygiene',
@@ -699,8 +563,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Stay clean & healthy',
       'icon': '🧼',
       'color': const Color(0xFF26C6DA),
-      'size': '12 MB',
-      'items': 25,
     },
     {
       'id': 'money_basics',
@@ -708,8 +570,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about money',
       'icon': '💰',
       'color': const Color(0xFFFFB300),
-      'size': '18 MB',
-      'items': 35,
     },
     {
       'id': 'time_management',
@@ -717,8 +577,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to tell time',
       'icon': '⏰',
       'color': const Color(0xFF5C6BC0),
-      'size': '15 MB',
-      'items': 40,
     },
     {
       'id': 'safety_skills',
@@ -726,8 +584,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Stay safe everywhere',
       'icon': '🦺',
       'color': const Color(0xFFE53935),
-      'size': '20 MB',
-      'items': 30,
     },
     {
       'id': 'manners',
@@ -735,8 +591,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn politeness',
       'icon': '🙏',
       'color': const Color(0xFFAB47BC),
-      'size': '10 MB',
-      'items': 25,
     },
 
     // ========== HEALTH & WELLNESS ==========
@@ -746,8 +600,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Healthy food choices',
       'icon': '🥗',
       'color': const Color(0xFF66BB6A),
-      'size': '18 MB',
-      'items': 40,
     },
     {
       'id': 'exercise',
@@ -755,8 +607,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Stay active & fit',
       'icon': '🏃',
       'color': const Color(0xFFFF7043),
-      'size': '25 MB',
-      'items': 35,
     },
     {
       'id': 'body_safety',
@@ -764,8 +614,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Personal safety awareness',
       'icon': '🛡️',
       'color': const Color(0xFF5C6BC0),
-      'size': '15 MB',
-      'items': 20,
     },
     {
       'id': 'mental_wellness',
@@ -773,8 +621,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Emotional health basics',
       'icon': '🧘',
       'color': const Color(0xFF7E57C2),
-      'size': '20 MB',
-      'items': 30,
     },
 
     // ========== SOCIAL EMOTIONAL LEARNING ==========
@@ -784,8 +630,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about feelings',
       'icon': '😊',
       'color': const Color(0xFFFFB74D),
-      'size': '22 MB',
-      'items': 35,
     },
     {
       'id': 'friendship',
@@ -793,8 +637,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Making & keeping friends',
       'icon': '🤝',
       'color': const Color(0xFF4FC3F7),
-      'size': '18 MB',
-      'items': 30,
     },
     {
       'id': 'empathy',
@@ -802,8 +644,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Understanding others',
       'icon': '💝',
       'color': const Color(0xFFEC407A),
-      'size': '15 MB',
-      'items': 25,
     },
     {
       'id': 'self_control',
@@ -811,8 +651,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Managing impulses',
       'icon': '🧘',
       'color': const Color(0xFF26A69A),
-      'size': '12 MB',
-      'items': 20,
     },
     {
       'id': 'conflict_resolution',
@@ -820,8 +658,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Solving problems peacefully',
       'icon': '🕊️',
       'color': const Color(0xFF42A5F5),
-      'size': '16 MB',
-      'items': 25,
     },
     {
       'id': 'self_esteem',
@@ -829,8 +665,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Building confidence',
       'icon': '⭐',
       'color': const Color(0xFFFFD54F),
-      'size': '14 MB',
-      'items': 20,
     },
 
     // ========== COGNITIVE SKILLS ==========
@@ -840,8 +674,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Improve memory',
       'icon': '🧠',
       'color': const Color(0xFF7E57C2),
-      'size': '20 MB',
-      'items': 50,
     },
     {
       'id': 'attention_focus',
@@ -849,8 +681,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Concentration exercises',
       'icon': '🎯',
       'color': const Color(0xFF26A69A),
-      'size': '18 MB',
-      'items': 40,
     },
     {
       'id': 'problem_solving',
@@ -858,8 +688,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Think & solve',
       'icon': '💡',
       'color': const Color(0xFFFFCA28),
-      'size': '25 MB',
-      'items': 60,
     },
 
     // ========== EXECUTIVE FUNCTION ==========
@@ -869,8 +697,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to plan ahead',
       'icon': '📋',
       'color': const Color(0xFF5C6BC0),
-      'size': '15 MB',
-      'items': 30,
     },
     {
       'id': 'organization',
@@ -878,8 +704,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Keep things organized',
       'icon': '📁',
       'color': const Color(0xFF00897B),
-      'size': '12 MB',
-      'items': 25,
     },
     {
       'id': 'task_initiation',
@@ -887,8 +711,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Getting started',
       'icon': '🚀',
       'color': const Color(0xFFFF7043),
-      'size': '10 MB',
-      'items': 20,
     },
     {
       'id': 'flexibility',
@@ -896,8 +718,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Adapt & change',
       'icon': '🔄',
       'color': const Color(0xFF26C6DA),
-      'size': '14 MB',
-      'items': 25,
     },
     {
       'id': 'working_memory',
@@ -905,8 +725,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Hold & use info',
       'icon': '📝',
       'color': const Color(0xFFAB47BC),
-      'size': '18 MB',
-      'items': 35,
     },
     {
       'id': 'impulse_control',
@@ -914,8 +732,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Think before acting',
       'icon': '⏸️',
       'color': const Color(0xFFEF5350),
-      'size': '12 MB',
-      'items': 20,
     },
 
     // ========== DIGITAL LITERACY ==========
@@ -925,8 +741,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Safe screen time',
       'icon': '📱',
       'color': const Color(0xFF1E88E5),
-      'size': '15 MB',
-      'items': 25,
     },
     {
       'id': 'internet_basics',
@@ -934,8 +748,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Safe internet use',
       'icon': '🌐',
       'color': const Color(0xFF00ACC1),
-      'size': '18 MB',
-      'items': 30,
     },
     {
       'id': 'typing_basics',
@@ -943,8 +755,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to type',
       'icon': '⌨️',
       'color': const Color(0xFF546E7A),
-      'size': '12 MB',
-      'items': 26,
     },
     {
       'id': 'digital_citizenship',
@@ -952,8 +762,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Be a good digital citizen',
       'icon': '🏛️',
       'color': const Color(0xFF5E35B1),
-      'size': '14 MB',
-      'items': 20,
     },
     {
       'id': 'media_literacy',
@@ -961,8 +769,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Understand media',
       'icon': '📺',
       'color': const Color(0xFFE91E63),
-      'size': '16 MB',
-      'items': 25,
     },
 
     // ========== SUSTAINABILITY ==========
@@ -972,8 +778,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Reduce, reuse, recycle',
       'icon': '♻️',
       'color': const Color(0xFF4CAF50),
-      'size': '15 MB',
-      'items': 25,
     },
     {
       'id': 'climate',
@@ -981,8 +785,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Understand climate',
       'icon': '🌍',
       'color': const Color(0xFF00BCD4),
-      'size': '20 MB',
-      'items': 30,
     },
     {
       'id': 'sustainable_habits',
@@ -990,8 +792,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Eco-friendly living',
       'icon': '🌱',
       'color': const Color(0xFF8BC34A),
-      'size': '12 MB',
-      'items': 20,
     },
 
     // ========== SOCIAL STUDIES ==========
@@ -1001,8 +801,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'People who help us',
       'icon': '👨‍🚒',
       'color': const Color(0xFFF44336),
-      'size': '25 MB',
-      'items': 35,
     },
     {
       'id': 'family',
@@ -1010,8 +808,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about family',
       'icon': '👨‍👩‍👧‍👦',
       'color': const Color(0xFFE91E63),
-      'size': '18 MB',
-      'items': 25,
     },
     {
       'id': 'maps',
@@ -1019,8 +815,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to read maps',
       'icon': '🗺️',
       'color': const Color(0xFF2196F3),
-      'size': '20 MB',
-      'items': 30,
     },
     {
       'id': 'countries_flags',
@@ -1028,8 +822,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn world flags',
       'icon': '🏳️',
       'color': const Color(0xFF673AB7),
-      'size': '30 MB',
-      'items': 195,
     },
     {
       'id': 'cultures',
@@ -1037,8 +829,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Different cultures',
       'icon': '🌍',
       'color': const Color(0xFF009688),
-      'size': '35 MB',
-      'items': 50,
     },
 
     // ========== MUSIC & ARTS ==========
@@ -1048,8 +838,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn about music',
       'icon': '🎼',
       'color': const Color(0xFF9C27B0),
-      'size': '40 MB',
-      'items': 40,
     },
     {
       'id': 'instruments',
@@ -1057,8 +845,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn instruments',
       'icon': '🎸',
       'color': const Color(0xFF795548),
-      'size': '35 MB',
-      'items': 30,
     },
     {
       'id': 'singing',
@@ -1066,8 +852,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn to sing',
       'icon': '🎤',
       'color': const Color(0xFFFF4081),
-      'size': '50 MB',
-      'items': 50,
     },
     {
       'id': 'dance',
@@ -1075,8 +859,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn dance moves',
       'icon': '💃',
       'color': const Color(0xFFE040FB),
-      'size': '60 MB',
-      'items': 40,
     },
     {
       'id': 'art_crafts',
@@ -1084,8 +866,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Creative art activities',
       'icon': '🎨',
       'color': const Color(0xFFFF5722),
-      'size': '45 MB',
-      'items': 80,
     },
 
     // ========== ANIMATED CONTENT ==========
@@ -1095,8 +875,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Watch & learn',
       'icon': '🎬',
       'color': const Color(0xFF3F51B5),
-      'size': '150 MB',
-      'items': 30,
     },
     {
       'id': 'animated_rhymes',
@@ -1104,8 +882,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Sing-along videos',
       'icon': '🎥',
       'color': const Color(0xFFE91E63),
-      'size': '200 MB',
-      'items': 40,
     },
     {
       'id': 'animated_lessons',
@@ -1113,8 +889,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Video lessons',
       'icon': '📽️',
       'color': const Color(0xFF00BCD4),
-      'size': '180 MB',
-      'items': 50,
     },
     {
       'id': 'cartoons',
@@ -1122,8 +896,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Learn with cartoons',
       'icon': '📺',
       'color': const Color(0xFFFF9800),
-      'size': '250 MB',
-      'items': 25,
     },
 
     // ========== FLASHCARDS & WORKSHEETS ==========
@@ -1133,8 +905,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'All flashcards offline',
       'icon': '🃏',
       'color': const Color(0xFF607D8B),
-      'size': '50 MB',
-      'items': 500,
     },
     {
       'id': 'worksheets',
@@ -1142,8 +912,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Practice worksheets',
       'icon': '📄',
       'color': const Color(0xFF9E9E9E),
-      'size': '80 MB',
-      'items': 200,
     },
 
     // ========== ASSESSMENT & QUIZ ==========
@@ -1153,8 +921,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Test your learning',
       'icon': '📝',
       'color': const Color(0xFF673AB7),
-      'size': '25 MB',
-      'items': 100,
     },
     {
       'id': 'quiz_bank',
@@ -1162,8 +928,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       'description': 'Thousands of quizzes',
       'icon': '❓',
       'color': const Color(0xFF00BCD4),
-      'size': '35 MB',
-      'items': 1000,
     },
   ];
 
@@ -1183,6 +947,9 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
   void initState() {
     super.initState();
     speechService = Get.find<SpeechRecognitionService>();
+    offline = Get.isRegistered<OfflineContentService>()
+        ? Get.find<OfflineContentService>()
+        : Get.put(OfflineContentService());
     _waveController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -1203,9 +970,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
       CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
     );
 
-    // Simulate some content already downloaded
-    downloadedContent['numbers'] = true;
-    downloadedContent['alphabets'] = true;
   }
 
   @override
@@ -1250,28 +1014,17 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
     });
   }
 
-  int get totalDownloaded => downloadedContent.values.where((v) => v).length;
-  int get totalSize {
-    int size = 0;
-    for (var cat in offlineCategories) {
-      if (downloadedContent[cat['id']] == true) {
-        size += int.parse((cat['size'] as String).replaceAll(' MB', ''));
-      }
-    }
-    return size;
-  }
+  int get totalDownloaded => offline.readyCount;
 
-  Future<void> _downloadContent(String id) async {
-    downloadProgress[id] = 0.0;
+  /// Real bytes, summed from the files that were actually read.
+  String get totalSizeLabel => OfflineContentService.formatBytes(
+        offline.readyBytes,
+      );
 
-    for (int i = 0; i <= 100; i += 5) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      downloadProgress[id] = i / 100;
-    }
-
-    downloadedContent[id] = true;
-    downloadProgress.remove(id);
-  }
+  /// Really reads the category's files out of the app bundle. Categories
+  /// whose lessons are code rather than files finish at once, because they
+  /// already work offline.
+  Future<void> _downloadContent(String id) => offline.prepare(id);
 
   void _deleteContent(String id) {
     // Find the content name for display
@@ -1413,7 +1166,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                                   ),
                                 ),
                                 Text(
-                                  content['size'] ?? '',
+                                  offline.sizeLabel(id),
                                   style: GoogleFonts.nunito(
                                     fontSize: 12,
                                     color: Colors.grey.shade600,
@@ -1501,7 +1254,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                             child: ElevatedButton(
                               onPressed: () {
                                 Get.back();
-                                downloadedContent[id] = false;
+                                offline.remove(id);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -1543,14 +1296,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
         ),
       ),
     );
-  }
-
-  void _downloadAll() async {
-    for (var cat in offlineCategories) {
-      if (downloadedContent[cat['id']] != true) {
-        await _downloadContent(cat['id']);
-      }
-    }
   }
 
   void _toggleVoiceSearch() async {
@@ -1645,44 +1390,6 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
           ),
         ),
         centerTitle: true,
-        actions: [
-          Obx(() {
-            final allDownloaded = offlineCategories.every(
-              (cat) => downloadedContent[cat['id']] == true,
-            );
-            if (!allDownloaded) {
-              return GestureDetector(
-                onTap: _downloadAll,
-                child: Container(
-                  margin: EdgeInsets.only(right: 12.w),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.download, color: Colors.white, size: 18.r),
-                      SizedBox(width: 4.w),
-                      Text(
-                        'All',
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-            return const SizedBox.shrink();
-          }),
-        ],
       ),
       body: Container(
         width: double.infinity,
@@ -2036,7 +1743,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Text(
-                '$totalSize MB',
+                totalSizeLabel,
                 style: GoogleFonts.nunito(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -2056,9 +1763,11 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
     final gradient = cardGradients[index % cardGradients.length];
 
     return Obx(() {
-      final isDownloaded = downloadedContent[id] == true;
-      final isDownloading = downloadProgress.containsKey(id);
-      final progress = downloadProgress[id] ?? 0.0;
+      // Touch the map so this rebuilds when the service updates.
+      _entries.length;
+      final isDownloaded = offline.isReady(id);
+      final isDownloading = offline.isWorking(id);
+      final progress = offline.progress[id] ?? 0.0;
 
       return Container(
         margin: EdgeInsets.only(bottom: 12.h),
@@ -2197,7 +1906,9 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          '${category['items']} items • ${category['size']}',
+                          offline.isBuiltIn(category['id'])
+                              ? 'Built in • works with no internet'
+                              : offline.sizeLabel(category['id']),
                           style: GoogleFonts.nunito(
                             fontSize: 13,
                             color: Colors.white.withValues(alpha: 0.9),

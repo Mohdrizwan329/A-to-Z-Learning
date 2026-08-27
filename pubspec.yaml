@@ -44,6 +44,7 @@ dependencies:
   google_fonts: ^6.3.1
   google_mlkit_text_recognition: ^0.15.0
   flutter_dotenv: ^6.0.0
+  http: ^1.2.2
   firebase_core: ^3.8.1
   firebase_auth: ^5.3.4
   cloud_firestore: ^5.6.0
@@ -59,6 +60,15 @@ dependencies:
   permission_handler: ^11.3.1
   connectivity_plus: ^6.1.1
   timezone: ^0.9.4
+  # Google sign-in, and the device's own location for the signup form.
+  google_sign_in: ^6.2.2
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+  # Puts a saved certificate in the phone's own gallery, not just the app's
+  # private folder where nobody can find it.
+  gal: ^2.3.0
+  # Opens the support email and store links from the help screens.
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:

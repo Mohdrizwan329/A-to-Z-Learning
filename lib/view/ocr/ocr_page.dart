@@ -6,11 +6,54 @@ import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view%20model/ocr%20controller/ocr_controller.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
+import 'package:jiyan_learning/widgets/scan_limit_badge.dart';
 
-class OcrScreen extends StatelessWidget {
+class OcrScreen extends StatefulWidget {
+  const OcrScreen({super.key});
+
+  @override
+  State<OcrScreen> createState() => _OcrScreenState();
+}
+
+class _OcrScreenState extends State<OcrScreen>
+    with SingleTickerProviderStateMixin {
   final controller = Get.put(OcrController());
 
-  OcrScreen({super.key});
+  /// The same drift the home grid runs: one 3-second controller shared by
+  /// every card, so they rise and fall together rather than each drifting on
+  /// its own clock.
+  late final AnimationController _floatController = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 3),
+  )..repeat(reverse: true);
+
+  late final Animation<double> _floatAnimation = Tween<double>(
+    begin: -6,
+    end: 6,
+  ).animate(
+    CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
+  );
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    super.dispose();
+  }
+
+  /// Alternating, so neighbouring cards move against each other -- the same
+  /// half-amplitude the home grid uses.
+  Widget _float(int index, Widget child) {
+    return AnimatedBuilder(
+      animation: _floatController,
+      builder: (context, inner) {
+        final offset = index.isEven
+            ? _floatAnimation.value * 0.5
+            : -_floatAnimation.value * 0.5;
+        return Transform.translate(offset: Offset(0, offset), child: inner);
+      },
+      child: child,
+    );
+  }
 
   // Gradient colors for question cards
   static const List<List<Color>> _cardGradients = [
@@ -53,25 +96,8 @@ class OcrScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // Question Counter Header
-              Obx(
-                () => controller.mcqQuestions.isNotEmpty
-                    ? TweenAnimationBuilder<double>(
-                        tween: Tween(begin: 0, end: 1),
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeOut,
-                        builder: (context, value, child) {
-                          return Transform.translate(
-                            offset: Offset(0, 20 * (1 - value)),
-                            child: Opacity(
-                              opacity: value.clamp(0.0, 1.0),
-                              child: _buildQuestionCounter(),
-                            ),
-                          );
-                        },
-                      )
-                    : const SizedBox(),
-              ),
+              // Today's remaining scans
+              ScanLimitBadge(limit: controller.scanLimit),
 
               // Main Content
               Expanded(
@@ -163,199 +189,50 @@ class OcrScreen extends StatelessWidget {
         ),
       ),
       centerTitle: true,
-      actions: [
-        Obx(
-          () => controller.mcqQuestions.isNotEmpty
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: IconButton(
-                      onPressed: controller.isPdfGenerating.value
-                          ? null
-                          : controller.generatePdf,
-                      icon: controller.isPdfGenerating.value
-                          ? SizedBox(
-                              width: 20.w,
-                              height: 20.h,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2.r,
-                              ),
-                            )
-                          : Icon(
-                              Icons.picture_as_pdf_rounded,
-                              color: Colors.white,
-                              size: 22.r,
-                            ),
-                      padding: EdgeInsets.zero,
-                      tooltip: "Download PDF",
-                    ),
-                  ),
-                )
-              : const SizedBox(),
-        ),
-        SizedBox(width: 8.w),
-      ],
-    );
-  }
-
-  Widget _buildQuestionCounter() {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: AppTheme.spacingM,
-        vertical: AppTheme.spacingS,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: AppTheme.spacingM,
-        vertical: AppTheme.spacingS,
-      ),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
-            blurRadius: 10.r,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: const Center(
-                  child: Text('📝', style: TextStyle(fontSize: 20)),
-                ),
-              ),
-              SizedBox(width: AppTheme.spacingS),
-              Text(
-                "${controller.mcqQuestions.length} Questions",
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: controller.generatePdf,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 4.r,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.download_rounded,
-                    size: 18.r,
-                    color: Color(0xFFFFAA5A),
-                  ),
-                  SizedBox(width: 6.w),
-                  Text(
-                    "PDF",
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xFFFFAA5A),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
   Widget _buildFloatingButtons() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        // Scan Button
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.r),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-                blurRadius: 12.r,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: FloatingActionButton.extended(
-            heroTag: "scan",
-            onPressed: controller.scanQuestion,
-            backgroundColor: const Color(0xFF56D97F),
-            icon: const Icon(Icons.camera_alt_rounded, color: Colors.white),
-            label: Text(
-              "Scan Question",
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+    // With questions on screen the FAB would sit on top of the last card's
+    // options, so it steps aside there -- scan and clear live at the end of
+    // the list instead, where they cannot cover a question.
+    //
+    // It also goes away once today's budget is spent: the badge above already
+    // says why, and a button that only ever answers "come back tomorrow" is
+    // worse than no button. It is back on its own the next day, because the
+    // badge re-reads the count whenever the screen returns.
+    return Obx(() {
+      if (controller.mcqQuestions.isNotEmpty) return const SizedBox.shrink();
+      if (controller.scanLimit.remaining.value == 0) {
+        return const SizedBox.shrink();
+      }
+
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF45B7D1).withValues(alpha: 0.4),
+              blurRadius: 12.r,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: FloatingActionButton.extended(
+          heroTag: "scan",
+          onPressed: controller.scanQuestion,
+          backgroundColor: const Color(0xFF45B7D1),
+          icon: const Icon(Icons.camera_alt_rounded, color: Colors.white),
+          label: Text(
+            "Scan Question",
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        SizedBox(height: 12.h),
-        // Clear All Button
-        Obx(
-          () => controller.mcqQuestions.isNotEmpty
-              ? Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
-                        blurRadius: 8.r,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: FloatingActionButton.small(
-                    heroTag: "clear",
-                    onPressed: () => _showClearDialog(),
-                    backgroundColor: const Color(0xFFFF6B6B),
-                    child: Icon(
-                      Icons.delete_rounded,
-                      color: Colors.white,
-                      size: 20.r,
-                    ),
-                  ),
-                )
-              : const SizedBox(),
-        ),
-      ],
-    );
+      );
+    });
   }
 
   void _showClearDialog() {
@@ -492,10 +369,12 @@ class OcrScreen extends StatelessWidget {
 
   Widget _buildEmptyView() {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(AppTheme.spacingM),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingM,
+        vertical: AppTheme.spacingS,
+      ),
       child: Column(
         children: [
-          SizedBox(height: 20.h),
           // Main Empty State Card
           TweenAnimationBuilder<double>(
             tween: Tween(begin: 0, end: 1),
@@ -508,7 +387,10 @@ class OcrScreen extends StatelessWidget {
                   opacity: value.clamp(0.0, 1.0),
                   child: Container(
                     width: double.infinity,
-                    padding: EdgeInsets.all(AppTheme.spacingM),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppTheme.spacingM,
+                      vertical: AppTheme.spacingS,
+                    ),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
@@ -527,8 +409,8 @@ class OcrScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          width: 48.w,
-                          height: 48.h,
+                          width: 42.w,
+                          height: 42.h,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(12.r),
@@ -561,11 +443,6 @@ class OcrScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.white.withValues(alpha: 0.7),
-                          size: 18.r,
-                        ),
                       ],
                     ),
                   ),
@@ -574,7 +451,7 @@ class OcrScreen extends StatelessWidget {
             },
           ),
 
-          SizedBox(height: AppTheme.spacingM),
+          SizedBox(height: AppTheme.spacingS),
 
           // Features List
           ...List.generate(4, (index) {
@@ -610,10 +487,13 @@ class OcrScreen extends StatelessWidget {
                   offset: Offset(0, 20 * (1 - value)),
                   child: Opacity(
                     opacity: value.clamp(0.0, 1.0),
-                    child: _buildFeatureCard(
-                      feature['icon'] as IconData,
-                      feature['text'] as String,
-                      feature['gradient'] as List<Color>,
+                    child: _float(
+                      index,
+                      _buildFeatureCard(
+                        feature['icon'] as IconData,
+                        feature['text'] as String,
+                        feature['gradient'] as List<Color>,
+                      ),
                     ),
                   ),
                 );
@@ -621,7 +501,7 @@ class OcrScreen extends StatelessWidget {
             );
           }),
 
-          SizedBox(height: AppTheme.spacingM),
+          SizedBox(height: 72.h),
         ],
       ),
     );
@@ -630,7 +510,10 @@ class OcrScreen extends StatelessWidget {
   Widget _buildFeatureCard(IconData icon, String text, List<Color> gradient) {
     return Container(
       margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-      padding: EdgeInsets.all(AppTheme.spacingM),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingM,
+        vertical: AppTheme.spacingS,
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: gradient,
@@ -649,8 +532,8 @@ class OcrScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 48.w,
-            height: 48.h,
+            width: 42.w,
+            height: 42.h,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(12.r),
@@ -668,11 +551,6 @@ class OcrScreen extends StatelessWidget {
               ),
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: Colors.white.withValues(alpha: 0.7),
-            size: 18.r,
-          ),
         ],
       ),
     );
@@ -684,7 +562,7 @@ class OcrScreen extends StatelessWidget {
       itemCount: controller.mcqQuestions.length + 1,
       itemBuilder: (context, index) {
         if (index == controller.mcqQuestions.length) {
-          return SizedBox(height: 80.h);
+          return _buildListFooter();
         }
 
         final question = controller.mcqQuestions[index];
@@ -703,6 +581,123 @@ class OcrScreen extends StatelessWidget {
           },
         );
       },
+    );
+  }
+
+  /// Scan / clear actions parked at the end of the list, so neither one sits
+  /// on top of a question the way the floating buttons used to.
+  Widget _buildListFooter() {
+    return Padding(
+      padding: EdgeInsets.only(top: AppTheme.spacingS, bottom: AppTheme.spacingM),
+      child: Obx(() => Row(
+        children: [
+          if (controller.scanLimit.remaining.value > 0) ...[
+          Expanded(
+            child: GestureDetector(
+              onTap: controller.scanQuestion,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF45B7D1), Color(0xFF7DD3E8)],
+                  ),
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF45B7D1).withValues(alpha: 0.4),
+                      blurRadius: 12.r,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.camera_alt_rounded,
+                      color: Colors.white,
+                      size: 22.r,
+                    ),
+                    SizedBox(width: 8.w),
+                    Flexible(
+                      child: Text(
+                        "Scan Another Question",
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: AppTheme.spacingS),
+          ],
+          // Saves the whole set as a PDF. It lives here rather than in the
+          // app bar, so it cannot cover a question.
+          GestureDetector(
+            onTap: controller.isPdfGenerating.value
+                ? null
+                : controller.generatePdf,
+            child: Container(
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFAA5A),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: controller.isPdfGenerating.value
+                  ? SizedBox(
+                      width: 22.w,
+                      height: 22.h,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2.r,
+                      ),
+                    )
+                  : Icon(
+                      Icons.picture_as_pdf_rounded,
+                      color: Colors.white,
+                      size: 22.r,
+                    ),
+            ),
+          ),
+          SizedBox(width: AppTheme.spacingS),
+          // Clearing the list stays available whether or not there are scans
+          // left, so a spent budget still leaves a way back.
+          GestureDetector(
+            onTap: _showClearDialog,
+            child: Container(
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF6B6B),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFFF6B6B).withValues(alpha: 0.4),
+                    blurRadius: 8.r,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.delete_rounded,
+                color: Colors.white,
+                size: 22.r,
+              ),
+            ),
+          ),
+        ],
+      )),
     );
   }
 
@@ -727,7 +722,10 @@ class OcrScreen extends StatelessWidget {
         children: [
           // Question Header
           Container(
-            padding: EdgeInsets.all(AppTheme.spacingM),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppTheme.spacingM,
+              vertical: AppTheme.spacingS + 4,
+            ),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: gradient),
               borderRadius: BorderRadius.only(
@@ -780,9 +778,9 @@ class OcrScreen extends StatelessWidget {
                 Text(
                   question.question,
                   style: GoogleFonts.poppins(
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.white,
-                    height: 1.5,
+                    height: 1.35,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -792,7 +790,12 @@ class OcrScreen extends StatelessWidget {
 
           // Options
           Padding(
-            padding: EdgeInsets.all(AppTheme.spacingM),
+            padding: EdgeInsets.fromLTRB(
+              AppTheme.spacingM,
+              AppTheme.spacingS + 4,
+              AppTheme.spacingM,
+              0,
+            ),
             child: Column(
               children: List.generate(question.options.length, (optIndex) {
                 final option = question.options[optIndex];
@@ -807,58 +810,17 @@ class OcrScreen extends StatelessWidget {
             ),
           ),
 
-          // Check Answer / Result
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              AppTheme.spacingM,
-              0,
-              AppTheme.spacingM,
-              AppTheme.spacingM,
+          // Result banner, shown as soon as an option is picked.
+          if (question.showResult)
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppTheme.spacingM,
+                AppTheme.spacingXS,
+                AppTheme.spacingM,
+                AppTheme.spacingS + 4,
+              ),
+              child: _buildResultWidget(question),
             ),
-            child: question.showResult
-                ? _buildResultWidget(question)
-                : GestureDetector(
-                    onTap: () => controller.checkAnswer(index),
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 16.h),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF56D97F), Color(0xFF7BE495)],
-                        ),
-                        borderRadius: BorderRadius.circular(16.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(
-                              0xFF56D97F,
-                            ).withValues(alpha: 0.3),
-                            blurRadius: 8.r,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.check_circle_rounded,
-                            color: Colors.white,
-                            size: 22.r,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            "Check Answer",
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-          ),
         ],
       ),
     );
@@ -904,7 +866,10 @@ class OcrScreen extends StatelessWidget {
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-        padding: EdgeInsets.all(AppTheme.spacingM),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppTheme.spacingM - 2,
+          vertical: AppTheme.spacingS - 1,
+        ),
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(14.r),
@@ -913,8 +878,8 @@ class OcrScreen extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 36.w,
-              height: 36.h,
+              width: 30.w,
+              height: 30.h,
               decoration: BoxDecoration(
                 color: circleColor,
                 shape: BoxShape.circle,
@@ -947,12 +912,12 @@ class OcrScreen extends StatelessWidget {
               Icon(
                 Icons.check_circle_rounded,
                 color: Color(0xFF56D97F),
-                size: 24.r,
+                size: 20.r,
               ),
             if (question.showResult &&
                 option.isSelected &&
                 option.isCorrect == false)
-              Icon(Icons.cancel_rounded, color: Color(0xFFFF6B6B), size: 24.r),
+              Icon(Icons.cancel_rounded, color: Color(0xFFFF6B6B), size: 20.r),
           ],
         ),
       ),
@@ -960,13 +925,18 @@ class OcrScreen extends StatelessWidget {
   }
 
   Widget _buildResultWidget(McqQuestion question) {
+    // A scan fills the answer in for the reader, so only a tap of their own
+    // earns a "Correct!" -- otherwise the banner just names the answer.
     final isCorrect = question.isAnswerCorrect;
     final gradient = isCorrect
         ? [const Color(0xFF56D97F), const Color(0xFF7BE495)]
         : [const Color(0xFFFF6B6B), const Color(0xFFFF8E53)];
 
     return Container(
-      padding: EdgeInsets.all(AppTheme.spacingM),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingM - 2,
+        vertical: AppTheme.spacingS,
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -980,8 +950,8 @@ class OcrScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 48.w,
-            height: 48.h,
+            width: 34.w,
+            height: 34.h,
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: gradient),
               shape: BoxShape.circle,
@@ -989,18 +959,22 @@ class OcrScreen extends StatelessWidget {
             child: Icon(
               isCorrect ? Icons.check_rounded : Icons.close_rounded,
               color: Colors.white,
-              size: 28.r,
+              size: 20.r,
             ),
           ),
-          SizedBox(width: AppTheme.spacingM),
+          SizedBox(width: AppTheme.spacingS),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isCorrect ? "Correct! 🎉" : "Wrong! 😕",
+                  !question.answeredByUser
+                      ? "Answer: ${question.correctAnswer}"
+                      : isCorrect
+                          ? "Correct! 🎉"
+                          : "Wrong! 😕",
                   style: GoogleFonts.poppins(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: gradient[0],
                   ),

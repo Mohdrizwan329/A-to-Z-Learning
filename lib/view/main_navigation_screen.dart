@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyan_learning/view/home/Home_Page.dart';
+import 'package:jiyan_learning/view/alarm/study_alarm_page.dart';
 import 'package:jiyan_learning/view/ocr/ocr_page.dart';
 import 'package:jiyan_learning/view/math%20scanner/math_scanner_page.dart';
 import 'package:jiyan_learning/view/profiles/profile/profile_page.dart';
@@ -20,6 +21,16 @@ class MainNavigationScreen extends StatelessWidget {
   MainNavigationScreen({super.key});
 
   final controller = Get.put(MainNavigationController());
+
+  /// Built once, not inside the Obx below. Each of these pages runs a
+  /// `Get.put` of its own controller as it is constructed, so rebuilding them
+  /// on every user-model change would hand the scanner screens a brand-new
+  /// controller -- dropping the questions already on screen.
+  final _scanPages = <Widget>[OcrScreen(), MathScannerPage()];
+
+  /// Same reason as above: built once, so its alarm list is not rebuilt out
+  /// from under the user on an unrelated change.
+  final _alarmPage = StudyAlarmPage();
 
   AuthController get authController {
     if (!Get.isRegistered<AuthController>()) {
@@ -41,8 +52,9 @@ class MainNavigationScreen extends StatelessWidget {
           index: controller.currentIndex.value,
           children: [
             const HomeScreen(),
-            OcrScreen(),
-            MathScannerPage(),
+            _scanPages[0],
+            _scanPages[1],
+            _alarmPage,
             ProfileScreen(
               name: user?.childName ?? "Guest User",
               email: email,
@@ -62,7 +74,7 @@ class MainNavigationScreen extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 10.r,
                 offset: const Offset(0, -4),
               ),
@@ -70,7 +82,7 @@ class MainNavigationScreen extends StatelessWidget {
           ),
           child: SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 8.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -85,19 +97,26 @@ class MainNavigationScreen extends StatelessWidget {
                     child: _buildNavItem(
                       index: 1,
                       icon: Icons.document_scanner_rounded,
-                      label: "OCR",
+                      label: "MCQ",
                     ),
                   ),
                   Flexible(
                     child: _buildNavItem(
                       index: 2,
                       icon: Icons.camera_alt_rounded,
-                      label: "Scanner",
+                      label: "Math",
                     ),
                   ),
                   Flexible(
                     child: _buildNavItem(
                       index: 3,
+                      icon: Icons.alarm_rounded,
+                      label: "Alarm",
+                    ),
+                  ),
+                  Flexible(
+                    child: _buildNavItem(
+                      index: 4,
                       icon: Icons.person_rounded,
                       label: "Profile",
                     ),
@@ -122,23 +141,25 @@ class MainNavigationScreen extends StatelessWidget {
       onTap: () => controller.changeTab(index),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: isSelected
-              ? Colors.white.withOpacity(0.2)
+              ? Colors.white.withValues(alpha: 0.2)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 24.r),
+            Icon(icon, color: Colors.white, size: 22.r),
             SizedBox(height: 4.h),
             Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,12 +26,27 @@ class AppDrawer extends StatelessWidget {
     return Get.find<AuthController>();
   }
 
+  /// The signed-in user, or null when there is nobody -- or no Firebase to
+  /// ask. Every field below already falls back to a guest, so a drawer that
+  /// cannot reach auth should still open rather than take the screen down.
   @override
   Widget build(BuildContext context) {
-    final user = authController.userModel;
+    // Flutter's default drawer is a fixed 304pt, which on a 390pt phone reads
+    // as the whole screen. Just under three quarters instead: room for the
+    // longest menu label on one line, with a strip of the page behind still
+    // showing so it reads as a drawer. Floored so the rows still fit on a
+    // small phone, and capped so a tablet gets a panel, not half a page.
+    final width = (MediaQuery.sizeOf(context).width * 0.72).clamp(270.0, 420.0);
+    // Below this the header has to stack instead of sitting in a row.
+    final isNarrow = width < 300;
 
     return Drawer(
       backgroundColor: Colors.transparent,
+      width: width,
+      // Material 3 rounds a drawer's trailing corners, which against this
+      // gradient reads as a bite taken out of the panel. Square instead, so
+      // the drawer meets the screen edge cleanly.
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -46,19 +64,27 @@ class AppDrawer extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // Header with User Info
-              _buildHeader(
-                user?.childName ?? "Guest",
-                user?.parentEmail ?? "",
-                user?.location,
-                user?.parentPhone,
+              // Close button, so the drawer can be dismissed without knowing
+              // that a swipe or a tap outside would also do it.
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 4.h,
+                    right: isNarrow ? 10.w : 16.w,
+                  ),
+                  child: _buildCloseButton(context, isNarrow: isNarrow),
+                ),
               ),
+
+              // Header with User Info
+              _buildLiveHeader(isNarrow: isNarrow),
 
               // Menu Items
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
+                    horizontal: isNarrow ? 10.w : 16.w,
                     vertical: 8.h,
                   ),
                   child: Column(
@@ -125,27 +151,127 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(
-    String name,
-    String email,
+  /// The X in the corner. Closes the drawer and nothing else.
+  Widget _buildCloseButton(BuildContext context, {required bool isNarrow}) {
+    final size = isNarrow ? 32.0 : 36.0;
+    return Material(
+      color: Colors.white.withValues(alpha: 0.2),
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () => Scaffold.of(context).closeDrawer(),
+        child: Tooltip(
+          message: 'Close menu',
+          child: SizedBox(
+            width: size.w,
+            height: size.h,
+            child: Icon(
+              Icons.close_rounded,
+              size: (isNarrow ? 18 : 20).r,
+              color: Colors.white,
+              semanticLabel: 'Close menu',
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// The header, watching the signed-in user.
+  ///
+  /// The details arrive after the drawer is first built -- Firestore is a
+  /// round trip away -- so this is an Obx rather than a snapshot, otherwise
+  /// the drawer keeps showing "Guest" for a user who is signed in.
+  Widget _buildLiveHeader({required bool isNarrow}) {
+    final AuthController auth;
+    try {
+      auth = authController;
+    } catch (e) {
+      // No Firebase to ask (web without config, or a test): still open, just
+      // as a guest.
+      debugPrint('Drawer could not read the signed-in user: $e');
+      return _buildHeader(isNarrow: isNarrow);
+    }
+
+    return Obx(() {
+      final user = auth.userModel;
+      final account = auth.firebaseUser;
+
+      // The profile doc is the better source, but it is written after
+      // sign-up; until then the account itself is all there is.
+      final name = _firstNonEmpty([
+        user?.childName,
+        account?.displayName,
+        // "riz" out of "riz@gmail.com" beats a blank card.
+        account?.email?.split('@').first,
+      ]);
+      final email = _firstNonEmpty([user?.parentEmail, account?.email]);
+      final phone = _firstNonEmpty([user?.parentPhone, account?.phoneNumber]);
+
+      return _buildHeader(
+        isNarrow: isNarrow,
+        name: name,
+        email: email,
+        phone: phone,
+        location: _firstNonEmpty([user?.location]),
+        // The picture taken at signup wins: it is the one this family chose.
+        photoBase64: _firstNonEmpty([user?.photoBase64]),
+        photoUrl: _firstNonEmpty([user?.photoUrl, account?.photoURL]),
+      );
+    });
+  }
+
+  /// First value that actually has something in it, trimmed; null if none do.
+  static String? _firstNonEmpty(List<String?> candidates) {
+    for (final value in candidates) {
+      final trimmed = value?.trim();
+      if (trimmed != null && trimmed.isNotEmpty) return trimmed;
+    }
+    return null;
+  }
+
+  Widget _buildHeader({
+    String? name,
+    String? email,
     String? location,
     String? phone,
-  ) {
+    String? photoBase64,
+    String? photoUrl,
+    bool isNarrow = false,
+  }) {
+    final photoBytes = _decodePhoto(photoBase64);
+    // A half-width drawer has no room for an avatar beside the text, so the
+    // header stacks: picture on top, details underneath and centred.
+    final avatar = isNarrow ? 104.0 : 124.0;
+
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      child: Material(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(20.r),
-        child: Padding(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
+      margin: EdgeInsets.fromLTRB(
+        isNarrow ? 10.w : 16.w,
+        0,
+        isNarrow ? 10.w : 16.w,
+        isNarrow ? 10.h : 16.h,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+          padding: EdgeInsets.fromLTRB(
+            isNarrow ? 4.r : 8.r,
+            0,
+            isNarrow ? 4.r : 8.r,
+            isNarrow ? 4.r : 8.r,
+          ),
+          child: Flex(
+            direction: isNarrow ? Axis.vertical : Axis.horizontal,
+            // Stacked, the header is only as tall as its contents; a flex
+            // child would have nothing finite to expand into.
+            mainAxisSize: isNarrow ? MainAxisSize.min : MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  // Avatar
+              // Avatar
                   Container(
-                    width: 70.w,
-                    height: 70.h,
+                    width: avatar.w,
+                    height: avatar.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: const LinearGradient(
@@ -164,28 +290,40 @@ class AppDrawer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        name.isNotEmpty ? name[0].toUpperCase() : '👋',
-                        style: GoogleFonts.baloo2(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: photoBytes != null
+                        ? Image.memory(photoBytes, fit: BoxFit.cover)
+                        : photoUrl != null
+                        ? Image.network(
+                            photoUrl,
+                            fit: BoxFit.cover,
+                            // A picture that will not load must not leave a
+                            // blank disc where a face should be.
+                            errorBuilder: (_, __, ___) =>
+                                _avatarInitial(name, isNarrow),
+                            loadingBuilder: (_, child, progress) =>
+                                progress == null
+                                    ? child
+                                    : _avatarInitial(name, isNarrow),
+                          )
+                        : _avatarInitial(name, isNarrow),
                   ),
-                  SizedBox(width: 14.w),
+                  SizedBox(width: isNarrow ? 0 : 14.w, height: isNarrow ? 10.h : 0),
                   // User Info
-                  Expanded(
+                  _flexIn(
+                    isNarrow: isNarrow,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: isNarrow
+                          ? CrossAxisAlignment.center
+                          : CrossAxisAlignment.start,
                       children: [
                         // Name
                         Text(
-                          name.isEmpty ? 'Welcome!' : name,
+                          name ?? 'Guest',
+                          textAlign: isNarrow ? TextAlign.center : TextAlign.start,
                           style: GoogleFonts.baloo2(
-                            fontSize: 20,
+                            fontSize: isNarrow ? 22 : 26,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -194,19 +332,26 @@ class AppDrawer extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: isNarrow
+                              ? MainAxisAlignment.center
+                              : MainAxisAlignment.start,
                           children: [
                             Icon(
-                              Icons.email_rounded,
+                              email != null
+                                  ? Icons.email_rounded
+                                  : Icons.phone_rounded,
                               size: 14.r,
                               color: Colors.white.withValues(alpha: 0.7),
                             ),
                             SizedBox(width: 4.w),
                             Expanded(
                               child: Text(
-                                email.isNotEmpty ? email : 'No email',
+                                email ?? phone ?? 'Not signed in',
                                 style: GoogleFonts.nunito(
-                                  fontSize: 12,
-                                  color: Colors.white.withValues(alpha: 0.8),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white.withValues(alpha: 0.92),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -214,41 +359,81 @@ class AppDrawer extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 4.h),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on_rounded,
-                              size: 14.r,
-                              color: Colors.white.withValues(alpha: 0.7),
-                            ),
-                            SizedBox(width: 4.w),
-                            Expanded(
-                              child: Text(
-                                location?.isNotEmpty == true
-                                    ? location!
-                                    : 'India',
-                                style: GoogleFonts.nunito(
-                                  fontSize: 12,
-                                  color: Colors.white.withValues(alpha: 0.7),
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                        if (location != null) ...[
+                          SizedBox(height: 4.h),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: isNarrow
+                                ? MainAxisAlignment.center
+                                : MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.location_on_rounded,
+                                size: 14.r,
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
-                            ),
-                          ],
-                        ),
+                              SizedBox(width: 4.w),
+                              Expanded(
+                                child: Text(
+                                  location,
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white.withValues(alpha: 0.88),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ],
                     ),
                   ),
-                ],
-              ),
             ],
           ),
         ),
+          // Separates the person from the menu now that there is no card
+          // edge doing it.
+          Divider(
+            height: isNarrow ? 16.h : 20.h,
+            thickness: 1,
+            color: Colors.white.withValues(alpha: 0.35),
+          ),
+        ],
       ),
     );
   }
+
+  /// The stored picture, or null if there isn't one -- or it will not decode,
+  /// which must not take the drawer down with it.
+  static Uint8List? _decodePhoto(String? base64Photo) {
+    if (base64Photo == null) return null;
+    try {
+      return base64Decode(base64Photo);
+    } catch (e) {
+      debugPrint('Stored profile photo could not be read: $e');
+      return null;
+    }
+  }
+
+  /// The initial shown when there is no picture to show -- or not yet.
+  Widget _avatarInitial(String? name, bool isNarrow) => Center(
+        child: Text(
+          (name?.isNotEmpty == true) ? name![0].toUpperCase() : '👋',
+          style: GoogleFonts.baloo2(
+            fontSize: isNarrow ? 46 : 56,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      );
+
+  /// Side by side the details take the leftover width; stacked they simply
+  /// take their own height, so no flex is involved at all.
+  Widget _flexIn({required bool isNarrow, required Widget child}) =>
+      isNarrow ? child : Expanded(child: child);
 
   Widget _buildMenuItem({
     required String title,
@@ -257,52 +442,77 @@ class AppDrawer extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.h),
+      margin: EdgeInsets.only(bottom: 6.h),
       child: Material(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16.r),
+        color: Colors.black.withValues(alpha: 0.22),
+        // The fill alone is barely a shade off the gradient behind it, so a
+        // hairline gives each row an edge to sit in. Material takes a shape
+        // or a borderRadius, never both.
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          side: BorderSide(
+            color: Colors.white.withValues(alpha: 0.35),
+            width: 1.5,
+          ),
+        ),
         child: InkWell(
           borderRadius: BorderRadius.circular(16.r),
           onTap: () {
             Get.back(); // Close drawer
             onTap();
           },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-            child: Row(
-              children: [
-                // Icon Container
-                Container(
-                  width: 44.w,
-                  height: 44.h,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Center(
-                    child: Text(emoji, style: const TextStyle(fontSize: 22)),
-                  ),
-                ),
-                SizedBox(width: 14.w),
-                // Title
-                Expanded(
-                  child: Text(
-                    title,
-                    style: GoogleFonts.nunito(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+          child: LayoutBuilder(builder: (context, constraints) {
+            // In a half-width drawer the row has to give its space to the
+            // label: the badge shrinks and the chevron goes, rather than
+            // squeezing every title onto three lines.
+            final tight = constraints.maxWidth < 260;
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: tight ? 10.w : 16.w,
+                vertical: tight ? 6.h : 8.h,
+              ),
+              child: Row(
+                children: [
+                  // Icon Container
+                  Container(
+                    width: tight ? 32.w : 38.w,
+                    height: tight ? 32.h : 38.h,
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        emoji,
+                        style: TextStyle(fontSize: tight ? 16 : 19),
+                      ),
                     ),
                   ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16.r,
-                  color: Colors.white.withValues(alpha: 0.5),
-                ),
-              ],
-            ),
-          ),
+                  SizedBox(width: tight ? 8.w : 14.w),
+                  // Title
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.nunito(
+                        fontSize: tight ? 13 : 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        height: 1.2,
+                      ),
+                    ),
+                  ),
+                  if (!tight)
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16.r,
+                      color: Colors.white.withValues(alpha: 0.5),
+                    ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );

@@ -49,6 +49,24 @@ class AppSettingsService extends GetxService {
   void onInit() {
     super.onInit();
     _loadSettings();
+    _applyThemeMode();
+  }
+
+  /// The theme to start in, read straight off storage.
+  ///
+  /// `GetMaterialApp` needs this before any service is looked up, so it reads
+  /// the stored value rather than the observable.
+  static ThemeMode startupThemeMode() {
+    final dark = GetStorage().read<bool>(kDarkMode) ?? false;
+    return dark ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  /// Keeps Material's own surfaces -- dialogs, pickers, text fields -- in step
+  /// with the switch. The screens' own gradients are handled by AppTintShell.
+  void _applyThemeMode() {
+    Get.changeThemeMode(
+      isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+    );
   }
 
   void _loadSettings() {
@@ -69,6 +87,7 @@ class AppSettingsService extends GetxService {
       await _storage.write(kEyeFriendlyMode, false);
     }
     await _storage.write(kDarkMode, isDarkMode.value);
+    _applyThemeMode();
   }
 
   // Toggle Eye-Friendly Mode
@@ -89,6 +108,7 @@ class AppSettingsService extends GetxService {
       await _storage.write(kEyeFriendlyMode, false);
     }
     await _storage.write(kDarkMode, value);
+    _applyThemeMode();
   }
 
   // Set Eye-Friendly Mode

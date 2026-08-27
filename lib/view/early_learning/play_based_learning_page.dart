@@ -474,7 +474,7 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
   int get _totalItems {
     int total = 0;
     for (var cat in _categories) {
-      total += cat.items.length;
+      total += cat.playableItems.length;
     }
     return total;
   }
@@ -609,57 +609,9 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
         Get.to(() => _NumberJumpScreen(onComplete: _onGameComplete));
         break;
       default:
-        _showComingSoon(item);
+        // Unreachable: the list only offers types handled above.
+        break;
     }
-  }
-
-  void _showComingSoon(PlayItem item) {
-    Get.dialog(
-      Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.r),
-        ),
-        backgroundColor: Colors.transparent,
-        child: Container(
-          padding: EdgeInsets.all(24.r),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24.r),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(item.emoji, style: const TextStyle(fontSize: 60)),
-              SizedBox(height: 16.h),
-              Text(
-                item.name,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              const Text(
-                'Coming Soon!',
-                style: TextStyle(fontSize: 16, color: Colors.white70),
-              ),
-              SizedBox(height: 24.h),
-              _buildGradientButton(
-                icon: Icons.check,
-                label: 'OK',
-                gradient: const [Color(0xFF4CAF50), Color(0xFF66BB6A)],
-                onTap: () => Get.back(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   void _onGameComplete(int stars) {
@@ -871,9 +823,9 @@ class _PlayBasedLearningPageState extends State<PlayBasedLearningPage>
                     crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
-                  itemCount: category.items.length,
+                  itemCount: category.playableItems.length,
                   itemBuilder: (context, index) {
-                    final item = category.items[index];
+                    final item = category.playableItems[index];
                     final gradients = [
                       [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
                       [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
@@ -1538,12 +1490,25 @@ enum GameType {
   learning,
 }
 
+/// The game types this page can actually open. Anything else used to draw a
+/// card that answered "Coming Soon!" when a child tapped it, so those items
+/// are filtered out of the list rather than shown and refused.
+const Set<GameType> kPlayableTypes = {
+  GameType.memory,
+  GameType.colorPop,
+  GameType.numberJump,
+};
+
 class PlayCategory {
   final String name;
   final String emoji;
   final List<PlayItem> items;
 
   PlayCategory({required this.name, required this.emoji, required this.items});
+
+  /// Only the items that lead to a game that exists.
+  List<PlayItem> get playableItems =>
+      items.where((i) => kPlayableTypes.contains(i.type)).toList();
 }
 
 class PlayItem {

@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
+import 'package:jiyan_learning/model/user_model.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
+import 'package:jiyan_learning/services/user_profile_service.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
@@ -26,8 +30,22 @@ class _EditProfileScreenState extends State<EditProfileScreen>
   final TextEditingController _locationController = TextEditingController();
 
   File? _selectedImage;
+  // The picture stored on the account, shown until the user picks a new one.
+  Uint8List? _accountPhoto;
+  // Set when the user removes the photo. Nothing is deleted until save, so
+  // leaving the screen without saving keeps the old photo.
+  bool _photoCleared = false;
   final ImagePicker _picker = ImagePicker();
   bool _isSaving = false;
+  // Fires when the account record lands after this screen was already built.
+  Worker? _accountWorker;
+
+  /// The device-local copy of the profile -- the only copy a guest has, and
+  /// the only place the photo lives even for a signed-in account.
+  UserProfileService? get _profileService =>
+      Get.isRegistered<UserProfileService>()
+          ? Get.find<UserProfileService>()
+          : null;
 
   late AuthController _authController;
   late AnimationController _bubbleController;
@@ -288,23 +306,113 @@ class _EditProfileScreenState extends State<EditProfileScreen>
     }
     // Pre-fill form with existing user data
     _loadUserData();
+
+    // On a cold start the Firestore read is often still in flight when this
+    // screen opens, which is what left the form blank: it was filled once,
+    // from nothing. Fill it again when the record lands, and ask for it in
+    // case the earlier fetch failed.
+    _accountWorker = ever<UserModel?>(
+      _authController.userModelRx,
+      (_) => _fillBlanksFromAccount(),
+    );
+    _refreshAccount();
+  }
+
+  Future<void> _refreshAccount() async {
+    if (!_authController.isLoggedIn) return;
+    await _authController.fetchUserData();
+    _fillBlanksFromAccount();
+  }
+
+  /// Fills in whatever is still blank from the account record.
+  ///
+  /// Only blanks: anything already on screen is either the user's own typing
+  /// or the copy saved on this device, and neither should be overwritten by a
+  /// read that happens to land a moment later.
+  void _fillBlanksFromAccount() {
+    if (!mounted) return;
+    final user = _authController.userModel;
+    if (user == null) return;
+
+    setState(() {
+      if (_nameController.text.trim().isEmpty) {
+        _nameController.text = user.childName?.trim() ?? '';
+      }
+      if (_emailController.text.trim().isEmpty) {
+        _emailController.text =
+            _authController.firebaseUser?.email ?? user.parentEmail ?? '';
+      }
+      if (_phoneController.text.trim().isEmpty) {
+        _phoneController.text =
+            user.parentPhone?.replaceFirst('+91', '').trim() ?? '';
+      }
+      if (_locationController.text.trim().isEmpty) {
+        _locationController.text = user.location?.trim() ?? '';
+      }
+      if (_selectedImage == null && !_photoCleared) {
+        _accountPhoto = _decodePhoto(user.photoBase64);
+      }
+    });
+  }
+
+  /// The account's picture, or null when it has none or the stored text is
+  /// not readable as an image.
+  Uint8List? _decodePhoto(String? base64Text) {
+    final text = base64Text?.trim() ?? '';
+    if (text.isEmpty) return null;
+    try {
+      return base64Decode(text);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// What the avatar circle shows: the newly picked file, else the account's
+  /// picture, else nothing (the name's initial takes over).
+  ImageProvider? get _avatarImage {
+    final picked = _selectedImage;
+    if (picked != null) return FileImage(picked);
+    final stored = _accountPhoto;
+    if (stored != null) return MemoryImage(stored);
+    if (_photoCleared) return null;
+    // A Google account brings a hosted picture rather than inline bytes.
+    final hosted = _authController.userModel?.photoUrl?.trim() ?? '';
+    if (hosted.isNotEmpty) return NetworkImage(hosted);
+    return null;
   }
 
   void _loadUserData() {
     final user = _authController.userModel;
     final firebaseUser = _authController.firebaseUser;
+    final saved = _profileService;
 
-    if (user != null) {
-      _nameController.text = user.childName ?? '';
-      _phoneController.text = user.parentPhone?.replaceFirst('+91', '') ?? '';
-      _locationController.text = user.location ?? '';
-    }
-    // Use Firebase email if available
-    _emailController.text = firebaseUser?.email ?? user?.parentEmail ?? '';
+    // The account is the source of truth where it has a value; the locally
+    // saved copy fills in for a guest, or for fields the account never held.
+    _nameController.text = user?.childName?.trim().isNotEmpty == true
+        ? user!.childName!
+        : (saved?.name.value ?? '');
+
+    final accountPhone = user?.parentPhone?.replaceFirst('+91', '') ?? '';
+    _phoneController.text =
+        accountPhone.isNotEmpty ? accountPhone : (saved?.phone.value ?? '');
+
+    _locationController.text = user?.location?.trim().isNotEmpty == true
+        ? user!.location!
+        : (saved?.location.value ?? '');
+
+    final accountEmail = firebaseUser?.email ?? user?.parentEmail ?? '';
+    _emailController.text =
+        accountEmail.isNotEmpty ? accountEmail : (saved?.email.value ?? '');
+
+    // Show the photo the user already picked, if any, otherwise the one the
+    // account was created with.
+    _selectedImage = saved?.photoFile;
+    _accountPhoto = _decodePhoto(user?.photoBase64);
   }
 
   @override
   void dispose() {
+    _accountWorker?.dispose();
     _floatController.dispose();
     _bubbleController.dispose();
     _nameController.dispose();
@@ -317,6 +425,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
+    final avatar = _avatarImage;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
@@ -389,26 +498,38 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                                             blurRadius: 15.r,
                                           ),
                                         ],
-                                        image: _selectedImage != null
+                                        image: avatar != null
                                             ? DecorationImage(
-                                                image: FileImage(
-                                                  _selectedImage!,
-                                                ),
+                                                image: avatar,
                                                 fit: BoxFit.cover,
                                               )
                                             : null,
                                       ),
-                                      child: _selectedImage == null
+                                      child: avatar == null
                                           ? Center(
-                                              child: Text(
-                                                'U',
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 42,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: const Color(
-                                                    0xFF4ECDC4,
-                                                  ),
-                                                ),
+                                              child: ValueListenableBuilder<
+                                                  TextEditingValue>(
+                                                valueListenable:
+                                                    _nameController,
+                                                builder: (context, value, _) {
+                                                  final name =
+                                                      value.text.trim();
+                                                  return Text(
+                                                    name.isEmpty
+                                                        ? 'U'
+                                                        : name[0]
+                                                            .toUpperCase(),
+                                                    style:
+                                                        GoogleFonts.poppins(
+                                                      fontSize: 42,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: const Color(
+                                                        0xFF4ECDC4,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             )
                                           : null,
@@ -445,6 +566,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                           ),
                         ),
                       ),
+                      SizedBox(height: AppTheme.spacingS),
+                      _buildStorageNote(),
                       SizedBox(height: AppTheme.spacingL),
 
                       // Child Name Field
@@ -498,6 +621,40 @@ class _EditProfileScreenState extends State<EditProfileScreen>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// A line under the avatar saying where a save actually goes, so a guest
+  /// is not left wondering why their details are not on any other device.
+  Widget _buildStorageNote() {
+    final signedIn = _authController.isLoggedIn;
+    return Center(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            signedIn
+                ? Icons.cloud_done_rounded
+                : Icons.phone_iphone_rounded,
+            size: 14.r,
+            color: Colors.white.withValues(alpha: 0.85),
+          ),
+          SizedBox(width: AppTheme.spacingXS),
+          Flexible(
+            child: Text(
+              signedIn
+                  ? 'Saved to your account'
+                  : 'Saved on this phone - sign in to keep it everywhere',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.nunito(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: Colors.white.withValues(alpha: 0.85),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -833,6 +990,32 @@ class _EditProfileScreenState extends State<EditProfileScreen>
                 ),
               ],
             ),
+            SizedBox(height: 12.h),
+            // Only worth offering once there is a photo to take away.
+            if (_avatarImage != null)
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    _selectedImage = null;
+                    _accountPhoto = null;
+                    _photoCleared = true;
+                  });
+                },
+                icon: Icon(
+                  Icons.delete_outline_rounded,
+                  color: Colors.white,
+                  size: 20.r,
+                ),
+                label: Text(
+                  'Remove Photo',
+                  style: GoogleFonts.nunito(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             SizedBox(height: 20.h),
           ],
         ),
@@ -896,6 +1079,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
       if (pickedFile != null) {
         setState(() {
           _selectedImage = File(pickedFile.path);
+          _photoCleared = false;
         });
       }
     } catch (e) {
@@ -914,31 +1098,40 @@ class _EditProfileScreenState extends State<EditProfileScreen>
   Future<void> _saveProfile() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Check if user is logged in
-    if (!_authController.isLoggedIn) {
-      Get.snackbar(
-        'Error',
-        'Please login to update profile',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xFFFF6B6B),
-        colorText: Colors.white,
-        borderRadius: 16.r,
-        margin: EdgeInsets.all(16.r),
-      );
-      return;
-    }
-
     setState(() {
       _isSaving = true;
     });
 
     try {
-      final success = await _authController.updateProfile(
-        childName: _nameController.text.trim(),
-        parentEmail: _emailController.text.trim(),
-        parentPhone: _phoneController.text.trim(),
-        location: _locationController.text.trim(),
-      );
+      // Save on the device first. This is what the profile card reads, and it
+      // has to work for a guest too -- signing in is not required to set your
+      // own name, email, location or photo.
+      final profile = _profileService;
+      if (profile != null) {
+        await profile.save(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          phone: _phoneController.text.trim(),
+          location: _locationController.text.trim(),
+        );
+        final picked = _selectedImage;
+        if (_photoCleared) {
+          await profile.removePhoto();
+        } else if (picked != null && picked.path != profile.photoPath.value) {
+          await profile.savePhoto(picked);
+        }
+      }
+
+      // Mirror it to the account when there is one. A guest simply keeps the
+      // local copy.
+      final success = !_authController.isLoggedIn ||
+          await _authController.updateProfile(
+            childName: _nameController.text.trim(),
+            parentEmail: _emailController.text.trim(),
+            parentPhone: _phoneController.text.trim(),
+            location: _locationController.text.trim(),
+            photoBase64: await _photoForAccount(),
+          );
 
       if (success) {
         Get.snackbar(
@@ -983,6 +1176,24 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         });
       }
     }
+  }
+
+  /// What to store on the account for the photo: the bytes of a newly picked
+  /// one, '' when the user took theirs away, and null to leave it as it is.
+  ///
+  /// It goes inline into the Firestore document the same way the signup photo
+  /// does -- the picker already caps it at 512px, so it fits comfortably.
+  Future<String?> _photoForAccount() async {
+    if (_photoCleared) return '';
+    final picked = _selectedImage;
+    if (picked == null || !picked.existsSync()) return null;
+
+    final bytes = await picked.readAsBytes();
+    // Firestore caps a document at 1MB. 512px at quality 80 lands far under
+    // that; anything that somehow does not stays on the phone rather than
+    // failing the whole save.
+    if (bytes.length > 600 * 1024) return null;
+    return base64Encode(bytes);
   }
 
   Widget _buildSaveButton() {

@@ -138,11 +138,16 @@ class _ReportsPageState extends State<ReportsPage>
                   SizedBox(height: 56.h), // Space for AppBar with tabs
                   // Report Content
                   Expanded(
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: _buildReportContent(),
-                    ),
+                    // Watches the progress counts, so a lesson finished while
+                    // this page is open shows up here without reopening it.
+                    child: Obx(() {
+                      ProgressService.to.completedItems.length;
+                      return SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: _buildReportContent(),
+                      );
+                    }),
                   ),
                 ],
               ),

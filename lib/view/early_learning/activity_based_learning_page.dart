@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_storage/get_storage.dart';
-import 'dart:math';
 import 'package:jiyan_learning/services/tts_service.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
@@ -1036,7 +1035,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
   int get _totalItems {
     int total = 0;
     for (var cat in _categories) {
-      total += cat.activities.length;
+      total += cat.runnableActivities.length;
     }
     return total;
   }
@@ -1093,7 +1092,8 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
         _showPatternActivity(activity);
         break;
       default:
-        _showGenericActivity(activity);
+        // Unreachable: the list only offers types handled above.
+        break;
     }
   }
 
@@ -1623,105 +1623,7 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
     );
   }
 
-  void _showGenericActivity(LearningActivity activity) {
-    _speak(activity.name);
-    Get.dialog(
-      Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.r),
-        ),
-        backgroundColor: Colors.transparent,
-        child: Container(
-          padding: EdgeInsets.all(24.r),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53), Color(0xFFFFAA5A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24.r),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 100.w,
-                height: 100.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    activity.emoji,
-                    style: const TextStyle(fontSize: 50),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                activity.name,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              const Text(
-                'Coming Soon!',
-                style: TextStyle(color: Colors.white70, fontSize: 16),
-              ),
-              SizedBox(height: 20.h),
-              _buildGradientButton(
-                icon: Icons.check,
-                label: 'OK',
-                gradient: const [Color(0xFF4CAF50), Color(0xFF66BB6A)],
-                onTap: () => Get.back(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildGradientButton({
-    required IconData icon,
-    required String label,
-    required List<Color> gradient,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradient,
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          borderRadius: BorderRadius.circular(25.r),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: Colors.white, size: 20.r),
-            SizedBox(width: 8.w),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   void dispose() {
@@ -1885,9 +1787,9 @@ class _ActivityBasedLearningPageState extends State<ActivityBasedLearningPage>
                     crossAxisSpacing: 16.r,
                     childAspectRatio: 1.2,
                   ),
-                  itemCount: category.activities.length,
+                  itemCount: category.runnableActivities.length,
                   itemBuilder: (context, index) {
-                    final activity = category.activities[index];
+                    final activity = category.runnableActivities[index];
                     final gradients = [
                       [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
                       [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
@@ -2035,6 +1937,15 @@ enum ActivityType {
   story,
 }
 
+/// The activity types this page can actually open. Anything else used to draw
+/// a card that answered "Coming Soon!" when a child tapped it, so those are
+/// filtered out rather than shown and refused.
+const Set<ActivityType> kRunnableActivityTypes = {
+  ActivityType.counting,
+  ActivityType.matching,
+  ActivityType.pattern,
+};
+
 class ActivityCategory {
   final String name;
   final String emoji;
@@ -2045,6 +1956,11 @@ class ActivityCategory {
     required this.emoji,
     required this.activities,
   });
+
+  /// Only the activities that lead to something the app can run.
+  List<LearningActivity> get runnableActivities => activities
+      .where((a) => kRunnableActivityTypes.contains(a.type))
+      .toList();
 }
 
 class LearningActivity {

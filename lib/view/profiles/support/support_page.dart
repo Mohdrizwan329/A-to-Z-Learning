@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/app/support_contact.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
 
@@ -17,30 +18,18 @@ class SupportScreen extends StatefulWidget {
 class _SupportScreenState extends State<SupportScreen>
     with TickerProviderStateMixin {
   late AnimationController _bubbleController;
-  late AnimationController _floatController;
-  late Animation<double> _floatAnimation;
 
   @override
   void initState() {
     super.initState();
-    _floatController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
-
     _bubbleController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 8),
     )..repeat();
-
-    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
-      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
-    );
   }
 
   @override
   void dispose() {
-    _floatController.dispose();
     _bubbleController.dispose();
     super.dispose();
   }
@@ -128,6 +117,98 @@ class _SupportScreenState extends State<SupportScreen>
     },
   ];
 
+  /// Opens the mail app, or shows the address to copy when the device has no
+  /// mail app set up.
+  Future<void> _contactSupport() async {
+    final opened = await SupportContact.composeEmail(
+      subject: 'Jiyan Learning - Support request',
+      body: "Tell us your child's age group, the screen you were on, and "
+          "what happened:\n\n",
+    );
+    if (opened) return;
+
+    Get.snackbar(
+      'No mail app found',
+      'Write to ${SupportContact.email}',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: const Color(0xFF764BA2),
+      colorText: Colors.white,
+      margin: EdgeInsets.all(AppTheme.spacingM),
+      borderRadius: 12.r,
+      duration: const Duration(seconds: 5),
+    );
+  }
+
+  Widget _buildContactCard() {
+    return GestureDetector(
+      onTap: _contactSupport,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(AppTheme.spacingM),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF4ECDC4).withValues(alpha: 0.3),
+              blurRadius: 8.r,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42.w,
+              height: 42.h,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Icon(Icons.mail_rounded, color: Colors.white, size: 22.r),
+            ),
+            SizedBox(width: AppTheme.spacingM),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Still stuck? Email us',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    SupportContact.email,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.nunito(
+                      fontSize: 13,
+                      color: Colors.white.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white.withValues(alpha: 0.7),
+              size: 16.r,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -155,12 +236,22 @@ class _SupportScreenState extends State<SupportScreen>
             // Animated floating bubbles background
             ..._buildFloatingBubbles(),
 
+            // A dark wash over the gradient. Without the cards there is
+            // nothing behind the text, and the gradient runs light pink
+            // further down. 0.5 puts white body text at ~6.9:1 even against
+            // the lightest point of that gradient.
+            Positioned.fill(
+              child: ColoredBox(color: Colors.black.withValues(alpha: 0.5)),
+            ),
+
             // Main content
             SafeArea(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppTheme.spacingM,
-                  vertical: AppTheme.spacingS,
+                padding: EdgeInsets.fromLTRB(
+                  AppTheme.spacingM,
+                  AppTheme.spacingL,
+                  AppTheme.spacingM,
+                  AppTheme.spacingXL,
                 ),
                 child: Column(
                   children: [
@@ -179,8 +270,6 @@ class _SupportScreenState extends State<SupportScreen>
                         );
                       },
                     ),
-                    SizedBox(height: AppTheme.spacingS),
-
                     // FAQ Items
                     ...List.generate(_faqItems.length, (index) {
                       return TweenAnimationBuilder<double>(
@@ -192,7 +281,7 @@ class _SupportScreenState extends State<SupportScreen>
                             offset: Offset(0, 30 * (1 - value)),
                             child: Opacity(
                               opacity: value.clamp(0.0, 1.0),
-                              child: _buildFaqTile(_faqItems[index], index),
+                              child: _buildFaqSection(_faqItems[index], index),
                             ),
                           );
                         },
@@ -200,6 +289,10 @@ class _SupportScreenState extends State<SupportScreen>
                     }),
 
                     SizedBox(height: AppTheme.spacingM),
+                    // The FAQs answer the common things; this is the way out
+                    // for everything else. The page used to carry no way to
+                    // reach anyone at all.
+                    _buildContactCard(),
                   ],
                 ),
               ),
@@ -266,144 +359,89 @@ class _SupportScreenState extends State<SupportScreen>
   }
 
   Widget _buildFaqHeader() {
-    return Container(
-      padding: EdgeInsets.all(AppTheme.spacingM),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppTheme.spacingL),
+      child: Text(
+        'Frequently Asked Questions',
+        style: GoogleFonts.poppins(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          shadows: [
+            Shadow(
+              color: Colors.black.withValues(alpha: 0.45),
+              blurRadius: 3,
+              offset: const Offset(0, 1),
+            ),
+          ],
         ),
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFFFAA5A).withValues(alpha: 0.4),
-            blurRadius: 10.r,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44.w,
-            height: 44.h,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Icon(Icons.quiz_rounded, color: Colors.white, size: 24.r),
-          ),
-          SizedBox(width: AppTheme.spacingS),
-          // The heading is wider than a small phone next to its icon, so it
-          // takes the remaining width and wraps rather than overflowing.
-          Expanded(
-            child: Text(
-              'Frequently Asked Questions',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
 
-  Widget _buildFaqTile(Map<String, dynamic> faq, int index) {
-    final gradient = faq['gradient'] as List;
-    final gradientList = gradient.cast<Color>();
+  /// One question and answer, set straight onto the page background.
+  ///
+  /// No card and no expand/collapse: six short answers are quicker to skim
+  /// laid out as a document than tapped open one at a time.
+  Widget _buildFaqSection(Map<String, dynamic> faq, int index) {
+    final isLast = index == _faqItems.length - 1;
 
-    return AnimatedBuilder(
-      animation: _floatAnimation,
-      builder: (context, child) {
-        final offset = (index % 2 == 0)
-            ? _floatAnimation.value * 0.5
-            : -_floatAnimation.value * 0.5;
-        return Transform.translate(offset: Offset(0, offset), child: child);
-      },
-      child: Container(
-        margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradientList,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(
-              color: gradientList[0].withValues(alpha: 0.4),
-              blurRadius: 12.r,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Theme(
-          data: ThemeData(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(
-              horizontal: AppTheme.spacingM,
-              vertical: AppTheme.spacingS,
-            ),
-            childrenPadding: EdgeInsets.only(
-              left: AppTheme.spacingM,
-              right: AppTheme.spacingM,
-              bottom: AppTheme.spacingM,
-            ),
-            leading: Container(
-              width: 48.w,
-              height: 48.h,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(14.r),
-              ),
-              child: Icon(faq['icon'], color: Colors.white, size: 24.r),
-            ),
-            iconColor: Colors.white,
-            collapsedIconColor: Colors.white.withValues(alpha: 0.8),
-            title: Text(
-              faq['question'],
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: isLast ? 0 : AppTheme.spacingL),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.all(AppTheme.spacingM),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.lightbulb_outline_rounded,
-                      color: Colors.white.withValues(alpha: 0.9),
-                      size: 20.r,
-                    ),
-                    SizedBox(width: AppTheme.spacingS),
-                    Expanded(
-                      child: Text(
-                        faq['answer'],
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.95),
-                          height: 1.4,
-                        ),
+              Icon(faq['icon'], color: Colors.white, size: 22.r),
+              SizedBox(width: AppTheme.spacingS),
+              Expanded(
+                child: Text(
+                  faq['question'],
+                  style: GoogleFonts.poppins(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.45),
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-        ),
+          SizedBox(height: 8.h),
+          Text(
+            faq['answer'],
+            style: GoogleFonts.nunito(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              height: 1.5,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.45),
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+          ),
+          if (!isLast) ...[
+            SizedBox(height: AppTheme.spacingL),
+            // A hairline keeps two answers from reading as one paragraph now
+            // that no card separates them.
+            Container(
+              height: 1,
+              color: Colors.white.withValues(alpha: 0.28),
+            ),
+          ],
+        ],
       ),
     );
   }

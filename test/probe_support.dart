@@ -125,8 +125,6 @@ import 'package:jiyan_learning/view/premium/leaderboard_page.dart';
 import 'package:jiyan_learning/view/premium/offline_learning_page.dart';
 import 'package:jiyan_learning/view/premium/parent_dashboard_page.dart';
 import 'package:jiyan_learning/view/premium/pdf_downloads_page.dart';
-import 'package:jiyan_learning/view/premium/premium_features_screen.dart';
-import 'package:jiyan_learning/view/premium/premium_plans_page.dart';
 import 'package:jiyan_learning/view/premium/progress_reports_page.dart';
 import 'package:jiyan_learning/view/premium/quiz_battle_page.dart';
 import 'package:jiyan_learning/view/premium/story_time_page.dart';
@@ -676,7 +674,6 @@ final Map<String, Widget Function()> probePages = {
   'TeacherModePage': () => const TeacherModePage(),
   'WordBuildingPage': () => const WordBuildingPage(),
   'WritingAccuracyPage': () => const WritingAccuracyPage(),
-'AccessibilitySettingsPage': () => AccessibilitySettingsPage(),
   'AccountSettingsScreen': () => AccountSettingsScreen(),
   'ActivityBasedLearningPage': () => ActivityBasedLearningPage(),
   'AdaptiveQuizPage': () => AdaptiveQuizPage(),
@@ -760,8 +757,6 @@ final Map<String, Widget Function()> probePages = {
   'PdfDownloadsPage': () => PdfDownloadsPage(),
   'PlanningSkillsPage': () => PlanningSkillsPage(),
   'PlayBasedLearningPage': () => PlayBasedLearningPage(),
-  'PremiumFeaturesScreen': () => PremiumFeaturesScreen(),
-  'PremiumPlansPage': () => PremiumPlansPage(),
   'PrivacyPolicyScreen': () => PrivacyPolicyScreen(),
   'ProgressReportsPage': () => ProgressReportsPage(),
   'PuzzleGamePage': () => PuzzleGamePage(),

@@ -3,7 +3,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiyan_learning/services/notification_service.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/services/screen_time_service.dart';
+import 'package:jiyan_learning/view/rewards/daily_goals_page.dart';
+import 'package:jiyan_learning/view/settings/parental_control_page.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 import 'package:jiyan_learning/services/firebase_service.dart';
 
@@ -23,10 +27,19 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
   late Animation<double> _floatAnimation;
 
   // Toggle states for parental controls
-  bool _screenTimeEnabled = true;
-  bool _contentFilterEnabled = true;
-  bool _progressNotificationsEnabled = true;
-  bool _learningGoalsEnabled = false;
+  ScreenTimeService get _screenTime {
+    if (!Get.isRegistered<ScreenTimeService>()) {
+      Get.put(ScreenTimeService(), permanent: true);
+    }
+    return Get.find<ScreenTimeService>();
+  }
+
+  NotificationService get _notifications {
+    if (!Get.isRegistered<NotificationService>()) {
+      Get.put(NotificationService(), permanent: true);
+    }
+    return Get.find<NotificationService>();
+  }
 
   @override
   void initState() {
@@ -1693,44 +1706,61 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             ),
             Column(
               children: [
-                _buildControlItem(
-                  'Screen Time Limit',
-                  'Set daily usage limits',
-                  Icons.timer_outlined,
-                  const [
-                    Color(0xFFFF6B6B),
-                    Color(0xFFFF8E53),
-                    Color(0xFFFFAA5A),
-                  ],
-                  _screenTimeEnabled,
-                  (v) => setState(() => _screenTimeEnabled = v),
+                // Reads and writes the same setting the Parental Controls
+                // screen does, so the two never disagree.
+                Obx(
+                  () => _buildControlItem(
+                    'Screen Time Limit',
+                    'Set daily usage limits',
+                    Icons.timer_outlined,
+                    const [
+                      Color(0xFFFF6B6B),
+                      Color(0xFFFF8E53),
+                      Color(0xFFFFAA5A),
+                    ],
+                    _screenTime.isScreenTimeEnabled.value,
+                    (v) => _screenTime.toggleScreenTimeLimit(v),
+                  ),
                 ),
                 _buildDivider(),
-                _buildControlItem(
-                  'Content Filter',
-                  'Age-appropriate content only',
-                  Icons.shield_outlined,
-                  const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
-                  _contentFilterEnabled,
-                  (v) => setState(() => _contentFilterEnabled = v),
+                Obx(
+                  () => _buildControlItem(
+                    'Break Reminders',
+                    'Nudge to rest between lessons',
+                    Icons.self_improvement_outlined,
+                    const [Color(0xFFA78BFA), Color(0xFF8B5CF6)],
+                    _screenTime.isBreakReminderEnabled.value,
+                    (v) => _screenTime.toggleBreakReminder(v),
+                  ),
                 ),
                 _buildDivider(),
-                _buildControlItem(
-                  'Progress Notifications',
-                  'Get weekly reports',
-                  Icons.notifications_outlined,
-                  const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
-                  _progressNotificationsEnabled,
-                  (v) => setState(() => _progressNotificationsEnabled = v),
+                Obx(
+                  () => _buildControlItem(
+                    'Progress Notifications',
+                    'Get weekly reports',
+                    Icons.notifications_outlined,
+                    const [Color(0xFFFFAA5A), Color(0xFFFF8E53)],
+                    _notifications.weeklyReportEnabled.value,
+                    (v) => _notifications.setWeeklyReportEnabled(v),
+                  ),
                 ),
                 _buildDivider(),
-                _buildControlItem(
+                // Targets are set on their own screen, so this opens it
+                // rather than pretending to be a switch.
+                _buildControlLink(
                   'Learning Goals',
                   'Set daily learning targets',
                   Icons.flag_outlined,
                   const [Color(0xFF56D97F), Color(0xFF44A08D)],
-                  _learningGoalsEnabled,
-                  (v) => setState(() => _learningGoalsEnabled = v),
+                  () => Get.to(() => DailyGoalsPage()),
+                ),
+                _buildDivider(),
+                _buildControlLink(
+                  'More Parental Controls',
+                  'Time limits, PIN lock and blocked hours',
+                  Icons.shield_outlined,
+                  const [Color(0xFF45B7D1), Color(0xFF7DD3E8)],
+                  () => Get.to(() => const ParentalControlPage()),
                 ),
               ],
             ),
@@ -1750,6 +1780,74 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             Colors.transparent,
             Colors.white.withValues(alpha: 0.3),
             Colors.transparent,
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// A row that opens the screen where a setting really lives, rather than a
+  /// switch over something this page cannot change.
+  Widget _buildControlLink(
+    String title,
+    String subtitle,
+    IconData icon,
+    List<Color> gradient,
+    VoidCallback onTap,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 6.h),
+        padding: EdgeInsets.all(14.r),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.2),
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: gradient),
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+              child: Icon(icon, color: Colors.white, size: 20.r),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.nunito(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.nunito(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white.withValues(alpha: 0.85),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white.withValues(alpha: 0.6),
+              size: 16.r,
+            ),
           ],
         ),
       ),

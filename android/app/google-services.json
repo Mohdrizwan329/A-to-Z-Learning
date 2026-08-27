@@ -12,7 +12,20 @@
           "package_name": "com.jiyanlearning.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "754376614622-3fd6mat79v094ll6osbf9fc2439eifm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jiyanlearning.app",
+            "certificate_hash": "1e8e3b8f2bafaee2d7f0c70355d4da85cb0b1c9e"
+          }
+        },
+        {
+          "client_id": "754376614622-vrohg73k1eqn52f6vrsds2ujhihkalbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBrDdPBYeI8aTW-G3f35g44luVXbCxvaEo"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754376614622-vrohg73k1eqn52f6vrsds2ujhihkalbm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "754376614622-oa857odmcole9g20ugnd0b9808fugcci.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jiyanlearning.app"
+              }
+            }
+          ]
         }
       }
     }

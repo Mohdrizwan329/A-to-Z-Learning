@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
+import 'package:jiyan_learning/services/age_content_service.dart';
+import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -32,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _initShapes();
     _setupAnimations();
-    _navigateToAgeSelection();
+    _openNextScreen();
   }
 
   void _initShapes() {
@@ -113,10 +115,36 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  void _navigateToAgeSelection() async {
-    await Future.delayed(const Duration(seconds: 3));
-    Get.offNamed('/age-selection');
+  /// Where the splash hands over to.
+  ///
+  /// The app is behind the login screen: without a signed-in account there is
+  /// nothing else to open. That is also what makes signing out stick, even
+  /// across a reinstall -- a reinstall wipes every trace of the account from
+  /// the phone, so "was signed out here" is not something the app could
+  /// remember on its own.
+  Future<void> _openNextScreen() async {
+    final splashShown = Future<void>.delayed(const Duration(seconds: 3));
+
+    final auth = Get.isRegistered<AuthController>()
+        ? Get.find<AuthController>()
+        : Get.put(AuthController(), permanent: true);
+    // Runs alongside the splash animation rather than after it.
+    await auth.ensureAuthResolved();
+    await splashShown;
+    if (!mounted) return;
+
+    if (!auth.isLoggedIn) {
+      Get.offAllNamed('/login');
+      return;
+    }
+    // The age question is asked once per device, so a returning user goes
+    // straight in.
+    Get.offAllNamed(_ageAnswered ? '/home' : '/age-selection');
   }
+
+  bool get _ageAnswered =>
+      Get.isRegistered<AgeContentService>() &&
+      Get.find<AgeContentService>().hasSelectedAge.value;
 
   @override
   Widget build(BuildContext context) {
@@ -217,17 +245,13 @@ class _SplashScreenState extends State<SplashScreen>
               child: Transform.scale(
                 scale: _mascotScale.value,
                 child: Container(
-                  width: 180.w,
-                  height: 180.h,
+                  width: 140.w,
+                  height: 140.h,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppTheme.secondaryColor,
-                        AppTheme.secondaryColor.withValues(alpha: 0.8),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    // White, because the logo carries its own colours and
+                    // sits on white -- a gradient behind it would show as a
+                    // ring around the artwork.
+                    color: Colors.white,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -237,12 +261,21 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ],
                   ),
+                  clipBehavior: Clip.antiAlias,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Cute animal mascot (using emoji for now)
-                      const Text('🦁', style: TextStyle(fontSize: 90)),
-                      // Sparkles around mascot
+                      // The app's own logo, whole rather than cropped to the
+                      // circle -- the name underneath is part of the mark.
+                      Padding(
+                        padding: EdgeInsets.all(10.r),
+                        child: Image.asset(
+                          'assets/app_logo.png',
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      ),
+                      // Sparkles around the logo
                       Positioned(
                         top: 10.h,
                         right: 20.w,
@@ -274,7 +307,12 @@ class _SplashScreenState extends State<SplashScreen>
           opacity: value,
           child: Transform.scale(
             scale: value,
-            child: Icon(Icons.auto_awesome, color: Colors.white, size: 24.r),
+            child: Icon(
+              Icons.auto_awesome,
+              // The disc behind them is white now, so white would be invisible.
+              color: AppTheme.secondaryColor,
+              size: 24.r,
+            ),
           ),
         );
       },

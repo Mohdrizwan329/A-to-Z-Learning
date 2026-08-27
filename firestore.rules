@@ -1,0 +1,52 @@
+rules_version = '2';
+
+// Security rules for Jiyan Learning.
+//
+// Everything here is a child's learning record, so the default is: nobody
+// reads or writes anything unless a rule below says otherwise. Deploy with
+//   firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // A profile and everything under it belongs to one account and is
+    // readable by nobody else -- these documents hold a child's name, age and
+    // photo.
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /{sub=**} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // The leaderboard is the one shared surface: any signed-in user may read
+    // the table, but may only write their own row, and only the fields the
+    // app actually sets.
+    match /leaderboard/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly([
+             'userId', 'displayName', 'totalPoints', 'weeklyPoints',
+             'photoUrl', 'lastUpdate'
+           ])
+        && request.resource.data.totalPoints is int
+        && request.resource.data.totalPoints >= 0
+        && request.resource.data.weeklyPoints is int
+        && request.resource.data.weeklyPoints >= 0;
+      allow delete: if isOwner(uid);
+    }
+
+    // Anything not named above stays closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

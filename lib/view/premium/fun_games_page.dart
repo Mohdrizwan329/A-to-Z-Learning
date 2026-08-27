@@ -20,16 +20,6 @@ class _FunGamesPageState extends State<FunGamesPage>
     with TickerProviderStateMixin {
   final List<Map<String, dynamic>> _games = [
     {'title': 'Memory Match', 'icon': '🧠', 'description': 'Match the pairs!'},
-    {
-      'title': 'Word Scramble',
-      'icon': '🔤',
-      'description': 'Unscramble the words!',
-    },
-    {
-      'title': 'Animal Sounds',
-      'icon': '🐾',
-      'description': 'Guess the animal!',
-    },
   ];
 
   final _progressService = ProgressService.to;
@@ -215,22 +205,12 @@ class _FunGamesPageState extends State<FunGamesPage>
                       child: GestureDetector(
                         onTap: () async {
                           TtsService.to.speak(game['title']);
-                          if (game['title'] == 'Memory Match') {
-                            await Get.to(() => const MemoryMatchGame());
-                            _progressService.markItemCompleted(
-                              ProgressService.kFunGames,
-                              index,
-                            );
-                            setState(() {});
-                          } else {
-                            Get.snackbar(
-                              'Coming Soon!',
-                              '${game['title']} will be available soon.',
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.orange,
-                              colorText: Colors.white,
-                            );
-                          }
+                          await Get.to(() => const MemoryMatchGame());
+                          _progressService.markItemCompleted(
+                            ProgressService.kFunGames,
+                            index,
+                          );
+                          setState(() {});
                         },
                         child: Container(
                           decoration: BoxDecoration(

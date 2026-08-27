@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +12,7 @@ import 'package:jiyan_learning/view/profiles/policy/privacy_policy_page.dart';
 import 'package:jiyan_learning/view/profiles/terms%20&%20condition/terms_conditions_page.dart';
 import 'package:jiyan_learning/view/profiles/support/support_page.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
+import 'package:jiyan_learning/services/user_profile_service.dart';
 import 'package:jiyan_learning/utils/responsive.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -148,17 +151,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                   children: [
                     // Profile Card
                     _buildProfileCard(),
-                    SizedBox(height: AppTheme.spacingL),
+                    SizedBox(height: AppTheme.spacingS),
                     // Section Title
                     Text(
                       'Settings',
                       style: GoogleFonts.poppins(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: AppTheme.spacingM),
+                    SizedBox(height: AppTheme.spacingS),
                     // Profile Options
                     _ProfileTile(
                       title: 'Account',
@@ -168,17 +171,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                       index: 0,
                       floatAnimation: _floatAnimation,
                     ),
-                    SizedBox(height: AppTheme.spacingL),
+                    SizedBox(height: AppTheme.spacingXS),
                     // Legal Section Title
                     Text(
                       'Legal & Support',
                       style: GoogleFonts.poppins(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: AppTheme.spacingM),
+                    SizedBox(height: AppTheme.spacingS),
                     _ProfileTile(
                       title: 'Privacy Policy',
                       icon: Icons.privacy_tip_outlined,
@@ -211,11 +214,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                       index: 4,
                       floatAnimation: _floatAnimation,
                     ),
-                    SizedBox(height: AppTheme.spacingL),
+                    SizedBox(height: AppTheme.spacingM),
                     // Logout Button
                     _buildLogoutButton(),
-                    SizedBox(height: AppTheme.spacingL),
-                    SizedBox(height: AppTheme.spacingL),
+                    SizedBox(height: AppTheme.spacingM),
                     // App Version
                     Center(
                       child: Text(
@@ -283,9 +285,93 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
+  UserProfileService? get _profileService =>
+      Get.isRegistered<UserProfileService>()
+          ? Get.find<UserProfileService>()
+          : null;
+
   Widget _buildProfileCard() {
+    final profile = _profileService;
+    if (profile == null) {
+      return _buildProfileCardBody(
+        widget.name,
+        widget.email,
+        widget.location ?? 'Location not set',
+        _photoOf(null),
+      );
+    }
+
+    return Obx(
+      () => _buildProfileCardBody(
+        UserProfileService.resolveField(widget.name, profile.name.value, 'Guest User'),
+        UserProfileService.resolveField(widget.email, profile.email.value, 'Guest'),
+        UserProfileService.resolveField(
+          widget.location ?? '',
+          profile.location.value,
+          'Location not set',
+        ),
+        _photoOf(profile),
+      ),
+    );
+  }
+
+  /// The picture to show: the file saved on this device, otherwise whatever
+  /// the account carries -- inline bytes from a signup, or a Google account's
+  /// hosted picture. A fresh install has only the account copy until the next
+  /// save puts a file back on the device.
+  ImageProvider? _photoOf(UserProfileService? profile) {
+    final file = profile?.photoFile;
+    if (file != null) return FileImage(file);
+
+    final controller = Get.isRegistered<AuthController>()
+        ? Get.find<AuthController>()
+        : null;
+    // Read through the observable so this rebuilds when the account record
+    // lands, which on a cold start is after the first frame.
+    final user = controller?.userModelRx.value;
+
+    final inline = user?.photoBase64?.trim() ?? '';
+    if (inline.isNotEmpty) {
+      try {
+        return MemoryImage(base64Decode(inline));
+      } catch (_) {
+        // Not readable as an image; fall through to the initial.
+      }
+    }
+
+    final hosted = user?.photoUrl?.trim() ?? '';
+    if (hosted.isNotEmpty) return NetworkImage(hosted);
+
+    return null;
+  }
+
+  Widget _buildAvatarInitial(String name) {
+    final trimmed = name.trim();
     return Container(
-      padding: EdgeInsets.all(AppTheme.spacingM),
+      color: Colors.white,
+      alignment: Alignment.center,
+      child: Text(
+        trimmed.isNotEmpty ? trimmed[0].toUpperCase() : 'U',
+        style: GoogleFonts.poppins(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: AppTheme.accentColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileCardBody(
+    String name,
+    String email,
+    String location,
+    ImageProvider? photo,
+  ) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingM,
+        vertical: AppTheme.spacingS + AppTheme.spacingXS,
+      ),
       decoration: BoxDecoration(
         gradient: AppTheme.accentGradient,
         borderRadius: BorderRadius.circular(AppTheme.radiusXLarge),
@@ -301,8 +387,8 @@ class _ProfileScreenState extends State<ProfileScreen>
         children: [
           // Avatar
           Container(
-            width: 80.w,
-            height: 80.h,
+            width: 64.w,
+            height: 64.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
@@ -318,20 +404,20 @@ class _ProfileScreenState extends State<ProfileScreen>
               ],
             ),
             child: ClipOval(
-              child: Container(
-                width: 80.w,
-                height: 80.h,
-                color: Colors.white,
-                child: Center(
-                  child: Text(
-                    widget.name.isNotEmpty ? widget.name[0].toUpperCase() : 'U',
-                    style: GoogleFonts.poppins(
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.accentColor,
-                    ),
-                  ),
-                ),
+              child: SizedBox(
+                width: 64.w,
+                height: 64.h,
+                child: photo != null
+                    ? Image(
+                        image: photo,
+                        fit: BoxFit.cover,
+                        // A file can vanish between the existsSync() check and
+                        // the decode, and a hosted picture can fail to load,
+                        // so fall back rather than show a broken-image box.
+                        errorBuilder: (context, error, stackTrace) =>
+                            _buildAvatarInitial(name),
+                      )
+                    : _buildAvatarInitial(name),
               ),
             ),
           ),
@@ -342,9 +428,9 @@ class _ProfileScreenState extends State<ProfileScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.name,
+                  name,
                   style: GoogleFonts.poppins(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -361,7 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     SizedBox(width: AppTheme.spacingXS),
                     Expanded(
                       child: Text(
-                        widget.email,
+                        email,
                         style: GoogleFonts.nunito(
                           fontSize: 14,
                           color: Colors.white.withValues(alpha: 0.9),
@@ -382,7 +468,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     SizedBox(width: AppTheme.spacingXS),
                     Expanded(
                       child: Text(
-                        widget.location ?? 'Location not set',
+                        location,
                         style: GoogleFonts.nunito(
                           fontSize: 14,
                           color: Colors.white.withValues(alpha: 0.9),
@@ -411,6 +497,9 @@ class _ProfileScreenState extends State<ProfileScreen>
         }
         if (authController.isLoggedIn) {
           await authController.signOut();
+          // The device copy belongs to the account that just left -- the photo
+          // especially, since no account ever held it -- so it goes with them.
+          await _profileService?.clear();
           Get.offAllNamed('/login');
         } else {
           Get.offAllNamed('/login');
@@ -508,20 +597,20 @@ class _ProfileTile extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppTheme.spacingM,
-                vertical: AppTheme.spacingM,
+                vertical: AppTheme.spacingS + AppTheme.spacingXS,
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 48.w,
-                    height: 48.h,
+                    width: 42.w,
+                    height: 42.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(14.r),
                     ),
-                    child: Icon(icon, color: Colors.white, size: 24.r),
+                    child: Icon(icon, color: Colors.white, size: 22.r),
                   ),
-                  SizedBox(width: AppTheme.spacingM),
+                  SizedBox(width: AppTheme.spacingS + AppTheme.spacingXS),
                   Expanded(
                     child: Text(
                       title,

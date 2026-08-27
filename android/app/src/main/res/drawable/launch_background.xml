@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modify this file to customize your launch splash screen -->
+<!-- The window behind the app while it starts. It carries the same
+     purple-to-pink the Flutter splash paints, so there is no white flash
+     between the launcher and the app. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white" />
-
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="315"
+                android:startColor="@color/splash_start"
+                android:centerColor="@color/splash_center"
+                android:endColor="@color/splash_end"
+                android:type="linear" />
+        </shape>
+    </item>
 </layer-list>

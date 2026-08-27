@@ -1,8 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:jiyan_learning/services/device_location_service.dart';
+import 'package:jiyan_learning/services/user_profile_service.dart';
+import 'package:jiyan_learning/utils/image_source_picker.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
@@ -14,8 +21,7 @@ class SignupPage extends StatefulWidget {
   State<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage>
-    with SingleTickerProviderStateMixin {
+class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -23,6 +29,15 @@ class _SignupPageState extends State<SignupPage>
   final _confirmPasswordController = TextEditingController();
   final _childNameController = TextEditingController();
   final _childAgeController = TextEditingController();
+  final _locationController = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+
+  /// The chosen profile picture, already shrunk and encoded, ready to store.
+  String? _photoBase64;
+
+  /// True while the device is being asked where it is.
+  bool _findingLocation = false;
 
   AuthController get _authController {
     if (!Get.isRegistered<AuthController>()) {
@@ -35,31 +50,25 @@ class _SignupPageState extends State<SignupPage>
   bool _obscureConfirmPassword = true;
   String _selectedCountryCode = '+91';
 
-  late AnimationController _animController;
-  late Animation<double> _floatAnimation;
-
   @override
   void initState() {
     super.initState();
-    _animController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
 
-    _floatAnimation = Tween<double>(begin: 0, end: 10).animate(
-      CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
-    );
+    // Filled in for the parent as the form opens. It runs after the first
+    // frame so the permission prompt appears over a form they can already
+    // see, and a refusal just leaves the field to be typed.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _useMyLocation());
   }
 
   @override
   void dispose() {
-    _animController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _childNameController.dispose();
     _childAgeController.dispose();
+    _locationController.dispose();
     super.dispose();
   }
 
@@ -76,9 +85,14 @@ class _SignupPageState extends State<SignupPage>
       childName: _childNameController.text.trim(),
       childAge: int.tryParse(_childAgeController.text.trim()),
       phoneNumber: fullPhoneNumber,
+      location: _locationController.text.trim().isEmpty
+          ? null
+          : _locationController.text.trim(),
+      photoBase64: _photoBase64,
     );
 
     if (success) {
+      await _saveOnDevice(fullPhoneNumber);
       await _authController.signOut();
       Get.offAllNamed('/login');
       Get.snackbar(
@@ -102,6 +116,164 @@ class _SignupPageState extends State<SignupPage>
         borderRadius: 16.r,
       );
     }
+  }
+
+  /// Keeps a copy of what was just signed up with on the device.
+  ///
+  /// Signup drops the user back at the login screen, so without this the
+  /// profile and edit screens have nothing to show until a login has gone
+  /// through and the Firestore read has come back -- which is what made a
+  /// freshly created profile look like it had never been entered.
+  Future<void> _saveOnDevice(String fullPhoneNumber) async {
+    if (!Get.isRegistered<UserProfileService>()) return;
+    final local = Get.find<UserProfileService>();
+
+    await local.save(
+      name: _childNameController.text.trim(),
+      email: _emailController.text.trim(),
+      // The form's own digits: the edit screen shows the number without a
+      // country code and validates it as ten digits.
+      phone: _phoneController.text.trim(),
+      location: _locationController.text.trim(),
+    );
+
+    final photo = _photoBase64;
+    if (photo != null && photo.isNotEmpty) {
+      await local.savePhotoBytes(base64Decode(photo));
+    }
+  }
+
+  /// Camera or gallery, then shrunk enough to live inside the profile
+  /// document -- a full-size photo would not fit and is not needed for a
+  /// picture shown at 70pt.
+  Future<void> _pickPhoto() async {
+    final source = await askImageSource(
+      title: "Profile picture",
+      cameraSubtitle: "Take a photo now",
+      gallerySubtitle: "Choose one from the gallery",
+    );
+    if (source == null) return;
+
+    try {
+      final image = await _picker.pickImage(
+        source: source,
+        maxWidth: 400,
+        maxHeight: 400,
+        imageQuality: 70,
+      );
+      if (image == null) return;
+
+      final bytes = await File(image.path).readAsBytes();
+      // Firestore caps a document at 1MB. 400px at quality 70 lands far
+      // under this, but a stubborn file is refused rather than silently
+      // breaking the signup.
+      if (bytes.length > 600 * 1024) {
+        Get.snackbar(
+          'Photo too large',
+          'Please choose a smaller picture.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red[400],
+          colorText: Colors.white,
+          margin: EdgeInsets.all(16.r),
+          borderRadius: 16.r,
+        );
+        return;
+      }
+
+      setState(() => _photoBase64 = base64Encode(bytes));
+    } catch (e) {
+      Get.snackbar(
+        'Could not use that photo',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[400],
+        colorText: Colors.white,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
+      );
+    }
+  }
+
+  /// Fills the location field from where the device actually is. It stays a
+  /// plain text field, so a parent who refuses the permission can still type
+  /// their city.
+  Future<void> _useMyLocation() async {
+    setState(() => _findingLocation = true);
+    final result = await DeviceLocationService.current();
+    if (!mounted) return;
+
+    setState(() {
+      _findingLocation = false;
+      if (result.isFound) _locationController.text = result.place!;
+    });
+
+    if (!result.isFound) {
+      Get.snackbar(
+        'Location',
+        result.error!,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange[400],
+        colorText: Colors.white,
+        margin: EdgeInsets.all(16.r),
+        borderRadius: 16.r,
+        duration: const Duration(seconds: 4),
+      );
+    }
+  }
+
+  Widget _buildPhotoPicker() {
+    final image = _photoBase64 == null ? null : base64Decode(_photoBase64!);
+
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: _pickPhoto,
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                width: 96.w,
+                height: 96.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFFFFF3E0),
+                  border: Border.all(color: const Color(0xFFFFCC80), width: 3),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: image != null
+                    ? Image.memory(image, fit: BoxFit.cover)
+                    : Icon(
+                        Icons.add_a_photo_rounded,
+                        color: const Color(0xFFFF7043),
+                        size: 34.r,
+                      ),
+              ),
+              Container(
+                padding: EdgeInsets.all(6.r),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFF7043),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  image != null ? Icons.edit_rounded : Icons.camera_alt_rounded,
+                  color: Colors.white,
+                  size: 14.r,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          image != null ? "Tap to change photo" : "Add a profile photo",
+          style: GoogleFonts.nunito(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF795548),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -153,43 +325,6 @@ class _SignupPageState extends State<SignupPage>
               children: [
                 SizedBox(height: 20.h),
 
-                // Animated mascot
-                AnimatedBuilder(
-                  animation: _floatAnimation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(0, -_floatAnimation.value),
-                      child: child,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(16.r),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 15.r,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: const Text('📝', style: TextStyle(fontSize: 50)),
-                  ),
-                ),
-                SizedBox(height: 12.h),
-
-                // Title
-                const Text(
-                  'Join the Fun!',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF5D4037),
-                  ),
-                ),
-                SizedBox(height: 6.h),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.w,
@@ -232,6 +367,10 @@ class _SignupPageState extends State<SignupPage>
                     key: _formKey,
                     child: Column(
                       children: [
+                        // Profile Picture
+                        _buildPhotoPicker(),
+                        SizedBox(height: 16.h),
+
                         // Child Name Field
                         TextFormField(
                           controller: _childNameController,
@@ -410,6 +549,45 @@ class _SignupPageState extends State<SignupPage>
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                        SizedBox(height: 14.h),
+
+                        // Location Field, fillable from the device itself
+                        TextFormField(
+                          controller: _locationController,
+                          textCapitalization: TextCapitalization.words,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                          cursorColor: const Color(0xFF66BB6A),
+                          decoration: _buildInputDecoration(
+                            label: "City / Location",
+                            icon: Icons.location_on_rounded,
+                            color: const Color(0xFF66BB6A),
+                          ).copyWith(
+                            suffixIcon: _findingLocation
+                                ? Padding(
+                                    padding: EdgeInsets.all(12.r),
+                                    child: SizedBox(
+                                      width: 18.w,
+                                      height: 18.h,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.r,
+                                        color: const Color(0xFF66BB6A),
+                                      ),
+                                    ),
+                                  )
+                                : IconButton(
+                                    tooltip: 'Use my location',
+                                    onPressed: _useMyLocation,
+                                    icon: Icon(
+                                      Icons.my_location_rounded,
+                                      color: const Color(0xFF66BB6A),
+                                      size: 22.r,
+                                    ),
+                                  ),
                           ),
                         ),
                         SizedBox(height: 14.h),

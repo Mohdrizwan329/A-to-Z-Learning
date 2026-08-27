@@ -52,7 +52,27 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photos for coloring.</string>
+    <string>We need access to your photos for coloring and for scanning questions you already photographed.</string>
+	<key>NSCameraUsageDescription</key>
+    <string>We need the camera so you can scan a question straight from your book, and to take a profile picture.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We save your child's certificates to your photo library so you can keep and share them.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>We use your location once, while you are signing up, to fill in your city on the profile.</string>
+	<!-- Google Sign-In hands control back to the app through this scheme. It
+	     is the REVERSED_CLIENT_ID out of GoogleService-Info.plist, and must be
+	     updated alongside that file. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.754376614622-oa857odmcole9g20ugnd0b9808fugcci</string>
+			</array>
+		</dict>
+	</array>
 
 </dict>
 </plist>

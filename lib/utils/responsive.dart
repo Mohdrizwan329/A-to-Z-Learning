@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Screen-size buckets the UI adapts to.
 ///
@@ -66,7 +71,7 @@ class R {
 
     _layoutWidth = math.min(_screenWidth, maxContentWidth);
 
-    final raw = _layoutWidth / baseWidth;
+    final raw = (_layoutWidth / baseWidth) * DeviceTuning.uiScale.value;
     // Clamped, not linear: a 1040pt desktop column should not render buttons
     // three times the size of the phone ones.
     _scale = raw.clamp(0.82, 1.45);
@@ -218,6 +223,95 @@ class AppScrollBehavior extends MaterialScrollBehavior {
       };
 }
 
+/// Device Optimisation settings that the rest of the app has to honour.
+///
+/// Read straight off storage rather than through a service: [ResponsiveShell]
+/// runs before any service is looked up, and these are plain switches with no
+/// behaviour of their own.
+class DeviceTuning {
+  DeviceTuning._();
+
+  /// Observable, so flipping the switch reaches the running app rather than
+  /// waiting for the next launch.
+  static final RxBool reducedAnimations = false.obs;
+  static final RxBool lowQualityImages = false.obs;
+  static final RxBool landscapeAllowed = true.obs;
+
+  /// How much bigger the user wants everything.
+  ///
+  /// Clamped hard: this multiplies [R.scale], which sets the size of nearly
+  /// every box in the app, and a large factor bursts the fixed-height cards
+  /// the layout is full of. A tenth either way is a visible change and still
+  /// safe.
+  static final RxDouble uiScale = 1.0.obs;
+
+  static const double _minUiScale = 0.9;
+  static const double _maxUiScale = 1.15;
+
+  /// Called at startup, and again whenever the settings screen changes one.
+  static void load(GetStorage storage) {
+    reducedAnimations.value = storage.read<bool>('reducedAnimations') ?? false;
+    lowQualityImages.value = storage.read<bool>('lowQualityImages') ?? false;
+    landscapeAllowed.value = storage.read<bool>('landscapeSupport') ?? true;
+
+    // "Large UI Elements" is a preset on top of whatever the slider says.
+    final stored = (storage.read<double>('uiScale') ?? 1.0);
+    final large = storage.read<bool>('largeUI') ?? false;
+    uiScale.value =
+        (stored * (large ? 1.08 : 1.0)).clamp(_minUiScale, _maxUiScale);
+
+    applyImageCache();
+    applyOrientation();
+  }
+
+  /// Empties the temporary directory when "Auto Clean Cache" is on.
+  ///
+  /// Called once at startup, before anything has opened a scratch file, so
+  /// nothing in use is pulled out from under it.
+  static Future<void> autoCleanIfAsked(GetStorage storage) async {
+    if (!(storage.read<bool>('autoCleanCache') ?? true)) return;
+    try {
+      final temp = await getTemporaryDirectory();
+      if (!temp.existsSync()) return;
+      for (final item in temp.listSync(recursive: true, followLinks: false)) {
+        try {
+          if (item is File) item.deleteSync();
+        } catch (_) {
+          // Skip whatever will not go rather than failing the launch.
+        }
+      }
+    } catch (e) {
+      debugPrint('Auto clean cache skipped: $e');
+    }
+  }
+
+  /// Locks the app to portrait when rotation is switched off.
+  static void applyOrientation() {
+    SystemChrome.setPreferredOrientations(
+      landscapeAllowed.value
+          ? const [
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.portraitDown,
+              DeviceOrientation.landscapeLeft,
+              DeviceOrientation.landscapeRight,
+            ]
+          : const [
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.portraitDown,
+            ],
+    );
+  }
+
+  /// A smaller decoded-image cache: less memory held, at the cost of decoding
+  /// a picture again when it comes back on screen.
+  static void applyImageCache() {
+    final cache = PaintingBinding.instance.imageCache;
+    cache.maximumSizeBytes = lowQualityImages.value
+        ? 20 << 20 // 20 MB
+        : 100 << 20; // Flutter's own default
+  }
+}
+
 /// Keeps [R] in step with the live [MediaQuery], clamps runaway system font
 /// scaling, and stops the phone-shaped layout from stretching across a wide
 /// desktop or tablet window.
@@ -279,6 +373,21 @@ class ResponsiveShell extends StatelessWidget {
       );
     }
 
-    return MediaQuery(data: clamped, child: content);
+    final laidOut = clamped;
+    final body = content;
+
+    // "Reduce animations" in Device Optimisation. Flutter honours this on
+    // every implicit animation and page transition, which is the only way one
+    // switch can reach 196 hand-animated screens. Watched, so the change
+    // lands without a restart.
+    return Obx(
+      () => MediaQuery(
+        data: laidOut.copyWith(
+          disableAnimations:
+              DeviceTuning.reducedAnimations.value || mq.disableAnimations,
+        ),
+        child: body,
+      ),
+    );
   }
 }

@@ -21,7 +21,6 @@ class GlobalAdShell extends StatelessWidget {
     '/login',
     '/signup',
     '/forgot-password',
-    '/premium',
     '/premium-features',
   };
 

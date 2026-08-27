@@ -29,6 +29,29 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // The app has no translations, so the ~80 locale folders that ship
+        // inside Play Services and AndroidX are dead weight in the APK.
+        resourceConfigurations += listOf("en")
+        ndk {
+            // Every real Android phone and tablet is ARM. x86_64 exists only for
+            // Intel emulators, and it was carrying a third copy of the Flutter
+            // engine and the ML Kit OCR pipeline -- 36 MB no device would load.
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
+    }
+
+    packaging {
+        jniLibs {
+            // AGP stores .so files uncompressed so they can be mapped straight
+            // out of the APK. That trades ~40 MB of download for a little disk
+            // on install, which is the wrong way round for an APK that gets
+            // shared directly rather than served by the Play Store.
+            useLegacyPackaging = true
+            // The ML Kit and DataStore AARs smuggle x86_64 copies past the
+            // abiFilters below, because those only bind the libraries Flutter
+            // itself builds.
+            excludes += listOf("**/x86/*.so", "**/x86_64/*.so")
+        }
     }
 
     buildTypes {
@@ -54,14 +77,11 @@ flutter {
 dependencies {
     // Core library desugaring for flutter_local_notifications
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    // Core OCR
-    implementation("com.google.mlkit:text-recognition:16.0.0-beta5")
+    // Core OCR. Only the Latin model is bundled: every TextRecognizer the app
+    // builds is the default one, so the Chinese, Devanagari, Japanese and
+    // Korean models were ~16 MB of never-loaded weights.
+    implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
     implementation("com.google.firebase:firebase-analytics")
-    // Extra languages (optional, add only if needed)
-    implementation("com.google.mlkit:text-recognition-chinese:16.0.0-beta5")
-    implementation("com.google.mlkit:text-recognition-devanagari:16.0.0-beta5")
-    implementation("com.google.mlkit:text-recognition-japanese:16.0.0-beta5")
-    implementation("com.google.mlkit:text-recognition-korean:16.0.0-beta5")
 }
 

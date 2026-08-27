@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
+import 'package:jiyan_learning/services/app_settings_service.dart';
 
 /// Centralized Text-To-Speech service for the entire app
 /// Handles TTS initialization, language settings, and speech
@@ -76,10 +77,22 @@ class TtsService extends GetxService {
     await _flutterTts.awaitSpeakCompletion(false);
   }
 
+  /// Whether the parent has left voice pronunciation on. Settings may not be
+  /// registered yet at startup, in which case speech is allowed -- that is the
+  /// default the settings screen shows.
+  bool get _voiceAllowed {
+    if (!Get.isRegistered<AppSettingsService>()) return true;
+    return Get.find<AppSettingsService>().isVoicePronunciationEnabled.value;
+  }
+
   /// Speak text in current language
   Future<void> speak(String text) async {
     if (!isReady.value) {
       debugPrint("TTS not ready, cannot speak: $text");
+      return;
+    }
+    if (!_voiceAllowed) {
+      // The switch is off, so the app stays quiet -- it used to speak anyway.
       return;
     }
 

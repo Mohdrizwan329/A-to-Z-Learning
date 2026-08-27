@@ -349,7 +349,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               margin: EdgeInsets.only(bottom: 10.h),
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? LinearGradient(
@@ -428,7 +428,7 @@ class _FunAgeCardState extends State<_FunAgeCard>
                               ),
                           ],
                         ),
-                        SizedBox(height: 1.h),
+                        SizedBox(height: 4.h),
 
                         // Subtitle
                         Text(
@@ -440,31 +440,6 @@ class _FunAgeCardState extends State<_FunAgeCard>
                                 ? Colors.white.withValues(alpha: 0.9)
                                 : Colors.grey.shade700,
                           ),
-                        ),
-                        SizedBox(height: 2.h),
-
-                        // Fun description with emojis
-                        Row(
-                          children: [
-                            Text(
-                              cardData['funIcon'] as String,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            SizedBox(width: 4.w),
-                            Expanded(
-                              child: Text(
-                                cardData['description'] as String,
-                                style: GoogleFonts.nunito(
-                                  fontSize: 12,
-                                  color: isSelected
-                                      ? Colors.white.withValues(alpha: 0.8)
-                                      : Colors.grey.shade600,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
@@ -487,8 +462,8 @@ class _FunAgeCardState extends State<_FunAgeCard>
   ) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      width: 60.w,
-      height: 60.h,
+      width: 58.w,
+      height: 58.h,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isSelected

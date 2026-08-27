@@ -17,30 +17,18 @@ class PrivacyPolicyScreen extends StatefulWidget {
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
     with TickerProviderStateMixin {
   late AnimationController _bubbleController;
-  late AnimationController _floatController;
-  late Animation<double> _floatAnimation;
 
   @override
   void initState() {
     super.initState();
-    _floatController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
-
     _bubbleController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 8),
     )..repeat();
-
-    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
-      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
-    );
   }
 
   @override
   void dispose() {
-    _floatController.dispose();
     _bubbleController.dispose();
     super.dispose();
   }
@@ -183,12 +171,22 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
             // Animated floating bubbles background
             ..._buildFloatingBubbles(),
 
+            // A dark wash over the gradient. Without the cards there is
+            // nothing behind the text, and the gradient runs light pink
+            // further down. 0.5 puts white body text at ~6.9:1 even against
+            // the lightest point of that gradient.
+            Positioned.fill(
+              child: ColoredBox(color: Colors.black.withValues(alpha: 0.5)),
+            ),
+
             // Main content
             SafeArea(
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppTheme.spacingM,
-                  vertical: AppTheme.spacingS,
+                padding: EdgeInsets.fromLTRB(
+                  AppTheme.spacingM,
+                  AppTheme.spacingL,
+                  AppTheme.spacingM,
+                  AppTheme.spacingXL,
                 ),
                 itemCount: _policySections.length,
                 itemBuilder: (context, index) {
@@ -202,7 +200,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
                         offset: Offset(0, 30 * (1 - value)),
                         child: Opacity(
                           opacity: value.clamp(0.0, 1.0),
-                          child: _buildPolicyTile(item, index),
+                          child: _buildPolicySection(item, index),
                         ),
                       );
                     },
@@ -271,83 +269,69 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
     );
   }
 
-  Widget _buildPolicyTile(Map<String, dynamic> item, int index) {
-    final gradient = item['gradient'] as List;
-    final gradientList = gradient.cast<Color>();
+  /// One policy section, set straight onto the page background.
+  ///
+  /// No card: the sections are a document to read top to bottom, and a
+  /// gradient box around each one competed with the text inside it.
+  Widget _buildPolicySection(Map<String, dynamic> item, int index) {
+    final isLast = index == _policySections.length - 1;
 
-    return AnimatedBuilder(
-      animation: _floatAnimation,
-      builder: (context, child) {
-        final offset = (index % 2 == 0)
-            ? _floatAnimation.value * 0.5
-            : -_floatAnimation.value * 0.5;
-        return Transform.translate(offset: Offset(0, offset), child: child);
-      },
-      child: Container(
-        margin: EdgeInsets.only(bottom: AppTheme.spacingS),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradientList,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(
-              color: gradientList[0].withValues(alpha: 0.4),
-              blurRadius: 12.r,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppTheme.spacingM,
-              vertical: AppTheme.spacingL,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 56.w,
-                  height: 56.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  child: Icon(item['icon'], color: Colors.white, size: 28.r),
-                ),
-                SizedBox(width: AppTheme.spacingM),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${index + 1}. ${item['title']}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 6.h),
-                      Text(
-                        item['body'],
-                        style: GoogleFonts.nunito(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.9),
-                          height: 1.4,
-                        ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: isLast ? 0 : AppTheme.spacingL),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(item['icon'], color: Colors.white, size: 22.r),
+              SizedBox(width: AppTheme.spacingS),
+              Expanded(
+                child: Text(
+                  '${index + 1}. ${item['title']}',
+                  style: GoogleFonts.poppins(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.45),
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
                       ),
                     ],
                   ),
                 ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            item['body'],
+            style: GoogleFonts.nunito(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              height: 1.5,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.45),
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
               ],
             ),
           ),
-        ),
+          if (!isLast) ...[
+            SizedBox(height: AppTheme.spacingL),
+            // A hairline keeps two sections from reading as one paragraph now
+            // that no card separates them.
+            Container(
+              height: 1,
+              color: Colors.white.withValues(alpha: 0.28),
+            ),
+          ],
+        ],
       ),
     );
   }

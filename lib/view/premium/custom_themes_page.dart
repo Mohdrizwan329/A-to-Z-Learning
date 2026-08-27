@@ -94,7 +94,10 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
     });
     _storage.write('selected_theme', themeId);
 
-    final theme = themes.firstWhere((t) => t['id'] == themeId);
+    final theme = themes.firstWhere(
+      (t) => t['id'] == themeId,
+      orElse: () => themes.first,
+    );
     Get.snackbar(
       'Theme Applied!',
       '${theme['name']} theme is now active.',
@@ -106,7 +109,10 @@ class _CustomThemesPageState extends State<CustomThemesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = themes.firstWhere((t) => t['id'] == _selectedTheme);
+    final currentTheme = themes.firstWhere(
+      (t) => t['id'] == _selectedTheme,
+      orElse: () => themes.first,
+    );
 
     return Scaffold(
       appBar: AppBar(

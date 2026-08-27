@@ -222,7 +222,7 @@ class ProgressService extends GetxService {
     kGoalSetting: 7,
     kTaskSequencing: 7,
     kWorkingMemory: 7,
-    kFunGames: 3,
+    kFunGames: 1,
     kFocusTraining: 4,
     kAttentionTraining: 5,
     // Sight Words categories (Dolch Sight Words)

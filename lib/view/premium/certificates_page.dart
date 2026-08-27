@@ -11,6 +11,7 @@ import 'package:jiyan_learning/services/speech_recognition_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:jiyan_learning/services/certificate_vault.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -1718,7 +1719,7 @@ class _CertificatesPageState extends State<CertificatesPage>
               TtsService.to.speak(cert['title']);
               _showCertificate(cert);
             }
-          : null,
+          : () => _explainLock(cert),
       child: Container(
         margin: EdgeInsets.only(bottom: 16.h),
         decoration: BoxDecoration(
@@ -1917,6 +1918,39 @@ class _CertificatesPageState extends State<CertificatesPage>
   void _showCertificate(Map<String, dynamic> cert) {
     Get.to(() => CertificateViewPage(cert: cert));
   }
+
+  /// Why this one is still locked, and how much is left to unlock it. A tap
+  /// that does nothing at all leaves a child guessing.
+  void _explainLock(Map<String, dynamic> cert) {
+    final requirement = cert['requirement'] as int;
+    final String message;
+
+    final progress = ProgressService.to;
+
+    if (cert['isSpecial'] == true) {
+      final done = progress.getOverallProgress().round();
+      message = 'Reach $requirement% overall to unlock this one. '
+          'You are at $done% right now.';
+    } else {
+      final done = progress.getCompletedCount(cert['progressKey']);
+      final left = (requirement - done).clamp(0, requirement);
+      message = left == 1
+          ? 'Finish 1 more to unlock this certificate. ($done of $requirement)'
+          : 'Finish $left more to unlock this certificate. '
+              '($done of $requirement)';
+    }
+
+    Get.snackbar(
+      '🔒 ${cert['title']}',
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: const Color(0xFF764BA2),
+      colorText: Colors.white,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 12.r,
+      duration: const Duration(seconds: 3),
+    );
+  }
 }
 
 // Full Screen Certificate View Page
@@ -1936,6 +1970,14 @@ class _CertificateViewPageState extends State<CertificateViewPage>
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
   bool _isDownloading = false;
+
+  /// Where saved certificates are remembered, so a second visit offers to
+  /// open the one already on the device.
+  final CertificateVault _vault = Get.isRegistered<CertificateVault>()
+      ? Get.find<CertificateVault>()
+      : Get.put(CertificateVault());
+
+  bool get _isSaved => _vault.hasSaved(widget.cert['title'].toString());
 
   @override
   void initState() {
@@ -1977,20 +2019,46 @@ class _CertificateViewPageState extends State<CertificateViewPage>
 
       if (byteData != null) {
         final directory = await getApplicationDocumentsDirectory();
+        final title = widget.cert['title'].toString();
+        // One file per certificate, overwritten on a re-download, so saving
+        // twice does not leave a folder full of near-identical copies.
         final fileName =
-            'certificate_${widget.cert['title'].toString().replaceAll(' ', '_')}_${DateTime.now().millisecondsSinceEpoch}.png';
+            'certificate_${title.replaceAll(RegExp(r'[^A-Za-z0-9]+'), '_')}.png';
         final file = File('${directory.path}/$fileName');
         await file.writeAsBytes(byteData.buffer.asUint8List());
 
+        await _vault.record(title, file.path);
+
+        // The app's own copy is private, so the certificate also goes to the
+        // phone's gallery -- that is where a parent will look for it.
+        final galleryError = await _vault.saveToGallery(
+          file.path,
+          album: 'Jiyan Learning',
+        );
+
+        if (mounted) setState(() {});
+
         Get.snackbar(
-          'Downloaded!',
-          'Certificate saved to $fileName',
+          galleryError == null ? 'Saved to your gallery!' : 'Saved in the app',
+          galleryError ??
+              'Look for it in Photos, under "Jiyan Learning".',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
+          backgroundColor:
+              galleryError == null ? Colors.green : Colors.orange,
           colorText: Colors.white,
           margin: EdgeInsets.all(16.r),
           borderRadius: 12.r,
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 4),
+          mainButton: TextButton(
+            onPressed: _openSavedCertificate,
+            child: const Text(
+              'OPEN',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         );
       }
     } catch (e) {
@@ -2006,6 +2074,23 @@ class _CertificateViewPageState extends State<CertificateViewPage>
     } finally {
       setState(() => _isDownloading = false);
     }
+  }
+
+  /// Hands the saved file to whatever the device opens images with.
+  Future<void> _openSavedCertificate() async {
+    final error = await _vault.open(widget.cert['title'].toString());
+    if (error == null) return;
+
+    Get.snackbar(
+      'Could not open',
+      error,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.orange,
+      colorText: Colors.white,
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 12.r,
+    );
+    if (mounted) setState(() {});
   }
 
   Future<void> _shareCertificate() async {
@@ -2573,7 +2658,11 @@ class _CertificateViewPageState extends State<CertificateViewPage>
                     // Download Button
                     Expanded(
                       child: GestureDetector(
-                        onTap: _isDownloading ? null : _downloadCertificate,
+                        onTap: _isDownloading
+                            ? null
+                            : _isSaved
+                                ? _openSavedCertificate
+                                : _downloadCertificate,
                         child: Container(
                           padding: EdgeInsets.symmetric(vertical: 16.h),
                           decoration: BoxDecoration(
@@ -2606,14 +2695,20 @@ class _CertificateViewPageState extends State<CertificateViewPage>
                                             ),
                                       ),
                                     )
-                                  : const Icon(
-                                      Icons.download,
+                                  : Icon(
+                                      _isSaved
+                                          ? Icons.visibility_rounded
+                                          : Icons.download,
                                       color: Colors.white,
                                     ),
                               SizedBox(width: 8.w),
                               Flexible(
                                 child: Text(
-                                  _isDownloading ? 'Saving...' : 'Download',
+                                  _isDownloading
+                                      ? 'Saving...'
+                                      : _isSaved
+                                          ? 'View'
+                                          : 'Download',
                                   style: GoogleFonts.nunito(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,

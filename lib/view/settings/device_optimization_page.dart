@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiyan_learning/widgets/gradient_scaffold.dart';
@@ -58,6 +61,17 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
 
   void _saveSetting(String key, dynamic value) {
     _storage.write(key, value);
+    // These are read by the widget tree, so a change has to reach it now
+    // rather than on the next launch.
+    const applied = {
+      'reducedAnimations',
+      'lowQualityImages',
+      'landscapeSupport',
+      'largeUI',
+      'uiScale',
+      'lowEndMode',
+    };
+    if (applied.contains(key)) DeviceTuning.load(_storage);
   }
 
   void _enableLowEndMode(bool value) {
@@ -227,30 +241,6 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
                   },
                   color: Color(0xFFFFAA5A),
                 ),
-                Divider(height: 1.h),
-                _buildSwitchTile(
-                  icon: "💾",
-                  title: "Cache Content",
-                  subtitle: "Store data for faster loading",
-                  value: cacheContent,
-                  onChanged: (v) {
-                    setState(() => cacheContent = v);
-                    _saveSetting('cacheContent', v);
-                  },
-                  color: Color(0xFF4ECDC4),
-                ),
-                Divider(height: 1.h),
-                _buildSwitchTile(
-                  icon: "📥",
-                  title: "Preload Content",
-                  subtitle: "Load next lessons in background",
-                  value: preloadContent,
-                  onChanged: (v) {
-                    setState(() => preloadContent = v);
-                    _saveSetting('preloadContent', v);
-                  },
-                  color: Color(0xFFA78BFA),
-                ),
               ],
             ),
           ),
@@ -265,38 +255,6 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
             ),
             child: Column(
               children: [
-                ListTile(
-                  leading: Container(
-                    width: 45.w,
-                    height: 45.h,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF667EEA).withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: const Center(
-                      child: Text("📱", style: TextStyle(fontSize: 22)),
-                    ),
-                  ),
-                  title: const Text(
-                    "Display Mode",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  subtitle: Text(_getDisplayModeText()),
-                  trailing: DropdownButton<String>(
-                    value: displayMode,
-                    underline: const SizedBox(),
-                    items: const [
-                      DropdownMenuItem(value: 'auto', child: Text("Auto")),
-                      DropdownMenuItem(value: 'phone', child: Text("Phone")),
-                      DropdownMenuItem(value: 'tablet', child: Text("Tablet")),
-                    ],
-                    onChanged: (v) {
-                      setState(() => displayMode = v ?? 'auto');
-                      _saveSetting('displayMode', displayMode);
-                    },
-                  ),
-                ),
-                Divider(height: 1.h),
                 _buildSwitchTile(
                   icon: "🔄",
                   title: "Landscape Support",
@@ -377,51 +335,6 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
                     _saveSetting('autoCleanCache', v);
                   },
                   color: Color(0xFF4ECDC4),
-                ),
-                Divider(height: 1.h),
-                ListTile(
-                  leading: Container(
-                    width: 45.w,
-                    height: 45.h,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFA78BFA).withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: const Center(
-                      child: Text("📦", style: TextStyle(fontSize: 22)),
-                    ),
-                  ),
-                  title: const Text(
-                    "Cache Size Limit",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  subtitle: Text("$cacheSize MB"),
-                  trailing: SizedBox(
-                    width: 150.w,
-                    child: Slider(
-                      value: cacheSize.toDouble(),
-                      min: 50,
-                      max: 500,
-                      divisions: 9,
-                      activeColor: Color(0xFFA78BFA),
-                      onChanged: (v) {
-                        setState(() => cacheSize = v.toInt());
-                        _saveSetting('cacheSize', cacheSize);
-                      },
-                    ),
-                  ),
-                ),
-                Divider(height: 1.h),
-                _buildSwitchTile(
-                  icon: "🔄",
-                  title: "Background Sync",
-                  subtitle: "Sync progress when app is idle",
-                  value: backgroundSync,
-                  onChanged: (v) {
-                    setState(() => backgroundSync = v);
-                    _saveSetting('backgroundSync', v);
-                  },
-                  color: Color(0xFF667EEA),
                 ),
                 Divider(height: 1.h),
                 ListTile(
@@ -536,17 +449,6 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
     );
   }
 
-  String _getDisplayModeText() {
-    switch (displayMode) {
-      case 'phone':
-        return 'Optimized for phones';
-      case 'tablet':
-        return 'Optimized for tablets';
-      default:
-        return 'Automatically detect';
-    }
-  }
-
   void _autoOptimize() {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 600;
@@ -595,6 +497,41 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
     );
   }
 
+  /// Really empties what this app fills: the decoded-image cache in memory,
+  /// and the temporary directory on disk. Returns the bytes freed, so the
+  /// message can say something true instead of just "Cache Cleared".
+  Future<int> _reallyClearCache() async {
+    var freed = PaintingBinding.instance.imageCache.currentSizeBytes;
+    PaintingBinding.instance.imageCache.clear();
+    PaintingBinding.instance.imageCache.clearLiveImages();
+
+    // Scratch files: picked photos, rendered certificates, PDF exports.
+    try {
+      final temp = await getTemporaryDirectory();
+      if (temp.existsSync()) {
+        for (final item in temp.listSync(recursive: true, followLinks: false)) {
+          try {
+            if (item is File) {
+              freed += item.lengthSync();
+              item.deleteSync();
+            }
+          } catch (_) {
+            // A file still in use is skipped rather than failing the lot.
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Could not clear the temporary directory: $e');
+    }
+    return freed;
+  }
+
+  static String _formatBytes(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(0)} KB';
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+  }
+
   void _clearCache() {
     Get.dialog(
       AlertDialog(
@@ -605,13 +542,16 @@ class _DeviceOptimizationPageState extends State<DeviceOptimizationPage> {
         actions: [
           TextButton(onPressed: () => Get.back(), child: const Text("Cancel")),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               Get.back();
+              final freed = await _reallyClearCache();
               Get.snackbar(
                 "Cache Cleared",
-                "Temporary data has been removed",
+                freed == 0
+                    ? "There was nothing cached to remove."
+                    : "Freed about ${_formatBytes(freed)}.",
                 snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Color(0xFF56D97F),
+                backgroundColor: const Color(0xFF56D97F),
                 colorText: Colors.white,
                 margin: EdgeInsets.all(16.r),
                 borderRadius: 12.r,

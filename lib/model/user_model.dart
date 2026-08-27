@@ -7,6 +7,17 @@ class UserModel {
   final String? parentEmail;
   final String? parentPhone;
   final String? location;
+
+  /// The profile picture, stored inline as base64 rather than in a bucket.
+  ///
+  /// A signup photo is capped at a few hundred pixels, so it lands well
+  /// inside a Firestore document, and it works with nothing to set up --
+  /// no storage bucket, no rules, no billing plan.
+  final String? photoBase64;
+
+  /// Set by a Google sign-in, which brings its own hosted picture.
+  final String? photoUrl;
+
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool isPremium;
@@ -19,6 +30,8 @@ class UserModel {
     this.parentEmail,
     this.parentPhone,
     this.location,
+    this.photoBase64,
+    this.photoUrl,
     required this.createdAt,
     required this.updatedAt,
     this.isPremium = false,
@@ -35,6 +48,8 @@ class UserModel {
       parentEmail: data['parentEmail'],
       parentPhone: data['parentPhone'],
       location: data['location'],
+      photoBase64: data['photoBase64'],
+      photoUrl: data['photoUrl'],
       createdAt: data['createdAt'] != null
           ? (data['createdAt'] as Timestamp).toDate()
           : now,
@@ -55,6 +70,8 @@ class UserModel {
       'parentEmail': parentEmail,
       'parentPhone': parentPhone,
       'location': location,
+      'photoBase64': photoBase64,
+      'photoUrl': photoUrl,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
       'isPremium': isPremium,
@@ -71,6 +88,8 @@ class UserModel {
     String? parentEmail,
     String? parentPhone,
     String? location,
+    String? photoBase64,
+    String? photoUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? isPremium,
@@ -83,6 +102,8 @@ class UserModel {
       parentEmail: parentEmail ?? this.parentEmail,
       parentPhone: parentPhone ?? this.parentPhone,
       location: location ?? this.location,
+      photoBase64: photoBase64 ?? this.photoBase64,
+      photoUrl: photoUrl ?? this.photoUrl,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       isPremium: isPremium ?? this.isPremium,

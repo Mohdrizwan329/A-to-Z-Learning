@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:pdf/pdf.dart';
@@ -11,6 +9,10 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:open_file/open_file.dart';
+
+import 'package:jiyan_learning/services/daily_scan_limit.dart';
+import 'package:jiyan_learning/services/gemini_service.dart';
+import 'package:jiyan_learning/utils/image_source_picker.dart';
 
 class McqOption {
   final String option;
@@ -35,6 +37,10 @@ class McqQuestion {
   int? selectedOptionIndex;
   bool showResult;
 
+  /// True only when the reveal came from the user tapping an option, so the
+  /// banner can celebrate a real answer instead of a pre-filled one.
+  bool answeredByUser;
+
   McqQuestion({
     required this.id,
     required this.question,
@@ -43,6 +49,7 @@ class McqQuestion {
     required this.explanation,
     this.selectedOptionIndex,
     this.showResult = false,
+    this.answeredByUser = false,
   });
 
   bool get isAnswerCorrect {
@@ -69,7 +76,8 @@ class OcrController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
 
-  String get _apiKey => dotenv.env['OPENAI_API_KEY'] ?? '';
+  /// Five MCQ scans a day. Separate from the math solver's own budget.
+  final DailyScanLimit scanLimit = DailyScanLimit(name: 'ocr');
 
   // Get current question
   McqQuestion? get currentQuestion {
@@ -82,7 +90,17 @@ class OcrController extends GetxController {
   Future<void> scanQuestion() async {
     TextRecognizer? textRecognizer;
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+      if (!scanLimit.canScan) {
+        Get.snackbar("Daily Limit Reached", scanLimit.exhaustedMessage,
+          backgroundColor: Colors.orange, colorText: Colors.white,
+          duration: const Duration(seconds: 3));
+        return;
+      }
+
+      final ImageSource? source = await askImageSource();
+      if (source == null) return;
+
+      final XFile? image = await _picker.pickImage(source: source);
 
       if (image == null) {
         Get.snackbar("Cancelled", "No image selected",
@@ -106,6 +124,9 @@ class OcrController extends GetxController {
       }
 
       extractedText.value = recognizedText.text.trim();
+
+      // The page read, so this counts against today's budget.
+      scanLimit.consume();
 
       // Convert to MCQ and add to list
       await convertToMcq(extractedText.value);
@@ -136,19 +157,24 @@ class OcrController extends GetxController {
     resetCurrentMcq();
   }
 
-  /// Select an option for current question
+  /// Select an option for current question.
+  ///
+  /// Picking an option is the answer: the question grades itself right there,
+  /// so the tapped tile turns green or red without a separate confirm step.
+  /// A question that has already been graded ignores further taps.
   void selectOption(int questionIndex, int optionIndex) {
     if (questionIndex >= mcqQuestions.length) return;
     if (mcqQuestions[questionIndex].showResult) return;
 
     mcqQuestions[questionIndex].selectedOptionIndex = optionIndex;
+    mcqQuestions[questionIndex].answeredByUser = true;
     for (int i = 0; i < mcqQuestions[questionIndex].options.length; i++) {
       mcqQuestions[questionIndex].options[i].isSelected = (i == optionIndex);
     }
-    mcqQuestions.refresh();
+    checkAnswer(questionIndex);
   }
 
-  /// Check answer for a specific question
+  /// Grade a question against its own answer key.
   void checkAnswer(int questionIndex) {
     if (questionIndex >= mcqQuestions.length) return;
     if (mcqQuestions[questionIndex].selectedOptionIndex == null) {
@@ -181,6 +207,7 @@ class OcrController extends GetxController {
           explanation: mcqQuestions[i].explanation,
           selectedOptionIndex: mcqQuestions[i].selectedOptionIndex,
           showResult: mcqQuestions[i].showResult,
+          answeredByUser: mcqQuestions[i].answeredByUser,
         );
       }
       mcqQuestions.refresh();
@@ -190,64 +217,20 @@ class OcrController extends GetxController {
   /// Convert any question to MCQ using AI
   Future<void> convertToMcq(String question) async {
     try {
-      if (_apiKey.isEmpty) {
-        Get.snackbar("Error", "API Key not found in .env file",
-          backgroundColor: Colors.red, colorText: Colors.white);
-        isLoading.value = false;
-        return;
-      }
-
-      final url = Uri.parse("https://api.openai.com/v1/chat/completions");
-      final response = await http.post(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $_apiKey",
-        },
-        body: jsonEncode({
-          "model": "gpt-3.5-turbo",
-          "messages": [
-            {
-              "role": "system",
-              "content": """You are an expert teacher who creates MCQ questions.
-Convert the given question/topic into a proper MCQ format with 4 options.
-Respond ONLY in this exact JSON format (no extra text):
-{
-  "question": "The clear question text here",
-  "options": {
-    "A": "First option",
-    "B": "Second option",
-    "C": "Third option",
-    "D": "Fourth option"
-  },
-  "correct": "A",
-  "explanation": "Brief explanation why this is correct"
-}
-
-Rules:
-- If the input is in Hindi, respond in Hindi
-- If the input is in English, respond in English
-- Make sure only ONE option is correct
-- Options should be plausible and educational
-- Works for all subjects: Math, Science, Hindi, English, GK, History, Geography, etc."""
-            },
-            {"role": "user", "content": question},
-          ],
-          "max_tokens": 500,
-          "temperature": 0.7,
-        }),
+      final reply = await GeminiService.generateJson(
+        systemInstruction: _systemPrompt,
+        prompt: question,
+        temperature: 0.7,
+        // A full page of MCQs runs well past the 1024-token default; a short
+        // budget comes back as a truncated object that will not decode.
+        maxOutputTokens: 8192,
       );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final reply = data["choices"][0]["message"]["content"];
-
-        // Parse MCQ response and add to list
-        parseMcqResponse(reply);
-      } else {
-        Get.snackbar("API Error", "Status: ${response.statusCode}",
-          backgroundColor: Colors.red, colorText: Colors.white);
-      }
+      // Parse MCQ response and add to list
+      parseMcqResponse(reply);
+    } on GeminiException catch (e) {
+      Get.snackbar("AI Error", e.message,
+        backgroundColor: Colors.red, colorText: Colors.white);
     } catch (e) {
       Get.snackbar("Error", e.toString(),
         backgroundColor: Colors.red, colorText: Colors.white);
@@ -256,48 +239,73 @@ Rules:
     }
   }
 
-  /// Parse MCQ JSON response
+  static const String _systemPrompt =
+      """You are an expert teacher who creates MCQ questions.
+The text you receive is the OCR dump of a whole page, so it usually holds
+SEVERAL questions. Turn EVERY question on the page into its own MCQ with 4
+options.
+Respond ONLY in this exact JSON format (no extra text):
+{
+  "questions": [
+    {
+      "question": "The clear question text here",
+      "options": {
+        "A": "First option",
+        "B": "Second option",
+        "C": "Third option",
+        "D": "Fourth option"
+      },
+      "correct": "A",
+      "explanation": "Brief explanation why this is correct"
+    }
+  ]
+}
+
+Rules:
+- One array entry per question, in the order they appear on the page
+- Never merge two questions into one, and never silently drop a question
+- If the page holds only one question, return an array with one entry
+- If a question is cut off mid-way, skip it rather than inventing the rest
+- OCR shuffles lines, so match each set of options to its own question
+- If the page already prints the answer, use that as "correct"
+- If the input is in Hindi, respond in Hindi
+- If the input is in English, respond in English
+- Make sure only ONE option is correct
+- Options should be plausible and educational
+- Works for all subjects: Math, Science, Hindi, English, GK, History, Geography, etc.""";
+
+  /// Decodes the MCQ reply and appends every question it carries.
+  ///
+  /// Gemini is asked for `{"questions": [...]}`, but it sometimes answers with
+  /// a bare array, or -- for a single question -- the old flat object, so all
+  /// three shapes are accepted.
   void parseMcqResponse(String response) {
     try {
-      // Clean response - remove markdown code blocks if present
-      String cleanResponse = response.trim();
-      if (cleanResponse.startsWith("```json")) {
-        cleanResponse = cleanResponse.substring(7);
+      final decoded = jsonDecode(GeminiService.stripCodeFences(response));
+      final entries = _questionEntries(decoded);
+
+      if (entries.isEmpty) {
+        Get.snackbar("No Questions", "AI found no question in that scan",
+          backgroundColor: Colors.orange, colorText: Colors.white);
+        return;
       }
-      if (cleanResponse.startsWith("```")) {
-        cleanResponse = cleanResponse.substring(3);
+
+      var added = 0;
+      for (final entry in entries) {
+        final question = _buildQuestion(entry);
+        if (question == null) continue;
+        mcqQuestions.add(question);
+        added++;
       }
-      if (cleanResponse.endsWith("```")) {
-        cleanResponse = cleanResponse.substring(0, cleanResponse.length - 3);
+
+      if (added == 0) {
+        Get.snackbar("Parse Error", "The AI reply had no usable options",
+          backgroundColor: Colors.red, colorText: Colors.white);
+        return;
       }
-      cleanResponse = cleanResponse.trim();
-
-      final mcqData = jsonDecode(cleanResponse);
-
-      // Parse options
-      final options = mcqData["options"] as Map<String, dynamic>;
-      List<McqOption> optionsList = [];
-
-      options.forEach((key, value) {
-        optionsList.add(McqOption(
-          option: key,
-          text: value.toString(),
-        ));
-      });
-
-      // Create new MCQ question and add to list
-      final newQuestion = McqQuestion(
-        id: mcqQuestions.length + 1,
-        question: mcqData["question"] ?? extractedText.value,
-        options: optionsList,
-        correctAnswer: mcqData["correct"] ?? "A",
-        explanation: mcqData["explanation"] ?? "",
-      );
-
-      mcqQuestions.add(newQuestion);
 
       Get.snackbar(
-        "Question Added! 🎉",
+        added == 1 ? "Question Added! 🎉" : "$added Questions Added! 🎉",
         "Total: ${mcqQuestions.length} questions",
         backgroundColor: Colors.green,
         colorText: Colors.white,
@@ -308,6 +316,62 @@ Rules:
       Get.snackbar("Parse Error", e.toString(),
         backgroundColor: Colors.red, colorText: Colors.white);
     }
+  }
+
+  /// Pulls the question list out of whichever shape the model replied with.
+  List<Map<String, dynamic>> _questionEntries(dynamic decoded) {
+    if (decoded is List) {
+      return decoded.whereType<Map<String, dynamic>>().toList();
+    }
+    if (decoded is Map<String, dynamic>) {
+      final list = decoded["questions"];
+      if (list is List) {
+        return list.whereType<Map<String, dynamic>>().toList();
+      }
+      // Older single-question shape: the options sit at the top level.
+      if (decoded["options"] is Map) return [decoded];
+    }
+    return const [];
+  }
+
+  /// Builds one question, or null when the entry carries no usable options.
+  McqQuestion? _buildQuestion(Map<String, dynamic> data) {
+    final options = data["options"];
+    if (options is! Map) return null;
+
+    final optionsList = <McqOption>[];
+    options.forEach((key, value) {
+      optionsList.add(McqOption(
+        option: key.toString(),
+        text: value.toString(),
+      ));
+    });
+    if (optionsList.isEmpty) return null;
+
+    final text = (data["question"] ?? "").toString().trim();
+    final correct = (data["correct"] ?? "").toString().trim();
+
+    // Fall back to the first option so a missing key cannot mark every
+    // answer wrong.
+    final key = correct.isEmpty ? optionsList.first.option : correct;
+
+    // The scan hands back the answer, so the card shows it straight away:
+    // the correct option comes in already selected, the rest greyed out.
+    final keyIndex = optionsList.indexWhere((o) => o.option == key);
+    for (var i = 0; i < optionsList.length; i++) {
+      optionsList[i].isCorrect = (i == keyIndex);
+      optionsList[i].isSelected = (i == keyIndex);
+    }
+
+    return McqQuestion(
+      id: mcqQuestions.length + 1,
+      question: text.isEmpty ? extractedText.value : text,
+      options: optionsList,
+      correctAnswer: key,
+      explanation: (data["explanation"] ?? "").toString(),
+      selectedOptionIndex: keyIndex >= 0 ? keyIndex : null,
+      showResult: keyIndex >= 0,
+    );
   }
 
   /// Generate PDF with all MCQ questions

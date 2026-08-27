@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
+    <!-- The app's own splash gradient (AppTheme.screenGradient in Dart), so the
+         window behind the Flutter splash is the same purple-to-pink rather
+         than a white flash. -->
+    <color name="splash_start">#667EEA</color>
+    <color name="splash_center">#B36FCE</color>
+    <color name="splash_end">#F5576C</color>
+    <!-- Android 12+ paints its splash with a single colour, so it cannot carry
+         the gradient. This is the tone the Flutter splash's gradient reaches
+         where the logo actually sits, 42% down the screen rather than at the
+         middle, because that is where the eye is at the handover. Measured
+         along the diagonal:
+         t = 0.436 between the 0.3 stop (#764BA2) and the 0.7 stop (#F093FB).
+         The old value was the colour at the exact centre, which read as a
+         visible jump to pink when the Flutter splash took over. -->
+    <color name="splash_background">#9F63C0</color>
 </resources>

@@ -1,10 +1,10 @@
 import 'dart:math' as math;
+import 'package:jiyan_learning/app/support_contact.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/app/theme/app_theme.dart';
 import 'package:jiyan_learning/res/utils/size_config.dart';
-import 'package:jiyan_learning/view%20model/setting%20controller/help_controller.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -16,34 +16,19 @@ class HelpScreen extends StatefulWidget {
 }
 
 class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
-  final HelpController controller = Get.put(HelpController());
-  final _formKey = GlobalKey<FormState>();
-
   late AnimationController _bubbleController;
-  late AnimationController _floatController;
-  late Animation<double> _floatAnimation;
 
   @override
   void initState() {
     super.initState();
-    _floatController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
-
     _bubbleController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 8),
     )..repeat();
-
-    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
-      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
-    );
   }
 
   @override
   void dispose() {
-    _floatController.dispose();
     _bubbleController.dispose();
     super.dispose();
   }
@@ -113,12 +98,22 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             // Animated floating bubbles background
             ..._buildFloatingBubbles(),
 
+            // A dark wash over the gradient. Without the cards there is
+            // nothing behind the text, and the gradient runs light pink
+            // further down. 0.5 puts white body text at ~6.9:1 even against
+            // the lightest point of that gradient.
+            Positioned.fill(
+              child: ColoredBox(color: Colors.black.withValues(alpha: 0.5)),
+            ),
+
             // Main content
             SafeArea(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppTheme.spacingM,
-                  vertical: AppTheme.spacingS,
+                padding: EdgeInsets.fromLTRB(
+                  AppTheme.spacingM,
+                  AppTheme.spacingL,
+                  AppTheme.spacingM,
+                  AppTheme.spacingXL,
                 ),
                 child: Column(
                   children: [
@@ -149,7 +144,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                           offset: Offset(0, 30 * (1 - value)),
                           child: Opacity(
                             opacity: value.clamp(0.0, 1.0),
-                            child: _buildFormCard(),
+                            child: _buildHelpSteps(),
                           ),
                         );
                       },
@@ -221,350 +216,193 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildHeaderCard() {
-    return AnimatedBuilder(
-      animation: _floatAnimation,
-      builder: (context, child) {
-        final offset = _floatAnimation.value * 0.5;
-        return Transform.translate(offset: Offset(0, offset), child: child);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
-              blurRadius: 12.r,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(AppTheme.spacingL),
-          child: Row(
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppTheme.spacingL),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Container(
-                width: 60.w,
-                height: 60.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.support_agent_rounded,
-                    color: Colors.white,
-                    size: 32.r,
-                  ),
-                ),
+              Icon(
+                Icons.support_agent_rounded,
+                color: Colors.white,
+                size: 26.r,
               ),
-              SizedBox(width: AppTheme.spacingM),
+              SizedBox(width: AppTheme.spacingS),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'We\'re Here to Help!',
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                child: Text(
+                  "We're Here to Help!",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.45),
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
                       ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      'Parents, share your feedback to help us make learning better for your child.',
-                      style: GoogleFonts.nunito(
-                        fontSize: 14,
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.3,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFormCard() {
-    return AnimatedBuilder(
-      animation: _floatAnimation,
-      builder: (context, child) {
-        final offset = -_floatAnimation.value * 0.5;
-        return Transform.translate(offset: Offset(0, offset), child: child);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFA78BFA).withValues(alpha: 0.4),
-              blurRadius: 12.r,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(AppTheme.spacingL),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 40.w,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Icon(
-                        Icons.message_rounded,
-                        color: Colors.white,
-                        size: 22.r,
-                      ),
-                    ),
-                    SizedBox(width: AppTheme.spacingS),
-                    Flexible(
-                      child: Text(
-                        'Send us a Message',
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: AppTheme.spacingM),
-
-                // Name Field
-                _buildFieldLabel('Your Name', Icons.person_outline_rounded),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  hint: 'Enter your name',
-                  initialValue: controller.name.value,
-                  onSaved: (v) => controller.name.value = v ?? '',
-                  validator: (v) {
-                    if (v == null || v.trim().isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: AppTheme.spacingM),
-
-                // Phone Field
-                _buildFieldLabel('Phone Number', Icons.phone_outlined),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  hint: 'Enter phone number',
-                  keyboardType: TextInputType.phone,
-                  initialValue: controller.phone.value,
-                  onSaved: (v) => controller.phone.value = v ?? '',
-                ),
-                SizedBox(height: AppTheme.spacingM),
-
-                // Email Field
-                _buildFieldLabel('Email Address', Icons.email_outlined),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  hint: 'Enter email address',
-                  keyboardType: TextInputType.emailAddress,
-                  initialValue: controller.email.value,
-                  onSaved: (v) => controller.email.value = v ?? '',
-                  validator: (v) {
-                    if (v != null && v.isNotEmpty) {
-                      final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
-                      if (!emailRegex.hasMatch(v)) {
-                        return 'Please enter a valid email';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: AppTheme.spacingM),
-
-                // Message Field
-                _buildFieldLabel('Your Message', Icons.edit_note_rounded),
-                SizedBox(height: AppTheme.spacingS),
-                _buildTextField(
-                  hint: 'Type your message here...',
-                  maxLines: 4,
-                  initialValue: controller.message.value,
-                  onSaved: (v) => controller.message.value = v ?? '',
-                ),
-                SizedBox(height: AppTheme.spacingL),
-
-                // Submit Button
-                _buildSubmitButton(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFieldLabel(String label, IconData icon) {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.all(8.r),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Icon(icon, color: Colors.white, size: 18.r),
-        ),
-        SizedBox(width: AppTheme.spacingS),
-        Flexible(
-          child: Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+          SizedBox(height: 8.h),
+          Text(
+            'Try these in order - most problems are solved by the first few.',
+            style: GoogleFonts.nunito(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
               color: Colors.white,
+              height: 1.5,
               shadows: [
                 Shadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 2.r,
+                  color: Colors.black.withValues(alpha: 0.45),
+                  blurRadius: 3,
                   offset: const Offset(0, 1),
                 ),
               ],
             ),
-            overflow: TextOverflow.ellipsis,
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+  /// The steps a parent can take to get help, in the order worth trying.
+  ///
+  /// This replaced a contact form that only showed a success message: nothing
+  /// it collected was ever sent anywhere, so it promised help it could not
+  /// deliver. Pointing at the channels that do work is honest and faster.
+  static const List<Map<String, dynamic>> _helpSteps = [
+    {
+      'icon': Icons.quiz_rounded,
+      'title': 'Check the FAQs first',
+      'body':
+          'Profile > Support answers the most common questions: resetting progress, child safety, Premium, offline use and age groups.',
+    },
+    {
+      'icon': Icons.child_care_rounded,
+      'title': 'Set the right age group',
+      'body':
+          'Most "wrong content" reports are an age mismatch. Open Profile > Age Group and pick the band that matches your child\'s class.',
+    },
+    {
+      'icon': Icons.person_outline_rounded,
+      'title': 'Fix your details in Edit Profile',
+      'body':
+          'Wrong name, email, location or photo on the profile card? Profile > Account > Edit Profile updates all of them.',
+    },
+    {
+      'icon': Icons.refresh_rounded,
+      'title': 'Restart before reporting a bug',
+      'body':
+          'If a screen freezes or a scan fails, close the app fully and reopen it. A restart clears most one-off glitches.',
+    },
+    {
+      'icon': Icons.wifi_rounded,
+      'title': 'Check your connection',
+      'body':
+          'Scanning, sign-in and syncing need the internet. Lessons already downloaded keep working offline.',
+    },
+    {
+      'icon': Icons.email_outlined,
+      'title': 'Still stuck? Email us',
+      'body':
+          'Write to ${SupportContact.email}. Tell us your child\'s age group, the screen you were on and what happened - it gets you a faster answer.',
+    },
+  ];
+
+  Widget _buildHelpSteps() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var i = 0; i < _helpSteps.length; i++)
+          _buildHelpStep(_helpSteps[i], i),
       ],
     );
   }
 
-  Widget _buildTextField({
-    required String hint,
-    TextInputType? keyboardType,
-    String? initialValue,
-    int maxLines = 1,
-    FormFieldSetter<String>? onSaved,
-    FormFieldValidator<String>? validator,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppTheme.spacingM,
-        vertical: AppTheme.spacingS,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.3),
-          width: 1,
-        ),
-      ),
-      child: TextFormField(
-        initialValue: initialValue,
-        keyboardType: keyboardType,
-        maxLines: maxLines,
-        onSaved: onSaved,
-        validator: validator,
-        cursorColor: Colors.white,
-        cursorWidth: 2.5,
-        cursorHeight: 20,
-        style: GoogleFonts.nunito(
-          fontSize: 16,
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
-        ),
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: GoogleFonts.nunito(
-            fontSize: 16,
-            color: Colors.white.withValues(alpha: 0.5),
-          ),
-          errorStyle: GoogleFonts.nunito(
-            fontSize: 12,
-            color: const Color(0xFFFFCB80),
-          ),
-          border: InputBorder.none,
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-        ),
-      ),
-    );
-  }
+  Widget _buildHelpStep(Map<String, dynamic> step, int index) {
+    final isLast = index == _helpSteps.length - 1;
 
-  Widget _buildSubmitButton() {
-    return GestureDetector(
-      onTap: () {
-        if (_formKey.currentState!.validate()) {
-          _formKey.currentState!.save();
-          Get.snackbar(
-            'Success',
-            'Your message has been sent!',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: const Color(0xFF4ECDC4),
-            colorText: Colors.white,
-            borderRadius: 16.r,
-            margin: EdgeInsets.all(16.r),
-          );
-        }
-      },
-      child: Container(
-        width: double.infinity,
-        height: AppTheme.buttonHeight,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF56D97F), Color(0xFF7BE495)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16.r),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF56D97F).withValues(alpha: 0.4),
-              blurRadius: 12.r,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.send_rounded, color: Colors.white, size: 22.r),
-              SizedBox(width: AppTheme.spacingS),
-              Flexible(
-                child: Text(
-                  'Send Message',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: isLast ? 0 : AppTheme.spacingL),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Numbered marker, so the steps read as an order to try them in.
+          Container(
+            width: 32.w,
+            height: 32.w,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.22),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.35),
               ),
-            ],
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '${index + 1}',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
           ),
-        ),
+          SizedBox(width: AppTheme.spacingM),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(step['icon'], color: Colors.white, size: 20.r),
+                    SizedBox(width: AppTheme.spacingS),
+                    Expanded(
+                      child: Text(
+                        step['title'],
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withValues(alpha: 0.45),
+                              blurRadius: 3,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6.h),
+                Text(
+                  step['body'],
+                  style: GoogleFonts.nunito(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    height: 1.5,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.45),
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jiyan_learning/model/user_model.dart';
 
 class FirebaseService {
@@ -51,6 +52,8 @@ class FirebaseService {
     String? childName,
     int? childAge,
     String? phoneNumber,
+    String? location,
+    String? photoBase64,
   }) async {
     final credential = await _auth.createUserWithEmailAndPassword(
       email: email,
@@ -59,16 +62,68 @@ class FirebaseService {
 
     // Create user document in Firestore
     if (credential.user != null) {
+      if (childName != null && childName.trim().isNotEmpty) {
+        // Mirrored onto the account itself, so anything reading the Firebase
+        // user directly shows a name rather than a blank.
+        await credential.user!.updateDisplayName(childName.trim());
+      }
       await createUserDocument(
         uid: credential.user!.uid,
         email: email,
         childName: childName,
         childAge: childAge,
         phoneNumber: phoneNumber,
+        location: location,
+        photoBase64: photoBase64,
       );
     }
 
     return credential;
+  }
+
+  /// Sign in with a Google account.
+  ///
+  /// Returns null when the user backs out of the account chooser. The
+  /// profile document is created on the first Google sign-in, so a Google
+  /// user has the same record an email signup would have made.
+  Future<UserCredential?> signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) return null;
+
+    final auth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: auth.accessToken,
+      idToken: auth.idToken,
+    );
+
+    final result = await _auth.signInWithCredential(credential);
+    final user = result.user;
+    if (user != null) {
+      final existing = await userDoc(user.uid).get();
+      if (!existing.exists) {
+        await createUserDocument(
+          uid: user.uid,
+          email: user.email ?? '',
+          childName: user.displayName,
+          phoneNumber: user.phoneNumber,
+          photoUrl: user.photoURL,
+        );
+      } else {
+        // Google's picture can change; keep the stored copy in step.
+        await updateUserProfile(uid: user.uid, photoUrl: user.photoURL);
+      }
+    }
+    return result;
+  }
+
+  /// Ends the Google session too, so the next sign-in shows the account
+  /// chooser instead of silently reusing the last account.
+  Future<void> signOutGoogle() async {
+    try {
+      await GoogleSignIn().signOut();
+    } catch (_) {
+      // Never signed in with Google; nothing to end.
+    }
   }
 
   /// Get email by phone number from Firestore
@@ -246,6 +301,9 @@ class FirebaseService {
     String? childName,
     int? childAge,
     String? phoneNumber,
+    String? location,
+    String? photoBase64,
+    String? photoUrl,
   }) async {
     final now = DateTime.now();
     final user = UserModel(
@@ -254,6 +312,9 @@ class FirebaseService {
       childAge: childAge,
       parentEmail: email,
       parentPhone: phoneNumber,
+      location: location,
+      photoBase64: photoBase64,
+      photoUrl: photoUrl,
       createdAt: now,
       updatedAt: now,
     );
@@ -278,6 +339,8 @@ class FirebaseService {
     String? parentEmail,
     String? parentPhone,
     String? location,
+    String? photoBase64,
+    String? photoUrl,
   }) async {
     // Check if document exists first
     final docSnapshot = await userDoc(uid).get();
@@ -297,6 +360,8 @@ class FirebaseService {
     if (parentEmail != null) updates['parentEmail'] = parentEmail;
     if (parentPhone != null) updates['parentPhone'] = parentPhone;
     if (location != null) updates['location'] = location;
+    if (photoBase64 != null) updates['photoBase64'] = photoBase64;
+    if (photoUrl != null) updates['photoUrl'] = photoUrl;
 
     // Use set with merge to create document if it doesn't exist
     await userDoc(uid).set(updates, SetOptions(merge: true));
