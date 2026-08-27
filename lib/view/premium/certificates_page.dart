@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/services/age_progress_scope.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 import 'package:jiyan_learning/services/tts_service.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,6 +25,9 @@ class CertificatesPage extends StatefulWidget {
 
 class _CertificatesPageState extends State<CertificatesPage>
     with TickerProviderStateMixin {
+  /// Rebuilds this page when the class is changed elsewhere.
+  Worker? _ageWatch;
+
   final TextEditingController _searchController = TextEditingController();
   late final SpeechRecognitionService speechService;
   String _searchQuery = '';
@@ -303,14 +307,6 @@ class _CertificatesPageState extends State<CertificatesPage>
       'progressKey': 'progress_drawing_image',
       'requirement': 15,
     },
-    {
-      'title': 'Craft Creator',
-      'description': 'Complete craft activities',
-      'icon': '🎭',
-      'color': const Color(0xFFFF6E40),
-      'progressKey': 'progress_craft',
-      'requirement': 10,
-    },
 
     // ========== EARLY LEARNING (Toddler/LKG/UKG) ==========
     {
@@ -396,28 +392,12 @@ class _CertificatesPageState extends State<CertificatesPage>
 
     // ========== LITERACY & READING ==========
     {
-      'title': 'Phonics Pro',
-      'description': 'Master letter sounds',
-      'icon': '🔤',
-      'color': const Color(0xFFFF7043),
-      'progressKey': 'progress_phonics',
-      'requirement': 26,
-    },
-    {
       'title': 'Sight Word Champion',
       'description': 'Learn common sight words',
       'icon': '👀',
       'color': const Color(0xFF5C6BC0),
       'progressKey': 'progress_sight_words',
       'requirement': 50,
-    },
-    {
-      'title': 'Word Builder',
-      'description': 'Build words from letters',
-      'icon': '🔠',
-      'color': const Color(0xFF26A69A),
-      'progressKey': 'progress_word_building',
-      'requirement': 30,
     },
     {
       'title': 'Spelling Bee',
@@ -454,22 +434,6 @@ class _CertificatesPageState extends State<CertificatesPage>
 
     // ========== WRITING SKILLS ==========
     {
-      'title': 'Stroke Order Master',
-      'description': 'Learn correct stroke order',
-      'icon': '📝',
-      'color': const Color(0xFF8D6E63),
-      'progressKey': 'progress_stroke_order',
-      'requirement': 26,
-    },
-    {
-      'title': 'Fine Motor Pro',
-      'description': 'Complete fine motor activities',
-      'icon': '🤲',
-      'color': const Color(0xFFAED581),
-      'progressKey': 'progress_fine_motor',
-      'requirement': 20,
-    },
-    {
       'title': 'Cursive Writer',
       'description': 'Master cursive writing',
       'icon': '🖋️',
@@ -477,24 +441,8 @@ class _CertificatesPageState extends State<CertificatesPage>
       'progressKey': 'progress_cursive',
       'requirement': 26,
     },
-    {
-      'title': 'Handwriting Pro',
-      'description': 'Complete handwriting practice',
-      'icon': '✒️',
-      'color': const Color(0xFFCE93D8),
-      'progressKey': 'progress_handwriting',
-      'requirement': 30,
-    },
 
     // ========== GAMES & INTERACTIVE ==========
-    {
-      'title': 'Games Master',
-      'description': 'Complete games hub activities',
-      'icon': '🎮',
-      'color': const Color(0xFFEF5350),
-      'progressKey': 'progress_games_hub',
-      'requirement': 20,
-    },
     {
       'title': 'Quiz Champion',
       'description': 'Complete quiz challenges',
@@ -536,14 +484,6 @@ class _CertificatesPageState extends State<CertificatesPage>
       'requirement': 15,
     },
     {
-      'title': 'Logic Master',
-      'description': 'Complete logic games',
-      'icon': '🧠',
-      'color': const Color(0xFF7E57C2),
-      'progressKey': 'progress_logic_games',
-      'requirement': 20,
-    },
-    {
       'title': 'Quiz Battle Winner',
       'description': 'Win quiz battles',
       'icon': '⚔️',
@@ -566,48 +506,48 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Complete science basics',
       'icon': '🔬',
       'color': const Color(0xFF00897B),
-      'progressKey': 'progress_science',
-      'requirement': 20,
+      'progressKey': ProgressService.kScienceTopics,
+      'requirement': 6,
     },
     {
       'title': 'Environment Hero',
       'description': 'Learn about environment',
       'icon': '🌍',
       'color': const Color(0xFF43A047),
-      'progressKey': 'progress_environment',
-      'requirement': 15,
+      'progressKey': ProgressService.kEnvironmentTopics,
+      'requirement': 6,
     },
     {
       'title': 'World Explorer',
       'description': 'Learn world map',
       'icon': '🗺️',
       'color': const Color(0xFF1E88E5),
-      'progressKey': 'progress_world_map',
-      'requirement': 10,
+      'progressKey': ProgressService.kWorldMap,
+      'requirement': 8,
     },
     {
       'title': 'Flag Master',
       'description': 'Learn countries & flags',
       'icon': '🏳️',
       'color': const Color(0xFF5E35B1),
-      'progressKey': 'progress_flags',
-      'requirement': 50,
+      'progressKey': ProgressService.kCountriesFlags,
+      'requirement': 8,
     },
     {
       'title': 'Famous Places Expert',
       'description': 'Learn famous landmarks',
       'icon': '🏛️',
       'color': const Color(0xFFD81B60),
-      'progressKey': 'progress_famous_places',
-      'requirement': 20,
+      'progressKey': ProgressService.kFamousPlaces,
+      'requirement': 8,
     },
     {
       'title': 'Culture Explorer',
       'description': 'Learn global cultures',
       'icon': '🌐',
       'color': const Color(0xFF00ACC1),
-      'progressKey': 'progress_cultures',
-      'requirement': 15,
+      'progressKey': ProgressService.kGlobalCultures,
+      'requirement': 9,
     },
 
     // ========== STEM & PROJECTS ==========
@@ -616,48 +556,48 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Complete STEM activities',
       'icon': '⚙️',
       'color': const Color(0xFF3949AB),
-      'progressKey': 'progress_stem',
-      'requirement': 20,
+      'progressKey': ProgressService.kStemHub,
+      'requirement': 4,
     },
     {
       'title': 'Mini Project Pro',
       'description': 'Complete mini projects',
       'icon': '🔧',
       'color': const Color(0xFF00796B),
-      'progressKey': 'progress_mini_projects',
-      'requirement': 10,
+      'progressKey': ProgressService.kMiniProjects,
+      'requirement': 8,
     },
     {
       'title': 'DIY Master',
       'description': 'Complete DIY activities',
       'icon': '🛠️',
       'color': const Color(0xFF8D6E63),
-      'progressKey': 'progress_diy',
-      'requirement': 10,
+      'progressKey': ProgressService.kDiyLearning,
+      'requirement': 5,
     },
     {
       'title': 'Experiment Expert',
       'description': 'Complete experiments',
       'icon': '🧪',
       'color': const Color(0xFF7CB342),
-      'progressKey': 'progress_experiments',
-      'requirement': 15,
+      'progressKey': ProgressService.kScienceExperiments,
+      'requirement': 8,
     },
     {
       'title': 'Design Thinker',
       'description': 'Complete design thinking',
       'icon': '💡',
       'color': const Color(0xFFFFB300),
-      'progressKey': 'progress_design_thinking',
-      'requirement': 10,
+      'progressKey': ProgressService.kDesignThinking,
+      'requirement': 8,
     },
     {
       'title': 'Young Engineer',
       'description': 'Complete engineering activities',
       'icon': '👷',
       'color': const Color(0xFF546E7A),
-      'progressKey': 'progress_engineering',
-      'requirement': 15,
+      'progressKey': ProgressService.kEngineeringKids,
+      'requirement': 7,
     },
 
     // ========== LIFE SKILLS ==========
@@ -666,32 +606,32 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Learn hygiene habits',
       'icon': '🧼',
       'color': const Color(0xFF29B6F6),
-      'progressKey': 'progress_hygiene',
-      'requirement': 15,
+      'progressKey': ProgressService.kHygieneHabits,
+      'requirement': 8,
     },
     {
       'title': 'Time Manager',
       'description': 'Master time management',
       'icon': '⏰',
       'color': const Color(0xFF5C6BC0),
-      'progressKey': 'progress_time_management',
-      'requirement': 10,
+      'progressKey': ProgressService.kTimeManagement,
+      'requirement': 8,
     },
     {
       'title': 'Safety Expert',
       'description': 'Learn safety skills',
       'icon': '🦺',
       'color': const Color(0xFFEF5350),
-      'progressKey': 'progress_safety',
-      'requirement': 15,
+      'progressKey': ProgressService.kSafetySkills,
+      'requirement': 8,
     },
     {
       'title': 'Money Smart',
       'description': 'Learn money habits',
       'icon': '💰',
       'color': const Color(0xFF66BB6A),
-      'progressKey': 'progress_money_habits',
-      'requirement': 10,
+      'progressKey': ProgressService.kMoneyHabits,
+      'requirement': 8,
     },
     {
       'title': 'Good Habits Star',
@@ -701,14 +641,6 @@ class _CertificatesPageState extends State<CertificatesPage>
       'progressKey': 'progress_good_habits',
       'requirement': 20,
     },
-    {
-      'title': 'Life Skills Pro',
-      'description': 'Complete daily life skills',
-      'icon': '🏠',
-      'color': const Color(0xFFAB47BC),
-      'progressKey': 'progress_life_skills',
-      'requirement': 15,
-    },
 
     // ========== HEALTH & WELLNESS ==========
     {
@@ -716,32 +648,32 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Learn about nutrition',
       'icon': '🥗',
       'color': const Color(0xFF4CAF50),
-      'progressKey': 'progress_nutrition',
-      'requirement': 15,
+      'progressKey': ProgressService.kNutritionLearning,
+      'requirement': 7,
     },
     {
       'title': 'Fitness Star',
       'description': 'Complete fitness activities',
       'icon': '🏃',
       'color': const Color(0xFFFF5722),
-      'progressKey': 'progress_fitness',
-      'requirement': 20,
+      'progressKey': ProgressService.kExerciseFitness,
+      'requirement': 8,
     },
     {
       'title': 'Mental Health Hero',
       'description': 'Learn mental health basics',
       'icon': '💆',
       'color': const Color(0xFF9C27B0),
-      'progressKey': 'progress_mental_health',
-      'requirement': 10,
+      'progressKey': ProgressService.kMentalHealth,
+      'requirement': 9,
     },
     {
       'title': 'Body Safety Pro',
       'description': 'Learn body safety',
       'icon': '🛡️',
       'color': const Color(0xFF2196F3),
-      'progressKey': 'progress_body_safety',
-      'requirement': 10,
+      'progressKey': ProgressService.kBodySafety,
+      'requirement': 8,
     },
 
     // ========== SOCIAL EMOTIONAL LEARNING ==========
@@ -800,24 +732,24 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Improve focus & concentration',
       'icon': '🎯',
       'color': const Color(0xFF3F51B5),
-      'progressKey': 'progress_focus',
-      'requirement': 20,
+      'progressKey': ProgressService.kFocusTraining,
+      'requirement': 4,
     },
     {
       'title': 'Attention Pro',
       'description': 'Complete attention training',
       'icon': '👁️',
       'color': const Color(0xFF009688),
-      'progressKey': 'progress_attention',
-      'requirement': 20,
+      'progressKey': ProgressService.kAttentionTraining,
+      'requirement': 5,
     },
     {
       'title': 'Memory Champion',
       'description': 'Train working memory',
       'icon': '🧠',
       'color': const Color(0xFF673AB7),
-      'progressKey': 'progress_memory',
-      'requirement': 20,
+      'progressKey': ProgressService.kWorkingMemory,
+      'requirement': 7,
     },
 
     // ========== EXECUTIVE FUNCTION ==========
@@ -826,48 +758,48 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Master planning skills',
       'icon': '📋',
       'color': const Color(0xFF5C6BC0),
-      'progressKey': 'progress_planning',
-      'requirement': 15,
+      'progressKey': ProgressService.kPlanningSkills,
+      'requirement': 7,
     },
     {
       'title': 'Goal Setter',
       'description': 'Set and achieve goals',
       'icon': '🎯',
       'color': const Color(0xFFFF7043),
-      'progressKey': 'progress_goal_setting',
-      'requirement': 10,
+      'progressKey': ProgressService.kGoalSetting,
+      'requirement': 7,
     },
     {
       'title': 'Task Sequencer',
       'description': 'Master task sequencing',
       'icon': '📊',
       'color': const Color(0xFF26A69A),
-      'progressKey': 'progress_task_sequencing',
-      'requirement': 15,
+      'progressKey': ProgressService.kTaskSequencing,
+      'requirement': 7,
     },
     {
       'title': 'Metacognition Master',
       'description': 'Think about thinking',
       'icon': '💭',
       'color': const Color(0xFF9C27B0),
-      'progressKey': 'progress_metacognition',
-      'requirement': 10,
+      'progressKey': ProgressService.kThinkAboutThinking,
+      'requirement': 6,
     },
     {
       'title': 'Self Reflector',
       'description': 'Complete self-reflection',
       'icon': '🔮',
       'color': const Color(0xFF00ACC1),
-      'progressKey': 'progress_self_reflection',
-      'requirement': 10,
+      'progressKey': ProgressService.kSelfReflection,
+      'requirement': 6,
     },
     {
       'title': 'Learning Strategy Pro',
       'description': 'Master learning strategies',
       'icon': '📚',
       'color': const Color(0xFFFF9800),
-      'progressKey': 'progress_learning_strategy',
-      'requirement': 15,
+      'progressKey': ProgressService.kLearningStrategy,
+      'requirement': 8,
     },
 
     // ========== DIGITAL LITERACY ==========
@@ -876,40 +808,32 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Learn computer awareness',
       'icon': '💻',
       'color': const Color(0xFF546E7A),
-      'progressKey': 'progress_computer',
-      'requirement': 15,
+      'progressKey': ProgressService.kComputerBasics,
+      'requirement': 7,
     },
     {
       'title': 'Keyboard Master',
       'description': 'Master keyboard & mouse',
       'icon': '⌨️',
       'color': const Color(0xFF78909C),
-      'progressKey': 'progress_keyboard',
-      'requirement': 20,
+      'progressKey': ProgressService.kKeyboardMouse,
+      'requirement': 8,
     },
     {
       'title': 'Internet Safety Pro',
       'description': 'Learn internet safety',
       'icon': '🔒',
       'color': const Color(0xFF43A047),
-      'progressKey': 'progress_internet_safety',
-      'requirement': 10,
+      'progressKey': ProgressService.kInternetSafety,
+      'requirement': 8,
     },
     {
       'title': 'Digital Citizen',
       'description': 'Learn digital etiquette',
       'icon': '🌐',
       'color': const Color(0xFF1E88E5),
-      'progressKey': 'progress_digital_etiquette',
-      'requirement': 10,
-    },
-    {
-      'title': 'Screen Smart',
-      'description': 'Learn screen responsibility',
-      'icon': '📱',
-      'color': const Color(0xFF7E57C2),
-      'progressKey': 'progress_screen_responsibility',
-      'requirement': 10,
+      'progressKey': ProgressService.kDigitalEtiquette,
+      'requirement': 8,
     },
 
     // ========== SUSTAINABILITY ==========
@@ -918,66 +842,50 @@ class _CertificatesPageState extends State<CertificatesPage>
       'description': 'Learn climate awareness',
       'icon': '🌡️',
       'color': const Color(0xFF00897B),
-      'progressKey': 'progress_climate',
-      'requirement': 10,
+      'progressKey': ProgressService.kClimateAwareness,
+      'requirement': 8,
     },
     {
       'title': 'Recycling Champion',
       'description': 'Learn recycling',
       'icon': '♻️',
       'color': const Color(0xFF4CAF50),
-      'progressKey': 'progress_recycling',
-      'requirement': 10,
+      'progressKey': ProgressService.kRecyclingKids,
+      'requirement': 7,
     },
     {
       'title': 'Eco Warrior',
       'description': 'Learn sustainable habits',
       'icon': '🌱',
       'color': const Color(0xFF8BC34A),
-      'progressKey': 'progress_sustainable',
-      'requirement': 15,
+      'progressKey': ProgressService.kSustainableHabits,
+      'requirement': 7,
     },
 
     // ========== SOCIAL STUDIES ==========
-    {
-      'title': 'Community Helper Expert',
-      'description': 'Learn about community helpers',
-      'icon': '👨‍🚒',
-      'color': const Color(0xFFFF5722),
-      'progressKey': 'progress_community_helpers',
-      'requirement': 15,
-    },
     {
       'title': 'Family & Friends',
       'description': 'Learn about relationships',
       'icon': '👨‍👩‍👧‍👦',
       'color': const Color(0xFFE91E63),
-      'progressKey': 'progress_family',
-      'requirement': 10,
-    },
-    {
-      'title': 'Map Reader',
-      'description': 'Learn maps & directions',
-      'icon': '🧭',
-      'color': const Color(0xFF00BCD4),
-      'progressKey': 'progress_maps',
-      'requirement': 10,
+      'progressKey': ProgressService.kFamilyRelationships,
+      'requirement': 6,
     },
     {
       'title': 'Good Citizen',
       'description': 'Learn citizenship basics',
       'icon': '🏛️',
       'color': const Color(0xFF3F51B5),
-      'progressKey': 'progress_citizenship',
-      'requirement': 10,
+      'progressKey': ProgressService.kCitizenshipBasics,
+      'requirement': 6,
     },
     {
       'title': 'Rights & Duties Pro',
       'description': 'Learn rights and duties',
       'icon': '⚖️',
       'color': const Color(0xFF673AB7),
-      'progressKey': 'progress_rights_duties',
-      'requirement': 10,
+      'progressKey': ProgressService.kRights,
+      'requirement': 8,
     },
 
     // ========== MUSIC ==========
@@ -1011,14 +919,6 @@ class _CertificatesPageState extends State<CertificatesPage>
       'icon': '🥁',
       'color': const Color(0xFFFF5722),
       'progressKey': ProgressService.kRhythm,
-      'requirement': 10,
-    },
-    {
-      'title': 'Dance Star',
-      'description': 'Complete dance activities',
-      'icon': '💃',
-      'color': const Color(0xFFFF4081),
-      'progressKey': 'progress_dance',
       'requirement': 10,
     },
 
@@ -1057,22 +957,6 @@ class _CertificatesPageState extends State<CertificatesPage>
     },
 
     // ========== FLASHCARDS & WORKSHEETS ==========
-    {
-      'title': 'Flashcard Master',
-      'description': 'Complete flashcard learning',
-      'icon': '🃏',
-      'color': const Color(0xFF5C6BC0),
-      'progressKey': 'progress_flashcards',
-      'requirement': 50,
-    },
-    {
-      'title': 'Worksheet Champion',
-      'description': 'Complete all worksheets',
-      'icon': '📄',
-      'color': const Color(0xFF26A69A),
-      'progressKey': 'progress_worksheets',
-      'requirement': 30,
-    },
 
     // ========== SPECIAL ACHIEVEMENTS ==========
     {
@@ -1133,11 +1017,18 @@ class _CertificatesPageState extends State<CertificatesPage>
     },
   ];
 
+  /// The certificates this child could actually earn: a Class 5-6 child is
+  /// not offered an "A to Z Words" certificate for a card their home screen
+  /// no longer carries.
+  List<Map<String, dynamic>> get _ageCertificates => _allCertificates
+      .where((cert) => progressKeyInScope(cert['progressKey'].toString()))
+      .toList();
+
   List<Map<String, dynamic>> get _filteredCertificates {
     if (_searchQuery.isEmpty) {
-      return _allCertificates;
+      return _ageCertificates;
     }
-    return _allCertificates.where((cert) {
+    return _ageCertificates.where((cert) {
       final title = cert['title'].toString().toLowerCase();
       final description = cert['description'].toString().toLowerCase();
       final query = _searchQuery.toLowerCase();
@@ -1148,6 +1039,9 @@ class _CertificatesPageState extends State<CertificatesPage>
   @override
   void initState() {
     super.initState();
+    _ageWatch = watchAgeGroup(() {
+      if (mounted) setState(() {});
+    });
     speechService = Get.find<SpeechRecognitionService>();
     _waveController = AnimationController(
       vsync: this,
@@ -1178,6 +1072,7 @@ class _CertificatesPageState extends State<CertificatesPage>
 
   @override
   void dispose() {
+    _ageWatch?.dispose();
     _searchController.dispose();
     _waveController?.dispose();
     _floatController.dispose();

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/services/age_progress_scope.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -15,6 +16,9 @@ class ProgressReportsPage extends StatefulWidget {
 
 class _ProgressReportsPageState extends State<ProgressReportsPage>
     with TickerProviderStateMixin {
+  /// Rebuilds this page when the class is changed elsewhere.
+  Worker? _ageWatch;
+
   late AnimationController _animationController;
   late AnimationController _floatController;
   late AnimationController _bubbleController;
@@ -33,7 +37,13 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
     [Color(0xFF4ECDC4), Color(0xFF7EDDD6)],
   ];
 
-  final categories = [
+  /// Only the topics this child's home screen offers. The full list is below;
+  /// what is reported is the part of it their age group can actually open.
+  List<Map<String, dynamic>> get categories => _allCategories
+      .where((c) => progressKeyInScope(c['key'] as String))
+      .toList();
+
+  final _allCategories = [
     {
       'key': ProgressService.kNumbers,
       'title': 'Numbers (1-100)',
@@ -97,11 +107,283 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
       'total': 12,
       'colors': [const Color(0xFF667EEA), const Color(0xFF764BA2)],
     },
+    // Topics for Class 1-2 upwards. Before these, the report only
+    // covered nursery-level categories, so an older child's report was
+    // nearly empty once the age filter did its job.
+    {
+      'key': ProgressService.kScienceTopics,
+      'title': 'Science Basics',
+      'icon': '🔬',
+      'total': 6,
+      'colors': [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
+    },
+    {
+      'key': ProgressService.kEnvironmentTopics,
+      'title': 'Environment',
+      'icon': '🌍',
+      'total': 6,
+      'colors': [const Color(0xFFFFAA5A), const Color(0xFFFFCB80)],
+    },
+    {
+      'key': ProgressService.kSocialSkills,
+      'title': 'Social Skills',
+      'icon': '🤝',
+      'total': 4,
+      'colors': [const Color(0xFF56D97F), const Color(0xFF81E89E)],
+    },
+    {
+      'key': ProgressService.kFocusTraining,
+      'title': 'Focus Improvement',
+      'icon': '🎯',
+      'total': 4,
+      'colors': [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
+    },
+    {
+      'key': ProgressService.kStemHub,
+      'title': 'STEM Hub',
+      'icon': '🔬',
+      'total': 4,
+      'colors': [const Color(0xFFA78BFA), const Color(0xFFC4B5FD)],
+    },
+    {
+      'key': ProgressService.kDesignThinking,
+      'title': 'Design Thinking',
+      'icon': '💡',
+      'total': 8,
+      'colors': [const Color(0xFFFF6EB4), const Color(0xFFFF9ECE)],
+    },
+    {
+      'key': ProgressService.kComputerBasics,
+      'title': 'Computer Awareness',
+      'icon': '💻',
+      'total': 7,
+      'colors': [const Color(0xFFFFE66D), const Color(0xFFFFF59D)],
+    },
+    {
+      'key': ProgressService.kKeyboardMouse,
+      'title': 'Keyboard & Mouse',
+      'icon': '⌨️',
+      'total': 8,
+      'colors': [const Color(0xFF4ECDC4), const Color(0xFF7EDDD6)],
+    },
+    {
+      'key': ProgressService.kInternetSafety,
+      'title': 'Internet Safety',
+      'icon': '🔒',
+      'total': 8,
+      'colors': [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
+    },
+    {
+      'key': ProgressService.kDigitalEtiquette,
+      'title': 'Digital Etiquette',
+      'icon': '🤝',
+      'total': 8,
+      'colors': [const Color(0xFFFFAA5A), const Color(0xFFFFCB80)],
+    },
+    {
+      'key': ProgressService.kDiyLearning,
+      'title': 'DIY Learning',
+      'icon': '🛠️',
+      'total': 5,
+      'colors': [const Color(0xFF56D97F), const Color(0xFF81E89E)],
+    },
+    {
+      'key': ProgressService.kSkillEvaluation,
+      'title': 'Skill Evaluation',
+      'icon': '📝',
+      'total': 60,
+      'colors': [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
+    },
+    {
+      'key': ProgressService.kHygieneHabits,
+      'title': 'Hygiene Habits',
+      'icon': '🧼',
+      'total': 8,
+      'colors': [const Color(0xFFA78BFA), const Color(0xFFC4B5FD)],
+    },
+    {
+      'key': ProgressService.kTimeManagement,
+      'title': 'Time Management',
+      'icon': '⏰',
+      'total': 8,
+      'colors': [const Color(0xFFFF6EB4), const Color(0xFFFF9ECE)],
+    },
+    {
+      'key': ProgressService.kSafetySkills,
+      'title': 'Safety Skills',
+      'icon': '🦺',
+      'total': 8,
+      'colors': [const Color(0xFFFFE66D), const Color(0xFFFFF59D)],
+    },
+    {
+      'key': ProgressService.kMoneyHabits,
+      'title': 'Money Habits',
+      'icon': '💵',
+      'total': 8,
+      'colors': [const Color(0xFF4ECDC4), const Color(0xFF7EDDD6)],
+    },
+    {
+      'key': ProgressService.kPlanningSkills,
+      'title': 'Planning Skills',
+      'icon': '📋',
+      'total': 7,
+      'colors': [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
+    },
+    {
+      'key': ProgressService.kGoalSetting,
+      'title': 'Goal Setting',
+      'icon': '🎯',
+      'total': 7,
+      'colors': [const Color(0xFFFFAA5A), const Color(0xFFFFCB80)],
+    },
+    {
+      'key': ProgressService.kTaskSequencing,
+      'title': 'Task Sequencing',
+      'icon': '📊',
+      'total': 7,
+      'colors': [const Color(0xFF56D97F), const Color(0xFF81E89E)],
+    },
+    {
+      'key': ProgressService.kWorkingMemory,
+      'title': 'Working Memory',
+      'icon': '🧠',
+      'total': 7,
+      'colors': [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
+    },
+    {
+      'key': ProgressService.kWorldMap,
+      'title': 'World Map',
+      'icon': '🗺️',
+      'total': 8,
+      'colors': [const Color(0xFFA78BFA), const Color(0xFFC4B5FD)],
+    },
+    {
+      'key': ProgressService.kFamousPlaces,
+      'title': 'Famous Places',
+      'icon': '🏛️',
+      'total': 8,
+      'colors': [const Color(0xFFFF6EB4), const Color(0xFFFF9ECE)],
+    },
+    {
+      'key': ProgressService.kEngineeringKids,
+      'title': 'Engineering for Kids',
+      'icon': '🔧',
+      'total': 7,
+      'colors': [const Color(0xFFFFE66D), const Color(0xFFFFF59D)],
+    },
+    {
+      'key': ProgressService.kStemChallenges,
+      'title': 'STEM Challenges',
+      'icon': '🏆',
+      'total': 8,
+      'colors': [const Color(0xFF4ECDC4), const Color(0xFF7EDDD6)],
+    },
+    {
+      'key': ProgressService.kSteamLearning,
+      'title': 'STEAM Page',
+      'icon': '🚀',
+      'total': 7,
+      'colors': [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
+    },
+    {
+      'key': ProgressService.kClimateAwareness,
+      'title': 'Climate Awareness',
+      'icon': '🌍',
+      'total': 8,
+      'colors': [const Color(0xFFFFAA5A), const Color(0xFFFFCB80)],
+    },
+    {
+      'key': ProgressService.kRecyclingKids,
+      'title': 'Recycling',
+      'icon': '♻️',
+      'total': 7,
+      'colors': [const Color(0xFF56D97F), const Color(0xFF81E89E)],
+    },
+    {
+      'key': ProgressService.kSustainableHabits,
+      'title': 'Sustainable Habits',
+      'icon': '🌱',
+      'total': 7,
+      'colors': [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
+    },
+    {
+      'key': ProgressService.kCitizenshipBasics,
+      'title': 'Citizenship',
+      'icon': '🏛️',
+      'total': 6,
+      'colors': [const Color(0xFFA78BFA), const Color(0xFFC4B5FD)],
+    },
+    {
+      'key': ProgressService.kThinkAboutThinking,
+      'title': 'Think About Thinking',
+      'icon': '🤔',
+      'total': 6,
+      'colors': [const Color(0xFFFF6EB4), const Color(0xFFFF9ECE)],
+    },
+    {
+      'key': ProgressService.kSelfReflection,
+      'title': 'Self Reflection',
+      'icon': '🪞',
+      'total': 6,
+      'colors': [const Color(0xFFFFE66D), const Color(0xFFFFF59D)],
+    },
+    {
+      'key': ProgressService.kLearningStrategy,
+      'title': 'Learning Strategy',
+      'icon': '📚',
+      'total': 8,
+      'colors': [const Color(0xFF4ECDC4), const Color(0xFF7EDDD6)],
+    },
+    {
+      'key': ProgressService.kNutritionLearning,
+      'title': 'Nutrition',
+      'icon': '🥗',
+      'total': 7,
+      'colors': [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)],
+    },
+    {
+      'key': ProgressService.kExerciseFitness,
+      'title': 'Exercise',
+      'icon': '🏃',
+      'total': 8,
+      'colors': [const Color(0xFFFFAA5A), const Color(0xFFFFCB80)],
+    },
+    {
+      'key': ProgressService.kMentalHealth,
+      'title': 'Mental Health',
+      'icon': '🧠',
+      'total': 9,
+      'colors': [const Color(0xFF56D97F), const Color(0xFF81E89E)],
+    },
+    {
+      'key': ProgressService.kBodySafety,
+      'title': 'Body Safety',
+      'icon': '🛡️',
+      'total': 8,
+      'colors': [const Color(0xFF45B7D1), const Color(0xFF74C9DB)],
+    },
+    {
+      'key': ProgressService.kFamilyRelationships,
+      'title': 'Family & Relationships',
+      'icon': '👨‍👩‍👧‍👦',
+      'total': 6,
+      'colors': [const Color(0xFFA78BFA), const Color(0xFFC4B5FD)],
+    },
+    {
+      'key': ProgressService.kGlobalCultures,
+      'title': 'Global Cultures',
+      'icon': '🌏',
+      'total': 9,
+      'colors': [const Color(0xFFFF6EB4), const Color(0xFFFF9ECE)],
+    },
   ];
 
   @override
   void initState() {
     super.initState();
+    _ageWatch = watchAgeGroup(() {
+      if (mounted) setState(() {});
+    });
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -131,6 +413,7 @@ class _ProgressReportsPageState extends State<ProgressReportsPage>
 
   @override
   void dispose() {
+    _ageWatch?.dispose();
     _animationController.dispose();
     _floatController.dispose();
     _bubbleController.dispose();

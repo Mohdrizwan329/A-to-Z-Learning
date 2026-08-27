@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/services/age_progress_scope.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -15,6 +16,9 @@ class ReportsPage extends StatefulWidget {
 
 class _ReportsPageState extends State<ReportsPage>
     with TickerProviderStateMixin {
+  /// Rebuilds this page when the class is changed elsewhere.
+  Worker? _ageWatch;
+
   late AnimationController _floatController;
   late AnimationController _bubbleController;
   late Animation<double> _floatAnimation;
@@ -24,6 +28,9 @@ class _ReportsPageState extends State<ReportsPage>
   @override
   void initState() {
     super.initState();
+    _ageWatch = watchAgeGroup(() {
+      if (mounted) setState(() {});
+    });
     _tabController = TabController(
       length: 4,
       vsync: this,
@@ -59,6 +66,7 @@ class _ReportsPageState extends State<ReportsPage>
 
   @override
   void dispose() {
+    _ageWatch?.dispose();
     _floatController.dispose();
     _bubbleController.dispose();
     _tabController.dispose();
@@ -1232,7 +1240,7 @@ class _ReportsPageState extends State<ReportsPage>
     ProgressService progressService, {
     required bool isDaily,
   }) {
-    final subjects = [
+    final allSubjects = [
       {
         'name': 'Numbers',
         'emoji': '🔢',
@@ -1258,6 +1266,10 @@ class _ReportsPageState extends State<ReportsPage>
         'color': const Color(0xFFF59E0B),
       },
     ];
+    // Only what this age group is actually shown.
+    final subjects = allSubjects
+        .where((s) => progressKeyInScope(s['key'] as String))
+        .toList();
 
     return Container(
       padding: EdgeInsets.all(12.r),
@@ -1352,7 +1364,7 @@ class _ReportsPageState extends State<ReportsPage>
   }
 
   Widget _buildSubjectPerformanceCards(ProgressService progressService) {
-    final subjects = [
+    final allSubjects = [
       {
         'name': 'Numbers',
         'emoji': '🔢',
@@ -1382,6 +1394,10 @@ class _ReportsPageState extends State<ReportsPage>
         'gradient': [const Color(0xFFA78BFA), const Color(0xFF8B5CF6)],
       },
     ];
+    // Only what this age group is actually shown.
+    final subjects = allSubjects
+        .where((s) => progressKeyInScope(s['key'] as String))
+        .toList();
 
     return Column(
       children: subjects.map((subject) {
@@ -1473,7 +1489,7 @@ class _ReportsPageState extends State<ReportsPage>
   }
 
   Widget _buildSubjectMasteryCards(ProgressService progressService) {
-    final subjects = [
+    final allSubjects = [
       {
         'name': 'Numbers',
         'emoji': '🔢',
@@ -1503,6 +1519,10 @@ class _ReportsPageState extends State<ReportsPage>
         'color': const Color(0xFFF59E0B),
       },
     ];
+    // Only what this age group is actually shown.
+    final subjects = allSubjects
+        .where((s) => progressKeyInScope(s['key'] as String))
+        .toList();
 
     return Row(
       children: subjects.map((subject) {

@@ -193,6 +193,29 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
     ];
   }
 
+  /// First run drops the user onto home; reopened from My Account it just
+  /// hands them back where they came from -- the age group is already saved,
+  /// and every screen reads it from AgeContentService.
+  void _finishSelection() {
+    if (widget.isInitialSetup) {
+      Get.offAllNamed('/home');
+      return;
+    }
+
+    final group = Get.find<AgeContentService>().currentAgeGroup.value;
+    Get.back();
+    Get.snackbar(
+      'Saved',
+      'Learning set for ${group.displayName} (${group.subtitle})',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: const Color(0xFF56D97F),
+      colorText: Colors.white,
+      duration: const Duration(seconds: 2),
+      margin: EdgeInsets.all(16.r),
+      borderRadius: 16.r,
+    );
+  }
+
   Widget _buildContinueButton(AgeContentService ageContentService) {
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 10.h, 24.w, 10.h),
@@ -211,7 +234,7 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
             );
           },
           child: GestureDetector(
-            onTap: hasSelected ? () => Get.offAllNamed('/home') : null,
+            onTap: hasSelected ? _finishSelection : null,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: double.infinity,
@@ -239,7 +262,11 @@ class _AgeSelectionPageState extends State<AgeSelectionPage>
                 children: [
                   Flexible(
                     child: Text(
-                      hasSelected ? "Let's Start! " : 'Select Age Group',
+                      hasSelected
+                          ? (widget.isInitialSetup
+                                ? "Let's Start! "
+                                : 'Save & Continue ')
+                          : 'Select Age Group',
                       style: GoogleFonts.fredoka(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

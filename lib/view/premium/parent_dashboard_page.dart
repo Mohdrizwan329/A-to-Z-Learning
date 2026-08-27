@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/notification_service.dart';
 import 'package:jiyan_learning/services/progress_service.dart';
+import 'package:jiyan_learning/services/age_progress_scope.dart';
 import 'package:jiyan_learning/services/screen_time_service.dart';
 import 'package:jiyan_learning/view/rewards/daily_goals_page.dart';
 import 'package:jiyan_learning/view/settings/parental_control_page.dart';
@@ -690,6 +691,11 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
           },
         ];
 
+        // Only the subjects this child's home screen still offers.
+        final shown = categories
+            .where((c) => progressKeyInScope(c['key'] as String))
+            .toList();
+
         return Container(
           padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
@@ -764,7 +770,7 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: categories.asMap().entries.map((entry) {
+                    children: shown.asMap().entries.map((entry) {
                       final index = entry.key;
                       final cat = entry.value;
                       final progress = progressService.getProgressPercentage(
@@ -908,29 +914,29 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
         );
       },
       child: Obx(() {
+        // A strength or a weak spot only means something in a subject this
+        // child is still being shown.
+        const labelled = {
+          'Numbers': ProgressService.kNumbers,
+          'Capital Letters': ProgressService.kCapitalLetters,
+          'Small Letters': ProgressService.kSmallLetters,
+          'Hindi Letters': ProgressService.kHindiLetters,
+          'Tables': ProgressService.kTables,
+        };
         final categories = {
-          'Numbers': progressService.getProgressPercentage(
-            ProgressService.kNumbers,
-          ),
-          'Capital Letters': progressService.getProgressPercentage(
-            ProgressService.kCapitalLetters,
-          ),
-          'Small Letters': progressService.getProgressPercentage(
-            ProgressService.kSmallLetters,
-          ),
-          'Hindi Letters': progressService.getProgressPercentage(
-            ProgressService.kHindiLetters,
-          ),
-          'Tables': progressService.getProgressPercentage(
-            ProgressService.kTables,
-          ),
+          for (final entry in labelled.entries)
+            if (progressKeyInScope(entry.value))
+              entry.key: progressService.getProgressPercentage(entry.value),
         };
 
         final sorted = categories.entries.toList()
           ..sort((a, b) => b.value.compareTo(a.value));
 
-        final strengths = sorted.take(2).toList();
-        final needsWork = sorted.reversed.take(2).toList();
+        final half = sorted.length ~/ 2;
+        final strengths = sorted.take(half == 0 ? sorted.length : half).toList();
+        final needsWork = half == 0
+            ? const <MapEntry<String, double>>[]
+            : sorted.reversed.take(math.min(2, sorted.length - half)).toList();
 
         return Container(
           padding: EdgeInsets.all(20.r),
@@ -1162,8 +1168,9 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
       child: Obx(() {
         final recommendations = <Map<String, dynamic>>[];
 
-        if (progressService.getProgressPercentage(ProgressService.kNumbers) <
-            50) {
+        if (progressKeyInScope(ProgressService.kNumbers) &&
+            progressService.getProgressPercentage(ProgressService.kNumbers) <
+                50) {
           recommendations.add({
             'text': 'Practice counting numbers daily',
             'icon': '🔢',
@@ -1174,18 +1181,20 @@ class _ParentDashboardPageState extends State<ParentDashboardPage>
             ],
           });
         }
-        if (progressService.getProgressPercentage(
-              ProgressService.kCapitalLetters,
-            ) <
-            50) {
+        if (progressKeyInScope(ProgressService.kCapitalLetters) &&
+            progressService.getProgressPercentage(
+                  ProgressService.kCapitalLetters,
+                ) <
+                50) {
           recommendations.add({
             'text': 'Focus on learning capital letters',
             'icon': '🅰️',
             'gradient': const [Color(0xFF4ECDC4), Color(0xFF44A08D)],
           });
         }
-        if (progressService.getProgressPercentage(ProgressService.kTables) <
-            30) {
+        if (progressKeyInScope(ProgressService.kTables) &&
+            progressService.getProgressPercentage(ProgressService.kTables) <
+                30) {
           recommendations.add({
             'text': 'Start with basic multiplication tables',
             'icon': '✖️',

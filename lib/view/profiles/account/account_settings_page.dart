@@ -7,6 +7,8 @@ import 'package:jiyan_learning/res/utils/size_config.dart';
 import 'package:jiyan_learning/view/profiles/account/edit_profile_page.dart';
 import 'package:jiyan_learning/view/profiles/account/change_password_page.dart';
 import 'package:jiyan_learning/view/profiles/notification/notification_settings_page.dart';
+import 'package:jiyan_learning/services/age_content_service.dart';
+import 'package:jiyan_learning/view/age_selection/age_selection_page.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -104,6 +106,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
       'subtitle': 'Manage your notifications',
       'icon': Icons.notifications_outlined,
       'gradient': [Color(0xFFFFAA5A), Color(0xFFFFCB80)],
+    },
+    {
+      'title': 'Class & Age',
+      // Filled in from the saved age group, so the tile always shows what the
+      // rest of the app is currently tuned to.
+      'subtitle': 'Choose your class & age group',
+      'liveSubtitle': true,
+      'icon': Icons.school_outlined,
+      'gradient': [Color(0xFF9B5DE5), Color(0xFF6A5AE0)],
     },
   ];
 
@@ -299,13 +310,23 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          item['subtitle'],
-                          style: GoogleFonts.nunito(
-                            fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.8),
-                          ),
-                        ),
+                        item['liveSubtitle'] == true
+                            ? Obx(
+                                () => Text(
+                                  _currentAgeLabel(),
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 14,
+                                    color: Colors.white.withValues(alpha: 0.8),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                item['subtitle'],
+                                style: GoogleFonts.nunito(
+                                  fontSize: 14,
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -341,6 +362,23 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen>
       case 'Notification':
         Get.to(() => NotificationSettingsScreen());
         break;
+      case 'Class & Age':
+        // Not the first-run flow: keep the back button and return here on save.
+        Get.to(() => const AgeSelectionPage(isInitialSetup: false));
+        break;
     }
+  }
+
+  /// What the app is tuned to right now, e.g. "6-8 Years / Class 1-2".
+  String _currentAgeLabel() {
+    if (!Get.isRegistered<AgeContentService>()) {
+      return 'Choose your class & age group';
+    }
+    final service = Get.find<AgeContentService>();
+    if (!service.hasSelectedAge.value) {
+      return 'Choose your class & age group';
+    }
+    final group = service.currentAgeGroup.value;
+    return '${group.displayName} / ${group.subtitle}';
   }
 }

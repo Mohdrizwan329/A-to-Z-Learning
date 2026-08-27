@@ -116,6 +116,26 @@ class DailyGoalsService extends GetxService {
     _checkAllGoalsCompleted();
   }
 
+  /// Puts the whole set back before a fresh scope is applied, so moving to a
+  /// wider age group brings its goals back instead of leaving the shorter
+  /// list the previous class produced.
+  void restoreDefaultGoals() {
+    dailyGoals.value = List<Map<String, dynamic>>.from(defaultGoals);
+    for (final goal in dailyGoals) {
+      goalProgress.putIfAbsent(goal['id'], () => 0);
+    }
+  }
+
+  /// Drops the goals a caller says this child cannot reach -- an alphabet
+  /// goal for a Class 5-6 child whose home screen has no letters card. Never
+  /// empties the list: if nothing is reachable the goals are left alone.
+  void applyScope(bool Function(Map<String, dynamic> goal) keep) {
+    final scoped = dailyGoals.where(keep).toList();
+    if (scoped.isEmpty || scoped.length == dailyGoals.length) return;
+    dailyGoals.value = scoped;
+    _checkAllGoalsCompleted();
+  }
+
   void _checkNewDay() {
     final today = DateTime.now().toIso8601String().split('T')[0];
     final lastDate = _storage.read<String>(kLastGoalDate);

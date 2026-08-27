@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/daily_goals_service.dart';
+import 'package:jiyan_learning/services/age_progress_scope.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -39,10 +40,60 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
     [Color(0xFF4ECDC4), Color(0xFF7EDDD6)],
   ];
 
+  /// Rebuilds this page when the class is changed elsewhere.
+  Worker? _ageWatch;
+
   @override
   void initState() {
     super.initState();
+    _scopeGoalsToAge();
+    _ageWatch = watchAgeGroup(() {
+      if (mounted) setState(_scopeGoalsToAge);
+    });
     _initializeAnimations();
+  }
+
+  /// A goal only counts if the child has somewhere to do it: no letters card
+  /// on a Class 5-6 home screen means no "Learn 5 Letters" goal.
+  void _scopeGoalsToAge() {
+    goalsService.restoreDefaultGoals();
+    goalsService.applyScope((goal) {
+      switch (goal['category']) {
+        case 'alphabets':
+          return homeHasAnyCard(const [
+            'Capital Letters',
+            'Small Letters',
+            'Hindi Letters',
+            'A to Z Words',
+          ]);
+        case 'numbers':
+          return homeHasAnyCard(const ['Numbers', 'Tables']);
+        case 'quiz':
+          return homeHasAnyCard(const [
+            'Quiz Time',
+            'Quiz Battle',
+            'Adaptive Quiz',
+            'Skill Evaluation',
+          ]);
+        case 'games':
+          return homeHasAnyCard(const [
+            'Matching Game',
+            'Tracing Game',
+            'Puzzle Game',
+            'Drag & Drop',
+            'Memory Match',
+          ]);
+        case 'vocabulary':
+          return homeHasAnyCard(const [
+            'A to Z Words',
+            'Learning Sets',
+            'Sight Words',
+            'Spelling Practice',
+          ]);
+        default:
+          return true;
+      }
+    });
   }
 
   void _initializeAnimations() {
@@ -67,6 +118,7 @@ class _DailyGoalsPageState extends State<DailyGoalsPage>
 
   @override
   void dispose() {
+    _ageWatch?.dispose();
     _floatController.dispose();
     _bubbleController.dispose();
     super.dispose();

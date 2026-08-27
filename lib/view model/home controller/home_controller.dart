@@ -301,8 +301,6 @@ class HomeController extends GetxController {
           AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
           AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Capital Letters: Toddler + All ages
@@ -316,9 +314,6 @@ class HomeController extends GetxController {
         ageGroups: [
           AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
-          AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Small Letters: All ages including Toddler
@@ -330,11 +325,7 @@ class HomeController extends GetxController {
         emoji: '🔤',
         gradient: [Color(0xFF56D97F), Color(0xFF81E89E)],
         ageGroups: [
-          AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
-          AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Hindi Letters: Toddler (basic sounds) + All ages
@@ -349,8 +340,6 @@ class HomeController extends GetxController {
           AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
           AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Alphabet Words/Meaning: LKG/UKG and above (NOT Toddler)
@@ -363,9 +352,6 @@ class HomeController extends GetxController {
         gradient: [Color(0xFFA78BFA), Color(0xFFC4B5FD)],
         ageGroups: [
           AgeGroupFilter.lkgUkg,
-          AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Tables: LKG/UKG (2-10), Class 1-2 (2-20), Class 3-4+ (2-40) - NOT Toddler
@@ -395,8 +381,6 @@ class HomeController extends GetxController {
           AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
           AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Poetry/Rhymes: Toddler + All ages
@@ -410,9 +394,6 @@ class HomeController extends GetxController {
         ageGroups: [
           AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
-          AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // General Knowledge: All ages
@@ -781,9 +762,6 @@ class HomeController extends GetxController {
         ageGroups: [
           AgeGroupFilter.toddler,
           AgeGroupFilter.lkgUkg,
-          AgeGroupFilter.class1To2,
-          AgeGroupFilter.class3To4,
-          AgeGroupFilter.class5To6,
         ],
       ),
       // Cursive Writing: Class 1-2 ONLY (per spec)

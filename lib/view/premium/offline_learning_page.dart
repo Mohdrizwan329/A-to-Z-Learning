@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiyan_learning/services/offline_content_service.dart';
+import 'package:jiyan_learning/services/age_progress_scope.dart';
 import 'package:jiyan_learning/services/speech_recognition_service.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
@@ -16,6 +17,9 @@ class OfflineLearningPage extends StatefulWidget {
 
 class _OfflineLearningPageState extends State<OfflineLearningPage>
     with TickerProviderStateMixin {
+  /// Rebuilds this page when the class is changed elsewhere.
+  Worker? _ageWatch;
+
   late final OfflineContentService offline;
   final TextEditingController _searchController = TextEditingController();
   late final SpeechRecognitionService speechService;
@@ -931,11 +935,18 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
     },
   ];
 
+  /// Downloadable topics this child's home screen still offers. The offline
+  /// ids line up with the progress keys ('numbers' -> 'progress_numbers'), and
+  /// an id with no card behind it stays listed.
+  List<Map<String, dynamic>> get _ageCategories => offlineCategories
+      .where((cat) => progressKeyInScope('progress_${cat['id']}'))
+      .toList();
+
   List<Map<String, dynamic>> get _filteredCategories {
     if (_searchQuery.isEmpty) {
-      return offlineCategories;
+      return _ageCategories;
     }
-    return offlineCategories.where((cat) {
+    return _ageCategories.where((cat) {
       final title = cat['title'].toString().toLowerCase();
       final description = cat['description'].toString().toLowerCase();
       final query = _searchQuery.toLowerCase();
@@ -946,6 +957,9 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
   @override
   void initState() {
     super.initState();
+    _ageWatch = watchAgeGroup(() {
+      if (mounted) setState(() {});
+    });
     speechService = Get.find<SpeechRecognitionService>();
     offline = Get.isRegistered<OfflineContentService>()
         ? Get.find<OfflineContentService>()
@@ -974,6 +988,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
 
   @override
   void dispose() {
+    _ageWatch?.dispose();
     _searchController.dispose();
     _waveController?.dispose();
     _floatController.dispose();
@@ -1714,7 +1729,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    '$totalDownloaded of ${offlineCategories.length} categories',
+                    '$totalDownloaded of ${_ageCategories.length} categories',
                     style: GoogleFonts.nunito(
                       fontSize: 13,
                       color: Colors.white.withValues(alpha: 0.8),
@@ -1724,7 +1739,7 @@ class _OfflineLearningPageState extends State<OfflineLearningPage>
                   ClipRRect(
                     borderRadius: BorderRadius.circular(6.r),
                     child: LinearProgressIndicator(
-                      value: totalDownloaded / offlineCategories.length,
+                      value: totalDownloaded / _ageCategories.length,
                       backgroundColor: Colors.white.withValues(alpha: 0.2),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Colors.white,

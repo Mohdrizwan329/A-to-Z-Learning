@@ -13,6 +13,8 @@ import 'package:jiyan_learning/view/premium/offline_learning_page.dart';
 import 'package:jiyan_learning/view/premium/parent_dashboard_page.dart';
 import 'package:jiyan_learning/view/teacher/reports_page.dart';
 import 'package:jiyan_learning/view%20model/auth%20controller/auth_controller.dart';
+import 'package:jiyan_learning/services/age_content_service.dart';
+import 'package:jiyan_learning/view/age_selection/age_selection_page.dart';
 
 import 'package:jiyan_learning/utils/responsive.dart';
 
@@ -64,16 +66,23 @@ class AppDrawer extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // Close button, so the drawer can be dismissed without knowing
-              // that a swipe or a tap outside would also do it.
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 4.h,
-                    right: isNarrow ? 10.w : 16.w,
-                  ),
-                  child: _buildCloseButton(context, isNarrow: isNarrow),
+              // The age this child is set to, and the close button -- the top
+              // strip of the drawer, which would otherwise hold nothing but
+              // the button. The close button is there so the drawer can be
+              // dismissed without knowing that a swipe or a tap outside would
+              // also do it.
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 4.h,
+                  left: isNarrow ? 10.w : 16.w,
+                  right: isNarrow ? 10.w : 16.w,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(child: _buildAgeChip(isNarrow: isNarrow)),
+                    SizedBox(width: 8.w),
+                    _buildCloseButton(context, isNarrow: isNarrow),
+                  ],
                 ),
               ),
 
@@ -83,13 +92,29 @@ class AppDrawer extends StatelessWidget {
               // Menu Items
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isNarrow ? 10.w : 16.w,
-                    vertical: 8.h,
+                  // The top gap belongs to the scroll view, not to the
+                  // header: at rest it holds the first card 10 off the rule,
+                  // and it scrolls away with the cards instead of leaving an
+                  // empty band under the line.
+                  padding: EdgeInsets.only(
+                    left: isNarrow ? 10.w : 16.w,
+                    right: isNarrow ? 10.w : 16.w,
+                    top: 10.h,
+                    bottom: 8.h,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // First under the divider: the one row that changes
+                      // what every other screen shows.
+                      _buildMenuItem(
+                        title: 'Class & Age',
+                        emoji: '\u{1F393}',
+                        color: const Color(0xFF9B5DE5),
+                        onTap: () => Get.to(
+                          () => const AgeSelectionPage(isInitialSetup: false),
+                        ),
+                      ),
                       _buildMenuItem(
                         title: 'My Rewards',
                         emoji: '🏆',
@@ -182,6 +207,61 @@ class AppDrawer extends StatelessWidget {
   /// The details arrive after the drawer is first built -- Firestore is a
   /// round trip away -- so this is an Obx rather than a snapshot, otherwise
   /// the drawer keeps showing "Guest" for a user who is signed in.
+  /// The age group this child is set to, worded as the age-selection card
+  /// words it. Empty when no age has been chosen yet, or when the service is
+  /// not up (a test, or a drawer built before startup finished), so the strip
+  /// then holds only the close button.
+  Widget _buildAgeChip({required bool isNarrow}) {
+    if (!Get.isRegistered<AgeContentService>()) return const SizedBox.shrink();
+    final service = Get.find<AgeContentService>();
+
+    return Obx(() {
+      if (!service.hasSelectedAge.value) return const SizedBox.shrink();
+      final group = service.currentAgeGroup.value;
+      // The card's own subtitle ("Toddler / Nursery") is too long to sit
+      // beside the years here, so the class is shortened to the half a parent
+      // reads for.
+      final grade = switch (group) {
+        AgeGroup.toddler => 'Nursery',
+        AgeGroup.lkgUkg => 'LKG / UKG',
+        AgeGroup.class1To2 => 'Class 1-2',
+        AgeGroup.class3To4 => 'Class 3-4',
+        AgeGroup.class5To6 => 'Class 5-6',
+      };
+
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.18),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('\u{1F393}', style: TextStyle(fontSize: isNarrow ? 12 : 13)),
+              SizedBox(width: 5.w),
+              Flexible(
+                child: Text(
+                  '${group.displayName} \u00b7 $grade',
+                  style: GoogleFonts.nunito(
+                    fontSize: isNarrow ? 12 : 13,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
   Widget _buildLiveHeader({required bool isNarrow}) {
     final AuthController auth;
     try {
@@ -247,9 +327,13 @@ class AppDrawer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(
         isNarrow ? 10.w : 16.w,
-        0,
+        // Clears the age chip and close button above rather than sitting
+        // right under them.
+        10.h,
         isNarrow ? 10.w : 16.w,
-        isNarrow ? 10.h : 16.h,
+        // Nothing below: the rule at the bottom of this column is the header's
+        // last pixel, so the menu starts right under it and scrolls under it.
+        0,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -395,11 +479,15 @@ class AppDrawer extends StatelessWidget {
           ),
         ),
           // Separates the person from the menu now that there is no card
-          // edge doing it.
-          Divider(
-            height: isNarrow ? 16.h : 20.h,
-            thickness: 1,
-            color: Colors.white.withValues(alpha: 0.35),
+          // edge doing it. Written out rather than a Divider because Divider
+          // centres its line in its height, which leaves a band of empty
+          // space under the rule; the first menu row sits straight beneath.
+          Padding(
+            padding: EdgeInsets.only(top: isNarrow ? 14.h : 18.h),
+            child: Container(
+              height: 1,
+              color: Colors.white.withValues(alpha: 0.35),
+            ),
           ),
         ],
       ),
